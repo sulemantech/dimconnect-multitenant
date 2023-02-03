@@ -1,7 +1,0 @@
-ignore:
-  - "test"
-  - "mapbox"
-
-coverage:
-  status:
-    patch: off

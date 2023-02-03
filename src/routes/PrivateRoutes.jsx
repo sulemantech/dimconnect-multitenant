@@ -1,7 +1,7 @@
 import { Router } from 'preact-router';
 import Navbar from '../layout/Navbar';
-import Dashboard from '../views/type1/Dashboard';
-import Administration from '../views/type1/Administration';
+import Dashboard from '../views/private/Dashboard';
+import Administration from '../views/private/Administration';
 import PageWrapper from '../layout/PageWrapper';
 
 
