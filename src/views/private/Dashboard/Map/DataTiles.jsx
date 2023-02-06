@@ -2,6 +2,10 @@ import { signal } from "@preact/signals"
 import { useEffect,useState } from "preact/hooks"
 import { Layer, Source, useMap } from "react-map-gl"
 
+export const visibility = signal({
+    data : {}
+})
+
 export default () => {
 
     const [tileJSON,settileJSON] = useState(null)
@@ -10,12 +14,20 @@ export default () => {
         fetch('https://dim-tileserver-dev.hiwifipro.com/data/071310007.json')
             .then(res => res.json())
             .then(data => {
-
+                let visibilitytemp = {}
+                data?.tilestats?.layers?.map(layer => {
+                    visibilitytemp[layer.layer] = true
+                })
+                visibility.value.data = visibilitytemp
                 map.easeTo({ center: [8.029105246999109, 49.410560035491216], zoom: 9 })
                 settileJSON(data)
                
             })
+            // console.log(visibility.value)
     }, [])
+
+    // on visibility change
+  
 
     return (
         <>
@@ -70,6 +82,9 @@ export default () => {
                                             "circle-radius": 2
                                         }
                                     }
+                                    layout={{
+                                        visibility: visibility.value.data[layer.layer] ? 'visible' : 'none'
+                                    }}
                                 />
                             })
                         }

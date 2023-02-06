@@ -3,12 +3,11 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Map, Marker, Source, Layer, ScaleControl } from 'react-map-gl';
 import maplibreGl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import axios from 'axios';
-import { dropvalue } from '../../../../layout/Header';
+
 import { signal } from '@preact/signals';
 import MapControls from './MapControls';
 import SearchControl from './SearchControl';
-import CustomLayerPanel from './CustomLayerPanel';
+
 import DataTiles from './DataTiles';
 
 
