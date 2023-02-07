@@ -1,17 +1,12 @@
-import React from 'react'
-import Map from './Map'
-import BaseMapControl from './Map/BaseMapControl'
-import OverlayControl from './Map/OverlayControl'
-import SearchControl from './Map/SearchControl'
+import PageProvider from "../../../providers/PageProvider"
 
 const Dashboard = () => {
   return (
-    <div className="relative flex flex-col w-full h-full">
-        <Map />
-        
-        <BaseMapControl />
-        <OverlayControl />
-    </div>
+   <PageProvider>
+      <div>
+        <h1>Dashboard</h1>
+      </div>
+    </PageProvider>
   )
 }
 

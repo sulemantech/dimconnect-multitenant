@@ -25,7 +25,7 @@ export default () => {
     }, [collapsed.value])
 
     return (
-        <div id='sidenav' className=" transition-all border-r-2 border-solid border-white duration-300 shadow-xl h-screen bg-[#0071b9] text-white flex flex-col p-2">
+        <div id='sidenav' className=" transition-all border-r-2 border-solid border-white duration-300 shadow-xl h-screen bg-components text-white flex flex-col p-2">
             <div>
             <Logo />
             </div>

@@ -4,11 +4,13 @@ import { useContext } from "preact/hooks"
 import { AuthState } from "../providers/AuthProvider"
 import { signal } from '@preact/signals'
 import { collapsed } from "./Navbar"
+import { useRouter } from "preact-router"
 export const dropvalue = signal(false)
 export default () => {
+  const route = useRouter()
   const auth = useContext(AuthState)
   return (
-    <div className="absolute shadow-lg border-white border-solid border-2 items-center right-0 left-0 m-2 rounded-2xl top-0 z-10 h-20  flex px-4 bg-[#0071b9] backdrop-blur-2xl">
+    <div className="absolute shadow-lg border-white border-solid border-2 items-center right-0 left-0 m-2 rounded-2xl top-0 z-10 h-20  flex px-4 bg-components backdrop-blur-2xl">
       <Burger 
         onClick={() => {
           collapsed.value = !collapsed.value
@@ -21,7 +23,7 @@ export default () => {
       
       <div className="flex-grow font-thin text-white text-lg">
         <h6>
-        Dashboard
+          {route[0].url.replace('/', '').toUpperCase() || 'DASHBOARD'}
         </h6>
         </div>
       <Menu

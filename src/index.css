@@ -75,3 +75,18 @@ button:focus-visible {
 .logomask {
   clip-path: url(/public/logo.svg);
 }
+
+.bg-components {
+  background-color: #0071b9;
+  background-image: linear-gradient(45deg, #0071b9 0%, #00a0e9 100%);
+  animation: bg-components 10s linear infinite;
+}
+
+@keyframes bg-components {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
+}

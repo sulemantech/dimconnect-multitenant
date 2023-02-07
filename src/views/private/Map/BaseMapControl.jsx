@@ -1,13 +1,13 @@
 import { Menu } from "@mantine/core"
 import { IconMap } from "@tabler/icons"
-import { mapStyle } from "."
+import { mapStyle } from "./Map"
 
 export default () => {
     return (
 
         <Menu position="left-end" withArrow>
             <Menu.Target>
-                <div className="right-2 hover:scale-95 border-white border-solid border-2 transition-all cursor-pointer bottom-10 z-70 absolute p-3 rounded-full text-white bg-[#0071b9] ">
+                <div className="right-2 hover:scale-95 border-white border-solid border-2 transition-all cursor-pointer bottom-10 z-70 absolute p-3 rounded-full text-white bg-components ">
 
                     <IconMap size={30} />
                 </div>

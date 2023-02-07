@@ -2,28 +2,38 @@ import { signal } from "@preact/signals"
 import { useEffect,useState } from "preact/hooks"
 import { Layer, Source, useMap } from "react-map-gl"
 
-export const visibility = signal({
-    data : {}
-})
+export const visibility = signal(null)
 
 export default () => {
 
     const [tileJSON,settileJSON] = useState(null)
     const map = useMap()?.current
     useEffect(() => {
+        
         fetch('https://dim-tileserver-dev.hiwifipro.com/data/071310007.json')
             .then(res => res.json())
             .then(data => {
                 let visibilitytemp = {}
-                data?.tilestats?.layers?.map(layer => {
-                    visibilitytemp[layer.layer] = true
+                data?.tilestats?.layers?.forEach(layer => {
+                    visibilitytemp[layer.layer] = {
+                        visible: true,
+                        name: layer.layer,
+                        type : layer.geometry,
+                        attributes : layer.attributes
+                    }
                 })
-                visibility.value.data = visibilitytemp
-                map.easeTo({ center: [8.029105246999109, 49.410560035491216], zoom: 9 })
-                settileJSON(data)
+               if(!visibility.value){
+                visibility.value = JSON.stringify(visibilitytemp)
+                map.easeTo({ center: [8.029105246999109, 49.410560035491216], zoom: 12 })
+                settileJSON(visibilitytemp)
+               
+               }else{
+                map.easeTo({ center: [8.029105246999109, 49.410560035491216], zoom: 12 })
+                settileJSON(JSON.parse(visibility.value))
+               }
                
             })
-            // console.log(visibility.value)
+        
     }, [])
 
     // on visibility change
@@ -31,25 +41,7 @@ export default () => {
 
     return (
         <>
-            {/* <Source
-                id="geostyle"
-                type="vector"
-                tiles={['http://18.218.50.110:8885/data/boundaries/{z}/{x}/{y}.pbf']}
-                minzoom={1}
-                maxzoom={20}
-            />
-            <Layer
-                id="bound"
-                type="fill"
-                source="geostyle"
-                source-layer='boundaries'
-                paint={{
-                    "fill-color": "#088",
-                    "fill-opacity": 0.8
-                }}
-
-            /> */}
-
+         
             <>
                 {tileJSON != null &&
                     <>
@@ -63,27 +55,30 @@ export default () => {
 
 
                         {
-                            tileJSON?.tilestats?.layers?.map(layer => {
-
+                            Object.keys(tileJSON).map((key) => {
+                                const layer = tileJSON[key]
+                              
                                 return <Layer
-                                    id={layer.layer}
-                                    type={layer.geometry.replace('Multi', '') == 'Polygon' ? 'fill' : layer.geometry.replace('Multi', '') == 'LineString' ? 'line' : 'circle'}
+                                    interactive
+                                    id={layer.name}
+                                    type={layer.type.replace('Multi', '') == 'Polygon' ? 'fill' : layer.type.replace('Multi', '') == 'LineString' ? 'line' : 'circle'}
                                     source="geostyle"
-                                    source-layer={layer.layer}
+                                    source-layer={layer.name}
                                     paint={
-                                        layer.geometry.replace('Multi', '') == 'Polygon' ? {
+                                        layer.style ? layer.style : layer.type.replace('Multi', '') == 'Polygon' ? {
                                             "fill-color": "orange",
                                             "fill-opacity": 0.5
-                                        } : layer.geometry.replace('Multi', '') == 'LineString' ? {
+                                        } : layer.type.replace('Multi', '') == 'LineString' ? {
                                             "line-color": "green",
                                             "line-width": 2
                                         } : {
                                             "circle-color": "red",
                                             "circle-radius": 2
-                                        }
+                                        } 
                                     }
                                     layout={{
-                                        visibility: visibility.value.data[layer.layer] ? 'visible' : 'none'
+                                        ...layer.layout,
+                                        visibility: JSON.parse(visibility.value)[layer.name].visible ? 'visible' : 'none'
                                     }}
                                 />
                             })
