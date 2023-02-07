@@ -114,7 +114,7 @@ const onChange = (e, layer, attr) => {
     const layers = JSON.parse(visibility.value)
     layers[layer.name]['style'] = {
         ...layers[layer.name]['style'],
-        [attr]: e.target.value
+        [attr]: parseFloat(e.target.value) || e.target.value
     }
     visibility.value = JSON.stringify(layers)
     
@@ -141,7 +141,11 @@ return (
                                         stylingType[layer.type][attr] == 'color' ? (
                                             <Input defaultValue={layer.style?.[attr] || 'orange'} type='color' onChange={(e) => onChange(e, layer, attr)} />
                                         ) : stylingType[layer.type]?.[attr] == 'slider' ? (
-                                            <Slider type="range" min="0" max="1" step="0.01" defaultValue={layer.style?.[attr] || 1} onChange={(e) => onChange(e, layer, attr)} />
+                                            <Slider type="range" min="0" max="1" step="0.01" defaultValue={layer.style?.[attr] || 1} onChange={(e) => onChange({
+                                                target: {
+                                                    value: e
+                                                }
+                                            }, layer, attr)} />
                                         ) : stylingType[layer.type][attr] == 'number' ? (
                                             <Input type="number" defaultValue={layer.style?.[attr] || 1} onChange={(e) => onChange(e, layer, attr)} />
                                         ) : null
