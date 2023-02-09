@@ -72,9 +72,7 @@ button:focus-visible {
   }
 }
 
-.logomask {
-  clip-path: url(/public/logo.svg);
-}
+
 
 .bg-components {
   background-color: #0071b9;
