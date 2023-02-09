@@ -17,7 +17,7 @@ const UserType = {
 }
 
 
-export default () => <div className='flex absolute top-0 left-0 bottom-0 right-0 overflow-hidden'>
+export default () => <div className='flex absolute top-0 left-0 bottom-0 bg-neutral-200 right-0 overflow-hidden'>
     <Navbar />
     <PageWrapper>
     <Router>
