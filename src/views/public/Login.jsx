@@ -1,8 +1,10 @@
 import {IconLock} from '@tabler/icons'
-import { useContext, useEffect } from 'preact/hooks'
+import { useContext, useEffect,useState  } from 'preact/hooks'
 import { AuthState } from '../../providers/AuthProvider'
 import PublicWrapper from '../../providers/PublicWrapper'
+import { postAuth } from '../../api/api'
 
+// import {logo} from '../../../public/logo.svg'
 export default () => {
 
     const authState = useContext(AuthState)
@@ -27,6 +29,22 @@ export default () => {
 
   },[])
 
+  const [error, setError] = useState('')
+  
+  const handleSubmit = async event => {
+    event.preventDefault();
+    
+    const email = event.target.email.value
+    const pass = event.target.password.value
+    
+    postAuth(email, pass).then((res) => {
+      authState.setAuth(true)
+    }).catch((err) => {
+      setError(err.response.data.message)
+    })
+   
+  };
+
   return (
     <PublicWrapper>
       <div id='loginBackdrop' className='absolute left-0 right-0 top-0 bottom-0 transition-all bg-opacity-30 duration-500 flex items-center justify-center'>
@@ -36,8 +54,8 @@ export default () => {
             <img
             id = "logo"
              className='h-52'
-              src="/logo.svg"
-              alt="Your Company"
+              src='../../../public/logo.png'
+              // alt="Your Company"
             />
             </div>
             <h2 className="mt-6 text-center text-2xl font-bold tracking-tight text-gray-100">
@@ -45,7 +63,7 @@ export default () => {
             </h2>
             
           
-          <form className="mt-8 space-y-6" action="#" method="POST">
+          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
             <input type="hidden" name="remember" defaultValue="true" />
             <div className="-space-y-px rounded-md shadow-sm">
               <div>
@@ -60,6 +78,8 @@ export default () => {
                   required
                   className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                   placeholder="Email address"
+                  onChange={e => setEmail(e.target.value)}
+                
                 />
               </div>
               <div>
@@ -74,10 +94,17 @@ export default () => {
                   required
                   className="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                   placeholder="Password"
-                />
+                  onChange={e => setPass(e.target.value)}
+               
+               />
               </div>
             </div>
-
+<div>
+  {
+    error && <div className='text-red-500 text-sm'>{error}</div>
+    
+  }
+</div>
             <div className="flex items-center justify-between">
               <div className="flex items-center">
                 <input
@@ -101,9 +128,7 @@ export default () => {
             <div>
               <button
                 type="submit"
-                onClick={()=>{
-                  authState.setAuth(true)
-                }}
+               
                 className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
               >
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
