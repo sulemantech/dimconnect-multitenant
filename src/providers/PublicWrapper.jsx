@@ -11,7 +11,7 @@ export default ({children}) => {
         justifyContent: 'center',
         padding: '12px 4px',
 
-        backgroundImage: 'url(/publicbg.png)',
+        backgroundImage: 'url(/bganim.gif)',
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
