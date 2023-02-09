@@ -1,6 +1,6 @@
 import PageProvider from "../../../providers/PageProvider"
-import CostInfo from "./CostInfo"
-import MaterialsInfo from "./MaterialsInfo"
+// import CostInfo from "./CostInfo"
+// import MaterialsInfo from "./MaterialsInfo"
 
 const Dashboard = () => {
   return (
@@ -15,7 +15,7 @@ const Dashboard = () => {
                 Cost Info
               </p>
               <hr />
-              <MaterialsInfo />
+              {/* <MaterialsInfo /> */}
             </div>
 
 
