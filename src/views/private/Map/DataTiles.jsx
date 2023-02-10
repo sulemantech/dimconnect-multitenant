@@ -67,7 +67,7 @@ export default () => {
                                     paint={
                                         layer.style ? layer.style : layer.type.replace('Multi', '') == 'Polygon' ? {
                                             "fill-color": "orange",
-                                            "fill-opacity": 0.5
+                                            "fill-opacity": 0.1
                                         } : layer.type.replace('Multi', '') == 'LineString' ? {
                                             "line-color": "grey",
                                             "line-width": ["interpolate", ["linear"], ["zoom"], 5, 0, 18, 2],
