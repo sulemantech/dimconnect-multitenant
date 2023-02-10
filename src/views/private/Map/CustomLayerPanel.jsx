@@ -79,7 +79,7 @@ function StyleControls(props) {
   };
 
   return (
-    <div className="absolute bottom-0 left-0 p-2 rounded-xl text-white bg-components border-white border-2 border-solid shadow-lg">
+    <div className="absolute bottom-0 left-0 p-2 rounded-xl  shadow-lg text-[#0071b9] bg-white  border-white border-2 border-solid ">
       <h3>Dynamic Styling</h3>
       <hr />
       {categories.map(name => (

@@ -31,6 +31,7 @@
     "@tiptap/react": "^2.0.0-beta.209",
     "@tiptap/starter-kit": "^2.0.0-beta.209",
     "axios": "^1.2.4",
+    "chart.js": "^4.2.0",
     "dayjs": "^1.11.7",
     "embla-carousel-react": "^7.0.5",
     "mapbox-gl": "^2.12.0",
@@ -39,10 +40,12 @@
     "preact": "^10.11.3",
     "preact-async-route": "^2.2.1",
     "preact-router": "^4.1.0",
+    "react-chartjs-2": "^5.2.0",
     "react-map-gl": "^7.0.21",
     "recharts": "^2.3.2"
   },
   "devDependencies": {
+    "@faker-js/faker": "^7.6.0",
     "@preact/preset-vite": "^2.4.0",
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.21",

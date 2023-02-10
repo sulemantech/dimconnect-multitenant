@@ -5,7 +5,7 @@ export default () => {
     return (
         <>
          <div className="absolute flex left-2 top-24 ">
-            <Input placeholder="Search" color="white" icon={<IconSearch color="white"/>} variant="unstyled" className="bg-components border-white border-solid border-2 rounded-full"  />
+            <Input placeholder="Search" color="white" icon={<IconSearch className=" text-[#0071b9] "/>} variant="unstyled" className="shadow-lg text-[#0071b9] bg-white  border-white border-solid border-2 rounded-lg"  />
         </div>
         <div>
             

@@ -50,7 +50,7 @@ export default () => {
                             type="vector"
                             tiles={['https://dim-tileserver-dev.hiwifipro.com/data/073325005/{z}/{x}/{y}.pbf']}
                             minzoom={1}
-                            maxzoom={20}
+                            maxzoom={18}
                         />
 
 
@@ -69,11 +69,11 @@ export default () => {
                                             "fill-color": "orange",
                                             "fill-opacity": 0.5
                                         } : layer.type.replace('Multi', '') == 'LineString' ? {
-                                            "line-color": "green",
-                                            "line-width": 2
+                                            "line-color": "grey",
+                                            "line-width": ["interpolate", ["linear"], ["zoom"], 5, 0, 18, 2],
                                         } : {
                                             "circle-color": "red",
-                                            "circle-radius": 2
+                                            "circle-radius": ["interpolate", ["linear"], ["zoom"], 5, 0, 18, 5],
                                         } 
                                     }
                                     layout={{

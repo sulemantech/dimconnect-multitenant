@@ -10,7 +10,7 @@ export default () => {
   const route = useRouter()
   const auth = useContext(AuthState)
   return (
-    <div className="absolute shadow-lg border-white border-solid border-2 items-center right-0 left-0 m-2 rounded-2xl top-0 z-10 h-20  flex px-4 bg-components backdrop-blur-2xl">
+    <div className="absolute shadow-lg border-white border-solid border-2 items-center right-0 left-0 m-2 rounded-2xl top-0 z-10 h-20  flex px-4 bg-components-horizontal backdrop-blur-2xl">
       <Burger 
         onClick={() => {
           collapsed.value = !collapsed.value
