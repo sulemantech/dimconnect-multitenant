@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+ webgis:
+  image: vs5256.mymanaged.host:5050/dim-connect/dimconnectwebgis:Farhan
+  extra_hosts:
+    dim-webgis-dev.hiwifipro.com: 10.90.0.136
+  container_name: webgis-container
+  expose:
+   - 4173
+  networks:
+   - backend_external
+  restart: unless-stopped
+
+networks:
+  backend_external:
+    external:
+      name: docker_backend
