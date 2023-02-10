@@ -5,7 +5,8 @@ import { AuthState } from "../providers/AuthProvider"
 import { signal } from '@preact/signals'
 import { collapsed } from "./Navbar"
 import { useRouter } from "preact-router"
-export const dropvalue = signal(false)
+import { districts } from "../app"
+export const dropvalue = signal(0)
 export default () => {
   const route = useRouter()
   const auth = useContext(AuthState)
@@ -26,7 +27,26 @@ export default () => {
           {route[0].url.replace('/', '').toUpperCase() || 'DASHBOARD'}
         </h6>
         </div>
-      <Menu
+    
+
+        <Select
+          className="ml-4"
+          radius="xl"
+          size="sm"
+          placeholder="Select"
+          data={districts.value?.features?.map((district) => {
+            return {
+              label: district.properties.n,
+              value: district.properties.c
+            }
+          }) || []}
+          onChange={(value) => {
+            dropvalue.value = value
+          }}
+        />
+<div className="ml-4">
+        </div>
+<Menu
         width={260}
         position="bottom-end"
         transition="pop-top-right"
@@ -48,6 +68,8 @@ export default () => {
           </Menu.Item>
         </Menu.Dropdown>
       </Menu>
+
+      
 
     </div>
   )

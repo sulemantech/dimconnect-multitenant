@@ -1,6 +1,7 @@
 import PageProvider from "../../../providers/PageProvider"
 // import CostInfo from "./CostInfo"
 import MaterialsInfo from "./MaterialsInfo"
+import Submap from "./Submap"
 
 const Dashboard = () => {
   return (
@@ -83,14 +84,24 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        <div className="flex-[1] m-1 bg-white shadow-lg p-2 rounded-xl flex-grow">
+        <div className="flex-grow">
+          <div className="flex-[1] relative m-1 w-[400px] h-[400px] bg-white shadow-lg p-2 rounded-xl">
           <p className="flex-grow font-thin text-neutral-700 text-lg">
-            Cost Info
+            Map
+          </p>
+          <hr />
+          <Submap />
+          </div>
+        <div className="flex-[1] m-1 min-h[100%] flex-grow bg-white shadow-lg p-2 rounded-xl">
+          <p className="flex-grow font-thin text-neutral-700 text-lg">
+            Side Details
           </p>
           <hr />
 
 
         </div>
+        </div>
+        
       </div>
 
     </PageProvider>
