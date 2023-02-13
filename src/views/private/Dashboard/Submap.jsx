@@ -4,6 +4,7 @@ import maplibreGl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { districts } from '../../../app';
 import { dropvalue } from '../../../layout/Header';
+import { route } from 'preact-router';
 
 
 export default () => {
@@ -24,7 +25,9 @@ export default () => {
         zoom: 18,
 
       }}
-      
+        onClick={(e) => {
+          route('/map')
+        }}
     >
         
         <Boundary />
@@ -40,9 +43,14 @@ const Boundary = () => {
     useEffect(() => {
         if (!map) return
         if (!districts.value.hasOwnProperty('features')) return
-        console.log(districts.value.features[0])
+       
         const dd = districts.value?.features?.find(district => district.properties?.c == dropvalue.value)
-        console.log(dd)
+        setBound(dd)
+        const geometry = dd.geometry.coordinates[0]
+        const bounds = geometry.reduce((bounds, coord) => {
+            return bounds.extend(coord);
+        }, new maplibreGl.LngLatBounds(geometry[0], geometry[0]));
+        map.fitBounds(bounds, { padding: 20 });
     }, [dropvalue.value,districts.value])
 
     return (
@@ -53,6 +61,14 @@ const Boundary = () => {
                 paint={{
                     'line-color': '#0071b9',
                     'line-width': 3,
+                }}
+            />
+            <Layer
+                id="boundary-fill"
+                type="fill"
+                paint={{
+                    'fill-color': '#0071b9',
+                    'fill-opacity': 0.1,
                 }}
             />
         </Source>

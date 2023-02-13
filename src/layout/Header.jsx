@@ -41,6 +41,7 @@ export default () => {
               value: district.properties.c
             }
           }) || []}
+          sx={{ width: 200 }}
           defaultValue={dropvalue.value}
           onChange={(value) => {
             dropvalue.value = value
