@@ -2,7 +2,7 @@ import {IconLock} from '@tabler/icons'
 import { useContext, useEffect,useState  } from 'preact/hooks'
 import { AuthState } from '../../providers/AuthProvider'
 import PublicWrapper from '../../providers/PublicWrapper'
-import { postAuth } from '../../api/api'
+// import { postAuth } from '../../api/api'
 
 // import {logo} from '../../../public/logo.svg'
 export default () => {
@@ -37,11 +37,17 @@ export default () => {
     const email = event.target.email.value
     const pass = event.target.password.value
     
-    postAuth(email, pass).then((res) => {
+    if(email === 'admin@tuv.com' && pass === 'admin'){
       authState.setAuth(true)
-    }).catch((err) => {
-      setError(err.response.data.message)
-    })
+      sessionStorage.setItem('hf8f8fj3dj193jf913fj91f91jf9', 'true')
+    }else{
+      setError('Invalid Credentials')
+    }
+    // postAuth(email, pass).then((res) => {
+    //   authState.setAuth(true)
+    // }).catch((err) => {
+    //   setError(err.response.data.message)
+    // })
    
   };
 
@@ -78,7 +84,7 @@ export default () => {
                   required
                   className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                   placeholder="Email address"
-                  onChange={e => setEmail(e.target.value)}
+                  
                 
                 />
               </div>
@@ -94,7 +100,7 @@ export default () => {
                   required
                   className="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                   placeholder="Password"
-                  onChange={e => setPass(e.target.value)}
+                 
                
                />
               </div>

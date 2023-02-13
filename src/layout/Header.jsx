@@ -6,7 +6,7 @@ import { signal } from '@preact/signals'
 import { collapsed } from "./Navbar"
 import { useRouter } from "preact-router"
 import { districts } from "../app"
-export const dropvalue = signal(0)
+export const dropvalue = signal('071310007')
 export default () => {
   const route = useRouter()
   const auth = useContext(AuthState)
@@ -34,12 +34,14 @@ export default () => {
           radius="xl"
           size="sm"
           placeholder="Select"
+          // searchable={!dropvalue.value ? false : true}
           data={districts.value?.features?.map((district) => {
             return {
               label: district.properties.n,
               value: district.properties.c
             }
           }) || []}
+          defaultValue={dropvalue.value}
           onChange={(value) => {
             dropvalue.value = value
           }}

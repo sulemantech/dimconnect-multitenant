@@ -1,6 +1,7 @@
 import { signal } from "@preact/signals"
 import { useEffect,useState } from "preact/hooks"
 import { Layer, Source, useMap } from "react-map-gl"
+import { dropvalue } from "../../../layout/Header"
 
 export const visibility = signal(null)
 
@@ -9,8 +10,8 @@ export default () => {
     const [tileJSON,settileJSON] = useState(null)
     const map = useMap()?.current
     useEffect(() => {
-        
-        fetch('https://dim-tileserver-dev.hiwifipro.com/data/071310007.json')
+        if(dropvalue.value == null) return
+        fetch(`https://dim-tileserver-dev.hiwifipro.com/data/${dropvalue.value}.json`)
             .then(res => res.json())
             .then(data => {
                 let visibilitytemp = {}
@@ -48,7 +49,7 @@ export default () => {
                         <Source
                             id="geostyle"
                             type="vector"
-                            tiles={['https://dim-tileserver-dev.hiwifipro.com/data/073325005/{z}/{x}/{y}.pbf']}
+                            tiles={[`https://dim-tileserver-dev.hiwifipro.com/data/${dropvalue.value}/{z}/{x}/{y}.pbf`]}
                             minzoom={1}
                             maxzoom={18}
                         />

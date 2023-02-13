@@ -7,6 +7,7 @@ import {signal} from '@preact/signals'
 
 const createAuthState = () => {
     const auth = signal(false)
+    sessionStorage.getItem('hf8f8fj3dj193jf913fj91f91jf9') ? auth.value = true : auth.value = false
     const setAuth = (value) => {auth.value = value}
     return {auth,setAuth}
 }
