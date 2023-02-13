@@ -6,7 +6,7 @@ import PublicRoutes from '../routes/PublicRoutes'
 import {signal} from '@preact/signals'
 
 const createAuthState = () => {
-    const auth = signal(true)
+    const auth = signal(false)
     const setAuth = (value) => {auth.value = value}
     return {auth,setAuth}
 }
