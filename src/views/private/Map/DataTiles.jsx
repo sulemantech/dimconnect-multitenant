@@ -10,7 +10,7 @@ export default () => {
     const [tileJSON,settileJSON] = useState(null)
     const map = useMap()?.current
     useEffect(() => {
-        if(dropvalue.value == null) return
+        
         fetch(`https://dim-tileserver-dev.hiwifipro.com/data/${dropvalue.value}.json`)
             .then(res => res.json())
             .then(data => {
@@ -25,7 +25,8 @@ export default () => {
                 })
                if(!visibility.value){
                 visibility.value = JSON.stringify(visibilitytemp)
-                map.easeTo({ center: [8.029105246999109, 49.410560035491216], zoom: 12 })
+                const bounds = data?.bounds
+                map.easeTo({ center: [bounds[0] + (bounds[2] - bounds[0]) / 2, bounds[1] + (bounds[3] - bounds[1]) / 2], zoom: 12 })
                 settileJSON(visibilitytemp)
                
                }else{
