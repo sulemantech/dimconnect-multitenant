@@ -2,7 +2,7 @@ import {IconLock} from '@tabler/icons'
 import { useContext, useEffect,useState  } from 'preact/hooks'
 import { AuthState } from '../../providers/AuthProvider'
 import PublicWrapper from '../../providers/PublicWrapper'
-// import { postAuth } from '../../api/api'
+import { postAuth } from '../../api'
 
 // import {logo} from '../../../public/logo.svg'
 export default () => {
@@ -37,17 +37,13 @@ export default () => {
     const email = event.target.email.value
     const pass = event.target.password.value
     
-    if(email === 'admin@tuv.com' && pass === 'admin'){
+    
+    postAuth(email, pass).then((res) => {
       authState.setAuth(true)
-      sessionStorage.setItem('hf8f8fj3dj193jf913fj91f91jf9', 'true')
-    }else{
-      setError('Invalid Credentials')
-    }
-    // postAuth(email, pass).then((res) => {
-    //   authState.setAuth(true)
-    // }).catch((err) => {
-    //   setError(err.response.data.message)
-    // })
+      sessionStorage.setItem('hf8f8fj3dj193jf913fj91f91jf9', res.data.token)
+    }).catch((err) => {
+      setError(err.response.data.message)
+    })
    
   };
 
