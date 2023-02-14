@@ -56,7 +56,7 @@ export default () => {
             <img
             id = "logo"
              className='h-52'
-              src='../../../public/logo.png'
+              src='/logo.png'
               // alt="Your Company"
             />
             </div>
