@@ -22,3 +22,4 @@ export const getDistrictById = () => api.get(`${routes.district}/${id}`)
 export const getMaterialCountByDistrictId = (districtId) => api.get(`${routes.materialCount}/${districtId}`)
 export const postStyle = () => api.post(`${routes.style}/`)
 export const getTiles = () => api.get(`${routes.tiles}/`)
+
