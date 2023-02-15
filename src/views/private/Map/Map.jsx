@@ -8,6 +8,7 @@ import MapControls from './MapControls';
 import SearchControl from './SearchControl';
 
 import DataTiles, { visibility } from './DataTiles';
+import { Boundary } from '../Dashboard/Submap';
 
 
 export const mapStyle = signal('https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json')
@@ -43,7 +44,7 @@ export default () => {
       initialViewState={{
         longitude: 7.785873,
         latitude: 50.614182,
-        zoom: 18,
+        zoom: 5,
 
       }}
       interactiveLayerIds={JSON.parse(visibility.value) ? Object.keys(JSON.parse(visibility.value)) : []}
@@ -53,6 +54,7 @@ export default () => {
         <ScaleControl position='bottom-right' maxWidth={200} unit='metric' />
         {/* <CustomLayerPanel /> */}
         <DataTiles />
+        <Boundary noFill/>
 
     </Map>
   );

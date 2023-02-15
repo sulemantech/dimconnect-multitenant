@@ -22,7 +22,7 @@ export default () => {
       initialViewState={{
         longitude: 7.785873,
         latitude: 50.614182,
-        zoom: 18,
+        zoom: 5,
 
       }}
         onClick={(e) => {
@@ -36,7 +36,7 @@ export default () => {
   );
 }
 
-const Boundary = () => {
+export const Boundary = ({noFill=false}) => {
     const [bound, setBound] = useState(null)
     const map = useMap()?.current
 
@@ -50,7 +50,7 @@ const Boundary = () => {
         const bounds = geometry.reduce((bounds, coord) => {
             return bounds.extend(coord);
         }, new maplibreGl.LngLatBounds(geometry[0], geometry[0]));
-        map.fitBounds(bounds, { padding: 20 });
+        map.fitBounds(bounds, { padding: noFill ? 100 : 10 });
     }, [dropvalue.value,districts.value])
 
     return (
@@ -63,6 +63,7 @@ const Boundary = () => {
                     'line-width': 3,
                 }}
             />
+            {!noFill &&
             <Layer
                 id="boundary-fill"
                 type="fill"
@@ -71,6 +72,7 @@ const Boundary = () => {
                     'fill-opacity': 0.1,
                 }}
             />
+            }
         </Source>
     )
 }

@@ -7,13 +7,16 @@ export const visibility = signal(null)
 
 export default () => {
 
-    const [tileJSON,settileJSON] = useState(null)
-    const map = useMap()?.current
+    
+    const [tileData,setTileData] = useState(null)
+
+    
     useEffect(() => {
-        
+        setTileData(null)
         fetch(`https://dim-tileserver-dev.hiwifipro.com/data/${dropvalue.value}.json`)
             .then(res => res.json())
             .then(data => {
+                
                 let visibilitytemp = {}
                 data?.tilestats?.layers?.forEach(layer => {
                     visibilitytemp[layer.layer] = {
@@ -23,71 +26,76 @@ export default () => {
                         attributes : layer.attributes
                     }
                 })
+                setTileData(data)
                if(!visibility.value){
                 visibility.value = JSON.stringify(visibilitytemp)
-                const bounds = data?.bounds
-                map.easeTo({ center: [bounds[0] + (bounds[2] - bounds[0]) / 2, bounds[1] + (bounds[3] - bounds[1]) / 2], zoom: 12 })
-                settileJSON(visibilitytemp)
                
                }else{
-                map.easeTo({ center: [8.029105246999109, 49.410560035491216], zoom: 12 })
-                settileJSON(JSON.parse(visibility.value))
+                setTileData
                }
                
             })
         
-    }, [])
+    }, [dropvalue.value])
 
     // on visibility change
   
 
     return (
         <>
-         
-            <>
-                {tileJSON != null &&
-                    <>
-                        <Source
-                            id="geostyle"
-                            type="vector"
-                            tiles={[`https://dim-tileserver-dev.hiwifipro.com/data/${dropvalue.value}/{z}/{x}/{y}.pbf`]}
-                            minzoom={1}
-                            maxzoom={18}
-                        />
 
-
-                        {
-                            Object.keys(tileJSON).map((key) => {
-                                const layer = tileJSON[key]
-                              
-                                return <Layer
-                                    interactive
-                                    id={layer.name}
-                                    type={layer.type.replace('Multi', '') == 'Polygon' ? 'fill' : layer.type.replace('Multi', '') == 'LineString' ? 'line' : 'circle'}
-                                    source="geostyle"
-                                    source-layer={layer.name}
-                                    paint={
-                                        layer.style ? layer.style : layer.type.replace('Multi', '') == 'Polygon' ? {
-                                            "fill-color": "orange",
-                                            "fill-opacity": 0.1
-                                        } : layer.type.replace('Multi', '') == 'LineString' ? {
-                                            "line-color": "grey",
-                                            "line-width": ["interpolate", ["linear"], ["zoom"], 5, 0, 18, 2],
-                                        } : {
-                                            "circle-color": "red",
-                                            "circle-radius": ["interpolate", ["linear"], ["zoom"], 5, 0, 18, 5],
-                                        } 
-                                    }
-                                    layout={{
-                                        ...layer.layout,
-                                        visibility: JSON.parse(visibility.value)[layer.name].visible ? 'visible' : 'none'
-                                    }}
-                                />
-                            })
-                        }
-                    </>
+                {tileData != null &&
+                   
+                       <TilesView tileData={tileData} id={dropvalue.value} />
                 }
             </>
-</>
+
             )
+}
+
+export const TilesView = ({tileData,id}) => {
+ 
+    return(
+        <Source
+        type="vector"
+        format="pbf"
+        url={`https://dim-tileserver-dev.hiwifipro.com/data/${id}.json`}
+        minzoom={1}
+        maxzoom={18}
+        name={`tilesource${id}`}
+       
+    >
+
+
+    {
+        tileData?.tilestats?.layers?.map((layer) => {
+            const inside = JSON.parse(visibility.value)[layer.layer]
+            console.log(inside)
+            return <Layer
+                interactive
+                id={layer.layer + id}
+                type={layer.geometry.replace('Multi', '') == 'Polygon' ? 'fill' : layer.geometry.replace('Multi', '') == 'LineString' ? 'line' : 'circle'}
+                sourceId={`tilesource${id}`}
+                source-layer={layer.layer}
+                paint={
+                    inside?.style ? inside?.style : layer.geometry.replace('Multi', '') == 'Polygon' ? {
+                        "fill-color": "orange",
+                        "fill-opacity": 0.1
+                    } : layer.geometry.replace('Multi', '') == 'LineString' ? {
+                        "line-color": "grey",
+                        "line-width": ["interpolate", ["linear"], ["zoom"], 5, 0, 18, 2],
+                    } : {
+                        "circle-color": "red",
+                        "circle-radius": ["interpolate", ["linear"], ["zoom"], 5, 0, 18, 5],
+                    } 
+                }
+                layout={{
+                    ...layer.layout,
+                    // visibility: inside?.visible ? 'visible' : 'none'
+                }}
+            />
+        })
+    }
+</Source>
+    )
 }
