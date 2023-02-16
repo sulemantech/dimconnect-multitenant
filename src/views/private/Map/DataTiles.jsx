@@ -31,7 +31,7 @@ export default () => {
                 visibility.value = JSON.stringify(visibilitytemp)
                
                }else{
-                setTileData
+                setTileData(data)
                }
                
             })
