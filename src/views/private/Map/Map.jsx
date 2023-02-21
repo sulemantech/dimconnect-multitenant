@@ -13,16 +13,7 @@ import { Boundary } from '../Dashboard/Submap';
 
 export const mapStyle = signal('https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json')
 
-export default () => {
-
-  const [viewport, setViewport] = useState({
-    latitude: 3.74565,
-    longitude: 44.97306,
-    zoom: 12
-  });
-  const mapRef = useRef(null);
-
-  
+export default ({children}) => {
 
   const handleMapClick = (event) => {
     const feature = event.features[0];
@@ -33,7 +24,7 @@ export default () => {
 
   return (
     <Map
-      ref={mapRef}
+      
       onClick={handleMapClick}
         attributionControl={false}
       mapLib={maplibreGl}
@@ -49,13 +40,12 @@ export default () => {
       }}
       interactiveLayerIds={JSON.parse(visibility.value) ? Object.keys(JSON.parse(visibility.value)) : []}
     >
-        <SearchControl />
+       <SearchControl />
         <MapControls />
         <ScaleControl position='bottom-right' maxWidth={200} unit='metric' />
         {/* <CustomLayerPanel /> */}
         <DataTiles />
         <Boundary noFill/>
-
     </Map>
   );
 

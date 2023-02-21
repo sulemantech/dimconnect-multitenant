@@ -4,7 +4,7 @@ import { IconSearch } from "@tabler/icons"
 import GeoCodingOSM from "geocoding-osm"
 import { useEffect, useState } from "preact/hooks"
 import { useMap } from "react-map-gl"
-import {within} from '@turf/turf'
+import {booleanWithin} from '@turf/turf'
 import { districts } from "../../../app"
 import { dropvalue } from "../../../layout/Header"
 
@@ -21,7 +21,7 @@ export default () => {
     //         "licence": "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright",
     //         "osm_type": "node",
     //         "osm_id": 8455644574,
-    //         "boundingbox": [
+    //         "boundingbox": [ 
     //             "53.5560111",
     //             "53.5561111",
     //             "13.2673625",
@@ -61,7 +61,7 @@ const goTo = (item) => {
                 coordinates: [item.lon, item.lat]
             }
         }
-        if(within(point, district)){
+        if(booleanWithin(point, district)){
             dropvalue.value = district.properties.c
         }
     })
