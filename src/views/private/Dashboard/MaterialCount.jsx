@@ -13,6 +13,7 @@ export default () => {
             .then(({ data }) => {
                 setLoading(false)
                 setMaterialCount(data)
+    
             }).catch((err) => {
                 setLoading(false)
                 setMaterialCount('No Data')
@@ -29,7 +30,7 @@ export default () => {
                     <div className="flex justify-center items-center text-4xl font-light text-[#0071b9]">
                         <b>
                             {loading ? <Loader className="mt-1" /> :
-                                MaterialCount?.data?.[0]?.Demand_Points || <span className="text-red-500 text-sm">No Data</span>}
+                                MaterialCount?.data?.demand_points || <span className="text-red-500 text-sm">No Data</span>}
                         </b>
                     </div>
                 </div>
@@ -41,7 +42,7 @@ export default () => {
                     <div className="flex justify-center items-center text-4xl font-light text-[#0071b9]">
                         <b>
                             {loading ? <Loader className="mt-1" /> :
-                                MaterialCount?.data?.[0]?.feeder_cables || <span className="text-red-500 text-sm">No Data</span>}
+                                MaterialCount?.data?.feeder_cables || <span className="text-red-500 text-sm">No Data</span>}
                         </b>
                     </div>
                 </div>
@@ -55,7 +56,7 @@ export default () => {
                     <div className="flex justify-center items-center text-4xl font-light text-[#0071b9]">
                         <b>
                             {loading ? <Loader className="mt-1" /> :
-                                MaterialCount?.data?.[0]?.out_distributioncables || <span className="text-red-500 text-sm">No Data</span>}
+                                MaterialCount?.data?.out_distributioncables || <span className="text-red-500 text-sm">No Data</span>}
                         </b>
                     </div>
                 </div>
@@ -67,7 +68,7 @@ export default () => {
                     <div className="flex justify-center items-center text-4xl font-light text-[#0071b9]">
                         <b>
                             {loading ? <Loader className="mt-1" /> :
-                                MaterialCount?.data?.[0]?.Primary_Distribution_Cables || <span className="text-red-500 text-sm">No Data</span>}
+                                MaterialCount?.data?.primary_distribution_cables || <span className="text-red-500 text-sm">No Data</span>}
                         </b>
                     </div>
                 </div>
