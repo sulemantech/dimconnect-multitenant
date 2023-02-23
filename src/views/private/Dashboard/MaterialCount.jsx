@@ -30,7 +30,7 @@ export default () => {
                     <div className="flex justify-center items-center text-4xl font-light text-[#0071b9]">
                         <b>
                             {loading ? <Loader className="mt-1" /> :
-                                MaterialCount?.data?.demand_points || <span className="text-red-500 text-sm">No Data</span>}
+                                MaterialCount?.data?.[0]?.demand_points || <span className="text-red-500 text-sm">No Data</span>}
                         </b>
                     </div>
                 </div>
@@ -42,7 +42,7 @@ export default () => {
                     <div className="flex justify-center items-center text-4xl font-light text-[#0071b9]">
                         <b>
                             {loading ? <Loader className="mt-1" /> :
-                                MaterialCount?.data?.feeder_cables || <span className="text-red-500 text-sm">No Data</span>}
+                                MaterialCount?.data?.[0]?.feeder_cables || <span className="text-red-500 text-sm">No Data</span>}
                         </b>
                     </div>
                 </div>
@@ -56,7 +56,7 @@ export default () => {
                     <div className="flex justify-center items-center text-4xl font-light text-[#0071b9]">
                         <b>
                             {loading ? <Loader className="mt-1" /> :
-                                MaterialCount?.data?.out_distributioncables || <span className="text-red-500 text-sm">No Data</span>}
+                                MaterialCount?.data?.[0]?.out_distributioncables || <span className="text-red-500 text-sm">No Data</span>}
                         </b>
                     </div>
                 </div>
@@ -68,7 +68,7 @@ export default () => {
                     <div className="flex justify-center items-center text-4xl font-light text-[#0071b9]">
                         <b>
                             {loading ? <Loader className="mt-1" /> :
-                                MaterialCount?.data?.primary_distribution_cables || <span className="text-red-500 text-sm">No Data</span>}
+                                MaterialCount?.data?.[0]?.primary_distribution_cables || <span className="text-red-500 text-sm">No Data</span>}
                         </b>
                     </div>
                 </div>
