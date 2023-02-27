@@ -1,10 +1,10 @@
-import PublicHeader from "./PublicHeader"
+import CustomerHeader from "./CustomerHeader"
 import { useEffect } from "preact/hooks"
 import { openModal } from "@mantine/modals"
 import { booleanWithin, point } from "@turf/turf"
 import {districts} from '../../../app'
 import { dropvalue } from "../../../layout/Header"
-import BaseMapControl from "../../private/Map/BaseMapControl"
+import BaseMapControl from "../Admin/Map/BaseMapControl"
 import Map from "react-map-gl"
 import maplibreGl from "maplibre-gl"
 export default () => {
@@ -60,7 +60,7 @@ export default () => {
             trackResize={true}
             flex={3}
             >
-                <PublicHeader />
+                <CustomerHeader />
                 <BaseMapControl />
             </Map>
         </div>

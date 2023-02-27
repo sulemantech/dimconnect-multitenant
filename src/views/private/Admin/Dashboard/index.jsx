@@ -1,4 +1,4 @@
-import PageProvider from "../../../providers/PageProvider"
+import PageProvider from "../../../../providers/PageProvider"
 import MaterialCount from "./MaterialCount"
 // import CostInfo from "./CostInfo"
 import MaterialsInfo from "./MaterialsInfo"

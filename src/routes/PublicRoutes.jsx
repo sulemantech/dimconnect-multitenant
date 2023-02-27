@@ -1,10 +1,10 @@
 import {Router} from 'preact-router';
-import CustomerView from '../views/public/CustomerView';
+import CustomerView from '../views/private/Customer';
 import Login from '../views/public/Login';
 
 
 export default () => <Router>
-    <CustomerView path="/" default />
-    <Login path="/login" />
+    
+    <Login path="/login" default/>
 
 </Router>

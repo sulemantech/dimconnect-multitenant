@@ -1,8 +1,8 @@
 import { Button, Input, Slider, Table } from "@mantine/core"
 import { openModal } from "@mantine/modals"
 import { useEffect, useState } from "preact/hooks"
-import PageProvider from "../../../providers/PageProvider"
-import { visibility } from "../Map/DataTiles"
+import PageProvider from "../../../../providers/PageProvider"
+import { visibility } from "../../Admin/Map/DataTiles"
 
 export default () => {
     const [layers, setLayers] = useState({})

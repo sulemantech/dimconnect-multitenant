@@ -2,8 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Map, Marker, Source, Layer, ScaleControl, useMap } from 'react-map-gl';
 import maplibreGl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { districts } from '../../../app';
-import { dropvalue } from '../../../layout/Header';
+import { districts } from '../../../../app';
+import { dropvalue } from '../../../../layout/Header';
 import { route } from 'preact-router';
 
 
