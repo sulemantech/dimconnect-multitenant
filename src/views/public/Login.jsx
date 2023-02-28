@@ -57,7 +57,7 @@ export default () => {
             id = "logo"
              className='h-52'
               src='/logo.png'
-              // alt="Your Company"
+              // alt="Your Company"  
             />
             </div>
             <h2 className="mt-6 text-center text-2xl font-bold tracking-tight text-gray-100">
