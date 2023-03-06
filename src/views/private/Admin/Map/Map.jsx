@@ -9,6 +9,7 @@ import SearchControl from './SearchControl';
 
 import DataTiles, { visibility } from './DataTiles';
 import { Boundary } from '../Dashboard/Submap';
+import Gpx from './gpx';
 
 
 export const mapStyle = signal('https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json')
@@ -44,6 +45,7 @@ export default ({children}) => {
         <MapControls />
         <ScaleControl position='bottom-right' maxWidth={200} unit='metric' />
         {/* <CustomLayerPanel /> */}
+        <Gpx />
         <DataTiles />
         <Boundary noFill/>
     </Map>
