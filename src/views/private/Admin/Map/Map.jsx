@@ -16,9 +16,9 @@ export const mapStyle = signal('https://basemaps.cartocdn.com/gl/voyager-gl-styl
 export default ({children}) => {
 
   const handleMapClick = (event) => {
-    const feature = event.features[0];
-    if (feature) {
-     console.log(feature)
+    const features = event.features;
+    if (features) {
+     console.log(features)
     }
   };
 

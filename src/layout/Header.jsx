@@ -6,7 +6,7 @@ import { signal } from '@preact/signals'
 import { collapsed } from "./Navbar"
 import { useRouter } from "preact-router"
 import { districts } from "../app"
-export const dropvalue = signal('')
+export const dropvalue = signal('073325005')
 
 
 const tilesAvailable = [
