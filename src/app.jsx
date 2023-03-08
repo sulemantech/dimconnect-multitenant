@@ -1,19 +1,19 @@
+import './app.css'
 import { MantineProvider } from '@mantine/core';
+import { AuthProvider } from './providers/AuthProvider';
 import { ModalsProvider } from '@mantine/modals';
 import { signal } from '@preact/signals';
 import LZString from 'lz-string';
-import { feature } from 'topojson-client';
-import './app.css';
-import { AuthProvider } from './providers/AuthProvider';
+import {feature} from 'topojson-client'
 
 export const districts = signal({})
 
 fetch('/german.json.lz').then(res => res.text()).then(res => {
-  const uncompressed = JSON.parse(LZString.decompressFromBase64(res))
+const uncompressed = JSON.parse( LZString.decompressFromBase64(res))
 
-  const parsed = feature(uncompressed, uncompressed?.objects?.german)
+const parsed = feature(uncompressed,uncompressed?.objects?.german)
 
-  districts.value = parsed
+districts.value = parsed
 
 })
 
@@ -24,7 +24,7 @@ export function App() {
     <>
       <MantineProvider withGlobalStyles withNormalizeCSS>
         <ModalsProvider>
-          <AuthProvider />
+        <AuthProvider />
         </ModalsProvider>
       </MantineProvider>
     </>

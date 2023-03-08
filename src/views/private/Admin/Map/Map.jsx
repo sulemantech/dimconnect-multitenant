@@ -49,7 +49,7 @@ export default ({children}) => {
         <ScaleControl position='bottom-right' maxWidth={200} unit='metric' />
         {/* <CustomLayerPanel /> */}
         <InfoCard />
-        <Gpx />
+        {/* <Gpx /> */}
         <DataTiles />
         <Boundary noFill/>
     </Map>

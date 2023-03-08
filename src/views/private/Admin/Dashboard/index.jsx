@@ -1,14 +1,16 @@
+import { Suspense, lazy } from "preact/compat"
 import PageProvider from "../../../../providers/PageProvider"
-import MaterialCount from "./MaterialCount"
+const MaterialCount = lazy(() => import("./MaterialCount"))
 // import CostInfo from "./CostInfo"
-import MaterialsInfo from "./MaterialsInfo"
-import Submap from "./Submap"
-import Tickets from "./Tickets"
+const MaterialsInfo = lazy(() => import("./MaterialsInfo"))
+const Submap = lazy(() => import("./Submap"))
+const Tickets = lazy(() => import("./Tickets"))
 
 const Dashboard = () => {
   return (
 
     <PageProvider>
+      <Suspense fallback={<div>Loading...</div>}>
       <div className="flex flex-col md:flex-row">
         <MaterialCount />
 
@@ -69,7 +71,7 @@ const Dashboard = () => {
         </div>
 
       </div>
-
+      </Suspense>
     </PageProvider>
 
   )

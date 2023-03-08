@@ -1,5 +1,5 @@
 import { Menu } from "@mantine/core"
-import { effect } from "@preact/signals"
+
 import { IconStack2 } from "@tabler/icons"
 import { useEffect,useState } from "preact/hooks"
 import { visibility } from "./DataTiles"
