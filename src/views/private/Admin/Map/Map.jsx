@@ -9,7 +9,9 @@ import SearchControl from './SearchControl';
 
 import DataTiles, { visibility } from './DataTiles';
 import { Boundary } from '../Dashboard/Submap';
-import Gpx from './gpx';
+import Gpx from './Gpx';
+import InfoCard, { infoCardVal } from './InfoCard';
+import AddressPoints from './AddressPoints';
 
 
 export const mapStyle = signal('https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json')
@@ -19,7 +21,8 @@ export default ({children}) => {
   const handleMapClick = (event) => {
     const features = event.features;
     if (features) {
-     console.log(features)
+      
+      infoCardVal.value = features
     }
   };
 
@@ -41,10 +44,12 @@ export default ({children}) => {
       }}
       interactiveLayerIds={JSON.parse(visibility.value) ? Object.keys(JSON.parse(visibility.value)) : []}
     >
+        <AddressPoints />
        <SearchControl />
         <MapControls />
         <ScaleControl position='bottom-right' maxWidth={200} unit='metric' />
         {/* <CustomLayerPanel /> */}
+        <InfoCard />
         <Gpx />
         <DataTiles />
         <Boundary noFill/>

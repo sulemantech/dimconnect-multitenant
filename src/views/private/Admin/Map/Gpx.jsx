@@ -1,5 +1,6 @@
 import { useEffect, useState } from "preact/hooks"
 import tj from "@mapbox/togeojson"
+import { Marker } from "react-map-gl"
 export default () => {
     const rawtext = `<?xml version="1.0" encoding="UTF-8"?>
     <gpx version="1.1"
@@ -58,15 +59,26 @@ export default () => {
 
     useEffect(() => {
 
-       
+        const geojson = tj['gpx']((new DOMParser()).parseFromString(rawtext, 'text/xml'))
+        setData(geojson)
 
-         const geojson = tj['gpx']((new DOMParser()).parseFromString(rawtext, 'text/xml'))
-         console.log(geojson)
-         setData(geojson)
     }, [])
 
 
     return (
-        <></>
+        <>
+            {data != null &&
+                <>{
+                    data.features.map((feature, index) => {
+                        console.log(feature)
+                        return (
+                                <Marker key={index} latitude={feature.geometry.coordinates[1]} longitude={feature.geometry.coordinates[0]} >
+
+                            </Marker>
+                        )
+                    })
+                }</>
+            }
+        </>
     )
 }
