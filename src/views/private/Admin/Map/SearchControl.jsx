@@ -46,7 +46,7 @@ export default () => {
                     countrycodes: "de",
                 })
                 setSearchResult(result)
-                console.log(result)
+              
             })()
         }
     }, [search])

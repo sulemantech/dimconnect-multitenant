@@ -2,8 +2,8 @@ import { Button } from "@mantine/core";
 import { closeAllModals, openConfirmModal, openModal } from "@mantine/modals";
 import { IconArrowDown, IconArrowUp, IconEdit, IconPaperclip, IconTrash } from "@tabler/icons";
 import { useState } from "preact/hooks";
+import readXlsxFile from 'read-excel-file';
 import { appConfig } from "../config/appConfig";
-import readXlsxFile from 'read-excel-file'
 export default ({ data, setLimit, attributes = [], newStruct = {}, refreshData, edit = false, remove = false, attatchment = false }) => { // as {"id":25,"name":"HO1V","min":"25","max":"55"}[]
 
     const [sort, setSort] = useState({ field: "name", order: "asc" });
@@ -22,7 +22,7 @@ export default ({ data, setLimit, attributes = [], newStruct = {}, refreshData, 
             closeAllModals()
         })
             .catch((err) => {
-                console.log(err)
+               
             })
     }
 
@@ -224,45 +224,45 @@ const EditForm = ({ item, newStruct }) => {
             }
         })
     }
-try {
-    return (
-        <div className="flex flex-col">
-            {
-                Object.keys(newStruct.data).map((attr) => {
-                    return (
-                        <div key={attr} className="flex flex-col mb-4">
-                            <label className="text-gray-700">{attr.replace('_', ' ').toUpperCase()}</label>
-                            <input
-                                className="bg-gray-200 rounded-md p-2"
-                                value={form[attr]}
-                                onChange={(e) => setForm({ ...form, [attr]: e.target.value })}
-                            />
-                        </div>
-                    )
-                })
-                
-            }
-            <div className="flex">
-                <button
-                    onClick={update}
-                    className="bg-gray-700 px-4 py-2 rounded-md ml-2 hover:bg-gray-900 text-white font-bold ">
-                    Update
-                </button>
-                <button
-                    onClick={() => closeAllModals()}
-                    className="bg-gray-700 px-4 py-2 rounded-md ml-2 hover:bg-gray-900 text-white font-bold ">
-                    Cancel
-                </button>
+    try {
+        return (
+            <div className="flex flex-col">
+                {
+                    Object.keys(newStruct.data).map((attr) => {
+                        return (
+                            <div key={attr} className="flex flex-col mb-4">
+                                <label className="text-gray-700">{attr.replace('_', ' ').toUpperCase()}</label>
+                                <input
+                                    className="bg-gray-200 rounded-md p-2"
+                                    value={form[attr]}
+                                    onChange={(e) => setForm({ ...form, [attr]: e.target.value })}
+                                />
+                            </div>
+                        )
+                    })
+
+                }
+                <div className="flex">
+                    <button
+                        onClick={update}
+                        className="bg-gray-700 px-4 py-2 rounded-md ml-2 hover:bg-gray-900 text-white font-bold ">
+                        Update
+                    </button>
+                    <button
+                        onClick={() => closeAllModals()}
+                        className="bg-gray-700 px-4 py-2 rounded-md ml-2 hover:bg-gray-900 text-white font-bold ">
+                        Cancel
+                    </button>
+                </div>
             </div>
-        </div>
-    )
-} catch (error) {
-    return (
-        <div>
-            <h1>Something went wrong</h1>
-        </div>
-    )
-}
+        )
+    } catch (error) {
+        return (
+            <div>
+                <h1>Something went wrong</h1>
+            </div>
+        )
+    }
 }
 
 const AttatchmentForm = ({ item, newStruct }) => {
@@ -331,10 +331,10 @@ const AttatchmentForm = ({ item, newStruct }) => {
     }
 
     const readCSV = (e) => {
-        const file = e.target.files[0]; 
+        const file = e.target.files[0];
         const reader = new FileReader();
         reader.onload = (e) => {
-            if (file.type == 'text/csv'){
+            if (file.type == 'text/csv') {
                 const text = (e.target.result);
                 const data = text.split('\n').slice(1)
                     .map(row => {
@@ -347,19 +347,19 @@ const AttatchmentForm = ({ item, newStruct }) => {
                     });
                 setData(data);
                 // if xlsx or xls
-                }else if (file.type == 'application/vnd.ms-excel' || file.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'){
-                    readXlsxFile(file).then((rows) => {
-                        const data = rows.slice(1)
-                            .map(row => {
-                                const addr1 = row[0];
-                                const city = row[1];
-                                const postcode = row[2];
-                                return { addr1, city, postcode };
-                            });
-                        setData(data);
-                    })
-                }
-                
+            } else if (file.type == 'application/vnd.ms-excel' || file.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+                readXlsxFile(file).then((rows) => {
+                    const data = rows.slice(1)
+                        .map(row => {
+                            const addr1 = row[0];
+                            const city = row[1];
+                            const postcode = row[2];
+                            return { addr1, city, postcode };
+                        });
+                    setData(data);
+                })
+            }
+
         };
         reader.readAsText(file);
     }
@@ -397,7 +397,7 @@ const AttatchmentForm = ({ item, newStruct }) => {
             </div>
             <div className="flex">
                 <Button
-                  loading={loading}
+                    loading={loading}
                     onClick={upload}
                     className="bg-gray-700 px-4 py-2 rounded-md ml-2 hover:bg-gray-900 text-white font-bold ">
                     Upload

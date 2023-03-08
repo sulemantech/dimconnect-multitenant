@@ -69,8 +69,13 @@ export default () => {
         <>
             {data != null &&
                 <>{
-                    data.features.map((feature, index) => {
-                        console.log(feature)
+                    data.features
+                    .filter(feature => feature.geometry.type === 'Point')
+                    .filter(feature => feature.geometry.coordinates[0] != null && feature.geometry.coordinates[1] != null)
+                    .filter(feature => feature.geometry.coordinates[0] != 0 && feature.geometry.coordinates[1] != 0)
+                    .filter(feature => feature.geometry.coordinates[0] != undefined && feature.geometry.coordinates[1] != undefined)
+                    .map((feature, index) => {
+                       
                         return (
                                 <Marker key={index} latitude={feature.geometry.coordinates[1]} longitude={feature.geometry.coordinates[0]} >
 
