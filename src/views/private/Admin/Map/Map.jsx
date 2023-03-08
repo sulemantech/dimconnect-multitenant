@@ -11,6 +11,7 @@ import DataTiles, { visibility } from './DataTiles';
 import { Boundary } from '../Dashboard/Submap';
 import Gpx from './Gpx';
 import AddressPoints from './AddressPoints'
+import InfoCard from './InfoCard';
 
 export const mapStyle = signal('https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json')
 
