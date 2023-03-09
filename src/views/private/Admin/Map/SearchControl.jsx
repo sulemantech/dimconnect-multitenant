@@ -6,11 +6,12 @@ import { useEffect, useState } from "preact/hooks"
 import { useMap } from "react-map-gl"
 import {booleanWithin} from '@turf/turf'
 import { districts } from "../../../../app"
-import { dropvalue } from "../../../../layout/Header"
+import { dropvalue, tilesAvailable } from "../../../../layout/Header"
+import { showNotification } from "@mantine/notifications"
 
 GeoCodingOSM.setLanguage("de")
 
-export default () => {
+export default ({within=false}) => {
     const [search, setSearch] = useInputState("")
     const [searchResult, setSearchResult] = useState([])
     const ref = useClickOutside(() => setSearchResult([]))
@@ -36,6 +37,8 @@ export default () => {
     //     },
    
     // ]
+    const community = districts.value?.features?.find((district) => district.properties.c[0] === dropvalue.value)
+                          
     useEffect(() => {
         if (search.length > 0) {
             (async () => {
@@ -43,7 +46,12 @@ export default () => {
                 
                 const result = await geo.search({
                     q: search,
+                    addressdetails: 1,
+                    extratags: 1,
+                    namedetails: 1,
                     countrycodes: "de",
+
+                    
                 })
                 setSearchResult(result)
               
@@ -62,7 +70,15 @@ const goTo = (item) => {
             }
         }
         if(booleanWithin(point, district)){
-            dropvalue.value = district.properties.c
+            if(Object.values(tilesAvailable).map((item) => item.value).includes(district.properties.c[0])){
+            dropvalue.value = district.properties.c[0]
+            }else{
+                showNotification({
+                    title: "District not available",
+                    message: "This district is not available right now.",
+                    color: "red",
+                })
+            }
         }
     })
 
@@ -86,7 +102,22 @@ const goTo = (item) => {
             </div>
             <div className="absolute flex flex-col left-2 top-36 " ref={ref}>
                 {
-                    searchResult.map((item, index) => {
+                    searchResult
+                    .filter((item) => {
+                        if(within){
+                            const point = {
+                                type: 'Feature',
+                                geometry: {
+                                    type: 'Point',
+                                    coordinates: [item.lon, item.lat]
+                                }
+                            }
+                            return booleanWithin(point, community)
+                        }else{
+                            return true
+                        }
+                    })
+                    .map((item, index) => {
                         return (
                             <>
                             <div 

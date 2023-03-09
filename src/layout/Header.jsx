@@ -9,7 +9,7 @@ import { districts } from "../app"
 export const dropvalue = signal('073325005')
 
 
-const tilesAvailable = [
+export const tilesAvailable = [
   { label: 'Bad Neuenahr-Ahrweiler', value: '071310007' },
   { label: 'Maifield', value: '071375002' },
   { label: 'Lambrecht (Pfalz)', value: '073325005' },

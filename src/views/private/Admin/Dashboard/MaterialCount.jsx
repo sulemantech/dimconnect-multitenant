@@ -62,7 +62,7 @@ export default () => {
                 </div>
                 <div className="flex-[1] min-h-[100px] m-1 bg-white shadow-lg p-2 rounded-xl flex-grow">
                     <p className="flex-grow font-thin text-neutral-700 text-lg">
-                    Primary_Distribution_Cables
+                    Primary Distribution Cables
                     </p>
                     <hr />
                     <div className="flex justify-center items-center text-4xl font-light text-[#0071b9]">

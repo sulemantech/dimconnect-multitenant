@@ -5,6 +5,7 @@ import { ModalsProvider } from '@mantine/modals';
 import { signal } from '@preact/signals';
 import LZString from 'lz-string';
 import {feature} from 'topojson-client'
+import { NotificationsProvider } from '@mantine/notifications';
 
 export const districts = signal({})
 
@@ -23,9 +24,11 @@ export function App() {
 
     <>
       <MantineProvider withGlobalStyles withNormalizeCSS>
+        <NotificationsProvider>
         <ModalsProvider>
         <AuthProvider />
         </ModalsProvider>
+        </NotificationsProvider>
       </MantineProvider>
     </>
 

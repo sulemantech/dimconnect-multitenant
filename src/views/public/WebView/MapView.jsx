@@ -54,7 +54,7 @@ export default () => {
       <Suspense fallback={<LoadingOverlay visible />}>
         
         <AddressPoints />
-       <SearchControl />
+       <SearchControl within/>
         <MapControls />
         <ScaleControl position='bottom-right' maxWidth={200} unit='metric' />
         {/* <CustomLayerPanel /> */}

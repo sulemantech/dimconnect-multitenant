@@ -1,5 +1,6 @@
 import { Suspense, lazy } from "preact/compat"
 import PageProvider from "../../../../providers/PageProvider"
+import { Badge, Chip, Skeleton } from "@mantine/core"
 const MaterialCount = lazy(() => import("./MaterialCount"))
 // import CostInfo from "./CostInfo"
 const MaterialsInfo = lazy(() => import("./MaterialsInfo"))
@@ -10,9 +11,11 @@ const Dashboard = () => {
   return (
 
     <PageProvider>
-      <Suspense fallback={<div>Loading...</div>}>
+     
       <div className="flex flex-col md:flex-row">
+      <Suspense fallback={<Skeleton />}>
         <MaterialCount />
+        </Suspense>
 
       </div>
       <div className="flex flex-col md:flex-row">
@@ -23,7 +26,9 @@ const Dashboard = () => {
                 Cost Info
               </p>
               <hr />
+              <Suspense fallback={<Skeleton />}>
               <MaterialsInfo />
+              </Suspense>
             </div>
 
 
@@ -47,16 +52,21 @@ const Dashboard = () => {
         </div>
         <div className="flex-grow">
           <div className="flex flex-col md:flex-row">
-            <div className="flex-[1] relative m-1 w-[400px] h-[400px] bg-white shadow-lg p-2 rounded-xl">
-              <p className="flex-grow font-thin text-neutral-700 text-lg">
-                Map
-              </p>
+            <div className="flex-[1] relative m-1 w-[400px] h-[400px] bg-white shadow-lg p-2 justify-center rounded-xl">
+              
+              <Badge color="blue" variant="outline" className="mb-1">
+                Click on the map to enlarge
+              </Badge>
               <hr />
+              <Suspense fallback={<Skeleton />}>
               <Submap />
+              </Suspense>
               
             </div>
             <div className="flex-[1] m-1 min-h[100%] flex-grow bg-white shadow-lg p-2 rounded-xl">
+              <Suspense fallback={<Skeleton />}>
               <Tickets />
+              </Suspense>
               </div>
           </div>
           <div className="flex-[1] m-1 min-h[100%] flex-grow bg-white shadow-lg p-2 rounded-xl">
@@ -71,7 +81,7 @@ const Dashboard = () => {
         </div>
 
       </div>
-      </Suspense>
+    
     </PageProvider>
 
   )
