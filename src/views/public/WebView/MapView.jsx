@@ -1,25 +1,25 @@
-import { Suspense, lazy } from 'preact/compat';
+import { Suspense } from 'preact/compat';
 
 import { Map, ScaleControl } from 'react-map-gl';
 import maplibreGl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
 import { signal } from '@preact/signals';
-import MapControls from './MapControls';
-import SearchControl from './SearchControl';
+import MapControls from '../../private/Admin/Map/MapControls';
+import SearchControl from '../../private/Admin/Map/SearchControl';
 
-import DataTiles, { visibility } from './DataTiles';
-import { Boundary } from '../Dashboard/Submap';
-const Gpx = lazy(() => import('./Gpx'));
-import AddressPoints from './AddressPoints'
-import InfoCard, { infoCardVal } from './InfoCard';
+import DataTiles,{visibility} from '../../private/Admin/Map/DataTiles';
+import { Boundary } from '../../private/Admin/Dashboard/Submap';
+
+import AddressPoints from '../../private/Admin/Map/AddressPoints';
+import InfoCard,{infoCardVal} from '../../private/Admin/Map/InfoCard';
 import { LoadingOverlay } from '@mantine/core';
-import Popup from './Popup';
+import Popup from '../../private/Admin/Map/Popup';
 
 
 export const mapStyle = signal('https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json')
 
-export default ({children}) => {
+export default () => {
 
   const handleMapClick = (event) => {
     const features = event.features;
@@ -55,8 +55,8 @@ export default ({children}) => {
         <ScaleControl position='bottom-right' maxWidth={200} unit='metric' />
         {/* <CustomLayerPanel /> */}
         <InfoCard />
-        <Gpx />
-        <DataTiles />
+        
+        <DataTiles ags/>
         <Boundary noFill/>
         <Popup />
         </Suspense>

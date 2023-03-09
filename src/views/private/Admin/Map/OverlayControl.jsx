@@ -3,6 +3,7 @@ import { Menu } from "@mantine/core"
 import { IconStack2 } from "@tabler/icons"
 import { useEffect,useState } from "preact/hooks"
 import { visibility } from "./DataTiles"
+import { dropvalue } from "../../../../layout/Header"
 
 export default () => {
     const [data, setData] = useState({})
@@ -13,7 +14,7 @@ export default () => {
 
         <Menu position="left-end" withArrow>
             <Menu.Target>
-                <div id='overlaycontrol' className="right-2 hover:scale-95 border-white border-solid border-2 transition-all cursor-pointer bottom-24 mb-2 z-70 absolute p-3 rounded-full shadow-lg text-[#0071b9] bg-white ">
+                <div id='overlaycontrol' className="hover:scale-95 items-center justify-center flex border-white border-solid border-2 transition-all cursor-pointer mb-2 z-70 p-3 rounded-full shadow-lg text-[#0071b9] bg-white ">
                     <IconStack2 size={30} />
                 </div>
             </Menu.Target>
@@ -32,6 +33,8 @@ export default () => {
                             }}>{
                                 data[key].visible ? <span className="text-green-500">✔</span> : <span className="text-red-500">✖</span>
                             } {key
+                                .replace(dropvalue.value, '')
+                                .replace('_OUT_', '')
                                 .split('_')
                                 .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
                                 .join(' ')

@@ -3,6 +3,7 @@ import { openModal } from "@mantine/modals"
 import { useEffect, useState } from "preact/hooks"
 import PageProvider from "../../../../providers/PageProvider"
 import { visibility } from "../../Admin/Map/DataTiles"
+import { dropvalue } from "../../../../layout/Header"
 
 export default () => {
     const [layers, setLayers] = useState({})
@@ -25,7 +26,10 @@ export default () => {
                             return (
                                 <tr key={index}>
                                     <td>{
-                                        layer.name.split('_')
+                                        layer.name
+                                        .replace(dropvalue.value, '')
+                                            .replace('_OUT_', '')
+                                        .split('_')
                                             .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
                                             .join(' ')
                                     }</td>

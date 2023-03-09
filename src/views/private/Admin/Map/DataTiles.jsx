@@ -58,8 +58,18 @@ export default () => {
     )
 }
 
+
+
 export const TilesView = ({ tileData, id }) => {
     
+    const PolyfillColors = {
+        [`${dropvalue.value}_district_boundaries`]: 'whitesmoke',
+        [`${dropvalue.value}_OUT_DistributionClusters`]: 'purple',
+        [`${dropvalue.value}_OUT_FeederClusters`]: 'pink',
+        [`${dropvalue.value}_OUT_PrimDistributionClusters`]: 'green',
+
+    }
+
     return (
         <Source
             type="vector"
@@ -73,61 +83,7 @@ export const TilesView = ({ tileData, id }) => {
             {
                 tileData?.tilestats?.layers?.map((layer) => {
                     const inside = JSON.parse(visibility.value)[layer.layer]
-                   
-                    // if(layer.layer == `${dropvalue.value}_OUT_DemandPoints`){
-                    //     const expressionValidated = addressPointStatus?.['1']?.map((id) => ['==', 'id', id])
-                    //     const expressionUnvalidated = addressPointStatus?.['2']?.map((id) => ['==', 'id', id])
-                    //     const expressionToBeValidated = addressPointStatus?.['4']?.map((id) => ['==', 'id', id])
-                    //     return [
-                    //     <Layer
-                    //         interactive
-                    //         id={layer.layer + 'validated'}
-                    //         type='circle'
-                    //         sourceId={`tilesource${id}`}
-                    //         source-layer={layer.layer}
-                    //         paint={{
-                    //             'circle-color' : "orange",
-                    //             'circle-radius': ['interpolate', ['linear'], ['zoom'], 5, 3, 18, 7],
-                    //             'circle-stroke-width': 1,
-                    //             'circle-stroke-color': 'white'
-
-                    //         }}
-                            
-                    //         filter={['any', ...expressionValidated]}
-                    //     />,
-                    //     <Layer
-                    //         interactive
-                    //         id={layer.layer + 'unvalidated'}
-                    //         type='circle'
-                    //         sourceId={`tilesource${id}`}
-                    //         source-layer={layer.layer}
-                    //         paint={{
-                    //             'circle-color' : "red",
-                    //             'circle-radius': ['interpolate', ['linear'], ['zoom'], 5, 3, 18, 7],
-                    //             'circle-stroke-width': 1,
-                    //             'circle-stroke-color': 'white'
-
-                    //         }}
-                    //         filter={['any', ...expressionUnvalidated]}
-                    //     />,
-                    //     <Layer  
-                    //         interactive 
-                    //         id={layer.layer + 'tobeverified'}
-                    //         type='circle'
-                    //         sourceId={`tilesource${id}`}
-                    //         source-layer={layer.layer}
-                    //         paint={{
-                    //             'circle-color' : "blue",
-                    //             'circle-radius': ['interpolate', ['linear'], ['zoom'], 5, 3, 18, 7],
-                    //             'circle-stroke-width': 1,
-                    //             'circle-stroke-color': 'white'
-
-                    //         }}
-                    //         filter={['any', ...expressionToBeValidated]}
-                    //     />].map((layer) => layer)
-                            
-                    // }
-
+                 
                     return <Layer
                         interactive
                         id={layer.layer}
@@ -138,8 +94,8 @@ export const TilesView = ({ tileData, id }) => {
                             inside?.style ? inside?.style : layer.geometry.replace('Multi', '') == 'Polygon' ?
                                 {
                                     // how to do transparent fill
-
-                                    "fill-opacity": 0
+                                    "fill-color": PolyfillColors[layer.layer] ? PolyfillColors[layer.layer] : 'grey',
+                                    "fill-opacity": 0.5
                                 }
                                 :
                                 layer.geometry.replace('Multi', '') == 'LineString'
@@ -149,24 +105,28 @@ export const TilesView = ({ tileData, id }) => {
                                         if (layer.layer == dropvalue.value+'_OUT_DistributionCables') {
                                             return {
                                                 "line-color": "red",
-                                                "line-width": ["interpolate", ["linear"], ["zoom"], 5, 0, 18, 5],
+                                                "line-opacity": 0.7,
+                                                "line-width": ["interpolate", ["linear"], ["zoom"], 5, 2, 18, 6],
                                             }
                                         }
                                         else if (layer.layer == dropvalue.value+'_OUT_FeederCables') {
                                             return {
                                                 "line-color": "purple",
-                                                "line-width": ["interpolate", ["linear"], ["zoom"], 5, 0, 18, 5],
+                                                "line-opacity": 0.7,
+                                                "line-width": ["interpolate", ["linear"], ["zoom"], 5, 3, 18, 8],
                                             }
                                         }
                                         else if (layer.layer == dropvalue.value+'_OUT_PrimDistributionCables') {
                                             return {
                                                 "line-color": "blue",
-                                                "line-width": ["interpolate", ["linear"], ["zoom"], 5, 0, 18, 5],
+                                                "line-opacity": 0.7,
+                                                "line-width": ["interpolate", ["linear"], ["zoom"], 5, 1, 18, 4],
                                             }
                                         } else {
                                             return {
                                                 "line-color": "grey",
-                                                "line-width": ["interpolate", ["linear"], ["zoom"], 5, 0, 18, 5],
+                                                "line-opacity": 0.7,
+                                                "line-width": ["interpolate", ["linear"], ["zoom"], 5, 0, 18, 2],
                                             }
                                         }
 
@@ -190,7 +150,10 @@ export const TilesView = ({ tileData, id }) => {
                             // visibility: inside?.visible ? 'visible' : 'none'      
                         }}
                         
-                        beforeId="addressPoints"
+                        beforeId={
+                            layer.geometry.replace('Multi', '') == 'Polygon' ? "waterway" :
+                            "addressPoints"
+                        }
                     />
                 })
             }

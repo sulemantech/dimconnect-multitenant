@@ -40,7 +40,7 @@ export default () => {
 
                                 </div>
                                 <div className="text-xs font-semibold text-gray-700">
-                                    <JsonToTable json={infoCardData.properties} />
+                                    <JsonToTable json={infoCardData?.properties} />
                                 </div>
 
 
