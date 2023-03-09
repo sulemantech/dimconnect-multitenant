@@ -23,6 +23,10 @@ export default () => {
 
   const handleMapClick = (event) => {
     const features = event.features;
+
+    // post message to parent latlng
+    window.parent.postMessage({latlng: event.lngLat}, '*');
+
     if (features) {
       
       infoCardVal.value = features
