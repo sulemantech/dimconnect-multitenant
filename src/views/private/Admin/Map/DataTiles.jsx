@@ -137,9 +137,10 @@ export const TilesView = ({ tileData, id }) => {
                                     {
                                         "circle-color": "transparent",
                                         "circle-stroke-width": 1,
+                                        "circle-stroke-opacity":0.1,
                                         "circle-stroke-color": "white",
 
-                                        "circle-radius": ["interpolate", ["linear"], ["zoom"], 5, 1, 18, 1],
+                                        "circle-radius": ["interpolate", ["linear"], ["zoom"], 5, 5, 18, 15],
                                     }
                         }
 

@@ -54,10 +54,10 @@ export default () => {
       <Suspense fallback={<LoadingOverlay visible />}>
         
         <AddressPoints />
-       <SearchControl within/>
-        <MapControls />
-        <ScaleControl position='bottom-right' maxWidth={200} unit='metric' />
-        {/* <CustomLayerPanel /> */}
+       <SearchControl within nohead/>
+        
+        <ScaleControl position='bottom-left' maxWidth={100} unit='metric' />
+       
         <InfoCard />
         
         <DataTiles ags/>

@@ -1,14 +1,13 @@
-import { useEffect, useState } from "preact/hooks"
+import { useLayoutEffect, useState } from "preact/hooks"
 
 export default ({children}) => {
 
-    const queryParam = new URLSearchParams(window.location.search)
-    const username = queryParam.get('username')
-    const password = queryParam.get('password')
-
     const [isAuthenticated, setIsAuthenticated] = useState(false)
 
-    useEffect(() => {
+    useLayoutEffect(() => {
+        const queryParam = new URLSearchParams(window.location.search)
+        const username = queryParam.get('username')
+        const password = queryParam.get('password')
         if (username === 'hiwifi' && password === 'admin') {
             setIsAuthenticated(true)
         }

@@ -36,6 +36,8 @@ body,#app {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  
 }
 
 h1 {

@@ -23,14 +23,14 @@ export default () => {
                     ags && client === 'ios' ?
                         <div className="relative w-screen h-screen">
                             <MapView />
-                            <CustomerHeader />
+                           
                             <BottomRight>
                                 <>
                                     <div>
                                         <OverlayControl />
                                         <BaseMapControl />
                                     </div>
-                                    <Legend />
+                                   
                                 </>
                             </BottomRight>
                         </div>

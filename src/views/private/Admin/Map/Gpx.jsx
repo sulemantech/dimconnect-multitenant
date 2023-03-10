@@ -4,6 +4,7 @@ import tj from "@mapbox/togeojson"
 import { Layer, Marker, Popup, Source } from "react-map-gl"
 import {DOMParser} from 'xmldom'
 import { dispatchPopupView } from "./Popup"
+import { IconVideo } from "@tabler/icons"
 
 export default () => {
     const rawtext = `<?xml version="1.0" encoding="UTF-8"?>
@@ -93,6 +94,8 @@ const Pin = memo((props) => {
   return (
     <svg height={size} viewBox="0 0 24 24" style={pinStyle}>
       <path d={ICON} />
+      {/* padding */}
+
     </svg>
   );
 })

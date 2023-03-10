@@ -26,7 +26,9 @@ export function App() {
       <MantineProvider withGlobalStyles withNormalizeCSS>
         <NotificationsProvider>
         <ModalsProvider>
+          <div className='select-none antialiased text-gray-700 tracking-tight'>
         <AuthProvider />
+        </div>
         </ModalsProvider>
         </NotificationsProvider>
       </MantineProvider>

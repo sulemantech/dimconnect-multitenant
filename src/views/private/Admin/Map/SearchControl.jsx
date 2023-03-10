@@ -11,7 +11,7 @@ import { showNotification } from "@mantine/notifications"
 
 GeoCodingOSM.setLanguage("de")
 
-export default ({within=false}) => {
+export default ({within=false,nohead=false}) => {
     const [search, setSearch] = useInputState("")
     const [searchResult, setSearchResult] = useState([])
     const ref = useClickOutside(() => setSearchResult([]))
@@ -95,7 +95,7 @@ const goTo = (item) => {
 
     return (
         <>
-            <div className="absolute flex left-2 top-24 ">
+            <div className={`absolute flex left-2 top-${!nohead ? '24' : '2'}`}>
                 <Input value={search} onChange={setSearch}
                     placeholder="Search" color="white" icon={<IconSearch className=" text-[#0071b9] " />} variant="unstyled" className="shadow-lg text-[#0071b9] bg-white  border-white border-solid border-2 rounded-lg" />
 
