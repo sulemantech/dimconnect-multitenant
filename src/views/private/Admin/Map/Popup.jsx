@@ -1,5 +1,6 @@
+import { useClickOutside } from "@mantine/hooks"
 import { effect, signal } from "@preact/signals"
-import { useState } from "preact/hooks"
+import { useEffect, useState } from "preact/hooks"
 import { Popup } from "react-map-gl"
 
 
@@ -23,12 +24,14 @@ export default () => {
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(true)
 
-    effect(() => {
+    useEffect(() => {
         if (popupViewSignal.value) {
            setState(popupViewSignal.value)
         }
+    }, [popupViewSignal.value])
+    const useClickOutsideRef = useClickOutside(() => {
+        setState(null)
     })
-
     return (
         <>
             {state && <Popup
@@ -37,10 +40,12 @@ export default () => {
                 closeButton={false}
                 closeOnClick={false}
                 onClose={() => setState(null)}
-                anchor="bottom-left" >
-                {
-                    state.view
-                }
+                anchor="bottom" >
+                
+                    <div ref={useClickOutsideRef}>
+                    {state.view}
+                    </div>
+                
             </Popup>}
         </>
     )

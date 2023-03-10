@@ -4,6 +4,7 @@ import { IconStack2 } from "@tabler/icons"
 import { useEffect,useState } from "preact/hooks"
 import { visibility } from "./DataTiles"
 import { dropvalue } from "../../../../layout/Header"
+import { photoVisibility } from "./Photos"
 
 export default () => {
     const [data, setData] = useState({})
@@ -43,6 +44,15 @@ export default () => {
                         )
                     })
                 }
+                <Menu.Item onClick={() => {
+                    photoVisibility.value = !photoVisibility.value
+                }}>
+                    {
+                        photoVisibility.value ? <span className="text-green-500">✔</span> : <span className="text-red-500">✖</span>
+                    }
+                    Photos
+                </Menu.Item>
+
             </Menu.Dropdown>
         </Menu>
 

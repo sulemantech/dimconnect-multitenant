@@ -15,6 +15,7 @@ import AddressPoints from './AddressPoints'
 import InfoCard, { infoCardVal } from './InfoCard';
 import { LoadingOverlay } from '@mantine/core';
 import Popup from './Popup';
+import Photos from './Photos';
 
 
 export const mapStyle = signal('https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json')
@@ -54,6 +55,7 @@ export default ({children}) => {
         <MapControls />
         <ScaleControl position='bottom-right' maxWidth={200} unit='metric' />
         {/* <CustomLayerPanel /> */}
+        <Photos />
         <InfoCard />
         <Gpx />
         <DataTiles />

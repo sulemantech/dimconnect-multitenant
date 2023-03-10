@@ -64,6 +64,7 @@ export default () => {
                             </div>
                            dispatchPopupView(view, feature.geometry.coordinates[1], feature.geometry.coordinates[0])
                           }}
+                          anchor="bottom"
                         >
                           <Pin size={20} />
                         </Marker>

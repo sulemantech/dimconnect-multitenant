@@ -23,3 +23,4 @@ export const getMaterialCountByDistrictId = (districtId) => api.get(`${routes.ma
 export const postStyle = () => api.post(`${routes.style}/`)
 export const getTiles = () => api.get(`${routes.tiles}/`)
 export const getAddressPointStatus = (districtId) => api.get(`/address/${districtId}`)
+export const getPhotos = (districtId) => api.get(`/photo/${districtId}`)
