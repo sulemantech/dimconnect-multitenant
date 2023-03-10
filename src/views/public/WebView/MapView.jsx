@@ -15,6 +15,7 @@ import AddressPoints from '../../private/Admin/Map/AddressPoints';
 import InfoCard,{infoCardVal} from '../../private/Admin/Map/InfoCard';
 import { LoadingOverlay } from '@mantine/core';
 import Popup from '../../private/Admin/Map/Popup';
+import Photos from '../../private/Admin/Map/Photos';
 
 
 export const mapStyle = signal('https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json')
@@ -59,7 +60,7 @@ export default () => {
         <ScaleControl position='bottom-left' maxWidth={100} unit='metric' />
        
         <InfoCard />
-        
+        <Photos />
         <DataTiles ags/>
         <Boundary noFill/>
         <Popup />

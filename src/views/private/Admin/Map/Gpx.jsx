@@ -36,7 +36,7 @@ export default () => {
         const parser = new DOMParser()
         const parsed = parser.parseFromString(rawtext, 'text/xml')
         const geojson = tj.gpx(parsed)
-        console.log(geojson)
+       
         setData(geojson)
       } catch (error) {
         console.error(error)

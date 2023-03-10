@@ -16,8 +16,10 @@ export default () => {
     const [data, setData] = useState([])
     useEffect(() => {
         getPhotos(dropvalue.value).then(({ data }) => {
-            console.log(data?.[0]?.json_object_agg)
+           
             setData(data?.[0]?.json_object_agg)
+        }).catch((err) => {
+            setData([])
         })
     }, [dropvalue.value])
     // { 195 : ["1", "/photo/1BqWyMP9kXPSSuYNQwTFLx", "8.452872222183284", "49.47358333683217"] }
@@ -27,9 +29,10 @@ export default () => {
                 Object.keys(data).map((key) => (
                     <>
                         {
-                            data[key].map((item) => (
+                            data[key].filter((item) => parseFloat(item[3]) > 0 && parseFloat(item[2]) > 0)
+                            .map((item,index) => (
                                 <Marker
-                                    key={item[0]}
+                                    key={'efe0' + index}
                                     latitude={parseFloat(item[3])}
                                     longitude={parseFloat(item[2])}
                                     anchor="bottom"
