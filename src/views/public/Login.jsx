@@ -3,6 +3,7 @@ import { useContext, useEffect,useState  } from 'preact/hooks'
 import { AuthState } from '../../providers/AuthProvider'
 import PublicWrapper from '../../providers/PublicWrapper'
 import { postAuth } from '../../api'
+import Logo from '../../components/Logo'
 
 // import {logo} from '../../../public/logo.svg'
 export default () => {
@@ -53,12 +54,7 @@ export default () => {
       <div id='loginPanel' className="flex items-center justify-center py-12 px-4 transition-all duration-500 sm:px-6 lg:px-8 bg-neutral-100 bg-opacity-30 shadow-xl backdrop-blur-md rounded-2xl">
         <div className="w-full max-w-md space-y-8">
           <div className='relative flex items-center justify-center h-52 logomask'>
-            <img
-            id = "logo"
-             className='h-52'
-              src='/logo.png'
-              // alt="Your Company"  
-            />
+            <Logo height={200} width={'auto'} />
             </div>
             <h2 className="mt-6 text-center text-2xl font-bold tracking-tight text-gray-100">
               Sign in to your account
