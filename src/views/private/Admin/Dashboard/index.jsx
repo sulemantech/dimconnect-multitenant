@@ -1,8 +1,8 @@
 import { Suspense, lazy } from "preact/compat"
 import PageProvider from "../../../../providers/PageProvider"
-import { Badge, Chip, Skeleton } from "@mantine/core"
+import { Badge, Skeleton } from "@mantine/core"
 const MaterialCount = lazy(() => import("./MaterialCount"))
-// import CostInfo from "./CostInfo"
+const CostInfo = lazy(() => import("./CostInfo"))
 const MaterialsInfo = lazy(() => import("./MaterialsInfo"))
 const Submap = lazy(() => import("./Submap"))
 const Tickets = lazy(() => import("./Tickets"))
@@ -27,7 +27,8 @@ const Dashboard = () => {
               </p>
               <hr />
               <Suspense fallback={<Skeleton />}>
-              <MaterialsInfo />
+              <CostInfo />
+              
               </Suspense>
             </div>
 
@@ -39,14 +40,17 @@ const Dashboard = () => {
                 Cost Info
               </p>
               <hr />
-              {/* <MaterialsInfo /> */}
+              <Suspense fallback={<Skeleton />}>
+              <MaterialsInfo />
+              </Suspense>
             </div>
             <div className="flex-1  m-1 bg-white shadow-lg p-2 rounded-xl ">
               <p className="flex-grow font-thin text-neutral-700 text-lg">
                 Cost Info
               </p>
               <hr />
-              {/* <CostInfo /> */}
+              <Suspense fallback={<Skeleton />}>
+              </Suspense>
             </div>
           </div>
         </div>
@@ -64,17 +68,21 @@ const Dashboard = () => {
               
             </div>
             <div className="flex-[1] m-1 min-h[100%] flex-grow bg-white shadow-lg p-2 rounded-xl">
-              <Suspense fallback={<Skeleton />}>
-              <Tickets />
-              </Suspense>
+              <h6 className="flex-grow font-thin text-neutral-700 text-lg">
+                Tickets
+              </h6>
+              <hr />
+             
               </div>
           </div>
           <div className="flex-[1] m-1 min-h[100%] flex-grow bg-white shadow-lg p-2 rounded-xl">
             <p className="flex-grow font-thin text-neutral-700 text-lg">
-              Side Details
+              Tickets
             </p>
             <hr />
-
+            <Suspense fallback={<Skeleton />}>
+              <Tickets />
+              </Suspense>
 
           </div>
 

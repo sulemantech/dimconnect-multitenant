@@ -1,19 +1,20 @@
 import { IconDashboard, IconUser, IconPalette, IconMap } from '@tabler/icons'
+import { dropvalue } from '../layout/Header'
 
 export const privateRoutes = [{
     label: 'Dashboard',
-    path: '/',
+    path: `/${dropvalue.value}`,
     icon: <IconDashboard />,
 }, {
     label: 'Map',
-    path: '/map',
+    path: `/map/${dropvalue.value}`,
     icon: <IconMap />,
 }, {
     label: 'Administration',
-    path: '/administration',
+    path: `/administration/${dropvalue.value}`,
     icon: <IconUser />,
 }, {
     label: 'Styles',
-    path: '/styles',
+    path: `/styles/${dropvalue.value}`,
     icon: <IconPalette />
 }]

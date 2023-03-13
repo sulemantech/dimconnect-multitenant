@@ -7,7 +7,7 @@ export default () => {
 
         <Menu position="left-end" withArrow>
             <Menu.Target>
-                <div className=" hover:scale-95 border-white border-solid items-center justify-center flex border-2 transition-all cursor-pointer z-70  p-3 rounded-full shadow-lg text-[#0071b9] bg-white ">
+                <div className=" hover:scale-95 border-white border-solid items-center justify-center h-16 aspect-square w-16 flex border-2 transition-all cursor-pointer z-70  p-3 rounded-full shadow-lg text-[#0071b9] bg-white ">
 
                     <IconMap size={30} />
                 </div>

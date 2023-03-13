@@ -11,7 +11,7 @@ export const UserType = signal('admin')
 
 const TypeRoutes = {
     'admin': [
-        <Dashboard path="/" />,
+        <Dashboard path="/:ags" />,
         <Map path="/map/:ags" />,
         <Administration path="/administration" />,
         <Styles path="/styles" />

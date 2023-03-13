@@ -60,7 +60,7 @@ export const Boundary = ({noFill=false}) => {
                 type="line"
                 paint={{
                     'line-color': '#0071b9',
-                    'line-width': 0,
+                    'line-width': !noFill ? 2 : 0,
                 }}
             />
             {!noFill &&

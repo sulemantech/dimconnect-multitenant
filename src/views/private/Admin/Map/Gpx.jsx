@@ -1,102 +1,186 @@
-import {memo} from "preact/compat"
+import { memo } from "preact/compat"
 import { useEffect, useState } from "preact/hooks"
 import tj from "@mapbox/togeojson"
-import { Layer, Marker, Popup, Source } from "react-map-gl"
-import {DOMParser} from 'xmldom'
+import { Marker } from "react-map-gl"
+import { DOMParser } from 'xmldom'
 import { dispatchPopupView } from "./Popup"
-import { IconVideo } from "@tabler/icons"
+import { IconVideo, IconVideoPlus } from "@tabler/icons"
+import { getGPX, getGPXList } from "../../../../api"
+import { dropvalue } from "../../../../layout/Header"
+import { signal } from "@preact/signals"
+import { openModal } from "@mantine/modals"
+
+export const videoVisibility = signal(true)
 
 export default () => {
-    const rawtext = `<?xml version="1.0" encoding="UTF-8"?>
-    <gpx xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.topografix.com/GPX/1/1" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd" version="1.1" creator="DIM Connect Video Upload">
-      <wpt lat="51.537506103515625" lon="7.332530127225544">
-        <time>2023-03-01T14:48:18Z</time>
-        <name>Starting Point</name>
-        <desc>This is the starting point of the video.</desc>
-      </wpt>
-      <wpt lat="51.53739019598961" lon="7.332645088997117">
-        <time>2023-03-01T14:56:33Z</time>
-        <name>End Point</name>
-        <desc>This is the end point of the video.</desc>
-      </wpt>
-      <trk>
-        <trkseg>
-          <trkpt lat="51.537395850659536" lon="7.332679760980514">
-            <time>2023-03-01T14:56:25Z</time>
-            <name>Point 1</name>
-          </trkpt>
-        </trkseg>
-      </trk>
-    </gpx>
-    `
-    const [data, setData] = useState(null)
 
-    useEffect(() => {
-      try {
-        const parser = new DOMParser()
-        const parsed = parser.parseFromString(rawtext, 'text/xml')
-        const geojson = tj.gpx(parsed)
-       
-        setData(geojson)
-      } catch (error) {
-        console.error(error)
-      }
-      return () => {
-        setData(null)
-      }
+  const [data, setData] = useState(null) // ['1', null, '8.452872222183284', '49.47358333683217']
+
+  useEffect(() => {
+    getGPXList(dropvalue.value).then(({ data }) => {
+      setData(data?.[0]?.json_object_agg)
+    }).catch((err) => {
+      console.log(err)
+    })
+
+  }, [dropvalue.value])
 
 
-    }, [])
-
-
-    return (
+  return (
+    <>
+      {videoVisibility && data ?
         <>
-            {data != null ?
-                <>
-                  {
-                    data?.features?.filter(feature => feature.geometry.coordinates[0] != null && feature.geometry.coordinates[1] != null).map((feature, index) => {
-                      return (
-                        <Marker key={index} longitude={feature.geometry.coordinates[0]} latitude={feature.geometry.coordinates[1]}
-                          onClick={()=>{
-                            const view = <div>
-                              <h1>{feature.properties.name}</h1>
-                              <p>{feature.properties.desc}</p>
-                            </div>
-                           dispatchPopupView(view, feature.geometry.coordinates[1], feature.geometry.coordinates[0])
-                          }}
-                          anchor="bottom"
-                        >
-                          <Pin size={20} />
-                        </Marker>
-                      )
-                    })
-                  }
-                </>
-
-            : <></>}
+          {
+            Object.keys(data).map((key) => (
+              <>
+                {
+                  data[key].map((item, index) => (
+                    <Marker
+                      key={'efe0' + index}
+                      latitude={parseFloat(item[2])}
+                      longitude={parseFloat(item[3])}
+                      anchor="bottom"
+                      onClick={() => {
+                        getGPX(item[0]).then(({ data }) => {
+                          const gpx = new DOMParser().parseFromString(data, 'text/xml');
+                          const convertedData = tj.gpx(gpx);
+                          extendedGPXData.value = convertedData
+                        }).catch((err) => {
+                          console.log(err)
+                        })
+                      }}
+                    >
+                      <Pin />
+                    </Marker>
+                  ))
+                }
+              </>
+            ))
+          }
+          <ExtendedGPX />
         </>
-    )
+
+        : <></>}
+    </>
+  )
 }
 
 
 
 const ICON = `M20.2,15.7L20.2,15.7c1.1-1.6,1.8-3.6,1.8-5.7c0-5.6-4.5-10-10-10S2,4.5,2,10c0,2,0.6,3.9,1.6,5.4c0,0.1,0.1,0.2,0.2,0.3
-  c0,0,0.1,0.1,0.1,0.2c0.2,0.3,0.4,0.6,0.7,0.9c2.6,3.1,7.4,7.6,7.4,7.6s4.8-4.5,7.4-7.5c0.2-0.3,0.5-0.6,0.7-0.9
-  C20.1,15.8,20.2,15.8,20.2,15.7z`;
+ c0,0,0.1,0.1,0.1,0.2c0.2,0.3,0.4,0.6,0.7,0.9c2.6,3.1,7.4,7.6,7.4,7.6s4.8-4.5,7.4-7.5c0.2-0.3,0.5-0.6,0.7-0.9
+ C20.1,15.8,20.2,15.8,20.2,15.7z`;
 
 const pinStyle = {
-  fill: '#d00',
-  stroke: 'none'
+  fill: 'orange',
+  stroke: 'white'
 };
 
 const Pin = memo((props) => {
-  const {size = 20} = props;
+  const { size = 40 } = props;
 
   return (
-    <svg height={size} viewBox="0 0 24 24" style={pinStyle}>
-      <path d={ICON} />
-      {/* padding */}
+    <div className="relative flex flex-col items-center cursor-pointer hover:scale-125 transition-all justify-center">
+      <svg height={size} viewBox="0 0 24 24" style={pinStyle} >
+        <path d={ICON} />
 
-    </svg>
+      </svg>
+      <IconVideo size={25} className="absolute mb-2" r="2" fill="white" />
+    </div>
+  );
+})
+
+const extendedGPXData = signal(null)
+
+export const ExtendedGPX = () => {
+  const [data, setData] = useState(null) // as geojson
+
+  useEffect(() => {
+    extendedGPXData.subscribe((data) => {
+      setData(data)
+    })
+  }, [])
+
+  return (
+    <>
+      {data ?
+        <>
+          {
+            data.features.map((item, index) => {
+             if (item.geometry.type === 'Point' )
+            return (
+              <Marker
+                key={'efe0' + index}
+                latitude={item.geometry.coordinates[1]}
+                longitude={item.geometry.coordinates[0]}
+                anchor="bottom"
+                onClick={() => {
+                  dispatchPopupView(<>
+                    <div className="flex flex-col items-center">
+                      <video controls className="w-96 h-96  cursor-pointer hover:scale-105 transition-transform" onClick={()=>{
+                          openModal({children:<>
+                            <video controls className="w-96 h-96">
+                            </video>
+                          </>})
+                        }}>
+                        </video>
+                    </div>
+                  </>, item.geometry.coordinates[1], item.geometry.coordinates[0])
+                }}
+              >
+                <ExtendedPin />
+              </Marker>
+            )
+            else if( item.geometry.type === 'LineString' )
+            
+             item.geometry.coordinates.map((item, index) => {
+              
+              return (
+                <Marker
+                  key={'efe0fef' + index}
+                  latitude={item[1]}
+                  longitude={item[0]}
+                  anchor="bottom"
+                  onClick={() => {
+                    dispatchPopupView(<>
+                      <div className="flex flex-col items-center">
+                        <video controls className="w-96 h-96 cursor-pointer hover:scale-105 transition-transform" onClick={()=>{
+                          openModal({children:<>
+                            <video controls className="w-96 h-96">
+                            </video>
+                          </>})
+                        }}>
+                          </video>
+                      </div>
+                    </>, item[1], item[0])
+                  }}
+                >
+                  <ExtendedPin />
+                </Marker>
+              )
+            
+              })
+          })
+          }
+        </>
+        : <></>}
+    </>
+  )
+}
+
+const ExtendedPin = memo((props) => {
+  const { size = 40 } = props;
+
+  return (
+    <div className="relative flex flex-col items-center cursor-pointer hover:scale-125 transition-all justify-center">
+      <svg height={size} viewBox="0 0 24 24" style={{
+  fill: 'tomato',
+  stroke: 'white'
+}} >
+        <path d={ICON} />
+
+      </svg>
+      <IconVideoPlus size={25} className="absolute mb-2" r="2" fill="white" />
+    </div>
   );
 })

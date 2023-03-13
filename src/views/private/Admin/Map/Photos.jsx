@@ -90,7 +90,7 @@ const Pin = memo((props) => {
                 <path d={ICON} />
 
             </svg>
-            <IconPhoto size={25} className="absolute" r="2" fill="white" />
+            <IconPhoto size={25} className="absolute mb-2" r="2" fill="white" />
         </div>
     );
 })

@@ -15,7 +15,7 @@ export default () => {
 
         <Menu position="left-end" withArrow>
             <Menu.Target>
-                <div id='overlaycontrol' className="hover:scale-95 items-center justify-center flex border-white border-solid border-2 transition-all cursor-pointer mb-2 z-70 p-3 rounded-full shadow-lg text-[#0071b9] bg-white ">
+                <div id='overlaycontrol' className="hover:scale-95 items-center justify-center flex border-white border-solid border-2 transition-all cursor-pointer mb-2 h-16 aspect-square w-16 z-70 p-3 rounded-full shadow-lg text-[#0071b9] bg-white ">
                     <IconStack2 size={30} />
                 </div>
             </Menu.Target>

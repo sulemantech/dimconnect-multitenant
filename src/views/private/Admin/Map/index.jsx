@@ -26,7 +26,7 @@ export default () => {
 
 export const BottomRight = ({ children }) => {
   return (
-    <div className="absolute bottom-10 right-2">
+    <div className="absolute bottom-10 right-2 flex flex-col items-end justify-end">
       {children}
     </div>
   )
