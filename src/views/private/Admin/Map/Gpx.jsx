@@ -121,17 +121,15 @@ export const ExtendedGPX = () => {
               >
                 <ExtendedPin onClick={(e) => {
                   e.stopPropagation();
-                  dispatchPopupView(<>
-                    <div className="flex flex-col items-center">
-                      <video controls className="w-96 h-96  cursor-pointer hover:scale-105 transition-transform" onClick={()=>{
+                  
+                    
                           openModal({size:'xl',
                             children:<>
                             <video controls className="w-full h-auto" src={`${appConfig.mediaServerURL}/${data.video}`} type="video/mp4" />
                           </>})
-                        }}
-                        src={`${appConfig.mediaServerURL}/${data.video}`} type="video/mp4" />
-                    </div>
-                  </>, item.geometry.coordinates[1], item.geometry.coordinates[0])
+                        
+                  
+                  
                 }}/>
               </Marker>
             )
@@ -149,18 +147,11 @@ export const ExtendedGPX = () => {
                 >
                   <ExtendedPin  onClick={(e) => {
                     e.stopPropagation();
-                    dispatchPopupView(<>
-                      <div className="flex flex-col items-center">
-                        <video controls className="w-96 h-96 cursor-pointer hover:scale-105 transition-transform" onClick={()=>{
-                          openModal({ size:'xl',
+                    openModal({ size:'xl',
                             children:<>
                             <video controls className="w-full h-auto" src={`${appConfig.mediaServerURL}/${data.video}`} type="video/mp4" />
                           </>})
-                        }}
-                        src={`${appConfig.mediaServerURL}/${data.video}`} type="video/mp4" />
                         
-                      </div>
-                    </>, item[1], item[0])
                   }}/>
                 </Marker>
               )
