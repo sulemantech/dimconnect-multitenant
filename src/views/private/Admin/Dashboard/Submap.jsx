@@ -48,7 +48,7 @@ export const Boundary = ({noFill=false}) => {
        
         const dd = districts.value?.features?.find(district => district.properties?.c == dropvalueValue)
         setBound(dd)
-        const geometry = dd.geometry.coordinates[0]
+        const geometry = dd.geometry.type === 'MultiPolygon' ? dd.geometry.coordinates[0][0] : dd.geometry.coordinates[0]
         const bounds = geometry.reduce((bounds, coord) => {
             return bounds.extend(coord);
         }, new maplibreGl.LngLatBounds(geometry[0], geometry[0]));

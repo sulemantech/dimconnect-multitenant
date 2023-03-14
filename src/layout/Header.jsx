@@ -7,7 +7,7 @@ import { collapsed } from "./Navbar"
 import { useRouter,route,getCurrentUrl,Router } from "preact-router"
 import { useShallowEffect } from "@mantine/hooks"
 
-export const dropvalue = signal(getCurrentUrl().split('/')[2] || getCurrentUrl().split('/')[1] || '073140000')
+export const dropvalue = signal('073140000')
 
 
 
@@ -194,19 +194,20 @@ export default () => {
     auth.setAuth(false)
   }
   
-  // useEffect(() => {
-    
-  //   const parentRoute = router?.[0]?.path?.replace('/:ags', '') || ''
-  //   route(`${parentRoute}/${dropvalue.value}`)
-  // }, [dropvalue.value])
-  // useShallowEffect(() => {
-  //   if (router[0].matches?.ags) {
-  //     dropvalue.value = router[0].matches.ags
-  //   }else{
-  //     const parentRoute = router?.[0]?.path?.replace('/:ags', '') || ''
-  //     route(`${parentRoute}/${dropvalue.value}`)
-  //   }
-  // }, [])
+  useEffect(() => {
+    dropvalue.subscribe((value) => {
+    const parentRoute = router?.[0]?.path?.replace('/:ags', '') || ''
+    route(`${parentRoute}/${value}`)
+    })
+  }, [])
+  useShallowEffect(() => {
+    if (router[0].matches?.ags) {
+      dropvalue.value = router[0].matches.ags
+    }else{
+      const parentRoute = router?.[0]?.path?.replace('/:ags', '') || ''
+      route(`${parentRoute}/${dropvalue.value}`)
+    }
+  }, [])
 
     return (
       <div className="absolute shadow-lg border-white border-solid border-2 items-center right-0 left-0 m-2 rounded-2xl top-0 z-10 h-20  flex px-4 bg-components-horizontal backdrop-blur-2xl">

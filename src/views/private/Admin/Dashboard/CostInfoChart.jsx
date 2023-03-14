@@ -4,6 +4,7 @@ import { dropvalue } from "../../../../layout/Header";
 import { useEffect, useState } from "preact/hooks";
 import { getCostInfoByDistrictId } from "../../../../api";
 import { Loader } from "@mantine/core";
+import { costInfoData } from "./CostInfo";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -15,12 +16,10 @@ export default () => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
   useEffect(() => {
-    setLoading(true);
-    getCostInfoByDistrictId(dropvalue.value).then((res) => {
-      setLoading(false);
-      setData(res.data);
+    costInfoData.subscribe((data) => {
+      setData(data);
     });
-  }, [dropvalue.value])
+  }, [])
 
   if (loading) {
     return <div className='flex justify-center h-full items-center'><Loader size='lg' /></div>

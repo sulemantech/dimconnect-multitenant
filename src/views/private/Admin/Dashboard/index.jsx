@@ -1,6 +1,7 @@
 import { Suspense, lazy } from "preact/compat"
 import PageProvider from "../../../../providers/PageProvider"
 import { Badge, Skeleton } from "@mantine/core"
+import MapElements from "./MapElements"
 const MaterialCount = lazy(() => import("./MaterialCount"))
 const CostInfo = lazy(() => import("./CostInfo"))
 const CostInfoChart = lazy(() => import("./CostInfoChart"))
@@ -59,10 +60,12 @@ const Dashboard = () => {
             </div>
             <div className="flex-[1] m-1 min-h[100%] flex-grow bg-white shadow-lg p-2 rounded-xl">
               <h6 className="flex-grow font-thin text-neutral-700 text-lg">
-                 Map Elements
+                 Address Points
               </h6>
               <hr />
-             
+              <Suspense fallback={<Skeleton />}>
+                <MapElements />
+                </Suspense>
               </div>
           </div>
           <div className="flex-[1] m-1 min-h[100%] flex-grow bg-white shadow-lg p-2 rounded-xl">

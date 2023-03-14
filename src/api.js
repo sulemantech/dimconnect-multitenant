@@ -27,3 +27,4 @@ export const getAddressPointStatus = (districtId) => api.get(`/address/${distric
 export const getPhotos = (districtId) => api.get(`/photo/${districtId}`)
 export const getGPXList = (districtId) => api.get(`/gpx/list/${districtId}`)
 export const getGPX = (gpxId) => api.get(`/gpx/${gpxId}`)
+export const getAddressPointCount = (districtId) => api.get(`/address/count/${districtId}`)

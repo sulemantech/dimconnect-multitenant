@@ -3,18 +3,25 @@ import { dropvalue } from '../../../../layout/Header';
 import { getCostInfoByDistrictId } from '../../../../api';
 import {  Loader, Table } from '@mantine/core';
 import { commarize } from '../../../../utils/convertor';
+import { signal } from '@preact/signals';
 
+export const costInfoData = signal(null);
 
 export default () => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
   useEffect(() => {
+    dropvalue.subscribe((value) => {
     setLoading(true);
-    getCostInfoByDistrictId(dropvalue.value).then((res) => {
+    getCostInfoByDistrictId(value).then((res) => {
       setLoading(false);
-      setData(res.data);
+      costInfoData.value = res.data;
     });
-  }, [dropvalue.value])
+  });
+  costInfoData.subscribe((data) => {
+    setData(data);
+  });
+  }, [])
   if (loading) {
     return <div className='flex justify-center h-full items-center'><Loader size='lg' /></div>
   }
