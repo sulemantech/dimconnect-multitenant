@@ -32,12 +32,10 @@ export default () => {
                     }
                 })
                 setTileData(data)
-                if (!visibility.value) {
+               
                     visibility.value = JSON.stringify(visibilitytemp)
 
-                } else {
-                    setTileData(data)
-                }
+              
 
             })
         
@@ -149,7 +147,7 @@ export const TilesView = ({ tileData, id }) => {
 
                         layout={{
                             ...layer.layout,
-                            // visibility: inside?.visible ? 'visible' : 'none'      
+                            visibility: inside?.visible ? 'visible' : 'none'      
                         }}
                         
                         beforeId={

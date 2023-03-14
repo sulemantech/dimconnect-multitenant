@@ -7,6 +7,7 @@ import { dropvalue } from "../../../../layout/Header"
 import { photoVisibility } from "./Photos"
 import { closeAllModals, openModal } from "@mantine/modals"
 import { videoVisibility } from "./Gpx"
+import { addressPointsVisibility } from "./AddressPoints"
 
 export default ({ modal = false }) => {
     const [data, setData] = useState({})
@@ -22,6 +23,16 @@ export default ({ modal = false }) => {
                         title: 'Overlay Control',
                         children: (
                             <div className="flex flex-col gap-2">
+                                <div className="flex gap-2 items-center" onClick={() => {
+                                    closeAllModals()
+                                    addressPointsVisibility.value = !addressPointsVisibility.value
+                                }
+                                }>
+                                    {
+                                        addressPointsVisibility.value ? <span className="text-green-500">✔</span> : <span className="text-red-500">✖</span>
+                                    }
+                                    Address Points
+                                </div>
                                 {
                                     Object.keys(data)?.map((key, index) => {
                                         return (
@@ -91,6 +102,14 @@ export default ({ modal = false }) => {
                 </div>
             </Menu.Target>
             <Menu.Dropdown>
+            <Menu.Item onClick={() => {
+                    addressPointsVisibility.value = !addressPointsVisibility.value
+                }}>
+                    {
+                        addressPointsVisibility.value ? <span className="text-green-500">✔</span> : <span className="text-red-500">✖</span>
+                    }
+                    Address Points
+                </Menu.Item>
                 {
                     Object.keys(data)?.map((key, index) => {
                         return (

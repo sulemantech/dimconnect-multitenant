@@ -100,7 +100,7 @@ const goTo = (item) => {
                     placeholder="Search" color="white" icon={<IconSearch className=" text-[#0071b9] " />} variant="unstyled" className="shadow-lg text-[#0071b9] bg-white  border-white border-solid border-2 rounded-lg" />
 
             </div>
-            <div className="absolute flex flex-col left-2 top-36 " ref={ref}>
+            <div className={`absolute flex flex-col left-2 top-${!nohead ? '36' : '8'} w-96`} ref={ref}>
                 {
                     searchResult
                     .filter((item) => {

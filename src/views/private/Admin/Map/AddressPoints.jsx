@@ -2,6 +2,9 @@ import { useEffect, useMemo, useState } from "preact/hooks"
 import { getAddressPointStatus } from "../../../../api"
 import { dropvalue } from "../../../../layout/Header"
 import { Layer, Source } from "react-map-gl"
+import { signal } from "@preact/signals"
+
+export const addressPointsVisibility = signal(true)
 
 export default () => {
     const [addressPoints, setAddressPoints] = useState({
@@ -49,7 +52,9 @@ export default () => {
 
 
     return (
-        <Source
+        <>
+        { addressPointsVisibility.value &&
+          <Source
             id="addressPoints"
             type="geojson"
             data={geojson}
@@ -92,5 +97,8 @@ export default () => {
             
         />
         </Source>
+}
+        </>
+      
     )
 }
