@@ -29,7 +29,7 @@ export default () => {
            if(map && popupViewSignal.value.latitude && popupViewSignal.value.longitude){
             map.flyTo({
                 center: [popupViewSignal.value.longitude, popupViewSignal.value.latitude],
-                zoom: 12,
+                zoom: map.getZoom(),
                 speed: 0.8,
                 curve: 1,
                 padding:  {

@@ -41,19 +41,28 @@ export default () => {
                       latitude={parseFloat(item[3])}
                       longitude={parseFloat(item[4])}
                       anchor="bottom"
-                     
+
                     >
-                      <Pin  onClick={(e) => {
+                      <Pin onClick={(e) => {
                         e.stopPropagation();
+                       
                         getGPX(item[0]).then(({ data }) => {
                           const gpx = new DOMParser().parseFromString(data, 'text/xml');
                           const convertedData = tj.gpx(gpx);
                           convertedData.video = item[2].replace('resources/media/uploads/gpx/', '').replace('.gpx', '.mp4')
+                          openModal({
+                            size: 'xl',
+                            children: <>
+                              <video controls
+                                onLoad={(e => { e.target.play(); e.target.requestFullscreen() })}
+                                className="w-full h-[80vh]" src={`${appConfig.mediaServerURL}/${convertedData.video}`} type="video/mp4" />
+                            </>
+                          })
                           extendedGPXData.value = convertedData
                         }).catch((err) => {
                           console.log(err)
                         })
-                      }}/>
+                      }} />
                     </Marker>
                   ))
                 }
@@ -110,58 +119,62 @@ export const ExtendedGPX = () => {
         <>
           {
             data.features.filter((item) => item.geometry.coordinates[0] > 0 && item.geometry.coordinates[1] > 0)?.map((item, index) => {
-             if (item.geometry.type === 'Point' )
-            return (
-              <Marker
-                key={'efe0' + index}
-                latitude={item.geometry.coordinates[1]}
-                longitude={item.geometry.coordinates[0]}
-                anchor="bottom"
-                
-              >
-                <ExtendedPin onClick={(e) => {
-                  e.stopPropagation();
-                  
-                    
-                          openModal({size:'xl',
-                            children:<>
-                            <video controls 
-                            onLoad={(e=>{ e.target.play() ; e.target.requestFullscreen()})}
+              if (item.geometry.type === 'Point')
+                return (
+                  <Marker
+                    key={'efe0' + index}
+                    latitude={item.geometry.coordinates[1]}
+                    longitude={item.geometry.coordinates[0]}
+                    anchor="bottom"
+
+                  >
+                    <ExtendedPin onClick={(e) => {
+                      e.stopPropagation();
+
+
+                      openModal({
+                        size: 'xl',
+                        children: <>
+                          <video controls
+                            onLoad={(e => { e.target.play(); e.target.requestFullscreen() })}
                             className="w-full h-[80vh]" src={`${appConfig.mediaServerURL}/${data.video}`} type="video/mp4" />
-                          </>})
-                        
-                  
-                  
-                }}/>
-              </Marker>
-            )
-            else if( item.geometry.type === 'LineString' )
-            
-             item.geometry.coordinates?.map((item, index) => {
-              
-              return (
-                <Marker
-                  key={'efe0fef' + index}
-                  latitude={item[1]}
-                  longitude={item[0]}
-                  anchor="bottom"
-                 
-                >
-                  <ExtendedPin  onClick={(e) => {
-                    e.stopPropagation();
-                    openModal({ size:'xl',
-                            children:<>
-                            <video controls 
-                              onLoad={(e=>{ e.currentTarget.play() ; e.currentTarget.requestFullscreen()})}
-                            className="w-full h-[80vh]" src={`${appConfig.mediaServerURL}/${data.video}`} type="video/mp4" />
-                          </>})
-                        
-                  }}/>
-                </Marker>
-              )
-            
-              })
-          })
+                        </>
+                      })
+
+
+
+                    }} />
+                  </Marker>
+                )
+              else if (item.geometry.type === 'LineString')
+
+                item.geometry.coordinates?.map((item, index) => {
+
+                  return (
+                    <Marker
+                      key={'efe0fef' + index}
+                      latitude={item[1]}
+                      longitude={item[0]}
+                      anchor="bottom"
+
+                    >
+                      <ExtendedPin onClick={(e) => {
+                        e.stopPropagation();
+                        openModal({
+                          size: 'xl',
+                          children: <>
+                            <video controls
+                              onLoad={(e => { e.currentTarget.play(); e.currentTarget.requestFullscreen() })}
+                              className="w-full h-[80vh]" src={`${appConfig.mediaServerURL}/${data.video}`} type="video/mp4" />
+                          </>
+                        })
+
+                      }} />
+                    </Marker>
+                  )
+
+                })
+            })
           }
         </>
         : <></>}
@@ -175,9 +188,9 @@ const ExtendedPin = memo((props) => {
   return (
     <div onClick={props.onClick} className="relative flex flex-col items-center cursor-pointer hover:scale-125 transition-all justify-center">
       <svg height={size} viewBox="0 0 24 24" style={{
-  fill: 'tomato',
-  stroke: 'white'
-}} >
+        fill: 'tomato',
+        stroke: 'white'
+      }} >
         <path d={ICON} />
 
       </svg>

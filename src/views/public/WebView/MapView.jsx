@@ -68,7 +68,7 @@ export default () => {
         }}/>
         <ScaleControl position='bottom-left' maxWidth={100} unit='metric' />
         <Gpx />
-        <InfoCard />
+        <InfoCard modal/>
         <Photos />
         <DataTiles ags />
         <Boundary noFill />
