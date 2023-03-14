@@ -1,4 +1,4 @@
-import { Suspense, lazy } from 'preact/compat';
+import { Suspense, lazy, useEffect, useState } from 'preact/compat';
 
 import { Map, ScaleControl } from 'react-map-gl';
 import maplibreGl from 'maplibre-gl';
@@ -21,7 +21,10 @@ import Photos from './Photos';
 export const mapStyle = signal('https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json')
 
 export default ({children}) => {
-
+  const [basemap , setBasemap] = useState('https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json')
+  useEffect(() => {
+    mapStyle.subscribe(setBasemap)
+  }, [])
   const handleMapClick = (event) => {
     const features = event.features;
     if (features) {
@@ -36,7 +39,7 @@ export default ({children}) => {
       onClick={handleMapClick}
         attributionControl={false}
       mapLib={maplibreGl}
-      mapStyle={mapStyle.value}
+      mapStyle={basemap}
       trackResize={true}
       flex={3}
       style={{ width: '100%', height: '100%' }}

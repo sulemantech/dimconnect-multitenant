@@ -27,8 +27,8 @@ export default () => {
                             <BottomRight>
                                 <>
                                     <div>
-                                        <OverlayControl />
-                                        <BaseMapControl />
+                                        <OverlayControl modal/>
+                                        <BaseMapControl modal/>
                                     </div>
                                    
                                 </>

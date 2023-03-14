@@ -9,12 +9,13 @@ import { getGPX, getGPXList } from "../../../../api"
 import { dropvalue } from "../../../../layout/Header"
 import { signal } from "@preact/signals"
 import { openModal } from "@mantine/modals"
+import appConfig from "../../../../config/appConfig"
 
 export const videoVisibility = signal(true)
 
 export default () => {
 
-  const [data, setData] = useState(null) // ['1', null, '8.452872222183284', '49.47358333683217']
+  const [data, setData] = useState(null) // ["35",null,"resources/media/uploads/gpx/Video_28CFCE95-174D-4D9B-9860-7AB0A1670358.gpx","49.46360859039186","8.429641950009824" ]
 
   useEffect(() => {
     getGPXList(dropvalue.value).then(({ data }) => {
@@ -28,22 +29,24 @@ export default () => {
 
   return (
     <>
-      {videoVisibility && data ?
+      {videoVisibility.value && data ?
         <>
           {
             Object.keys(data).map((key) => (
               <>
                 {
-                  data[key].map((item, index) => (
+                  data[key].filter((item) => parseFloat(item[3]) > 0 && parseFloat(item[4]) > 0)
+                  .map((item, index) => (
                     <Marker
                       key={'efe0' + index}
-                      latitude={parseFloat(item[2])}
-                      longitude={parseFloat(item[3])}
+                      latitude={parseFloat(item[3])}
+                      longitude={parseFloat(item[4])}
                       anchor="bottom"
                       onClick={() => {
                         getGPX(item[0]).then(({ data }) => {
                           const gpx = new DOMParser().parseFromString(data, 'text/xml');
                           const convertedData = tj.gpx(gpx);
+                          convertedData.video = item[2].replace('resources/media/uploads/gpx/', '').replace('.gpx', '.mp4')
                           extendedGPXData.value = convertedData
                         }).catch((err) => {
                           console.log(err)
@@ -106,7 +109,8 @@ export const ExtendedGPX = () => {
       {data ?
         <>
           {
-            data.features.map((item, index) => {
+            data.features.filter((item) => item.geometry.coordinates[0] > 0 && item.geometry.coordinates[1] > 0)
+            .map((item, index) => {
              if (item.geometry.type === 'Point' )
             return (
               <Marker
@@ -118,12 +122,12 @@ export const ExtendedGPX = () => {
                   dispatchPopupView(<>
                     <div className="flex flex-col items-center">
                       <video controls className="w-96 h-96  cursor-pointer hover:scale-105 transition-transform" onClick={()=>{
-                          openModal({children:<>
-                            <video controls className="w-96 h-96">
-                            </video>
+                          openModal({size:'xl',
+                            children:<>
+                            <video controls className="w-full h-auto" src={`${appConfig.mediaServerURL}/${data.video}`} type="video/mp4" />
                           </>})
-                        }}>
-                        </video>
+                        }}
+                        src={`${appConfig.mediaServerURL}/${data.video}`} type="video/mp4" />
                     </div>
                   </>, item.geometry.coordinates[1], item.geometry.coordinates[0])
                 }}
@@ -145,12 +149,13 @@ export const ExtendedGPX = () => {
                     dispatchPopupView(<>
                       <div className="flex flex-col items-center">
                         <video controls className="w-96 h-96 cursor-pointer hover:scale-105 transition-transform" onClick={()=>{
-                          openModal({children:<>
-                            <video controls className="w-96 h-96">
-                            </video>
+                          openModal({ size:'xl',
+                            children:<>
+                            <video controls className="w-full h-auto" src={`${appConfig.mediaServerURL}/${data.video}`} type="video/mp4" />
                           </>})
-                        }}>
-                          </video>
+                        }}
+                        src={`${appConfig.mediaServerURL}/${data.video}`} type="video/mp4" />
+                        
                       </div>
                     </>, item[1], item[0])
                   }}
