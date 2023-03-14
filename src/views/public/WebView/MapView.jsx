@@ -1,11 +1,11 @@
 import { Suspense, useEffect, useState } from 'preact/compat';
 
-import { GeolocateControl, Map, ScaleControl } from 'react-map-gl';
+import { GeolocateControl, Map, Marker, ScaleControl, useMap } from 'react-map-gl';
 import maplibreGl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
 import { signal } from '@preact/signals';
-import MapControls from '../../private/Admin/Map/MapControls';
+
 import SearchControl from '../../private/Admin/Map/SearchControl';
 
 import DataTiles, { visibility } from '../../private/Admin/Map/DataTiles';
@@ -18,7 +18,9 @@ import Popup from '../../private/Admin/Map/Popup';
 import Photos from '../../private/Admin/Map/Photos';
 import Gpx from '../../private/Admin/Map/Gpx';
 import { mapStyle } from '../../private/Admin/Map/Map';
-
+import { IconCompass } from '@tabler/icons';
+import { showNotification } from '@mantine/notifications';
+const CustomGeoLocateData = signal(null)
 export default () => {
   const [basemap , setBasemap] = useState('https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json')
   useEffect(() => {
@@ -35,7 +37,7 @@ export default () => {
       infoCardVal.value = features
     }
   };
-
+ 
   return (
     <Map
 
@@ -58,14 +60,25 @@ export default () => {
 
         <AddressPoints />
         <SearchControl nohead />
-        <GeolocateControl positionOptions={{enableHighAccuracy: true}} trackUserLocation={true} style={{
-          marginTop: '20px',
-          color: 'white',
-          borderRadius: '50%',
-          scale: '1.5',
-          fill: 'white',
-          marginRight: '20px',
-        }}/>
+        <div  className="absolute top-2 right-2 hover:scale-95 items-center justify-center flex border-white border-solid border-2 transition-all cursor-pointer mb-2 h-16 aspect-square w-16 z-70 p-3 rounded-full shadow-lg text-[#0071b9] bg-white "
+           onClick={() => {
+            navigator.geolocation.getCurrentPosition((position) => {
+              CustomGeoLocateData.value = {
+                longitude: position.coords.longitude,
+                latitude: position.coords.latitude,
+              };
+            }, (error) => {
+              showNotification({
+                title: 'Error',
+                message: error.message,
+                color: 'red',
+                icon: <IconCompass size={26} />,
+              });
+            });
+           }}
+        >
+          <IconCompass size={26} />
+        </div>
         <ScaleControl position='bottom-left' maxWidth={100} unit='metric' />
         <Gpx />
         <InfoCard modal/>
@@ -73,6 +86,7 @@ export default () => {
         <DataTiles ags />
         <Boundary noFill />
         <Popup />
+        <CustomGeoLocateMarker />
       </Suspense>
     </Map>
   );
@@ -81,3 +95,32 @@ export default () => {
 
 }
 
+
+
+
+const CustomGeoLocateMarker = () => {
+  const [data, setData] = useState(null)
+  const map = useMap()?.current
+  useEffect(() => {
+    CustomGeoLocateData.subscribe((val) => {
+      setData(val)
+      if (val) {
+        map.flyTo({
+          center: [val.longitude, val.latitude],
+          zoom: 12,
+        })
+      }
+    })
+  }, [])
+  return data ? (
+    <Marker
+      longitude={data.longitude}
+      latitude={data.latitude}
+      
+    >
+      <div className="bg-red-800 p-2 rounded-full shadow-lg" >
+        <IconCompass size={20} className='text-white'/>
+      </div>
+    </Marker>
+  ) : null
+}
