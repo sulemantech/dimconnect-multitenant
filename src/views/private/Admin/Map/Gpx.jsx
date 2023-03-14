@@ -125,7 +125,9 @@ export const ExtendedGPX = () => {
                     
                           openModal({size:'xl',
                             children:<>
-                            <video controls className="w-full h-auto" src={`${appConfig.mediaServerURL}/${data.video}`} type="video/mp4" />
+                            <video controls 
+                            onLoad={(e=>{ e.target.play() ; e.target.requestFullscreen()})}
+                            className="w-full h-[80vh]" src={`${appConfig.mediaServerURL}/${data.video}`} type="video/mp4" />
                           </>})
                         
                   
@@ -149,7 +151,9 @@ export const ExtendedGPX = () => {
                     e.stopPropagation();
                     openModal({ size:'xl',
                             children:<>
-                            <video controls className="w-full h-auto" src={`${appConfig.mediaServerURL}/${data.video}`} type="video/mp4" />
+                            <video controls 
+                              onLoad={(e=>{ e.currentTarget.play() ; e.currentTarget.requestFullscreen()})}
+                            className="w-full h-[80vh]" src={`${appConfig.mediaServerURL}/${data.video}`} type="video/mp4" />
                           </>})
                         
                   }}/>

@@ -1,6 +1,6 @@
 import { Suspense, useEffect, useState } from 'preact/compat';
 
-import { Map, ScaleControl } from 'react-map-gl';
+import { GeolocateControl, Map, ScaleControl } from 'react-map-gl';
 import maplibreGl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
@@ -58,7 +58,14 @@ export default () => {
 
         <AddressPoints />
         <SearchControl nohead />
-
+        <GeolocateControl positionOptions={{enableHighAccuracy: true}} trackUserLocation={true} style={{
+          marginTop: '20px',
+          color: 'white',
+          borderRadius: '50%',
+          scale: '1.5',
+          fill: 'white',
+          marginRight: '20px',
+        }}/>
         <ScaleControl position='bottom-left' maxWidth={100} unit='metric' />
         <Gpx />
         <InfoCard />
