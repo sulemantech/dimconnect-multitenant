@@ -2,7 +2,7 @@ import { useLayoutEffect, useState } from "preact/hooks"
 
 export default ({children}) => {
 
-    const [isAuthenticated, setIsAuthenticated] = useState(false)
+    const [isAuthenticated, setIsAuthenticated] = useState(true)
 
     useLayoutEffect(() => {
         const queryParam = new URLSearchParams(window.location.search)
