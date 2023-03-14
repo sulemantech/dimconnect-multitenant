@@ -25,7 +25,7 @@ export default () => <div className='flex absolute top-0 left-0 bottom-0 bg-neut
     <Router>
         {TypeRoutes[
             UserType.value
-        ].map((route) => route)}
+        ]?.map((route) => route)}
     </Router>
     </PageWrapper>
 </div>

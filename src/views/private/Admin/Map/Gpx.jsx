@@ -35,8 +35,7 @@ export default () => {
             Object.keys(data).map((key) => (
               <>
                 {
-                  data[key].filter((item) => parseFloat(item[3]) > 0 && parseFloat(item[4]) > 0)
-                  .map((item, index) => (
+                  data[key].filter((item) => parseFloat(item[3]) > 0 && parseFloat(item[4]) > 0)?.map((item, index) => (
                     <Marker
                       key={'efe0' + index}
                       latitude={parseFloat(item[3])}
@@ -110,8 +109,7 @@ export const ExtendedGPX = () => {
       {data ?
         <>
           {
-            data.features.filter((item) => item.geometry.coordinates[0] > 0 && item.geometry.coordinates[1] > 0)
-            .map((item, index) => {
+            data.features.filter((item) => item.geometry.coordinates[0] > 0 && item.geometry.coordinates[1] > 0)?.map((item, index) => {
              if (item.geometry.type === 'Point' )
             return (
               <Marker
@@ -139,7 +137,7 @@ export const ExtendedGPX = () => {
             )
             else if( item.geometry.type === 'LineString' )
             
-             item.geometry.coordinates.map((item, index) => {
+             item.geometry.coordinates?.map((item, index) => {
               
               return (
                 <Marker

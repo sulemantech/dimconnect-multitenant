@@ -26,11 +26,10 @@ export default () => {
     return (
         <>
             {photoVisibility.value &&
-                Object.keys(data).map((key) => (
+                Object.keys(data)?.map((key) => (
                     <>
                         {
-                            data[key].filter((item) => parseFloat(item[3]) > 0 && parseFloat(item[2]) > 0)
-                            .map((item,index) => (
+                            data[key].filter((item) => parseFloat(item[3]) > 0 && parseFloat(item[2]) > 0)?.map((item,index) => (
                                 <Marker
                                     key={'efe0' + index}
                                     latitude={parseFloat(item[3])}

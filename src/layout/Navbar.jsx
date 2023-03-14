@@ -39,7 +39,7 @@ export default () => {
             </div> */}
             <div className="flex-grow">
                 {
-                    privateRoutes.map((route, index) => <RouteComponent path={route.path} label={route.label} icon={route.icon}/>)
+                    privateRoutes?.map((route, index) => <RouteComponent path={route.path} label={route.label} icon={route.icon}/>)
                 }
             </div>
             {/* Collapse Rounded Button */}

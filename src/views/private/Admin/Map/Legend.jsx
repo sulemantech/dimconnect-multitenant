@@ -34,7 +34,7 @@ export default () => {
            
             <div>
                 {
-                    Object.entries(legendContent.value).map(([key, item]) => {
+                    Object.entries(legendContent.value)?.map(([key, item]) => {
                         switch (item.type) {
                             case 'point': {
                                 return (

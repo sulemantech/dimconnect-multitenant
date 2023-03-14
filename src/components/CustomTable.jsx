@@ -34,13 +34,13 @@ export default ({ data, setLimit, attributes = [], newStruct = {}, refreshData, 
                 <form
                     id="creationform">
                     {
-                        Object.keys(newStruct.data).map((item) => (
+                        Object.keys(newStruct.data)?.map((item) => (
                             (Array.isArray(newStruct.data[item])) ?
                                 <div className="flex flex-col">
                                     <label className="text-sm text-gray-600">{item.replace('_', ' ').trim().toUpperCase()}</label>
                                     <select className="bg-gray-200 rounded-md p-1" name={item}>
                                         {
-                                            newStruct.data[item].map((option) => {
+                                            newStruct?.data[item]?.map((option) => {
                                                 return (
                                                     <option value={option}>{option}</option>
                                                 )
@@ -99,7 +99,7 @@ export default ({ data, setLimit, attributes = [], newStruct = {}, refreshData, 
                             <thead className="bg-gray-200">
                                 <tr>
                                     {
-                                        attributes.map((item) => {
+                                        attributes?.map((item) => {
                                             return (
                                                 <th scope="col" key={item} className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
                                                     {item.replace('_', ' ').toUpperCase()}
@@ -138,15 +138,13 @@ export default ({ data, setLimit, attributes = [], newStruct = {}, refreshData, 
                                             }
                                             return 0;
                                         }
-                                    })
-                                    .filter((obj) => {
+                                    })?.filter((obj) => {
                                         if (filter === '') return data;
                                         return Object.values(obj).some(val => val.toString().toLowerCase().includes(filter.toLowerCase()))
-                                    })
-                                    .map((item) => (
+                                    })?.map((item) => (
                                         <tr key={item.id} >
                                             {
-                                                attributes.map((attr) => {
+                                                attributes?.map((attr) => {
                                                     return (
                                                         <td key={attr + 'hgrui'} className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                                             {item[attr]}
@@ -228,7 +226,7 @@ const EditForm = ({ item, newStruct }) => {
         return (
             <div className="flex flex-col">
                 {
-                    Object.keys(newStruct.data).map((attr) => {
+                    Object.keys(newStruct.data)?.map((attr) => {
                         return (
                             <div key={attr} className="flex flex-col mb-4">
                                 <label className="text-gray-700">{attr.replace('_', ' ').toUpperCase()}</label>
@@ -311,7 +309,7 @@ const AttatchmentForm = ({ item, newStruct }) => {
         }
 
         setLoading(true);
-        const promises = data.map(row => {
+        const promises = data?.map(row => {
             return geocode(row.addr1 + ' ' + row.city + ' ' + row.postcode)
         })
         Promise.all(promises).then(res => {
@@ -336,8 +334,7 @@ const AttatchmentForm = ({ item, newStruct }) => {
         reader.onload = (e) => {
             if (file.type == 'text/csv') {
                 const text = (e.target.result);
-                const data = text.split('\n').slice(1)
-                    .map(row => {
+                const data = text.split('\n').slice(1)?.map(row => {
                         const lastComma = row.lastIndexOf(',');
                         const sencondLastComma = row.lastIndexOf(',', lastComma - 1);
                         const addr1 = row.substring(0, sencondLastComma);
@@ -349,8 +346,7 @@ const AttatchmentForm = ({ item, newStruct }) => {
                 // if xlsx or xls
             } else if (file.type == 'application/vnd.ms-excel' || file.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
                 readXlsxFile(file).then((rows) => {
-                    const data = rows.slice(1)
-                        .map(row => {
+                    const data = rows.slice(1)?.map(row => {
                             const addr1 = row[0];
                             const city = row[1];
                             const postcode = row[2];
@@ -385,7 +381,7 @@ const AttatchmentForm = ({ item, newStruct }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {data && data.slice(0, 5).map((row, i) => (
+                        {data && data.slice(0, 5)?.map((row, i) => (
                             <tr key={i} className='text-xs'>
                                 <td className="border px-4 py-2">{row.addr1}</td>
                                 <td className="border px-4 py-2">{row.city}</td>

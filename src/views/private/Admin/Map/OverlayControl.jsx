@@ -23,7 +23,7 @@ export default ({ modal = false }) => {
                         children: (
                             <div className="flex flex-col gap-2">
                                 {
-                                    Object.keys(data).map((key, index) => {
+                                    Object.keys(data)?.map((key, index) => {
                                         return (
                                             <div className="flex gap-2 items-center" key={index} onClick={() => {
                                                 closeAllModals()
@@ -41,8 +41,7 @@ export default ({ modal = false }) => {
                                                 {key
                                                     .replace(dropvalue.value, '')
                                                     .replace('_OUT_', '')
-                                                    .split('_')
-                                                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                                                    .split('_')?.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
                                                     .join(' ')
                                                 }
                                             </div>
@@ -93,7 +92,7 @@ export default ({ modal = false }) => {
             </Menu.Target>
             <Menu.Dropdown>
                 {
-                    Object.keys(data).map((key, index) => {
+                    Object.keys(data)?.map((key, index) => {
                         return (
                             <Menu.Item key={index} onClick={() => {
                                 let temp = data
@@ -108,8 +107,7 @@ export default ({ modal = false }) => {
                                 } {key
                                     .replace(dropvalue.value, '')
                                     .replace('_OUT_', '')
-                                    .split('_')
-                                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                                    .split('_')?.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
                                     .join(' ')
 
                                 }</Menu.Item>

@@ -20,7 +20,7 @@ export default ({ modal = false }) => {
                         children: (
                             <div className="flex flex-col gap-2">
                                 {
-                                    Object.keys(Styles).map((key, index) => {
+                                    Object.keys(Styles)?.map((key, index) => {
                                         return (
                                             <>
                                             <div className={`flex gap-2 items-center ${
@@ -60,7 +60,7 @@ export default ({ modal = false }) => {
             </Menu.Target>
             <Menu.Dropdown>
                 {
-                    Object.keys(Styles).map((key, index) => {
+                    Object.keys(Styles)?.map((key, index) => {
                         return (
                             <Menu.Item key={index}
                             color={

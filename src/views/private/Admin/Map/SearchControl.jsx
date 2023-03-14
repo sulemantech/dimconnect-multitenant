@@ -70,7 +70,7 @@ const goTo = (item) => {
             }
         }
         if(booleanWithin(point, district)){
-            if(Object.values(tilesAvailable).map((item) => item.value).includes(district.properties.c[0])){
+            if(Object.values(tilesAvailable)?.map((item) => item.value).includes(district.properties.c[0])){
             dropvalue.value = district.properties.c[0]
             }else{
                 showNotification({
@@ -116,8 +116,7 @@ const goTo = (item) => {
                         }else{
                             return true
                         }
-                    })
-                    .map((item, index) => {
+                    })?.map((item, index) => {
                         return (
                             <>
                             <div 

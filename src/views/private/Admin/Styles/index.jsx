@@ -22,15 +22,14 @@ export default () => {
                 </thead>
                 <tbody>
                     {
-                        Object.values(layers).map((layer, index) => {
+                        Object.values(layers)?.map((layer, index) => {
                             return (
                                 <tr key={index}>
                                     <td>{
                                         layer.name
                                         .replace(dropvalue.value, '')
                                             .replace('_OUT_', '')
-                                        .split('_')
-                                            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                                        .split('_')?.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
                                             .join(' ')
                                     }</td>
                                     <td>{
@@ -82,7 +81,7 @@ const Attributes = ({ layer }) => {
             </thead>
             <tbody>
                 {
-                    layer.attributes.map((attr, index) => {
+                    layer.attributes?.map((attr, index) => {
                         return (
                             <tr key={index}>
                                 <td>{attr.attribute}</td>
@@ -137,10 +136,10 @@ return (
                 </thead>
                 <tbody>
                     {
-                        Object.keys(stylingType[layer.type]).map((attr, index) => {
+                        Object.keys(stylingType[layer.type])?.map((attr, index) => {
                             return (
                                 <tr key={index}>
-                                    <td>{attr.split('-').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</td>
+                                    <td>{attr.split('-')?.map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</td>
                                     <td>{
                                         stylingType[layer.type][attr] == 'color' ? (
                                             <Input defaultValue={layer.style?.[attr] || 'orange'} type='color' onChange={(e) => onChange(e, layer, attr)} />

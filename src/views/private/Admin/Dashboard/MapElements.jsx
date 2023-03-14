@@ -6,23 +6,23 @@ import { Loader } from "@mantine/core"
 const content = {
     'ja (Anschluss prüfen)': {
         color: 'rgb(255, 140, 42)',
-        type: 'point'
+        type: 1
     },
     'ja': {
         color: 'rgb(29, 155, 216)',
-        type: 'point'
+        type: 2
     },
     'nein (Anschluss geprüft)': {
         color: 'rgb(237, 82, 73)',
-        type: 'point'
+        type: 3
     },
     'nein': {
         color: 'rgb(0, 0, 0)',
-        type: 'point'
+        type: 4
     },
     'inexistente Adresse': {
         color: 'rgb(167, 38, 231)',
-        type: 'point'
+        type: 5
     },
 }
 
@@ -47,7 +47,7 @@ export default () => {
             <div className="relative text-xs flex flex-col p-2 shadow-md rounded-md mt-2 bg-white">
                 <div>
                     {
-                        Object.entries(content).map(([key, item], index) => {
+                        Object.entries(content)?.map(([key, item]) => {
                             return (
                                 <div className={'flex items-center justify-center'}>
                                     <div className="flex flex-1 py-1 flex-row items-center">
@@ -66,7 +66,7 @@ export default () => {
                                     >
                                         {
                                             loading ? <Loader size={'xs'}/> :
-                                            data && data[index] ? data[index] : 0
+                                            data && data[item.type] ? data[item.type] : 0
                                         }
                                     </div>
                                     <hr />

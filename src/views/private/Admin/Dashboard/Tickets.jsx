@@ -59,7 +59,7 @@ import { IconPencil,IconTrash } from '@tabler/icons';
   
   export default function UsersTable() {
     const theme = useMantineTheme();
-    const rows = data.map((item) => (
+    const rows = data?.map((item) => (
       <tr key={item.name}>
         <td>
           <Group spacing="sm">

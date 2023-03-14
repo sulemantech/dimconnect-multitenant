@@ -16,10 +16,10 @@ export default ({ modal = false }) => {
         if (infoCardVal.value) {
             const len = infoCardVal.value.length
             // infoCardVal.value has array with multiple sourceLayer , need to get the distinct output and the length of duplicates
-            const distinct = [...new Set(infoCardVal.value.map(item => item.sourceLayer))]
-            const duplicates = distinct.map(item => infoCardVal.value.filter(i => i.sourceLayer === item).length)
+            const distinct = [...new Set(infoCardVal.value?.map(item => item.sourceLayer))]
+            const duplicates = distinct?.map(item => infoCardVal.value.filter(i => i.sourceLayer === item).length)
             
-            setInfoCardData(distinct.map((item, index) => {
+            setInfoCardData(distinct?.map((item, index) => {
                 return {
                     sourceLayer: item,
                     properties: infoCardVal.value.filter(i => i.sourceLayer === item).map(i => i.properties),
