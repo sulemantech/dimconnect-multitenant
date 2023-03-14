@@ -13,8 +13,10 @@ export const privateRoutes = [{
     label: 'Administration',
     path: `/administration/${dropvalue.value}`,
     icon: <IconUser />,
-}, {
-    label: 'Styles',
-    path: `/styles/${dropvalue.value}`,
-    icon: <IconPalette />
-}]
+}, 
+// {
+//     label: 'Styles',
+//     path: `/styles/${dropvalue.value}`,
+//     icon: <IconPalette />
+// }
+]

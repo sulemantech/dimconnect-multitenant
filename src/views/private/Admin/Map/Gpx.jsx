@@ -42,7 +42,10 @@ export default () => {
                       latitude={parseFloat(item[3])}
                       longitude={parseFloat(item[4])}
                       anchor="bottom"
-                      onClick={() => {
+                     
+                    >
+                      <Pin  onClick={(e) => {
+                        e.stopPropagation();
                         getGPX(item[0]).then(({ data }) => {
                           const gpx = new DOMParser().parseFromString(data, 'text/xml');
                           const convertedData = tj.gpx(gpx);
@@ -51,9 +54,7 @@ export default () => {
                         }).catch((err) => {
                           console.log(err)
                         })
-                      }}
-                    >
-                      <Pin />
+                      }}/>
                     </Marker>
                   ))
                 }
@@ -83,7 +84,7 @@ const Pin = memo((props) => {
   const { size = 40 } = props;
 
   return (
-    <div className="relative flex flex-col items-center cursor-pointer hover:scale-125 transition-all justify-center">
+    <div onClick={props.onClick} className="relative flex flex-col items-center cursor-pointer hover:scale-125 transition-all justify-center">
       <svg height={size} viewBox="0 0 24 24" style={pinStyle} >
         <path d={ICON} />
 
@@ -118,7 +119,10 @@ export const ExtendedGPX = () => {
                 latitude={item.geometry.coordinates[1]}
                 longitude={item.geometry.coordinates[0]}
                 anchor="bottom"
-                onClick={() => {
+                
+              >
+                <ExtendedPin onClick={(e) => {
+                  e.stopPropagation();
                   dispatchPopupView(<>
                     <div className="flex flex-col items-center">
                       <video controls className="w-96 h-96  cursor-pointer hover:scale-105 transition-transform" onClick={()=>{
@@ -130,9 +134,7 @@ export const ExtendedGPX = () => {
                         src={`${appConfig.mediaServerURL}/${data.video}`} type="video/mp4" />
                     </div>
                   </>, item.geometry.coordinates[1], item.geometry.coordinates[0])
-                }}
-              >
-                <ExtendedPin />
+                }}/>
               </Marker>
             )
             else if( item.geometry.type === 'LineString' )
@@ -145,7 +147,10 @@ export const ExtendedGPX = () => {
                   latitude={item[1]}
                   longitude={item[0]}
                   anchor="bottom"
-                  onClick={() => {
+                 
+                >
+                  <ExtendedPin  onClick={(e) => {
+                    e.stopPropagation();
                     dispatchPopupView(<>
                       <div className="flex flex-col items-center">
                         <video controls className="w-96 h-96 cursor-pointer hover:scale-105 transition-transform" onClick={()=>{
@@ -158,9 +163,7 @@ export const ExtendedGPX = () => {
                         
                       </div>
                     </>, item[1], item[0])
-                  }}
-                >
-                  <ExtendedPin />
+                  }}/>
                 </Marker>
               )
             
@@ -177,7 +180,7 @@ const ExtendedPin = memo((props) => {
   const { size = 40 } = props;
 
   return (
-    <div className="relative flex flex-col items-center cursor-pointer hover:scale-125 transition-all justify-center">
+    <div onClick={props.onClick} className="relative flex flex-col items-center cursor-pointer hover:scale-125 transition-all justify-center">
       <svg height={size} viewBox="0 0 24 24" style={{
   fill: 'tomato',
   stroke: 'white'

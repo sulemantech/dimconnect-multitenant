@@ -13,7 +13,7 @@ const TypeRoutes = {
     'admin': [
         <Dashboard path="/:ags" />,
         <Map path="/map/:ags" />,
-        <Administration path="/administration" />,
+        <Administration path="/administration/:ags" />,
         <Styles path="/styles" />
     ],
 }

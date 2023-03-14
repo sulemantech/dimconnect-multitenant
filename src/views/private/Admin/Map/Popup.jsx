@@ -1,7 +1,7 @@
 import { useClickOutside } from "@mantine/hooks"
 import { effect, signal } from "@preact/signals"
 import { useEffect, useState } from "preact/hooks"
-import { Popup } from "react-map-gl"
+import { Popup, useMap } from "react-map-gl"
 
 
 
@@ -21,12 +21,23 @@ export const dispatchPopupView = (view, latitude, longitude) => {
 
 export default () => {
     const [state, setState] = useState(null)
-    const [error, setError] = useState(null)
-    const [loading, setLoading] = useState(true)
+    const map=useMap()?.current
 
     useEffect(() => {
         if (popupViewSignal.value) {
            setState(popupViewSignal.value)
+           if(map && popupViewSignal.value.latitude && popupViewSignal.value.longitude){
+            map.flyTo({
+                center: [popupViewSignal.value.longitude, popupViewSignal.value.latitude],
+                zoom: 12,
+                speed: 0.8,
+                curve: 1,
+                padding:  {
+                    top: 350,
+                },
+                easing: (t) => t,
+            })
+           }
         }
     }, [popupViewSignal.value])
     const useClickOutsideRef = useClickOutside(() => {

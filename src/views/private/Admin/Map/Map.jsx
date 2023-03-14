@@ -22,8 +22,12 @@ export const mapStyle = signal('https://basemaps.cartocdn.com/gl/voyager-gl-styl
 
 export default ({children}) => {
   const [basemap , setBasemap] = useState('https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json')
+  const [interactiveLayerIds, setInteractiveLayerIds] = useState([])
   useEffect(() => {
     mapStyle.subscribe(setBasemap)
+    visibility.subscribe((v) => {
+      setInteractiveLayerIds(JSON.parse(v) ? Object.keys(JSON.parse(v)) : [])
+    })
   }, [])
   const handleMapClick = (event) => {
     const features = event.features;
@@ -49,7 +53,7 @@ export default ({children}) => {
         zoom: 5,
 
       }}
-      interactiveLayerIds={JSON.parse(visibility.value) ? Object.keys(JSON.parse(visibility.value)) : []}
+      interactiveLayerIds={interactiveLayerIds}
     >
       <Suspense fallback={<LoadingOverlay visible />}>
         

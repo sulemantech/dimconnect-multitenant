@@ -1,10 +1,11 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Map, Marker, Source, Layer, ScaleControl, useMap } from 'react-map-gl';
+import React, { useState } from 'react';
+import { Map, Source, Layer, useMap } from 'react-map-gl';
 import maplibreGl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { districts } from '../../../../app';
 import { dropvalue } from '../../../../layout/Header';
 import { route } from 'preact-router';
+import { useEffect } from 'preact/hooks';
 
 
 export default () => {
@@ -26,7 +27,7 @@ export default () => {
 
       }}
         onClick={(e) => {
-          route('/map')
+          route(`/map/${dropvalue.value}`)
         }}
     >
         
@@ -41,17 +42,19 @@ export const Boundary = ({noFill=false}) => {
     const map = useMap()?.current
 
     useEffect(() => {
+        dropvalue.subscribe((dropvalueValue) => {
         if (!map) return
         if (!districts.value.hasOwnProperty('features')) return
        
-        const dd = districts.value?.features?.find(district => district.properties?.c == dropvalue.value)
+        const dd = districts.value?.features?.find(district => district.properties?.c == dropvalueValue)
         setBound(dd)
         const geometry = dd.geometry.coordinates[0]
         const bounds = geometry.reduce((bounds, coord) => {
             return bounds.extend(coord);
         }, new maplibreGl.LngLatBounds(geometry[0], geometry[0]));
         map.fitBounds(bounds, { padding: noFill ? 100 : 10 });
-    }, [dropvalue.value,districts.value])
+    })
+    }, [districts.value])
 
     return (
         <Source id="boundary" type="geojson" data={bound}>

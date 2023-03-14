@@ -13,11 +13,12 @@ export default () => {
    
 
     useEffect(() => {
+        dropvalue.subscribe((value) => {
         setTileData(null)
        
 
    
-            fetch(`https://dim-tileserver-dev.hiwifipro.com/data/${dropvalue.value}.json`)
+            fetch(`https://dim-tileserver-dev.hiwifipro.com/data/${value}.json`)
             .then(res => res.json())
             .then(data => {
 
@@ -40,9 +41,9 @@ export default () => {
 
             })
         
+    })
 
-
-    }, [dropvalue.value])
+    }, [])
 
     // on visibility change
 

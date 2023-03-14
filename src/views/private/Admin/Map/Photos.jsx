@@ -36,16 +36,17 @@ export default () => {
                                     latitude={parseFloat(item[3])}
                                     longitude={parseFloat(item[2])}
                                     anchor="bottom"
-                                    onClick={() => {
+                                    
+                                >
+                                    <Pin onClick={(e) => {
+                                        e.stopPropagation();
                                         dispatchPopupView(<>
                                             <Loader size="lg" />
                                         </>, parseFloat(item[3]), parseFloat(item[2]))
                                         setTimeout(() => {
                                             dispatchPopupView(<ImageComponent src={`${appConfig.backendUrl}/static${item[1]}.jpeg`} />, parseFloat(item[3]), parseFloat(item[2]))
                                         }, 500)
-                                    }}
-                                >
-                                    <Pin />
+                                    }}/>
                                 </Marker>
                             ))
                         }
@@ -85,7 +86,7 @@ const Pin = memo((props) => {
     const { size = 40 } = props;
 
     return (
-        <div className="relative flex flex-col items-center cursor-pointer hover:scale-125 transition-all justify-center">
+        <div onClick={props.onClick} className="relative flex flex-col items-center cursor-pointer hover:scale-125 transition-all justify-center">
             <svg height={size} viewBox="0 0 24 24" style={pinStyle} >
                 <path d={ICON} />
 
