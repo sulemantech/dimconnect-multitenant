@@ -95,12 +95,11 @@ const goTo = (item) => {
 
     return (
         <>
-            <div className={`absolute flex left-2 top-${!nohead ? '24' : '2'}`}>
+            <div className={`absolute flex flex-col max-w-xl left-2 top-${!nohead ? '24' : '2'}`}>
                 <Input value={search} onChange={setSearch}
                     placeholder="Search" color="white" icon={<IconSearch className=" text-[#0071b9] " />} variant="unstyled" className="shadow-lg text-[#0071b9] bg-white  border-white border-solid border-2 rounded-lg" />
-
-            </div>
-            <div className={`absolute flex flex-col left-2 top-${!nohead ? '36' : '8'} w-96`} ref={ref}>
+                 
+                 <div className={` flex flex-col left-2  w-96`} ref={ref}>
                 {
                     searchResult
                     .filter((item) => {
@@ -132,6 +131,9 @@ const goTo = (item) => {
                     })
                 }
             </div>
+
+            </div>
+           
         </>
 
     )

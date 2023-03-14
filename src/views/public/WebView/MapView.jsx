@@ -57,7 +57,7 @@ export default () => {
       <Suspense fallback={<LoadingOverlay visible />}>
 
         <AddressPoints />
-        <SearchControl within nohead />
+        <SearchControl nohead />
 
         <ScaleControl position='bottom-left' maxWidth={100} unit='metric' />
         <Gpx />
