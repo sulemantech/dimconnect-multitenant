@@ -14,7 +14,7 @@ import { Boundary } from '../../private/Admin/Dashboard/Submap';
 import AddressPoints from '../../private/Admin/Map/AddressPoints';
 
 const InfoCard = lazy(() => import('../../private/Admin/Map/InfoCard'));
-const {infoCardVal} = lazy(() => import('../../private/Admin/Map/InfoCard'));
+import { infoCardVal } from '../../private/Admin/Map/InfoCard';
 import { LoadingOverlay } from '@mantine/core';
 import Popup from '../../private/Admin/Map/Popup';
 import Photos from '../../private/Admin/Map/Photos';
@@ -25,8 +25,12 @@ import { showNotification } from '@mantine/notifications';
 const CustomGeoLocateData = signal(null)
 export default () => {
   const [basemap , setBasemap] = useState('https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json')
+  const [interactiveLayerIds, setInteractiveLayerIds] = useState([])
   useEffect(() => {
     mapStyle.subscribe(setBasemap)
+    visibility.subscribe((v) => {
+      setInteractiveLayerIds(JSON.parse(v) ? Object.keys(JSON.parse(v)) : [])
+    })
   }, [])
   const handleMapClick = (event) => {
     const features = event.features;
@@ -56,7 +60,7 @@ export default () => {
         zoom: 5,
 
       }}
-      interactiveLayerIds={JSON.parse(visibility.value) ? Object.keys(JSON.parse(visibility.value)) : []}
+      interactiveLayerIds={interactiveLayerIds}
     >
       <Suspense fallback={<LoadingOverlay visible />}>
 
