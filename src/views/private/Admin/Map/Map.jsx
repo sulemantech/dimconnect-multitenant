@@ -31,7 +31,7 @@ export default ({children}) => {
   }, [])
   const handleMapClick = (event) => {
     const features = event.features;
-    if (features) {
+    if (features.length > 0) {
       
       infoCardVal.value = features
     }

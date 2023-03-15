@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useState } from 'preact/compat';
+import { Suspense, lazy, useEffect, useState } from 'preact/compat';
 
 import { GeolocateControl, Map, Marker, ScaleControl, useMap } from 'react-map-gl';
 import maplibreGl from 'maplibre-gl';
@@ -12,7 +12,9 @@ import DataTiles, { visibility } from '../../private/Admin/Map/DataTiles';
 import { Boundary } from '../../private/Admin/Dashboard/Submap';
 
 import AddressPoints from '../../private/Admin/Map/AddressPoints';
-import InfoCard, { infoCardVal } from '../../private/Admin/Map/InfoCard';
+
+const InfoCard = lazy(() => import('../../private/Admin/Map/InfoCard'));
+const {infoCardVal} = lazy(() => import('../../private/Admin/Map/InfoCard'));
 import { LoadingOverlay } from '@mantine/core';
 import Popup from '../../private/Admin/Map/Popup';
 import Photos from '../../private/Admin/Map/Photos';
@@ -32,7 +34,7 @@ export default () => {
     // post message to parent latlng
     window.parent.postMessage({ latlng: event.lngLat }, '*');
 
-    if (features) {
+    if (features.length > 0) {
 
       infoCardVal.value = features
     }
@@ -46,8 +48,8 @@ export default () => {
       mapLib={maplibreGl}
       mapStyle={basemap}
       trackResize={true}
-      flex={3}
-      style={{ width: '100%', height: '100%' }}
+      
+      style={{ flex : 1 ,display: 'flex'}}
       initialViewState={{
         longitude: 7.785873,
         latitude: 50.614182,

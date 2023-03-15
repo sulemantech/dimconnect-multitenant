@@ -17,11 +17,11 @@ export default () => {
     }
 
     return (
-        <div className="m-0">
+        <div className="m-0 absolute top-0 left-0 right-0 bottom-0 overflow-hidden">
             <ProtectedWrapper>
                 {
                     ags && client === 'ios' ?
-                        <div className="relative w-screen h-screen">
+                        <div className="flex relative flex-col h-full">
                             <MapView />
                            
                             <BottomRight>
