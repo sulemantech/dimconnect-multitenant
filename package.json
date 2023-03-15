@@ -32,6 +32,7 @@
     "@tiptap/react": "^2.0.0-beta.209",
     "@tiptap/starter-kit": "^2.0.0-beta.209",
     "@turf/turf": "^6.5.0",
+    "@vitejs/plugin-react": "^3.1.0",
     "axios": "^1.2.4",
     "chart.js": "^4.2.0",
     "dayjs": "^1.11.7",

@@ -1,4 +1,4 @@
-import { Badge, Center, CloseButton, Modal, ScrollArea, SegmentedControl, Tabs, Transition } from "@mantine/core"
+import { Badge, CloseButton, Modal, ScrollArea, Transition } from "@mantine/core"
 import { signal } from "@preact/signals"
 import { useEffect, useErrorBoundary, useState } from "preact/hooks"
 import { JsonToTable } from "react-json-to-table"
@@ -33,6 +33,11 @@ export default ({ modal = false }) => {
 
 
     }, [infoCardVal.value])
+
+    const onClose = () => {
+        setInfoCardData(null)
+        infoCardVal.value = null
+    }
     
     const [error, resetError] = useErrorBoundary((error)=>console.log(error))
     if (error) {
@@ -52,14 +57,14 @@ export default ({ modal = false }) => {
         </div> */}
             <div className="flex-1" />
             <div className="absolute -right-3 -top-3">
-                <CloseButton radius={'xl'} color="blue" className="bg-white" onClick={() => infoCardVal.value = null} />
+                <CloseButton radius={'xl'} color="blue" className="bg-white" onClick={onClose} />
             </div>
 
         </div>
         <div className="text-xs flex flex-col font-semibold text-gray-700">
             {/* <JsonToTable json={infoCardData?.properties} /> */}
 
-            <div className={"flex flex-col"}>
+            {/* <div className={"flex flex-col"}>
                 {infoCardData?.slice(0, 2).length > 1 &&
                     <SegmentedControl
                         data={infoCardData?.slice(0, 2)?.map(item => {
@@ -103,7 +108,8 @@ export default ({ modal = false }) => {
                     value={segment}
                     onChange={(value) => setSegment(value)}
                 />}
-            </div>
+            </div> */}
+            <CustomSegmentedControl data={infoCardData} value={segment} onChange={(value) => setSegment(value)} />
             <hr />
             <h6 className="text-sm font-semibold text-sky-700 my-2">{
                 segment}</h6>
@@ -114,9 +120,11 @@ export default ({ modal = false }) => {
                     <div className="text-sm font-semibold text-gray-700">
                         <Carousel mx="auto" withControls={infoCardData?.find(item => item.sourceLayer?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase() === segment)?.count > 1}>
                             {
-                                infoCardData?.find(item => item.sourceLayer?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase() === segment)?.properties?.map((item, index) => {
+                                (infoCardData?.find(item => item.sourceLayer?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase() === segment)?.properties || [])?.splice(0,50)?.map((item, index) => {
                                     return (
+                                        
                                         <MemoizedCarousel key={index} item={item} />
+                                      
                             )
                                 })
                             }
@@ -166,3 +174,59 @@ const MemoizedCarousel = memo(({item}) => (
         </ScrollArea>
     </Carousel.Slide>
 ))
+
+const CustomSegmentedControl = ({ data, value, onChange }) => {
+    
+    const MAXITEMSPERROW = 2
+
+    const [segment, setSegment] = useState(value)
+    const [rows, setRows] = useState([])
+    const [row, setRow] = useState(0)
+
+    useEffect(() => {
+        const rows = []
+        let row = []
+        data?.forEach((item, index) => {
+            if (index % MAXITEMSPERROW === 0 && index !== 0) {
+                rows.push(row)
+                row = []
+            }
+            row.push(item)
+        })
+        rows.push(row)
+       
+        setRows(rows)
+    }, [data])
+
+    useEffect(() => {
+        onChange(segment)
+    }
+        , [segment])
+
+    return (
+        <div className={"flex flex-1 flex-col md:flex-row flex-wrap justify-center items-center text-xs"}>
+            {rows?.map((row, index) => {
+                return (
+                    <div className="flex flex-1  flex-wrap flex-row justify-center items-center">
+                        {
+                            row?.map((item, index) => {
+                                return(
+                                    <div className={`flex flex-1 m-1 flex-col whitespace-nowrap justify-center items-center cursor-pointer ${segment === item.sourceLayer?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase() ? "bg-sky-700 text-white" : "bg-gray-200 text-gray-700"} rounded-md px-2 py-1`} onClick={() => setSegment(item.sourceLayer?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase())}
+                                        style={{
+                                            fontSize: "0.6rem",
+                                        }}
+                                    >
+                                        {
+                                            item.sourceLayer?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase()
+                                        }
+                                    </div>
+
+                                )
+                            })
+                        }
+                    </div>
+                )
+            })}
+        </div>
+    )
+}
