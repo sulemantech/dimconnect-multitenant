@@ -150,7 +150,7 @@ const CustomSegmentedControl = ({ data, value, onChange }) => {
         <div className={"flex flex-1 flex-col md:flex-row flex-wrap justify-center items-center text-xs"}>
             {rows?.map((row, index) => {
                 return (
-                    <div className="flex flex-1  flex-wrap flex-row justify-center items-center">
+                    <div className="flex flex-1 w-full flex-wrap flex-row justify-center items-center">
                         {
                             row?.map((item, index) => {
                                 return (
