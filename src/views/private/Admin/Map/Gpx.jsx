@@ -51,11 +51,11 @@ export default () => {
                           const convertedData = tj.gpx(gpx);
                           convertedData.video = item[2].replace('resources/media/uploads/gpx/', '').replace('.gpx', '.mp4')
                           openModal({
-                            size: 'xl',
+                         
                             children: <>
                               <video controls
                                 onLoad={(e => { e.target.play(); e.target.requestFullscreen() })}
-                                className="w-full h-[80vh]" src={`${appConfig.mediaServerURL}/${convertedData.video}`} type="video/mp4" />
+                                className="h-full w-full" src={`${appConfig.mediaServerURL}/${convertedData.video}`} type="video/mp4" />
                             </>
                           })
                           extendedGPXData.value = convertedData
@@ -133,11 +133,11 @@ export const ExtendedGPX = () => {
 
 
                       openModal({
-                        size: 'xl',
+                        
                         children: <>
                           <video controls
                             onLoad={(e => { e.target.play(); e.target.requestFullscreen() })}
-                            className="w-full h-[80vh]" src={`${appConfig.mediaServerURL}/${data.video}`} type="video/mp4" />
+                            className="h-full w-full" src={`${appConfig.mediaServerURL}/${data.video}`} type="video/mp4" />
                         </>
                       })
 
@@ -161,11 +161,11 @@ export const ExtendedGPX = () => {
                       <ExtendedPin onClick={(e) => {
                         e.stopPropagation();
                         openModal({
-                          size: 'xl',
+                          
                           children: <>
                             <video controls
                               onLoad={(e => { e.currentTarget.play(); e.currentTarget.requestFullscreen() })}
-                              className="w-full h-[80vh]" src={`${appConfig.mediaServerURL}/${data.video}`} type="video/mp4" />
+                              className="h-full w-full" src={`${appConfig.mediaServerURL}/${data.video}`} type="video/mp4" />
                           </>
                         })
 
