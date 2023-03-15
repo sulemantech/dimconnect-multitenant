@@ -222,7 +222,7 @@ export default () => {
         />
 
         <div className="flex-grow font-thin text-white text-lg">
-          <h6>
+          <h6 className={window.innerWidth < 768 ? 'text-xs' : 'text-lg'}>
             { 
             
               router[0].matches?.ags ? tilesAvailable.find((tile) => tile.value === router[0].matches.ags)?.label

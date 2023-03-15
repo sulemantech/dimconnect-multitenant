@@ -13,8 +13,8 @@ export default () => {
         <BottomRight>
           <>
             <div>
-            <OverlayControl />
-            <BaseMapControl />
+            <OverlayControl modal={window.innerWidth < 768} />
+            <BaseMapControl modal={window.innerWidth < 768} />
             </div>
             <Legend />
           </>

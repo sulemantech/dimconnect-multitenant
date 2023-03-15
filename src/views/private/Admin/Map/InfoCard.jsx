@@ -1,10 +1,9 @@
-import { Badge, CloseButton, Modal, ScrollArea, Transition } from "@mantine/core"
+import { CloseButton, Modal, ScrollArea, Transition } from "@mantine/core"
 import { signal } from "@preact/signals"
 import { useEffect, useErrorBoundary, useState } from "preact/hooks"
 import { JsonToTable } from "react-json-to-table"
 import { dropvalue } from "../../../../layout/Header"
 import { Carousel } from "@mantine/carousel"
-import { openModal } from "@mantine/modals"
 import { memo } from "preact/compat"
 
 export const infoCardVal = signal(null)
@@ -62,54 +61,8 @@ export default ({ modal = false }) => {
 
         </div>
         <div className="text-xs flex flex-col font-semibold text-gray-700">
-            {/* <JsonToTable json={infoCardData?.properties} /> */}
-
-            {/* <div className={"flex flex-col"}>
-                {infoCardData?.slice(0, 2).length > 1 &&
-                    <SegmentedControl
-                        data={infoCardData?.slice(0, 2)?.map(item => {
-                            return {
-                                label: <Center>
-                                    {item.sourceLayer?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase()}
-                                    {item.count > 1 && <Badge color="red" size="xs" className="ml-1">{item.count}</Badge>}
-                                </Center>,
-                                value: item.sourceLayer?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase()
-                            }
-                        })}
-                        size="xs"
-                        value={segment}
-                        onChange={(value) => setSegment(value)}
-                    />}
-                {infoCardData?.slice(2, 4).length > 1 && <SegmentedControl
-                    data={infoCardData?.slice(2, 4)?.map(item => {
-                        return {
-                            label: <Center>
-                                {item.sourceLayer?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase()}
-                                {item.count > 1 && <Badge color="red" size="xs" className="ml-1">{item.count}</Badge>}
-                            </Center>,
-                            value: item.sourceLayer?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase()
-                        }
-                    })}
-                    size="xs"
-                    value={segment}
-                    onChange={(value) => setSegment(value)}
-                />}
-                {infoCardData?.slice(4, 6).length > 1 && <SegmentedControl
-                    data={infoCardData?.slice(4, 6)?.map(item => {
-                        return {
-                            label: <Center>
-                                {item.sourceLayer?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase()}
-                                {item.count > 1 && <Badge color="red" size="xs" className="ml-1">{item.count}</Badge>}
-                            </Center>,
-                            value: item.sourceLayer?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase()
-                        }
-                    })}
-                    size="xs"
-                    value={segment}
-                    onChange={(value) => setSegment(value)}
-                />}
-            </div> */}
-            <CustomSegmentedControl data={infoCardData} value={segment} onChange={(value) => setSegment(value)} />
+           
+            <CustomSegmentedControl data={infoCardData} value={segment} onChange={setSegment} />
             <hr />
             <h6 className="text-sm font-semibold text-sky-700 my-2">{
                 segment}</h6>
@@ -120,7 +73,7 @@ export default ({ modal = false }) => {
                     <div className="text-sm font-semibold text-gray-700">
                         <Carousel mx="auto" withControls={infoCardData?.find(item => item.sourceLayer?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase() === segment)?.count > 1}>
                             {
-                                (infoCardData?.find(item => item.sourceLayer?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase() === segment)?.properties || [])?.splice(0,50)?.map((item, index) => {
+                                infoCardData?.find(item => item.sourceLayer?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase() === segment)?.properties?.splice(0,50)?.map((item, index) => {
                                     return (
                                         
                                         <MemoizedCarousel key={index} item={item} />
@@ -181,7 +134,7 @@ const CustomSegmentedControl = ({ data, value, onChange }) => {
 
     const [segment, setSegment] = useState(value)
     const [rows, setRows] = useState([])
-    const [row, setRow] = useState(0)
+
 
     useEffect(() => {
         const rows = []
@@ -196,12 +149,13 @@ const CustomSegmentedControl = ({ data, value, onChange }) => {
         rows.push(row)
        
         setRows(rows)
+        
     }, [data])
 
     useEffect(() => {
         onChange(segment)
-    }
-        , [segment])
+       
+    }, [segment])
 
     return (
         <div className={"flex flex-1 flex-col md:flex-row flex-wrap justify-center items-center text-xs"}>

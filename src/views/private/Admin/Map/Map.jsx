@@ -63,7 +63,7 @@ export default ({children}) => {
         <ScaleControl position='bottom-right' maxWidth={200} unit='metric' />
         {/* <CustomLayerPanel /> */}
         <Photos />
-        <InfoCard />
+        <InfoCard modal={window.innerWidth < 768} />
         <Gpx />
         <DataTiles />
         <Boundary noFill/>

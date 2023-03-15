@@ -78,6 +78,7 @@ import { IconPencil,IconTrash } from '@tabler/icons';
             {item.job}
           </Badge>
         </td>
+        {window.innerWidth > 768 && <>
         <td>
           <Anchor component="button" size="sm">
             {item.email}
@@ -98,19 +99,20 @@ import { IconPencil,IconTrash } from '@tabler/icons';
             </ActionIcon>
           </Group>
         </td>
+        </>}
       </tr>
     ));
   
     return (
       <ScrollArea>
-        <Table sx={{ minWidth: 500 }} verticalSpacing="sm">
+        <Table className='w-full' verticalSpacing="sm">
           <thead>
             <tr>
               <th>Employee</th>
               <th>Job title</th>
-              <th>Email</th>
+              {window.innerWidth > 768 && <><th>Email</th>
               <th>Phone</th>
-              <th />
+              <th /></>}
             </tr>
           </thead>
           <tbody>{rows}</tbody>
