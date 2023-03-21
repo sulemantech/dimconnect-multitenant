@@ -3,8 +3,19 @@ import { getAddressPointStatus } from "../../../../api"
 import { dropvalue } from "../../../../layout/Header"
 import { Layer, Source } from "react-map-gl"
 import { signal } from "@preact/signals"
+import { useDidUpdate } from "@mantine/hooks"
 
 export const addressPointsVisibility = signal(true)
+
+export const addressPointsStatusVisibility = signal({
+    "1" : true,
+    "2" : true,
+    "3" : true,
+    "4" : true,
+    "5" : true,
+    "6" : true,
+})
+
 
 export default () => {
     const [addressPoints, setAddressPoints] = useState({
@@ -16,14 +27,28 @@ export default () => {
         "6" : [],
     })
 
+    const [addressPointsStatusVisibilityState, setAddressPointsStatusVisibilityState] = useState({
+        "1" : true,
+    "2" : true,
+    "3" : true,
+    "4" : true,
+    "5" : true,
+    "6" : true,
+    })
+
     useEffect(() => {
         getAddressPointStatus(dropvalue.value).then(({ data }) => {
            
             setAddressPoints(data?.[0]?.json_object_agg)
 
         })
+        addressPointsStatusVisibility.subscribe((val) => {
+            setAddressPointsStatusVisibilityState(val)
+        })
 
     }, [dropvalue.value])
+
+   
 
     const geojson = useMemo(() => {
         //e.g {"1" : [[id,lat,lng],[id,lat,lng]]}
@@ -94,6 +119,7 @@ export default () => {
                     "#000000"
                 ]
             }}
+            filter={['in', 'status', ... Object.entries(addressPointsStatusVisibilityState).filter(([key, value]) => value).map(([key, value]) => key)]}
             
         />
         </Source>
