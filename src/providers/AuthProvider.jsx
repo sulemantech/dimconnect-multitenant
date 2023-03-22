@@ -4,10 +4,12 @@ import { useContext } from 'preact/hooks'
 import PrivateRoutes from '../routes/PrivateRoutes'
 import PublicRoutes from '../routes/PublicRoutes'
 import {signal} from '@preact/signals'
+import api from '../api'
 
 const createAuthState = () => {
     const auth = signal(false)
     sessionStorage.getItem('hf8f8fj3dj193jf913fj91f91jf9') ? auth.value = true : auth.value = false
+    api.defaults.headers.common['Authorization'] = `Bearer ${sessionStorage.getItem('hf8f8fj3dj193jf913fj91f91jf9')}`
     const setAuth = (value) => {auth.value = value}
     return {auth,setAuth}
 }

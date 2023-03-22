@@ -2,7 +2,7 @@ import {IconLock} from '@tabler/icons'
 import { useContext, useEffect,useState  } from 'preact/hooks'
 import { AuthState } from '../../providers/AuthProvider'
 import PublicWrapper from '../../providers/PublicWrapper'
-import { postAuth } from '../../api'
+import api, { postAuth } from '../../api'
 import Logo from '../../components/Logo'
 
 // import {logo} from '../../../public/logo.svg'
@@ -39,9 +39,11 @@ export default () => {
     const pass = event.target.password.value
     
     
-    postAuth(email, pass).then((res) => {
+    postAuth(email, pass).then(({data}) => {
+      
       authState.setAuth(true)
-      sessionStorage.setItem('hf8f8fj3dj193jf913fj91f91jf9', res.data.token)
+      sessionStorage.setItem('hf8f8fj3dj193jf913fj91f91jf9', data.token)
+      api.defaults.headers.common['Authorization'] = `Bearer ${data.token}`
     }).catch((err) => {
       setError(err.response.data.message)
     })
