@@ -3,6 +3,7 @@ import { useEffect, useState } from "preact/hooks"
 import { Layer, Source, useMap } from "react-map-gl"
 import { getAddressPointStatus } from "../../../../api"
 import { dropvalue } from "../../../../layout/Header"
+import SplineWrapper from "spline-wrapper"
 
 export const visibility = signal(null)
 
@@ -70,6 +71,7 @@ export const TilesView = ({ tileData, id }) => {
     }
 
     return (
+        <SplineWrapper>
         <Source
             type="vector"
             format="pbf"
@@ -158,5 +160,6 @@ export const TilesView = ({ tileData, id }) => {
                 })
             }
         </Source>
+        </SplineWrapper>
     )
 }

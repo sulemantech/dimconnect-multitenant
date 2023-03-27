@@ -43,6 +43,7 @@ export default () => {
       
       authState.setAuth(true)
       sessionStorage.setItem('hf8f8fj3dj193jf913fj91f91jf9', data.token)
+      sessionStorage.setItem('hf8f8fj3dj193jf913fj91f91jf9_R', data.refreshToken)
       api.defaults.headers.common['Authorization'] = `Bearer ${data.token}`
     }).catch((err) => {
       setError(err.response.data.message)

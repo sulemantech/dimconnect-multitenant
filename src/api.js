@@ -17,6 +17,7 @@ const routes = {
 export const AuthAttributes = ["username","email","userRole","password"]
 export const getAuth = () => api.get(`${routes.auth}/`)
 export const postAuth = (email,password) => api.post(`${routes.auth}/`,{email,password})
+export const refreshAuth = (refreshToken) => api.post(`${routes.auth}/refresh`,{refreshToken})
 export const postAuthRegister = (email,password,firstname,userRole) => api.post(`${routes.auth}/register`)
 export const getDistrictById = () => api.get(`${routes.district}/${id}`)
 export const getMaterialCountByDistrictId = (districtId) => api.get(`${routes.dashboard}/materialCount/${districtId}`)
@@ -28,3 +29,4 @@ export const getPhotos = (districtId) => api.get(`/photo/${districtId}`)
 export const getGPXList = (districtId) => api.get(`/gpx/list/${districtId}`)
 export const getGPX = (gpxId) => api.get(`/gpx/${gpxId}`)
 export const getAddressPointCount = (districtId) => api.get(`/address/count/${districtId}`)
+export const getnetzplanning = (districtId) => api.get(`/netzplanning/${districtId}`)
