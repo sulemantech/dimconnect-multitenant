@@ -17,6 +17,7 @@ import { LoadingOverlay } from '@mantine/core';
 import Popup from './Popup';
 import Photos from './Photos';
 import Netzplanning from './Netzplanning';
+import DistrictPhase from './DistrictPhase';
 
 
 export const mapStyle = signal('https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json')
@@ -69,7 +70,8 @@ export default ({children}) => {
         <DataTiles />
         <Boundary noFill/>
         <Popup />
-        <Netzplanning />
+        {/* <Netzplanning /> */}
+        <DistrictPhase />
         </Suspense>
     </Map>
   );
