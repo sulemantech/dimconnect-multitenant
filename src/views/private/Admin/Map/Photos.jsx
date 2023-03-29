@@ -1,4 +1,4 @@
-import { useEffect, useState } from "preact/hooks"
+import { useEffect, useMemo, useState } from "preact/hooks"
 import { getPhotos } from "../../../../api"
 import { dropvalue } from "../../../../layout/Header"
 import { Marker } from "react-map-gl"
@@ -22,36 +22,39 @@ export default () => {
             setData([])
         })
     }, [dropvalue.value])
-    // { 195 : ["1", "/photo/1BqWyMP9kXPSSuYNQwTFLx", "8.452872222183284", "49.47358333683217"] }
+
+    const markers = useMemo(() => {
+       if(!photoVisibility.value) return null
+        return Object.keys(data)?.map((key) => (
+            <>
+                {
+                    data[key].filter((item) => parseFloat(item[3]) > 0 && parseFloat(item[2]) > 0)?.map((item,index) => (
+                        <Marker
+                            key={'efe0' + index}
+                            latitude={parseFloat(item[3])}
+                            longitude={parseFloat(item[2])}
+                            anchor="bottom"
+                            
+                        >
+                            <Pin onClick={(e) => {
+                                e.stopPropagation();
+                                dispatchPopupView(<>
+                                    <Loader size="lg" />
+                                </>, parseFloat(item[3]), parseFloat(item[2]))
+                                setTimeout(() => {
+                                    dispatchPopupView(<ImageComponent src={`${appConfig.backendUrl}/static${item[1]}.jpeg`} />, parseFloat(item[3]), parseFloat(item[2]))
+                                }, 500)
+                            }}/>
+                        </Marker>
+                    ))
+                }
+            </>
+        ))
+    }, [data])
+
     return (
         <>
-            {photoVisibility.value &&
-                Object.keys(data)?.map((key) => (
-                    <>
-                        {
-                            data[key].filter((item) => parseFloat(item[3]) > 0 && parseFloat(item[2]) > 0)?.map((item,index) => (
-                                <Marker
-                                    key={'efe0' + index}
-                                    latitude={parseFloat(item[3])}
-                                    longitude={parseFloat(item[2])}
-                                    anchor="bottom"
-                                    
-                                >
-                                    <Pin onClick={(e) => {
-                                        e.stopPropagation();
-                                        dispatchPopupView(<>
-                                            <Loader size="lg" />
-                                        </>, parseFloat(item[3]), parseFloat(item[2]))
-                                        setTimeout(() => {
-                                            dispatchPopupView(<ImageComponent src={`${appConfig.backendUrl}/static${item[1]}.jpeg`} />, parseFloat(item[3]), parseFloat(item[2]))
-                                        }, 500)
-                                    }}/>
-                                </Marker>
-                            ))
-                        }
-                    </>
-                ))
-            }
+            {markers}
         </>
     )
 }

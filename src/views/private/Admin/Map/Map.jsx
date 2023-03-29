@@ -41,13 +41,17 @@ export default ({children}) => {
 
   return (
     <Map
-      
+      reuseMaps
       onClick={handleMapClick}
         attributionControl={false}
       mapLib={maplibreGl}
       mapStyle={basemap}
       trackResize={true}
+      antialias={true}
+      optimizeForTerrain={true}
+      workerCount={4}
       flex={3}
+      refreshExpiredTiles={true}
       style={{ width: '100%', height: '100%' }}
       initialViewState={{
         longitude: 7.785873,
