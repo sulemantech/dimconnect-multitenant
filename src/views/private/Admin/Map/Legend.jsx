@@ -149,7 +149,7 @@ export default () => {
                                                     </div>
                                                     <div className="flex-1" />
                                                     <p
-                                                        className={`text-xs ${addressPointsStatusVisibility.value[item.code] ? 'text-gray-900' : 'text-gray-400'}`}
+                                                        className={`text-xs text-gray-900`}
                                                     >{key}</p>
 
                                                     <hr />
