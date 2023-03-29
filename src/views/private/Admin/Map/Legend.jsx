@@ -123,13 +123,15 @@ export default () => {
                         </div>
                     </Accordion.Panel>
                 </Accordion.Item>
-                <Accordion.Item value="Netzplanning" className="text-xs">
-                    <Accordion.Control>Netzplanning</Accordion.Control>
+                <Accordion.Item value="Status" className="text-xs">
+                    <Accordion.Control>Status</Accordion.Control>
                     <Accordion.Panel>
                         <div>
                             {
                                 Object.entries(netzplanninglegend.value)?.map(([key, item]) => {
                                     return <>
+                                        <p className="text-xs font-bold my-2">{key}</p>
+                                        <hr />
                                         {
                                             Object.entries(item)?.map(([key, item]) => {
                                                 return <div className="flex py-1 flex-row items-center cursor-pointer"
