@@ -8,12 +8,10 @@ export default ({children}) => {
 
     useLayoutEffect(() => {
         const queryParam = new URLSearchParams(window.location.search)
-        const username = queryParam.get('username')
-        const password = queryParam.get('password')
         const token = queryParam.get('token')
-        if (username === 'hiwifi' && password === 'admin' && token) {
-            setIsAuthenticated(true)
+        if (token) {
             api.defaults.headers.common['Authorization'] = `Bearer ${token}`
+            setIsAuthenticated(true)
         }
     }, [])
 
