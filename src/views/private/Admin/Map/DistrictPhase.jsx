@@ -98,6 +98,7 @@ export default ({ id = false, grouped = false }) => {
                             beforeId="waterway"
                         />
                         <Layer
+                            minzoom={8}
                             id="district-phase-layer-text"
                             type="symbol"
                             layout={{

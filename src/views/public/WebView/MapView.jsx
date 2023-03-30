@@ -22,8 +22,12 @@ import Gpx from '../../private/Admin/Map/Gpx';
 import { mapStyle } from '../../private/Admin/Map/Map';
 import { IconCompass } from '@tabler/icons';
 import { showNotification } from '@mantine/notifications';
+import DistrictPhase from '../../private/Admin/Map/DistrictPhase';
 const CustomGeoLocateData = signal(null)
 export default () => {
+  const params = new URLSearchParams(window.location.search)
+  const statusPage = params.get('statusPage')
+  
   const [basemap , setBasemap] = useState('https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json')
   const [interactiveLayerIds, setInteractiveLayerIds] = useState([])
   useEffect(() => {
@@ -64,6 +68,7 @@ export default () => {
     >
       <Suspense fallback={<LoadingOverlay visible />}>
 
+        {statusPage ? <DistrictPhase/>: <>
         <AddressPoints />
         <SearchControl nohead />
         <div  className="absolute top-2 right-2 hover:scale-95 items-center justify-center flex border-white border-solid border-2 transition-all cursor-pointer mb-2 h-16 aspect-square w-16 z-70 p-3 rounded-full shadow-lg text-[#0071b9] bg-white "
@@ -93,6 +98,8 @@ export default () => {
         <Boundary noFill />
         <Popup />
         <CustomGeoLocateMarker />
+        </>
+}
       </Suspense>
     </Map>
   );
