@@ -75,7 +75,7 @@ export default ({children}) => {
         <Boundary noFill/>
         <Popup />
         {/* <Netzplanning /> */}
-        <DistrictPhase />
+        <DistrictPhase grouped />
         </Suspense>
     </Map>
   );
