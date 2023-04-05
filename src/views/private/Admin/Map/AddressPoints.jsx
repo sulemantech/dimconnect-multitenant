@@ -6,7 +6,7 @@ import { signal } from "@preact/signals"
 import { useDidUpdate } from "@mantine/hooks"
 
 export const addressPointsVisibility = signal(true)
-
+export const addressPointsReceived = signal(false)
 export const addressPointsStatusVisibility = signal({
     "1" : true,
     "2" : true,
@@ -38,7 +38,7 @@ export default () => {
 
     useEffect(() => {
         getAddressPointStatus(dropvalue.value).then(({ data }) => {
-           
+            addressPointsReceived.value = true
             setAddressPoints(data?.[0]?.json_object_agg)
 
         })

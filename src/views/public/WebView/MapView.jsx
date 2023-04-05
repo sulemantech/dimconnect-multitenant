@@ -11,7 +11,7 @@ import SearchControl from '../../private/Admin/Map/SearchControl';
 import DataTiles, { visibility } from '../../private/Admin/Map/DataTiles';
 import { Boundary } from '../../private/Admin/Dashboard/Submap';
 
-import AddressPoints from '../../private/Admin/Map/AddressPoints';
+import AddressPoints, { addressPointsReceived } from '../../private/Admin/Map/AddressPoints';
 
 const InfoCard = lazy(() => import('../../private/Admin/Map/InfoCard'));
 import { infoCardVal } from '../../private/Admin/Map/InfoCard';
@@ -97,8 +97,11 @@ export default () => {
         <Gpx />
         <InfoCard modal/>
         <Photos />
+       {addressPointsReceived.value && <>
         <DataTiles ags />
         <Popup />
+        </>
+        }
         <CustomGeoLocateMarker />
         </>
 }
