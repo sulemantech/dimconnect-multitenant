@@ -20,7 +20,9 @@ export default ({ modal = false }) => {
 
             const distinct = [...new Set(val?.map(item => item.sourceLayer))]
             const duplicates = distinct?.map(item => val.filter(i => i.sourceLayer === item).length)
-
+            if(distinct?.length === 1){
+                setSegment(distinct[0]?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase())
+            }
             setInfoCardData(distinct?.map((item, index) => {
                 return {
                     sourceLayer: item,
