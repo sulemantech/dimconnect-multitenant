@@ -60,6 +60,18 @@ export default ({children}) => {
 
       }}
       interactiveLayerIds={interactiveLayerIds}
+         transformRequest={(url, resourceType) => {
+            if(url.includes('https://dim-tileserver-dev.hiwifipro.com/data/')) {
+              //  add Authorization header to requests for tiles from the Tileserver
+                return {
+                    url: url,
+                    headers: {
+                      "Authorization" :`Bearer ${sessionStorage.getItem('hf8f8fj3dj193jf913fj91f91jf9')}`
+                    }
+                  }
+  
+            }
+        }}
     >
       <Suspense fallback={<LoadingOverlay visible />}>
         
