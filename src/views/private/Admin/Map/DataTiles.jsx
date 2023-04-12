@@ -4,6 +4,7 @@ import { Layer, Source, useMap } from "react-map-gl"
 import { getAddressPointStatus } from "../../../../api"
 import { dropvalue } from "../../../../layout/Header"
 import SplineWrapper from "spline-wrapper"
+import axios from "axios"
 
 export const visibility = signal(null)
 
@@ -19,8 +20,12 @@ export default () => {
        
 
    
-            fetch(`https://dim-tileserver-dev.hiwifipro.com/data/${value}.json`)
-            .then(res => res.json())
+            axios.get(`https://dim-tileserver-dev.hiwifipro.com/data/${value}.json`, {
+                headers: {
+                    'Authorization' :`Bearer ${sessionStorage.getItem('hf8f8fj3dj193jf913fj91f91jf9')}`
+                }
+            }
+            )
             .then(data => {
 
                 let visibilitytemp = {}

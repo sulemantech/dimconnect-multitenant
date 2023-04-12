@@ -29,6 +29,16 @@ export default () => {
         onClick={(e) => {
           route(`/map/${dropvalue.value}`)
         }}
+        transformRequest={(url, resourceType) => {
+            if(url.includes('https://dim-tileserver-dev.hiwifipro.com/data/')) {
+                return {
+                    url: url,
+                    headers: {
+                        'Authorization' :`Bearer ${sessionStorage.getItem('hf8f8fj3dj193jf913fj91f91jf9')}`
+                    }
+                }
+            }
+        }}
     >
         
         <Boundary />
