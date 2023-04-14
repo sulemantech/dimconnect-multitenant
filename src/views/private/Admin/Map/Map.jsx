@@ -11,7 +11,7 @@ import SearchControl from './SearchControl';
 import DataTiles, { visibility } from './DataTiles';
 import { Boundary } from '../Dashboard/Submap';
 const Gpx = lazy(() => import('./Gpx'));
-import AddressPoints from './AddressPoints'
+import AddressPoints, { CreateAddressPoint } from './AddressPoints'
 import InfoCard, { infoCardVal } from './InfoCard';
 import { LoadingOverlay } from '@mantine/core';
 import Popup from './Popup';
@@ -88,6 +88,7 @@ export default ({children}) => {
         <Popup />
         {/* <Netzplanning /> */}
         <DistrictPhase grouped />
+        <CreateAddressPoint />
         </Suspense>
     </Map>
   );
