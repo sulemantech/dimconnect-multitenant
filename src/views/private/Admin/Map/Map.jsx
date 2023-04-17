@@ -25,7 +25,7 @@ export const mapStyle = signal('https://basemaps.cartocdn.com/gl/voyager-gl-styl
 
 export default ({children}) => {
   const [basemap , setBasemap] = useState('https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json')
-  const [interactiveLayerIds, setInteractiveLayerIds] = useState([])
+  const [interactiveLayerIds, setInteractiveLayerIds] = useState(['addressPoints'])
   useEffect(() => {
     mapStyle.subscribe(setBasemap)
     visibility.subscribe((v) => {

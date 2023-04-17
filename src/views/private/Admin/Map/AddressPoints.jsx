@@ -10,6 +10,7 @@ import { showNotification } from "@mantine/notifications"
 import jwtDecode from "jwt-decode"
 import appConfig from "../../../../config/appConfig"
 import { IconCheck, IconCross, IconX } from "@tabler/icons"
+import proj4 from "proj4"
 
 export const addressPointsVisibility = signal(true)
 export const addressPointsReceived = signal(false)
@@ -165,8 +166,11 @@ export const CreateAddressPoint = () => {
     </>
 }
 
+const epsgeur = '+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs'
 
 export const CreateAddressPointForm = ({ lat, lng }) => {
+
+
 
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
@@ -179,8 +183,9 @@ export const CreateAddressPointForm = ({ lat, lng }) => {
         for (const [key, value] of data.entries()) {
             obj[key] = value
         }
-        obj.x = lat
-        obj.y = lng
+        const projected = proj4(epsgeur, [lng, lat])
+        obj.x = projected[0]
+        obj.y = projected[1]
         postAddressPoint(dropvalue.value, obj).then(() => {
             setLoading(false)
             showNotification({
