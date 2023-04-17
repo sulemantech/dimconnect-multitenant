@@ -4,6 +4,7 @@ import { AuthState } from '../../providers/AuthProvider'
 import PublicWrapper from '../../providers/PublicWrapper'
 import api, { postAuth } from '../../api'
 import Logo from '../../components/Logo'
+import appConfig from '../../config/appConfig'
 
 // import {logo} from '../../../public/logo.svg'
 export default () => {
@@ -40,10 +41,10 @@ export default () => {
     
     
     postAuth(email, pass).then(({data}) => {
-      
+   
       authState.setAuth(true)
-      sessionStorage.setItem('hf8f8fj3dj193jf913fj91f91jf9', data.token)
-      sessionStorage.setItem('hf8f8fj3dj193jf913fj91f91jf9_R', data.refreshToken)
+      sessionStorage.setItem(appConfig.sessionStorageKey, data.token)
+      sessionStorage.setItem(appConfig.sessionStorageRefreshKey, data.refreshToken)
       api.defaults.headers.common['Authorization'] = `Bearer ${data.token}`
     }).catch((err) => {
       setError(err.response.data.message)

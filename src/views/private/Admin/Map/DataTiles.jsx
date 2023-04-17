@@ -4,6 +4,7 @@ import { Layer, Source, useMap } from "react-map-gl"
 import { getAddressPointStatus } from "../../../../api"
 import { dropvalue } from "../../../../layout/Header"
 import SplineWrapper from "spline-wrapper"
+import appConfig from "../../../../config/appConfig"
 
 export const visibility = signal(null)
 
@@ -22,7 +23,7 @@ export default () => {
             fetch(`https://dim-tileserver-dev.hiwifipro.com/data/${value}.json`,{
                 method: 'GET',
                 headers: {
-                    'Authorization' :`Bearer ${sessionStorage.getItem('hf8f8fj3dj193jf913fj91f91jf9')}`
+                    'Authorization' :`Bearer ${sessionStorage.getItem(appConfig.sessionStorageKey)}`
                 }
             })
             .then(res => res.json())

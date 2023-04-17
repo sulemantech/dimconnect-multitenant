@@ -6,6 +6,7 @@ import { signal } from '@preact/signals'
 import { collapsed } from "./Navbar"
 import { useRouter,route,getCurrentUrl,Router } from "preact-router"
 import { useShallowEffect } from "@mantine/hooks"
+import appConfig from "../config/appConfig"
 
 export const dropvalue = signal('073140000')
 
@@ -190,7 +191,7 @@ export default () => {
   const router = useRouter()
   const auth = useContext(AuthState)
   const logout = () => {
-    sessionStorage.removeItem('hf8f8fj3dj193jf913fj91f91jf9')
+    sessionStorage.removeItem(appConfig.sessionStorageKey)
     auth.setAuth(false)
   }
   

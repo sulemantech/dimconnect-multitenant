@@ -7,17 +7,20 @@ import {signal} from '@preact/signals'
 import api, { refreshAuth } from '../api'
 import { showNotification } from '@mantine/notifications'
 import { IconCheck, IconCross } from '@tabler/icons'
+import appConfig from '../config/appConfig'
+
+
 
 const createAuthState = () => {
     const auth = signal(false)
-    sessionStorage.getItem('hf8f8fj3dj193jf913fj91f91jf9') ? auth.value = true : auth.value = false
-    api.defaults.headers.common['Authorization'] = `Bearer ${sessionStorage.getItem('hf8f8fj3dj193jf913fj91f91jf9')}`
+    sessionStorage.getItem(appConfig.sessionStorageKey) ? auth.value = true : auth.value = false
+    api.defaults.headers.common['Authorization'] = `Bearer ${sessionStorage.getItem(appConfig.sessionStorageKey)}`
     const setAuth = (value) => {auth.value = value}
     const timer = () => setTimeout(() => {
-        if(auth.value && sessionStorage.getItem('hf8f8fj3dj193jf913fj91f91jf9')) {
-            refreshAuth(sessionStorage.getItem('hf8f8fj3dj193jf913fj91f91jf9_R')).then(res => {
+        if(auth.value && sessionStorage.getItem(appConfig.sessionStorageKey)) {
+            refreshAuth(sessionStorage.getItem(appConfig.sessionStorageRefreshKey)).then(res => {
                
-                sessionStorage.setItem('hf8f8fj3dj193jf913fj91f91jf9', res.data.token)
+                sessionStorage.setItem(appConfig.sessionStorageKey, res.data.token)
                 api.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`
                 showNotification({
                     title: 'Session refreshed',
@@ -34,8 +37,8 @@ const createAuthState = () => {
                     icon: <IconCross size={24} />,
                     timeout: 5000,
                     onClose: () => {
-                        sessionStorage.removeItem('hf8f8fj3dj193jf913fj91f91jf9_R')
-                        sessionStorage.removeItem('hf8f8fj3dj193jf913fj91f91jf9')
+                        sessionStorage.removeItem(appConfig.sessionStorageRefreshKey)
+                        sessionStorage.removeItem(appConfig.sessionStorageKey)
                         auth.value = false
                     }
                 })

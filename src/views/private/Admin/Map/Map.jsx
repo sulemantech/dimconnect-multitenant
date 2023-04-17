@@ -18,6 +18,7 @@ import Popup from './Popup';
 import Photos from './Photos';
 import Netzplanning from './Netzplanning';
 import DistrictPhase from './DistrictPhase';
+import appConfig from '../../../../config/appConfig';
 
 
 export const mapStyle = signal('https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json')
@@ -66,7 +67,7 @@ export default ({children}) => {
                 return {
                     url: url,
                     headers: {
-                      "Authorization" :`Bearer ${sessionStorage.getItem('hf8f8fj3dj193jf913fj91f91jf9')}`
+                      "Authorization" :`Bearer ${sessionStorage.getItem(appConfig.sessionStorageKey)}`
                     }
                   }
   
