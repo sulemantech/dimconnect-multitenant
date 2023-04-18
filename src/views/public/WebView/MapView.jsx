@@ -11,7 +11,7 @@ import SearchControl from '../../private/Admin/Map/SearchControl';
 import DataTiles, { visibility } from '../../private/Admin/Map/DataTiles';
 import { Boundary } from '../../private/Admin/Dashboard/Submap';
 
-import AddressPoints, { addressPointsReceived } from '../../private/Admin/Map/AddressPoints';
+import AddressPoints, { CreateAddressPoint, addressPointsReceived } from '../../private/Admin/Map/AddressPoints';
 
 const InfoCard = lazy(() => import('../../private/Admin/Map/InfoCard'));
 import { infoCardVal } from '../../private/Admin/Map/InfoCard';
@@ -23,6 +23,8 @@ import { mapStyle } from '../../private/Admin/Map/Map';
 import { IconCompass } from '@tabler/icons';
 import { showNotification } from '@mantine/notifications';
 import DistrictPhase, { DistrictPhaseVisibility } from '../../private/Admin/Map/DistrictPhase';
+import appConfig from '../../../config/appConfig';
+import { mapClickBindings } from '../../../app';
 const CustomGeoLocateData = signal(null)
 export default () => {
   const params = new URLSearchParams(window.location.search)
@@ -48,6 +50,9 @@ export default () => {
 
       infoCardVal.value = features
     }
+    mapClickBindings.value.forEach((binding) => {
+      binding(event)
+    })
   };
  
   return (
@@ -58,7 +63,7 @@ export default () => {
       mapLib={maplibreGl}
       mapStyle={basemap}
       trackResize={true}
-      
+      hash={true}
       style={{ flex : 1 ,display: 'flex'}}
       initialViewState={{
         longitude: 7.785873,
@@ -67,6 +72,19 @@ export default () => {
 
       }}
       interactiveLayerIds={interactiveLayerIds}
+      transformRequest={(url, resourceType) => {
+        if(url.includes('dim-tileserver')) {
+         
+          //  add Authorization header to requests for tiles from the Tileserver
+            return {
+                url: url,
+                headers: {
+                  "Authorization" :`Bearer ${sessionStorage.getItem(appConfig.sessionStorageKeyWebview)}`
+                }
+              }
+
+        }
+    }}
     >
       <Suspense fallback={<LoadingOverlay visible />}>
 
@@ -97,11 +115,11 @@ export default () => {
         <Gpx />
         <InfoCard modal/>
         <Photos />
-       {addressPointsReceived.value && <>
+        <CreateAddressPoint />
+      
         <DataTiles ags />
         <Popup />
-        </>
-        }
+        
         <CustomGeoLocateMarker />
         </>
 }

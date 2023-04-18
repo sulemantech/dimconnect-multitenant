@@ -5,6 +5,7 @@ import { JsonToTable } from "react-json-to-table"
 import { dropvalue } from "../../../../layout/Header"
 import { Carousel } from "@mantine/carousel"
 import { memo } from "preact/compat"
+import { mapClickBindings } from "../../../../app"
 
 export const infoCardVal = signal(null)
 
@@ -97,7 +98,9 @@ export default ({ modal = false }) => {
                     }
                 </Transition>
                 :
-                <Modal opened={infoCardVal.value != null} withCloseButton={false} title="Info Card" size={'xl'}>
+                <>
+                { mapClickBindings.value.length == 0 &&
+                    <Modal opened={infoCardVal.value != null} withCloseButton={false} title="Info Card" size={'xl'}>
                     <div className="w-full h-full"
                         style={{
                             maxWidth: '80vw',
@@ -105,7 +108,8 @@ export default ({ modal = false }) => {
                     >
                         {view}
                     </div>
-                </Modal>
+                </Modal>}
+                </>
             }
         </>
     )

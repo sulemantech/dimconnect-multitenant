@@ -19,9 +19,12 @@ import Photos from './Photos';
 import Netzplanning from './Netzplanning';
 import DistrictPhase from './DistrictPhase';
 import appConfig from '../../../../config/appConfig';
+import { mapClickBindings } from '../../../../app';
 
 
 export const mapStyle = signal('https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json')
+
+
 
 export default ({children}) => {
   const [basemap , setBasemap] = useState('https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json')
@@ -38,6 +41,9 @@ export default ({children}) => {
       
       infoCardVal.value = features
     }
+    mapClickBindings.value.forEach((binding) => {
+      binding(event)
+    })
   };
 
   return (
@@ -52,6 +58,7 @@ export default ({children}) => {
       optimizeForTerrain={true}
       workerCount={4}
       flex={3}
+      hash={true}
       refreshExpiredTiles={true}
       style={{ width: '100%', height: '100%' }}
       initialViewState={{

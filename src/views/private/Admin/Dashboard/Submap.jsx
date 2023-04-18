@@ -55,8 +55,8 @@ export const Boundary = ({noFill=false}) => {
         dropvalue.subscribe((dropvalueValue) => {
         if (!map) return
         if (!districts.value.hasOwnProperty('features')) return
-       
         const dd = districts.value?.features?.find(district => district.properties?.c == dropvalueValue)
+        if (dd?.geometry == undefined) return 
         setBound(dd)
         const geometry = dd.geometry.type === 'MultiPolygon' ? dd.geometry.coordinates[0][0] : dd.geometry.coordinates[0]
         const bounds = geometry.reduce((bounds, coord) => {

@@ -18,6 +18,8 @@ districts.value = parsed
 
 })
 
+export const mapClickBindings = signal([])
+
 export function App() {
 
   return (
