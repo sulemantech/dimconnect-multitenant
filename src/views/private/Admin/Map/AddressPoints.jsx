@@ -11,6 +11,8 @@ import jwtDecode from "jwt-decode"
 import appConfig from "../../../../config/appConfig"
 import { IconCheck, IconCross, IconX } from "@tabler/icons"
 import proj4 from "proj4"
+import { mapClickBindings } from "../../../../app"
+
 
 export const addressPointsVisibility = signal(true)
 export const addressPointsReceived = signal(false)
@@ -140,26 +142,27 @@ export default () => {
 export const editAddressPoint = signal(false)
 export const CreateAddressPoint = () => {
 
-    const map = useMap()?.current
+   
     useEffect(() => {
-        let edit = false
+        
         editAddressPoint.subscribe(val => {
             if (val) {
+                
                 document.getElementsByClassName("mapboxgl-canvas")[0].style.cursor = "crosshair"
-                edit = true
+                mapClickBindings.value.push((e) => {
+           
+                    openModal({
+                        title: "Neuer Adresspunkt",
+                        children: <CreateAddressPointForm lat={e.lngLat.lat} lng={e.lngLat.lng} />
+                    })
+                
+            })
             } else {
                 document.getElementsByClassName("mapboxgl-canvas")[0].style.cursor = "grab"
-                edit = false
+                mapClickBindings.value = mapClickBindings.value.filter((e) => e !== mapClickBindings.value[mapClickBindings.value.length - 1])
             }
         })
-        map?.on("click", (e) => {
-            if (edit) {
-                openModal({
-                    title: "Neuer Adresspunkt",
-                    children: <CreateAddressPointForm lat={e.lngLat.lat} lng={e.lngLat.lng} />
-                })
-            }
-        })
+       
     }, [])
     return <>
 
@@ -186,6 +189,7 @@ export const CreateAddressPointForm = ({ lat, lng }) => {
         const projected = proj4(epsgeur, [lng, lat])
         obj.x = projected[0]
         obj.y = projected[1]
+        obj.benutzer = decoded?.data?.email
         postAddressPoint(dropvalue.value, obj).then(() => {
             setLoading(false)
             showNotification({
@@ -237,7 +241,7 @@ export const CreateAddressPointForm = ({ lat, lng }) => {
                 <NativeSelect name="status_bemerkung" label="Begründung keine Beplanung" required data={[{ value: 2, label: "Plan-Versorgung laut Ortskenntnis" }, { value: 3, label: "Ist-Versorgung laut Ortskenntnis" }, { value: 4, label: "Kein relevanter Standort" }, { value: 5, label: "Sonstige" }]} />
                 <Textarea name="status_bemerkung_sonstiges" label="Sonstige Bemerkung zur Beplanung"  />
                 <NativeSelect name="anmerkung_adresse" label="Anmerkung Adresse" required data={[{ value: 1, label: "Baulücke" }, { value: 2, label: "Baugrundstück" }, { value: 3, label: "Bildungsstätte" }, { value: 4, label: "Gewerbe" }, { value: 5, label: "Freizeit" }, { value: 6, label: "Funkmast" }, { value: 7, label: "Tourismus" }, { value: 8, label: "Veranstaltungsort" }, { value: 9, label: "Versorgungseinheit" }, { value: 10, label: "Verwaltung" }, { value: 11, label: "Wohnhaus" }, { value: 12, label: "Sonstiges" }, { value: 13, label: "WLAN-Standort" }, { value: 14, label: "Wohn- und Gewerbestandort" }, { value: 15, label: "ÖPNV-Haltstellen / Vekehrsanlage" }]} />
-                <TextInput name="benutzer" label="Benutzer" required value={decoded?.data?.email}/>
+               
                 {
                     error && <div className="text-red-500 my-1 text-xs">{error}</div>
                 }
