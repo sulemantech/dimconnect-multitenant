@@ -33,3 +33,4 @@ export const getnetzplanning = (districtId) => api.get(`/netzplanning/${district
 export const getDistrictPhase = () => api.get(`/DistrictPhase`)
 export const postAddressPoint = (districtId,data) => api.post(`/address/new/${districtId}`,data)
 export const getAddressPointDetails = (districtId,pointId) => api.get(`/address/single/${districtId}/${pointId}`)
+export const updateAddressPoint = (districtId,pointId,data) => api.post(`/address/update/${districtId}/${pointId}`,data)
