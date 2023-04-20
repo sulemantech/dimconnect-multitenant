@@ -198,7 +198,7 @@ export default () => {
   useEffect(() => {
     dropvalue.subscribe((value) => {
     const parentRoute = router?.[0]?.path?.replace('/:ags', '') || ''
-    route(`${parentRoute}/${value}`)
+    route(`${parentRoute}/${value}${window.location.hash}`)
     })
   }, [])
   useShallowEffect(() => {
@@ -206,7 +206,7 @@ export default () => {
       dropvalue.value = router[0].matches.ags
     }else{
       const parentRoute = router?.[0]?.path?.replace('/:ags', '') || ''
-      route(`${parentRoute}/${dropvalue.value}`)
+      route(`${parentRoute}/${dropvalue.value}${window.location.hash}`)
     }
   }, [])
 

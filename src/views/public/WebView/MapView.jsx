@@ -50,7 +50,7 @@ export default () => {
 
       infoCardVal.value = features
     }
-    mapClickBindings.value.forEach((binding) => {
+    Object.values(mapClickBindings.value).forEach(binding => {
       binding(event)
     })
   };
@@ -63,7 +63,7 @@ export default () => {
       mapLib={maplibreGl}
       mapStyle={basemap}
       trackResize={true}
-      hash={true}
+      // hash={true}
       style={{ flex : 1 ,display: 'flex'}}
       initialViewState={{
         longitude: 7.785873,

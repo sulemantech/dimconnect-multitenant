@@ -1,6 +1,7 @@
 import { Suspense, lazy } from 'preact/compat'
 import Legend from './Legend'
 import AddControl from './AddControl'
+import EditControl from './EditControl'
 const Map = lazy(() => import('./Map'))
 const BaseMapControl = lazy(() => import('./BaseMapControl'))
 const OverlayControl = lazy(() => import('./OverlayControl'))
@@ -17,6 +18,7 @@ export default () => {
             <OverlayControl modal={window.innerWidth < 768} />
             <BaseMapControl modal={window.innerWidth < 768} />
             <AddControl modal={window.innerWidth < 768} />
+            <EditControl modal={window.innerWidth < 768} />
             </div>
             <Legend />
           </>

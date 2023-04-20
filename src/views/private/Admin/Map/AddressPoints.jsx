@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "preact/hooks"
-import { getAddressPointStatus, postAddressPoint } from "../../../../api"
+import { getAddressPointDetails, getAddressPointStatus, postAddressPoint } from "../../../../api"
 import { dropvalue } from "../../../../layout/Header"
 import { Layer, Source, useMap } from "react-map-gl"
 import { signal } from "@preact/signals"
@@ -12,6 +12,8 @@ import appConfig from "../../../../config/appConfig"
 import { IconCheck, IconCross, IconX } from "@tabler/icons"
 import proj4 from "proj4"
 import { mapClickBindings } from "../../../../app"
+import { throwEditControlAntiMethods } from "./EditControl"
+import { throwAddControlAntiMethods } from "./AddControl"
 
 
 export const addressPointsVisibility = signal(true)
@@ -139,30 +141,47 @@ export default () => {
 }
 
 
+export const addAddressPoint = signal(false)
 export const editAddressPoint = signal(false)
+
+addAddressPoint.subscribe(val => {
+    if (val) {
+        throwEditControlAntiMethods.value = throwEditControlAntiMethods.value + 1
+    }
+})
+
+editAddressPoint.subscribe(val => {
+    if (val) {
+        throwAddControlAntiMethods.value = throwAddControlAntiMethods.value + 1
+    }
+})
+
 export const CreateAddressPoint = () => {
 
    
     useEffect(() => {
         
         
-        editAddressPoint.subscribe(val => {
+        addAddressPoint.subscribe(val => {
             if (val) {
                 
                 document.getElementsByClassName("mapboxgl-canvas")[0].style.cursor = "crosshair"
-                mapClickBindings.value.push((e) => {
+                mapClickBindings.value['AddAddressPoint'] = (e) => {
            
                     openModal({
                         title: "Neuer Adresspunkt",
                         children: <CreateAddressPointForm lat={e.lngLat.lat} lng={e.lngLat.lng} />
                     })
                 
-            })
+            }
             } else {
                 document.getElementsByClassName("mapboxgl-canvas")[0].style.cursor = "grab"
-                mapClickBindings.value = mapClickBindings.value.filter((e) => e !== mapClickBindings.value[mapClickBindings.value.length - 1])
+                
+                delete mapClickBindings.value['AddAddressPoint']
             }
         })
+
+   
        
     }, [])
     return <>
@@ -201,7 +220,7 @@ export const CreateAddressPointForm = ({ lat, lng }) => {
                 position: "br",
                 autoClose: 5000,
             })
-            editAddressPoint.value = false
+            addAddressPoint.value = false
             closeAllModals()
         }).catch((e) => {
             setLoading(false)
@@ -252,5 +271,40 @@ export const CreateAddressPointForm = ({ lat, lng }) => {
                 >Speichern</Button>
             </form>
         </div>
+    )
+}
+
+export const showEditAddressPointForm = async (id) => {
+
+   getAddressPointDetails(dropvalue.value, id)
+   .then((res) => {
+        openModal({
+            title: "Adresspunkt bearbeiten",
+            children: <EditAddressPointForm data={res.data} />
+        })
+    })
+   .catch((e) => {
+        showNotification({
+            title: "Fehler",
+            message: "Der Adresspunkt konnte nicht geladen werden",
+            color: "red",
+            icon: <IconX />,
+            position: "br",
+            autoClose: 5000,
+        })
+    })
+   
+}
+
+export const EditAddressPointForm = ({ data }) => {
+    console.log(data)
+    return (
+        <div>
+            <form style={{ width: "100%" }}>
+                <TextInput name="stn" label="Straße" required />
+                <TextInput name="hnr" label="Hausnummer" required mx={4} type="number"/>
+                <TextInput name="hnrz" label="Zusatz" />
+                </form>
+              </div>
     )
 }

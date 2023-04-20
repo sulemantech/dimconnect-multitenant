@@ -4,7 +4,7 @@ import maplibreGl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { districts } from '../../../../app';
 import { dropvalue } from '../../../../layout/Header';
-import { route } from 'preact-router';
+import {  route } from 'preact-router';
 import { useEffect } from 'preact/hooks';
 
 
@@ -27,7 +27,7 @@ export default () => {
 
       }}
         onClick={(e) => {
-          route(`/map/${dropvalue.value}`)
+          route(`/map/${dropvalue.value}${window.location.hash}`)
         }}
         transformRequest={(url, resourceType) => {
             if(url.includes('https://dim-tileserver-dev.hiwifipro.com/data/')) {
@@ -50,7 +50,7 @@ export default () => {
 export const Boundary = ({noFill=false}) => {
     const [bound, setBound] = useState(null)
     const map = useMap()?.current
-
+   
     useEffect(() => {
         dropvalue.subscribe((dropvalueValue) => {
         if (!map) return
@@ -62,6 +62,7 @@ export const Boundary = ({noFill=false}) => {
         const bounds = geometry.reduce((bounds, coord) => {
             return bounds.extend(coord);
         }, new maplibreGl.LngLatBounds(geometry[0], geometry[0]));
+        if(window.location.hash) return
         map.fitBounds(bounds, { padding: noFill ? 100 : 10 });
     })
     }, [districts.value])

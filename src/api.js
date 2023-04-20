@@ -32,3 +32,4 @@ export const getAddressPointCount = (districtId) => api.get(`/address/count/${di
 export const getnetzplanning = (districtId) => api.get(`/netzplanning/${districtId}`)
 export const getDistrictPhase = () => api.get(`/DistrictPhase`)
 export const postAddressPoint = (districtId,data) => api.post(`/address/new/${districtId}`,data)
+export const getAddressPointDetails = (districtId,pointId) => api.get(`/address/single/${districtId}/${pointId}`)
