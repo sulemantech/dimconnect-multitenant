@@ -145,6 +145,7 @@ export const CreateAddressPoint = () => {
    
     useEffect(() => {
         
+        
         editAddressPoint.subscribe(val => {
             if (val) {
                 
@@ -219,8 +220,8 @@ export const CreateAddressPointForm = ({ lat, lng }) => {
 
     }
    
-    const decoded = jwtDecode(sessionStorage.getItem(appConfig.sessionStorageKey))
-  
+    const decoded = jwtDecode(sessionStorage.getItem(appConfig.sessionStorageKey) || sessionStorage.getItem(appConfig.sessionStorageKeyWebview))
+    
 
     return (
         <div>
