@@ -26,15 +26,15 @@ export const mapStyle = signal('https://basemaps.cartocdn.com/gl/voyager-gl-styl
 
 export const additionalInteractiveLayers = signal(['addressPoints'])
 
-export default ({children}) => {
-  const [basemap , setBasemap] = useState('https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json')
+export default ({ children }) => {
+  const [basemap, setBasemap] = useState('https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json')
   const [interactiveLayerIds, setInteractiveLayerIds] = useState([])
   useEffect(() => {
     mapStyle.subscribe(setBasemap)
     visibility.subscribe((v) => {
       setInteractiveLayerIds(JSON.parse(v) ? Object.keys(JSON.parse(v)).concat(additionalInteractiveLayers.value) : [])
     })
-  
+
   }, [])
   const handleMapClick = (event) => {
     const features = event.features.filter(f => !additionalInteractiveLayers.value.includes(f.layer.id))
@@ -43,35 +43,35 @@ export default ({children}) => {
     })
     if (editAddressPoint.value || addAddressPoint.value) return
     if (features.length > 0) infoCardVal.value = features
-    
+
   };
   const handleMaphover = (event) => {
     if (!editAddressPoint.value) return
     const features = event.features.filter(f => additionalInteractiveLayers.value.includes(f.layer.id))
-  
+
     if (features.length > 0) {
       const feature = features[0]
       const layer = feature.layer
       document.getElementsByClassName('mapboxgl-canvas')[0].style.cursor = 'pointer'
-      
+
       mapClickBindings.value['editAddressPoint'] = (event) => {
-        
+
         showEditAddressPointForm(event.features[0].properties.id)
       }
 
-    }else{
+    } else {
       document.getElementsByClassName('mapboxgl-canvas')[0].style.cursor = 'grab'
       delete mapClickBindings.value['editAddressPoint']
     }
-    
+
   };
-  
+
   return (
     <Map
       reuseMaps
       onClick={handleMapClick}
       onMouseMove={handleMaphover}
-        attributionControl={false}
+      attributionControl={false}
       mapLib={maplibreGl}
       mapStyle={basemap}
       trackResize={true}
@@ -85,27 +85,27 @@ export default ({children}) => {
       initialViewState={{
         longitude: parseFloat(window.location.hash.split('/')[1]) || 7.785873,
         latitude: parseFloat(window.location.hash.split('/')[2]) || 50.614182,
-        zoom:  parseFloat(window.location.hash.split('/')[0].replace("#")) || 5,
+        zoom: parseFloat(window.location.hash.split('/')[0].replace("#")) || 5,
 
       }}
       interactiveLayerIds={interactiveLayerIds}
-         transformRequest={(url, resourceType) => {
-            if(url.includes('https://dim-tileserver-dev.hiwifipro.com/data/')) {
-              //  add Authorization header to requests for tiles from the Tileserver
-                return {
-                    url: url,
-                    headers: {
-                      "Authorization" :`Bearer ${sessionStorage.getItem(appConfig.sessionStorageKey)}`
-                    }
-                  }
-  
+      transformRequest={(url, resourceType) => {
+        if (url.includes('https://dim-tileserver-dev.hiwifipro.com/data/')) {
+          //  add Authorization header to requests for tiles from the Tileserver
+          return {
+            url: url,
+            headers: {
+              "Authorization": `Bearer ${sessionStorage.getItem(appConfig.sessionStorageKey)}`
             }
-        }}
+          }
+
+        }
+      }}
     >
       <Suspense fallback={<LoadingOverlay visible />}>
-        
+
         <AddressPoints />
-       <SearchControl />
+        <SearchControl />
         <MapControls />
         <ScaleControl position='bottom-right' maxWidth={200} unit='metric' />
         {/* <CustomLayerPanel /> */}
@@ -113,12 +113,12 @@ export default ({children}) => {
         <InfoCard modal={window.innerWidth < 768} />
         <Gpx />
         <DataTiles />
-        <Boundary noFill/>
+        <Boundary noFill />
         <Popup />
         {/* <Netzplanning /> */}
         <DistrictPhase grouped />
         <CreateAddressPoint />
-        </Suspense>
+      </Suspense>
     </Map>
   );
 

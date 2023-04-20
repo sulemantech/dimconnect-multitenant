@@ -7,6 +7,7 @@ import MapView from "./MapView"
 import ProtectedWrapper from "./ProtectedWrapper"
 import CustomerHeader from "../../private/Customer/CustomerHeader"
 import AddControl from "../../private/Admin/Map/AddControl"
+import EditControl from "../../private/Admin/Map/EditControl"
 export default () => {
 
     const params = new URLSearchParams(window.location.search)
@@ -31,6 +32,7 @@ export default () => {
                                         <OverlayControl modal/>
                                         <BaseMapControl modal/>
                                         <AddControl modal/>
+                                        <EditControl modal/>
                                     </div>
                                    
                                 </>

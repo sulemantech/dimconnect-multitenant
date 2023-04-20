@@ -11,7 +11,7 @@ import SearchControl from '../../private/Admin/Map/SearchControl';
 import DataTiles, { visibility } from '../../private/Admin/Map/DataTiles';
 import { Boundary } from '../../private/Admin/Dashboard/Submap';
 
-import AddressPoints, { CreateAddressPoint, addressPointsReceived } from '../../private/Admin/Map/AddressPoints';
+import AddressPoints, { CreateAddressPoint, addAddressPoint, addressPointsReceived, editAddressPoint, showEditAddressPointForm } from '../../private/Admin/Map/AddressPoints';
 
 const InfoCard = lazy(() => import('../../private/Admin/Map/InfoCard'));
 import { infoCardVal } from '../../private/Admin/Map/InfoCard';
@@ -19,7 +19,7 @@ import { LoadingOverlay } from '@mantine/core';
 import Popup from '../../private/Admin/Map/Popup';
 import Photos from '../../private/Admin/Map/Photos';
 import Gpx from '../../private/Admin/Map/Gpx';
-import { mapStyle } from '../../private/Admin/Map/Map';
+import { additionalInteractiveLayers, mapStyle } from '../../private/Admin/Map/Map';
 import { IconCompass } from '@tabler/icons';
 import { showNotification } from '@mantine/notifications';
 import DistrictPhase, { DistrictPhaseVisibility } from '../../private/Admin/Map/DistrictPhase';
@@ -37,28 +37,47 @@ export default () => {
   useEffect(() => {
     mapStyle.subscribe(setBasemap)
     visibility.subscribe((v) => {
-      setInteractiveLayerIds(JSON.parse(v) ? Object.keys(JSON.parse(v)) : [])
+      setInteractiveLayerIds(JSON.parse(v) ? Object.keys(JSON.parse(v)).concat(additionalInteractiveLayers.value) : [])
     })
   }, [])
   const handleMapClick = (event) => {
-    const features = event.features;
-
+    const features = event.features.filter(f => !additionalInteractiveLayers.value.includes(f.layer.id))
     // post message to parent latlng
     window.parent.postMessage({ latlng: event.lngLat }, '*');
 
-    if (features.length > 0) {
-
-      infoCardVal.value = features
-    }
     Object.values(mapClickBindings.value).forEach(binding => {
       binding(event)
     })
+    if (editAddressPoint.value || addAddressPoint.value) return
+    if (features.length > 0) infoCardVal.value = features
+    
+  };
+  const handleMaphover = (event) => {
+    if (!editAddressPoint.value) return
+    const features = event.features.filter(f => additionalInteractiveLayers.value.includes(f.layer.id))
+
+    if (features.length > 0) {
+      const feature = features[0]
+      const layer = feature.layer
+      document.getElementsByClassName('mapboxgl-canvas')[0].style.cursor = 'pointer'
+
+      mapClickBindings.value['editAddressPoint'] = (event) => {
+
+        showEditAddressPointForm(event.features[0].properties.id)
+      }
+
+    } else {
+      document.getElementsByClassName('mapboxgl-canvas')[0].style.cursor = 'grab'
+      delete mapClickBindings.value['editAddressPoint']
+    }
+
   };
  
   return (
     <Map
 
       onClick={handleMapClick}
+      onMouseMove={handleMaphover}
       attributionControl={false}
       mapLib={maplibreGl}
       mapStyle={basemap}
