@@ -35,11 +35,11 @@ export default () => {
             Object.keys(data).map((key) => (
               <>
                 {
-                  data[key].filter((item) => parseFloat(item[3]) > 0 && parseFloat(item[4]) > 0)?.map((item, index) => (
+                  data[key].filter((item) => parseFloat(item[4]) > 0 && parseFloat(item[3]) > 0)?.map((item, index) => (
                     <Marker
                       key={'efe0' + index}
-                      latitude={parseFloat(item[3])}
-                      longitude={parseFloat(item[4])}
+                      latitude={parseFloat(item[4])}
+                      longitude={parseFloat(item[3])}
                       anchor="bottom"
 
                     >
