@@ -5,7 +5,7 @@ import { Layer, Source, useMap } from "react-map-gl"
 import { signal } from "@preact/signals"
 import { useDidUpdate } from "@mantine/hooks"
 import { closeAllModals, openModal } from "@mantine/modals"
-import { Button, NativeSelect, Select, TextInput, Textarea } from "@mantine/core"
+import { Button, NativeSelect, Select, Text, TextInput, Textarea } from "@mantine/core"
 import { showNotification } from "@mantine/notifications"
 import jwtDecode from "jwt-decode"
 import appConfig from "../../../../config/appConfig"
@@ -246,9 +246,9 @@ export const CreateAddressPointForm = ({ lat, lng }) => {
         <div>
             <form onSubmit={onSubmit} style={{ width: "100%" }}>
                 <div className="flex">
-                <TextInput name="stn" label="Straße" required />
-                <TextInput name="hnr" label="Hausnummer" required mx={4} type="number"/>
-                <TextInput name="hnrz" label="Zusatz" />
+                    <TextInput name="stn" label="Straße" required flex={6} style="width:60%" />
+                    <TextInput name="hnr" label="Hausnummer" required mx={4} type="number" flex={2.5} maxLength={3} style="width:25%"/>
+                    <TextInput name="hnrz" label="Zusatz" flex={1.5} maxLength={2}  style="width:15%"/>
                 </div>
                 <div className="flex">
                 <TextInput name="plz" label="Plz" required />
@@ -258,9 +258,9 @@ export const CreateAddressPointForm = ({ lat, lng }) => {
                 <TextInput name="anz_hh" label="Anzahl der Haushalte" required type="number"/>
                 <TextInput name="anz_gew" label="Anzahl der Firmen" required type="number"/>
                 <NativeSelect name="status" label="Wird beplant" data={[{ value: 1, label: "ja (Anschluss prüfen)" }, { value: 2, label: "ja" }, { value: 3, label: "nein (Anschluss geprüft)" }, { value: 4, label: "nein" }, { value: 5, label: "inexistente Adresse" }]} />
-                <NativeSelect name="status_bemerkung" label="Begründung keine Beplanung" required data={[{ value: 2, label: "Plan-Versorgung laut Ortskenntnis" }, { value: 3, label: "Ist-Versorgung laut Ortskenntnis" }, { value: 4, label: "Kein relevanter Standort" }, { value: 5, label: "Sonstige" }]} />
+                <NativeSelect name="status_bemerkung" label="Begründung keine Beplanung" required data={[{ value: 1, label: "Keine Auswahl" },{ value: 2, label: "Plan-Versorgung laut Ortskenntnis" }, { value: 3, label: "Ist-Versorgung laut Ortskenntnis" }, { value: 4, label: "Kein relevanter Standort" }, { value: 5, label: "Sonstige" }]} />
                 <Textarea name="status_bemerkung_sonstiges" label="Sonstige Bemerkung zur Beplanung"  />
-                <NativeSelect name="anmerkung_adresse" label="Anmerkung Adresse" required data={[{ value: 1, label: "Baulücke" }, { value: 2, label: "Baugrundstück" }, { value: 3, label: "Bildungsstätte" }, { value: 4, label: "Gewerbe" }, { value: 5, label: "Freizeit" }, { value: 6, label: "Funkmast" }, { value: 7, label: "Tourismus" }, { value: 8, label: "Veranstaltungsort" }, { value: 9, label: "Versorgungseinheit" }, { value: 10, label: "Verwaltung" }, { value: 11, label: "Wohnhaus" }, { value: 12, label: "Sonstiges" }, { value: 13, label: "WLAN-Standort" }, { value: 14, label: "Wohn- und Gewerbestandort" }, { value: 15, label: "ÖPNV-Haltstellen / Vekehrsanlage" }]} />
+                <NativeSelect name="anmerkung_adresse" label="Anmerkung Adresse" required data={[{ value: 0, label: "Keine Auswahl" },{ value: 1, label: "Baulücke" }, { value: 2, label: "Baugrundstück" }, { value: 3, label: "Bildungsstätte" }, { value: 4, label: "Gewerbe" }, { value: 5, label: "Freizeit" }, { value: 6, label: "Funkmast" }, { value: 7, label: "Tourismus" }, { value: 8, label: "Veranstaltungsort" }, { value: 9, label: "Versorgungseinheit" }, { value: 10, label: "Verwaltung" }, { value: 11, label: "Wohnhaus" }, { value: 12, label: "Sonstiges" }, { value: 13, label: "WLAN-Standort" }, { value: 14, label: "Wohn- und Gewerbestandort" }, { value: 15, label: "ÖPNV-Haltstellen / Vekehrsanlage" }]} />
                
                 {
                     error && <div className="text-red-500 my-1 text-xs">{error}</div>
@@ -281,7 +281,7 @@ export const showEditAddressPointForm = async (id) => {
     editControlLoading.value = false
         openModal({
             title: "Adresspunkt bearbeiten",
-            children: <EditAddressPointForm prevdata={res.data} />
+            children: <EditAddressPointForm prevdata={{ ...res.data, id }} />
         })
     })
    .catch((e) => {
@@ -341,10 +341,11 @@ export const EditAddressPointForm = ({ prevdata }) => {
     return (
         <div>
             <form style={{ width: "100%" }} onSubmit={onSubmit}>
+                <Text style="display:inline-block">ID: {prevdata?.id}</Text>
                 <div className="flex">
-                <TextInput name="stn" label="Straße" required defaultValue={prevdata?.stn} />    
-                <TextInput name="hnr" label="Hausnummer" required mx={4} type="number" defaultValue={prevdata?.hnr} />
-                <TextInput name="hnrz" label="Zusatz" defaultValue={prevdata?.hnrz} />
+                <TextInput name="stn" label="Straße" required defaultValue={prevdata?.stn} style="width:60%"/>    
+                <TextInput name="hnr" label="Hausnummer" required mx={4} type="number" defaultValue={prevdata?.hnr} style="width:25%" maxLength={3} />
+                <TextInput name="hnrz" label="Zusatz" defaultValue={prevdata?.hnrz} style="width:15%" maxLength={2}/>
                 </div>
                 <div className="flex">
                 <TextInput name="plz" label="Plz" required defaultValue={prevdata?.plz} />
@@ -354,9 +355,9 @@ export const EditAddressPointForm = ({ prevdata }) => {
                 <TextInput name="anz_hh" label="Anzahl der Haushalte" required type="number" defaultValue={prevdata?.anz_hh} />
                 <TextInput name="anz_gew" label="Anzahl der Firmen" required type="number" defaultValue={prevdata?.anz_gew} />
                 <NativeSelect name="status" label="Wird beplant" data={[{ value: 1, label: "ja (Anschluss prüfen)" }, { value: 2, label: "ja" }, { value: 3, label: "nein (Anschluss geprüft)" }, { value: 4, label: "nein" }, { value: 5, label: "inexistente Adresse" }]} defaultValue={prevdata?.status} />
-                <NativeSelect name="status_bemerkung" label="Begründung keine Beplanung" required data={[{ value: 2, label: "Plan-Versorgung laut Ortskenntnis" }, { value: 3, label: "Ist-Versorgung laut Ortskenntnis" }, { value: 4, label: "Kein relevanter Standort" }, { value: 5, label: "Sonstige" }]} defaultValue={prevdata?.status_bemerkung} />
+                <NativeSelect name="status_bemerkung" label="Begründung keine Beplanung" required data={[{ value: 1, label: "Keine Auswahl" }, { value: 2, label: "Plan-Versorgung laut Ortskenntnis" }, { value: 3, label: "Ist-Versorgung laut Ortskenntnis" }, { value: 4, label: "Kein relevanter Standort" }, { value: 5, label: "Sonstige" }]} defaultValue={prevdata?.status_bemerkung} />
                 <Textarea name="status_bemerkung_sonstiges" label="Sonstige Bemerkung zur Beplanung" defaultValue={prevdata?.status_bemerkung_sonstiges} />
-                <NativeSelect name="anmerkung_adresse" label="Anmerkung Adresse" required data={[{ value: 1, label: "Baulücke" }, { value: 2, label: "Baugrundstück" }, { value: 3, label: "Bildungsstätte" }, { value: 4, label: "Gewerbe" }, { value: 5, label: "Freizeit" }, { value: 6, label: "Funkmast" }, { value: 7, label: "Tourismus" }, { value: 8, label: "Veranstaltungsort" }, { value: 9, label: "Versorgungseinheit" }, { value: 10, label: "Verwaltung" }, { value: 11, label: "Wohnhaus" }, { value: 12, label: "Sonstiges" }, { value: 13, label: "WLAN-Standort" }, { value: 14, label: "Wohn- und Gewerbestandort" }, { value: 15, label: "ÖPNV-Haltstellen / Vekehrsanlage" }]} defaultValue={prevdata?.anmerkung_adresse} />
+                <NativeSelect name="anmerkung_adresse" label="Anmerkung Adresse" required data={[{ value: 0, label: "Keine Auswahl" }, { value: 1, label: "Baulücke" }, { value: 2, label: "Baugrundstück" }, { value: 3, label: "Bildungsstätte" }, { value: 4, label: "Gewerbe" }, { value: 5, label: "Freizeit" }, { value: 6, label: "Funkmast" }, { value: 7, label: "Tourismus" }, { value: 8, label: "Veranstaltungsort" }, { value: 9, label: "Versorgungseinheit" }, { value: 10, label: "Verwaltung" }, { value: 11, label: "Wohnhaus" }, { value: 12, label: "Sonstiges" }, { value: 13, label: "WLAN-Standort" }, { value: 14, label: "Wohn- und Gewerbestandort" }, { value: 15, label: "ÖPNV-Haltstellen / Vekehrsanlage" }]} defaultValue={prevdata?.anmerkung_adresse} />
 
                 {
                     error && <div className="text-red-500 my-1 text-xs">{error}</div>
