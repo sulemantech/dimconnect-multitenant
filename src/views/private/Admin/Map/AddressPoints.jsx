@@ -300,6 +300,8 @@ export const showEditAddressPointForm = async (id) => {
 export const EditAddressPointForm = ({ prevdata }) => {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
+    const decoded = jwtDecode(sessionStorage.getItem(appConfig.sessionStorageKey) || sessionStorage.getItem(appConfig.sessionStorageKeyWebview))
+  
     const onSubmit = (e) => {
         e.preventDefault()
         setLoading(true)
