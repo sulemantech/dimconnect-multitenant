@@ -34,3 +34,13 @@ export const getDistrictPhase = () => api.get(`/DistrictPhase`)
 export const postAddressPoint = (districtId,data) => api.post(`/address/new/${districtId}`,data)
 export const getAddressPointDetails = (districtId,pointId) => api.get(`/address/single/${districtId}/${pointId}`)
 export const updateAddressPoint = (districtId,pointId,data) => api.post(`/address/update/${districtId}/${pointId}`,data)
+
+export const getUsers = () => api.get(`/users`)
+export const createUser = (data) => api.post(`/users`,data)
+export const deleteUser = (id) => api.delete(`/users/${id}`)
+export const editUser = (id,data) => api.patch(`/users/${id}`,data)
+
+export const getPermissions = () => api.get(`/permissions`)
+export const createPermission = (data,title) => api.post(`/permissions/${title}`,data)
+export const deletePermission = (id) => api.delete(`/permissions/${id}`)
+export const editPermission = (id,data) => api.patch(`/permissions/${id}`,data)

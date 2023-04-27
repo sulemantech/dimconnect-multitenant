@@ -6,6 +6,8 @@ import PageWrapper from '../layout/PageWrapper';
 import Styles from '../views/private/Admin/Styles';
 import Map from '../views/private/Admin/Map';
 import { signal } from '@preact/signals';
+import UserManagement from '../views/private/Admin/Administration/UserManagement';
+import PermissionsManagement from '../views/private/Admin/Administration/PermissionsManagement';
 
 export const UserType = signal('admin')
 
@@ -13,7 +15,9 @@ const TypeRoutes = {
     'admin': [
         <Dashboard path="/:ags" />,
         <Map path="/map/:ags" />,
-        <Administration path="/administration/:ags" />,
+        <Administration path="/administration" />,
+        <UserManagement path="/administration/users" />,
+        <PermissionsManagement path="/administration/permissions" />,
         <Styles path="/styles" />
     ],
 }

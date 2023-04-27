@@ -3,7 +3,7 @@ import { closeAllModals, openConfirmModal, openModal } from "@mantine/modals";
 import { IconArrowDown, IconArrowUp, IconEdit, IconPaperclip, IconTrash } from "@tabler/icons";
 import { useState } from "preact/hooks";
 import readXlsxFile from 'read-excel-file';
-import { appConfig } from "../config/appConfig";
+import appConfig from '../config/appConfig'
 export default ({ data, setLimit, attributes = [], newStruct = {}, refreshData, edit = false, remove = false, attatchment = false }) => { // as {"id":25,"name":"HO1V","min":"25","max":"55"}[]
 
     const [sort, setSort] = useState({ field: "name", order: "asc" });

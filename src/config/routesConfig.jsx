@@ -11,7 +11,7 @@ export const privateRoutes = [{
     icon: <IconMap />,
 }, {
     label: 'Administration',
-    path: `/administration/${dropvalue.value}`,
+    path: `/administration`,
     icon: <IconUser />,
 }, 
 // {
