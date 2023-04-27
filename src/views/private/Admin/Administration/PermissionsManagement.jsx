@@ -1,7 +1,7 @@
 import PageProvider from "../../../../providers/PageProvider"
 import CustomTable from "../../../../components/CustomTable"
 import { Card, CardSection, Divider, Pagination } from "@mantine/core"
-import { createUser, deletePermission, deleteUser, editPermission, editUser, getPermissions, getUsers } from "../../../../api";
+import { createPermission, createUser, deletePermission, deleteUser, editPermission, editUser, getPermissions, getUsers } from "../../../../api";
 import {useState,useEffect} from 'preact/hooks'
 export default () => {
 
@@ -57,9 +57,9 @@ export default () => {
                             data: {
                                 id: '',
                                 title: '',
-                                permissions: '',
+                                map: false,
                             },
-                            // createMethod: createUser,
+                            createMethod: createPermission,
                             deleteMethod: deletePermission,
                             editMethod: editPermission,
                         }}

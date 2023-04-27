@@ -1,4 +1,4 @@
-import { Button } from "@mantine/core";
+import { Button, Switch } from "@mantine/core";
 import { closeAllModals, openConfirmModal, openModal } from "@mantine/modals";
 import { IconArrowDown, IconArrowUp, IconEdit, IconPaperclip, IconTrash } from "@tabler/icons";
 import { useState } from "preact/hooks";
@@ -49,6 +49,12 @@ export default ({ data, setLimit, attributes = [], newStruct = {}, refreshData, 
                                     </select>
                                 </div>
                                 :
+                                typeof newStruct.data[item] === 'boolean' ?
+                                    <div className="flex">
+                                        <label className="text-sm text-gray-600 flex-1">{item.replace('_', ' ').trim().toUpperCase()}</label>
+                                        <Switch className=" rounded-md p-1 flex-1" name={item}  />
+                                    </div>
+                                :
                                 <div className="flex flex-col">
                                     <label className="text-sm text-gray-600">{item.replace('_', ' ').trim().toUpperCase()}</label>
                                     <input type="text" className="bg-gray-200 rounded-md p-1" name={item} />
@@ -86,11 +92,11 @@ export default ({ data, setLimit, attributes = [], newStruct = {}, refreshData, 
 
                             <div className="flex">
                                 <input type="text" className="bg-gray-200 rounded-md p-1" placeholder="Search" onChange={e => setFilter(e.target.value)} />
-                                <button
+                                { newStruct.hasOwnProperty('createMethod') && <button
                                     onClick={createNew}
                                     className="bg-gray-700 px-4 py-2 rounded-md ml-2 hover:bg-gray-900 text-white font-bold ">
                                     Add New
-                                </button>
+                                </button>}
                             </div>
 
                         </div>
