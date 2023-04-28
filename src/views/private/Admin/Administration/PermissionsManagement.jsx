@@ -1,13 +1,14 @@
 import PageProvider from "../../../../providers/PageProvider"
 import CustomTable from "../../../../components/CustomTable"
 import { Card, CardSection, Divider, Pagination } from "@mantine/core"
-import { createPermission, createUser, deletePermission, deleteUser, editPermission, editUser, getPermissions, getUsers } from "../../../../api";
+import { createPermission, createRole, createUser, deletePermission, deleteRole, deleteUser, editPermission, editRole, editUser, getPermissions, getRoles, getUsers } from "../../../../api";
 import {useState,useEffect} from 'preact/hooks'
+import { permissible } from "../../../../providers/PermissionsProvider";
 export default () => {
 
 
     const [dataInfo, setDataInfo] = useState({ page: 0, count: 0 });
-    const [page, setPage] = useState(1);
+    const [page, setPage] = useState(0);
     const [data, setData] = useState([]);
     const [limit, setLimit] = useState(10);
   
@@ -22,8 +23,8 @@ export default () => {
     //     })
     // }
     const getData = () => {
-      getPermissions().then((res) => {
-        setData(res.data.users);
+      getRoles().then((res) => {
+        setData(res.data.roles);
       })
         .catch((err) => {
           setData([]);
@@ -36,6 +37,15 @@ export default () => {
   
     useEffect(getData, [page,limit])
     // useLayoutEffect(getInfo, [])
+    const PermissionContent =  Object.keys(permissible.value).map((key) => {
+        return {
+            [key] : false
+        }
+    }).reduce((a,b) => {
+        return {...a,...b}
+    },{})
+
+    
 
     return (
         <PageProvider>
@@ -47,21 +57,21 @@ export default () => {
                     </CardSection>
 
                     <CustomTable
-                        attributes={['id', 'title', 'permissions']}
+                        attributes={['name', 'description']}
 
                         remove
-
+                        edit
                         data={data}
                         setLimit={setLimit}
                         newStruct={{
                             data: {
-                                id: '',
-                                title: '',
-                                map: false,
+                                name : '',
+                                description : '',
+                                ...PermissionContent
                             },
-                            createMethod: createPermission,
-                            deleteMethod: deletePermission,
-                            editMethod: editPermission,
+                            createMethod: createRole,
+                            deleteMethod: deleteRole,
+                            editMethod: editRole,
                         }}
                         refreshData={refreshData}
                     />

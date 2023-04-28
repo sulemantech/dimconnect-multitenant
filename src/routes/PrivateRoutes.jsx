@@ -17,7 +17,7 @@ const TypeRoutes = {
         <Map path="/map/:ags" />,
         <Administration path="/administration" />,
         <UserManagement path="/administration/users" />,
-        <PermissionsManagement path="/administration/permissions" />,
+        <PermissionsManagement path="/administration/r&p" />,
         <Styles path="/styles" />
     ],
 }

@@ -1,9 +1,10 @@
 import { Button, Switch } from "@mantine/core";
 import { closeAllModals, openConfirmModal, openModal } from "@mantine/modals";
-import { IconArrowDown, IconArrowUp, IconEdit, IconPaperclip, IconTrash } from "@tabler/icons";
+import { IconArrowDown, IconArrowUp, IconEdit, IconPaperclip, IconPlus, IconTrash } from "@tabler/icons";
 import { useState } from "preact/hooks";
 import readXlsxFile from 'read-excel-file';
 import appConfig from '../config/appConfig'
+import { FaEdit, FaTrash } from "react-icons/fa";
 export default ({ data, setLimit, attributes = [], newStruct = {}, refreshData, edit = false, remove = false, attatchment = false }) => { // as {"id":25,"name":"HO1V","min":"25","max":"55"}[]
 
     const [sort, setSort] = useState({ field: "name", order: "asc" });
@@ -50,10 +51,13 @@ export default ({ data, setLimit, attributes = [], newStruct = {}, refreshData, 
                                 </div>
                                 :
                                 typeof newStruct.data[item] === 'boolean' ?
+                                <>
+                                
                                     <div className="flex">
                                         <label className="text-sm text-gray-600 flex-1">{item.replace('_', ' ').trim().toUpperCase()}</label>
                                         <Switch className=" rounded-md p-1 flex-1" name={item} />
                                     </div>
+                                    </>
                                     :
                                     <div className="flex flex-col">
                                         <label className="text-sm text-gray-600">{item.replace('_', ' ').trim().toUpperCase()}</label>
@@ -73,7 +77,7 @@ export default ({ data, setLimit, attributes = [], newStruct = {}, refreshData, 
     }
 
     return (
-        <div className="flex flex-col mx-6 shadow-xl rounded-md bg-white">
+        <div className="flex flex-col rounded-md bg-white">
             <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                     <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
@@ -92,11 +96,12 @@ export default ({ data, setLimit, attributes = [], newStruct = {}, refreshData, 
 
                             <div className="flex">
                                 <input type="text" className="bg-gray-200 rounded-md p-1" placeholder="Search" onChange={e => setFilter(e.target.value)} />
-                                {newStruct.hasOwnProperty('createMethod') && <button
+                                {newStruct.hasOwnProperty('createMethod') && <Button
+                                leftIcon={<IconPlus size={15} />}
                                     onClick={createNew}
-                                    className="bg-gray-700 px-4 py-2 rounded-md ml-2 hover:bg-gray-900 text-white font-bold ">
-                                    Add New
-                                </button>}
+                                    className="bg-[#0071b9] px-4 py-2 rounded-md ml-2 hover:bg-sky-800 text-white font-bold ">
+                                     Add New
+                                </Button>}
                             </div>
 
                         </div>
@@ -152,7 +157,7 @@ export default ({ data, setLimit, attributes = [], newStruct = {}, refreshData, 
                                             {
                                                 attributes?.map((attr) => {
                                                     return (
-                                                        <td key={attr + 'hgrui'} className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                        <td key={attr + 'hgrui'} className="px-6 text-left py-4 whitespace-nowrap text-sm text-gray-500">
                                                             {item[attr]}
                                                         </td>
                                                     )
@@ -160,14 +165,15 @@ export default ({ data, setLimit, attributes = [], newStruct = {}, refreshData, 
                                                 )
                                             }
                                             <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                {edit && <button
+                                                {edit && <Button
+                                                variant="light"
                                                     onClick={() => {
                                                         openModal({
                                                             title: 'Edit',
                                                             children: <EditForm item={item} newStruct={newStruct} />,
                                                         })
                                                     }}
-                                                    className="bg-gray-700 hover:bg-gray-900 text-white rounded-md p-2 mx-1"><IconEdit /></button>}
+                                                    className="bg-gray-700 hover:bg-gray-900 text-white rounded-md p-2 mx-1"><FaEdit /></Button>}
                                                 {attatchment && <button
                                                     onClick={() => {
                                                         openModal({
@@ -177,14 +183,22 @@ export default ({ data, setLimit, attributes = [], newStruct = {}, refreshData, 
                                                     }}
 
                                                     className="bg-gray-700 hover:bg-gray-900 text-white rounded-md p-2 mx-1"><IconPaperclip /></button>}
-                                                {remove && <button
+                                                {remove && <Button
+                                                    variant="light"
                                                     onClick={() => openConfirmModal({
                                                         title: 'Are You Sure?',
-                                                        description: 'This action cannot be undone',
-                                                        labels: { confirm: <Button className="bg-red-800 hover:bg-red-600 text-white rounded-md">Delete</Button>, cancel: 'Cancel' },
+                                                        children: <div>This action cannot be undone</div>,
+                                                        labels: { confirm: 'Delete', cancel: 'Cancel' },
+                                                        confirmProps: {
+                                                            variant: 'light',
+                                                            color: 'red',
+                                                        },
+                                                        cancelProps: {
+                                                            variant: 'light',
+                                                        },
                                                         onConfirm: () => newStruct.deleteMethod(item.id).then(res => refreshData())
                                                     })}
-                                                    className="bg-red-700 hover:bg-red-900 text-white rounded-md p-2 mx-1"><IconTrash /></button>}
+                                                    className="bg-red-700 hover:bg-red-900 text-white rounded-md p-2 mx-1"><FaTrash /></Button>}
                                             </td>
                                         </tr>
                                     ))}

@@ -44,3 +44,8 @@ export const getPermissions = () => api.get(`/permissions`)
 export const createPermission = (data,title) => api.post(`/permissions/${title}`,data)
 export const deletePermission = (id) => api.delete(`/permissions/${id}`)
 export const editPermission = (id,data) => api.patch(`/permissions/${id}`,data)
+
+export const getRoles = () => api.get(`/roles`)
+export const createRole = (data) => api.post(`/roles`,data)
+export const deleteRole = (id) => api.delete(`/roles/${id}`)
+export const editRole = (id,data) => api.put(`/roles/${id}`,data)

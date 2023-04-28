@@ -3,17 +3,19 @@ import PageProvider from "../../../../providers/PageProvider"
 import { route } from "preact-router"
 import { IconPremiumRights, IconUserCheck } from "@tabler/icons"
 import {useState} from 'preact/hooks'
+import { FaUserEdit, FaUsersCog } from 'react-icons/fa'
 export default () => {
     
 
     const [data, setData] = useState({
         "User Management": {
-            icon: <IconUserCheck size={25} className="text-[#0071b9]" />,
+            icon: <FaUserEdit size={30} className="text-[#0071b9]" />,
             route: 'users'
         },
-        "Permissions Management": {
-            icon: <IconPremiumRights size={25} className="text-[#0071b9]" />,
-            route: 'permissions'
+        "Roles and Permissions": {
+            // icon: <IconPremiumRights size={25} className="text-[#0071b9]" />,
+            icon : <FaUsersCog size={30} className="text-[#0071b9]" />,
+            route: 'r&p'
         }
     })
 
@@ -23,8 +25,8 @@ export default () => {
                 <Card>
                     <CardSection className="p-2">
 
-                        <h6 className='font-bold text-neutral-700 tracking-wider'>Administration</h6>
-                        <Divider />
+                        {/* <h6 className='font-bold text-neutral-700 tracking-wider'>Administration</h6>
+                        <Divider /> */}
                         <div>
 
                            
