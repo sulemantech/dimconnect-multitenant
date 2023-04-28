@@ -99,7 +99,7 @@ export default ({ modal = false }) => {
                 </Transition>
                 :
                 <>
-                { mapClickBindings.value.length == 0 &&
+                
                     <Modal opened={infoCardVal.value != null} withCloseButton={false} title="Info Card" size={'xl'}>
                     <div className="w-full h-full"
                         style={{
@@ -108,7 +108,7 @@ export default ({ modal = false }) => {
                     >
                         {view}
                     </div>
-                </Modal>}
+                </Modal>
                 </>
             }
         </>

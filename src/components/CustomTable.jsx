@@ -22,7 +22,7 @@ export default ({ data, setLimit, attributes = [], newStruct = {}, refreshData, 
             closeAllModals()
         })
             .catch((err) => {
-               
+
             })
     }
 
@@ -52,13 +52,13 @@ export default ({ data, setLimit, attributes = [], newStruct = {}, refreshData, 
                                 typeof newStruct.data[item] === 'boolean' ?
                                     <div className="flex">
                                         <label className="text-sm text-gray-600 flex-1">{item.replace('_', ' ').trim().toUpperCase()}</label>
-                                        <Switch className=" rounded-md p-1 flex-1" name={item}  />
+                                        <Switch className=" rounded-md p-1 flex-1" name={item} />
                                     </div>
-                                :
-                                <div className="flex flex-col">
-                                    <label className="text-sm text-gray-600">{item.replace('_', ' ').trim().toUpperCase()}</label>
-                                    <input type="text" className="bg-gray-200 rounded-md p-1" name={item} />
-                                </div>
+                                    :
+                                    <div className="flex flex-col">
+                                        <label className="text-sm text-gray-600">{item.replace('_', ' ').trim().toUpperCase()}</label>
+                                        <input type="text" className="bg-gray-200 rounded-md p-1" name={item} />
+                                    </div>
 
                         ))
                     }
@@ -92,7 +92,7 @@ export default ({ data, setLimit, attributes = [], newStruct = {}, refreshData, 
 
                             <div className="flex">
                                 <input type="text" className="bg-gray-200 rounded-md p-1" placeholder="Search" onChange={e => setFilter(e.target.value)} />
-                                { newStruct.hasOwnProperty('createMethod') && <button
+                                {newStruct.hasOwnProperty('createMethod') && <button
                                     onClick={createNew}
                                     className="bg-gray-700 px-4 py-2 rounded-md ml-2 hover:bg-gray-900 text-white font-bold ">
                                     Add New
@@ -341,23 +341,23 @@ const AttatchmentForm = ({ item, newStruct }) => {
             if (file.type == 'text/csv') {
                 const text = (e.target.result);
                 const data = text.split('\n').slice(1)?.map(row => {
-                        const lastComma = row.lastIndexOf(',');
-                        const sencondLastComma = row.lastIndexOf(',', lastComma - 1);
-                        const addr1 = row.substring(0, sencondLastComma);
-                        const city = row.substring(sencondLastComma + 1, lastComma);
-                        const postcode = row.substring(lastComma + 1);
-                        return { addr1, city, postcode };
-                    });
+                    const lastComma = row.lastIndexOf(',');
+                    const sencondLastComma = row.lastIndexOf(',', lastComma - 1);
+                    const addr1 = row.substring(0, sencondLastComma);
+                    const city = row.substring(sencondLastComma + 1, lastComma);
+                    const postcode = row.substring(lastComma + 1);
+                    return { addr1, city, postcode };
+                });
                 setData(data);
                 // if xlsx or xls
             } else if (file.type == 'application/vnd.ms-excel' || file.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
                 readXlsxFile(file).then((rows) => {
                     const data = rows.slice(1)?.map(row => {
-                            const addr1 = row[0];
-                            const city = row[1];
-                            const postcode = row[2];
-                            return { addr1, city, postcode };
-                        });
+                        const addr1 = row[0];
+                        const city = row[1];
+                        const postcode = row[2];
+                        return { addr1, city, postcode };
+                    });
                     setData(data);
                 })
             }

@@ -25,6 +25,7 @@ import { showNotification } from '@mantine/notifications';
 import DistrictPhase, { DistrictPhaseVisibility } from '../../private/Admin/Map/DistrictPhase';
 import appConfig from '../../../config/appConfig';
 import { mapClickBindings } from '../../../app';
+import { editControlLoading } from '../../private/Admin/Map/EditControl';
 const CustomGeoLocateData = signal(null)
 export default () => {
   const params = new URLSearchParams(window.location.search)
@@ -49,6 +50,7 @@ export default () => {
       binding(event)
     })
     if (editAddressPoint.value || addAddressPoint.value) return
+   
     if (features.length > 0) infoCardVal.value = features
     
   };
@@ -62,7 +64,7 @@ export default () => {
       document.getElementsByClassName('mapboxgl-canvas')[0].style.cursor = 'pointer'
 
       mapClickBindings.value['editAddressPoint'] = (event) => {
-
+        if (editControlLoading.value) return
         showEditAddressPointForm(event.features[0].properties.id)
       }
 

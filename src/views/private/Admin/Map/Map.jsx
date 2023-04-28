@@ -20,6 +20,7 @@ import Photos from './Photos';
 import DistrictPhase from './DistrictPhase';
 import appConfig from '../../../../config/appConfig';
 import { mapClickBindings } from '../../../../app';
+import { editControlLoading } from './EditControl';
 
 
 export const mapStyle = signal('https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json')
@@ -55,7 +56,7 @@ export default ({ children }) => {
       document.getElementsByClassName('mapboxgl-canvas')[0].style.cursor = 'pointer'
 
       mapClickBindings.value['editAddressPoint'] = (event) => {
-
+        if (editControlLoading.value) return
         showEditAddressPointForm(event.features[0].properties.id)
       }
 
