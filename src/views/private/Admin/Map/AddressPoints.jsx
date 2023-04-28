@@ -247,7 +247,7 @@ export const CreateAddressPointForm = ({ lat, lng }) => {
             <form onSubmit={onSubmit} style={{ width: "100%" }}>
                 <div className="flex">
                     <TextInput name="stn" label="Straße" required flex={6} style="width:60%" />
-                    <TextInput name="hnr" label="Hausnummer" required mx={4} type="number" flex={2.5} maxLength={3} style="width:25%"/>
+                    <TextInput name="hnr" label="Nr" required mx={4} type="number" flex={2.5} maxLength={3} style="width:25%"/>
                     <TextInput name="hnrz" label="Zusatz" flex={1.5} maxLength={2}  style="width:15%"/>
                 </div>
                 <div className="flex">
@@ -342,9 +342,9 @@ export const EditAddressPointForm = ({ prevdata }) => {
         <div>
             <form style={{ width: "100%" }} onSubmit={onSubmit}>
                 <Text style="display:inline-block">ID: {prevdata?.id}</Text>
-                <div className="flex">
-                <TextInput name="stn" label="Straße" required defaultValue={prevdata?.stn} style="width:60%"/>    
-                <TextInput name="hnr" label="Hausnummer" required mx={4} type="number" defaultValue={prevdata?.hnr} style="width:25%" maxLength={3} />
+                <div className="flex ">
+                <TextInput name="stn" label="Straße"  required defaultValue={prevdata?.stn} style="width:60%"/>    
+                <TextInput name="hnr" label="Nr" required mx={4} type="number" defaultValue={prevdata?.hnr} style="width:25%" maxLength={3} />
                 <TextInput name="hnrz" label="Zusatz" defaultValue={prevdata?.hnrz} style="width:15%" maxLength={2}/>
                 </div>
                 <div className="flex">
