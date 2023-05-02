@@ -5,7 +5,7 @@ import { Layer, Source, useMap } from "react-map-gl"
 import { signal } from "@preact/signals"
 import { useDidUpdate } from "@mantine/hooks"
 import { closeAllModals, openModal } from "@mantine/modals"
-import { Button, NativeSelect, Select, Text, TextInput, Textarea } from "@mantine/core"
+import { Button, NativeSelect, ScrollArea, Select, Text, TextInput, Textarea } from "@mantine/core"
 import { showNotification } from "@mantine/notifications"
 import jwtDecode from "jwt-decode"
 import appConfig from "../../../../config/appConfig"
@@ -171,7 +171,7 @@ export const CRUDAddressPoint = () => {
                                 })
                             })
                             .catch((e) => {
-                                console.log(e)
+                                editControlLoading.value = false
                                 showNotification({
                                     title: "Fehler",
                                     message: "Der Adresspunkt konnte nicht geladen werden",
@@ -239,10 +239,11 @@ export const CRUDAddressPointForm = ({ prevdata, edit = false, add = false,lat ,
                     position: "br",
                     autoClose: 5000,
                 })
-                addressPointsCRUDstate.value = 'add'
+                addressPointsCRUDstate.value = ''
                 closeAllModals()
             }).catch((e) => {
                 setLoading(false)
+                addressPointsCRUDstate.value = ''
                 showNotification({
                     title: "Fehler",
                     message: "Der Adresspunkt konnte nicht bearbeitet werden",
@@ -285,7 +286,8 @@ export const CRUDAddressPointForm = ({ prevdata, edit = false, add = false,lat ,
 
 
     return (
-        <div className="overflow-y-auto" style={{ maxHeight: "calc(100vh - 200px)" }}>
+        <div>
+            <ScrollArea className="max-h-[80vh]">
             <form style={{ width: "100%" }} onSubmit={onSubmit}>
 
                 <div className="flex ">
@@ -315,6 +317,7 @@ export const CRUDAddressPointForm = ({ prevdata, edit = false, add = false,lat ,
                     loading={loading}
                 >Speichern</Button>
             </form>
+            </ScrollArea>
         </div>
 
     )
