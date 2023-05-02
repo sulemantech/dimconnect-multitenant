@@ -246,17 +246,19 @@ export const CreateAddressPointForm = ({ lat, lng }) => {
         <div>
             <form onSubmit={onSubmit} style={{ width: "100%" }}>
                 <div className="flex">
-                    <TextInput name="stn" label="Straße" required flex={6} style="width:60%" />
-                    <TextInput name="hnr" label="Nr" required mx={4} type="number" flex={2.5} maxLength={3} style="width:25%"/>
-                    <TextInput name="hnrz" label="Zusatz" flex={1.5} maxLength={2}  style="width:15%"/>
+                    <TextInput name="stn" label="Straße" required className="flex-[2]" />
+                    <TextInput name="hnr" label="Nr" required mx={4} type="number" className="flex-1" maxLength={3} style="width:25%"/>
+                    <TextInput name="hnrz" label="Zusatz" flex={1.5} maxLength={2}  className="flex-1"/>
                 </div>
                 <div className="flex">
-                <TextInput name="plz" label="Plz" required />
-                <TextInput name="ort" label="Ort" required ml={4} />
+                <TextInput name="plz" label="Plz" required  className="flex-[1]"/>
+                <TextInput name="ort" label="Ort" className="flex-[2]" required mx={4} />
+                <TextInput name="ott" label="Ortsteil"  className="flex-[2]" />
                 </div>
-                <TextInput name="ott" label="Ortsteil"  />
-                <TextInput name="anz_hh" label="Anzahl der Haushalte" required type="number"/>
-                <TextInput name="anz_gew" label="Anzahl der Firmen" required type="number"/>
+                <div className="flex">
+                <TextInput name="anz_hh" label="Anzahl der Haushalte" required type="number" size="xs" className="flex-1"/>
+                <TextInput name="anz_gew" ml={4} label="Anzahl der Firmen" required type="number" size="xs" className="flex-1"/>
+                </div>
                 <NativeSelect name="status" label="Wird beplant" data={[{ value: 1, label: "ja (Anschluss prüfen)" }, { value: 2, label: "ja" }, { value: 3, label: "nein (Anschluss geprüft)" }, { value: 4, label: "nein" }, { value: 5, label: "inexistente Adresse" }]} />
                 <NativeSelect name="status_bemerkung" label="Begründung keine Beplanung" required data={[{ value: 1, label: "Keine Auswahl" },{ value: 2, label: "Plan-Versorgung laut Ortskenntnis" }, { value: 3, label: "Ist-Versorgung laut Ortskenntnis" }, { value: 4, label: "Kein relevanter Standort" }, { value: 5, label: "Sonstige" }]} />
                 <Textarea name="status_bemerkung_sonstiges" label="Sonstige Bemerkung zur Beplanung"  />
@@ -280,7 +282,7 @@ export const showEditAddressPointForm = async (id) => {
    .then((res) => {
     editControlLoading.value = false
         openModal({
-            title: "Adresspunkt bearbeiten",
+            title: `Adresspunkt bearbeiten | ID ${id}`,
             children: <EditAddressPointForm prevdata={{ ...res.data, id }} />
         })
     })
@@ -341,19 +343,21 @@ export const EditAddressPointForm = ({ prevdata }) => {
     return (
         <div>
             <form style={{ width: "100%" }} onSubmit={onSubmit}>
-                <Text style="display:inline-block">ID: {prevdata?.id}</Text>
+             
                 <div className="flex ">
-                <TextInput name="stn" label="Straße"  required defaultValue={prevdata?.stn} style="width:60%"/>    
-                <TextInput name="hnr" label="Nr" required mx={4} type="number" defaultValue={prevdata?.hnr} style="width:25%" maxLength={3} />
-                <TextInput name="hnrz" label="Zusatz" defaultValue={prevdata?.hnrz} style="width:15%" maxLength={2}/>
+                <TextInput name="stn" label="Straße"  required defaultValue={prevdata?.stn} className="flex-[2]"/>    
+                <TextInput name="hnr" label="Nr" required mx={4} type="number" defaultValue={prevdata?.hnr} className="flex-1" maxLength={3} />
+                <TextInput name="hnrz" label="Zusatz" defaultValue={prevdata?.hnrz} className="flex-1" maxLength={2}/>
                 </div>
                 <div className="flex">
-                <TextInput name="plz" label="Plz" required defaultValue={prevdata?.plz} />
-                <TextInput name="ort" label="Ort" required ml={4} defaultValue={prevdata?.ort} />
+                <TextInput name="plz" label="Plz" required className="flex-[1]" defaultValue={prevdata?.plz} />
+                <TextInput name="ort" label="Ort" required mx={4} className="flex-[2]" defaultValue={prevdata?.ort} />
+                <TextInput name="ott" label="Ortsteil"  className="flex-[2]" defaultValue={prevdata?.ott} />
                 </div>
-                <TextInput name="ott" label="Ortsteil" defaultValue={prevdata?.ott} />
-                <TextInput name="anz_hh" label="Anzahl der Haushalte" required type="number" defaultValue={prevdata?.anz_hh} />
-                <TextInput name="anz_gew" label="Anzahl der Firmen" required type="number" defaultValue={prevdata?.anz_gew} />
+                <div className="flex">
+                <TextInput name="anz_hh" label="Anzahl der Haushalte" required type="number" defaultValue={prevdata?.anz_hh} size="xs" className="flex-1"/>
+                <TextInput name="anz_gew" ml={4} label="Anzahl der Firmen" required type="number" defaultValue={prevdata?.anz_gew} size="xs" className="flex-1"/>
+                </div>
                 <NativeSelect name="status" label="Wird beplant" data={[{ value: 1, label: "ja (Anschluss prüfen)" }, { value: 2, label: "ja" }, { value: 3, label: "nein (Anschluss geprüft)" }, { value: 4, label: "nein" }, { value: 5, label: "inexistente Adresse" }]} defaultValue={prevdata?.status} />
                 <NativeSelect name="status_bemerkung" label="Begründung keine Beplanung" required data={[{ value: 1, label: "Keine Auswahl" }, { value: 2, label: "Plan-Versorgung laut Ortskenntnis" }, { value: 3, label: "Ist-Versorgung laut Ortskenntnis" }, { value: 4, label: "Kein relevanter Standort" }, { value: 5, label: "Sonstige" }]} defaultValue={prevdata?.status_bemerkung} />
                 <Textarea name="status_bemerkung_sonstiges" label="Sonstige Bemerkung zur Beplanung" defaultValue={prevdata?.status_bemerkung_sonstiges} />
