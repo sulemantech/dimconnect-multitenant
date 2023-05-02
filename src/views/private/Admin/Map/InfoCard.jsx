@@ -100,7 +100,7 @@ export default ({ modal = false }) => {
                 :
                 <>
                 
-                    <Modal opened={infoCardVal.value != null} withCloseButton={false} title="Info Card" size={'xl'}>
+                    <Modal opened={infoCardVal.value != null} onClose={onClose} title="Info Card" size={'xl'}>
                     <div className="w-full h-full"
                         style={{
                             maxWidth: '80vw',
