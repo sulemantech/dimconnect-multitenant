@@ -1,20 +1,19 @@
-import './app.css'
 import { MantineProvider } from '@mantine/core';
 import { AuthProvider } from './providers/AuthProvider';
 import { ModalsProvider } from '@mantine/modals';
 import { signal } from '@preact/signals';
 import LZString from 'lz-string';
-import {feature} from 'topojson-client'
-import { NotificationsProvider } from '@mantine/notifications';
+import { feature } from 'topojson-client'
+import { Notifications } from '@mantine/notifications';
 
 export const districts = signal({})
 
 fetch('/german.json.lz').then(res => res.text()).then(res => {
-const uncompressed = JSON.parse( LZString.decompressFromBase64(res))
+  const uncompressed = JSON.parse(LZString.decompressFromBase64(res))
 
-const parsed = feature(uncompressed,uncompressed?.objects?.german)
+  const parsed = feature(uncompressed, uncompressed?.objects?.german)
 
-districts.value = parsed
+  districts.value = parsed
 
 })
 
@@ -25,14 +24,21 @@ export function App() {
   return (
 
     <>
-      <MantineProvider withGlobalStyles withNormalizeCSS>
-        <NotificationsProvider>
-        <ModalsProvider>
-          <div className='select-none antialiased text-gray-700 tracking-tight'>
-        <AuthProvider />
-        </div>
+      <MantineProvider theme={{ fontFamily: 'Greycliff CF, sans-serif' }}>
+        <ModalsProvider modalProps={{
+          overlayProps: {
+            style : {
+              backdropFilter: 'blur(3px)'
+            }
+          }
+        }}>
+          <Notifications />
+            
+            <div className='select-none antialiased text-gray-700 tracking-tight min-h-screen'>
+              <AuthProvider />
+            </div>
+         
         </ModalsProvider>
-        </NotificationsProvider>
       </MantineProvider>
     </>
 
