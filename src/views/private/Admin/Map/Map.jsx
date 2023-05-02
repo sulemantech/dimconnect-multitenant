@@ -11,7 +11,7 @@ import SearchControl from './SearchControl';
 import DataTiles, { visibility } from './DataTiles';
 import { Boundary } from '../Dashboard/Submap';
 const Gpx = lazy(() => import('./Gpx'));
-import AddressPoints, { CreateAddressPoint, addAddressPoint, editAddressPoint, showEditAddressPointForm } from './AddressPoints'
+import AddressPoints, { CRUDAddressPoint, addressPointsCRUDstate } from './AddressPoints'
 import InfoCard, { infoCardVal } from './InfoCard';
 import { LoadingOverlay } from '@mantine/core';
 import Popup from './Popup';
@@ -39,31 +39,18 @@ export default ({ children }) => {
   }, [])
   const handleMapClick = (event) => {
     const features = event.features.filter(f => !additionalInteractiveLayers.value.includes(f.layer.id))
-    Object.values(mapClickBindings.value).forEach((binding) => {
+    const filteredFeatures = event.features.filter(f => additionalInteractiveLayers.value.includes(f.layer.id))
+    
+    filteredFeatures.length > 0 && Object.values(mapClickBindings.value).forEach((binding) => {
       binding(event)
     })
-    if (editAddressPoint.value || addAddressPoint.value) return
+   
+    if (addressPointsCRUDstate.value !== '') return
     if (features.length > 0) infoCardVal.value = features
 
   };
   const handleMaphover = (event) => {
-    if (!editAddressPoint.value) return
-    const features = event.features.filter(f => additionalInteractiveLayers.value.includes(f.layer.id))
-
-    if (features.length > 0) {
-      const feature = features[0]
-      const layer = feature.layer
-      document.getElementsByClassName('mapboxgl-canvas')[0].style.cursor = 'pointer'
-
-      mapClickBindings.value['editAddressPoint'] = (event) => {
-        if (editControlLoading.value) return
-        showEditAddressPointForm(event.features[0].properties.id)
-      }
-
-    } else {
-      document.getElementsByClassName('mapboxgl-canvas')[0].style.cursor = 'grab'
-      delete mapClickBindings.value['editAddressPoint']
-    }
+    
 
   };
 
@@ -118,7 +105,7 @@ export default ({ children }) => {
         <Popup />
         {/* <Netzplanning /> */}
         <DistrictPhase grouped />
-        <CreateAddressPoint />
+        <CRUDAddressPoint />
       </Suspense>
     </Map>
   );

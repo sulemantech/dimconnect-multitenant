@@ -11,7 +11,7 @@ import SearchControl from '../../private/Admin/Map/SearchControl';
 import DataTiles, { visibility } from '../../private/Admin/Map/DataTiles';
 import { Boundary } from '../../private/Admin/Dashboard/Submap';
 
-import AddressPoints, { CreateAddressPoint, addAddressPoint, addressPointsReceived, editAddressPoint, showEditAddressPointForm } from '../../private/Admin/Map/AddressPoints';
+import AddressPoints, { CRUDAddressPoint, addressPointsCRUDstate } from '../../private/Admin/Map/AddressPoints';
 
 const InfoCard = lazy(() => import('../../private/Admin/Map/InfoCard'));
 import { infoCardVal } from '../../private/Admin/Map/InfoCard';
@@ -49,13 +49,13 @@ export default () => {
     Object.values(mapClickBindings.value).forEach(binding => {
       binding(event)
     })
-    if (editAddressPoint.value || addAddressPoint.value) return
+    if (addressPointsCRUDstate.value != '') return
    
     if (features.length > 0) infoCardVal.value = features
     
   };
   const handleMaphover = (event) => {
-    if (!editAddressPoint.value) return
+    if (addressPointsCRUDstate.value == '') return
     const features = event.features.filter(f => additionalInteractiveLayers.value.includes(f.layer.id))
 
     if (features.length > 0) {
@@ -136,7 +136,7 @@ export default () => {
         <Gpx />
         <InfoCard modal/>
         <Photos />
-        <CreateAddressPoint />
+        <CRUDAddressPoint />
       
         <DataTiles ags />
         <Popup />

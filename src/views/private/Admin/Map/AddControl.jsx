@@ -3,10 +3,10 @@ import { IconMap, IconPlus } from "@tabler/icons"
 import { mapStyle } from "./Map"
 import { closeAllModals, openModal } from "@mantine/modals"
 import { useState } from "react"
-import { addAddressPoint } from "./AddressPoints"
+import {  addressPointsCRUDstate } from "./AddressPoints"
 import { signal } from "@preact/signals"
 import { useEffect } from "preact/hooks"
-export const throwAddControlAntiMethods = signal(0)
+
 export default ({ modal = false }) => {
 
     const [activeOption, setActiveOption] = useState(null)
@@ -14,21 +14,22 @@ export default ({ modal = false }) => {
     const Options = {
         'Address Point': {
             "method" : () => {
-                addAddressPoint.value = true
+                addressPointsCRUDstate.value = 'add'
             },
             "antiMethod" : () => {
-                addAddressPoint.value = false
+                addressPointsCRUDstate.value = ''
             }
         },
         
     }
 
     useEffect(() => {
-        throwAddControlAntiMethods.subscribe(() => {
-            setActiveOption(null)
-            Object.keys(Options)?.map((key, index) => {
-                Options[key].antiMethod()
-            })
+        addressPointsCRUDstate.subscribe(() => {
+            if (addressPointsCRUDstate.value === 'add') {
+                setActiveOption('Address Point')
+            } else {
+                setActiveOption(null)
+            }
         })
     }, [])
 
