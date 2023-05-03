@@ -88,7 +88,7 @@ export const netzplanninglegend = signal({
     // }
 })
 
-export default () => {
+export default ({noAddressPoint=false,noStatus=false}) => {
     return (
         <div className="relative text-xs flex flex-col p-2 shadow-md rounded-md mt-2 bg-white">
             <h6 className="mb-1"><b>Legend</b></h6>
@@ -100,7 +100,7 @@ export default () => {
                     DistrictPhaseVisibility.value = true
                 }
             }}>
-                <Accordion.Item value="Address Points" className="text-xs">
+              {!noAddressPoint &&  <Accordion.Item value="Address Points" className="text-xs">
                     <Accordion.Control className="text-xs last:p-0"  value={"Address Points"}>Address Points</Accordion.Control>
                     <Accordion.Panel>
                         <div>
@@ -134,8 +134,8 @@ export default () => {
                             }
                         </div>
                     </Accordion.Panel>
-                </Accordion.Item>
-                <Accordion.Item value="Status" className="text-xs">
+                </Accordion.Item>}
+               {!noStatus && <Accordion.Item value="Status" className="text-xs">
                     <Accordion.Control value={'Status'} className="text-xs last:p-0">Status</Accordion.Control>
                     <Accordion.Panel>
                         <div>
@@ -178,7 +178,7 @@ export default () => {
                             }
                         </div>
                     </Accordion.Panel>
-                </Accordion.Item>
+                </Accordion.Item>}
             </Accordion>
         </div>
     )

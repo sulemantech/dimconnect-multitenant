@@ -240,11 +240,11 @@ export const CRUDAddressPointForm = ({ prevdata, edit = false, add = false,lat ,
                     position: "br",
                     autoClose: 5000,
                 })
-                addressPointsCRUDstate.value = ''
+               
                 closeAllModals()
             }).catch((e) => {
                 setLoading(false)
-                addressPointsCRUDstate.value = ''
+                
                 showNotification({
                     title: "Fehler",
                     message: "Der Adresspunkt konnte nicht bearbeitet werden",

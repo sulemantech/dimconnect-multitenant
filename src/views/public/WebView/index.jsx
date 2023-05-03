@@ -13,7 +13,8 @@ export default () => {
     const params = new URLSearchParams(window.location.search)
     const ags = params.get('ags')
     const client = params.get('client')
-
+    const statusPage = params.get('statusPage')
+   
     if (ags) {
         dropvalue.value = ags
     }
@@ -25,7 +26,7 @@ export default () => {
                     ags && client === 'ios' ?
                         <div className="flex relative flex-col h-full">
                             <MapView /> 
-                           
+                            {!statusPage &&
                             <BottomRight>
                                 <>
                                     <div>
@@ -36,12 +37,13 @@ export default () => {
                                     </div>
                                    
                                 </>
-                            </BottomRight>
+                            </BottomRight>}
                             <BottomLeft>
                                 <div className="mb-8">
-                                <Legend />
+                                <Legend noAddressPoint={statusPage} noStatus={!statusPage}/>
                                 </div>
                             </BottomLeft>
+
                         </div>
                         :
                         <div>Not Valid Params</div>
