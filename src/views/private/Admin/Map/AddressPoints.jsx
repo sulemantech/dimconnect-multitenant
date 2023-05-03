@@ -152,14 +152,14 @@ export const CRUDAddressPoint = () => {
 
 
         addressPointsCRUDstate.subscribe(val => {
-            
+           
             if (val !== '') {
                 
                 document.getElementsByClassName("mapboxgl-canvas")[0].style.cursor = val == 'edit' ? "pointer" : "crosshair"
                 mapClickBindings.value['CRUDAddressPoint'] = (e) => {
                     e.preventDefault()
                     if (val == 'edit' && !editControlLoading.value) {
-                        if (e.features[0].properties.id == undefined && e.features[0].layer.id !== 'addressPoints') return
+                        if (e.features[0].properties.id == undefined || e.features[0].layer.id !== 'addressPoints') return
                         editControlLoading.value = true
                         const id = e.features[0].properties.id
                         getAddressPointDetails(dropvalue.value,id)
@@ -179,7 +179,7 @@ export const CRUDAddressPoint = () => {
                                 })
                             })
                     } else if (val == 'add') {
-                        
+                       
                         openModal({
                             title: "Neuer Adresspunkt",
                             children: <CRUDAddressPointForm lat={e.lngLat.lat} lng={e.lngLat.lng} add />

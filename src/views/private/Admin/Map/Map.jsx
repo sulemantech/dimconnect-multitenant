@@ -39,9 +39,8 @@ export default ({ children }) => {
   }, [])
   const handleMapClick = (event) => {
     const features = event.features.filter(f => !additionalInteractiveLayers.value.includes(f.layer.id))
-    const filteredFeatures = event.features.filter(f => additionalInteractiveLayers.value.includes(f.layer.id))
     
-    filteredFeatures.length > 0 && Object.values(mapClickBindings.value).forEach((binding) => {
+    Object.values(mapClickBindings.value).forEach((binding) => {
       binding(event)
     })
    
