@@ -56,23 +56,7 @@ export default () => {
     
   };
   const handleMaphover = (event) => {
-    if (addressPointsCRUDstate.value == '') return
-    const features = event.features.filter(f => additionalInteractiveLayers.value.includes(f.layer.id))
 
-    if (features.length > 0) {
-      const feature = features[0]
-      const layer = feature.layer
-      document.getElementsByClassName('mapboxgl-canvas')[0].style.cursor = 'pointer'
-
-      mapClickBindings.value['editAddressPoint'] = (event) => {
-        if (editControlLoading.value) return
-        showEditAddressPointForm(event.features[0].properties.id)
-      }
-
-    } else {
-      document.getElementsByClassName('mapboxgl-canvas')[0].style.cursor = 'grab'
-      delete mapClickBindings.value['editAddressPoint']
-    }
 
   };
  
