@@ -286,8 +286,8 @@ export const CRUDAddressPointForm = ({ prevdata, edit = false, add = false,lat ,
 
 
     return (
+            <ScrollArea >
         <div>
-            <ScrollArea className="max-h-[80vh]">
             <form style={{ width: "100%" }} onSubmit={onSubmit}>
 
                 <div className="flex ">
@@ -317,8 +317,8 @@ export const CRUDAddressPointForm = ({ prevdata, edit = false, add = false,lat ,
                     loading={loading}
                 >Speichern</Button>
             </form>
-            </ScrollArea>
         </div>
+            </ScrollArea>
 
     )
 }
