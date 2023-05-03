@@ -286,7 +286,7 @@ export const CRUDAddressPointForm = ({ prevdata, edit = false, add = false,lat ,
 
 
     return (
-            <ScrollArea >
+            <ScrollArea className="touch-auto" type="always">
         <div>
             <form style={{ width: "100%" }} onSubmit={onSubmit}>
 

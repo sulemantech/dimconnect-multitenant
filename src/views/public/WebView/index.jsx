@@ -1,5 +1,5 @@
 import { dropvalue } from "../../../layout/Header"
-import { BottomRight } from "../../private/Admin/Map"
+import { BottomLeft, BottomRight } from "../../private/Admin/Map"
 import BaseMapControl from "../../private/Admin/Map/BaseMapControl"
 import Legend from "../../private/Admin/Map/Legend"
 import OverlayControl from "../../private/Admin/Map/OverlayControl"
@@ -37,6 +37,9 @@ export default () => {
                                    
                                 </>
                             </BottomRight>
+                            <BottomLeft>
+                                <Legend />
+                            </BottomLeft>
                         </div>
                         :
                         <div>Not Valid Params</div>

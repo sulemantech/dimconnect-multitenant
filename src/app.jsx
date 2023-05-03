@@ -30,11 +30,13 @@ export function App() {
             style : {
               backdropFilter: 'blur(3px)'
             }
-          }
+          },
+          lockScroll:false
+          
         }}>
           <Notifications />
             
-            <div className='select-none antialiased text-gray-700'>
+            <div className='select-none antialiased text-gray-700 ='>
               <AuthProvider />
             </div>
          
