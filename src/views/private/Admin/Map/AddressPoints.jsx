@@ -159,9 +159,10 @@ export const CRUDAddressPoint = () => {
                 mapClickBindings.value['CRUDAddressPoint'] = (e) => {
                     e.preventDefault()
                     if (val == 'edit' && !editControlLoading.value) {
-                        if (e.features[0].properties.id == undefined || e.features[0].layer.id !== 'addressPoints') return
+                        let filtered = e.features.filter((feature) => feature.layer.id === 'addressPoints')
+                        if (filtered.length == 0) return
                         editControlLoading.value = true
-                        const id = e.features[0].properties.id
+                        const id = filtered[0].properties.id
                         getAddressPointDetails(dropvalue.value,id)
                             .then((res) => {
                                 editControlLoading.value = false
