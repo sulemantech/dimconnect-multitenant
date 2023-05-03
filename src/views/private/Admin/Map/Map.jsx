@@ -66,6 +66,7 @@ export default ({ children }) => {
       optimizeForTerrain={true}
       workerCount={4}
       flex={3}
+      onError={(e) => {}}
       // hash={true}
       refreshExpiredTiles={true}
       style={{ width: '100%', height: '100%' }}

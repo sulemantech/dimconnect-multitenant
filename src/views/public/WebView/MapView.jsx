@@ -77,6 +77,7 @@ export default () => {
         zoom: 5,
 
       }}
+      onError={(e) => {}}
       interactiveLayerIds={interactiveLayerIds}
       transformRequest={(url, resourceType) => {
         if(url.includes('dim-tileserver')) {
