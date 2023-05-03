@@ -62,7 +62,7 @@ export default ({ modal = false }) => {
                     {
                         segment && <>
                             <div className="text-sm font-semibold text-gray-700">
-                                <Carousel mx="auto" withControls={infoCardData?.find(item => item.sourceLayer?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase() === segment)?.count > 1}>
+                                <Carousel prop mx="auto" withControls={infoCardData?.find(item => item.sourceLayer?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase() === segment)?.count > 1}>
                                     {
                                         (infoCardData?.find(item => item.sourceLayer?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase() === segment)?.properties || []).slice(0,20)?.flatMap((item, index) => {
                                             return (
@@ -116,8 +116,8 @@ export default ({ modal = false }) => {
 }
 
 const MemoizedCarousel = memo(({ item }) => (
-    <Carousel.Slide>
-        <ScrollArea className="h-96">
+    <Carousel.Slide >
+        <ScrollArea className="h-96" type="always">
             <JsonToTable json={item} />
         </ScrollArea>
     </Carousel.Slide>
