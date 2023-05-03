@@ -9,7 +9,7 @@ const OverlayControl = lazy(() => import('./OverlayControl'))
 
 export default () => {
   return (
-    <div className="absolute left-0 top-0 bottom-0 right-0">
+    <div className="absolute left-0 top-0 bottom-0 right-0 touch-none overflow-hidden">
       <Suspense fallback={<div>Loading...</div>}>
         <Map />
         <BottomRight>

@@ -19,7 +19,7 @@ export default () => {
     }
 
     return (
-        <div className="m-0 absolute top-0 left-0 right-0 bottom-0 overflow-hidden">
+        <div className="m-0 absolute top-0 left-0 right-0 bottom-8 touch-none overflow-hidden">
             <ProtectedWrapper>
                 {
                     ags && client === 'ios' ?
@@ -38,7 +38,9 @@ export default () => {
                                 </>
                             </BottomRight>
                             <BottomLeft>
+                                <div className="mb-8">
                                 <Legend />
+                                </div>
                             </BottomLeft>
                         </div>
                         :
