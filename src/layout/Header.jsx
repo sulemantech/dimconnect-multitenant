@@ -211,7 +211,7 @@ export default () => {
   }, [])
 
     return (
-      <div className="absolute shadow-lg border-white border-solid border-2 items-center right-0 left-0 m-2 rounded-2xl top-0 z-10 h-20  flex px-4 bg-[#0071b9] ">
+      <div className="absolute z-[9999] shadow-lg border-white border-solid border-2 items-center right-0 left-0 m-2 rounded-2xl top-0 h-20  flex px-4 bg-[#0071b9] ">
         <Burger
           onClick={() => {
             collapsed.value = !collapsed.value

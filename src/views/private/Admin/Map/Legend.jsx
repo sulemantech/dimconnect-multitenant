@@ -92,7 +92,7 @@ export const netzplanninglegend = signal({
 
 export default ({noAddressPoint=false,noStatus=false}) => {
     const [value, setValue] = useState('Address Points')
-    const [collapsed, setCollapsed] = useState(false)
+    const [collapsed, setCollapsed] = useState(!noAddressPoint)
     useDidUpdate(() => {
         setTimeout(() => {
         if(value == null) setCollapsed(true)
