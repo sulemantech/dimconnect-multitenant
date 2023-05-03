@@ -24,7 +24,7 @@ export default () => {
                 {
                     ags && client === 'ios' ?
                         <div className="flex relative flex-col h-full">
-                            <MapView />
+                            <MapView /> 
                            
                             <BottomRight>
                                 <>
