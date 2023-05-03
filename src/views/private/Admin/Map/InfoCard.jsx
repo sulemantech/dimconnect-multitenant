@@ -43,7 +43,7 @@ export default ({ modal = false }) => {
     
     const view = useMemo(() => {
         return (
-            infoCardData && <div className="">
+            infoCardData && <div className="mt-2">
                 <div className="flex items-center">
                     <div className="flex-1" />
                     <div className="absolute -right-3 -top-3">
@@ -100,11 +100,9 @@ export default ({ modal = false }) => {
                 :
                 <>
                 
-                    <Modal opened={infoCardVal.value != null} onClose={onClose} title="Info Card" size={'xl'}>
+                    <Modal lockScroll={false} padding={'xs'} opened={infoCardVal.value != null} onClose={onClose} title="Info Card" size={'xl'}>
                     <div className="w-full h-full"
-                        style={{
-                            maxWidth: '80vw',
-                        }}
+                        
                     >
                         {view}
                     </div>
@@ -117,9 +115,9 @@ export default ({ modal = false }) => {
 
 const MemoizedCarousel = memo(({ item }) => (
     <Carousel.Slide >
-        <ScrollArea className="h-96" type="always">
+        
             <JsonToTable json={item} />
-        </ScrollArea>
+        
     </Carousel.Slide>
 ))
 
