@@ -2,6 +2,7 @@ import { Menu } from "@mantine/core"
 import { IconMap } from "@tabler/icons"
 import { mapStyle } from "./Map"
 import { closeAllModals, openModal } from "@mantine/modals"
+import { FabClass } from "../../../../layout"
 
 export default ({ modal = false }) => {
 
@@ -11,9 +12,13 @@ export default ({ modal = false }) => {
         Light: 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json'
     }
 
+    const Basemapbutton = <div
+        className={` ${FabClass} text-[#0071b9] bg-white `}
+        ><IconMap className="scale-150" /> </div>
+
     if (modal) {
         return (
-            <div className=" hover:scale-95 border-white border-solid items-center justify-center h-16 aspect-square w-16 flex border-2 transition-all cursor-pointer z-70  p-3 rounded-full shadow-lg text-[#0071b9] bg-white "
+            <div
                 onClick={() => {
                     openModal({
                         title: 'Map Style',
@@ -23,15 +28,14 @@ export default ({ modal = false }) => {
                                     Object.keys(Styles)?.map((key, index) => {
                                         return (
                                             <>
-                                            <div className={`flex gap-2 items-center ${
-                                                mapStyle.value === Styles[key] ? ' text-gray-600' : ' text-[#0071b9]'
-                                            }`} key={index} onClick={() => {
-                                                mapStyle.value = Styles[key]
-                                                closeAllModals()
-                                            }}>
-                                                   <div className="text-lg">{key}</div>
-                                            </div>
-                                            <hr className={'my-2'}/>
+                                                <div className={`flex gap-2 items-center ${mapStyle.value === Styles[key] ? ' text-gray-600' : ' text-[#0071b9]'
+                                                    }`} key={index} onClick={() => {
+                                                        mapStyle.value = Styles[key]
+                                                        closeAllModals()
+                                                    }}>
+                                                    <div className="text-lg">{key}</div>
+                                                </div>
+                                                <hr className={'my-2'} />
                                             </>
                                         )
                                     }
@@ -43,7 +47,7 @@ export default ({ modal = false }) => {
                     })
                 }}
             >
-                <IconMap size={30} />
+                {Basemapbutton}
             </div>
 
         )
@@ -53,22 +57,19 @@ export default ({ modal = false }) => {
 
         <Menu position="left-end" withArrow>
             <Menu.Target>
-                <div className=" hover:scale-95 border-white border-solid items-center justify-center h-16 aspect-square w-16 flex border-2 transition-all cursor-pointer z-70  p-3 rounded-full shadow-lg text-[#0071b9] bg-white ">
-
-                    <IconMap size={30} />
-                </div>
+                {Basemapbutton}
             </Menu.Target>
             <Menu.Dropdown>
                 {
                     Object.keys(Styles)?.map((key, index) => {
                         return (
                             <Menu.Item key={index}
-                            color={
-                                mapStyle.value === Styles[key] ? 'gray' : 'blue'
-                            }
-                             onClick={() => {
-                                mapStyle.value = Styles[key]
-                            }}>
+                                color={
+                                    mapStyle.value === Styles[key] ? 'gray' : 'blue'
+                                }
+                                onClick={() => {
+                                    mapStyle.value = Styles[key]
+                                }}>
                                 {key}
                             </Menu.Item>
                         )

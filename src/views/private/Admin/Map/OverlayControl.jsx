@@ -8,6 +8,7 @@ import { photoVisibility } from "./Photos"
 import { closeAllModals, openModal } from "@mantine/modals"
 import { videoVisibility } from "./Gpx"
 import { addressPointsVisibility } from "./AddressPoints"
+import { FabClass } from "../../../../layout"
 
 export default ({ modal = false }) => {
     const [data, setData] = useState({})
@@ -15,9 +16,13 @@ export default ({ modal = false }) => {
         setData(JSON.parse(visibility.value) || {})
     }, [visibility.value])
 
+    const OverlayControlButton =   <div id='overlaycontrol' className={`${FabClass} mb-2 text-[#0071b9] bg-white`}>
+    <IconStack2 className="scale-150" />
+</div>
+
     if (modal) {
         return (
-            <div id='overlaycontrol' className="hover:scale-95 items-center justify-center flex border-white border-solid border-2 transition-all cursor-pointer mb-2 h-16 aspect-square w-16 z-70 p-3 rounded-full shadow-lg text-[#0071b9] bg-white "
+            <div id='overlaycontrol' 
                 onClick={() => {
                     openModal({
                         title: 'Overlay Control',
@@ -87,7 +92,7 @@ export default ({ modal = false }) => {
 
                 }}
             >
-                <IconStack2 size={30} />
+                {OverlayControlButton}
             </div>
         )
 
@@ -97,9 +102,7 @@ export default ({ modal = false }) => {
 
         <Menu position="left-end" withArrow>
             <Menu.Target>
-                <div id='overlaycontrol' className="hover:scale-95 items-center justify-center flex border-white border-solid border-2 transition-all cursor-pointer mb-2 h-16 aspect-square w-16 z-70 p-3 rounded-full shadow-lg text-[#0071b9] bg-white ">
-                    <IconStack2 size={30} />
-                </div>
+              {OverlayControlButton}
             </Menu.Target>
             <Menu.Dropdown>
             <Menu.Item onClick={() => {

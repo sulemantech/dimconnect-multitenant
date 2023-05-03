@@ -34,7 +34,7 @@ export function App() {
         }}>
           <Notifications />
             
-            <div className='select-none antialiased text-gray-700 tracking-tight min-h-screen'>
+            <div className='select-none antialiased text-gray-700'>
               <AuthProvider />
             </div>
          

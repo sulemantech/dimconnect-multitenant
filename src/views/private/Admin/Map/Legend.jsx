@@ -93,7 +93,7 @@ export default () => {
         <div className="relative text-xs flex flex-col p-2 shadow-md rounded-md mt-2 bg-white">
             <h6 className="mb-1"><b>Legend</b></h6>
             <hr className="mb-2" />
-            <Accordion defaultValue={'Address Points'} className="text-xs" onChange={(e) => {
+            <Accordion defaultValue={window.innerWidth>768?'Address Points':''} className="text-xs" onChange={(e) => {
                 if (e !== 'Status') {
                     DistrictPhaseVisibility.value = false
                 } else {
@@ -101,7 +101,7 @@ export default () => {
                 }
             }}>
                 <Accordion.Item value="Address Points" className="text-xs">
-                    <Accordion.Control value={"Address Points"}>Address Points</Accordion.Control>
+                    <Accordion.Control className="text-xs last:p-0"  value={"Address Points"}>Address Points</Accordion.Control>
                     <Accordion.Panel>
                         <div>
                             {
@@ -136,7 +136,7 @@ export default () => {
                     </Accordion.Panel>
                 </Accordion.Item>
                 <Accordion.Item value="Status" className="text-xs">
-                    <Accordion.Control value={'Status'}>Status</Accordion.Control>
+                    <Accordion.Control value={'Status'} className="text-xs last:p-0">Status</Accordion.Control>
                     <Accordion.Panel>
                         <div>
                             {

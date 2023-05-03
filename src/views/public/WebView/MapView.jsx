@@ -26,6 +26,7 @@ import DistrictPhase, { DistrictPhaseVisibility } from '../../private/Admin/Map/
 import appConfig from '../../../config/appConfig';
 import { mapClickBindings } from '../../../app';
 import { editControlLoading } from '../../private/Admin/Map/EditControl';
+import { FabClass } from '../../../layout';
 const CustomGeoLocateData = signal(null)
 export default () => {
   const params = new URLSearchParams(window.location.search)
@@ -113,7 +114,7 @@ export default () => {
         {statusPage ? <DistrictPhase/>: <>
         <AddressPoints />
         <SearchControl nohead />
-        <div  className="absolute top-2 right-2 hover:scale-95 items-center justify-center flex border-white border-solid border-2 transition-all cursor-pointer mb-2 h-16 aspect-square w-16 z-70 p-3 rounded-full shadow-lg text-[#0071b9] bg-white "
+        <div  className={`absolute top-2 right-2 ${FabClass} text-[#0071b9] bg-white `}
            onClick={() => {
             navigator.geolocation.getCurrentPosition((position) => {
               CustomGeoLocateData.value = {

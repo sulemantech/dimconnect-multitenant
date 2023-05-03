@@ -6,6 +6,7 @@ import { useState } from "react"
 import {  addressPointsCRUDstate } from "./AddressPoints"
 import { signal } from "@preact/signals"
 import { useEffect } from "preact/hooks"
+import { FabClass } from "../../../../layout"
 
 export default ({ modal = false }) => {
 
@@ -32,6 +33,11 @@ export default ({ modal = false }) => {
             }
         })
     }, [])
+
+    const AddControlButton = <div className={`mt-2 ${FabClass}  ${activeOption ? 'bg-red-500 text-white' : 'bg-white text-[#0071b9]'}`}>
+
+    <IconPlus className="scale-150" />
+</div>
 
     // if (modal) {
     //     return (
@@ -85,10 +91,7 @@ export default ({ modal = false }) => {
             <Menu.Target
             
             >
-                <div className={`mt-2 hover:scale-95 border-white border-solid items-center justify-center h-16 aspect-square w-16 flex border-2 transition-all cursor-pointer z-70  p-3 rounded-full shadow-lg  ${activeOption ? 'bg-red-500 text-white' : 'bg-white text-[#0071b9]'}`}>
-
-                    <IconPlus size={30} />
-                </div>
+                {AddControlButton}
             </Menu.Target>
             <Menu.Dropdown>
                 {

@@ -39,7 +39,7 @@ export default () => {
 
     return (
         <PageProvider>
-            <div className="h-screen">
+            <div className="">
                 <Card >
                     <CardSection className="p-2">
                         <h6 className='font-bold text-neutral-700 tracking-wider'>User Management</h6>

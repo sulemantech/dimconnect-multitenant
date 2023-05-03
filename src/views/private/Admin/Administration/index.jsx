@@ -21,7 +21,7 @@ export default () => {
 
     return (
         <PageProvider>
-            <div class='h-screen'>
+            <div class=''>
                 <Card>
                     <CardSection className="p-2">
 
