@@ -2,6 +2,8 @@ import { signal } from "@preact/signals"
 import { addressPointsStatusVisibility } from "./AddressPoints"
 import { Accordion } from "@mantine/core"
 import { DistrictPhaseLayersVisibility, DistrictPhaseVisibility } from "./DistrictPhase"
+import { useDidUpdate } from "@mantine/hooks"
+import { useState } from "preact/hooks"
 // ja (Anschluss prüfen)	                 rgb(255, 140, 42);
 // ja	                                                 rgb(29, 155, 216);
 // nein (Anschluss geprüft)	         rgb(237, 82, 73);
@@ -89,6 +91,21 @@ export const netzplanninglegend = signal({
 })
 
 export default ({noAddressPoint=false,noStatus=false}) => {
+    const [value, setValue] = useState('Address Points')
+    const [collapsed, setCollapsed] = useState(false)
+    useDidUpdate(() => {
+        setTimeout(() => {
+        if(value == null) setCollapsed(true)
+        }, 500)
+    }, [value])
+    useDidUpdate(() => {
+        if(collapsed == false) setValue('')
+    }, [collapsed])
+
+    if(collapsed) return <div className="absolute -left-8 hover:scale-95 transition-all cursor-pointer bottom-12 justify-center rotate-90 font-bold text-lg tracking-wide text-[#0071b9] bg-white shadow-xl rounded-md p-2 " onClick={() => setCollapsed(false)}>
+        Legend
+    </div>
+
     return (
         <div className="relative text-xs flex flex-col p-2 shadow-md rounded-md mt-2 bg-white">
             <h6 className="mb-1"><b>Legend</b></h6>
@@ -99,8 +116,9 @@ export default ({noAddressPoint=false,noStatus=false}) => {
                 } else {
                     DistrictPhaseVisibility.value = true
                 }
+                setValue(e)
             }}>
-              {!noAddressPoint &&  <Accordion.Item value="Address Points" className="text-xs">
+              {!noAddressPoint &&  <Accordion.Item value="Address Points" className="text-xs" >
                     <Accordion.Control className="text-xs last:p-0"  value={"Address Points"}>Address Points</Accordion.Control>
                     <Accordion.Panel>
                         <div>
