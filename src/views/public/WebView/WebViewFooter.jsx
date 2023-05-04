@@ -6,8 +6,8 @@ export default () => {
             icon: <IconMap2 className="scale-110 text-[#0071b9] " />,
             selectable: true,
             "method": () => {
-                parent.postMessage({ type: 'addRegion' }, '*')
-                window?.webkit?.messageHandlers?.jsHandler?.postMessage({ type: 'addRegion' })
+                parent.postMessage({ type: 'changeRegion' }, '*')
+                window?.webkit?.messageHandlers?.jsHandler?.postMessage({ type: 'changeRegion' })
             }
         },
         'Screenshot': {
