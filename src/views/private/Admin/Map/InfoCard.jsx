@@ -40,6 +40,7 @@ export default ({ modal = false }) => {
         infoCardVal.value = null
     }
 
+     
     
     const view = useMemo(() => {
         return (
