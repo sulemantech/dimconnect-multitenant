@@ -9,6 +9,7 @@ import CustomerHeader from "../../private/Customer/CustomerHeader"
 import AddControl from "../../private/Admin/Map/AddControl"
 import EditControl from "../../private/Admin/Map/EditControl"
 import { useScrollLock } from "@mantine/hooks"
+import WebViewFooter from "./WebViewFooter"
 export default () => {
     const [scrollLocked, setScrollLocked] = useScrollLock(true);
     const params = new URLSearchParams(window.location.search)
@@ -30,7 +31,7 @@ export default () => {
                             {!statusPage &&
                             <BottomRight>
                                 <>
-                                    <div>
+                                    <div className="mb-12">
                                         <OverlayControl modal/>
                                         <BaseMapControl modal/>
                                         <AddControl modal webview/>
@@ -40,11 +41,11 @@ export default () => {
                                 </>
                             </BottomRight>}
                             <BottomLeft>
-                                <div className="mb-8">
+                                <div className="mb-12">
                                 <Legend noAddressPoint={statusPage} noStatus={!statusPage}/>
                                 </div>
                             </BottomLeft>
-
+                            <WebViewFooter />
                         </div>
                         :
                         <div>Not Valid Params</div>

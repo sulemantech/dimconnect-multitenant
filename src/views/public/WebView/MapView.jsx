@@ -118,7 +118,7 @@ export default () => {
         >
           <IconCompass size={26} />
         </div>
-        <ScaleControl position='bottom-left' maxWidth={100} unit='metric' />
+        <ScaleControl position='bottom-right' maxWidth={100} unit='metric' />
         <Gpx />
         <InfoCard modal/>
         <Photos />
