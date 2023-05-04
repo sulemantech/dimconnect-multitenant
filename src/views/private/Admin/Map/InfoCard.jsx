@@ -47,9 +47,9 @@ export default ({ modal = false }) => {
             infoCardData && <div className="mt-2">
                 <div className="flex items-center">
                     <div className="flex-1" />
-                    <div className="absolute -right-3 -top-3">
+                    {!modal && <div className="absolute -right-3 -top-3">
                         <CloseButton radius={'xl'} color="blue" className="bg-white" onClick={onClose} />
-                    </div>
+                    </div>}
 
                 </div>
                 <div className="text-xs flex flex-col font-semibold text-gray-700">
@@ -101,7 +101,7 @@ export default ({ modal = false }) => {
                 :
                 <>
                 
-                    <Modal lockScroll={false} padding={'xs'} opened={infoCardVal.value != null} onClose={onClose} title="Info Card" size={'xl'}>
+                    <Modal lockScroll={false} className="overflow-x-hidden" padding={'xs'} opened={infoCardVal.value != null} onClose={onClose} title="Info Card" size={'xl'}>
                     <div className="w-full h-full"
                         
                     >
