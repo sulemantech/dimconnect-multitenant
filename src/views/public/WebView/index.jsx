@@ -8,8 +8,9 @@ import ProtectedWrapper from "./ProtectedWrapper"
 import CustomerHeader from "../../private/Customer/CustomerHeader"
 import AddControl from "../../private/Admin/Map/AddControl"
 import EditControl from "../../private/Admin/Map/EditControl"
+import { useScrollLock } from "@mantine/hooks"
 export default () => {
-
+    const [scrollLocked, setScrollLocked] = useScrollLock(true);
     const params = new URLSearchParams(window.location.search)
     const ags = params.get('ags')
     const client = params.get('client')
@@ -20,7 +21,7 @@ export default () => {
     }
 
     return (
-        <div className="m-0 absolute top-0 left-0 right-0 bottom-8 touch-none overflow-hidden">
+        <div className="m-0 absolute top-0 left-0 right-0 bottom-0 touch-none overflow-hidden">
             <ProtectedWrapper>
                 {
                     ags && client === 'ios' ?
