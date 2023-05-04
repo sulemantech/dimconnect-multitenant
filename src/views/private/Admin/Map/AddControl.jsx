@@ -1,27 +1,52 @@
-import { Menu } from "@mantine/core"
-import { IconMap, IconPlus } from "@tabler/icons"
+import { Divider, Menu } from "@mantine/core"
+import { IconAddressBook, IconMap, IconPhotoPlus, IconPlus, IconVideo, IconVideoPlus } from "@tabler/icons"
 import { mapStyle } from "./Map"
 import { closeAllModals, openModal } from "@mantine/modals"
 import { useState } from "react"
-import {  addressPointsCRUDstate } from "./AddressPoints"
+import { addressPointsCRUDstate } from "./AddressPoints"
 import { signal } from "@preact/signals"
 import { useEffect } from "preact/hooks"
 import { FabClass } from "../../../../layout"
 
-export default ({ modal = false }) => {
+export default ({ modal = false, webview = false }) => {
 
     const [activeOption, setActiveOption] = useState(null)
 
     const Options = {
         'Address Point': {
-            "method" : () => {
+            icon: <IconAddressBook className="scale-110 text-[#0071b9] " />,
+            selectable: true,
+            "method": () => {
                 addressPointsCRUDstate.value = 'add'
             },
-            "antiMethod" : () => {
+            "antiMethod": () => {
                 addressPointsCRUDstate.value = ''
             }
         },
-        
+        'Photo': {
+            icon: <IconPhotoPlus className="scale-110 text-[#0071b9]" />,
+            selectable: !webview,
+            "method": () => {
+                if (webview) {
+                    parent.postMessage({ type: 'addPhoto' }, '*')
+                }
+            },
+            "antiMethod": () => {
+
+            }
+        },
+        'Video': {
+            icon: <IconVideoPlus className="scale-110 text-[#0071b9]" />,
+            selectable: !webview,
+            "method": () => {
+                if (webview) {
+                    parent.postMessage({ type: 'addVideo' }, '*')
+                }
+            },
+            "antiMethod": () => {
+
+            }
+        }
     }
 
     useEffect(() => {
@@ -36,61 +61,68 @@ export default ({ modal = false }) => {
 
     const AddControlButton = <div className={`mt-2 ${FabClass}  ${activeOption ? 'bg-red-500 text-white' : 'bg-white text-[#0071b9]'}`}>
 
-    <IconPlus className="scale-150" />
-</div>
+        <IconPlus className="scale-150" />
+    </div>
 
-    // if (modal) {
-    //     return (
-    //         <div className=" hover:scale-95 mt-2 border-white border-solid items-center justify-center h-16 aspect-square w-16 flex border-2 transition-all cursor-pointer z-70  p-3 rounded-full shadow-lg text-[#0071b9] bg-white "
-    //             onClick={() => {
-    //                 openModal({
-    //                     title: 'Map Style',
-    //                     children: (
-    //                         <div className="flex flex-col gap-2">
-    //                             {
-    //                                 Object.keys(Styles)?.map((key, index) => {
-    //                                     return (
-    //                                         <>
-    //                                         <div className={`flex gap-2 items-center ${
-    //                                             mapStyle.value === Styles[key] ? ' text-gray-600' : ' text-[#0071b9]'
-    //                                         }`} key={index} onClick={() => {
-    //                                             mapStyle.value = Styles[key]
-    //                                             closeAllModals()
-    //                                         }}>
-    //                                                <div className="text-lg">{key}</div>
-    //                                         </div>
-    //                                         <hr className={'my-2'}/>
-    //                                         </>
-    //                                     )
-    //                                 }
-    //                                 )
-    //                             }
-    //                         </div>
-    //                     )
-
-    //                 })
-    //             }}
-    //         >
-    //             <IconPlus size={30} />
-    //         </div>
-
-    //     )
-    // }
-
-    return (
-
-        <Menu position="left-end" withArrow onOpen={() => {
-            if (activeOption) {
+    if (activeOption) {
+        return (
+            <div onClick={() => {
                 setActiveOption(null)
                 // call all anti methods
                 Object.keys(Options)?.map((key, index) => {
                     Options[key].antiMethod()
                 })
-            }
-        }}>
-            <Menu.Target
-            
+            }}>
+                {AddControlButton}
+            </div>
+        )
+    }
+
+    if (modal) {
+        return (
+            <div
+                onClick={() => {
+                    openModal({
+                        title: 'Create',
+                        children: (
+                            <div className="flex flex-col gap-2">
+                                {
+                                    Object.keys(Options)?.map((key, index) => {
+                                        return (
+                                            <div
+                                                onClick={() => {
+                                                    if (Options[key].selectable) setActiveOption(key)
+                                                    Options[key].method()
+                                                    if (modal) closeAllModals()
+                                                }}
+                                            >
+                                                <div className="flex items-center gap-2 cursor-pointer">
+                                                    {Options[key].icon}
+                                                    <b className=" text-[#0071b9] tracking-wide font-bold">
+                                                        {key}
+                                                    </b>
+                                                </div>
+                                                <Divider className="my-2" />
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </div>
+                        )
+
+                    })
+                }}
             >
+                {AddControlButton}
+            </div>
+
+        )
+    }
+
+    return (
+
+        <Menu position="left-end" withArrow >
+            <Menu.Target>
                 {AddControlButton}
             </Menu.Target>
             <Menu.Dropdown>
@@ -99,11 +131,16 @@ export default ({ modal = false }) => {
                         return (
                             <Menu.Item key={index}
                                 onClick={() => {
-                                    setActiveOption(key)
+                                    if (Options[key].selectable) setActiveOption(key)
                                     Options[key].method()
                                 }}
                             >
-                                {key}
+                                <div className="flex items-center gap-2">
+                                    {Options[key].icon}
+                                    <b className=" text-[#0071b9] tracking-wide font-bold">
+                                        {key}
+                                    </b>
+                                </div>
                             </Menu.Item>
                         )
                     })

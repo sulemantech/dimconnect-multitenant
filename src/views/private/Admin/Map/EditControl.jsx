@@ -16,14 +16,14 @@ export default ({ modal = false }) => {
 
     const Options = {
         'Address Point': {
-            "method" : () => {
+            "method": () => {
                 addressPointsCRUDstate.value = 'edit'
             },
-            "antiMethod" : () => {
+            "antiMethod": () => {
                 addressPointsCRUDstate.value = ''
             }
         },
-        
+
     }
 
     useEffect(() => {
@@ -38,23 +38,29 @@ export default ({ modal = false }) => {
 
     const EditControlButton = <div className={`mt-2 ${FabClass}  ${activeOption ? 'bg-red-500 text-white' : 'bg-white text-[#0071b9]'}`}>
 
-    {editControlLoading.value ? <Loader color="white" className="scale-150"/> : <IconPencil className="scale-150" />}
-</div>
+        {editControlLoading.value ? <Loader color="white" className="scale-150" /> : <IconPencil className="scale-150" />}
+    </div>
 
-
-    return (
-
-        <Menu position="left-end" withArrow onOpen={() => {
-            if (activeOption) {
+    if (activeOption) {
+        return <div
+            onClick={() => {
                 setActiveOption(null)
                 // call all anti methods
                 Object.keys(Options)?.map((key, index) => {
                     Options[key].antiMethod()
                 })
-            }
-        }}>
+            }}
+        >
+            {EditControlButton}
+        </div>
+    }
+
+
+    return (
+
+        <Menu position="left-end" withArrow >
             <Menu.Target
-            
+
             >
                 {EditControlButton}
             </Menu.Target>

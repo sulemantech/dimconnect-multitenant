@@ -32,7 +32,7 @@ export default () => {
                                     <div>
                                         <OverlayControl modal/>
                                         <BaseMapControl modal/>
-                                        <AddControl modal/>
+                                        <AddControl modal webview/>
                                         <EditControl modal/>
                                     </div>
                                    
