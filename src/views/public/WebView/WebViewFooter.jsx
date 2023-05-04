@@ -30,7 +30,7 @@ export default () => {
         },
     }
     return (
-        <div className="flex flex-row items-center justify-around w-full h-12 shadow-2xl">
+        <div className="flex flex-row items-center justify-around w-full pt-2 pb-4 shadow-2xl">
             {
                 Object.keys(controls).map((key, index) => {
                     return (
@@ -39,7 +39,7 @@ export default () => {
                                 
                                 controls[key].method()
                             }}
-                            className={`flex-1 justify-center flex items-center gap-2  cursor-pointer border-r-2 border-neutral-200 border-solid text-[#0071b9]`}
+                            className={`flex-1 justify-center flex flex-col  items-center gap-2  cursor-pointer border-r-2 border-neutral-200 border-solid text-[#0071b9]`}
                         >
                             {controls[key].icon}
                             <b className="tracking-wide text-[10px] ">

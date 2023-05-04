@@ -31,7 +31,7 @@ export default () => {
                             {!statusPage &&
                             <BottomRight>
                                 <>
-                                    <div className="mb-12">
+                                    <div className="mb-20">
                                         <OverlayControl modal/>
                                         <BaseMapControl modal/>
                                         <AddControl modal webview/>
@@ -41,7 +41,7 @@ export default () => {
                                 </>
                             </BottomRight>}
                             <BottomLeft>
-                                <div className="mb-12">
+                                <div className="mb-20">
                                 <Legend noAddressPoint={statusPage} noStatus={!statusPage}/>
                                 </div>
                             </BottomLeft>
