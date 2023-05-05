@@ -105,11 +105,19 @@ export default () => {
                                 "interpolate",
                                 ["linear"],
                                 ["zoom"],
-                                0, 0.5,
+                                0, 0.1,
+                                10, 0.1,
                                 22, 7
                             ],
                             "circle-stroke-color": "white",
-                            "circle-stroke-width": 1,
+                            "circle-stroke-width": [
+                                "interpolate",
+                                ["linear"],
+                                ["zoom"],
+                                0, 0.1,
+                                10, 0.1,
+                                22, 1
+                            ],
                             "circle-blur-transition": { duration: 0 },
                             "circle-opacity-transition": { duration: 0 },
                             "circle-color": [
@@ -129,6 +137,9 @@ export default () => {
                                 "rgb(112, 173, 70)",
                                 "#000000"
                             ]
+                        }}
+                        layout={{
+                            
                         }}
                         filter={['in', 'status', ...Object.entries(addressPointsStatusVisibilityState).filter(([key, value]) => value).map(([key, value]) => key)]}
 
