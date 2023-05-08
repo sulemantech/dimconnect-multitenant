@@ -66,18 +66,14 @@ export default ({ modal = false }) => {
                                 <Carousel prop mx="auto" withControls={infoCardData?.find(item => item.sourceLayer?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase() === segment)?.count > 1}>
                                     {
                                         (infoCardData?.find(item => item.sourceLayer?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase() === segment)?.properties || [])
-                                        // filter out null values
-                                        .filter(item => item !== null)
-                                        // filter out empty objects
-                                        .filter(item => Object.keys(item).length > 0)
-                                        // filter out empty arrays
-                                        .filter(item => Object.values(item).filter(i => i !== null).length > 0)
-                                        // filter out empty strings
-                                        .filter(item => Object.values(item).filter(i => i !== "").length > 0)
-                                        // filter out large Strings
-                                        .filter(item => Object.values(item).filter(i => typeof i === "string" && i.length > 30).length === 0)
-                                        
+                                      
                                         .slice(0,20)?.flatMap((item, index) => {
+                                            item = Object.keys(item).filter(key => item[key] !== null)
+                                            .filter(key => key.length < 10)
+                                            .reduce((obj, key) => {
+                                                obj[key] = item[key];
+                                                return obj;
+                                            }, {});
                                             return (
 
                                                 <MemoizedCarousel key={index} item={item} />
