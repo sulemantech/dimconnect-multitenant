@@ -103,7 +103,7 @@ export const TilesView = ({ tileData, id }) => {
                                 layer.geometry.replace('Multi', '') == 'LineString' ?
                                 14
                                 :
-                                10
+                                14
                         }
                         maxzoom={
                             layer.geometry.replace('Multi', '') == 'Polygon' ?
