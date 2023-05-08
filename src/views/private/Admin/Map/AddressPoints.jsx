@@ -97,6 +97,7 @@ export default () => {
                     cluster={true}
                     clusterMaxZoom={14}
                     clusterRadius={50}
+                    clusterMinPoints={20}
                 >
                     <Layer
                         id="addressPoints"
@@ -160,7 +161,7 @@ export default () => {
                         paint={{
                             
                                 'circle-color': '#0071b9',
-                                'circle-radius': ['step', ['get', 'point_count'], 10, 100, 10, 750, 20]
+                                'circle-radius': ['step', ['get', 'point_count'], 10, 100, 20, 750, 30]
                               
                         }}
                         layout={{
