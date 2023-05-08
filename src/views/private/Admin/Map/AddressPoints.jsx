@@ -94,10 +94,14 @@ export default () => {
                     id="addressPoints"
                     type="geojson"
                     data={geojson}
+                    cluster={true}
+                    clusterMaxZoom={14}
+                    clusterRadius={50}
                 >
                     <Layer
                         id="addressPoints"
                         type="circle"
+                        
                         source="addressPoints"
                         interactive
                         paint={{
@@ -105,9 +109,9 @@ export default () => {
                                 "interpolate",
                                 ["linear"],
                                 ["zoom"],
-                                0, 0.1,
-                                10, 0.1,
-                                22, 7
+                                
+                                15,3,
+                                22, 10
                             ],
                             "circle-stroke-color": "white",
                             "circle-stroke-width": [
@@ -116,7 +120,8 @@ export default () => {
                                 ["zoom"],
                                 0, 0.1,
                                 10, 0.1,
-                                22, 1
+                                15, 1,
+                                22, 2
                             ],
                             "circle-blur-transition": { duration: 0 },
                             "circle-opacity-transition": { duration: 0 },
@@ -136,13 +141,46 @@ export default () => {
                                 "6",
                                 "rgb(112, 173, 70)",
                                 "#000000"
-                            ]
+                            ],
+                            
                         }}
                         layout={{
+                            "visibility": "visible"
+
                             
                         }}
                         filter={['in', 'status', ...Object.entries(addressPointsStatusVisibilityState).filter(([key, value]) => value).map(([key, value]) => key)]}
 
+                    />
+                    <Layer
+                        id="addressPointsCluster"
+                        type="circle"
+                        source="addressPoints"
+                        filter={['has', 'point_count']}
+                        paint={{
+                            
+                                'circle-color': ['step', ['get', 'point_count'], '#51bbd6', 100, '#f1f075', 750, '#f28cb1'],
+                                'circle-radius': ['step', ['get', 'point_count'], 20, 100, 30, 750, 40]
+                              
+                        }}
+                        layout={{
+                            "visibility": "visible"
+                        }}
+                    />
+                    <Layer
+                        id="addressPointsClusterCount"
+                        type="symbol"
+                        source="addressPoints"
+                        filter={['has', 'point_count']}
+                        layout={{
+                            "text-field": "{point_count_abbreviated}",
+                            // "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
+                            "text-size": 12,
+                            "visibility": "visible"
+                        }}
+                        paint={{
+                            "text-color": "white"
+                        }}
                     />
                 </Source>
             }

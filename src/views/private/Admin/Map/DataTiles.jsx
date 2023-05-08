@@ -96,6 +96,24 @@ export const TilesView = ({ tileData, id }) => {
                         id={layer.layer}
                         type={layer.geometry.replace('Multi', '') == 'Polygon' ? 'fill' : layer.geometry.replace('Multi', '') == 'LineString' ? 'line' : 'circle'}
                         sourceId={`tilesource${id}`}
+                        minzoom={
+                            layer.geometry.replace('Multi', '') == 'Polygon' ?
+                                1
+                                :
+                                layer.geometry.replace('Multi', '') == 'LineString' ?
+                                14
+                                :
+                                10
+                        }
+                        maxzoom={
+                            layer.geometry.replace('Multi', '') == 'Polygon' ?
+                            14
+                            :
+                            layer.geometry.replace('Multi', '') == 'LineString' ?
+                            18
+                            :
+                            18
+                        }
                         source-layer={layer.layer}
                         paint={
                             inside?.style ? inside?.style : layer.geometry.replace('Multi', '') == 'Polygon' ?
@@ -113,27 +131,27 @@ export const TilesView = ({ tileData, id }) => {
                                             return {
                                                 "line-color": "red",
                                                 "line-opacity": 0.7,
-                                                "line-width": ["interpolate", ["linear"], ["zoom"], 5, 2, 18, 6],
+                                                "line-width": ["interpolate", ["linear"], ["zoom"], 14, 1, 18, 4],
                                             }
                                         }
                                         else if (layer.layer == dropvalue.value+'_OUT_FeederCables') {
                                             return {
                                                 "line-color": "purple",
                                                 "line-opacity": 0.7,
-                                                "line-width": ["interpolate", ["linear"], ["zoom"], 5, 3, 18, 8],
+                                                "line-width": ["interpolate", ["linear"], ["zoom"], 14, 2, 18, 6],
                                             }
                                         }
                                         else if (layer.layer == dropvalue.value+'_OUT_PrimDistributionCables') {
                                             return {
                                                 "line-color": "blue",
                                                 "line-opacity": 0.7,
-                                                "line-width": ["interpolate", ["linear"], ["zoom"], 5, 1, 18, 4],
+                                                "line-width": ["interpolate", ["linear"], ["zoom"], 14, 0.5, 18, 2],
                                             }
                                         } else {
                                             return {
                                                 "line-color": "grey",
                                                 "line-opacity": 0.7,
-                                                "line-width": ["interpolate", ["linear"], ["zoom"], 5, 0, 18, 2],
+                                                "line-width": ["interpolate", ["linear"], ["zoom"], 14, 0, 18, 1],
                                             }
                                         }
 
