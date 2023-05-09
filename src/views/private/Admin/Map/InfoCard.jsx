@@ -1,12 +1,12 @@
-import { CloseButton, Modal, ScrollArea, Transition } from "@mantine/core"
+import { Box, CloseButton, Modal, ScrollArea, Table, Transition } from "@mantine/core"
 import { signal } from "@preact/signals"
 import { useEffect, useErrorBoundary, useMemo, useState } from "preact/hooks"
 import { JsonToTable } from "react-json-to-table"
 import { dropvalue } from "../../../../layout/Header"
-import { Carousel } from "@mantine/carousel"
+import { Carousel } from "react-responsive-carousel"
 import { memo } from "preact/compat"
 import { mapClickBindings } from "../../../../app"
-
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 export const infoCardVal = signal(null)
 
 
@@ -63,7 +63,7 @@ export default ({ modal = false }) => {
                     {
                         segment && <>
                             <div className="text-sm font-semibold text-gray-700">
-                                <Carousel prop mx="auto" withControls={infoCardData?.find(item => item.sourceLayer?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase() === segment)?.count > 1}>
+                                <Carousel align={'center'} skipSnaps controlsOffset={'xs'} slideSize={'100%'} withControls={infoCardData?.find(item => item.sourceLayer?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase() === segment)?.count > 1}>
                                     {
                                         (infoCardData?.find(item => item.sourceLayer?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase() === segment)?.properties || [])
                                       
@@ -122,13 +122,14 @@ export default ({ modal = false }) => {
     )
 }
 
-const MemoizedCarousel = memo(({ item }) => (
-    <Carousel.Slide >
+const MemoizedCarousel = ({ item }) => (
+    <Box >
         
             <JsonToTable json={item} />
-        
-    </Carousel.Slide>
-))
+       
+
+    </Box>
+)
 
 const CustomSegmentedControl = ({ data, value, onChange }) => {
 

@@ -110,9 +110,9 @@ export const TilesView = ({ tileData, id }) => {
                             14
                             :
                             layer.geometry.replace('Multi', '') == 'LineString' ?
-                            18
+                            22
                             :
-                            18
+                            22
                         }
                         source-layer={layer.layer}
                         paint={
