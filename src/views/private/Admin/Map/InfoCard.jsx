@@ -7,6 +7,7 @@ import { Carousel } from "react-responsive-carousel"
 import { memo } from "preact/compat"
 import { mapClickBindings } from "../../../../app"
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { formatCamelCaseToTitleCase } from "../../../../utils/convertor"
 export const infoCardVal = signal(null)
 
 
@@ -40,7 +41,18 @@ export default ({ modal = false }) => {
         infoCardVal.value = null
     }
 
-     
+
+    const renameKeys = {
+        "id" : "AGG ID",
+        "id_drop" : "Main Cable 1 ID",
+        "id_feeder" : "Main Cable 2 ID",
+        "agg_id" : "AGG ID",
+
+    }
+
+  
+
+    const blockedKeys = ['fid_1', 'di_drop', 'di_feeder', 'p2p_m_rev', 'p2p_adop', 'id', 'fid']
     
     const view = useMemo(() => {
         return (
@@ -63,15 +75,16 @@ export default ({ modal = false }) => {
                     {
                         segment && <>
                             <div className="text-sm font-semibold text-gray-700">
-                                <Carousel align={'center'} skipSnaps controlsOffset={'xs'} slideSize={'100%'} withControls={infoCardData?.find(item => item.sourceLayer?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase() === segment)?.count > 1}>
+                                <Carousel showIndicators={false} align={'center'} skipSnaps controlsOffset={'xs'} slideSize={'100%'} withControls={infoCardData?.find(item => item.sourceLayer?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase() === segment)?.count > 1}>
                                     {
                                         (infoCardData?.find(item => item.sourceLayer?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase() === segment)?.properties || [])
                                       
                                         .slice(0,20)?.flatMap((item, index) => {
                                             item = Object.keys(item).filter(key => item[key] !== null)
                                             .filter(key => key.length < 10)
+                                            .filter(key => !blockedKeys.includes(key))
                                             .reduce((obj, key) => {
-                                                obj[key] = item[key];
+                                                obj[formatCamelCaseToTitleCase(renameKeys[key] || key)] = item[key];
                                                 return obj;
                                             }, {});
                                             return (

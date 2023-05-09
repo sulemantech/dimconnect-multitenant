@@ -12,3 +12,10 @@ export function commarize(number) {
 
     return number;
 }
+
+export const formatCamelCaseToTitleCase = (str) => {
+    return str
+        .replace(/([A-Z])/g, ' $1')
+        .replace(/^./, function (str) { return str.toUpperCase(); })
+        .replace(/_/g, " ")
+}
