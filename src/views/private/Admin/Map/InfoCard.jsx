@@ -75,13 +75,13 @@ export default ({ modal = false }) => {
                     {
                         segment && <>
                             <div className="text-sm font-semibold text-gray-700">
-                                <Carousel showThumbs={false} showIndicators={false} align={'center'} skipSnaps controlsOffset={'xs'} slideSize={'100%'} withControls={infoCardData?.find(item => item.sourceLayer?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase() === segment)?.count > 1}>
+                                <Carousel showThumbs={false} infiniteLoop selectedItem={0} showIndicators={false} align={'center'} skipSnaps controlsOffset={'xs'} slideSize={'100%'} withControls={infoCardData?.find(item => item.sourceLayer?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase() === segment)?.count > 1}>
                                     {
                                         (infoCardData?.find(item => item.sourceLayer?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase() === segment)?.properties || [])
                                       
                                         .slice(0,20)?.flatMap((item, index) => {
                                             item = Object.keys(item).filter(key => item[key] !== null)
-                                            .filter(key => key.length < 10)
+                                            .filter(key => key.length < 20)
                                             .filter(key => !blockedKeys.includes(key))
                                             .reduce((obj, key) => {
                                                 if(renameKeys.hasOwnProperty(key)){
@@ -173,8 +173,8 @@ const CustomSegmentedControl = ({ data, value, onChange }) => {
     }, [data])
 
     useEffect(() => {
+        onChange('')
         onChange(segment)
-
     }, [segment])
 
     return (
