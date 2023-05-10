@@ -75,7 +75,7 @@ export default ({ modal = false }) => {
                     {
                         segment && <>
                             <div className="text-sm font-semibold text-gray-700">
-                                <Carousel showIndicators={false} align={'center'} skipSnaps controlsOffset={'xs'} slideSize={'100%'} withControls={infoCardData?.find(item => item.sourceLayer?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase() === segment)?.count > 1}>
+                                <Carousel showThumbs={false} showIndicators={false} align={'center'} skipSnaps controlsOffset={'xs'} slideSize={'100%'} withControls={infoCardData?.find(item => item.sourceLayer?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase() === segment)?.count > 1}>
                                     {
                                         (infoCardData?.find(item => item.sourceLayer?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase() === segment)?.properties || [])
                                       
@@ -84,7 +84,11 @@ export default ({ modal = false }) => {
                                             .filter(key => key.length < 10)
                                             .filter(key => !blockedKeys.includes(key))
                                             .reduce((obj, key) => {
-                                                obj[formatCamelCaseToTitleCase(renameKeys[key] || key)] = item[key];
+                                                if(renameKeys.hasOwnProperty(key)){
+                                                obj[renameKeys[key]] = item[key];
+                                                }else{
+                                                    obj[formatCamelCaseToTitleCase(key)] = item[key];
+                                                }
                                                 return obj;
                                             }, {});
                                             return (
@@ -191,7 +195,7 @@ const CustomSegmentedControl = ({ data, value, onChange }) => {
                                             item.sourceLayer?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase()
                                         }
                                         {
-                                            item.count > 1 && <span style={{ fontSize: '0.5rem' }} className="bg-sky-500 aspect-square rounded-full absolute -right-2 -top-2 w-4 h-4 flex items-center justify-center text-white">{item.count}</span>
+                                            item.count > 1 && <span style={{ fontSize: '0.5rem' }} className="bg-sky-500 aspect-square rounded-full absolute -right-2 -top-2 w-4 h-4 flex items-center justify-center text-white">{item.count > 20 ? 20 : item.count}</span>
                                         }
                                     </div>
 
