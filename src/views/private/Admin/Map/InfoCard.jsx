@@ -154,8 +154,8 @@ const MemoizedCarousel = ({ item }) => (
             {
                 Object.keys(item).map((key, index) => (
                     <tr key={index}>
-                        <td className="font-semibold text-xs text-gray-700 text-start whitespace-nowrap overflow-hidden">{key}</td>
-                        <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden">{item[key]}</td>
+                        <td className="font-semibold text-xs text-gray-700 text-start whitespace-nowrap overflow-hidden flex-1">{key}</td>
+                        <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden flex-[2]">{item[key]}</td>
                     </tr>
                 ))
             }
