@@ -77,7 +77,7 @@ export default ({ modal = false }) => {
                     {
                         segment ? <>
                             <div className="text-sm font-semibold text-gray-700">
-                                <Carousel preventMovementUntilSwipeScrollTolerance={false} showThumbs={false} infiniteLoop selectedItem={0} showIndicators={false} align={'center'} skipSnaps controlsOffset={'xs'} slideSize={'100%'} withControls={infoCardData?.find(item => item.sourceLayer?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase() === segment)?.count > 1}>
+                                <Carousel showThumbs={false} className="relative overflow-hidden" selectedItem={0} showIndicators={false} align={'center'} skipSnaps controlsOffset={'xs'} slideSize={'100%'} withControls={infoCardData?.find(item => item.sourceLayer?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase() === segment)?.count > 1}>
                                     {
                                         (infoCardData?.find(item => item.sourceLayer?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase() === segment)?.properties || [])
                                       
@@ -146,16 +146,16 @@ export default ({ modal = false }) => {
 }
 
 const MemoizedCarousel = ({ item }) => (
-    <Box >
+    <Box className="overflow-hidden">
         
             {/* <JsonToTable json={item} /> */}
-       <Table striped withBorder>
+       <Table striped withBorder className="relative max-w-[100%]">
         <tbody className="text-[10px]">
             {
                 Object.keys(item).map((key, index) => (
                     <tr key={index}>
-                        <td className="font-semibold text-xs text-gray-700 text-start whitespace-nowrap overflow-hidden flex-1">{key}</td>
-                        <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden flex-[2]">{item[key]}</td>
+                        <td className="font-semibold text-xs text-gray-700 text-start whitespace-nowrap overflow-hidden ">{key}</td>
+                        <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">{item[key]}</td>
                     </tr>
                 ))
             }
