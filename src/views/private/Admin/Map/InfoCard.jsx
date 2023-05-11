@@ -1,14 +1,14 @@
-import { Box, CloseButton, Modal, ScrollArea, Table, Transition } from "@mantine/core"
+import { Box, CloseButton, Loader, Modal, ScrollArea, Table, Transition } from "@mantine/core"
 import { signal } from "@preact/signals"
-import { useEffect, useErrorBoundary, useMemo, useState } from "preact/hooks"
+import { useEffect, useErrorBoundary, useState } from "preact/hooks"
 import { JsonToTable } from "react-json-to-table"
 import { dropvalue } from "../../../../layout/Header"
 import { Carousel } from "react-responsive-carousel"
-import { memo } from "preact/compat"
-import { mapClickBindings } from "../../../../app"
+
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { formatCamelCaseToTitleCase } from "../../../../utils/convertor"
 export const infoCardVal = signal(null)
+
 
 
 
@@ -54,8 +54,7 @@ export default ({ modal = false }) => {
 
     const blockedKeys = ['fid_1', 'di_drop', 'di_feeder', 'p2p_m_rev', 'p2p_adop', 'id', 'fid']
     
-    const view = useMemo(() => {
-        return (
+    const view = 
             infoCardData && <div className="mt-2">
                 <div className="flex items-center">
                     <div className="flex-1" />
@@ -73,7 +72,7 @@ export default ({ modal = false }) => {
 
                     <hr />
                     {
-                        segment && <>
+                        segment ? <>
                             <div className="text-sm font-semibold text-gray-700">
                                 <Carousel showThumbs={false} infiniteLoop selectedItem={0} showIndicators={false} align={'center'} skipSnaps controlsOffset={'xs'} slideSize={'100%'} withControls={infoCardData?.find(item => item.sourceLayer?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase() === segment)?.count > 1}>
                                     {
@@ -101,6 +100,10 @@ export default ({ modal = false }) => {
                                 </Carousel>
                             </div>
                         </>
+                        :
+                        <div className="flex items-center justify-center">
+                            <Loader />
+                        </div>
                     }
 
 
@@ -108,8 +111,8 @@ export default ({ modal = false }) => {
 
 
             </div>
-        )
-    }, [infoCardData, segment])
+        
+    
 
 
     return (
@@ -173,8 +176,10 @@ const CustomSegmentedControl = ({ data, value, onChange }) => {
     }, [data])
 
     useEffect(() => {
-        onChange('')
+        onChange(null)
+        setTimeout(() => {
         onChange(segment)
+        }, 400)
     }, [segment])
 
     return (
