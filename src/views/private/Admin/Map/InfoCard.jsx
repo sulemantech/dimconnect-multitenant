@@ -14,7 +14,7 @@ export const infoCardVal = signal(null)
 
 export default ({ modal = false }) => {
     const [infoCardData, setInfoCardData] = useState(null)
-    const [segment, setSegment] = useState('')
+    const [segment, setSegment] = useState(null)
     useEffect(() => {
         infoCardVal.subscribe((val) => {
             if (!val) return
@@ -23,6 +23,9 @@ export default ({ modal = false }) => {
             const distinct = [...new Set(val?.map(item => item.sourceLayer))]
             const duplicates = distinct?.map(item => val.filter(i => i.sourceLayer === item).length)
             if(distinct?.length === 1){
+                setSegment(distinct[0]?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase())
+            }
+            if(segment == null && distinct?.length > 1){
                 setSegment(distinct[0]?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase())
             }
             setInfoCardData(distinct?.map((item, index) => {
@@ -74,7 +77,7 @@ export default ({ modal = false }) => {
                     {
                         segment ? <>
                             <div className="text-sm font-semibold text-gray-700">
-                                <Carousel showThumbs={false} infiniteLoop selectedItem={0} showIndicators={false} align={'center'} skipSnaps controlsOffset={'xs'} slideSize={'100%'} withControls={infoCardData?.find(item => item.sourceLayer?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase() === segment)?.count > 1}>
+                                <Carousel preventMovementUntilSwipeScrollTolerance={false} showThumbs={false} infiniteLoop selectedItem={0} showIndicators={false} align={'center'} skipSnaps controlsOffset={'xs'} slideSize={'100%'} withControls={infoCardData?.find(item => item.sourceLayer?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase() === segment)?.count > 1}>
                                     {
                                         (infoCardData?.find(item => item.sourceLayer?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase() === segment)?.properties || [])
                                       
@@ -145,8 +148,19 @@ export default ({ modal = false }) => {
 const MemoizedCarousel = ({ item }) => (
     <Box >
         
-            <JsonToTable json={item} />
-       
+            {/* <JsonToTable json={item} /> */}
+       <Table striped withBorder>
+        <tbody className="text-[10px]">
+            {
+                Object.keys(item).map((key, index) => (
+                    <tr key={index}>
+                        <td className="font-semibold text-xs text-gray-700 text-start whitespace-nowrap overflow-hidden">{key}</td>
+                        <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden">{item[key]}</td>
+                    </tr>
+                ))
+            }
+        </tbody>
+       </Table>
 
     </Box>
 )

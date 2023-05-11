@@ -23,32 +23,32 @@ export default ({ modal = false, webview = false }) => {
                 addressPointsCRUDstate.value = ''
             }
         },
-        'Photo': {
-            icon: <IconPhotoPlus className="scale-110 text-[#0071b9]" />,
-            selectable: !webview,
-            "method": () => {
-                if (webview) {
-                    parent.postMessage({ type: 'addPhoto' }, '*')
-                    window.webkit.messageHandlers.jsHandler.postMessage({ type: 'addPhoto' })
-                }
-            },
-            "antiMethod": () => {
+        // 'Photo': {
+        //     icon: <IconPhotoPlus className="scale-110 text-[#0071b9]" />,
+        //     selectable: !webview,
+        //     "method": () => {
+        //         if (webview) {
+        //             parent.postMessage({ type: 'addPhoto' }, '*')
+        //             window.webkit.messageHandlers.jsHandler.postMessage({ type: 'addPhoto' })
+        //         }
+        //     },
+        //     "antiMethod": () => {
 
-            }
-        },
-        'Video': {
-            icon: <IconVideoPlus className="scale-110 text-[#0071b9]" />,
-            selectable: !webview,
-            "method": () => {
-                if (webview) {
-                    parent.postMessage({ type: 'addVideo' }, '*')
-                    window.webkit.messageHandlers.jsHandler.postMessage({ type: 'addVideo' })
-                }
-            },
-            "antiMethod": () => {
+        //     }
+        // },
+        // 'Video': {
+        //     icon: <IconVideoPlus className="scale-110 text-[#0071b9]" />,
+        //     selectable: !webview,
+        //     "method": () => {
+        //         if (webview) {
+        //             parent.postMessage({ type: 'addVideo' }, '*')
+        //             window.webkit.messageHandlers.jsHandler.postMessage({ type: 'addVideo' })
+        //         }
+        //     },
+        //     "antiMethod": () => {
 
-            }
-        }
+        //     }
+        // }
     }
 
     useEffect(() => {
