@@ -112,7 +112,7 @@ export default () => {
                                 ["zoom"],
                                 
                                 15,3,
-                                22, 10
+                                22, 15
                             ],
                             "circle-stroke-color": "white",
                             "circle-stroke-width": [

@@ -45,7 +45,9 @@ export default () => {
     })
   }, [])
   const handleMapClick = (event) => {
-    const features = event.features.filter(f => !additionalInteractiveLayers.value.includes(f.layer.id))
+    const features = event.features
+ 
+    // .filter(f => !additionalInteractiveLayers.value.includes(f.layer.id))
     // post message to parent latlng
     window.parent.postMessage({ latlng: event.lngLat }, '*');
 
@@ -80,7 +82,7 @@ export default () => {
 
       }}
       onError={(e) => {}}
-      interactiveLayerIds={interactiveLayerIds}
+      interactiveLayerIds={APVPage? ['addressPoints'] : interactiveLayerIds}
       transformRequest={(url, resourceType) => {
         if(url.includes('dim-tileserver')) {
          
@@ -97,6 +99,7 @@ export default () => {
     >
       <Suspense fallback={<LoadingOverlay visible />}>
 
+        <InfoCard modal presegment={APVPage ? 'ADDRESS POINT' : null} />
         <Boundary noFill />
         {statusPage ? <DistrictPhase/>
         : 
@@ -126,7 +129,6 @@ export default () => {
         </div>
         <ScaleControl position='bottom-right' maxWidth={100} unit='metric' />
         <Gpx />
-        <InfoCard modal/>
         <Photos />
         <CRUDAddressPoint />
       
