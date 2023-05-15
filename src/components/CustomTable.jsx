@@ -5,7 +5,8 @@ import { useState } from "preact/hooks";
 import readXlsxFile from 'read-excel-file';
 import appConfig from '../config/appConfig'
 import { FaEdit, FaTrash } from "react-icons/fa";
-export default ({ data, setLimit, attributes = [], newStruct = {}, refreshData, edit = false, remove = false, attatchment = false }) => { // as {"id":25,"name":"HO1V","min":"25","max":"55"}[]
+import { openDrawer } from "../providers/DrawerProvider";
+export default ({children, data, setLimit, attributes = [], newStruct = {}, refreshData, edit = false, remove = false, attatchment = false }) => { // as {"id":25,"name":"HO1V","min":"25","max":"55"}[]
 
     const [sort, setSort] = useState({ field: "name", order: "asc" });
     const [filter, setFilter] = useState('')
@@ -29,7 +30,7 @@ export default ({ data, setLimit, attributes = [], newStruct = {}, refreshData, 
 
 
     const createNew = () => {
-        openModal({
+        openDrawer({
             title: 'Create New',
             children: (
                 <form
@@ -66,6 +67,9 @@ export default ({ data, setLimit, attributes = [], newStruct = {}, refreshData, 
 
                         ))
                     }
+                    <div className="py-3">
+                        {children}
+                    </div>
                     <div className="flex justify-end">
                         <Button onClick={handleSubmit} className="mt-2 bg-gray-600 hover:bg-gray-900 text-white rounded-md">
                             Create
@@ -168,7 +172,7 @@ export default ({ data, setLimit, attributes = [], newStruct = {}, refreshData, 
                                                 {edit && <Button
                                                 variant="light"
                                                     onClick={() => {
-                                                        openModal({
+                                                        openDrawer({
                                                             title: 'Edit',
                                                             children: <EditForm item={item} newStruct={newStruct} />,
                                                         })
@@ -176,7 +180,7 @@ export default ({ data, setLimit, attributes = [], newStruct = {}, refreshData, 
                                                     className="bg-gray-700 hover:bg-gray-900 text-white rounded-md p-2 mx-1"><FaEdit /></Button>}
                                                 {attatchment && <button
                                                     onClick={() => {
-                                                        openModal({
+                                                        openDrawer({
                                                             title: 'Attatchment',
                                                             children: <AttatchmentForm item={item} newStruct={newStruct} />,
                                                         })

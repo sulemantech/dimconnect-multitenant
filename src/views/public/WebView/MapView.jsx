@@ -34,6 +34,8 @@ export default () => {
   if(statusPage){
     DistrictPhaseVisibility.value = true
   }
+  const APVPage = params.get('apvPage')
+  
   const [basemap , setBasemap] = useState('https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json')
   const [interactiveLayerIds, setInteractiveLayerIds] = useState([])
   useEffect(() => {
@@ -96,8 +98,12 @@ export default () => {
       <Suspense fallback={<LoadingOverlay visible />}>
 
         <Boundary noFill />
-        {statusPage ? <DistrictPhase/>: <>
-        <AddressPoints />
+        {statusPage ? <DistrictPhase/>
+        : 
+        APVPage ? <AddressPoints /> 
+        :
+        <>
+        <AddressPoints /> 
         <SearchControl nohead />
         <div  className={`absolute top-2 right-2 ${FabClass} text-[#0071b9] bg-white `}
            onClick={() => {
@@ -124,7 +130,7 @@ export default () => {
         <Photos />
         <CRUDAddressPoint />
       
-        <DataTiles ags />
+         <DataTiles ags />
         <Popup />
         
         <CustomGeoLocateMarker />

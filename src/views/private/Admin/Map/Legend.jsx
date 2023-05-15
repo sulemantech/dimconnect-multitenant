@@ -111,12 +111,13 @@ export default ({noAddressPoint=false,noStatus=false}) => {
             <h6 className="mb-1"><b>Legend</b></h6>
             <hr className="mb-2" />
             <Accordion defaultValue={window.innerWidth>768?'Address Points':''} className="text-xs" onChange={(e) => {
-                if (e !== 'Status') {
+               if(noStatus) {if (e !== 'Status') {
+                    
                     DistrictPhaseVisibility.value = false
                 } else {
                     DistrictPhaseVisibility.value = true
                 }
-                setValue(e)
+                setValue(e)}
             }}>
               {!noAddressPoint &&  <Accordion.Item value="Address Points" className="text-xs" >
                     <Accordion.Control className="text-xs last:p-0"  value={"Address Points"}>Address Points</Accordion.Control>

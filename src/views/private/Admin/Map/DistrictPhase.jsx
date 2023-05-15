@@ -29,9 +29,9 @@ let statuses = {
 export const DistrictPhaseVisibility = signal(false)
 export const DistrictPhaseLayersVisibility = signal({
     "Finalisierung Netzdetailplanung durch TRC": true,
-    "Abgeschlossen":true,
-    "Noch nicht begonnen":true,
-    "NPV: Netzplanaufbereitung durch TRC":true
+    "Abgeschlossen": true,
+    "Noch nicht begonnen": true,
+    "NPV: Netzplanaufbereitung durch TRC": true
 })
 
 export default ({ id = false, grouped = false }) => {
@@ -55,7 +55,7 @@ export default ({ id = false, grouped = false }) => {
                 type: "FeatureCollection",
                 features: parsed.filter(feature => feature.geometry.coordinates[0] !== undefined)
             }
-         
+
 
             setData(geojson)
         })

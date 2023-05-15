@@ -5,6 +5,7 @@ import { signal } from '@preact/signals';
 import LZString from 'lz-string';
 import { feature } from 'topojson-client'
 import { Notifications } from '@mantine/notifications';
+import { DrawerProvider } from './providers/DrawerProvider';
 
 export const districts = signal({})
 
@@ -35,6 +36,7 @@ export function App() {
           
         }}>
           <Notifications />
+          <DrawerProvider />
             
             <div className='select-none antialiased text-gray-700 ='>
               <AuthProvider />

@@ -57,7 +57,7 @@ export default () => {
 const RouteComponent = ({ path, label, icon }) => {
     return (
         <Link href={path}>
-            <Tooltip label={label} display={collapsed.value ? 'none' : ''}>
+            <Tooltip label={label} position="right" color="blue" display={collapsed.value ? 'none' : ''}>
             <div className="flex items-center p-4 h-14 my-2 text-white font-light border-sky-600 transition-all border-b-2 hover:border-white ">
                 <p className="flex items-center">
                   {icon} <p className="text-md pl-2">  { collapsed.value && label } </p>

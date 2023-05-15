@@ -16,6 +16,7 @@ export default () => {
     const ags = params.get('ags')
     const client = params.get('client')
     const statusPage = params.get('statusPage')
+    const apvPage = params.get('apvPage')
    
     if (ags) {
         dropvalue.value = ags
@@ -28,7 +29,7 @@ export default () => {
                     ags && client === 'ios' ?
                         <div className="flex relative flex-col h-full">
                             <MapView /> 
-                            {!statusPage &&
+                            {!statusPage && !apvPage &&
                             <BottomRight>
                                 <>
                                     <div className="mb-20">
