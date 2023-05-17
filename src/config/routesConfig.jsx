@@ -1,4 +1,4 @@
-import { IconDashboard , IconUser, IconPalette, IconMap } from '@tabler/icons'
+import { IconDashboard , IconUser, IconPalette, IconMap, IconTicket } from '@tabler/icons'
 
 export const privateRoutes = [{
     label : 'Dashboard',
@@ -16,4 +16,8 @@ export const privateRoutes = [{
     label : 'Styles',
     path : '/styles',
     icon : <IconPalette />
+},{
+    label : 'Ticket',
+    path : '/ticket',
+    icon : <IconTicket />
 }]

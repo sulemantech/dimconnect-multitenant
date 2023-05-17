@@ -39,6 +39,7 @@
     "preact": "^10.11.3",
     "preact-async-route": "^2.2.1",
     "preact-router": "^4.1.0",
+    "react-data-table-component": "^7.5.3",
     "react-map-gl": "^7.0.21",
     "recharts": "^2.3.2"
   },

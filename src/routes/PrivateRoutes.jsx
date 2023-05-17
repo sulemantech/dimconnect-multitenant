@@ -5,6 +5,7 @@ import Administration from '../views/private/Administration';
 import PageWrapper from '../layout/PageWrapper';
 import Styles from '../views/private/Styles';
 import Map from '../views/private/Map';
+import Ticket from '../views/private/Ticket';
 
 
 const UserType = {
@@ -12,7 +13,8 @@ const UserType = {
         <Dashboard path="/" />,
         <Map path="/map" />,
         <Administration path="/administration" />,
-        <Styles path="/styles" />
+        <Styles path="/styles" />,
+        <Ticket path="/ticket" />
     ],
 }
 
