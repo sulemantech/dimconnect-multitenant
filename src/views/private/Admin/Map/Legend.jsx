@@ -111,7 +111,8 @@ export default ({noAddressPoint=false,noStatus=false}) => {
             <h6 className="mb-1"><b>Legend</b></h6>
             <hr className="mb-2" />
             <Accordion defaultValue={window.innerWidth>768?'Address Points':''} className="text-xs" onChange={(e) => {
-               if(noStatus) {if (e !== 'Status') {
+               const params = new URLSearchParams(window.location.search)
+               if(!params.get('statusPage')) {if (e !== 'Status') {
                     
                     DistrictPhaseVisibility.value = false
                 } else {
