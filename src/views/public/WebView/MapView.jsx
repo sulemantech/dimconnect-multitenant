@@ -56,7 +56,12 @@ export default () => {
     })
     if (addressPointsCRUDstate.value != '') return
    
-    if (features.length > 0) infoCardVal.value = features
+    if (features.length > 0) {
+      infoCardVal.value = null 
+      setTimeout(() => {
+      infoCardVal.value = features
+      }, 100);
+    }
     
   };
   const handleMaphover = (event) => {
