@@ -30,8 +30,7 @@ function getMapStyle({map,visibility, color}) {
     .filter(layer => {
       const id = layer.get('id');
       return categories.every(name => visibility[name] || !layerSelector[name].test(id));
-    })
-    .map(layer => {
+    })?.map(layer => {
       const id = layer.get('id');
       const type = layer.get('type');
       const category = categories.find(name => layerSelector[name].test(id));
@@ -79,10 +78,10 @@ function StyleControls(props) {
   };
 
   return (
-    <div className="absolute bottom-0 left-0 p-2 rounded-xl text-white bg-components border-white border-2 border-solid shadow-lg">
+    <div className="absolute bottom-0 left-0 p-2 rounded-xl  shadow-lg text-[#0071b9] bg-white  border-white border-2 border-solid ">
       <h3>Dynamic Styling</h3>
       <hr />
-      {categories.map(name => (
+      {categories?.map(name => (
         <div key={name} className="input">
           <label>{name}</label>
           <input

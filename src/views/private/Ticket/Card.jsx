@@ -1,18 +1,31 @@
 import React from "react";
 
-export default ({ title, count, color }) => {
+export default ({ title, count, color, active, handleClick, id }) => {
   return (
-    // create an card woth two divs, left and right
+    // create an card with two divs, left and right
     // in left side of the card there will be three lines of text
     // in right side of the card there will be an icon
     // background color of the card will be white
-    <div className="flex flex-row justify-around items-center bg-white rounded-xl shadow-lg p-4 w-[30%]">
+    <div
+      onClick={() => handleClick(id)}
+      className={`flex flex-row justify-around items-center ${
+        active ? "bg-[#0071b90a]" : "bg-white"
+      } rounded-xl shadow-lg p-4 w-[30%]`}
+    >
       <div className="flex flex-col items-start">
-        <h2 className="text-sm text-gray-500">{title}</h2>
+        <h1 className="text-2xl text-gray-700 font-semibold">{title}</h1>
         <p className="text-lg font-semibold">{count}</p>
         {/* <p className="text-sm text-gray-500">{}</p> */}
       </div>
-      <div className={`flex flex-col items-end p-5 bg-[${color === "blue" ? '#3b82f6' : color === 'yellow' ? '#f59e0b' : '#10b981'}]`}>
+      <div
+        className={`flex flex-col items-end p-5 bg-[${
+          color === "blue"
+            ? "#3b82f6"
+            : color === "yellow"
+            ? "#f59e0b"
+            : "#10b981"
+        }]`}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="icon icon-tabler icon-tabler-ticket"
@@ -20,7 +33,13 @@ export default ({ title, count, color }) => {
           height="44"
           viewBox="0 0 24 24"
           strokeWidth="1.5"
-          stroke={color === "blue" ? "#3b82f6" : color === "yellow" ? "#f59e0b" : "#10b981"}
+          stroke={
+            color === "blue"
+              ? "#3b82f6"
+              : color === "yellow"
+              ? "#f59e0b"
+              : "#10b981"
+          }
           fill="none"
           strokeLinecap="round"
           strokeLinejoin="round"
