@@ -15,25 +15,29 @@ export const infoCardVal = signal(null)
 
 
 export default ({ modal = false, presegment = null }) => {
-    return infoCardVal.value !=null ?
+
+    const [val, setVal] = useState(null)
+    useEffect(() => { infoCardVal.subscribe(setVal) }, [])
+
+    return val !=null ?
     <>
         {!modal ?
 
-            <Transition transition="slide-right" duration={400} mounted={infoCardVal.value != null} timingFunction="ease">
+            <Transition transition="slide-right" duration={400} mounted={val != null} timingFunction="ease">
                 {(styles) =>
                     <div style={styles} className="bg-white absolute left-2 bottom-2 z-50 p-2 rounded-md shadow-lg max-w-xl" >
-                        <Component modal={modal} presegment={presegment} />
+                        <Component modal={modal} presegment={presegment} val={val}/>
                     </div>
                 }
             </Transition>
             :
             <>
 
-                <Modal lockScroll={false} className="overflow-x-hidden" padding={'xs'} opened={infoCardVal.value != null} onClose={()=>{
-                    infoCardVal.value = null
+                <Modal lockScroll={false} className="overflow-x-hidden" padding={'xs'} opened={val != null} onClose={()=>{
+                    setVal(null)
                 }} title="Info Card" size={'xl'}>
                     <div className="w-full h-full">
-                        <Component modal={modal} presegment={presegment} />
+                        <Component modal={modal} presegment={presegment} val={val}/>
                     </div>
                 </Modal>
             </>
@@ -41,16 +45,16 @@ export default ({ modal = false, presegment = null }) => {
 
     </>
     :
-    <LoadingOverlay visible={infoCardVal.value != null} />
+    <></>
     
 }
 
-const Component = ({ modal = false, presegment = null }) => {
+const Component = ({ modal = false, presegment = null,val }) => {
     const [infoCardData, setInfoCardData] = useState(null)
     const [segment, setSegment] = useState(presegment)
 
-    useEffect(() => {
-        infoCardVal.subscribe(async (val) => {
+    useEffect(async () => {
+        
             if (!val) {
                 setSegment(null)
                 return
@@ -64,6 +68,7 @@ const Component = ({ modal = false, presegment = null }) => {
             // }
 
 
+            const duplicates = distinct?.map(item => val.filter(i => i.sourceLayer === item).length)
 
             setSegment(distinct[0]?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase())
 
@@ -88,7 +93,6 @@ const Component = ({ modal = false, presegment = null }) => {
 
             }
 
-            const duplicates = distinct?.map(item => val.filter(i => i.sourceLayer === item).length)
 
 
             setInfoCardData(distinct?.filter(item => item !== undefined)
@@ -97,17 +101,17 @@ const Component = ({ modal = false, presegment = null }) => {
                     return {
                         sourceLayer: item,
                         properties: val.filter(i => i.sourceLayer === item).map(i => i.properties),
-                        count: duplicates[index]
+                        count: (item === ('Address Point' || 'Distict Boundary')) ? 1 : duplicates[index],
                     }
                 }))
 
-        })
+        
 
     }, [])
 
     const onClose = () => {
         setInfoCardData(null)
-        infoCardVal.value = null
+       
     }
 
     const renameKeys = {
