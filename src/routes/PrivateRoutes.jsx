@@ -1,5 +1,6 @@
 import { Router } from 'preact-router';
-import {lazy} from 'preact/compat';
+import {lazy,Suspense} from 'preact/compat';
+import { Skeleton } from '@mantine/core';
 
 const Navbar = lazy(() => import('../layout/Navbar').catch((e) => console.log(e)));
 const Dashboard = lazy(() => import('../views/private/Admin/Dashboard'));
@@ -28,10 +29,12 @@ const TypeRoutes = {
 export default () => <div className='flex absolute top-0 left-0 bottom-0 bg-neutral-200 right-0 overflow-hidden'>
     <Navbar />
     <PageWrapper>
-    <Router hashHistory>
+    <Suspense fallback={<Skeleton height={100} />}>
+    <Router hashHistory >
         {TypeRoutes[
             UserType.value
         ]?.map((route) => route)}
     </Router>
+    </Suspense>
     </PageWrapper>
 </div>

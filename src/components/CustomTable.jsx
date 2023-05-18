@@ -71,7 +71,7 @@ export default ({ children, data, setLimit, attributes = [], newStruct = {}, ref
                         {children}
                     </div>
                     <div className="flex justify-end">
-                        <Button onClick={handleSubmit} className="mt-2 bg-gray-600 hover:bg-gray-900 text-white rounded-md">
+                        <Button onClick={handleSubmit} >
                             Create
                         </Button>
                     </div>
@@ -118,12 +118,12 @@ export default ({ children, data, setLimit, attributes = [], newStruct = {}, ref
                                             return (
                                                 <th scope="col" key={item} className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
                                                     {item.replace('_', ' ').toUpperCase()}
-                                                    <Button className="text-gray-900"
+                                                    <ActionIcon className="text-gray-900"
                                                         size="xs"
                                                         variant="white"
                                                         onClick={() => setSort({ field: item, order: sort.order === "asc" ? "desc" : "asc" })}
-                                                        leftIcon={sort.field === item && sort.order === "asc" ? <IconArrowDown className="text-red-900" size={15} /> : <IconArrowUp className="text-gray-600" size={15} />}
-                                                    />
+                                                        >{sort.field === item && sort.order === "asc" ? <IconArrowDown className="text-red-900" size={15} /> : <IconArrowUp className="text-gray-600" size={15} />}
+                                                    </ActionIcon>
                                                 </th>
                                             )
                                         })
@@ -193,13 +193,7 @@ export default ({ children, data, setLimit, attributes = [], newStruct = {}, ref
                                                         title: 'Are You Sure?',
                                                         children: <div>This action cannot be undone</div>,
                                                         labels: { confirm: 'Delete', cancel: 'Cancel' },
-                                                        confirmProps: {
-                                                            variant: 'light',
-                                                            color: 'red',
-                                                        },
-                                                        cancelProps: {
-                                                            variant: 'light',
-                                                        },
+                                                        
                                                         onConfirm: () => newStruct.deleteMethod(item.id).then(res => refreshData())
                                                     })}
                                                 ><FaTrash /></ActionIcon>}
@@ -265,16 +259,16 @@ const EditForm = ({ item, newStruct }) => {
 
                 }
                 <div className="flex">
-                    <button
+                    <Button
                         onClick={update}
-                        className="bg-gray-700 px-4 py-2 rounded-md ml-2 hover:bg-gray-900 text-white font-bold ">
+                       >
                         Update
-                    </button>
-                    <button
+                    </Button>
+                    <Button
                         onClick={() => closeAllModals()}
-                        className="bg-gray-700 px-4 py-2 rounded-md ml-2 hover:bg-gray-900 text-white font-bold ">
+                        >
                         Cancel
-                    </button>
+                    </Button>
                 </div>
             </div>
         )
@@ -419,13 +413,13 @@ const AttatchmentForm = ({ item, newStruct }) => {
                 <Button
                     loading={loading}
                     onClick={upload}
-                    className="bg-gray-700 px-4 py-2 rounded-md ml-2 hover:bg-gray-900 text-white font-bold ">
+                   >
                     Upload
                 </Button>
                 <Button
                     loading={loading}
                     onClick={() => closeAllModals()}
-                    className="bg-gray-700 px-4 py-2 rounded-md ml-2 hover:bg-gray-900 text-white font-bold ">
+                    >
                     Cancel
                 </Button>
             </div>

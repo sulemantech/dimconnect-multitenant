@@ -196,8 +196,15 @@ export default () => {
     auth.setAuth(false)
   }
 
+  const currentRoute = router[0].path
+
   useEffect(() => {
+    let firstPageLoad = true
     dropvalue.subscribe((value) => {
+      if (firstPageLoad && currentRoute !== '/map') {
+        firstPageLoad = false
+        return
+      }
       const parentRoute = router?.[0]?.path?.replace('/:ags', '') || ''
       route(`${parentRoute}/${value}${window.location.hash}`)
     })
@@ -207,7 +214,7 @@ export default () => {
       dropvalue.value = router[0].matches.ags
     } else {
       const parentRoute = router?.[0]?.path?.replace('/:ags', '') || ''
-      route(`${parentRoute}/${dropvalue.value}${window.location.hash}`)
+      // route(`${parentRoute}/${dropvalue.value}${window.location.hash}`)
     }
   }, [])
 
