@@ -1,3 +1,5 @@
+import 'maplibre-gl/dist/maplibre-gl.css';
+
 import { LoadingOverlay, MantineProvider } from '@mantine/core';
 import { ModalsProvider } from '@mantine/modals';
 import LZString from 'lz-string';
@@ -26,7 +28,7 @@ export function App() {
       theme={{
         fontFamily: 'Greycliff CF, sans-serif',
         colors: {
-          brand: '#0071b9',
+          brand: ['#0071b9','#0071b9','#0071b9',]
 
         },
         // hover color
@@ -57,7 +59,7 @@ export function App() {
           <Notifications />
           <DrawerProvider />
 
-          <div className='select-none antialiased text-gray-700 ='>
+          <div className='select-none antialiased text-gray-700 '>
             <AuthProvider />
           </div>
         </ModalsProvider>

@@ -1,19 +1,22 @@
 import { useScrollLock } from "@mantine/hooks"
+import { Skeleton } from "@mantine/core"
+import {lazy,Suspense} from 'preact/compat'
 
-import { BottomLeft, BottomRight } from "../../private/Admin/Map"
-import BaseMapControl from "../../private/Admin/Map/BaseMapControl"
-import Legend from "../../private/Admin/Map/Legend"
-import OverlayControl from "../../private/Admin/Map/OverlayControl"
-import MapView from "./MapView"
-import ProtectedWrapper from "./ProtectedWrapper"
-import AddControl from "../../private/Admin/Map/AddControl"
-import EditControl from "../../private/Admin/Map/EditControl"
-import WebViewFooter from "./WebViewFooter"
+import { BottomLeft,BottomRight } from "../../../layout/Fixed"
+const BaseMapControl = lazy(() => import('../../private/Admin/Map'))
+const Legend = lazy(() => import('../../private/Admin/Map'))
+const OverlayControl = lazy(() => import('../../private/Admin/Map'))
+const MapView = lazy(() => import('./MapView'))
+const ProtectedWrapper = lazy(() => import('./ProtectedWrapper'))
+const AddControl = lazy(() => import('../../private/Admin/Map'))
+const EditControl = lazy(() => import('../../private/Admin/Map'))
+const WebViewFooter = lazy(() => import('./WebViewFooter'))
+
 
 import { dropvalue } from "../../../signals"
 
 export default () => {
-    const [scrollLocked, setScrollLocked] = useScrollLock(true);
+    useScrollLock(true);
     const params = new URLSearchParams(window.location.search)
     const ags = params.get('ags')
     const client = params.get('client')
@@ -27,6 +30,7 @@ export default () => {
     return (
         <div className="m-0 absolute top-0 left-0 right-0 bottom-0 touch-none overflow-hidden">
             <ProtectedWrapper>
+                <Suspense fallback={<Skeleton className="h-full w-full" />} >
                 {
                     ags && client === 'ios' ?
                         <div className="flex relative flex-col h-full">
@@ -53,6 +57,7 @@ export default () => {
                         :
                         <div>Not Valid Params</div>
                 }
+                </Suspense>
             </ProtectedWrapper>
         </div>
     )

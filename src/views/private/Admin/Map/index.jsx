@@ -1,12 +1,13 @@
 import { Suspense, lazy } from 'preact/compat'
-import Legend from './Legend'
-import AddControl from './AddControl'
-import EditControl from './EditControl'
 import { useScrollLock } from '@mantine/hooks'
+
+import { BottomLeft, BottomRight } from '../../../../layout/Fixed'
 const Map = lazy(() => import('./Map'))
 const BaseMapControl = lazy(() => import('./BaseMapControl'))
 const OverlayControl = lazy(() => import('./OverlayControl'))
-
+const Legend = lazy(() => import('./Legend'))
+const AddControl = lazy(() => import('./AddControl'))
+const EditControl = lazy(() => import('./EditControl'))
 
 export default () => {
   useScrollLock(true)
@@ -33,18 +34,3 @@ export default () => {
   )
 }
 
-export const BottomRight = ({ children }) => {
-  return (
-    <div className="absolute bottom-10 right-2 flex flex-col items-end justify-end">
-      {children}
-    </div>
-  )
-}
-
-export const BottomLeft = ({ children }) => {
-  return (
-    <div className="absolute bottom-2 left-2 flex flex-col items-start justify-end">
-      {children}
-    </div>
-  )
-}

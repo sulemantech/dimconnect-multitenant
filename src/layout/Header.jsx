@@ -194,6 +194,7 @@ export default () => {
   const logout = () => {
     sessionStorage.removeItem(appConfig.sessionStorageKey)
     auth.setAuth(false)
+    window.location.reload()
   }
 
   const currentRoute = router[0].path

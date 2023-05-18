@@ -22,12 +22,16 @@ export const DrawerProvider = ({ children }) => {
         setContent(children);
     };
 
-    const closeDrawer = () => {
+    const close = () => {
         setIsOpen(false);
     };
 
     useEffect(() => {
         drawerSignal.subscribe((data) => {
+            if (!data.title || !data.children) {
+                close();
+                return;
+            }
             openDrawer(data);
         });
     }, []);
@@ -37,7 +41,7 @@ export const DrawerProvider = ({ children }) => {
             {children}
             <Drawer
                 opened={isOpen}
-                onClose={closeDrawer}
+                onClose={close}
                 title={title}
                 size="lg"
                 padding="md"
@@ -54,6 +58,10 @@ export const useDrawer = () => useContext(DrawerContext);
 export const openDrawer = ({ title, children }) => {
     
     drawerSignal.value = { title, children };
+}
+
+export const closeDrawer = () => {
+    drawerSignal.value = { title: '', children: '' };
 }
 
 export default DrawerProvider;

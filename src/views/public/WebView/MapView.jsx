@@ -1,8 +1,7 @@
-import 'maplibre-gl/dist/maplibre-gl.css';
 
 import { Suspense, lazy, useEffect, useState } from 'preact/compat';
 import {  Map, Marker, ScaleControl, useMap } from 'react-map-gl';
-import maplibreGl from 'maplibre-gl';
+import maplibregl from 'maplibre-gl';
 import { signal } from '@preact/signals';
 import { LoadingOverlay } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
@@ -72,7 +71,7 @@ export default () => {
       onClick={handleMapClick}
       onMouseMove={handleMaphover}
       attributionControl={false}
-      mapLib={maplibreGl}
+      mapLib={maplibregl}
       mapStyle={basemap}
       trackResize={true}
       // hash={true}

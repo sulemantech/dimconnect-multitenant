@@ -1,84 +1,110 @@
-import { ActionIcon, Button, Switch } from "@mantine/core";
+import { ActionIcon, Button, Input, Switch } from "@mantine/core";
 import { closeAllModals, openConfirmModal, openModal } from "@mantine/modals";
-import { IconArrowDown, IconArrowUp, IconEdit, IconPaperclip, IconPlus, IconTrash } from "@tabler/icons";
+import { IconArrowDown, IconArrowUp, IconPaperclip, IconPlus } from "@tabler/icons";
 import { useState } from "preact/hooks";
 import readXlsxFile from 'read-excel-file';
 import appConfig from '../config/appConfig'
 import { FaEdit, FaTrash } from "react-icons/fa";
-import { openDrawer } from "../providers/DrawerProvider";
+import { closeDrawer, openDrawer } from "../providers/DrawerProvider";
+import {useCallback} from 'preact/hooks'
 export default ({ children, data, setLimit, attributes = [], newStruct = {}, refreshData, edit = false, remove = false, attatchment = false }) => { // as {"id":25,"name":"HO1V","min":"25","max":"55"}[]
 
     const [sort, setSort] = useState({ field: "name", order: "asc" });
     const [filter, setFilter] = useState('')
+    const [submitloading, setsubmitLoading] = useState(false)
 
 
+    const handleSubmit = (e) => {
+        setsubmitLoading(true)
+        e.preventDefault()
+        const creationform = e.target
+        const formdata = new FormData(creationform)
 
-    const handleSubmit = () => {
-        const creationform = document.getElementById('creationform')
         const values = {}
         for (let i = 0; i < creationform.length; i++) {
-            values[creationform[i].name] = creationform[i].value
+            
+            // get group name if any
+            if (creationform[i].getAttribute('data-group')) {
+                
+                values[creationform[i].getAttribute('data-group')] = {
+                    ...values[creationform[i].getAttribute('data-group')],
+                    [creationform[i].name]: formdata.get(creationform[i].name) == 'on' ? true : formdata.get(creationform[i].name)
+                }
+                
+            }else{
+            values[creationform[i].name] = formdata.get(creationform[i].name) == 'on' ? true : formdata.get(creationform[i].name)
+            }
         }
+        
         newStruct.createMethod(values).then((res) => {
+            setsubmitLoading(false)
             refreshData()
-            closeAllModals()
+            closeDrawer()
         })
             .catch((err) => {
 
             })
     }
 
-
-    const createNew = () => {
-        openDrawer({
-            title: 'Create New',
-            children: (
-                <form
-                    id="creationform">
-                    {
-                        Object.keys(newStruct.data)?.map((item) => (
-                            (Array.isArray(newStruct.data[item])) ?
-                                <div className="flex flex-col">
-                                    <label className="text-sm text-gray-600">{item.replace('_', ' ').trim().toUpperCase()}</label>
-                                    <select className="bg-gray-200 rounded-md p-1" name={item}>
-                                        {
-                                            newStruct?.data[item]?.map((option) => {
-                                                return (
-                                                    <option value={option}>{option}</option>
-                                                )
-                                            })
-                                        }
-                                    </select>
-                                </div>
-                                :
-                                typeof newStruct.data[item] === 'boolean' ?
-                                    <>
-
-                                        <div className="flex">
-                                            <label className="text-sm text-gray-600 flex-1">{item.replace('_', ' ').trim().toUpperCase()}</label>
-                                            <Switch className=" rounded-md p-1 flex-1" name={item} />
-                                        </div>
-                                    </>
-                                    :
+    const createNew = useCallback(
+        () => {
+            openDrawer({
+                title: 'Create New',
+                children: (
+                    <form
+                        onSubmit={handleSubmit}
+                        id="creationform">
+                        {
+                            Object.keys(newStruct.data)?.map((item) => (
+                                (Array.isArray(newStruct.data[item])) ?
                                     <div className="flex flex-col">
                                         <label className="text-sm text-gray-600">{item.replace('_', ' ').trim().toUpperCase()}</label>
-                                        <input type="text" className="bg-gray-200 rounded-md p-1" name={item} />
+                                        <select required className="bg-gray-200 rounded-md p-1" name={item}>
+                                            {
+                                                newStruct?.data[item]?.map((option) => {
+                                                    return (
+                                                        <option value={option}>{option}</option>
+                                                    )
+                                                })
+                                            }
+                                        </select>
                                     </div>
+                                    :
+                                    typeof newStruct.data[item] === 'boolean' ?
+                                        <>
+    
+                                            <div className="flex">
+                                                <label className="text-sm text-gray-600 flex-1">{item.replace('_', ' ').trim().toUpperCase()}</label>
+                                                <Switch required className=" rounded-md p-1 flex-1" name={item} />
+                                            </div>
+                                        </>
+                                        :
+                                        <div className="flex flex-col">
+                                            <label className="text-sm text-gray-600">{item.replace('_', ' ').trim().toUpperCase()}</label>
+                                            <Input required type="text" className="bg-gray-200 rounded-md p-1" name={item} />
+                                        </div>
+    
+                            ))
+                        }
+                        <div className="py-3">
+                            {children}
+                        </div>
+                        <div className="flex justify-end">
+                            <Button  
+                            loading={submitloading}
+                            type={'submit'}>
+                                Create
+                            </Button>
+                        </div>
+                    </form>
+                )
+            })
+        },
+      [children],
+    )
+    
 
-                        ))
-                    }
-                    <div className="py-3">
-                        {children}
-                    </div>
-                    <div className="flex justify-end">
-                        <Button onClick={handleSubmit} >
-                            Create
-                        </Button>
-                    </div>
-                </form>
-            )
-        })
-    }
+    
 
     return (
         <div className="flex flex-col rounded-md bg-white">
@@ -174,7 +200,7 @@ export default ({ children, data, setLimit, attributes = [], newStruct = {}, ref
                                                     onClick={() => {
                                                         openDrawer({
                                                             title: 'Edit',
-                                                            children: <EditForm item={item} newStruct={newStruct} />,
+                                                            children: <EditForm item={item} newStruct={newStruct} >{children}</EditForm>,
                                                         })
                                                     }}
                                                 ><FaEdit /></ActionIcon>}
@@ -193,7 +219,7 @@ export default ({ children, data, setLimit, attributes = [], newStruct = {}, ref
                                                         title: 'Are You Sure?',
                                                         children: <div>This action cannot be undone</div>,
                                                         labels: { confirm: 'Delete', cancel: 'Cancel' },
-                                                        
+                                                        cancelProps : {variant : 'default'},
                                                         onConfirm: () => newStruct.deleteMethod(item.id).then(res => refreshData())
                                                     })}
                                                 ><FaTrash /></ActionIcon>}
@@ -209,7 +235,7 @@ export default ({ children, data, setLimit, attributes = [], newStruct = {}, ref
     )
 }
 
-const EditForm = ({ item, newStruct }) => {
+const EditForm = ({ item, newStruct,children }) => {
     const [form, setForm] = useState(item);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -258,6 +284,9 @@ const EditForm = ({ item, newStruct }) => {
                     })
 
                 }
+                <div className="my-4">
+                    {children}
+                    </div>
                 <div className="flex">
                     <Button
                         onClick={update}
@@ -265,7 +294,7 @@ const EditForm = ({ item, newStruct }) => {
                         Update
                     </Button>
                     <Button
-                        onClick={() => closeAllModals()}
+                        onClick={() => closeDrawer()}
                         >
                         Cancel
                     </Button>

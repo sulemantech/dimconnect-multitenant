@@ -1,8 +1,6 @@
-import 'maplibre-gl/dist/maplibre-gl.css';
-
 import { Suspense, lazy, useEffect, useState } from 'preact/compat';
 import { Map, ScaleControl } from 'react-map-gl';
-import maplibreGl from 'maplibre-gl';
+import maplibregl from 'maplibre-gl';
 import { LoadingOverlay } from '@mantine/core';
 
 import MapControls from './MapControls';
@@ -60,7 +58,7 @@ export default ({ children }) => {
       onClick={handleMapClick}
       onMouseMove={handleMaphover}
       attributionControl={false}
-      mapLib={maplibreGl}
+      mapLib={maplibregl}
       mapStyle={basemap}
       trackResize={true}
       antialias={true}
