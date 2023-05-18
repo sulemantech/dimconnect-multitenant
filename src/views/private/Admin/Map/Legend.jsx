@@ -3,7 +3,7 @@ import { Accordion } from "@mantine/core"
 import { useDidUpdate } from "@mantine/hooks"
 import { useState } from "preact/hooks"
 
-import { DistrictPhaseLayersVisibility, DistrictPhaseVisibility, addressPointsStatusVisibility } from "../../../../signals"
+import { DistrictPhaseLayersVisibility, DistrictPhaseVisibility, addressPointsStatusVisibility, legendContent } from "../../../../signals"
 
 
 export default ({noAddressPoint=false,noStatus=false}) => {
