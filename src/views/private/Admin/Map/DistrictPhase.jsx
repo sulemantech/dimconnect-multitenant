@@ -1,9 +1,9 @@
 import { useEffect, useState } from "preact/hooks"
-import { dropvalue } from "../../../../layout/Header"
+import { Source, Layer } from "react-map-gl"
 
-import { Source, Layer, useMap } from "react-map-gl"
+import { DistrictPhaseVisibility, DistrictPhaseLayersVisibility } from "../../../../signals"
 import { getDistrictPhase } from "../../../../api"
-import { signal } from "@preact/signals"
+
 
 let SAMPLE =
     [{
@@ -26,13 +26,7 @@ let statuses = {
     7: 'Finalisierung Netzdetailplanung durch Kommune',
 }
 
-export const DistrictPhaseVisibility = signal(false)
-export const DistrictPhaseLayersVisibility = signal({
-    "Finalisierung Netzdetailplanung durch TRC": true,
-    "Abgeschlossen": true,
-    "Noch nicht begonnen": true,
-    "NPV: Netzplanaufbereitung durch TRC": true
-})
+
 
 export default ({ id = false, grouped = false }) => {
     const [data, setData] = useState({})

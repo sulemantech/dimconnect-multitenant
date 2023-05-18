@@ -1,12 +1,10 @@
-import { signal } from "@preact/signals"
 import { useEffect, useState } from "preact/hooks"
-import { Layer, Source, useMap } from "react-map-gl"
-import { getAddressPointStatus } from "../../../../api"
-import { dropvalue } from "../../../../layout/Header"
+import { Layer, Source } from "react-map-gl"
 import SplineWrapper from "spline-wrapper"
+
+import { dropvalue,visibility } from "../../../../signals"
 import appConfig from "../../../../config/appConfig"
 
-export const visibility = signal(null)
 
 export default () => {
 

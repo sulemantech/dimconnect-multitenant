@@ -9,7 +9,7 @@ const OverlayControl = lazy(() => import('./OverlayControl'))
 
 
 export default () => {
-  const scrollLock = useScrollLock(true)
+  useScrollLock(true)
   return (
     <div className="absolute left-0 top-0 bottom-0 right-0 touch-none overflow-hidden">
       <Suspense fallback={<div>Loading...</div>}>

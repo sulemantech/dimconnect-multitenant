@@ -3,7 +3,7 @@ import { openModal } from "@mantine/modals"
 import { useEffect, useState } from "preact/hooks"
 import PageProvider from "../../../../providers/PageProvider"
 import { visibility } from "../../Admin/Map/DataTiles"
-import { dropvalue } from "../../../../layout/Header"
+import { dropvalue } from "../../../../signals"
 
 export default () => {
     const [layers, setLayers] = useState({})

@@ -55,3 +55,5 @@ export const openDrawer = ({ title, children }) => {
     
     drawerSignal.value = { title, children };
 }
+
+export default DrawerProvider;

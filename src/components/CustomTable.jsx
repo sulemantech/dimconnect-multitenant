@@ -1,4 +1,4 @@
-import { Button, Switch } from "@mantine/core";
+import { ActionIcon, Button, Switch } from "@mantine/core";
 import { closeAllModals, openConfirmModal, openModal } from "@mantine/modals";
 import { IconArrowDown, IconArrowUp, IconEdit, IconPaperclip, IconPlus, IconTrash } from "@tabler/icons";
 import { useState } from "preact/hooks";
@@ -6,7 +6,7 @@ import readXlsxFile from 'read-excel-file';
 import appConfig from '../config/appConfig'
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { openDrawer } from "../providers/DrawerProvider";
-export default ({children, data, setLimit, attributes = [], newStruct = {}, refreshData, edit = false, remove = false, attatchment = false }) => { // as {"id":25,"name":"HO1V","min":"25","max":"55"}[]
+export default ({ children, data, setLimit, attributes = [], newStruct = {}, refreshData, edit = false, remove = false, attatchment = false }) => { // as {"id":25,"name":"HO1V","min":"25","max":"55"}[]
 
     const [sort, setSort] = useState({ field: "name", order: "asc" });
     const [filter, setFilter] = useState('')
@@ -52,12 +52,12 @@ export default ({children, data, setLimit, attributes = [], newStruct = {}, refr
                                 </div>
                                 :
                                 typeof newStruct.data[item] === 'boolean' ?
-                                <>
-                                
-                                    <div className="flex">
-                                        <label className="text-sm text-gray-600 flex-1">{item.replace('_', ' ').trim().toUpperCase()}</label>
-                                        <Switch className=" rounded-md p-1 flex-1" name={item} />
-                                    </div>
+                                    <>
+
+                                        <div className="flex">
+                                            <label className="text-sm text-gray-600 flex-1">{item.replace('_', ' ').trim().toUpperCase()}</label>
+                                            <Switch className=" rounded-md p-1 flex-1" name={item} />
+                                        </div>
                                     </>
                                     :
                                     <div className="flex flex-col">
@@ -101,10 +101,10 @@ export default ({children, data, setLimit, attributes = [], newStruct = {}, refr
                             <div className="flex">
                                 <input type="text" className="bg-gray-200 rounded-md p-1" placeholder="Search" onChange={e => setFilter(e.target.value)} />
                                 {newStruct.hasOwnProperty('createMethod') && <Button
-                                leftIcon={<IconPlus size={15} />}
+                                    leftIcon={<IconPlus size={15} />}
                                     onClick={createNew}
-                                    className="bg-[#0071b9] px-4 py-2 rounded-md ml-2 hover:bg-sky-800 text-white font-bold ">
-                                     Add New
+                                >
+                                    Add New
                                 </Button>}
                             </div>
 
@@ -168,17 +168,17 @@ export default ({children, data, setLimit, attributes = [], newStruct = {}, refr
                                                 }
                                                 )
                                             }
-                                            <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                {edit && <Button
-                                                variant="light"
+                                            <td className="flex justify-end px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                                {edit && <ActionIcon
+
                                                     onClick={() => {
                                                         openDrawer({
                                                             title: 'Edit',
                                                             children: <EditForm item={item} newStruct={newStruct} />,
                                                         })
                                                     }}
-                                                    className="bg-gray-700 hover:bg-gray-900 text-white rounded-md p-2 mx-1"><FaEdit /></Button>}
-                                                {attatchment && <button
+                                                ><FaEdit /></ActionIcon>}
+                                                {attatchment && <ActionIcon
                                                     onClick={() => {
                                                         openDrawer({
                                                             title: 'Attatchment',
@@ -186,9 +186,9 @@ export default ({children, data, setLimit, attributes = [], newStruct = {}, refr
                                                         })
                                                     }}
 
-                                                    className="bg-gray-700 hover:bg-gray-900 text-white rounded-md p-2 mx-1"><IconPaperclip /></button>}
-                                                {remove && <Button
-                                                    variant="light"
+                                                ><IconPaperclip /></ActionIcon>}
+                                                {remove && <ActionIcon
+                                                    color="red"
                                                     onClick={() => openConfirmModal({
                                                         title: 'Are You Sure?',
                                                         children: <div>This action cannot be undone</div>,
@@ -202,7 +202,7 @@ export default ({children, data, setLimit, attributes = [], newStruct = {}, refr
                                                         },
                                                         onConfirm: () => newStruct.deleteMethod(item.id).then(res => refreshData())
                                                     })}
-                                                    className="bg-red-700 hover:bg-red-900 text-white rounded-md p-2 mx-1"><FaTrash /></Button>}
+                                                ><FaTrash /></ActionIcon>}
                                             </td>
                                         </tr>
                                     ))}

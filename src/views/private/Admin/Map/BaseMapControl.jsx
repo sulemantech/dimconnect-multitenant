@@ -1,6 +1,6 @@
 import { Menu } from "@mantine/core"
 import { IconMap } from "@tabler/icons"
-import { mapStyle } from "./Map"
+import { mapStyle } from "../../../../signals"
 import { closeAllModals, openModal } from "@mantine/modals"
 import { FabClass } from "../../../../layout"
 

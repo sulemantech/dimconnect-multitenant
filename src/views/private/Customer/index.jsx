@@ -3,7 +3,7 @@ import { useEffect } from "preact/hooks"
 import { openModal } from "@mantine/modals"
 import { booleanWithin, point } from "@turf/turf"
 import {districts} from '../../../app'
-import { dropvalue } from "../../../layout/Header"
+import { dropvalue } from "../../../signals"
 import BaseMapControl from "../Admin/Map/BaseMapControl"
 import Map from "react-map-gl"
 import maplibreGl from "maplibre-gl"

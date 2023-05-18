@@ -1,5 +1,5 @@
 import { useEffect, useState } from "preact/hooks"
-import { dropvalue } from "../../../../layout/Header"
+import { dropvalue } from "../../../../signals"
 import { getnetzplanning } from "../../../../api"
 import { Source,Layer, useMap } from "react-map-gl"
 

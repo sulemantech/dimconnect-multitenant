@@ -1,5 +1,5 @@
-import * as React from 'react';
-import {useState, useEffect} from 'react';
+import {memo} from 'preact/compat';
+import {useState, useEffect} from 'preact/hooks';
 import { useMap } from 'react-map-gl';
 
 
@@ -101,4 +101,4 @@ function StyleControls(props) {
   );
 }
 
-export default React.memo(StyleControls);
+export default memo(StyleControls);

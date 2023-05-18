@@ -3,7 +3,7 @@ import CustomTable from "../../../../components/CustomTable"
 import { Card, CardSection, Checkbox, Divider, Pagination, Table } from "@mantine/core"
 import { createPermission, createRole, createUser, deletePermission, deleteRole, deleteUser, editPermission, editRole, editUser, getPermissions, getRoles, getUsers } from "../../../../api";
 import {useState,useEffect} from 'preact/hooks'
-import { permissible } from "../../../../providers/PermissionsProvider";
+import { permissible } from "../../../../signals";
 export default () => {
 
 

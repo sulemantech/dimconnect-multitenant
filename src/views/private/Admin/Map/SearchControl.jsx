@@ -5,8 +5,8 @@ import GeoCodingOSM from "geocoding-osm"
 import { useEffect, useState } from "preact/hooks"
 import { useMap } from "react-map-gl"
 import {booleanWithin} from '@turf/turf'
-import { districts } from "../../../../app"
-import { dropvalue, tilesAvailable } from "../../../../layout/Header"
+import { districts,dropvalue } from "../../../../signals"
+import {  tilesAvailable } from "../../../../layout/Header"
 import { showNotification } from "@mantine/notifications"
 
 GeoCodingOSM.setLanguage("de")

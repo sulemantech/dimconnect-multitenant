@@ -1,94 +1,10 @@
-import { signal } from "@preact/signals"
-import { addressPointsStatusVisibility } from "./AddressPoints"
+
 import { Accordion } from "@mantine/core"
-import { DistrictPhaseLayersVisibility, DistrictPhaseVisibility } from "./DistrictPhase"
 import { useDidUpdate } from "@mantine/hooks"
 import { useState } from "preact/hooks"
-// ja (Anschluss prüfen)	                 rgb(255, 140, 42);
-// ja	                                                 rgb(29, 155, 216);
-// nein (Anschluss geprüft)	         rgb(237, 82, 73);
-// nein	                                                 rgb(0, 0, 0);
-// inexistente Adresse	                 rgb(167, 38, 231);
-// Schon bearbeitet	                         rgb(112, 173, 70);
-export const legendContent = signal({
-    'ja (Anschluss prüfen)': {
-        color: 'rgb(255, 140, 42)',
-        type: 'point',
-        code: 1
-    },
-    'ja': {
-        color: 'rgb(29, 155, 216)',
-        type: 'point',
-        code: 2
-    },
-    'nein (Anschluss geprüft)': {
-        color: 'rgb(237, 82, 73)',
-        type: 'point',
-        code: 3
-    },
-    'nein': {
-        color: 'rgb(0, 0, 0)',
-        type: 'point',
-        code: 4
-    },
-    'inexistente Adresse': {
-        color: 'rgb(167, 38, 231)',
-        type: 'point',
-        code: 5
-    },
-})
 
-export const netzplanninglegend = signal({
-    "Status": {
-        "Finalisierung Netzdetailplanung": {
-            color: "orange",
-            type: 'point',
-            code: 1,
-            key : "Finalisierung Netzdetailplanung durch TRC"
-        },
-        'noch keine Phase begonnen': {
-            color: '#808080',
-            type: 'point',
-            code: 2,
-            key : "Noch nicht begonnen"
-        },
-        'in Bearbeitung, s. Phasen': {
-            color: '#ffeb9c',
-            type: 'point',
-            code: 3,
-            key : "NPV: Netzplanaufbereitung durch TRC"
-        },
-        'alle Phasen abgeschlossen': {
-            color: '#c6efce',
-            type: 'point',
-            code: 4,
-            key : "Abgeschlossen"
-        },
-    },
-    // "Bearbeitungsphasen": {
-    //     'Onboarding': {
-    //         symbol: '1',
-    //     },
-    //     'APV: Validierung durch TRC': {
-    //         symbol: '2',
-    //     },
-    //     'APV: Validierung durch Kommune': {
-    //         symbol: '3',
-    //     },
-    //     'NPV: Netzplanaufbereitung durch TRC': {
-    //         symbol: '4',
-    //     },
-    //     'NPV: Netzplanaufbereitung durch Kommune': {
-    //         symbol: '5',
-    //     },
-    //     'Finalisierung Netzdetailplanung durch TRC': {
-    //         symbol: '6',
-    //     },
-    //     'Finalisierung Netzdetailplanung durch Kommune': {
-    //         symbol: '7',
-    //     },
-    // }
-})
+import { DistrictPhaseLayersVisibility, DistrictPhaseVisibility, addressPointsStatusVisibility } from "../../../../signals"
+
 
 export default ({noAddressPoint=false,noStatus=false}) => {
     const [value, setValue] = useState('Address Points')

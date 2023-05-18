@@ -1,14 +1,10 @@
 import { Loader, Menu } from "@mantine/core"
-import { IconMap, IconPencil, IconPlus } from "@tabler/icons"
-import { mapStyle } from "./Map"
-import { closeAllModals, openModal } from "@mantine/modals"
+import { IconPencil } from "@tabler/icons"
 import { useState } from "react"
-
 import { useEffect } from "preact/hooks"
-import { signal } from "@preact/signals"
-import { addressPointsCRUDstate } from "./AddressPoints"
+
+import { addressPointsCRUDstate,editControlLoading } from "../../../../signals"
 import { FabClass } from "../../../../layout"
-export const editControlLoading = signal(false)
 
 export default ({ modal = false }) => {
 

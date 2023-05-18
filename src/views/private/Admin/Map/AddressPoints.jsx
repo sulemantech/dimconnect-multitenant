@@ -1,31 +1,19 @@
+import { Button, NativeSelect, ScrollArea, TextInput, Textarea } from "@mantine/core"
 import { useEffect, useMemo, useState } from "preact/hooks"
-import { getAddressPointDetails, getAddressPointStatus, postAddressPoint, updateAddressPoint } from "../../../../api"
-import { dropvalue } from "../../../../layout/Header"
 import { Layer, Source, useMap } from "react-map-gl"
-import { signal } from "@preact/signals"
-import { useDidUpdate } from "@mantine/hooks"
 import { closeAllModals, openModal } from "@mantine/modals"
-import { Button, NativeSelect, ScrollArea, Select, Text, TextInput, Textarea } from "@mantine/core"
 import { showNotification } from "@mantine/notifications"
 import jwtDecode from "jwt-decode"
-import appConfig from "../../../../config/appConfig"
 import { IconCheck, IconCross, IconX } from "@tabler/icons"
 import proj4 from "proj4"
-import { mapClickBindings } from "../../../../app"
-import { editControlLoading } from "./EditControl"
+
+import appConfig from "../../../../config/appConfig"
+
+import { dropvalue , mapClickBindings, editControlLoading,addressPointsVisibility,addressPointsStatusVisibility, addressPointsCRUDstate,addressPointsReceived} from "../../../../signals"
+import { getAddressPointDetails, getAddressPointStatus, postAddressPoint, updateAddressPoint } from "../../../../api"
 
 
 
-export const addressPointsVisibility = signal(true)
-export const addressPointsReceived = signal(false)
-export const addressPointsStatusVisibility = signal({
-    "1": true,
-    "2": true,
-    "3": true,
-    "4": true,
-    "5": true,
-    "6": true,
-})
 
 
 export default () => {
@@ -193,7 +181,7 @@ export default () => {
 
 
 
-export const addressPointsCRUDstate = signal('')
+
 
 export const CRUDAddressPoint = () => {
 

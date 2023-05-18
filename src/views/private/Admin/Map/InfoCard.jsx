@@ -1,15 +1,13 @@
-import { Box, CloseButton, Loader, LoadingOverlay, Modal, ScrollArea, Table, Transition } from "@mantine/core"
-import { signal } from "@preact/signals"
-import { useCallback, useEffect, useErrorBoundary, useMemo, useState } from "preact/hooks"
-import { JsonToTable } from "react-json-to-table"
-import { dropvalue } from "../../../../layout/Header"
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+
+import { Box, CloseButton, Loader,  Modal, Table, Transition } from "@mantine/core"
+import { useEffect, useState } from "preact/hooks"
 import { Carousel } from "react-responsive-carousel"
 
-import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { formatCamelCaseToTitleCase } from "../../../../utils/convertor"
 import { getAddressPointDetails } from "../../../../api"
+import { dropvalue,infoCardVal } from "../../../../signals"
 
-export const infoCardVal = signal(null)
 
 
 

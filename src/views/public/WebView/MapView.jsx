@@ -1,32 +1,29 @@
-import { Suspense, lazy, useEffect, useState } from 'preact/compat';
-
-import { GeolocateControl, Map, Marker, ScaleControl, useMap } from 'react-map-gl';
-import maplibreGl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
+import { Suspense, lazy, useEffect, useState } from 'preact/compat';
+import {  Map, Marker, ScaleControl, useMap } from 'react-map-gl';
+import maplibreGl from 'maplibre-gl';
 import { signal } from '@preact/signals';
+import { LoadingOverlay } from '@mantine/core';
+import { showNotification } from '@mantine/notifications';
 
 import SearchControl from '../../private/Admin/Map/SearchControl';
-
-import DataTiles, { visibility } from '../../private/Admin/Map/DataTiles';
+import DataTiles from '../../private/Admin/Map/DataTiles';
 import { Boundary } from '../../private/Admin/Dashboard/Submap';
-
-import AddressPoints, { CRUDAddressPoint, addressPointsCRUDstate } from '../../private/Admin/Map/AddressPoints';
-
+import AddressPoints, { CRUDAddressPoint, } from '../../private/Admin/Map/AddressPoints';
 const InfoCard = lazy(() => import('../../private/Admin/Map/InfoCard'));
-import { infoCardVal } from '../../private/Admin/Map/InfoCard';
-import { LoadingOverlay } from '@mantine/core';
+
+import appConfig from '../../../config/appConfig';
 import Popup from '../../private/Admin/Map/Popup';
 import Photos from '../../private/Admin/Map/Photos';
 import Gpx from '../../private/Admin/Map/Gpx';
-import { additionalInteractiveLayers, mapStyle } from '../../private/Admin/Map/Map';
 import { IconCompass } from '@tabler/icons';
-import { showNotification } from '@mantine/notifications';
-import DistrictPhase, { DistrictPhaseVisibility } from '../../private/Admin/Map/DistrictPhase';
-import appConfig from '../../../config/appConfig';
-import { mapClickBindings } from '../../../app';
-import { editControlLoading } from '../../private/Admin/Map/EditControl';
+import DistrictPhase from '../../private/Admin/Map/DistrictPhase';
+
+import { mapClickBindings , additionalInteractiveLayers , mapStyle, DistrictPhaseVisibility, infoCardVal, visibility, addressPointsCRUDstate } from '../../../signals';
 import { FabClass } from '../../../layout';
+
+
 const CustomGeoLocateData = signal(null)
 export default () => {
   const params = new URLSearchParams(window.location.search)

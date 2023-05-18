@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import 'maplibre-gl/dist/maplibre-gl.css';
+
 import { Map, Source, Layer, useMap } from 'react-map-gl';
 import maplibreGl from 'maplibre-gl';
-import 'maplibre-gl/dist/maplibre-gl.css';
-import { districts } from '../../../../app';
-import { dropvalue } from '../../../../layout/Header';
 import {  route } from 'preact-router';
-import { useEffect } from 'preact/hooks';
+import { useEffect,useState } from 'preact/hooks';
 
+import { dropvalue,districts } from '../../../../signals';
 
 export default () => {
 

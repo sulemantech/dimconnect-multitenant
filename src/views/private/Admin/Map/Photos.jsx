@@ -1,16 +1,15 @@
 import { useEffect, useMemo, useState } from "preact/hooks"
-import { getPhotos } from "../../../../api"
-import { dropvalue } from "../../../../layout/Header"
 import { Marker } from "react-map-gl"
-import { dispatchPopupView } from "./Popup"
 import appConfig from "../../../../config/appConfig"
 import { memo } from "preact/compat"
 import { IconPhoto } from "@tabler/icons"
-import { signal } from "@preact/signals"
 import { Loader } from "@mantine/core"
 import { openModal } from "@mantine/modals"
 
-export const photoVisibility = signal(true)
+import { dispatchPopupView } from "./Popup"
+import { getPhotos } from "../../../../api"
+import { dropvalue,photoVisibility } from "../../../../signals"
+
 
 export default () => {
     const [data, setData] = useState([])

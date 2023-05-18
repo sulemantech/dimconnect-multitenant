@@ -1,7 +1,8 @@
 import { useEffect, useState } from "preact/hooks"
-import { dropvalue } from "../../../../layout/Header"
-import { getAddressPointCount } from "../../../../api"
 import { Loader } from "@mantine/core"
+
+import { dropvalue } from "../../../../signals"
+import { getAddressPointCount } from "../../../../api"
 
 const content = {
     'ja (Anschluss prüfen)': {

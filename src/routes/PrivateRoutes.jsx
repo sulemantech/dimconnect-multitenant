@@ -1,15 +1,17 @@
 import { Router } from 'preact-router';
-import Navbar from '../layout/Navbar';
-import Dashboard from '../views/private/Admin/Dashboard';
-import Administration from '../views/private/Admin/Administration';
-import PageWrapper from '../layout/PageWrapper';
-import Styles from '../views/private/Admin/Styles';
-import Map from '../views/private/Admin/Map';
-import { signal } from '@preact/signals';
-import UserManagement from '../views/private/Admin/Administration/UserManagement';
-import PermissionsManagement from '../views/private/Admin/Administration/PermissionsManagement';
+import {lazy} from 'preact/compat';
 
-export const UserType = signal('admin')
+const Navbar = lazy(() => import('../layout/Navbar').catch((e) => console.log(e)));
+const Dashboard = lazy(() => import('../views/private/Admin/Dashboard'));
+const Administration = lazy(() => import('../views/private/Admin/Administration'));
+const PageWrapper = lazy(() => import('../layout/PageWrapper'));
+const Styles = lazy(() => import('../views/private/Admin/Styles'));
+const Map = lazy(() => import('../views/private/Admin/Map'));
+
+const UserManagement = lazy(() => import('../views/private/Admin/Administration/UserManagement'));
+const PermissionsManagement = lazy(() => import('../views/private/Admin/Administration/PermissionsManagement'));
+
+import { UserType } from '../signals';
 
 const TypeRoutes = {
     'admin': [

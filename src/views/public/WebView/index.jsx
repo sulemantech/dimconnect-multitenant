@@ -1,15 +1,17 @@
-import { dropvalue } from "../../../layout/Header"
+import { useScrollLock } from "@mantine/hooks"
+
 import { BottomLeft, BottomRight } from "../../private/Admin/Map"
 import BaseMapControl from "../../private/Admin/Map/BaseMapControl"
 import Legend from "../../private/Admin/Map/Legend"
 import OverlayControl from "../../private/Admin/Map/OverlayControl"
 import MapView from "./MapView"
 import ProtectedWrapper from "./ProtectedWrapper"
-import CustomerHeader from "../../private/Customer/CustomerHeader"
 import AddControl from "../../private/Admin/Map/AddControl"
 import EditControl from "../../private/Admin/Map/EditControl"
-import { useScrollLock } from "@mantine/hooks"
 import WebViewFooter from "./WebViewFooter"
+
+import { dropvalue } from "../../../signals"
+
 export default () => {
     const [scrollLocked, setScrollLocked] = useScrollLock(true);
     const params = new URLSearchParams(window.location.search)

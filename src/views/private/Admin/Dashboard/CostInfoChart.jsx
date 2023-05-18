@@ -1,10 +1,10 @@
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
-import { dropvalue } from "../../../../layout/Header";
 import { useEffect, useState } from "preact/hooks";
-import { getCostInfoByDistrictId } from "../../../../api";
 import { Loader } from "@mantine/core";
-import { costInfoData } from "./CostInfo";
+
+import { costInfoData } from "../../../../signals";
+
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 

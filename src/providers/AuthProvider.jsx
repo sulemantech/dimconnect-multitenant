@@ -1,15 +1,18 @@
 
 import { createContext } from 'preact'
 import { useContext } from 'preact/hooks'
-import PrivateRoutes from '../routes/PrivateRoutes'
-import PublicRoutes from '../routes/PublicRoutes'
 import {signal} from '@preact/signals'
-import api, { refreshAuth } from '../api'
 import { showNotification } from '@mantine/notifications'
 import { IconCheck, IconCross } from '@tabler/icons'
+import { lazy } from 'preact/compat'
+
+// import PrivateRoutes from '../routes/PrivateRoutes'
+const PrivateRoutes = lazy(() => import('../routes/PrivateRoutes'))
+// import PublicRoutes from '../routes/PublicRoutes'
+const PublicRoutes = lazy(() => import('../routes/PublicRoutes'))
+
+import api, { refreshAuth } from '../api'
 import appConfig from '../config/appConfig'
-
-
 
 const createAuthState = () => {
     const auth = signal(false)
@@ -70,3 +73,5 @@ const AppRoutes = () => {
         }
     </>
 }
+
+export default AuthProvider
