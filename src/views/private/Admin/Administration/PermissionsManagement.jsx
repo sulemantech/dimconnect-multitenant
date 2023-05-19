@@ -1,19 +1,18 @@
 import PageProvider from "../../../../providers/PageProvider"
 import CustomTable from "../../../../components/CustomTable"
-import { ActionIcon, Card, CardSection, Checkbox, Divider, Pagination, Switch, Table } from "@mantine/core"
-import { createPermission, createRole, createUser, deletePermission, deleteRole, deleteUser, editPermission, editRole, editUser, getPermissions, getRoles, getUsers } from "../../../../api";
+import { Card, CardSection, Divider, Pagination, LoadingOverlay, Switch, Table } from "@mantine/core"
+import { createRole, deleteRole, editRole, getRoles } from "../../../../api";
 import { useState, useEffect } from 'preact/hooks'
 import { permissible } from "../../../../signals";
-import { elements } from "chart.js";
-import { IconCheck } from "@tabler/icons";
+
 export default () => {
 
 
-    const [dataInfo, setDataInfo] = useState({ page: 0, count: 0 });
-    const [page, setPage] = useState(0);
+    const [dataInfo, setDataInfo] = useState({ page: 0, count: 10 });
+    const [page, setPage] = useState(1);
     const [data, setData] = useState([]);
     const [limit, setLimit] = useState(10);
-
+    const [loading, setLoading] = useState(false)
 
     // const getInfo = () => {
     //   getUsersInfo()
@@ -25,8 +24,11 @@ export default () => {
     //     })
     // }
     const getData = () => {
+        setLoading(true)
         getRoles().then((res) => {
             setData(res.data.roles);
+            setDataInfo({ page: 1, count: res.data.roles.length });
+            setLoading(false)
         })
             .catch((err) => {
                 setData([]);
@@ -46,46 +48,48 @@ export default () => {
     return (
         <PageProvider>
             <div className="">
-                <Card >
-                    <CardSection className="p-2">
-                        <h6 className='font-bold text-neutral-700 tracking-wider'>Permissions Management</h6>
-                        <Divider />
-                    </CardSection>
+                {!loading ?
+                    <Card >
 
-                    <CustomTable
-                        attributes={['name', 'description']}
+                        <CardSection className="p-2">
+                            <h6 className='font-bold text-neutral-700 tracking-wider'>Roles and Permissions Management</h6>
+                            <Divider />
+                        </CardSection>
 
-                        remove
-                        edit
-                        data={data}
-                        setLimit={setLimit}
-                        newStruct={{
-                            data: {
-                                name: '',
-                                description: ''
-                            },
-                            createMethod: createRole,
-                            deleteMethod: deleteRole,
-                            editMethod: editRole,
-                        }}
-                        refreshData={refreshData}
-                    >
-                        {
-                            // table to head read write delete with mantine Table and Mantine checkbox
-                            <Table striped withBorder className="relative max-w-[100%]">
-                                <thead className="text-[10px]">
+                        <CustomTable
+                            attributes={['name', 'description']}
 
-                                    <tr >
-                                        {/* <td></td> */}
-                                        <td className="font-semibold text-xs text-gray-700 text-start whitespace-nowrap overflow-hidden ">Component</td>
-                                        <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">Read</td>
-                                        <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">Write</td>
-                                        <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">Delete</td>
-                                    </tr>
+                            remove
+                            edit
+                            data={data}
+                            setLimit={setLimit}
+                            newStruct={{
+                                data: {
+                                    name: '',
+                                    description: ''
+                                },
+                                createMethod: createRole,
+                                deleteMethod: deleteRole,
+                                editMethod: editRole,
+                            }}
+                            refreshData={refreshData}
+                        >
+                            {
+                                // table to head read write delete with mantine Table and Mantine checkbox
+                                <Table striped withBorder className="relative max-w-[100%]">
+                                    <thead className="text-[10px]">
 
-                                </thead>
-                                <tbody className="text-[10px]">
-                                    {/* <tr>
+                                        <tr >
+                                            {/* <td></td> */}
+                                            <td className="font-semibold text-xs text-gray-700 text-start whitespace-nowrap overflow-hidden ">Component</td>
+                                            <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">Read</td>
+                                            <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">Write</td>
+                                            <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">Delete</td>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody className="text-[10px]">
+                                        {/* <tr>
                                         <td className="font-semibold text-xs text-gray-700 text-start whitespace-nowrap overflow-hidden ">
                                             Select All
                                             <ActionIcon
@@ -100,64 +104,67 @@ export default () => {
                                             </ActionIcon>
                                         </td>
                                     </tr> */}
-                                    {
-                                        Object.keys(permissible.value).map((key, index) => (
-                                            <tr key={index} >
-                                                <td className="font-semibold text-xs text-gray-700 text-start whitespace-nowrap overflow-hidden ">{key}</td>
-                                                <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">
-                                                    <Switch
-                                                        type={'checkbox'}
-                                                        color="blue"
-                                                        name={key + '__read'}
-                                                        defaultChecked={permissible.value[key].read}
-                                                        
-                                                        data-group="permissions"
-                                                        data-group-value={key + '__read'}
-                                                    />
-                                                </td>
-                                                <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">
-                                                    <Switch
-                                                    defaultChecked={permissible.value[key].write}
-                                                        color="green"
-                                                        name={key + '__write'}
-                                                        data-group="permissions"
-                                                        data-group-value={key + '__write'}
-                                                    />
-                                                </td>
-                                                <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">
-                                                    <Switch
-                                                    defaultChecked={permissible.value[key].delete}
-                                                        color="red"
-                                                        name={key + '__delete'}
-                                                        radioGroup="delete"
-                                                        data-group="permissions"
-                                                        data-group-value={key + '__delete'}
-                                                    />
-                                                </td>
-                                            </tr>
-                                        ))
-                                    }
-                                </tbody>
-                            </Table>
-                        }
-                    </CustomTable>
+                                        {
+                                            Object.keys(permissible.value).map((key, index) => (
+                                                <tr key={index} >
+                                                    <td className="font-semibold text-xs text-gray-700 text-start whitespace-nowrap overflow-hidden ">{key}</td>
+                                                    <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">
+                                                        <Switch
+                                                            type={'checkbox'}
+                                                            color="blue"
+                                                            name={key + '__read'}
+                                                            defaultChecked={permissible.value[key].read}
 
-                    <div className="flex w-full px-6 py-8">
-                        <p className="text-sm text-neutral-600">
-                            Showing {page * limit - limit + 1} to {page * limit} of {dataInfo.count} entries
-                        </p>
-                        <div className="flex-1"></div>
-                        <Pagination
-                            color={'dark'}
-                            total={Math.ceil(dataInfo.count / limit)}
-                            limit={limit}
-                            page={page}
-                            onChange={(page) => setPage(page)}
-                        />
+                                                            data-group="permissions"
+                                                            data-group-value={key + '__read'}
+                                                        />
+                                                    </td>
+                                                    <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">
+                                                        <Switch
+                                                            defaultChecked={permissible.value[key].write}
+                                                            color="green"
+                                                            name={key + '__write'}
+                                                            data-group="permissions"
+                                                            data-group-value={key + '__write'}
+                                                        />
+                                                    </td>
+                                                    <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">
+                                                        <Switch
+                                                            defaultChecked={permissible.value[key].delete}
+                                                            color="red"
+                                                            name={key + '__delete'}
+                                                            radioGroup="delete"
+                                                            data-group="permissions"
+                                                            data-group-value={key + '__delete'}
+                                                        />
+                                                    </td>
+                                                </tr>
+                                            ))
+                                        }
+                                    </tbody>
+                                </Table>
+                            }
+                        </CustomTable>
 
-                    </div>
+                        <div className="flex w-full px-6 py-8">
+                            <p className="text-sm text-neutral-600">
+                                Showing {page * limit - limit + 1} to {page * limit} of {dataInfo.count} entries
+                            </p>
+                            <div className="flex-1"></div>
+                            <Pagination
+                               color="brand"
+                                total={Math.ceil(dataInfo.count / limit)}
+                                limit={limit}
+                                page={page}
+                                onChange={(page) => setPage(page)}
+                            />
 
-                </Card>
+                        </div>
+
+                    </Card>
+                    :
+                    <LoadingOverlay visible />
+                }
             </div>
         </PageProvider>
     )

@@ -22,13 +22,14 @@ fetch('/german.json.lz').then(res => res.text()).then(res => {
 })
 
 export function App() {
-
+  // 1a7fc0	338dc7	4d9cce	66aad5 0071b9	0066a7	005a94	004f82	00446f
   return (
     <MantineProvider
       theme={{
         fontFamily: 'Greycliff CF, sans-serif',
+        primaryShade : 4,
         colors: {
-          brand: ['#0071b9','#0071b9','#0071b9',]
+          brand: ['#1a7fc0', '#338dc7', '#4d9cce', '#66aad5', '#0071b9', '#0066a7', '#005a94', '#004f82', '#00446f'],
 
         },
         // hover color
@@ -38,7 +39,7 @@ export function App() {
             defaultProps: {
               variant: 'filled',
               mx: 5,
-              className: "bg-[#0071b9] hover:bg-sky-800 hover:scale-95 transition-all duration-200 ease-in-out"
+              className: "bg-[#0071b9] hover:shadow-md shadow-xs  shadow-[#0071b9] border-2 border-white border-solid transition-all duration-200 ease-in-out"
             }
           },
         }
