@@ -1,9 +1,12 @@
+import { Card, CardSection, Divider, Pagination, LoadingOverlay, Switch, Table, Button, Text, ThemeIcon, Title, Alert } from "@mantine/core"
+import { useState, useEffect,useMemo } from 'preact/hooks'
+import { IconEye, IconCircleX, IconCircleCheck, IconAlertCircle } from "@tabler/icons";
+
 import PageProvider from "../../../../providers/PageProvider"
 import CustomTable from "../../../../components/CustomTable"
-import { Card, CardSection, Divider, Pagination, LoadingOverlay, Switch, Table } from "@mantine/core"
-import { createRole, deleteRole, editRole, getRoles } from "../../../../api";
-import { useState, useEffect } from 'preact/hooks'
+import { createRole, deleteRole, editRole, getAccessList, getRoles } from "../../../../api";
 import { permissible } from "../../../../signals";
+import { openDrawer } from "../../../../providers/DrawerProvider";
 
 export default () => {
 
@@ -26,7 +29,19 @@ export default () => {
     const getData = () => {
         setLoading(true)
         getRoles().then((res) => {
-            setData(res.data.roles);
+            setData(res.data.roles.map((role) => {
+                return {
+                    ...role,
+                    permissions: <Button leftIcon={<IconEye />} size="xs" radius={'xl'}
+                        onClick={() => {
+                            openDrawer({
+                                title: 'Permissions',
+                                children: <PermissionList id={role.id} name={role.name} description={role.description} />
+                            })
+                        }}
+                    >View</Button>
+                }
+            }));
             setDataInfo({ page: 1, count: res.data.roles.length });
             setLoading(false)
         })
@@ -57,7 +72,7 @@ export default () => {
                         </CardSection>
 
                         <CustomTable
-                            attributes={['name', 'description']}
+                            attributes={['name', 'description', 'permissions']}
 
                             remove
                             edit
@@ -66,7 +81,8 @@ export default () => {
                             newStruct={{
                                 data: {
                                     name: '',
-                                    description: ''
+                                    description: '',
+                                    
                                 },
                                 createMethod: createRole,
                                 deleteMethod: deleteRole,
@@ -74,8 +90,10 @@ export default () => {
                             }}
                             refreshData={refreshData}
                         >
-                            {
-                                // table to head read write delete with mantine Table and Mantine checkbox
+                            
+                                <Text>Permissions</Text>
+                                <Divider />
+
                                 <Table striped withBorder className="relative max-w-[100%]">
                                     <thead className="text-[10px]">
 
@@ -143,7 +161,7 @@ export default () => {
                                         }
                                     </tbody>
                                 </Table>
-                            }
+                            
                         </CustomTable>
 
                         <div className="flex w-full px-6 py-8">
@@ -152,7 +170,7 @@ export default () => {
                             </p>
                             <div className="flex-1"></div>
                             <Pagination
-                               color="brand"
+                                color="brand"
                                 total={Math.ceil(dataInfo.count / limit)}
                                 limit={limit}
                                 page={page}
@@ -167,5 +185,71 @@ export default () => {
                 }
             </div>
         </PageProvider>
+    )
+}
+
+const PermissionList = ({ id ,name, description }) => {
+    const [data, setData] = useState([])
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState('')
+    useEffect(() => {
+        setLoading(true)
+        getAccessList(id).then(({ data }) => {
+            setData(data)
+            setLoading(false)
+        })
+            .catch((err) => {
+                
+                setError(err.response.data.message || err.message || 'Something went wrong')
+                setLoading(false)
+            })
+
+
+    }, [id])
+
+    if (loading) return <LoadingOverlay visible />
+
+    if (error) return <Alert color="red" icon={<IconAlertCircle />}>
+            <Text color="red">{error}</Text>
+        </Alert>
+
+    const trueIcon = useMemo(() => <ThemeIcon color="teal" size={24} radius="xl">
+        <IconCircleCheck size="1rem" />
+    </ThemeIcon>, [])
+    const falseIcon = useMemo(() => <ThemeIcon color="red" size={24} radius="xl">
+        <IconCircleX size="1rem" />
+    </ThemeIcon>, [])
+
+    return (
+<div>
+   
+    <Title size={18} className="text-neutral-700">{name}</Title>
+    <Title size={12} className="text-neutral-500">{description}</Title>
+    <Divider className="my-4" />
+        <Table striped withBorder className="relative max-w-[100%]">
+            <thead className="text-[10px]">
+                <tr>
+                    <th>Activity</th>
+                    <th>Add</th>
+                    <th>View</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody className="text-[10px]">
+                {
+                    data.map((item, index) => (
+                        <tr key={index}>
+                            <td>{item.accessList.activity}</td>
+                            <td>{item.accessList.add ? trueIcon : falseIcon}</td>
+                            <td>{item.accessList.view ? trueIcon : falseIcon}</td>
+                            <td>{item.accessList.edit ? trueIcon : falseIcon}</td>
+                            <td>{item.accessList.delete ? trueIcon : falseIcon}</td>
+                        </tr>
+                    ))
+                }
+            </tbody>
+        </Table>
+        </div>
     )
 }
