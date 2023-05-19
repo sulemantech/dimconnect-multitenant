@@ -3,13 +3,13 @@ import { Skeleton } from "@mantine/core"
 import {lazy,Suspense} from 'preact/compat'
 
 import { BottomLeft,BottomRight } from "../../../layout/Fixed"
-const BaseMapControl = lazy(() => import('../../private/Admin/Map'))
-const Legend = lazy(() => import('../../private/Admin/Map'))
-const OverlayControl = lazy(() => import('../../private/Admin/Map'))
+const BaseMapControl = lazy(() => import('../../private/Admin/Map/BaseMapControl'))
+const Legend = lazy(() => import('../../private/Admin/Map/Legend'))
+const OverlayControl = lazy(() => import('../../private/Admin/Map/OverlayControl'))
 const MapView = lazy(() => import('./MapView'))
 const ProtectedWrapper = lazy(() => import('./ProtectedWrapper'))
-const AddControl = lazy(() => import('../../private/Admin/Map'))
-const EditControl = lazy(() => import('../../private/Admin/Map'))
+const AddControl = lazy(() => import('../../private/Admin/Map/AddControl'))
+const EditControl = lazy(() => import('../../private/Admin/Map/EditControl'))
 const WebViewFooter = lazy(() => import('./WebViewFooter'))
 
 
@@ -30,7 +30,7 @@ export default () => {
     return (
         <div className="m-0 absolute top-0 left-0 right-0 bottom-0 touch-none overflow-hidden">
             <ProtectedWrapper>
-                <Suspense fallback={<Skeleton className="h-full w-full" />} >
+               <Suspense fallback={<Skeleton height={100} />}>
                 {
                     ags && client === 'ios' ?
                         <div className="flex relative flex-col h-full">
