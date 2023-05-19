@@ -74,6 +74,7 @@ const Component = ({ modal = false, presegment = null,val }) => {
             let filtered = val.filter((feature) => feature.layer.id === 'addressPoints')
 
             if (filtered.length !== 0) {
+                try{
                 distinct.push('Address Point')
 
                 const id = filtered[0].properties.id
@@ -88,7 +89,10 @@ const Component = ({ modal = false, presegment = null,val }) => {
                         properties: data
                     })
                 }
-
+                }catch(err){
+                    console.log(err)
+                    distinct.pop()
+                }
             }
 
 

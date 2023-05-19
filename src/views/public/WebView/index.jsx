@@ -41,7 +41,7 @@ export default () => {
                                     <div className="mb-20">
                                         <OverlayControl modal/>
                                         <BaseMapControl modal/>
-                                        <AddControl modal webview/>
+                                        <AddControl  />
                                         <EditControl modal/>
                                     </div>
                                    
