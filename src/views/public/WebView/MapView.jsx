@@ -45,7 +45,7 @@ export default () => {
  
     // .filter(f => !additionalInteractiveLayers.value.includes(f.layer.id))
     // post message to parent latlng
-    window.parent.postMessage({ latlng: event.lngLat }, '*');
+    // window.parent.postMessage({ latlng: event.lngLat }, '*');
 
     Object.values(mapClickBindings.value).forEach(binding => {
       binding(event)
@@ -98,7 +98,7 @@ export default () => {
         }
     }}
     >
-      <Suspense fallback={<LoadingOverlay visible />}>
+      
 
         <InfoCard modal presegment={APVPage ? 'ADDRESS POINT' : null} />
         <Boundary noFill />
@@ -139,7 +139,7 @@ export default () => {
         <CustomGeoLocateMarker />
         </>
 }
-      </Suspense>
+      
     </Map>
   );
 
