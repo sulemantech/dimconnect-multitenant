@@ -16,15 +16,18 @@ import appConfig from '../config/appConfig'
 
 const createAuthState = () => {
     const auth = signal(false)
-    sessionStorage.getItem(appConfig.sessionStorageKey) ? auth.value = true : auth.value = false
-    api.defaults.headers.common['Authorization'] = `Bearer ${sessionStorage.getItem(appConfig.sessionStorageKey)}`
     const setAuth = (value) => {auth.value = value}
+    sessionStorage.getItem(appConfig.sessionStorageKey) ? auth.value = true : auth.value = false
+    if(!auth.value) {
+        return { auth, setAuth }
+    }
+    api.defaults.headers.common['authorization'] = `Bearer ${sessionStorage.getItem(appConfig.sessionStorageKey)}`
     const timer = () => setTimeout(() => {
         if(auth.value && sessionStorage.getItem(appConfig.sessionStorageKey)) {
             refreshAuth(sessionStorage.getItem(appConfig.sessionStorageRefreshKey)).then(res => {
                
                 sessionStorage.setItem(appConfig.sessionStorageKey, res.data.token)
-                api.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`
+                api.defaults.headers.common['authorization'] = `Bearer ${res.data.token}`
                 showNotification({
                     title: 'Session refreshed',
                     message: 'Your session has been refreshed',

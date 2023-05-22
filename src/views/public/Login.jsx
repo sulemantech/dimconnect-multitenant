@@ -45,7 +45,7 @@ export default () => {
       authState.setAuth(true)
       sessionStorage.setItem(appConfig.sessionStorageKey, data.token)
       sessionStorage.setItem(appConfig.sessionStorageRefreshKey, data.refreshToken)
-      api.defaults.headers.common['Authorization'] = `Bearer ${data.token}`
+      api.defaults.headers.common['authorization'] = `Bearer ${data.token}`
       window.location.reload()
     }).catch((err) => {
       setError(err.response.data.message)

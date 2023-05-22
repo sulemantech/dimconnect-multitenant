@@ -29,12 +29,12 @@ const TypeRoutes = {
 export default () => <div className='flex absolute top-0 left-0 bottom-0 bg-neutral-200 right-0 overflow-hidden'>
     <Navbar />
     <PageWrapper>
-    <Suspense fallback={<Skeleton height={100} />}>
+   
     <Router hashHistory >
         {TypeRoutes[
             UserType.value
         ]?.map((route) => route)}
     </Router>
-    </Suspense>
+   
     </PageWrapper>
 </div>

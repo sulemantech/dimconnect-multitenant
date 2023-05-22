@@ -3,6 +3,9 @@ import appConfig from "./config/appConfig";
 
 const api = axios.create({
     baseURL: appConfig.backendUrl,
+    // headers: (sessionStorage.getItem(appConfig.sessionStorageKeyWebview) || appConfig.sessionStorageKey) ? {
+    //     "authorization": `Bearer ${sessionStorage.getItem(appConfig.sessionStorageKeyWebview) || appConfig.sessionStorageKey}`,
+    // } : {},
 });
 
 export default api;

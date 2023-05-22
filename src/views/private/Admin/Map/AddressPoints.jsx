@@ -13,9 +13,6 @@ import { dropvalue , mapClickBindings, editControlLoading,addressPointsVisibilit
 import { getAddressPointDetails, getAddressPointStatus, postAddressPoint, updateAddressPoint } from "../../../../api"
 
 
-
-
-
 export default () => {
     const [addressPoints, setAddressPoints] = useState({
         "1": [],
@@ -150,7 +147,7 @@ export default () => {
                             
                                 'circle-color': '#0071b9',
                                 'circle-radius': ['step', ['get', 'point_count'], 10, 100, 20, 750, 30]
-                              
+                        
                         }}
                         layout={{
                             "visibility": "visible"
@@ -210,6 +207,7 @@ export const CRUDAddressPoint = () => {
                                 })
                             })
                             .catch((e) => {
+                                console.error(e)
                                 editControlLoading.value = false
                                 showNotification({
                                     title: "Fehler",
