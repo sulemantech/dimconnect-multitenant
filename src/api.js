@@ -52,3 +52,6 @@ export const getRoles = () => api.get(`/roles`)
 export const createRole = (data) => api.post(`/roles`, data)
 export const deleteRole = (id) => api.delete(`/roles/${id}`)
 export const editRole = (id, data) => api.put(`/roles/${id}`, data)
+
+// permission/current-user/all
+export const getCurrentUserPermissions = () => api.get(`/permission/current-user/all`) 
