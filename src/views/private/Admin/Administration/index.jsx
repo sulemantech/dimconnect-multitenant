@@ -4,7 +4,9 @@ import { route } from "preact-router"
 import { IconPremiumRights, IconUserCheck } from "@tabler/icons"
 import {useState} from 'preact/hooks'
 import { FaUserEdit, FaUsersCog } from 'react-icons/fa'
+import PermissionsProvider from "../../../../providers/PermissionsProvider"
 export default () => {
+    
     
 
     const [data, setData] = useState({
@@ -20,6 +22,7 @@ export default () => {
     })
 
     return (
+        <PermissionsProvider permission={'Dashboard View'}>
         <PageProvider>
             <div class=''>
                 <Card>
@@ -29,7 +32,7 @@ export default () => {
                         <Divider /> */}
                         <div className={'flex rounded-md'}>
 
-                           
+                        
 
                             {
                                 Object.keys(data).map((key, index) => {
@@ -49,5 +52,6 @@ export default () => {
                 </Card>
             </div>
         </PageProvider>
+        </PermissionsProvider>
     )
 }
