@@ -15,6 +15,20 @@ export const permissible = signal([
         "delete": false
     },
     {
+        "activity": "User Management",
+        "add": false,
+        "view": false,
+        "edit": false,
+        "delete": false
+    },
+    {
+        "activity": "Roles Management",
+        "add": false,
+        "view": false,
+        "edit": false,
+        "delete": false
+    },
+    {
         "activity": "Map",
         "add": false,
         "view": false,
