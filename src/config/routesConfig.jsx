@@ -1,4 +1,4 @@
-import { IconDashboard, IconMap, IconUser } from '@tabler/icons'
+import { IconDashboard, IconMap, IconTicket, IconUser } from '@tabler/icons'
 import { dropvalue } from './../signals'
 
 export const privateRoutes = [{

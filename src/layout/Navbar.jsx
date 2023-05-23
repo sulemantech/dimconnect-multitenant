@@ -25,7 +25,7 @@ export default () => {
 
 
         if (!collapsed.value) {
-            sidenav.classList.remove('w-64')
+            sidenav?.classList.remove('w-64')
             sidenav.classList.add('w-20')
         } else {
             sidenav.classList.remove('w-20')

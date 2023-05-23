@@ -12,6 +12,8 @@ const Map = lazy(() => import('../views/private/Admin/Map'));
 const UserManagement = lazy(() => import('../views/private/Admin/Administration/UserManagement'));
 const PermissionsManagement = lazy(() => import('../views/private/Admin/Administration/PermissionsManagement'));
 
+const Ticket = lazy(() => import('../views/private/Ticket'));
+
 import { UserType } from '../signals';
 
 const TypeRoutes = {
