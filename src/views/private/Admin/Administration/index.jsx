@@ -4,7 +4,9 @@ import { route } from "preact-router"
 import { IconPremiumRights, IconUserCheck } from "@tabler/icons"
 import {useState} from 'preact/hooks'
 import { FaUserEdit, FaUsersCog } from 'react-icons/fa'
+import PermissionsProvider from "../../../../providers/PermissionsProvider"
 export default () => {
+    
     
 
     const [data, setData] = useState({
@@ -20,6 +22,7 @@ export default () => {
     })
 
     return (
+        <PermissionsProvider permission={'Dashboard View'}>
         <PageProvider>
             <div class=''>
                 <Card>
@@ -27,19 +30,19 @@ export default () => {
 
                         {/* <h6 className='font-bold text-neutral-700 tracking-wider'>Administration</h6>
                         <Divider /> */}
-                        <div>
+                        <div className={'flex rounded-md'}>
 
-                           
+                        
 
                             {
                                 Object.keys(data).map((key, index) => {
                                     return (
-                                        <Button variant="subtle" className="p-2 m-2" size="xl" onClick={() => { route(`/administration/${data[key].route}`) }} key={index} >
+                                        <div className="p-2 m-2 hover:bg-sky-200 transition-all cursor-pointer hover:scale-95 hover:shadow-md rounded-md" onClick={() => { route(`/administration/${data[key].route}`) }} key={index} >
                                             <div className={'flex flex-col items-center justify-center'}>
                                                 {data[key].icon}
-                                                <Text size={'xs'}>{key}</Text>
+                                                <Text size={'xs'} className="text-sky-700 font-bold">{key}</Text>
                                             </div>
-                                        </Button>
+                                        </div>
                                     )
                                 })
                             }
@@ -49,5 +52,6 @@ export default () => {
                 </Card>
             </div>
         </PageProvider>
+        </PermissionsProvider>
     )
 }

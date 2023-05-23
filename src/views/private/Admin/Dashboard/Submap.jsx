@@ -1,11 +1,8 @@
-import React, { useState } from 'react';
 import { Map, Source, Layer, useMap } from 'react-map-gl';
-import maplibreGl from 'maplibre-gl';
-import 'maplibre-gl/dist/maplibre-gl.css';
-import { districts } from '../../../../app';
-import { dropvalue } from '../../../../layout/Header';
+import maplibregl from 'maplibre-gl';
 import {  route } from 'preact-router';
-import { useEffect } from 'preact/hooks';
+import { useEffect,useState } from 'preact/hooks';
+import { dropvalue,districts } from '../../../../signals';
 
 
 export default () => {
@@ -15,7 +12,7 @@ export default () => {
 
  
         attributionControl={false}
-      mapLib={maplibreGl}
+      mapLib={maplibregl}
       mapStyle={'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json'}
       trackResize={true}
       flex={3}
@@ -61,7 +58,7 @@ export const Boundary = ({noFill=false}) => {
         const geometry = dd.geometry.type === 'MultiPolygon' ? dd.geometry.coordinates[0][0] : dd.geometry.coordinates[0]
         const bounds = geometry.reduce((bounds, coord) => {
             return bounds.extend(coord);
-        }, new maplibreGl.LngLatBounds(geometry[0], geometry[0]));
+        }, new maplibregl.LngLatBounds(geometry[0], geometry[0]));
         if(window.location.hash) return
         map.fitBounds(bounds, { padding: noFill ? 100 : 10 });
     })

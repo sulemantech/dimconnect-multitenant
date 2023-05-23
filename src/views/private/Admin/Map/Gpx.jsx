@@ -3,15 +3,14 @@ import { useEffect, useState } from "preact/hooks"
 import tj from "@mapbox/togeojson"
 import { Marker } from "react-map-gl"
 import { DOMParser } from 'xmldom'
-import { dispatchPopupView } from "./Popup"
-import { IconVideo, IconVideoPlus } from "@tabler/icons"
-import { getGPX, getGPXList } from "../../../../api"
-import { dropvalue } from "../../../../layout/Header"
 import { signal } from "@preact/signals"
 import { openModal } from "@mantine/modals"
+import { IconVideo, IconVideoPlus } from "@tabler/icons"
+
+import { getGPX, getGPXList } from "../../../../api"
+import { dropvalue,videoVisibility } from "../../../../signals"
 import appConfig from "../../../../config/appConfig"
 
-export const videoVisibility = signal(true)
 
 export default () => {
 

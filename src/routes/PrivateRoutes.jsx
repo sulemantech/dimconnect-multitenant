@@ -1,16 +1,18 @@
 import { Router } from 'preact-router';
-import Navbar from '../layout/Navbar';
-import Dashboard from '../views/private/Admin/Dashboard';
-import Administration from '../views/private/Admin/Administration';
-import PageWrapper from '../layout/PageWrapper';
-import Styles from '../views/private/Admin/Styles';
-import Map from '../views/private/Admin/Map';
-import { signal } from '@preact/signals';
-import UserManagement from '../views/private/Admin/Administration/UserManagement';
-import PermissionsManagement from '../views/private/Admin/Administration/PermissionsManagement';
-import Ticket from '../views/private/Ticket';
+import {lazy,Suspense} from 'preact/compat';
+import { Skeleton } from '@mantine/core';
 
-export const UserType = signal('admin')
+const Navbar = lazy(() => import('../layout/Navbar').catch((e) => console.log(e)));
+const Dashboard = lazy(() => import('../views/private/Admin/Dashboard'));
+const Administration = lazy(() => import('../views/private/Admin/Administration'));
+const PageWrapper = lazy(() => import('../layout/PageWrapper'));
+const Styles = lazy(() => import('../views/private/Admin/Styles'));
+const Map = lazy(() => import('../views/private/Admin/Map'));
+
+const UserManagement = lazy(() => import('../views/private/Admin/Administration/UserManagement'));
+const PermissionsManagement = lazy(() => import('../views/private/Admin/Administration/PermissionsManagement'));
+
+import { UserType } from '../signals';
 
 const TypeRoutes = {
     'admin': [
@@ -28,10 +30,12 @@ const TypeRoutes = {
 export default () => <div className='flex absolute top-0 left-0 bottom-0 bg-neutral-200 right-0 overflow-hidden'>
     <Navbar />
     <PageWrapper>
-    <Router hashHistory>
+   
+    <Router hashHistory >
         {TypeRoutes[
             UserType.value
         ]?.map((route) => route)}
     </Router>
+   
     </PageWrapper>
 </div>

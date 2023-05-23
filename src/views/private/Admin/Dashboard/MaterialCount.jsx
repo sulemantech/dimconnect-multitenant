@@ -2,7 +2,7 @@
 import { Loader } from "@mantine/core"
 import { useEffect, useState } from "preact/hooks"
 import { getMaterialCountByDistrictId } from "../../../../api"
-import { dropvalue } from "../../../../layout/Header"
+import { dropvalue } from "../../../../signals"
 
 export default () => {
     const [MaterialCount, setMaterialCount] = useState({})

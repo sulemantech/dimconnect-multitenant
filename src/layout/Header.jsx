@@ -1,14 +1,15 @@
-import { Avatar, Group,  Menu,  Select, Burger } from "@mantine/core"
+import { Avatar, Group, Menu, Select, Burger } from "@mantine/core"
 import { IconLogout } from "@tabler/icons"
 import { useContext, useEffect } from "preact/hooks"
-import { AuthState } from "../providers/AuthProvider"
-import { signal } from '@preact/signals'
-import { collapsed } from "./Navbar"
-import { useRouter,route,getCurrentUrl,Router } from "preact-router"
+import { useRouter, route, } from "preact-router"
 import { useShallowEffect } from "@mantine/hooks"
-import appConfig from "../config/appConfig"
 
-export const dropvalue = signal('073140000')
+import appConfig from "../config/appConfig"
+import { AuthState } from "../providers/AuthProvider"
+import { collapsed,dropvalue } from "../signals"
+
+
+
 
 
 
@@ -193,88 +194,96 @@ export default () => {
   const logout = () => {
     sessionStorage.removeItem(appConfig.sessionStorageKey)
     auth.setAuth(false)
+    window.location.reload()
   }
-  
+
+  const currentRoute = router[0].path
+
   useEffect(() => {
+    let firstPageLoad = true
     dropvalue.subscribe((value) => {
-    const parentRoute = router?.[0]?.path?.replace('/:ags', '') || ''
-    route(`${parentRoute}/${value}${window.location.hash}`)
+      if (firstPageLoad && currentRoute !== '/map') {
+        firstPageLoad = false
+        return
+      }
+      const parentRoute = router?.[0]?.path?.replace('/:ags', '') || ''
+      route(`${parentRoute}/${value}${window.location.hash}`)
     })
   }, [])
   useShallowEffect(() => {
     if (router[0].matches?.ags) {
       dropvalue.value = router[0].matches.ags
-    }else{
+    } else {
       const parentRoute = router?.[0]?.path?.replace('/:ags', '') || ''
-      route(`${parentRoute}/${dropvalue.value}${window.location.hash}`)
+      // route(`${parentRoute}/${dropvalue.value}${window.location.hash}`)
     }
   }, [])
 
-    return (
-      <div className="absolute z-[100] shadow-lg border-white border-solid border-2 items-center right-0 left-0 m-2 rounded-2xl top-0 h-20  flex px-4 bg-[#0071b9] ">
-        <Burger
-          onClick={() => {
-            collapsed.value = !collapsed.value
-          }}
-          className="mr-4"
-          color="white"
-          size="sm"
-          opened={collapsed.value}
-        />
+  return (
+    <div className="absolute z-[100] shadow-lg border-white border-solid border-2 items-center right-0 left-0 m-2 rounded-2xl top-0 h-20  flex px-4 bg-[#0071b9] ">
+      <Burger
+        onClick={() => {
+          collapsed.value = !collapsed.value
+        }}
+        className="mr-4"
+        color="white"
+        size="sm"
+        opened={collapsed.value}
+      />
 
-        <div className="flex-grow font-thin text-white text-lg">
-          <h6 className={window.innerWidth < 768 ? 'text-xs' : 'text-lg'}>
-            { 
-            
-              router[0].matches?.ags ? tilesAvailable.find((tile) => tile.value === router[0].matches.ags)?.label
-                :
-                router[0].url.replace('/', '').toUpperCase() || 'DASHBOARD'
-            }
-          </h6>
-        </div>
+      <div className="flex-grow font-thin text-white text-lg">
+        <h6 className={window.innerWidth < 768 ? 'text-xs' : 'text-lg'}>
+          {
 
-
-        <Select
-          className="ml-4"
-          radius="xl"
-          size="sm"
-          placeholder="Select"
-          searchable
-          autoComplete="on"
-          data={tilesAvailable}
-          sx={{ width: 200 }}
-          defaultValue={dropvalue.value}
-          onChange={(value) => {
-            dropvalue.value = value
-          }}
-        />
-        <div className="ml-4">
-        </div>
-        <Menu
-          width={260}
-          position="bottom-end"
-          transition="pop-top-right"
-
-        >
-          <Menu.Target>
-            <div className="items-center flex cursor-pointer hover:scale-105 transition-all">
-              <Group color="white" spacing={7}>
-                <Avatar size='md' radius="xl" />
-
-
-              </Group>
-            </div>
-          </Menu.Target>
-          <Menu.Dropdown>
-
-            <Menu.Item color="red" icon={<IconLogout size={14} stroke={1.5} />} onClick={logout}>
-              Logout
-            </Menu.Item>
-          </Menu.Dropdown>
-        </Menu>
-
-
-
+            router[0].matches?.ags ? tilesAvailable.find((tile) => tile.value === router[0].matches.ags)?.label
+              :
+              router[0].url.replace('/', '').toUpperCase() || 'DASHBOARD'
+          }
+        </h6>
       </div>
-    )
-  }
+
+
+      <Select
+        className="ml-4"
+        radius="xl"
+        size="sm"
+        placeholder="Select"
+        searchable
+        autoComplete="on"
+        data={tilesAvailable}
+        sx={{ width: 200 }}
+        defaultValue={dropvalue.value}
+        onChange={(value) => {
+          dropvalue.value = value
+        }}
+      />
+      <div className="ml-4">
+      </div>
+      <Menu
+        width={260}
+        position="bottom-end"
+        transition="pop-top-right"
+
+      >
+        <Menu.Target>
+          <div className="items-center flex cursor-pointer hover:scale-105 transition-all">
+            <Group color="white" spacing={7}>
+              <Avatar size='md' radius="xl" />
+
+
+            </Group>
+          </div>
+        </Menu.Target>
+        <Menu.Dropdown>
+
+          <Menu.Item color="red" icon={<IconLogout size={14} stroke={1.5} />} onClick={logout}>
+            Logout
+          </Menu.Item>
+        </Menu.Dropdown>
+      </Menu>
+
+
+
+    </div>
+  )
+}

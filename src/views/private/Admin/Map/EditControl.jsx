@@ -1,14 +1,10 @@
-import { Loader, Menu } from "@mantine/core"
-import { IconMap, IconPencil, IconPlus } from "@tabler/icons"
-import { mapStyle } from "./Map"
-import { closeAllModals, openModal } from "@mantine/modals"
+import { Divider, Loader, Menu } from "@mantine/core"
+import { IconAddressBook, IconPencil } from "@tabler/icons"
 import { useState } from "react"
-
 import { useEffect } from "preact/hooks"
-import { signal } from "@preact/signals"
-import { addressPointsCRUDstate } from "./AddressPoints"
+
+import { addressPointsCRUDstate, editControlLoading } from "../../../../signals"
 import { FabClass } from "../../../../layout"
-export const editControlLoading = signal(false)
 
 export default ({ modal = false }) => {
 
@@ -16,6 +12,7 @@ export default ({ modal = false }) => {
 
     const Options = {
         'Address Point': {
+            icon: <IconAddressBook className="scale-110 text-[#0071b9] " />,
             "method": () => {
                 addressPointsCRUDstate.value = 'edit'
             },
@@ -74,7 +71,13 @@ export default ({ modal = false }) => {
                                     Options[key].method()
                                 }}
                             >
-                                {key}
+                                <div className="flex items-center gap-2 cursor-pointer">
+                                    {Options[key].icon}
+                                    <b className=" text-[#0071b9] tracking-wide font-bold">
+                                        {key}
+                                    </b>
+                                </div>
+                              
                             </Menu.Item>
                         )
                     })

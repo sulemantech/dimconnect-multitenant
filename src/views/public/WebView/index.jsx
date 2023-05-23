@@ -1,17 +1,22 @@
-import { dropvalue } from "../../../layout/Header"
-import { BottomLeft, BottomRight } from "../../private/Admin/Map"
-import BaseMapControl from "../../private/Admin/Map/BaseMapControl"
-import Legend from "../../private/Admin/Map/Legend"
-import OverlayControl from "../../private/Admin/Map/OverlayControl"
-import MapView from "./MapView"
-import ProtectedWrapper from "./ProtectedWrapper"
-import CustomerHeader from "../../private/Customer/CustomerHeader"
-import AddControl from "../../private/Admin/Map/AddControl"
-import EditControl from "../../private/Admin/Map/EditControl"
 import { useScrollLock } from "@mantine/hooks"
-import WebViewFooter from "./WebViewFooter"
+import { Skeleton } from "@mantine/core"
+import {lazy,Suspense} from 'preact/compat'
+
+import { BottomLeft,BottomRight } from "../../../layout/Fixed"
+const BaseMapControl = lazy(() => import('../../private/Admin/Map/BaseMapControl'))
+const Legend = lazy(() => import('../../private/Admin/Map/Legend'))
+const OverlayControl = lazy(() => import('../../private/Admin/Map/OverlayControl'))
+const MapView = lazy(() => import('./MapView'))
+const ProtectedWrapper = lazy(() => import('./ProtectedWrapper'))
+const AddControl = lazy(() => import('../../private/Admin/Map/AddControl'))
+const EditControl = lazy(() => import('../../private/Admin/Map/EditControl'))
+const WebViewFooter = lazy(() => import('./WebViewFooter'))
+
+
+import { dropvalue } from "../../../signals"
+
 export default () => {
-    const [scrollLocked, setScrollLocked] = useScrollLock(true);
+    useScrollLock(true);
     const params = new URLSearchParams(window.location.search)
     const ags = params.get('ags')
     const client = params.get('client')
@@ -25,6 +30,7 @@ export default () => {
     return (
         <div className="m-0 absolute top-0 left-0 right-0 bottom-0 touch-none overflow-hidden">
             <ProtectedWrapper>
+              
                 {
                     ags && client === 'ios' ?
                         <div className="flex relative flex-col h-full">
@@ -35,7 +41,7 @@ export default () => {
                                     <div className="mb-20">
                                         <OverlayControl modal/>
                                         <BaseMapControl modal/>
-                                        <AddControl modal webview/>
+                                        <AddControl  />
                                         <EditControl modal/>
                                     </div>
                                    
@@ -51,6 +57,7 @@ export default () => {
                         :
                         <div>Not Valid Params</div>
                 }
+              
             </ProtectedWrapper>
         </div>
     )

@@ -1,40 +1,31 @@
-import { signal } from "@preact/signals"
-
-export const permissible = signal({
-
-    'Admin Map View': {
-        componentID: 'Admin Map View',
-        read : true,
-        write : true,
-        delete : true,
-    },
-    "Address Point Validation": {
-        componentID: "Address Point Validation",
-        read : true,
-        write : true,
-        delete : true,
-    },
-    'Dashboard View': {
-        componentID: 'Dashboard View',
-        read : true,
-        write : true,
-        delete : true,
-    },
-    'Ticket Resolution': {
-        componentID: 'Ticket Resolution',
-        read : true,
-        write : true,
-        delete : true,
-    },
+import { Alert, LoadingOverlay } from '@mantine/core';
+import { Suspense } from 'preact/compat';
+import { permissible } from '../signals';
+import { IconAlertCircle } from '@tabler/icons';
 
 
+const checkPermission = (permission) => {
+    const p = Object.values(permissible.value).find(p => p.permission == permission)
+    return p ? p.allow : false
+};
+
+const PermissionWrapper = ({ permission, children }) => {
+
+    const hasPermission = checkPermission(permission);
     
-})
-
-export default ({ children }) => {
+    
     return (
-        <>
-            {children}
-        </>
-    )
-}
+        <Suspense fallback={<LoadingOverlay visible />}>
+            {hasPermission ? children : <div className='h-full w-full flex items-center justify-center '>
+               <Alert color='red' icon={<IconAlertCircle />}
+                    title='Permission Denied'
+                    radius={'xl'}
+                    className='flex items-center justify-center'
+                    description='You do not have permission to access this page'
+                    /> 
+                </div>}
+        </Suspense>
+    );
+};
+
+export default PermissionWrapper;

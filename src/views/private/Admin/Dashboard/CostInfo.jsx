@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'preact/hooks';
-import { dropvalue } from '../../../../layout/Header';
-import { getCostInfoByDistrictId } from '../../../../api';
 import {  Loader, Table } from '@mantine/core';
-import { commarize } from '../../../../utils/convertor';
-import { signal } from '@preact/signals';
 
-export const costInfoData = signal(null);
+import { commarize } from '../../../../utils/convertor';
+import { dropvalue,costInfoData } from '../../../../signals';
+import { getCostInfoByDistrictId } from '../../../../api';
+
+
+
 
 export default () => {
   const [data, setData] = useState({});

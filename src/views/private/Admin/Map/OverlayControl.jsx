@@ -1,13 +1,9 @@
 import { Menu } from "@mantine/core"
-
 import { IconStack2 } from "@tabler/icons"
 import { useEffect, useState } from "preact/hooks"
-import { visibility } from "./DataTiles"
-import { dropvalue } from "../../../../layout/Header"
-import { photoVisibility } from "./Photos"
 import { closeAllModals, openModal } from "@mantine/modals"
-import { videoVisibility } from "./Gpx"
-import { addressPointsVisibility } from "./AddressPoints"
+
+import { dropvalue,addressPointsVisibility,videoVisibility,photoVisibility,visibility } from "../../../../signals"
 import { FabClass } from "../../../../layout"
 
 export default ({ modal = false }) => {
