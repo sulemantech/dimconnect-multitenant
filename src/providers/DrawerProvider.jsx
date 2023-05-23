@@ -46,6 +46,7 @@ export const DrawerProvider = ({ children }) => {
                 size="lg"
                 padding="md"
                 position='right'
+                
             >
                 {content}
             </Drawer>
