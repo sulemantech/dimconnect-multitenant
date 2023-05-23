@@ -52,10 +52,30 @@ export default ({ children, data, setLimit, attributes = [], newStruct = {}, ref
             // get group name if any
             if (creationform[i].getAttribute('data-main-key')) {
 
-                values[creationform[i].getAttribute('data-main-key')] = {
-                    ...values[creationform[i].getAttribute('data-main-key')],
-                    [creationform[i].name]: formdata.get(creationform[i].name) == 'on' ? true : formdata.get(creationform[i].name)
-                }
+              
+                    let elem = creationform.elements[i];
+                    let mainKey = elem.getAttribute('data-main-key');
+                    let groupKey = elem.getAttribute('data-group-key');
+                    let groupKeyValue = elem.getAttribute('data-group-key-value');
+                    let groupValue = elem.getAttribute('data-group-value');
+                
+                    if (mainKey && groupKey && groupKeyValue && groupValue) {
+                        if (!values[mainKey]) {
+                            values[mainKey] = [];
+                        }
+                
+                        let index = values[mainKey].findIndex(item => item[groupKey] === groupKeyValue);
+                        
+                        if (index === -1) {
+                            values[mainKey].push({
+                                [groupKey]: groupKeyValue,
+                                [groupValue]: formdata.get(elem.name) === 'on' ? true : false,
+                            });
+                        } else {
+                            values[mainKey][index][groupValue] = formdata.get(elem.name) === 'on' ? true : false;
+                        }
+                    }
+                
 
             } else {
                 values[creationform[i].name] = formdata.get(creationform[i].name) == 'on' ? true : formdata.get(creationform[i].name)
@@ -63,8 +83,6 @@ export default ({ children, data, setLimit, attributes = [], newStruct = {}, ref
         }
 
 
-        console.log(values)
-        return
         newStruct.createMethod(values).then((res) => {
             setsubmitLoading(false)
             refreshData()

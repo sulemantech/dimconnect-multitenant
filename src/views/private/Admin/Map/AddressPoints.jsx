@@ -333,9 +333,9 @@ export const CRUDAddressPointForm = ({ prevdata, edit = false, add = false,lat ,
                     <TextInput name="hnrz" label="Zusatz" mx={2} defaultValue={prevdata?.hnrz} className="flex-1" maxLength={2} />
                 </div>
                 <div className="flex">
-                    <TextInput name="plz" label="Plz" mx={2} required className="flex-[1]" defaultValue={prevdata?.plz} />
+                    <TextInput name="plz" label="Plz" mx={2} required className="flex-[1.4]" defaultValue={prevdata?.plz} />
                     <TextInput name="ort" label="Ort" mx={2} required  className="flex-[2]" defaultValue={prevdata?.ort} />
-                    <TextInput name="ott" label="Ortsteil" mx={2} className="flex-[2]" defaultValue={prevdata?.ott} />
+                    <TextInput name="ott" label="Ortsteil" mx={2} className="flex-[1.2]" defaultValue={prevdata?.ott} />
                 </div>
                 <div className="flex">
                     <TextInput name="anz_hh" label="Anzahl der Haushalte" mx={2} required type="number" defaultValue={prevdata?.anz_hh} size="xs" className="flex-1" />
