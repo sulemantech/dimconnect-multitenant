@@ -30,7 +30,7 @@ export default () => {
     return (
         <div className="m-0 absolute top-0 left-0 right-0 bottom-0 touch-none overflow-hidden">
             <ProtectedWrapper>
-              
+               <Suspense fallback={<Skeleton height={100} />}>
                 {
                     ags && client === 'ios' ?
                         <div className="flex relative flex-col h-full">
@@ -57,7 +57,7 @@ export default () => {
                         :
                         <div>Not Valid Params</div>
                 }
-              
+                </Suspense>
             </ProtectedWrapper>
         </div>
     )

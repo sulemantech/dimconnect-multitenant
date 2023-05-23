@@ -6,34 +6,51 @@ export const mapClickBindings = signal({})
 export const collapsed = signal(false)
 export const costInfoData = signal(null);
 
-export const permissible = signal({
+export const permissible = signal([
+    {
+        "activity": "Dashboard",
+        "add": false,
+        "view": false,
+        "edit": false,
+        "delete": false
+    },
+    {
+        "activity": "Map",
+        "add": false,
+        "view": false,
+        "edit": false,
+        "delete": false
+    },
+    {
+        "activity": "AddressPoint",
+        "add": false,
+        "view": false,
+        "edit": false,
+        "delete": false
+    },
+    {
+        "activity": "Photo",
+        "add": false,
+        "view": false,
+        "edit": false,
+        "delete": false
+    },
+    {
+        "activity": "Video",
+        "add": false,
+        "view": false,
+        "edit": false,
+        "delete": false
+    },
+    {
+        "activity": "Ticket",
+        "add": false,
+        "view": false,
+        "edit": false,
+        "delete": false
+    }
+])
 
-    'Admin Map View': {
-        componentID: 'Admin Map View',
-        read: true,
-        write: true,
-        delete: true,
-    },
-    "Address Point Validation": {
-        componentID: "Address Point Validation",
-        read: true,
-        write: true,
-        delete: true,
-    },
-    'Dashboard View': {
-        componentID: 'Dashboard View',
-        read: true,
-        write: true,
-        delete: true,
-    },
-    'Ticket Resolution': {
-        componentID: 'Ticket Resolution',
-        read: true,
-        write: true,
-        delete: true,
-    },
-
-})
 
 export const UserType = signal('admin')
 

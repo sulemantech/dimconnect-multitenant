@@ -100,8 +100,9 @@ export default () => {
                                         <tr >
                                             {/* <td></td> */}
                                             <td className="font-semibold text-xs text-gray-700 text-start whitespace-nowrap overflow-hidden ">Component</td>
-                                            <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">Read</td>
-                                            <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">Write</td>
+                                            <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">ADD</td>
+                                            <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">VIEW</td>
+                                            <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">EDIT</td>
                                             <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">Delete</td>
                                         </tr>
 
@@ -123,37 +124,61 @@ export default () => {
                                         </td>
                                     </tr> */}
                                         {
-                                            Object.keys(permissible.value).map((key, index) => (
+                                            permissible.value.map((key, index) => (
                                                 <tr key={index} >
-                                                    <td className="font-semibold text-xs text-gray-700 text-start whitespace-nowrap overflow-hidden ">{key}</td>
+                                                    <td className="font-semibold text-xs text-gray-700 text-start whitespace-nowrap overflow-hidden ">{key.activity}</td>
                                                     <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">
                                                         <Switch
                                                             type={'checkbox'}
                                                             color="blue"
-                                                            name={key + '__read'}
-                                                            defaultChecked={permissible.value[key].read}
+                                                            name={key + '__add'}
+                                                            defaultChecked={key.add}
 
-                                                            data-group="permissions"
-                                                            data-group-value={key + '__read'}
+                                                            data-main-key="permissions"
+                                                            data-group-key={'activity'}
+                                                            
+                                                            data-group-key-value={key.activity}
+                                                            data-group-value={'add'}
                                                         />
                                                     </td>
                                                     <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">
                                                         <Switch
-                                                            defaultChecked={permissible.value[key].write}
+                                                            type={'checkbox'}
+                                                            color="yellow"
+                                                            name={key + '__view'}
+                                                            defaultChecked={key.view}
+
+                                                            data-main-key="permissions"
+                                                            data-group-key={'activity'}
+
+                                                            data-group-key-value={key.activity}
+                                                            data-group-value={'view'}
+                                                        />
+                                                    </td>
+                                                    <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">
+                                                        <Switch
+                                                            defaultChecked={key.edit}
                                                             color="green"
-                                                            name={key + '__write'}
-                                                            data-group="permissions"
-                                                            data-group-value={key + '__write'}
+                                                            name={key + '__edit'}
+                                                            
+                                                            data-main-key="permissions"
+                                                            data-group-key={'activity'}
+                                                            
+                                                            data-group-key-value={key.activity}
+                                                            data-group-value={'edit'}
                                                         />
                                                     </td>
                                                     <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">
                                                         <Switch
-                                                            defaultChecked={permissible.value[key].delete}
+                                                            defaultChecked={key.delete}
                                                             color="red"
                                                             name={key + '__delete'}
-                                                            radioGroup="delete"
-                                                            data-group="permissions"
-                                                            data-group-value={key + '__delete'}
+                                                            
+                                                            data-main-key="permissions"
+                                                            data-group-key={'activity'}
+
+                                                            data-group-key-value={key.activity}
+                                                            data-group-value={'deleteFlag'}
                                                         />
                                                     </td>
                                                 </tr>
