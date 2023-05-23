@@ -153,7 +153,15 @@ export default ({ children, data, setLimit, attributes = [], newStruct = {}, ref
     )
 
 
+    const handleEdit = (item) => {
 
+        
+
+        openDrawer({
+            title: 'Edit',
+            children: <EditForm item={item} newStruct={newStruct} >{children}</EditForm>,
+        })
+    }
 
     return (
         <div className="flex flex-col rounded-md bg-white">
@@ -248,13 +256,7 @@ export default ({ children, data, setLimit, attributes = [], newStruct = {}, ref
                                             }
                                             <td className="flex justify-end px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                                 {edit && <ActionIcon
-
-                                                    onClick={() => {
-                                                        openDrawer({
-                                                            title: 'Edit',
-                                                            children: <EditForm item={item} newStruct={newStruct} >{children}</EditForm>,
-                                                        })
-                                                    }}
+                                                    onClick={() => handleEdit(item)}
                                                 ><FaEdit /></ActionIcon>}
                                                 {attatchment && <ActionIcon
                                                     onClick={() => {

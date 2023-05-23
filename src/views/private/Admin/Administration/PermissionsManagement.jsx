@@ -220,7 +220,7 @@ const PermissionList = ({ id ,name, description }) => {
     useEffect(() => {
         setLoading(true)
         getAccessList(id).then(({ data }) => {
-            setData(data)
+            setData(data.accessList)
             setLoading(false)
         })
             .catch((err) => {
@@ -265,11 +265,11 @@ const PermissionList = ({ id ,name, description }) => {
                 {
                     data.map((item, index) => (
                         <tr key={index}>
-                            <td>{item.accessList.activity}</td>
-                            <td>{item.accessList.add ? trueIcon : falseIcon}</td>
-                            <td>{item.accessList.view ? trueIcon : falseIcon}</td>
-                            <td>{item.accessList.edit ? trueIcon : falseIcon}</td>
-                            <td>{item.accessList.delete ? trueIcon : falseIcon}</td>
+                            <td>{item.activity}</td>
+                            <td>{item.add ? trueIcon : falseIcon}</td>
+                            <td>{item.view ? trueIcon : falseIcon}</td>
+                            <td>{item.edit ? trueIcon : falseIcon}</td>
+                            <td>{item.delete ? trueIcon : falseIcon}</td>
                         </tr>
                     ))
                 }
