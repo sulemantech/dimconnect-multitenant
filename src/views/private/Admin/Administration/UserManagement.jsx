@@ -1,6 +1,6 @@
 import PageProvider from "../../../../providers/PageProvider"
 import CustomTable from "../../../../components/CustomTable"
-import { Card, CardSection, Divider, Pagination } from "@mantine/core"
+import { Card, CardSection, Divider, Loader, Pagination } from "@mantine/core"
 import { createUser, deleteUser, editUser, getRoles, getUsers } from "../../../../api";
 import { useState, useLayoutEffect } from 'preact/hooks'
 import { IconUser, IconUserCheck, IconUserPlus } from "@tabler/icons";
@@ -9,18 +9,19 @@ import { useDidUpdate } from "@mantine/hooks";
 export default () => {
 
 
-    const [dataInfo, setDataInfo] = useState({ page: 0, count: 10 });
-    const [page, setPage] = useState(1);
+   
     const [data, setData] = useState([]);
-    const [limit, setLimit] = useState(10);
+
     const [roles, setRoles] = useState([]);
     const [ready, setReady] = useState(false)
 
    
     const getData = async () => {
         try {
-            const users = await getUsers(page - 1, JSON.stringify([['id', 'ASC']]), limit).catch(e => setData([]))
-            setData(users.data.users);
+            const users = await getUsers().catch(e => setData([]))
+            setData(users.data);
+           
+           
         } catch (err) {}
         try {
             const roles = await getRoles().catch(e => setRoles([]));
@@ -32,7 +33,7 @@ export default () => {
         getData()
     }
 
-    useLayoutEffect(getData, [page, limit])
+    useLayoutEffect(getData, [])
 
 
     return (
@@ -107,11 +108,13 @@ export default () => {
                         <Divider />
                     </CardSection>
 
-                    {ready && <CustomTable
-                        attributes={['username', 'email', 'userRole']}
+                    {ready ? <CustomTable
+                   
+                        attributes={['id', 'email', 'userRole','vorname','nachname','agreement_signed']}
                         remove
+                        edit
                         data={data}
-                        setLimit={setLimit}
+                       
                         newStruct={{
                             data: {
                                 username: '',
@@ -127,22 +130,14 @@ export default () => {
                             editMethod: editUser,
                         }}
                         refreshData={refreshData}
-                    />}
+                    />
+                        :
+                        <div className="min-h-[300px] items-center flex justify-center">
+                        <Loader color='brand' />
+                        </div>
+                }
 
-                    <div className="flex w-full px-6 py-8">
-                        <p className="text-sm text-neutral-600">
-                            Showing {page * limit - limit + 1} to {page * limit} of {dataInfo.count} entries
-                        </p>
-                        <div className="flex-1"></div>
-                        <Pagination
-                            
-                            total={Math.ceil(dataInfo.count / limit)}
-                            limit={limit}
-                            page={page}
-                            onChange={(page) => setPage(page)}
-                        />
-
-                    </div>
+                  
 
                 </Card>
             </div>

@@ -1,18 +1,22 @@
-import { ActionIcon, Button, Input, ScrollArea, Select, Switch } from "@mantine/core";
+import { ActionIcon, Button, Input, Pagination, ScrollArea, Select, Switch } from "@mantine/core";
 import { closeAllModals, openConfirmModal, openModal } from "@mantine/modals";
-import { IconArrowDown, IconArrowUp, IconPaperclip, IconPlus } from "@tabler/icons";
+import { IconAlertCircle, IconArrowDown, IconArrowUp, IconPaperclip, IconPlus } from "@tabler/icons";
 import { useState } from "preact/hooks";
 import readXlsxFile from 'read-excel-file';
 import appConfig from '../config/appConfig'
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { closeDrawer, openDrawer } from "../providers/DrawerProvider";
 import { useCallback } from 'preact/hooks'
-export default ({ children, data, setLimit, attributes = [], newStruct = {}, refreshData, edit = false, remove = false, attatchment = false }) => { // as {"id":25,"name":"HO1V","min":"25","max":"55"}[]
+import { showNotification } from "@mantine/notifications";
+import { cloneElement } from "preact";
+export default ({ children, data, attributes = [], newStruct = {}, refreshData, edit = false, remove = false, attatchment = false }) => { // as {"id":25,"name":"HO1V","min":"25","max":"55"}[]
 
     const [sort, setSort] = useState({ field: "name", order: "asc" });
     const [filter, setFilter] = useState('')
     const [submitloading, setsubmitLoading] = useState(false)
-
+    const [limit, setLimit] = useState(10);
+    const [dataInfo, setDataInfo] = useState({ page: 0, count: data.length });
+    const [page, setPage] = useState(1);
 
     const handleSubmit = (e) => {
         setsubmitLoading(true)
@@ -22,60 +26,37 @@ export default ({ children, data, setLimit, attributes = [], newStruct = {}, ref
 
         const values = {}
 
-        // props : 
-        //  data-main-key="permissions"
-        // data-group-key={'activity'}                                    
-        // data-group-key-value={key.activity}
-        // data-group-value={'edit'}
-
-        //Structure required :
-        // permissions : {
-        //    "permissions": [ # data-main-key
-        // {
-        //     "activity": "APV", # data-group-key
-        //     "add": true, # data-group-value
-        //     "view": true, # data-group-value
-        //     "edit": false, # data-group-value
-        //     "deleteFlag": false # data-group-value
-        //   },
-        //   {
-        //     "activity": "Ticket",
-        //     "add": false,
-        //     "view": true,
-        //     "edit": true,
-        //     "deleteFlag": true
-        //   }
-        // ]
+        
 
         for (let i = 0; i < creationform.length; i++) {
 
             // get group name if any
             if (creationform[i].getAttribute('data-main-key')) {
 
-              
-                    let elem = creationform.elements[i];
-                    let mainKey = elem.getAttribute('data-main-key');
-                    let groupKey = elem.getAttribute('data-group-key');
-                    let groupKeyValue = elem.getAttribute('data-group-key-value');
-                    let groupValue = elem.getAttribute('data-group-value');
-                
-                    if (mainKey && groupKey && groupKeyValue && groupValue) {
-                        if (!values[mainKey]) {
-                            values[mainKey] = [];
-                        }
-                
-                        let index = values[mainKey].findIndex(item => item[groupKey] === groupKeyValue);
-                        
-                        if (index === -1) {
-                            values[mainKey].push({
-                                [groupKey]: groupKeyValue,
-                                [groupValue]: formdata.get(elem.name) === 'on' ? true : false,
-                            });
-                        } else {
-                            values[mainKey][index][groupValue] = formdata.get(elem.name) === 'on' ? true : false;
-                        }
+
+                let elem = creationform.elements[i];
+                let mainKey = elem.getAttribute('data-main-key');
+                let groupKey = elem.getAttribute('data-group-key');
+                let groupKeyValue = elem.getAttribute('data-group-key-value');
+                let groupValue = elem.getAttribute('data-group-value');
+
+                if (mainKey && groupKey && groupKeyValue && groupValue) {
+                    if (!values[mainKey]) {
+                        values[mainKey] = [];
                     }
-                
+
+                    let index = values[mainKey].findIndex(item => item[groupKey] === groupKeyValue);
+
+                    if (index === -1) {
+                        values[mainKey].push({
+                            [groupKey]: groupKeyValue,
+                            [groupValue]: formdata.get(elem.name) === 'on' ? true : false,
+                        });
+                    } else {
+                        values[mainKey][index][groupValue] = formdata.get(elem.name) === 'on' ? true : false;
+                    }
+                }
+
 
             } else {
                 values[creationform[i].name] = formdata.get(creationform[i].name) == 'on' ? true : formdata.get(creationform[i].name)
@@ -153,14 +134,42 @@ export default ({ children, data, setLimit, attributes = [], newStruct = {}, ref
     )
 
 
-    const handleEdit = (item) => {
+    const handleEdit = async (item) => {
+        try {
 
-        
+         
 
-        openDrawer({
-            title: 'Edit',
-            children: <EditForm item={item} newStruct={newStruct} >{children}</EditForm>,
-        })
+
+            const resp = await newStruct.getMethod(item.id)
+
+
+            item = {
+                ...item,
+                ...resp.data
+            }
+
+
+            const childrenClone = children
+            
+            
+
+            openDrawer({
+                title: 'Edit',
+                children: <EditForm item={item} newStruct={newStruct} >
+                    {
+                        childrenClone
+                    }
+                </EditForm>,
+            })
+        } catch (err) {
+            showNotification({
+                title: 'Error',
+                color: 'red',
+                icon: <IconAlertCircle />,
+                message: 'Cant fetch data',
+                type: 'error'
+            })
+        }
     }
 
     return (
@@ -221,6 +230,7 @@ export default ({ children, data, setLimit, attributes = [], newStruct = {}, ref
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200 ">
                                 {data
+                                    
                                     .sort((a, b) => {
                                         if (sort.order === "asc") {
                                             if (a[sort.field] < b[sort.field]) {
@@ -239,16 +249,16 @@ export default ({ children, data, setLimit, attributes = [], newStruct = {}, ref
                                             }
                                             return 0;
                                         }
-                                    })?.filter((obj) => {
+                                    }).slice((page - 1) * limit, page * limit)?.filter((obj) => {
                                         if (filter === '') return data;
-                                        return Object.values(obj).some(val => val.toString().toLowerCase().includes(filter.toLowerCase()))
+                                        return Object.values(obj).filter(val => typeof val === 'string' || typeof val === 'number').some(val => val.toString().toLowerCase().includes(filter.toLowerCase()))
                                     })?.map((item) => (
                                         <tr key={item.id} >
                                             {
                                                 attributes?.map((attr) => {
                                                     return (
                                                         <td key={attr + 'hgrui'} className="px-6 text-left py-4 whitespace-nowrap text-sm text-gray-500">
-                                                            {item[attr]}
+                                                            {Array.isArray(item[attr]) ? item[attr].map((i) => i.name).join(', ') : item[attr]}
                                                         </td>
                                                     )
                                                 }
@@ -282,6 +292,21 @@ export default ({ children, data, setLimit, attributes = [], newStruct = {}, ref
                                     ))}
                             </tbody>
                         </table>
+
+                        <div className="flex w-full px-6 py-8">
+                            <p className="text-sm text-neutral-600">
+                                Showing {page * limit - limit + 1} to {page * limit} of {dataInfo.count} entries
+                            </p>
+                            <div className="flex-1"></div>
+                            <Pagination
+                                color="brand"
+                                total={Math.ceil(dataInfo.count / limit)}
+                                limit={limit}
+                                page={page}
+                                onChange={(page) => setPage(page)}
+                            />
+
+                        </div>
 
                     </div>
                 </div>
@@ -322,8 +347,23 @@ const EditForm = ({ item, newStruct, children }) => {
             }
         })
     }
+
+    
+
+    const afterloadform = (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const data = new FormData(form);
+        const values = {}
+        for (var pair of data.entries()) {
+            values[pair[0]] = pair[1]
+        }
+        console.log(values);
+    }
+
     try {
         return (
+            <form className="flex flex-col" onSubmit={afterloadform}>
             <div className="flex flex-col">
                 {
                     Object.keys(newStruct.data)?.map((attr) => {
@@ -333,6 +373,7 @@ const EditForm = ({ item, newStruct, children }) => {
                                 <input
                                     className="bg-gray-200 rounded-md p-2"
                                     value={form[attr]}
+                                    name = {attr}
                                     onChange={(e) => setForm({ ...form, [attr]: e.target.value })}
                                 />
                             </div>
@@ -345,7 +386,8 @@ const EditForm = ({ item, newStruct, children }) => {
                 </div>
                 <div className="flex">
                     <Button
-                        onClick={update}
+                        // onClick={update}
+                        type="submit"
                     >
                         Update
                     </Button>
@@ -356,6 +398,7 @@ const EditForm = ({ item, newStruct, children }) => {
                     </Button>
                 </div>
             </div>
+        </form>
         )
     } catch (error) {
         return (
