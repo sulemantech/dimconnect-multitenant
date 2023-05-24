@@ -1,11 +1,12 @@
 import PageProvider from "../../../../providers/PageProvider"
 import CustomTable from "../../../../components/CustomTable"
-import { Card, CardSection, Divider, Loader, Pagination } from "@mantine/core"
+import { ActionIcon, Alert, Button, Card, CardSection, Chip, Divider, Loader, Pagination, Select, Text, Title } from "@mantine/core"
 import { createUser, deleteUser, editUser, getRoles, getUsers } from "../../../../api";
 import { useState, useLayoutEffect } from 'preact/hooks'
 import { IconUser, IconUserCheck, IconUserPlus } from "@tabler/icons";
 import { IconUserCancel } from "@tabler/icons-react";
-import { useDidUpdate } from "@mantine/hooks";
+import { useEffect } from "preact/hooks";
+import { openDrawer } from "../../../../providers/DrawerProvider";
 export default () => {
 
 
@@ -18,15 +19,30 @@ export default () => {
    
     const getData = async () => {
         try {
+            const rolesx = await getRoles().catch(e => setRoles([]));
+            setRoles(rolesx.data.roles)
+        
             const users = await getUsers().catch(e => setData([]))
-            setData(users.data);
+            setData(users.data.map(user => ({
+                ...user,
+                'Assign Role':<Chip checked={false} 
+                color="blue"
+                
+                variant="light"
+                onClick={() => {
+                    openDrawer({
+                        'title': 'Assign Role',
+                        'children': <AssignRole user={user} roles={rolesx.data.roles} refreshData={refreshData} />
+                    })
+                }}
+            >
+                <Text mt={2} color="brand" className="flex tracking-wide font-semibold text-xs items-center justify-center"> <IconUserPlus className="mr-2" size={20}/> Assign Role</Text>
+              </Chip>,
+            })))
            
            
         } catch (err) {}
-        try {
-            const roles = await getRoles().catch(e => setRoles([]));
-            setRoles(roles.data.roles)
-        } catch (err) {}
+        
         setReady(true)
     }
     const refreshData = () => {
@@ -110,7 +126,7 @@ export default () => {
 
                     {ready ? <CustomTable
                    
-                        attributes={['id', 'email', 'userRole','vorname','nachname','agreement_signed']}
+                        attributes={['id', 'email', 'userRole','vorname','nachname','agreement_signed','Assign Role']}
                         remove
                         edit
                         data={data}
@@ -142,5 +158,89 @@ export default () => {
                 </Card>
             </div>
         </PageProvider>
+    )
+}
+
+
+const AssignRole = ({ user, roles, refreshData }) => {
+    
+    const [selectedRole, setSelectedRole] = useState(user.userRole)
+    const [ready, setReady] = useState(false)
+    const [error, setError] = useState(false)
+    const [success, setSuccess] = useState(false)
+    const [loading, setLoading] = useState(false)
+    const [message, setMessage] = useState('')
+    const assignRole = async () => {
+        setLoading(true)
+        try {
+            const res = await assi(user.id, { userRole: selectedRole })
+            setSuccess(true)
+            setMessage(res.message)
+            refreshData()
+        } catch (err) {
+            setError(true)
+            setMessage(err.message)
+        }
+        setLoading(false)
+    }
+    useEffect(() => {
+        setReady(true)
+    }
+        , [])
+    return (
+        <div className="flex flex-col">
+            <div className="flex flex-col">
+
+{/* user details */}
+
+            <div>
+                <div className="flex flex-col m-auto">
+                    <p className="flex justify-between items-center h-10">
+                    <Text className="text-sm">User ID</Text>
+                    <Text color="brand" className="mt-1">{user.id}</Text>
+                    
+                    </p><Divider /><p className="flex justify-between items-center h-10">
+                    <Text className="text-sm">Email</Text>
+                    <Text color="brand" className="mt-1">{user.email}</Text>
+                    </p><Divider /><p className="flex justify-between items-center h-10">
+                    <Text className="text-sm">Name</Text>
+                    <Text color="brand" className="mt-1">{user.vorname} {user.nachname}</Text>
+                    </p><Divider /><p className="flex justify-between items-center h-10">
+                    <Text className="text-sm">Existing Role</Text>
+                    <Text color="brand" className="mt-1">{user.userRole?.join(', ')}</Text>
+                    </p><Divider />
+                    </div>
+            </div>
+
+                <Title size={'sm'} mt={20}>Select Role</Title>
+               
+                <Select
+                    className="mt-1"
+                    data={roles?.map((role) => ({
+                        value: role.id,
+                        label: role.name
+                    }))}
+                    value={selectedRole}
+                    onChange={(e) => setSelectedRole(e)}
+                />
+            </div>
+            <div className="flex flex-col mt-2">
+                <Button
+                    onClick={assignRole}
+                    loading={loading}
+                    disabled={loading}
+                    className="mt-2"
+                    variant="default"
+                >
+                    Assign Role
+                </Button>
+            </div>
+            {error && <div className="mt-2">
+                <Alert severity="error">{message}</Alert>
+            </div>}
+            {success && <div className="mt-2">
+                <Alert severity="success">{message}</Alert>
+            </div>}
+        </div>
     )
 }
