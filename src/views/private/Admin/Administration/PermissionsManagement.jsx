@@ -4,7 +4,7 @@ import { IconEye, IconCircleX, IconCircleCheck, IconAlertCircle } from "@tabler/
 
 import PageProvider from "../../../../providers/PageProvider"
 import CustomTable from "../../../../components/CustomTable"
-import { createRole, deleteRole, editRole, getAccessList, getRoles } from "../../../../api";
+import { createRole, createRoleWithPermissions, deleteRole, editRole, getAccessList, getRoles } from "../../../../api";
 import { permissible } from "../../../../signals";
 import { openDrawer } from "../../../../providers/DrawerProvider";
 
@@ -67,7 +67,7 @@ export default () => {
                                     description: '',
 
                                 },
-                                createMethod: createRole,
+                                createMethod: createRoleWithPermissions,
                                 deleteMethod: deleteRole,
                                 editMethod: editRole,
                                 getMethod: getAccessList,
@@ -101,7 +101,7 @@ export default () => {
                                                     <Switch
                                                         type={'checkbox'}
                                                         color="blue"
-                                                        name={key + '__add'}
+                                                        name={key.activity + '__add'}
                                                         defaultChecked={key.add}
 
                                                         data-main-key="permissions"
@@ -115,7 +115,7 @@ export default () => {
                                                     <Switch
                                                         type={'checkbox'}
                                                         color="yellow"
-                                                        name={key + '__view'}
+                                                        name={key.activity + '__view'}
                                                         defaultChecked={key.view}
 
                                                         data-main-key="permissions"
@@ -129,7 +129,7 @@ export default () => {
                                                     <Switch
                                                         defaultChecked={key.edit}
                                                         color="green"
-                                                        name={key + '__edit'}
+                                                        name={key.activity + '__edit'}
 
                                                         data-main-key="permissions"
                                                         data-group-key={'activity'}
@@ -142,7 +142,7 @@ export default () => {
                                                     <Switch
                                                         defaultChecked={key.delete}
                                                         color="red"
-                                                        name={key + '__delete'}
+                                                        name={key.activity + '__delete'}
 
                                                         data-main-key="permissions"
                                                         data-group-key={'activity'}

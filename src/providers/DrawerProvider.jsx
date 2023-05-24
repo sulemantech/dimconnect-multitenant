@@ -7,6 +7,7 @@ const DrawerContext = createContext();
 const drawerSignal = signal({});
 
 export const DrawerProvider = ({ children }) => {
+
     const [isOpen, setIsOpen] = useState(false);
     const [content, setContent] = useState();
     const [title, setTitle] = useState('');
@@ -23,7 +24,7 @@ export const DrawerProvider = ({ children }) => {
     };
 
     useEffect(() => {
-       const unsub =  drawerSignal.subscribe((data) => {
+        const unsub =  drawerSignal.subscribe((data) => {
             
             if (!data.title || !data.children) {
                 setIsOpen(false);
@@ -32,7 +33,7 @@ export const DrawerProvider = ({ children }) => {
             openDrawer(data);
         });
         return () => {
-            unsub();
+            unsub()
         }
     }, []);
 
@@ -46,7 +47,6 @@ export const DrawerProvider = ({ children }) => {
                 size="lg"
                 padding="md"
                 position='right'
-                
             >
                 {content}
             </Drawer>
@@ -57,12 +57,11 @@ export const DrawerProvider = ({ children }) => {
 export const useDrawer = () => useContext(DrawerContext);
 
 export const openDrawer = ({ title, children }) => {
-    
     drawerSignal.value = { title, children };
 }
 
 export const closeDrawer = () => {
-    drawerSignal.value = { title: '', children: '' };
+    drawerSignal.value = { title: '', children: '' }
 }
 
 export default DrawerProvider;

@@ -1,4 +1,4 @@
-import { ActionIcon, Button, Input, Pagination, ScrollArea, Select, Switch } from "@mantine/core";
+import { ActionIcon, Button, Chip, Flex, Input, MultiSelect, Pagination, ScrollArea, Select, Switch } from "@mantine/core";
 import { closeAllModals, openConfirmModal, openModal } from "@mantine/modals";
 import { IconAlertCircle, IconArrowDown, IconArrowUp, IconPaperclip, IconPlus } from "@tabler/icons";
 import { useState } from "preact/hooks";
@@ -30,11 +30,16 @@ export default ({ children, data, attributes = [], newStruct = {}, refreshData, 
 
         for (let i = 0; i < creationform.length; i++) {
 
-            // get group name if any
-            if (creationform[i].getAttribute('data-main-key')) {
+            let elem = creationform.elements[i];
+
+            if (creationform[i].getAttribute('data-type') == 'array') {
+                values[creationform[i].getAttribute('data-key')] = formdata.forEach((value, key) => {
+                    console.log(value, key)
+                })
+                // values[creationform[i].getAttribute('data-key')] = formdata.get(creationform[i].getAttribute('data-key')).split(',').map(item => item.trim())
+           } else if (creationform[i].getAttribute('data-main-key')) {
 
 
-                let elem = creationform.elements[i];
                 let mainKey = elem.getAttribute('data-main-key');
                 let groupKey = elem.getAttribute('data-group-key');
                 let groupKeyValue = elem.getAttribute('data-group-key-value');
@@ -60,10 +65,15 @@ export default ({ children, data, attributes = [], newStruct = {}, refreshData, 
 
             } else {
                 values[creationform[i].name] = formdata.get(creationform[i].name) == 'on' ? true : formdata.get(creationform[i].name)
+                
             }
         }
 
+        
 
+
+        console.log(values)
+        return
         newStruct.createMethod(values).then((res) => {
             setsubmitLoading(false)
             refreshData()
@@ -86,6 +96,7 @@ export default ({ children, data, attributes = [], newStruct = {}, refreshData, 
                             Object.keys(newStruct.data)?.map((item) => (
 
                                 (Array.isArray(newStruct.data[item])) ?
+                               
                                     <div className="flex flex-col">
                                         <label className="text-sm text-gray-600">{item.replace('_', ' ').trim().toUpperCase()}</label>
                                         {/* <select required className="bg-gray-200 rounded-md p-1" name={item}>
@@ -97,7 +108,8 @@ export default ({ children, data, attributes = [], newStruct = {}, refreshData, 
                                                 })
                                             }
                                         </select> */}
-                                        <Select data={newStruct?.data[item]} required className="bg-gray-200 rounded-md p-1" name={item} />
+                                        <MultiSelect  data={newStruct?.data[item]} data-type="array"  required className="bg-gray-200 rounded-md p-1" name={item}/>
+                                      
                                     </div>
                                     :
                                     typeof newStruct.data[item] === 'boolean' ?
