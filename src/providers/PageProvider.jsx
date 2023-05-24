@@ -5,19 +5,19 @@ export default ({ children }) => {
     return (
         <>
             <ScrollArea className="h-screen">
-        <div className="mt-24  ">
-           
-            <div className="relative px-2 ">
+                <div className="mt-24  ">
 
-            <hr className="" />
-           
-            {children}
-            </div>
-           
-          
-        </div>
-        </ScrollArea>
-           <Footer />
-           </>
+                    <div className="relative px-2 ">
+
+                        <hr className="" />
+
+                        {children}
+                    </div>
+
+
+                </div>
+            </ScrollArea>
+            <Footer />
+        </>
     )
 }
