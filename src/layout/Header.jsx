@@ -1,12 +1,12 @@
 import { Avatar, Group, Menu, Select, Burger, Box } from "@mantine/core"
 import { IconLogout } from "@tabler/icons"
-import { useContext, useEffect,useState } from "preact/hooks"
+import { useContext, useEffect, useState, useLayoutEffect } from "preact/hooks"
 import { useRouter, route, } from "preact-router"
 
 
 import appConfig from "../config/appConfig"
 import { AuthState } from "../providers/AuthProvider"
-import { collapsed,dropvalue,userDataSignal } from "../signals"
+import { collapsed, dropvalue, regsionListSignal, userDataSignal } from "../signals"
 
 
 
@@ -182,15 +182,66 @@ export const tilesAvailable = [
   { "value": '073405008', "label": "Zweibrücken-Land (Verbandsgemeinde)" },
   { "value": '073405009', "label": "Thaleischweiler-Wallhalben (Verbandsgemeinde)" },
 ]
-
+// {
+//   "ags": "073310000",
+//   "name": "Alzey-Worms",
+//   "bezeichnung": "Kreis",
+//   "bemerkung": "Kreis",
+//   "kreis": null,
+//   "groupid": "021_Alzey-Worms"
+// }
 
 
 export default () => {
+
   
+
   const router = useRouter()
   const auth = useContext(AuthState)
-  const [userData , setUserData] = useState(null)
+  const [userData, setUserData] = useState(null)
   const [isOpen, setIsOpen] = useState(false)
+  const [regsionList, setRegsionList] = useState([])
+
+
+  
+  
+  useLayoutEffect(() => {
+    
+   
+    
+    let firstPageLoad = true
+
+    const unsub = () => {
+
+      dropvalue.subscribe((value) => {
+        if (firstPageLoad && currentRoute !== '/map') {
+          firstPageLoad = false
+          return
+        }
+        const parentRoute = router?.[0]?.path?.replace('/:ags', '') || ''
+        route(`${parentRoute}/${value}${window.location.hash}`)
+      })
+
+      collapsed.subscribe(setIsOpen)
+
+      userDataSignal.subscribe(value => {
+
+        setUserData(value)
+      })
+
+      regsionListSignal.subscribe(value => {
+        setRegsionList(value.map(item => ({
+          value: item.ags,
+          label: item.name
+        })
+        ))
+      })
+
+    }
+
+    return unsub()
+  }, [])
+
   const logout = () => {
     sessionStorage.removeItem(appConfig.sessionStorageKey)
     auth.setAuth(false)
@@ -198,24 +249,6 @@ export default () => {
   }
 
   const currentRoute = router[0].path
-
- 
-    let firstPageLoad = true
-    dropvalue.subscribe((value) => {
-      if (firstPageLoad && currentRoute !== '/map') {
-        firstPageLoad = false
-        return
-      }
-      const parentRoute = router?.[0]?.path?.replace('/:ags', '') || ''
-      route(`${parentRoute}/${value}${window.location.hash}`)
-    })
-    collapsed.subscribe(setIsOpen)
-   
-    userDataSignal.subscribe(value => {
-     
-      setUserData(value)
-    })
-  
   // useShallowEffect(() => {
   //   if (router[0].matches?.ags) {
   //     dropvalue.value = router[0].matches.ags
@@ -241,7 +274,7 @@ export default () => {
         <h6 className={window.innerWidth < 768 ? 'text-xs' : 'text-lg'}>
           {
 
-            router[0].matches?.ags ? tilesAvailable.find((tile) => tile.value === router[0].matches.ags)?.label
+            router[0].matches?.ags ? regsionList.find((tile) => tile.value === router[0].matches.ags)?.label
               :
               router[0].url.replace('/', '').toUpperCase() || 'DASHBOARD'
           }
@@ -256,8 +289,8 @@ export default () => {
         placeholder="Select AGS"
         searchable
         autoComplete="on"
-        data={tilesAvailable}
-        // data={userData?.value?.gebietskoerperschaft || []}
+        data={regsionList}
+
         sx={{ width: 350 }}
         defaultValue={dropvalue.value}
         onChange={(value) => {
@@ -379,7 +412,7 @@ true */}
             </div>
           </Box>
           <Menu.Divider />
-         
+
 
 
           <Menu.Item color="red" icon={<IconLogout size={14} stroke={1.5} />} onClick={logout}>

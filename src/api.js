@@ -66,3 +66,7 @@ export const createRoleWithPermissions = (data) => api.post(`/roles/with-permiss
 
 
 export const assignRolesToUser = (userId, data) => api.post(`/user/assign-roles/${userId}`, data)
+
+
+export const getRegionList = () => api.get(`/region/list`)
+export const getRegionListByAGS = (ags) => api.get(`/region/list/${ags}`)

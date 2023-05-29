@@ -6,6 +6,7 @@ export const mapClickBindings = signal({})
 export const collapsed = signal(false)
 export const costInfoData = signal(null);
 export const userDataSignal = signal(null);
+export const regsionListSignal = signal([]);
 export const permissible = signal([
     {
         "activity": "Dashboard",
