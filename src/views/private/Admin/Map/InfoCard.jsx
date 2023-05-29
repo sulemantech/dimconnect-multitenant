@@ -90,7 +90,7 @@ const Component = ({ modal = false, presegment = null,val }) => {
                     })
                 }
                 }catch(err){
-                    console.log(err)
+                  
                     distinct.pop()
                 }
             }

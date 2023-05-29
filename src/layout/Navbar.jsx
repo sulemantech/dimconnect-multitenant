@@ -5,6 +5,7 @@ import { useLayoutEffect } from "preact/hooks"
 import { Tooltip } from "@mantine/core"
 
 import { collapsed } from "../signals"
+import PermissionWrapper from "../providers/PermissionsProvider"
 
 export default () => {
 
@@ -43,7 +44,7 @@ export default () => {
 
             <div className="flex-grow">
                 {
-                    privateRoutes?.map((route, index) => <RouteComponent path={route.path} label={route.label} icon={route.icon} />)
+                    privateRoutes?.map((route, index) => <PermissionWrapper permission={route.permission} view><RouteComponent path={route.path} label={route.label} icon={route.icon} /></PermissionWrapper>)
                 }
             </div>
             {/* Collapse Rounded Button */}

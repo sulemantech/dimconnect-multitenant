@@ -1,15 +1,12 @@
-import { Avatar, Group, Menu, Select, Burger } from "@mantine/core"
+import { Avatar, Group, Menu, Select, Burger, Box } from "@mantine/core"
 import { IconLogout } from "@tabler/icons"
-import { useContext, useEffect } from "preact/hooks"
+import { useContext, useEffect,useState } from "preact/hooks"
 import { useRouter, route, } from "preact-router"
-import { useShallowEffect } from "@mantine/hooks"
+
 
 import appConfig from "../config/appConfig"
 import { AuthState } from "../providers/AuthProvider"
-import { collapsed,dropvalue } from "../signals"
-
-
-
+import { collapsed,dropvalue,userDataSignal } from "../signals"
 
 
 
@@ -189,8 +186,11 @@ export const tilesAvailable = [
 
 
 export default () => {
+  
   const router = useRouter()
   const auth = useContext(AuthState)
+  const [userData , setUserData] = useState(null)
+  const [isOpen, setIsOpen] = useState(false)
   const logout = () => {
     sessionStorage.removeItem(appConfig.sessionStorageKey)
     auth.setAuth(false)
@@ -199,7 +199,7 @@ export default () => {
 
   const currentRoute = router[0].path
 
-  useEffect(() => {
+ 
     let firstPageLoad = true
     dropvalue.subscribe((value) => {
       if (firstPageLoad && currentRoute !== '/map') {
@@ -209,15 +209,21 @@ export default () => {
       const parentRoute = router?.[0]?.path?.replace('/:ags', '') || ''
       route(`${parentRoute}/${value}${window.location.hash}`)
     })
-  }, [])
-  useShallowEffect(() => {
-    if (router[0].matches?.ags) {
-      dropvalue.value = router[0].matches.ags
-    } else {
-      const parentRoute = router?.[0]?.path?.replace('/:ags', '') || ''
-      // route(`${parentRoute}/${dropvalue.value}${window.location.hash}`)
-    }
-  }, [])
+    collapsed.subscribe(setIsOpen)
+   
+    userDataSignal.subscribe(value => {
+     
+      setUserData(value)
+    })
+  
+  // useShallowEffect(() => {
+  //   if (router[0].matches?.ags) {
+  //     dropvalue.value = router[0].matches.ags
+  //   } else {
+  //     const parentRoute = router?.[0]?.path?.replace('/:ags', '') || ''
+  //     // route(`${parentRoute}/${dropvalue.value}${window.location.hash}`)
+  //   }
+  // }, [])
 
   return (
     <div className="absolute z-[100] shadow-lg border-white border-solid border-2 items-center right-0 left-0 m-2 rounded-2xl top-0 h-20  flex px-4 bg-[#0071b9] ">
@@ -228,7 +234,7 @@ export default () => {
         className="mr-4"
         color="white"
         size="sm"
-        opened={collapsed.value}
+        opened={isOpen}
       />
 
       <div className="flex-grow font-thin text-white text-lg">
@@ -245,13 +251,14 @@ export default () => {
 
       <Select
         className="ml-4"
-        radius="xl"
-        size="sm"
-        placeholder="Select"
+        radius="lg"
+        size="xs"
+        placeholder="Select AGS"
         searchable
         autoComplete="on"
         data={tilesAvailable}
-        sx={{ width: 200 }}
+        // data={userData?.value?.gebietskoerperschaft || []}
+        sx={{ width: 350 }}
         defaultValue={dropvalue.value}
         onChange={(value) => {
           dropvalue.value = value
@@ -265,16 +272,115 @@ export default () => {
         transition="pop-top-right"
 
       >
+        {/* agreement_signed
+: 
+null
+ags
+: 
+"071325003"
+ags_right
+: 
+2
+api_token
+: 
+"b4250ec9-c400-472f-9c4d-e26359917faf"
+api_token_expires_at
+: 
+"2023-02-22T11:45:29.000Z"
+created_at
+: 
+"2021-10-27T15:56:35.000Z"
+created_by_id
+: 
+null
+email
+: 
+"wifi-test1@rlp.dev-tuv.de"
+gebietskoerperschaft
+: 
+ags
+: 
+"071325003"
+groupId
+: 
+"020_Altenkirchen_Daaden-Herdorf"
+isEditor
+: 
+true
+name
+: 
+"Daaden-Herdorf"
+type
+: 
+"Verbandsgemeinde"
+[[Prototype]]
+: 
+Object
+geschlecht
+: 
+"m"
+id
+: 
+670
+institution
+: 
+null
+isSuper
+: 
+true
+nachname
+: 
+"-"
+password
+: 
+null
+refres_token_valid
+: 
+null
+refresh_token
+: 
+"$2a$10$tgLLxixv3YuQQX/mrb1e9OLjNlaS1pTG1DxfUMspHYizhGZozTInS"
+refresh_token_expires_at
+: 
+"2023-06-05T10:48:34.379Z"
+roles
+: 
+{1: 'ROLE_DIM_VIEWER'}
+titel
+: 
+null
+updated_at
+: 
+"2022-03-01T13:48:05.000Z"
+updated_by_id
+: 
+40
+valid
+: 
+true */}
         <Menu.Target>
           <div className="items-center flex cursor-pointer hover:scale-105 transition-all">
             <Group color="white" spacing={7}>
-              <Avatar size='md' radius="xl" />
+              <Avatar size='md' radius="lg" />
 
 
             </Group>
           </div>
         </Menu.Target>
         <Menu.Dropdown>
+
+          <Box className="p-4">
+            <div className="flex items-center">
+              <Avatar size='md' radius="lg" />
+              <div className="ml-4">
+                <h6 className="text-sm font-semibold">{userData?.nachname} {userData?.vorname}</h6>
+                <p className="text-xs text-gray-500">{userData?.email}</p>
+              </div>
+            </div>
+          </Box>
+          <Menu.Divider />
+         
+
 
           <Menu.Item color="red" icon={<IconLogout size={14} stroke={1.5} />} onClick={logout}>
             Logout

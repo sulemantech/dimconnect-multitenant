@@ -62,3 +62,7 @@ export const getCurrentUserPermissions = () => api.get(`/permission/current-user
 
 // POST: roles/with-permissions
 export const createRoleWithPermissions = (data) => api.post(`/roles/with-permissions`, data)
+
+
+
+export const assignRolesToUser = (userId, data) => api.post(`/user/assign-roles/${userId}`, data)

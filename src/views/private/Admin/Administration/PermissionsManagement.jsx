@@ -7,6 +7,8 @@ import CustomTable from "../../../../components/CustomTable"
 import { createRole, createRoleWithPermissions, deleteRole, editRole, getAccessList, getRoles } from "../../../../api";
 import { permissible } from "../../../../signals";
 import { openDrawer } from "../../../../providers/DrawerProvider";
+import PermissionWrapper from "../../../../providers/PermissionsProvider";
+import { PERMISSIONS } from "../../../../common";
 
 export default () => {
 
@@ -44,6 +46,7 @@ export default () => {
 
 
     return (
+        <PermissionWrapper permission={PERMISSIONS["Roles Management"]} view message>
         <PageProvider>
             <div className="">
 
@@ -167,6 +170,7 @@ export default () => {
                 </Card>
             </div>
         </PageProvider>
+        </PermissionWrapper>
     )
 }
 

@@ -2,6 +2,8 @@ import { Suspense, lazy } from "preact/compat"
 import PageProvider from "../../../../providers/PageProvider"
 import { Badge, Skeleton } from "@mantine/core"
 import MapElements from "./MapElements"
+import PermissionWrapper from "../../../../providers/PermissionsProvider"
+import { PERMISSIONS } from "../../../../common"
 const MaterialCount = lazy(() => import("./MaterialCount"))
 const CostInfo = lazy(() => import("./CostInfo"))
 const CostInfoChart = lazy(() => import("./CostInfoChart"))
@@ -10,7 +12,7 @@ const Tickets = lazy(() => import("./Tickets"))
 
 const Dashboard = () => {
   return (
-
+    <PermissionWrapper permission={PERMISSIONS.Dashboard} view>
     <PageProvider>
      
       <div className="flex flex-col md:flex-row">
@@ -84,7 +86,7 @@ const Dashboard = () => {
       </div>
     
     </PageProvider>
-
+    </PermissionWrapper>
   )
 }
 

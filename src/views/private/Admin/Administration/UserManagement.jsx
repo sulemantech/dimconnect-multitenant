@@ -1,12 +1,14 @@
 import PageProvider from "../../../../providers/PageProvider"
 import CustomTable from "../../../../components/CustomTable"
-import { ActionIcon, Alert, Button, Card, CardSection, Chip, Divider, Loader, Pagination, Select, Text, Title } from "@mantine/core"
-import { createUser, deleteUser, editUser, getRoles, getUsers } from "../../../../api";
+import { ActionIcon, Alert, Badge, Button, Card, CardSection, Chip, Divider, Loader, MANTINE_COLORS, MultiSelect, Pagination, Select, Text, Title } from "@mantine/core"
+import { assignRolesToUser, createUser, deleteUser, editUser, getRoles, getUsers } from "../../../../api";
 import { useState, useLayoutEffect } from 'preact/hooks'
 import { IconUser, IconUserCheck, IconUserPlus } from "@tabler/icons";
 import { IconUserCancel } from "@tabler/icons-react";
 import { useEffect } from "preact/hooks";
-import { openDrawer } from "../../../../providers/DrawerProvider";
+import { closeDrawer, openDrawer } from "../../../../providers/DrawerProvider";
+import PermissionWrapper from "../../../../providers/PermissionsProvider";
+import { PERMISSIONS } from "../../../../common";
 export default () => {
 
 
@@ -53,6 +55,7 @@ export default () => {
 
 
     return (
+        <PermissionWrapper permission={PERMISSIONS["User Management"]} view message>
         <PageProvider>
             <div className="">
 
@@ -133,13 +136,10 @@ export default () => {
                        
                         newStruct={{
                             data: {
-                                username: '',
+                                vorname: '',
+                                nachname: '',
                                 email: '',
-                                userRole: roles.map((role) => ({
-                                    value: role.id,
-                                    label: role.name
-                                })),
-                                password: '',
+                                agreement_signed: false,
                             },
                             createMethod: createUser,
                             deleteMethod: deleteUser,
@@ -158,6 +158,7 @@ export default () => {
                 </Card>
             </div>
         </PageProvider>
+        </PermissionWrapper>
     )
 }
 
@@ -171,12 +172,18 @@ const AssignRole = ({ user, roles, refreshData }) => {
     const [loading, setLoading] = useState(false)
     const [message, setMessage] = useState('')
     const assignRole = async () => {
+        const temp = {}
+        selectedRole.forEach((role) => {
+            temp[role] = roles.find((r) => r.id === role).name
+        })
+        
         setLoading(true)
         try {
-            const res = await assi(user.id, { userRole: selectedRole })
+            const res = await assignRolesToUser(user.id, temp )
             setSuccess(true)
             setMessage(res.message)
             refreshData()
+            closeDrawer()
         } catch (err) {
             setError(true)
             setMessage(err.message)
@@ -188,6 +195,7 @@ const AssignRole = ({ user, roles, refreshData }) => {
     }
         , [])
     return (
+        <PermissionWrapper permission={PERMISSIONS["User Management"]}>
         <div className="flex flex-col">
             <div className="flex flex-col">
 
@@ -214,12 +222,13 @@ const AssignRole = ({ user, roles, refreshData }) => {
 
                 <Title size={'sm'} mt={20}>Select Role</Title>
                
-                <Select
+                <MultiSelect
                     className="mt-1"
-                    data={roles?.map((role) => ({
+                    data={roles?.map((role,index) => ({
                         value: role.id,
-                        label: role.name
+                        label: <Badge color={MANTINE_COLORS[index]}>{role.name}</Badge>,
                     }))}
+                   
                     value={selectedRole}
                     onChange={(e) => setSelectedRole(e)}
                 />
@@ -242,5 +251,8 @@ const AssignRole = ({ user, roles, refreshData }) => {
                 <Alert severity="success">{message}</Alert>
             </div>}
         </div>
+        </PermissionWrapper>
     )
 }
+
+

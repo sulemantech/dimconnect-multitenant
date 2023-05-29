@@ -8,7 +8,7 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import { closeDrawer, openDrawer } from "../providers/DrawerProvider";
 import { useCallback } from 'preact/hooks'
 import { showNotification } from "@mantine/notifications";
-import { cloneElement } from "preact";
+import { isValidElement } from "preact";
 export default ({ children, data, attributes = [], newStruct = {}, refreshData, edit = false, remove = false, attatchment = false }) => { // as {"id":25,"name":"HO1V","min":"25","max":"55"}[]
 
     const [sort, setSort] = useState({ field: "name", order: "asc" });
@@ -34,7 +34,7 @@ export default ({ children, data, attributes = [], newStruct = {}, refreshData, 
 
             if (creationform[i].getAttribute('data-type') == 'array') {
                 values[creationform[i].getAttribute('data-key')] = formdata.forEach((value, key) => {
-                    console.log(value, key)
+                   
                 })
                 // values[creationform[i].getAttribute('data-key')] = formdata.get(creationform[i].getAttribute('data-key')).split(',').map(item => item.trim())
            } else if (creationform[i].getAttribute('data-main-key')) {
@@ -70,10 +70,6 @@ export default ({ children, data, attributes = [], newStruct = {}, refreshData, 
         }
 
         
-
-
-        console.log(values)
-        return
         newStruct.createMethod(values).then((res) => {
             setsubmitLoading(false)
             refreshData()
@@ -270,7 +266,7 @@ export default ({ children, data, attributes = [], newStruct = {}, refreshData, 
                                                 attributes?.map((attr) => {
                                                     return (
                                                         <td key={attr + 'hgrui'} className="px-6 text-left py-4 whitespace-nowrap text-sm text-gray-500">
-                                                            {Array.isArray(item[attr]) ? item[attr].map((i) => i.name).join(', ') : item[attr]}
+                                                            {Array.isArray(item[attr]) ? item[attr].map((i) => i.name).join(', ') : (isObject(item[attr]) ? Object.values(item[attr]).join(', ') : item[attr])}
                                                         </td>
                                                     )
                                                 }
@@ -370,7 +366,7 @@ const EditForm = ({ item, newStruct, children }) => {
         for (var pair of data.entries()) {
             values[pair[0]] = pair[1]
         }
-        console.log(values);
+       
     }
 
     try {
@@ -565,4 +561,9 @@ const AttatchmentForm = ({ item, newStruct }) => {
             </div>
         </div>
     )
+}
+
+const isObject = (obj) => {
+    // return true or false and check if not react component
+    return obj !== null && typeof obj === 'object' && !isValidElement(obj);
 }

@@ -5,10 +5,17 @@ export const districts = signal({})
 export const mapClickBindings = signal({})
 export const collapsed = signal(false)
 export const costInfoData = signal(null);
-
+export const userDataSignal = signal(null);
 export const permissible = signal([
     {
         "activity": "Dashboard",
+        "add": false,
+        "view": false,
+        "edit": false,
+        "delete": false
+    },
+    {
+        "activity": "Administration",
         "add": false,
         "view": false,
         "edit": false,
