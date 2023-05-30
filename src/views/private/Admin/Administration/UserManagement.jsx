@@ -23,7 +23,8 @@ export default () => {
         try {
             const rolesx = await getRoles().catch(e => setRoles([]));
             setRoles(rolesx.data.roles)
-        
+            
+            
             const users = await getUsers().catch(e => setData([]))
             setData(users.data.map(user => ({
                 ...user,
@@ -51,7 +52,9 @@ export default () => {
         getData()
     }
 
-    useLayoutEffect(getData, [])
+    useLayoutEffect(()=>{
+        getData()
+    }, [])
 
 
     return (
@@ -164,7 +167,7 @@ export default () => {
 
 
 const AssignRole = ({ user, roles, refreshData }) => {
-    
+   
     const [selectedRole, setSelectedRole] = useState(user.userRole)
     const [ready, setReady] = useState(false)
     const [error, setError] = useState(false)
@@ -195,7 +198,7 @@ const AssignRole = ({ user, roles, refreshData }) => {
     }
         , [])
     return (
-        <PermissionWrapper permission={PERMISSIONS["User Management"]}>
+        <PermissionWrapper permission={PERMISSIONS["User Management"]} add>
         <div className="flex flex-col">
             <div className="flex flex-col">
 

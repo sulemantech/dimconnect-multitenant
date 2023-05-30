@@ -14,6 +14,7 @@ const WebViewFooter = lazy(() => import('./WebViewFooter'))
 
 
 import { dropvalue } from "../../../signals"
+import PermissionWrapper from "../../../providers/PermissionsProvider"
 
 export default () => {
     useScrollLock(true);
@@ -34,15 +35,22 @@ export default () => {
                 {
                     ags && client === 'ios' ?
                         <div className="flex relative flex-col h-full">
+                            <PermissionWrapper permission="Map" view>
                             <MapView /> 
+                            </PermissionWrapper>
                             {!statusPage && !apvPage &&
                             <BottomRight>
                                 <>
                                     <div className="mb-20">
                                         <OverlayControl modal/>
                                         <BaseMapControl modal/>
+                                        <PermissionWrapper permission="Map" add>
+
                                         <AddControl  />
+                                        </PermissionWrapper>
+                                        <PermissionWrapper permission="Map" edit>
                                         <EditControl modal/>
+                                        </PermissionWrapper>
                                     </div>
                                    
                                 </>
