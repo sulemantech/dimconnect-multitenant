@@ -17,8 +17,10 @@ import appConfig from '../../../../config/appConfig';
 
 const Gpx = lazy(() => import('./Gpx'));
 
-import { mapClickBindings,addressPointsCRUDstate ,infoCardVal,visibility,mapStyle,additionalInteractiveLayers} from '../../../../signals';
+import { mapClickBindings,addressPointsCRUDstate ,infoCardVal,visibility,mapStyle,additionalInteractiveLayers, mapSignal} from '../../../../signals';
+import ExtraViewables from './ExtraViewables';
 
+let mapFirstRender = false
 
 export default ({ children }) => {
   const [basemap, setBasemap] = useState('https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json')
@@ -61,6 +63,13 @@ export default ({ children }) => {
       mapLib={maplibregl}
       mapStyle={basemap}
       trackResize={true}
+      onRender={({ target }) => {
+        if (!mapFirstRender) {
+        console.log('map loaded')
+        mapSignal.value = target
+        mapFirstRender = true
+        }
+      }}
       antialias={true}
       optimizeForTerrain={true}
       workerCount={4}
@@ -93,6 +102,7 @@ export default ({ children }) => {
 
         <AddressPoints />
         <SearchControl />
+        <ExtraViewables />
         <MapControls />
         <ScaleControl position='bottom-right' maxWidth={200} unit='metric' />
         {/* <CustomLayerPanel /> */}

@@ -5,62 +5,59 @@ import { Loader } from "@mantine/core";
 
 import { costInfoData } from "../../../../signals";
 
-
 ChartJS.register(ArcElement, Tooltip, Legend);
-
-
-
-
 
 export default () => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    costInfoData.subscribe((data) => {
-      setData(data);
-    });
-  }, [])
+  useEffect(
+    () => {
+      costInfoData.subscribe((data) => {
+        setData(data);
+      })
+    }, []
+  )
 
   if (loading) {
     return <div className='flex justify-center h-full items-center'><Loader size='lg' /></div>
   }
 
   return <div className="w-full h-[350px] flex justify-center items-center">
-  <Doughnut data={{
-    labels: ['Feeder Cable Cost', 'PRM Distribution Cable Cost', 'Distribution Cable Cost', 'Duct Cost', 'Home Activation Cost'],
-    datasets: [
-      {
-        label: 'Cost',
-        data: [parseFloat(data?.feeder_cable_cost), parseFloat(data?.prm_distrb_cable_cost), parseFloat(data?.distrb_cable_cost), parseFloat(data?.duct_cost), parseFloat(data?.home_activation_cost)],
-        backgroundColor: [
-          '#FF6384',
-          '#36A2EB',
-          '#FFCE56',
-          '#00a0e9',
-          '#0071b9',
-        ],
-        hoverBackgroundColor: [
-          '#FF6384',
-          '#36A2EB',
-          '#FFCE56',
-          '#00a0e9',
-          '#0071b9',
-        ],
-      },
-    ],
+    <Doughnut data={{
+      labels: ['Feeder Cable Cost', 'PRM Distribution Cable Cost', 'Distribution Cable Cost', 'Duct Cost', 'Home Activation Cost'],
+      datasets: [
+        {
+          label: 'Cost',
+          data: [parseFloat(data?.feeder_cable_cost), parseFloat(data?.prm_distrb_cable_cost), parseFloat(data?.distrb_cable_cost), parseFloat(data?.duct_cost), parseFloat(data?.home_activation_cost)],
+          backgroundColor: [
+            '#FF6384',
+            '#36A2EB',
+            '#FFCE56',
+            '#00a0e9',
+            '#0071b9',
+          ],
+          hoverBackgroundColor: [
+            '#FF6384',
+            '#36A2EB',
+            '#FFCE56',
+            '#00a0e9',
+            '#0071b9',
+          ],
+        },
+      ],
 
-  }} 
-   options={{
-    responsive: true,
-    maintainAspectRatio: false,
-    legend: {
-      display: false,
+    }}
+      options={{
+        responsive: true,
+        maintainAspectRatio: false,
+        legend: {
+          display: false,
           labels: {
-              display: false
+            display: false
           }
-      }
-  
-   }}
-  />
+        }
+
+      }}
+    />
   </div>
 }

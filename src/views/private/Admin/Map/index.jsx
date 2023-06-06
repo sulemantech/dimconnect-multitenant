@@ -1,9 +1,10 @@
-import { Suspense, lazy } from 'preact/compat'
+import { lazy } from 'preact/compat'
 import { useScrollLock } from '@mantine/hooks'
 
 import { BottomLeft, BottomRight } from '../../../../layout/Fixed'
 import PermissionWrapper from '../../../../providers/PermissionsProvider'
 import { PERMISSIONS } from '../../../../common'
+import { ExtraViewableControl } from './ExtraViewables'
 const Map = lazy(() => import('./Map'))
 const BaseMapControl = lazy(() => import('./BaseMapControl'))
 const OverlayControl = lazy(() => import('./OverlayControl'))
@@ -22,6 +23,7 @@ export default () => {
             <div>
               <OverlayControl modal={window.innerWidth < 768} />
               <BaseMapControl modal={window.innerWidth < 768} />
+              <ExtraViewableControl modal={window.innerWidth < 768} />
               <PermissionWrapper permission={PERMISSIONS.Map} add>
 
                 <AddControl modal={window.innerWidth < 768} />
