@@ -1,13 +1,13 @@
 
-import { Divider, Menu } from "@mantine/core"
-import { IconEye, IconBarrierBlock, IconPlus, IconRoad, } from "@tabler/icons"
+import { Divider, LoadingOverlay, Menu } from "@mantine/core"
+import { IconEye, IconBarrierBlock, IconRoad, } from "@tabler/icons"
 import { closeAllModals, openModal } from "@mantine/modals"
 import { useState, useEffect } from "preact/hooks"
 import { BarrierState, dropvalue, mapSignal, roadandwaterstate } from "../../../../signals"
 import { FabClass } from "../../../../layout"
-import { useMap } from "react-map-gl"
 import { useDidUpdate } from "@mantine/hooks"
 import { getBoundaries } from "../../../../api"
+import { Layer, Source } from "react-map-gl"
 
 const barrierLayers = {
     "road_service_case": {
@@ -169,55 +169,60 @@ const Barriers = () => {
     const [map, setMap] = useState(null)
     const [data, setData] = useState(null)
     const [ags, setAgs] = useState(null)
+    const [loading, setLoading] = useState(false)
     useEffect(() => {
         BarrierState.subscribe(setVisible)
         mapSignal.subscribe(setMap)
         dropvalue.subscribe(setAgs)
     }, [])
     useDidUpdate(() => {
+        if (!visible) return
         if (!data?.[ags]) {
+            setLoading(true)
             getBoundaries(ags).then((res) => {
-                setData({ ...data, [ags]: res.data })
+
+                setData((prev) => ({ ...prev, [ags]: res.data }))
+                setLoading(false)
             })
         }
-    }, [visible,ags])
-    useDidUpdate(() => {
-        if (data?.[ags]) {
-            // add source with polygon filter
-            map.addSource(`barrier-source-${ags}`, {
-                type: 'geojson',
-                data: data?.[ags],
-                generateId: true,
-                promoteId: 'id',
-                buffer: 0
-            });
-            // add layer with polygon filter
-            map.addLayer({
-                'id': `barrier-layer-${ags}`,
-                'type': 'fill',
-                'source': `barrier-source-${ags}`,
-                'paint': {
-                    'fill-color': '#fdebce',
-                    'fill-opacity': 0.5
-                },
-                'filter': ['==', '$type', 'Polygon']
-            });
-            // add layer with line filter
-            map.addLayer({
-                'id': `barrier-line-${ags}`,
-                'type': 'line',
-                'source': `barrier-source-${ags}`,
-                'paint': {
-                    'line-color': '#fdebce',
-                    'line-width': 2
-                },
-                'filter': ['==', '$type', 'LineString']
-            });
-        }
-    }, [data])
+    }, [visible, ags])
 
-                
-    return null
+
+    if (loading) return <LoadingOverlay visible />
+    return (
+        <>
+            {
+                visible && data?.[ags] && <> <Source id="barriers" type="geojson" data={{
+                    type: "FeatureCollection",
+                    features: data?.[ags].filter((item) => item.geometry.type === "LineString")
+                }}>
+                    <Layer id="barriers" type="line" paint={{
+                        "line-color": "red",
+                        "line-width": 2
+                    }} />
+                </Source>
+                    <Source id="barriers-polygon" type="geojson" data={{
+                        type: "FeatureCollection",
+                        features: data?.[ags].filter((item) => item.geometry.type === "Polygon")
+                    }}>
+                        <Layer id="barriers-polygon" type="fill" paint={{
+                            "fill-color": "red",
+                            "fill-opacity": 0.5
+                        }} />
+                    </Source>
+                    <Source id="barriers-polygon" type="geojson" data={{
+                        type: "FeatureCollection",
+                        features: data?.[ags].filter((item) => item.geometry.type === "Point")
+                    }}>
+                        <Layer id="barriers-polygon" type="circle" paint={{
+                            "circle-color": "red",
+                            "circle-radius": 5
+                        }} />
+                    </Source>
+                </>
+            }
+        </>
+    )
 }
 
 
