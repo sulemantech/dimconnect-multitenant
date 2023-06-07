@@ -91,7 +91,7 @@ export const addressPointsCRUDstate = signal('')
 export const visibility = signal(null)
 export const photoVisibility = signal(true)
 
-export const mapStyle = signal('https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json')
+export const mapStyle = signal('https://basemaps.cartocdn.com/gl/positron-gl-style/style.json')
 export const mapSignal = signal(null)
 export const additionalInteractiveLayers = signal(['addressPoints'])
 
@@ -198,3 +198,4 @@ export const infoCardVal = signal(null)
 
 export const BarrierState = signal(false)
 export const roadandwaterstate = signal(false)
+export const equipmentState = signal(false)

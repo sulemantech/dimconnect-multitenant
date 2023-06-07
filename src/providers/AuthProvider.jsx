@@ -8,8 +8,8 @@ import { lazy } from 'preact/compat'
 
 // import PrivateRoutes from '../routes/PrivateRoutes'
 const PrivateRoutes = lazy(() => import('../routes/PrivateRoutes'))
-// import PublicRoutes from '../routes/PublicRoutes'
-const PublicRoutes = lazy(() => import('../routes/PublicRoutes'))
+import PublicRoutes from '../routes/PublicRoutes'
+// const PublicRoutes = lazy(() => import('../routes/PublicRoutes'))
 
 import api, { getAccessList, getCurrentUserPermissions, getRegionList, refreshAuth } from '../api'
 import appConfig from '../config/appConfig'

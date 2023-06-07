@@ -127,29 +127,29 @@ export const TilesView = ({ tileData, id }) => {
                                         
                                         if (layer.layer == dropvalue.value+'_OUT_DistributionCables') {
                                             return {
-                                                "line-color": "red",
+                                                "line-color": "orange",
                                                 "line-opacity": 0.7,
-                                                "line-width": ["interpolate", ["linear"], ["zoom"], 14, 1, 18, 4],
+                                                "line-width": ["interpolate", ["linear"], ["zoom"], 14, 2, 18, 4],
                                             }
                                         }
                                         else if (layer.layer == dropvalue.value+'_OUT_FeederCables') {
                                             return {
                                                 "line-color": "purple",
                                                 "line-opacity": 0.7,
-                                                "line-width": ["interpolate", ["linear"], ["zoom"], 14, 2, 18, 6],
+                                                "line-width": ["interpolate", ["linear"], ["zoom"], 14, 3, 18, 6],
                                             }
                                         }
                                         else if (layer.layer == dropvalue.value+'_OUT_PrimDistributionCables') {
                                             return {
                                                 "line-color": "blue",
                                                 "line-opacity": 0.7,
-                                                "line-width": ["interpolate", ["linear"], ["zoom"], 14, 0.5, 18, 2],
+                                                "line-width": ["interpolate", ["linear"], ["zoom"], 14, 1, 18, 2],
                                             }
                                         } else {
                                             return {
-                                                "line-color": "grey",
+                                                "line-color": "yellow",
                                                 "line-opacity": 0.7,
-                                                "line-width": ["interpolate", ["linear"], ["zoom"], 14, 0, 18, 1],
+                                                "line-width": ["interpolate", ["linear"], ["zoom"], 14, 0.5, 18, 1],
                                             }
                                         }
 

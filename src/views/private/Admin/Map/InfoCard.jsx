@@ -235,7 +235,7 @@ const CustomSegmentedControl = ({ data, value, onChange }) => {
         setTimeout(() => {
             onChange(segment)
 
-        }, 100)
+        }, 10)
     }, [segment])
 
     return (

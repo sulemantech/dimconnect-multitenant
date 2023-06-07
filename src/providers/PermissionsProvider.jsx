@@ -26,7 +26,7 @@ const PermissionWrapper = ({ permission, children, add = false, edit = false, vi
 
 
     return (
-        <Suspense fallback={<LoadingOverlay visible />}>
+       <>
             {
             hasPermission ? children : <>
                {showError ? <div className='h-full w-full flex items-center justify-center '>
@@ -51,7 +51,7 @@ const PermissionWrapper = ({ permission, children, add = false, edit = false, vi
 
             </>
             }
-        </Suspense>
+      </>
     );
 };
 

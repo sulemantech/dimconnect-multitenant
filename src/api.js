@@ -71,3 +71,4 @@ export const assignRolesToUser = (userId, data) => api.post(`/user/assign-roles/
 export const getRegionList = () => api.get(`/region/list`)
 export const getRegionListByAGS = (ags) => api.get(`/region/list/${ags}`)
 export const getBoundaries = (districtId) => api.get(`netzplanning/boundries/${districtId}`)
+export const getEquipment = (districtId,minX, minY, maxX, maxY) => api.get(`netzplanning/point-lookup/${districtId}/${minX}/${minY}/${maxX}/${maxY}`)

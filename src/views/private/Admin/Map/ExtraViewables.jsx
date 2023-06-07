@@ -1,13 +1,15 @@
 
 import { Divider, LoadingOverlay, Menu } from "@mantine/core"
-import { IconEye, IconBarrierBlock, IconRoad, } from "@tabler/icons"
+import { IconEye, IconBarrierBlock, IconRoad, IconTools, } from "@tabler/icons"
 import { closeAllModals, openModal } from "@mantine/modals"
 import { useState, useEffect } from "preact/hooks"
-import { BarrierState, dropvalue, mapSignal, roadandwaterstate } from "../../../../signals"
+import { BarrierState, dropvalue, mapSignal, roadandwaterstate ,equipmentState, districts} from "../../../../signals"
 import { FabClass } from "../../../../layout"
 import { useDidUpdate } from "@mantine/hooks"
-import { getBoundaries } from "../../../../api"
+import { getBoundaries, getEquipment } from "../../../../api"
 import { Layer, Source } from "react-map-gl"
+import { bbox } from "@turf/turf"
+import proj4 from "proj4"
 
 const barrierLayers = {
     "road_service_case": {
@@ -164,6 +166,80 @@ const RoadsAndWater = () => {
     return null
 }
 
+const Equipments = () => {
+    const [visible, setVisible] = useState(false)
+    const [map, setMap] = useState(null)
+    const [data, setData] = useState(null)
+    const [ags, setAgs] = useState(null)
+    const [loading, setLoading] = useState(false)
+    useEffect(() => {
+        equipmentState.subscribe(setVisible)
+        mapSignal.subscribe(setMap)
+        dropvalue.subscribe(setAgs)
+    }, [])
+    useDidUpdate(() => {
+        if (!visible) return
+        if (!data?.[ags]) {
+
+            if (!districts.value.hasOwnProperty('features')) return
+            setLoading(true)
+            
+            const dd = districts.value?.features?.find(district => district.properties?.c == ags)
+            const bboxDD = bbox(dd)
+            const epsgeur = '+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs'
+            const epsg4326 = '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'
+
+            const bboxDD4326 = proj4( epsg4326,epsgeur, [bboxDD[0], bboxDD[1]]).concat(proj4( epsg4326,epsgeur, [bboxDD[2], bboxDD[3]]))
+            
+            const [minX, minY, maxX, maxY] = bboxDD4326
+
+            getEquipment(ags, minX, minY, maxX, maxY).then(res => {
+
+                setData((prev) => ({ ...prev, [ags]: res.data }))
+                setLoading(false)
+            })
+        }
+    }, [visible, ags])
+
+
+    if (loading) return <LoadingOverlay visible />
+    return (
+        <>
+            {
+                visible && data?.[ags] && <> <Source id="barriers" type="geojson" data={{
+                    type: "FeatureCollection",
+                    features: data?.[ags].filter((item) => item.geometry.type === "LineString")
+                }}>
+                    <Layer id="barriers" type="line" paint={{
+                        "line-color": "red",
+                        "line-width": 4,
+                        "line-opacity": 0.4
+                    }} />
+                </Source>
+                    <Source id="barriers-polygon" type="geojson" data={{
+                        type: "FeatureCollection",
+                        features: data?.[ags].filter((item) => item.geometry.type === "Polygon")
+                    }}>
+                        <Layer id="barriers-polygon" type="fill" paint={{
+                            "fill-color": "red",
+                            "fill-opacity": 0.4
+                        }} />
+                    </Source>
+                    <Source id="barriers-polygon" type="geojson" data={{
+                        type: "FeatureCollection",
+                        features: data?.[ags].filter((item) => item.geometry.type === "Point")
+                    }}>
+                        <Layer id="barriers-polygon" type="circle" paint={{
+                            "circle-color": "red",
+                            "circle-radius": 20
+                        }} />
+                    </Source>
+                </>
+            }
+        </>
+    )
+}
+
 const Barriers = () => {
     const [visible, setVisible] = useState(false)
     const [map, setMap] = useState(null)
@@ -198,7 +274,8 @@ const Barriers = () => {
                 }}>
                     <Layer id="barriers" type="line" paint={{
                         "line-color": "red",
-                        "line-width": 2
+                        "line-width": 4,
+                        "line-opacity": 0.4
                     }} />
                 </Source>
                     <Source id="barriers-polygon" type="geojson" data={{
@@ -207,7 +284,7 @@ const Barriers = () => {
                     }}>
                         <Layer id="barriers-polygon" type="fill" paint={{
                             "fill-color": "red",
-                            "fill-opacity": 0.5
+                            "fill-opacity": 0.4
                         }} />
                     </Source>
                     <Source id="barriers-polygon" type="geojson" data={{
@@ -216,7 +293,7 @@ const Barriers = () => {
                     }}>
                         <Layer id="barriers-polygon" type="circle" paint={{
                             "circle-color": "red",
-                            "circle-radius": 5
+                            "circle-radius": 20
                         }} />
                     </Source>
                 </>
@@ -233,6 +310,7 @@ export default () => {
         <>
             <RoadsAndWater />
             <Barriers />
+            <Equipments />
         </>
     )
 }
@@ -262,7 +340,19 @@ export const ExtraViewableControl = ({ modal = false, webview = false }) => {
             "antiMethod": () => {
                 BarrierState.value = false
             }
-        }
+        },
+        'Equipment': {
+            icon: <IconTools className="scale-110 text-[#0071b9] " />,
+            selectable: true,
+            "method": () => {
+                equipmentState.value = true
+            }
+            ,
+            "antiMethod": () => {
+                equipmentState.value = false
+            }
+        },
+
 
     }
 
