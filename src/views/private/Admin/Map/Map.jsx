@@ -98,7 +98,7 @@ export default ({ children }) => {
         }
       }}
     >
-      <Suspense fallback={<LoadingOverlay visible />}>
+    
 
         <AddressPoints />
         <SearchControl />
@@ -115,7 +115,7 @@ export default ({ children }) => {
         {/* <Netzplanning /> */}
         <DistrictPhase grouped />
         <CRUDAddressPoint />
-      </Suspense>
+    
     </Map>
   );
 
