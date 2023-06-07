@@ -1,4 +1,4 @@
-import { lazy } from 'preact/compat'
+import { lazy,Suspense } from 'preact/compat'
 import { useScrollLock } from '@mantine/hooks'
 
 import { BottomLeft, BottomRight } from '../../../../layout/Fixed'
@@ -19,7 +19,7 @@ export default () => {
       <PermissionWrapper permission={PERMISSIONS.Map} view>
         <Map />
         <BottomRight>
-          <>
+          <Suspense fallback={<div>Loading...</div>}>
             <div>
               <OverlayControl modal={window.innerWidth < 768} />
               <BaseMapControl modal={window.innerWidth < 768} />
@@ -32,7 +32,7 @@ export default () => {
                 <EditControl modal={window.innerWidth < 768} />
               </PermissionWrapper>
             </div>
-          </>
+          </Suspense>
         </BottomRight>
         <BottomLeft>
 
