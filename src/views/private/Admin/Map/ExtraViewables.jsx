@@ -274,7 +274,7 @@ const Equipments = () => {
             <Layer id="equipments" type="symbol" layout={{
                 "icon-image": ["get", "legende"],
                 "icon-size": 0.9,
-                "icon-allow-overlap": true
+                "icon-allow-overlap": false
             }} 
                 beforeId="addressPoints"
             />
