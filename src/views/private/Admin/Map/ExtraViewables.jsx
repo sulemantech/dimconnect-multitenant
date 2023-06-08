@@ -1,15 +1,17 @@
 
 import { Divider, LoadingOverlay, Menu } from "@mantine/core"
-import { IconEye, IconBarrierBlock, IconRoad, IconTools, } from "@tabler/icons"
+import { IconEye, IconBarrierBlock, IconRoad, IconTools } from "@tabler/icons"
 import { closeAllModals, openModal } from "@mantine/modals"
-import { useState, useEffect } from "preact/hooks"
-import { BarrierState, dropvalue, mapSignal, roadandwaterstate ,equipmentState, districts} from "../../../../signals"
-import { FabClass } from "../../../../layout"
+import { useState, useEffect,useMemo } from "preact/hooks"
 import { useDidUpdate } from "@mantine/hooks"
-import { getBoundaries, getEquipment } from "../../../../api"
 import { Layer, Source } from "react-map-gl"
-import { bbox } from "@turf/turf"
 import proj4 from "proj4"
+import { bbox } from "@turf/turf"
+
+import { BarrierState, dropvalue, mapSignal, roadandwaterstate, equipmentState, districts } from "../../../../signals"
+import { FabClass } from "../../../../layout"
+import { getBoundaries, getEquipment } from "../../../../api"
+
 
 const barrierLayers = {
     "road_service_case": {
@@ -157,6 +159,7 @@ const barrierLayers = {
 }
 
 
+
 const RoadsAndWater = () => {
     const [visible, setVisible] = useState(false)
     const [map, setMap] = useState(null)
@@ -166,6 +169,17 @@ const RoadsAndWater = () => {
     return null
 }
 
+
+const availableLegende = {
+    5:  "KollSch",
+    6: "PoP",
+    10: "Nvt"
+}
+
+
+
+
+
 const Equipments = () => {
     const [visible, setVisible] = useState(false)
     const [map, setMap] = useState(null)
@@ -174,7 +188,22 @@ const Equipments = () => {
     const [loading, setLoading] = useState(false)
     useEffect(() => {
         equipmentState.subscribe(setVisible)
-        mapSignal.subscribe(setMap)
+        mapSignal.subscribe((value)=>{
+            if(!value) return
+            setMap(value)
+            value.loadImage('/icons/square.png', (error, image) => {
+                if (error) throw error;
+                value.addImage('KollSch', image);
+            });
+            value.loadImage('/icons/house.png', (error, image) => {
+                if (error) throw error;
+                value.addImage('PoP', image);
+            })
+            value.loadImage('/icons/triangle.png', (error, image) => {
+                if (error) throw error;
+                value.addImage('Nvt', image);
+            })
+        })
         dropvalue.subscribe(setAgs)
     }, [])
     useDidUpdate(() => {
@@ -183,17 +212,18 @@ const Equipments = () => {
 
             if (!districts.value.hasOwnProperty('features')) return
             setLoading(true)
-            
+
             const dd = districts.value?.features?.find(district => district.properties?.c == ags)
             const bboxDD = bbox(dd)
             const epsgeur = '+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs'
             const epsg4326 = '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'
 
-            const bboxDD4326 = proj4( epsg4326,epsgeur, [bboxDD[0], bboxDD[1]]).concat(proj4( epsg4326,epsgeur, [bboxDD[2], bboxDD[3]]))
-            
+            const bboxDD4326 = proj4(epsg4326, epsgeur, [bboxDD[0], bboxDD[1]]).concat(proj4(epsg4326, epsgeur, [bboxDD[2], bboxDD[3]]))
+
             const [minX, minY, maxX, maxY] = bboxDD4326
 
             getEquipment(ags, minX, minY, maxX, maxY).then(res => {
+               
 
                 setData((prev) => ({ ...prev, [ags]: res.data }))
                 setLoading(false)
@@ -203,40 +233,52 @@ const Equipments = () => {
 
 
     if (loading) return <LoadingOverlay visible />
+    if (!visible) return null
+    // return (
+    //     <>
+    //         {
+    //             Object.keys(data?.[ags] ?? {}).map((key, index) => {
+                   
+    //                return data?.[ags]?.[key]?.data?.map((coordinates) => {
+    //                     return <MarkerMemo key={coordinates[0]} x={coordinates[0]} y={coordinates[1]} legendeCode={data?.[ags]?.[key]?.id} />
+    //                 })
+    //             })
+    //         }
+    //     </>
+    // )
+
+    const geojson = useMemo(() => {
+        if (!data?.[ags]) return null
+        const features = Object.keys(data?.[ags] ?? {}).map((key, index) => {
+            return data?.[ags]?.[key]?.data?.map((coordinates) => {
+                return {
+                    type: "Feature",
+                    geometry: {
+                        type: "Point",
+                        coordinates
+                    },
+                    properties: {
+                        legende: availableLegende[data?.[ags]?.[key]?.id],
+                    }
+                }
+            })
+        }).flat()
+        return {
+            type: "FeatureCollection",
+            features
+        }
+    })
+
     return (
-        <>
-            {
-                visible && data?.[ags] && <> <Source id="barriers" type="geojson" data={{
-                    type: "FeatureCollection",
-                    features: data?.[ags].filter((item) => item.geometry.type === "LineString")
-                }}>
-                    <Layer id="barriers" type="line" paint={{
-                        "line-color": "red",
-                        "line-width": 4,
-                        "line-opacity": 0.4
-                    }} />
-                </Source>
-                    <Source id="barriers-polygon" type="geojson" data={{
-                        type: "FeatureCollection",
-                        features: data?.[ags].filter((item) => item.geometry.type === "Polygon")
-                    }}>
-                        <Layer id="barriers-polygon" type="fill" paint={{
-                            "fill-color": "red",
-                            "fill-opacity": 0.4
-                        }} />
-                    </Source>
-                    <Source id="barriers-polygon" type="geojson" data={{
-                        type: "FeatureCollection",
-                        features: data?.[ags].filter((item) => item.geometry.type === "Point")
-                    }}>
-                        <Layer id="barriers-polygon" type="circle" paint={{
-                            "circle-color": "red",
-                            "circle-radius": 20
-                        }} />
-                    </Source>
-                </>
-            }
-        </>
+        <Source id="equipments" type="geojson" data={geojson}>
+            <Layer id="equipments" type="symbol" layout={{
+                "icon-image": ["get", "legende"],
+                "icon-size": 0.9,
+                "icon-allow-overlap": true
+            }} 
+                beforeId="addressPoints"
+            />
+        </Source>
     )
 }
 
