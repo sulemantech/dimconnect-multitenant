@@ -1,12 +1,13 @@
-import { Avatar, Group, Menu, Select, Burger, Box } from "@mantine/core"
-import { IconLogout } from "@tabler/icons"
+import { Avatar, Group, Menu, Select, Burger, Box, Breadcrumbs, Anchor } from "@mantine/core"
+import { IconChevronRight, IconLogout } from "@tabler/icons"
 import { useContext, useEffect, useState, useLayoutEffect } from "preact/hooks"
 import { useRouter, route, } from "preact-router"
 
 
 import appConfig from "../config/appConfig"
 import { AuthState } from "../providers/AuthProvider"
-import { collapsed, dropvalue, regsionListSignal, userDataSignal } from "../signals"
+import { dropvalue, regsionListSignal, userDataSignal } from "../signals"
+import { IconArrowBadgeRightFilled } from "@tabler/icons-react"
 
 
 
@@ -194,7 +195,7 @@ export const tilesAvailable = [
 
 export default () => {
 
-  
+
 
   const router = useRouter()
   const auth = useContext(AuthState)
@@ -203,12 +204,12 @@ export default () => {
   const [regsionList, setRegsionList] = useState([])
 
 
-  
-  
+
+
   useLayoutEffect(() => {
-    
-   
-    
+
+
+
     let firstPageLoad = true
 
     const unsub = () => {
@@ -222,7 +223,7 @@ export default () => {
         route(`${parentRoute}/${value}${window.location.hash}`)
       })
 
-      collapsed.subscribe(setIsOpen)
+      
 
       userDataSignal.subscribe(value => {
 
@@ -259,24 +260,14 @@ export default () => {
   // }, [])
 
   return (
-    <div className="absolute z-[100] shadow-lg border-white border-solid border-2 items-center right-0 left-0 m-2 rounded-2xl top-0 h-20  flex px-4 bg-[#0071b9] ">
-      <Burger
-        onClick={() => {
-          collapsed.value = !collapsed.value
-        }}
-        className="mr-4"
-        color="white"
-        size="sm"
-        opened={isOpen}
-      />
+    <div className=" z-[100] shadow-lg right-0 left-0 top-0">
+    <div className=" items-center  h-20 bg-white flex p-2 text-[#0071b9] ">
+      
 
-      <div className="flex-grow font-thin text-white text-lg">
+      <div className="flex-grow font-bold text-[#0071b9] text-lg">
         <h6 className={window.innerWidth < 768 ? 'text-xs' : 'text-lg'}>
           {
-
-            router[0].matches?.ags ? regsionList.find((tile) => tile.value === router[0].matches.ags)?.label
-              :
-              router[0].url.replace('/', '').toUpperCase() || 'DASHBOARD'
+           ( (router[0].path?.split(':'))?.[0]?.replace(/\//g, '') || 'Dashboard' ).toUpperCase()
           }
         </h6>
       </div>
@@ -290,7 +281,7 @@ export default () => {
         searchable
         autoComplete="on"
         data={regsionList}
-
+        color="brand"
         sx={{ width: 350 }}
         defaultValue={dropvalue.value}
         onChange={(value) => {
@@ -305,96 +296,11 @@ export default () => {
         transition="pop-top-right"
 
       >
-        {/* agreement_signed
-: 
-null
-ags
-: 
-"071325003"
-ags_right
-: 
-2
-api_token
-: 
-"b4250ec9-c400-472f-9c4d-e26359917faf"
-api_token_expires_at
-: 
-"2023-02-22T11:45:29.000Z"
-created_at
-: 
-"2021-10-27T15:56:35.000Z"
-created_by_id
-: 
-null
-email
-: 
-"wifi-test1@rlp.dev-tuv.de"
-gebietskoerperschaft
-: 
-ags
-: 
-"071325003"
-groupId
-: 
-"020_Altenkirchen_Daaden-Herdorf"
-isEditor
-: 
-true
-name
-: 
-"Daaden-Herdorf"
-type
-: 
-"Verbandsgemeinde"
-[[Prototype]]
-: 
-Object
-geschlecht
-: 
-"m"
-id
-: 
-670
-institution
-: 
-null
-isSuper
-: 
-true
-nachname
-: 
-"-"
-password
-: 
-null
-refres_token_valid
-: 
-null
-refresh_token
-: 
-"$2a$10$tgLLxixv3YuQQX/mrb1e9OLjNlaS1pTG1DxfUMspHYizhGZozTInS"
-refresh_token_expires_at
-: 
-"2023-06-05T10:48:34.379Z"
-roles
-: 
-{1: 'ROLE_DIM_VIEWER'}
-titel
-: 
-null
-updated_at
-: 
-"2022-03-01T13:48:05.000Z"
-updated_by_id
-: 
-40
-valid
-: 
-true */}
+     
         <Menu.Target>
           <div className="items-center flex cursor-pointer hover:scale-105 transition-all">
-            <Group color="white" spacing={7}>
-              <Avatar size='md' radius="lg" />
+            <Group color="brand" spacing={7}>
+              <Avatar size='md' color="brand" variant="outline" radius="lg" />
 
 
             </Group>
@@ -422,7 +328,23 @@ true */}
       </Menu>
 
 
+    
 
     </div>
+      <Breadcrumbs separator={<IconArrowBadgeRightFilled size={14} className="text-[#0071b9]" />}
+      p='xs'
+        className="bg-neutral-100 items-center text-xs"
+      >{
+        [{ title: 'First', href: '#' },
+        { title: 'Second', href: '#' },
+        { title: 'Third', href: '#' }]
+          .map((item, index) => (
+            <Anchor href={item.href} key={index}>
+              {item.title}
+            </Anchor>
+          ))
+      }
+  </Breadcrumbs>
+</div>
   )
 }

@@ -1,6 +1,6 @@
 import { signal } from '@preact/signals'
 
-export const dropvalue = signal('073140000')
+export const dropvalue = signal('072325001')
 export const districts = signal({})
 export const mapClickBindings = signal({})
 export const collapsed = signal(false)

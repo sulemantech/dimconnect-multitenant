@@ -15,7 +15,7 @@ const EditControl = lazy(() => import('./EditControl'))
 export default () => {
   useScrollLock(true)
   return (
-    <div className="absolute left-0 top-0 bottom-0 right-0 touch-none overflow-hidden">
+    <div className="flex flex-grow touch-none overflow-hidden">
       <PermissionWrapper permission={PERMISSIONS.Map} view>
         <Map />
         <BottomRight>

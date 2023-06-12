@@ -2,7 +2,7 @@ import Logo from "../components/Logo"
 import { privateRoutes } from "../config/routesConfig"
 import { Link } from 'preact-router'
 import { useLayoutEffect } from "preact/hooks"
-import { Tooltip } from "@mantine/core"
+import { Burger, Tooltip } from "@mantine/core"
 
 import { collapsed } from "../signals"
 import PermissionWrapper from "../providers/PermissionsProvider"
@@ -41,6 +41,19 @@ export default () => {
                 <Logo />
             </div>
 
+        <div className="flex justify-center items-center mt-4">
+
+
+            <Burger
+        onClick={() => {
+            collapsed.value = !collapsed.value
+        }}
+        
+        color="white"
+        size="sm"
+        opened={collapsed.value}
+        />
+        </div>
 
             <div className="flex-grow">
                 {

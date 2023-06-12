@@ -5,7 +5,7 @@ export default ({ children }) => {
     return (
         <>
             <ScrollArea className="h-screen">
-                <div className="mt-24  ">
+                <div className="mt-2  ">
 
                     <div className="relative px-2 ">
 
