@@ -333,7 +333,10 @@ export default () => {
     </div>
       <Breadcrumbs separator={<IconArrowBadgeRightFilled size={14} className="text-[#0071b9]" />}
       p='xs'
-        className="bg-neutral-100 items-center text-xs"
+        className="bg-neutral-200 items-center text-xs "
+        style={{
+          clipPath: 'polygon(0 0, 60% 39%, 100% 100%, 0% 100%)',
+        }}
       >{
         [{ title: 'First', href: '#' },
         { title: 'Second', href: '#' },
