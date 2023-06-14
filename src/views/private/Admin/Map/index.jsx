@@ -16,8 +16,9 @@ export default () => {
   useScrollLock(true)
   return (
     <div className="flex flex-grow touch-none overflow-hidden">
-      <PermissionWrapper permission={PERMISSIONS.Map} view>
+      <PermissionWrapper permission={PERMISSIONS.Map} view showError>
         <Map />
+      </PermissionWrapper>
         <BottomRight>
           <Suspense fallback={<div>Loading...</div>}>
             <div>
@@ -38,7 +39,6 @@ export default () => {
 
           <Legend />
         </BottomLeft>
-      </PermissionWrapper>
     </div>
   )
 }
