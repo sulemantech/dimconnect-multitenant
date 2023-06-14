@@ -36,7 +36,11 @@ export default () => {
     }, [collapsed.value])
 
     return (
-        <div id='sidenav' className=" transition-all border-r-2 border-solid border-white duration-300 shadow-xl bg-[#0071b9] text-white flex flex-col p-2 ">
+        <div id='sidenav' 
+        style={{
+            backgroundImage : 'url("/vertical blue background.svg")',
+        }}
+        className=" transition-all border-r-2 border-solid border-white duration-300 shadow-xl  text-white flex flex-col p-2 ">
             <div>
                 <Logo />
             </div>
@@ -70,8 +74,8 @@ export default () => {
 const RouteComponent = ({ path, label, icon }) => {
     return (
         <Link href={path}>
-            <Tooltip label={label} position="right" color="blue" display={collapsed.value ? 'none' : ''}>
-                <div className="flex items-center p-4 h-14 my-2 text-white font-light border-sky-600 transition-all border-b-2 hover:border-white ">
+            <Tooltip label={label} openDelay={0} position="right" className="bg-opacity-50" color='brand' py={17} display={collapsed.value ? 'none' : ''}>
+                <div className="flex items-center p-4 h-14 my-2 text-white font-light border-white transition-all border-b-2 hover:border-sky-600 hover:bg-[#0071b9]  bg-opacity-50">
                     <p className="flex items-center">
                         {icon} <p className="text-md pl-2">  {collapsed.value && label} </p>
                     </p>

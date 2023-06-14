@@ -195,34 +195,19 @@ export const tilesAvailable = [
 
 export default () => {
 
-
-
   const router = useRouter()
   const auth = useContext(AuthState)
   const [userData, setUserData] = useState(null)
   const [isOpen, setIsOpen] = useState(false)
   const [regsionList, setRegsionList] = useState([])
 
-
-
-
   useLayoutEffect(() => {
-
-
-
-    let firstPageLoad = true
-
+ 
     const unsub = () => {
-
       dropvalue.subscribe((value) => {
-        if (firstPageLoad && currentRoute !== '/map') {
-          firstPageLoad = false
-          return
-        }
         const parentRoute = router?.[0]?.path?.replace('/:ags', '') || ''
-        route(`${parentRoute}/${value}${window.location.hash}`)
+        route(`${parentRoute}?ags=${value}${window.location.hash}`)
       })
-
       
 
       userDataSignal.subscribe(value => {
@@ -238,10 +223,14 @@ export default () => {
         ))
       })
 
+     
+
     }
 
     return unsub()
   }, [])
+
+
 
   const logout = () => {
     sessionStorage.removeItem(appConfig.sessionStorageKey)
@@ -249,25 +238,14 @@ export default () => {
     window.location.reload()
   }
 
-  const currentRoute = router[0].path
-  // useShallowEffect(() => {
-  //   if (router[0].matches?.ags) {
-  //     dropvalue.value = router[0].matches.ags
-  //   } else {
-  //     const parentRoute = router?.[0]?.path?.replace('/:ags', '') || ''
-  //     // route(`${parentRoute}/${dropvalue.value}${window.location.hash}`)
-  //   }
-  // }, [])
 
   return (
     <div className=" z-[100] shadow-lg right-0 left-0 top-0">
     <div className=" items-center  h-20 bg-white flex p-2 text-[#0071b9] ">
-      
-
       <div className="flex-grow font-bold text-[#0071b9] text-lg">
         <h6 className={window.innerWidth < 768 ? 'text-xs' : 'text-lg'}>
           {
-           ( (router[0].path?.split(':'))?.[0]?.replace(/\//g, '') || 'Dashboard' ).toUpperCase()
+           ( (router[0].path?.split(':'))?.[0]?.split('/')?.[1])?.toUpperCase().split('_').join(' ')
           }
         </h6>
       </div>
@@ -338,14 +316,14 @@ export default () => {
           clipPath: 'polygon(0 0, 60% 39%, 100% 100%, 0% 100%)',
         }}
       >{
-        [{ title: 'First', href: '#' },
-        { title: 'Second', href: '#' },
-        { title: 'Third', href: '#' }]
-          .map((item, index) => (
-            <Anchor href={item.href} key={index}>
-              {item.title}
+     
+        router[0].path?.split(':')?.[0]?.split('/').filter(item => item !== '')
+          .map((item, index) => {
+            return (
+            <Anchor href={`${index === 0 ? '/' : ''}${item}`} className="text-[#0071b9]">
+              {item.split('_').join(' ').toUpperCase()}
             </Anchor>
-          ))
+          )})
       }
   </Breadcrumbs>
 </div>

@@ -4,12 +4,12 @@ import icons from '../layout/icons'
 
 export const privateRoutes = [{
     label: 'Dashboard',
-    path: `/${dropvalue?.value}`,
+    path: `/dashboard?ags=${dropvalue?.value}`,
     permission: PERMISSIONS.Dashboard,
     icon: <icons.DasboardIcon/>,
 }, {
     label: 'Map',
-    path: `/map/${dropvalue?.value}`,
+    path: `/map?ags=${dropvalue?.value}`,
     permission: PERMISSIONS.Map,
     icon: <icons.MapIcon />,
 }, {
@@ -18,6 +18,13 @@ export const privateRoutes = [{
     path: `/administration`,
     icon: <icons.AdministrationIcon />,
 },
+{
+    label: 'Support Ticket Office',
+    permission: PERMISSIONS.Ticket,
+    path: `/support_ticket_office/inbox`,
+    icon: <icons.TicketIcon />,
+},
+
     // {
     //     label: 'Styles',
     //     path: `/styles/${dropvalue.value}`,

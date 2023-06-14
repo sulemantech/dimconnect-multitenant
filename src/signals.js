@@ -1,6 +1,8 @@
 import { signal } from '@preact/signals'
-
-export const dropvalue = signal('072325001')
+// check if url has ags query param
+const urlParams = new URLSearchParams(window.location.search);
+const ags = urlParams.get('ags');
+export const dropvalue = signal(ags?ags:'072325001')
 export const districts = signal({})
 export const mapClickBindings = signal({})
 export const collapsed = signal(false)

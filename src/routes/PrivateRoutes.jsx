@@ -13,14 +13,16 @@ const UserManagement = lazy(() => import('../views/private/Admin/Administration/
 const PermissionsManagement = lazy(() => import('../views/private/Admin/Administration/PermissionsManagement'));
 
 import { UserType } from '../signals';
+import Ticket from '../views/private/Admin/Ticket';
 
 const TypeRoutes = {
     'admin': [
-        <Dashboard path="/:ags" />,
-        <Map path="/map/:ags" />,
+        <Dashboard path="/dashboard" default/>,
+        <Map path="/map" />,
         <Administration path="/administration" />,
         <UserManagement path="/administration/users" />,
         <PermissionsManagement path="/administration/r&p" />,
+        <Ticket path="/support_ticket_office/inbox" />,
         <Styles path="/styles" />
     ],
 }

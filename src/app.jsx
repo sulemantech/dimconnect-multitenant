@@ -39,7 +39,7 @@ export function App() {
             defaultProps: {
               variant: 'filled',
               mx: 5,
-              className: "bg-[#0071b9] hover:shadow-md shadow-xs  shadow-[#0071b9] border-2 border-white border-solid transition-all duration-200 ease-in-out"
+              className: "bg-[#0071b9]  hover:shadow-md shadow-xs  shadow-[#0071b9] border-2 border-white border-solid transition-all duration-200 ease-in-out"
             }
           },
         }

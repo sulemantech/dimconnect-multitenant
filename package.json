@@ -51,6 +51,7 @@
     "preact-router-hash": "^0.0.1",
     "proj4": "^2.9.0",
     "react-chartjs-2": "^5.2.0",
+    "react-data-table-component": "^7.5.3",
     "react-gesture-responder": "^2.1.0",
     "react-icons": "^4.8.0",
     "react-image-enlarger": "^1.1.0",
@@ -61,6 +62,7 @@
     "read-excel-file": "^5.6.1",
     "recharts": "^2.3.2",
     "spline-wrapper": "^1.1.1",
+    "styled-components": "^6.0.0-rc.3",
     "topojson-client": "^3.1.0"
   },
   "devDependencies": {
