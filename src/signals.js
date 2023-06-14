@@ -204,45 +204,45 @@ export const equipmentState = signal(false)
 
 export const costInputParams = signal({
     "cables": {
-        "distribution": {
-            "materialCost": 9.093,
-            "labourCost": 9.093
-        },
-        "feeder": {
-            "materialCost": 8.09,
-            "labourCost": 8.09
-        },
-        "primary": {
-            "materialCost": 8.09,
-            "labourCost": 8.09
-        }
+      "distribution": {
+        "materialCost": 9,
+        "labourCost": 1
+      },
+      "feeder": {
+        "materialCost": 8.09,
+        "labourCost": 8.09
+      },
+      "primary": {
+        "materialCost": 8.09,
+        "labourCost": 8.09
+      }
     },
     "duct": {
-        "distribution": {
-            "materialCost": 8.09,
-            "labourCost": 8.09
-        },
-        "feeder": {
-            "materialCost": 8.09,
-            "labourCost": 8.09
-        },
-        "primary": {
-            "materialCost": 8.09,
-            "labourCost": 8.09
-        }
+      "distribution": {
+        "materialCost": 8.09,
+        "labourCost": 8.09
+      },
+      "feeder": {
+        "materialCost": 8.09,
+        "labourCost": 8.09
+      },
+      "primary": {
+        "materialCost": 8.09,
+        "labourCost": 8.09
+      }
     },
     "homeActivation": {
-        "building": {
-            "greaterMaterialCost": 8.09,     // Material cost for more then 3 homes in a building
-            "greaterLabourCost": 8.09,      // Labour cost for more then 3 homes in a building
-            "lowerMaterialCost": 8.09,       // Material cost for 1 to 3 homes in a building
-            "lowerLabourCost": 8.09         // Labour cost for 1 to 3 homes in a building
-        },
-        "home": {
-            "greaterMaterialCost": 8.09,     // Material cost for more then 3 homes
-            "greaterLabourCost": 8.09,      // Labour cost for more then 3 homes
-            "lowerMaterialCost": 8.09,       // Material cost  for  1 to 3 homes
-            "lowerLabourCost": 8.09         // Labour cost for 1 to 3 homes
-        }
+      "building": {
+        "greaterMaterialCost":8.09,
+        "greaterLabourCost": 8.09,
+        "lowerMaterialCost":8.09,
+        "lowerLabourCost": 8.09
+      },
+      "home": {
+        "greaterMaterialCost":8.09,
+        "greaterLabourCost": 8.09,
+        "lowerMaterialCost":8.09,
+        "lowerLabourCost": 8.09
+      }
     }
-})
+  })

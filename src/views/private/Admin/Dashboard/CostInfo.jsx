@@ -4,6 +4,8 @@ import { Input } from '@mantine/core';
 import { commarize } from '../../../../utils/convertor';
 import { dropvalue, costInfoData, costInputParams } from '../../../../signals';
 import { getCostInfoByDistrictId } from '../../../../api';
+import appConfig from '../../../../config/appConfig';
+import axios from 'axios';
 
 
 const costInfoSampleData = {
@@ -145,7 +147,16 @@ export default () => {
   useEffect(() => {
     dropvalue.subscribe((value) => {
       setLoading(true);
-      getCostInfoByDistrictId(value,costInputParams.value).then((res) => {
+
+      const URLSearchParam = new URLSearchParams();
+      URLSearchParam.append('costs', JSON.stringify(costInputParams.value));
+
+      
+      
+        
+      getCostInfoByDistrictId(value,URLSearchParam)
+      
+      .then((res) => {
         
         setLoading(false);
         costInfoData.value = res.data;
@@ -158,6 +169,7 @@ export default () => {
       setData(data);
     });
   }, [])
+
   if (loading) {
     return <div className='flex justify-center h-full items-center'><Loader size='lg' /></div>
   }
