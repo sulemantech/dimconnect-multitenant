@@ -202,13 +202,13 @@ export default () => {
   const [regsionList, setRegsionList] = useState([])
 
   useLayoutEffect(() => {
- 
+
     const unsub = () => {
       dropvalue.subscribe((value) => {
         const parentRoute = router?.[0]?.path?.replace('/:ags', '') || ''
         route(`${parentRoute}?ags=${value}${window.location.hash}`)
       })
-      
+
 
       userDataSignal.subscribe(value => {
 
@@ -223,7 +223,7 @@ export default () => {
         ))
       })
 
-     
+
 
     }
 
@@ -241,91 +241,93 @@ export default () => {
 
   return (
     <div className=" z-[100] shadow-lg right-0 left-0 top-0">
-    <div className=" items-center  h-20 bg-white flex p-2 text-[#0071b9] ">
-      <div className="flex-grow font-bold text-[#0071b9] text-lg">
-        <h6 className={window.innerWidth < 768 ? 'text-xs' : 'text-lg'}>
-          {
-           ( (router[0].path?.split(':'))?.[0]?.split('/')?.[1])?.toUpperCase().split('_').join(' ')
-          }
-        </h6>
-      </div>
+      <div className=" items-center  h-20 bg-white flex p-2 text-[#0071b9] ">
+        <div className="flex-grow font-bold text-[#0071b9] text-lg">
+          <h6 className={window.innerWidth < 768 ? 'text-xs' : 'text-lg'}>
+            {
+              ((router[0].path?.split(':'))?.[0]?.split('/')?.[1])?.toUpperCase().split('_').join(' ')
+            }
+          </h6>
+        </div>
 
 
-      <Select
-        className="ml-4"
-        radius="lg"
-        size="xs"
-        placeholder="Select AGS"
-        searchable
-        autoComplete="on"
-        data={regsionList}
-        color="brand"
-        sx={{ width: 350 }}
-        defaultValue={dropvalue.value}
-        onChange={(value) => {
-          dropvalue.value = value
-        }}
-      />
-      <div className="ml-4">
-      </div>
-      <Menu
-        width={260}
-        position="bottom-end"
-        transition="pop-top-right"
+        <Select
+          className="ml-4"
+          radius="lg"
+          size="xs"
+          placeholder="Select AGS"
+          searchable
+          autoComplete="on"
+          data={regsionList}
+          color="brand"
+          sx={{ width: 350 }}
+          defaultValue={dropvalue.value}
+          onChange={(value) => {
+            dropvalue.value = value
+          }}
+        />
+        <div className="ml-4">
+        </div>
+        <Menu
+          width={260}
+          position="bottom-end"
+          transition="pop-top-right"
 
-      >
-     
-        <Menu.Target>
-          <div className="items-center flex cursor-pointer hover:scale-105 transition-all">
-            <Group color="brand" spacing={7}>
-              <Avatar size='md' color="brand" variant="outline" radius="lg" />
+        >
+
+          <Menu.Target>
+            <div className="items-center flex cursor-pointer hover:scale-105 transition-all">
+              <Group color="brand" spacing={7}>
+                <Avatar size='md' color="brand" variant="outline" radius="lg" />
 
 
-            </Group>
-          </div>
-        </Menu.Target>
-        <Menu.Dropdown>
-
-          <Box className="p-4">
-            <div className="flex items-center">
-              <Avatar size='md' radius="lg" />
-              <div className="ml-4">
-                <h6 className="text-sm font-semibold">{userData?.nachname} {userData?.vorname}</h6>
-                <p className="text-xs text-gray-500">{userData?.email}</p>
-              </div>
+              </Group>
             </div>
-          </Box>
-          <Menu.Divider />
+          </Menu.Target>
+          <Menu.Dropdown>
+
+            <Box className="p-4">
+              <div className="flex items-center">
+                <Avatar size='md' radius="lg" />
+                <div className="ml-4">
+                  <h6 className="text-sm font-semibold">{userData?.nachname} {userData?.vorname}</h6>
+                  <p className="text-xs text-gray-500">{userData?.email}</p>
+                </div>
+              </div>
+            </Box>
+            <Menu.Divider />
 
 
 
-          <Menu.Item color="red" icon={<IconLogout size={14} stroke={1.5} />} onClick={logout}>
-            Logout
-          </Menu.Item>
-        </Menu.Dropdown>
-      </Menu>
+            <Menu.Item color="red" icon={<IconLogout size={14} stroke={1.5} />} onClick={logout}>
+              Logout
+            </Menu.Item>
+          </Menu.Dropdown>
+        </Menu>
 
 
-    
 
-    </div>
-      <Breadcrumbs separator={<IconArrowBadgeRightFilled size={14} className="text-[#0071b9]" />}
-      p='xs'
-        className="bg-neutral-200 items-center text-xs "
+
+      </div>
+      <Breadcrumbs separator={<IconArrowBadgeRightFilled size={14} className="text-neutral-500" />}
+        p='xs'
+        className="bg-neutral-200 items-center text-[10px] "
         style={{
           clipPath: 'polygon(0 0, 60% 39%, 100% 100%, 0% 100%)',
         }}
+
       >{
-     
-        router[0].path?.split(':')?.[0]?.split('/').filter(item => item !== '')
-          .map((item, index) => {
-            return (
-            <Anchor href={`${index === 0 ? '/' : ''}${item}`} className="text-[#0071b9]">
-              {item.split('_').join(' ').toUpperCase()}
-            </Anchor>
-          )})
-      }
-  </Breadcrumbs>
-</div>
+
+          router[0].path?.split(':')?.[0]?.split('/').filter(item => item !== '')
+            .map((item, index) => {
+              return (
+                <Anchor href={`${index === 0 ? '/' : ''}${item}`} className="text-neutral-500">
+                  {item.split('_').join(' ').toUpperCase()}
+                </Anchor>
+              )
+            })
+        }
+      </Breadcrumbs>
+    </div>
   )
 }
