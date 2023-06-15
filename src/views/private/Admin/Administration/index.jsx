@@ -22,7 +22,7 @@ export default () => {
     })
 
     return (
-        <PermissionsProvider permission={'Dashboard View'}>
+        // <PermissionsProvider permission={'Dashboard View'}>
         <PageProvider>
             <div class=''>
                 <Card>
@@ -52,6 +52,6 @@ export default () => {
                 </Card>
             </div>
         </PageProvider>
-        </PermissionsProvider>
+        // </PermissionsProvider>
     )
 }
