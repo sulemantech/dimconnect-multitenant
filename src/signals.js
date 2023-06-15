@@ -246,3 +246,5 @@ export const costInputParams = signal({
       }
     }
   })
+
+  export const regionCostState = signal(false)
