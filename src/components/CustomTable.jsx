@@ -1,18 +1,22 @@
-import { ActionIcon, Button, Input, ScrollArea, Select, Switch } from "@mantine/core";
+import { ActionIcon, Button, Chip, Flex, Input, MultiSelect, Pagination, ScrollArea, Select, Switch } from "@mantine/core";
 import { closeAllModals, openConfirmModal, openModal } from "@mantine/modals";
-import { IconArrowDown, IconArrowUp, IconPaperclip, IconPlus } from "@tabler/icons";
+import { IconAlertCircle, IconArrowDown, IconArrowUp, IconPaperclip, IconPlus } from "@tabler/icons";
 import { useState } from "preact/hooks";
 import readXlsxFile from 'read-excel-file';
 import appConfig from '../config/appConfig'
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { closeDrawer, openDrawer } from "../providers/DrawerProvider";
 import { useCallback } from 'preact/hooks'
-export default ({ children, data, setLimit, attributes = [], newStruct = {}, refreshData, edit = false, remove = false, attatchment = false }) => { // as {"id":25,"name":"HO1V","min":"25","max":"55"}[]
+import { showNotification } from "@mantine/notifications";
+import { isValidElement } from "preact";
+export default ({ children, data, attributes = [], newStruct = {}, refreshData, edit = false, remove = false, attatchment = false }) => { // as {"id":25,"name":"HO1V","min":"25","max":"55"}[]
 
     const [sort, setSort] = useState({ field: "name", order: "asc" });
     const [filter, setFilter] = useState('')
     const [submitloading, setsubmitLoading] = useState(false)
-
+    const [limit, setLimit] = useState(10);
+    const [dataInfo, setDataInfo] = useState({ page: 0, count: data.length });
+    const [page, setPage] = useState(1);
 
     const handleSubmit = (e) => {
         setsubmitLoading(true)
@@ -21,21 +25,51 @@ export default ({ children, data, setLimit, attributes = [], newStruct = {}, ref
         const formdata = new FormData(creationform)
 
         const values = {}
+
+        
+
         for (let i = 0; i < creationform.length; i++) {
 
-            // get group name if any
-            if (creationform[i].getAttribute('data-group')) {
+            let elem = creationform.elements[i];
 
-                values[creationform[i].getAttribute('data-group')] = {
-                    ...values[creationform[i].getAttribute('data-group')],
-                    [creationform[i].name]: formdata.get(creationform[i].name) == 'on' ? true : formdata.get(creationform[i].name)
+            if (creationform[i].getAttribute('data-type') == 'array') {
+                values[creationform[i].getAttribute('data-key')] = formdata.forEach((value, key) => {
+                   
+                })
+                // values[creationform[i].getAttribute('data-key')] = formdata.get(creationform[i].getAttribute('data-key')).split(',').map(item => item.trim())
+           } else if (creationform[i].getAttribute('data-main-key')) {
+
+
+                let mainKey = elem.getAttribute('data-main-key');
+                let groupKey = elem.getAttribute('data-group-key');
+                let groupKeyValue = elem.getAttribute('data-group-key-value');
+                let groupValue = elem.getAttribute('data-group-value');
+
+                if (mainKey && groupKey && groupKeyValue && groupValue) {
+                    if (!values[mainKey]) {
+                        values[mainKey] = [];
+                    }
+
+                    let index = values[mainKey].findIndex(item => item[groupKey] === groupKeyValue);
+
+                    if (index === -1) {
+                        values[mainKey].push({
+                            [groupKey]: groupKeyValue,
+                            [groupValue]: formdata.get(elem.name) === 'on' ? true : false,
+                        });
+                    } else {
+                        values[mainKey][index][groupValue] = formdata.get(elem.name) === 'on' ? true : false;
+                    }
                 }
+
 
             } else {
                 values[creationform[i].name] = formdata.get(creationform[i].name) == 'on' ? true : formdata.get(creationform[i].name)
+                
             }
         }
 
+        
         newStruct.createMethod(values).then((res) => {
             setsubmitLoading(false)
             refreshData()
@@ -58,6 +92,7 @@ export default ({ children, data, setLimit, attributes = [], newStruct = {}, ref
                             Object.keys(newStruct.data)?.map((item) => (
 
                                 (Array.isArray(newStruct.data[item])) ?
+                               
                                     <div className="flex flex-col">
                                         <label className="text-sm text-gray-600">{item.replace('_', ' ').trim().toUpperCase()}</label>
                                         {/* <select required className="bg-gray-200 rounded-md p-1" name={item}>
@@ -69,7 +104,8 @@ export default ({ children, data, setLimit, attributes = [], newStruct = {}, ref
                                                 })
                                             }
                                         </select> */}
-                                        <Select data={newStruct?.data[item]} required className="bg-gray-200 rounded-md p-1" name={item} />
+                                        <MultiSelect  data={newStruct?.data[item]} data-type="array"  required className="bg-gray-200 rounded-md p-1" name={item}/>
+                                      
                                     </div>
                                     :
                                     typeof newStruct.data[item] === 'boolean' ?
@@ -106,137 +142,183 @@ export default ({ children, data, setLimit, attributes = [], newStruct = {}, ref
     )
 
 
+    const handleEdit = async (item) => {
+        try {
 
+         
+
+
+            const resp = await newStruct.getMethod(item.id)
+
+
+            item = {
+                ...item,
+                ...resp.data
+            }
+
+
+            const childrenClone = children
+            
+            
+
+            openDrawer({
+                title: 'Edit',
+                children: <EditForm item={item} newStruct={newStruct} >
+                    {
+                        childrenClone
+                    }
+                </EditForm>,
+            })
+        } catch (err) {
+            showNotification({
+                title: 'Error',
+                color: 'red',
+                icon: <IconAlertCircle />,
+                message: 'Cant fetch data',
+                type: 'error'
+            })
+        }
+    }
 
     return (
         <div className="flex flex-col rounded-md bg-white">
-                <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                    <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                        <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                            <div className="flex p-2 text-neutral-700 text-xs items-center">
-                                <div>
-                                    Show <select className="bg-gray-200 rounded-md p-1" onChange={e => setLimit(e.target.value)}>
-                                        <option>10</option>
-                                        <option>25</option>
-                                        <option>50</option>
-                                        <option>100</option>
-                                    </select> entries
-
-                                </div>
-
-                                <div className="flex-1"></div>
-
-                                <div className="flex">
-                                    <input type="text" className="bg-gray-200 rounded-md p-1" placeholder="Search" onChange={e => setFilter(e.target.value)} />
-                                    {newStruct.hasOwnProperty('createMethod') && <Button
-                                        leftIcon={<IconPlus size={15} />}
-                                        onClick={createNew}
-                                    >
-                                        Add New
-                                    </Button>}
-                                </div>
+            <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                    <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                        <div className="flex p-2 text-neutral-700 text-xs items-center">
+                            <div>
+                                Show <select className="bg-gray-200 rounded-md p-1" onChange={e => setLimit(e.target.value)}>
+                                    <option>10</option>
+                                    <option>25</option>
+                                    <option>50</option>
+                                    <option>100</option>
+                                </select> entries
 
                             </div>
-           
-                            <table className="min-w-full divide-y divide-gray-200 px-2">
 
-                                <thead className="bg-gray-200">
-                                    <tr>
-                                        {
-                                            attributes?.map((item) => {
-                                                return (
-                                                    <th scope="col" key={item} className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
-                                                        <p class={`flex items-center`}>
-                                                            {item.replace('_', ' ').toUpperCase()}
-                                                            <ActionIcon className="text-gray-900"
-                                                                size="xs"
-                                                                variant="white"
-                                                                onClick={() => setSort({ field: item, order: sort.order === "asc" ? "desc" : "asc" })}
-                                                            >{sort.field === item && sort.order === "asc" ? <IconArrowDown className="text-red-900" size={15} /> : <IconArrowUp className="text-gray-600" size={15} />}
-                                                            </ActionIcon>
-                                                        </p>
-                                                    </th>
-                                                )
-                                            })
-                                        }
-                                        <th scope="col" className="relative px-6 py-3">
-                                            <span className="sr-only">Edit</span>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody className="bg-white divide-y divide-gray-200 ">
-                                    {data
-                                        .sort((a, b) => {
-                                            if (sort.order === "asc") {
-                                                if (a[sort.field] < b[sort.field]) {
-                                                    return -1;
-                                                }
-                                                if (a[sort.field] > b[sort.field]) {
-                                                    return 1;
-                                                }
-                                                return 0;
-                                            } else {
-                                                if (a[sort.field] > b[sort.field]) {
-                                                    return -1;
-                                                }
-                                                if (a[sort.field] < b[sort.field]) {
-                                                    return 1;
-                                                }
-                                                return 0;
+                            <div className="flex-1"></div>
+
+                            <div className="flex">
+                                <input type="text" className="bg-gray-200 rounded-md p-1" placeholder="Search" onChange={e => setFilter(e.target.value)} />
+                                {newStruct.hasOwnProperty('createMethod') && <Button
+                                    leftIcon={<IconPlus size={15} />}
+                                    onClick={createNew}
+                                >
+                                    Add New
+                                </Button>}
+                            </div>
+
+                        </div>
+
+                        <table className="min-w-full divide-y divide-gray-200 px-2">
+
+                            <thead className="bg-gray-200">
+                                <tr>
+                                    {
+                                        attributes?.map((item) => {
+                                            return (
+                                                <th scope="col" key={item} className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
+                                                    <p class={`flex items-center`}>
+                                                        {item.replace('_', ' ').toUpperCase()}
+                                                        <ActionIcon className="text-gray-900"
+                                                            size="xs"
+                                                            variant="white"
+                                                            onClick={() => setSort({ field: item, order: sort.order === "asc" ? "desc" : "asc" })}
+                                                        >{sort.field === item && sort.order === "asc" ? <IconArrowDown className="text-red-900" size={15} /> : <IconArrowUp className="text-gray-600" size={15} />}
+                                                        </ActionIcon>
+                                                    </p>
+                                                </th>
+                                            )
+                                        })
+                                    }
+                                    <th scope="col" className="relative px-6 py-3">
+                                        <span className="sr-only">Edit</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody className="bg-white divide-y divide-gray-200 ">
+                                {data
+                                    
+                                    .sort((a, b) => {
+                                        if (sort.order === "asc") {
+                                            if (a[sort.field] < b[sort.field]) {
+                                                return -1;
                                             }
-                                        })?.filter((obj) => {
-                                            if (filter === '') return data;
-                                            return Object.values(obj).some(val => val.toString().toLowerCase().includes(filter.toLowerCase()))
-                                        })?.map((item) => (
-                                            <tr key={item.id} >
-                                                {
-                                                    attributes?.map((attr) => {
-                                                        return (
-                                                            <td key={attr + 'hgrui'} className="px-6 text-left py-4 whitespace-nowrap text-sm text-gray-500">
-                                                                {item[attr]}
-                                                            </td>
-                                                        )
-                                                    }
+                                            if (a[sort.field] > b[sort.field]) {
+                                                return 1;
+                                            }
+                                            return 0;
+                                        } else {
+                                            if (a[sort.field] > b[sort.field]) {
+                                                return -1;
+                                            }
+                                            if (a[sort.field] < b[sort.field]) {
+                                                return 1;
+                                            }
+                                            return 0;
+                                        }
+                                    }).slice((page - 1) * limit, page * limit)?.filter((obj) => {
+                                        if (filter === '') return data;
+                                        return Object.values(obj).filter(val => typeof val === 'string' || typeof val === 'number').some(val => val.toString().toLowerCase().includes(filter.toLowerCase()))
+                                    })?.map((item) => (
+                                        <tr key={item.id} >
+                                            {
+                                                attributes?.map((attr) => {
+                                                    return (
+                                                        <td key={attr + 'hgrui'} className="px-6 text-left py-4 whitespace-nowrap text-sm text-gray-500">
+                                                            {Array.isArray(item[attr]) ? item[attr].map((i) => i.name).join(', ') : (isObject(item[attr]) ? Object.values(item[attr]).join(', ') : item[attr])}
+                                                        </td>
                                                     )
                                                 }
-                                                <td className="flex justify-end px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                    {edit && <ActionIcon
+                                                )
+                                            }
+                                            <td className="flex justify-end px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                                {edit && <ActionIcon
+                                                    onClick={() => handleEdit(item)}
+                                                ><FaEdit /></ActionIcon>}
+                                                {attatchment && <ActionIcon
+                                                    onClick={() => {
+                                                        openDrawer({
+                                                            title: 'Attatchment',
+                                                            children: <AttatchmentForm item={item} newStruct={newStruct} />,
+                                                        })
+                                                    }}
 
-                                                        onClick={() => {
-                                                            openDrawer({
-                                                                title: 'Edit',
-                                                                children: <EditForm item={item} newStruct={newStruct} >{children}</EditForm>,
-                                                            })
-                                                        }}
-                                                    ><FaEdit /></ActionIcon>}
-                                                    {attatchment && <ActionIcon
-                                                        onClick={() => {
-                                                            openDrawer({
-                                                                title: 'Attatchment',
-                                                                children: <AttatchmentForm item={item} newStruct={newStruct} />,
-                                                            })
-                                                        }}
+                                                ><IconPaperclip /></ActionIcon>}
+                                                {remove && <ActionIcon
+                                                    color="red"
+                                                    onClick={() => openConfirmModal({
+                                                        title: 'Are You Sure?',
+                                                        children: <div>This action cannot be undone</div>,
+                                                        labels: { confirm: 'Delete', cancel: 'Cancel' },
+                                                        cancelProps: { variant: 'default' },
+                                                        onConfirm: () => newStruct.deleteMethod(item.id).then(res => refreshData())
+                                                    })}
+                                                ><FaTrash /></ActionIcon>}
+                                            </td>
+                                        </tr>
+                                    ))}
+                            </tbody>
+                        </table>
 
-                                                    ><IconPaperclip /></ActionIcon>}
-                                                    {remove && <ActionIcon
-                                                        color="red"
-                                                        onClick={() => openConfirmModal({
-                                                            title: 'Are You Sure?',
-                                                            children: <div>This action cannot be undone</div>,
-                                                            labels: { confirm: 'Delete', cancel: 'Cancel' },
-                                                            cancelProps: { variant: 'default' },
-                                                            onConfirm: () => newStruct.deleteMethod(item.id).then(res => refreshData())
-                                                        })}
-                                                    ><FaTrash /></ActionIcon>}
-                                                </td>
-                                            </tr>
-                                        ))}
-                                </tbody>
-                            </table>
-           
+                        <div className="flex w-full px-6 py-8">
+                            <p className="text-sm text-neutral-600">
+                                Showing {page * limit - limit + 1} to {page * limit} of {dataInfo.count} entries
+                            </p>
+                            <div className="flex-1"></div>
+                            <Pagination
+                                color="brand"
+                                total={Math.ceil(dataInfo.count / limit)}
+                                limit={limit}
+                                page={page}
+                                onChange={(page) => setPage(page)}
+                            />
+
                         </div>
+
                     </div>
                 </div>
+            </div>
 
         </div>
     )
@@ -273,8 +355,23 @@ const EditForm = ({ item, newStruct, children }) => {
             }
         })
     }
+
+    
+
+    const afterloadform = (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const data = new FormData(form);
+        const values = {}
+        for (var pair of data.entries()) {
+            values[pair[0]] = pair[1]
+        }
+       
+    }
+
     try {
         return (
+            <form className="flex flex-col" onSubmit={afterloadform}>
             <div className="flex flex-col">
                 {
                     Object.keys(newStruct.data)?.map((attr) => {
@@ -284,6 +381,7 @@ const EditForm = ({ item, newStruct, children }) => {
                                 <input
                                     className="bg-gray-200 rounded-md p-2"
                                     value={form[attr]}
+                                    name = {attr}
                                     onChange={(e) => setForm({ ...form, [attr]: e.target.value })}
                                 />
                             </div>
@@ -296,7 +394,8 @@ const EditForm = ({ item, newStruct, children }) => {
                 </div>
                 <div className="flex">
                     <Button
-                        onClick={update}
+                        // onClick={update}
+                        type="submit"
                     >
                         Update
                     </Button>
@@ -307,6 +406,7 @@ const EditForm = ({ item, newStruct, children }) => {
                     </Button>
                 </div>
             </div>
+        </form>
         )
     } catch (error) {
         return (
@@ -461,4 +561,9 @@ const AttatchmentForm = ({ item, newStruct }) => {
             </div>
         </div>
     )
+}
+
+const isObject = (obj) => {
+    // return true or false and check if not react component
+    return obj !== null && typeof obj === 'object' && !isValidElement(obj);
 }

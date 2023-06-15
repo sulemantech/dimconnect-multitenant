@@ -1,31 +1,20 @@
 import { Card, CardSection, Divider, Pagination, LoadingOverlay, Switch, Table, Button, Text, ThemeIcon, Title, Alert } from "@mantine/core"
-import { useState, useEffect,useMemo } from 'preact/hooks'
+import { useState, useEffect, useMemo } from 'preact/hooks'
 import { IconEye, IconCircleX, IconCircleCheck, IconAlertCircle } from "@tabler/icons";
 
 import PageProvider from "../../../../providers/PageProvider"
 import CustomTable from "../../../../components/CustomTable"
-import { createRole, deleteRole, editRole, getAccessList, getRoles } from "../../../../api";
+import { createRole, createRoleWithPermissions, deleteRole, editRole, getAccessList, getRoles } from "../../../../api";
 import { permissible } from "../../../../signals";
 import { openDrawer } from "../../../../providers/DrawerProvider";
+import PermissionWrapper from "../../../../providers/PermissionsProvider";
+import { PERMISSIONS } from "../../../../common";
 
 export default () => {
 
-
-    const [dataInfo, setDataInfo] = useState({ page: 0, count: 10 });
-    const [page, setPage] = useState(1);
     const [data, setData] = useState([]);
-    const [limit, setLimit] = useState(10);
     const [loading, setLoading] = useState(false)
 
-    // const getInfo = () => {
-    //   getUsersInfo()
-    //     .then((res) => {
-    //       setDataInfo({ page: res.data.page, count: res.data.count });
-    //     })
-    //     .catch((err) => {
-    //       setDataInfo({ page: 0, count: 0 });
-    //     })
-    // }
     const getData = () => {
         setLoading(true)
         getRoles().then((res) => {
@@ -42,7 +31,7 @@ export default () => {
                     >View</Button>
                 }
             }));
-            setDataInfo({ page: 1, count: res.data.roles.length });
+
             setLoading(false)
         })
             .catch((err) => {
@@ -51,155 +40,152 @@ export default () => {
     }
     const refreshData = () => {
         getData()
-        //   getInfo()
     }
 
-    useEffect(getData, [page, limit])
-    // useLayoutEffect(getInfo, [])
-
-
+    useEffect(getData, [])
 
 
     return (
+        <PermissionWrapper permission={PERMISSIONS["Roles Management"]} view message>
         <PageProvider>
             <div className="">
-                {!loading ?
-                    <Card >
 
-                        <CardSection className="p-2">
-                            <h6 className='font-bold text-neutral-700 tracking-wider'>Roles and Permissions Management</h6>
-                            <Divider />
-                        </CardSection>
+                <Card >
 
+                    <CardSection className="p-2">
+                        <h6 className='font-bold text-neutral-700 tracking-wider'>Roles and Permissions Management</h6>
+                        <Divider />
+                    </CardSection>
+                    {!loading ?
                         <CustomTable
                             attributes={['name', 'description', 'permissions']}
 
                             remove
                             edit
                             data={data}
-                            setLimit={setLimit}
+
                             newStruct={{
                                 data: {
                                     name: '',
                                     description: '',
-                                    
+
                                 },
-                                createMethod: createRole,
+                                createMethod: createRoleWithPermissions,
                                 deleteMethod: deleteRole,
                                 editMethod: editRole,
+                                getMethod: getAccessList,
                             }}
                             refreshData={refreshData}
                         >
-                            
-                                <Text>Permissions</Text>
-                                <Divider />
 
-                                <Table striped withBorder className="relative max-w-[100%]">
-                                    <thead className="text-[10px]">
+                            <Text>Permissions</Text>
+                            <Divider />
 
-                                        <tr >
-                                            {/* <td></td> */}
-                                            <td className="font-semibold text-xs text-gray-700 text-start whitespace-nowrap overflow-hidden ">Component</td>
-                                            <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">Read</td>
-                                            <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">Write</td>
-                                            <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">Delete</td>
-                                        </tr>
+                            <Table striped withBorder className="relative max-w-[100%]">
+                                <thead className="text-[10px]">
 
-                                    </thead>
-                                    <tbody className="text-[10px]">
-                                        {/* <tr>
-                                        <td className="font-semibold text-xs text-gray-700 text-start whitespace-nowrap overflow-hidden ">
-                                            Select All
-                                            <ActionIcon
-                                                onClick={() => {
-                                                    const elements = document.getElementsByClassName('PermissionsManagement__table')
-                                                    elements.forEach(element => {
-                                                        element.checked = true
-                                                    })
-                                                }}
-                                            >
-                                                <IconCheck />
-                                            </ActionIcon>
-                                        </td>
-                                    </tr> */}
-                                        {
-                                            Object.keys(permissible.value).map((key, index) => (
-                                                <tr key={index} >
-                                                    <td className="font-semibold text-xs text-gray-700 text-start whitespace-nowrap overflow-hidden ">{key}</td>
-                                                    <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">
-                                                        <Switch
-                                                            type={'checkbox'}
-                                                            color="blue"
-                                                            name={key + '__read'}
-                                                            defaultChecked={permissible.value[key].read}
+                                    <tr >
+                                        {/* <td></td> */}
+                                        <td className="font-semibold text-xs text-gray-700 text-start whitespace-nowrap overflow-hidden ">Component</td>
+                                        <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">ADD</td>
+                                        <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">VIEW</td>
+                                        <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">EDIT</td>
+                                        <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">Delete</td>
+                                    </tr>
 
-                                                            data-group="permissions"
-                                                            data-group-value={key + '__read'}
-                                                        />
-                                                    </td>
-                                                    <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">
-                                                        <Switch
-                                                            defaultChecked={permissible.value[key].write}
-                                                            color="green"
-                                                            name={key + '__write'}
-                                                            data-group="permissions"
-                                                            data-group-value={key + '__write'}
-                                                        />
-                                                    </td>
-                                                    <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">
-                                                        <Switch
-                                                            defaultChecked={permissible.value[key].delete}
-                                                            color="red"
-                                                            name={key + '__delete'}
-                                                            radioGroup="delete"
-                                                            data-group="permissions"
-                                                            data-group-value={key + '__delete'}
-                                                        />
-                                                    </td>
-                                                </tr>
-                                            ))
-                                        }
-                                    </tbody>
-                                </Table>
-                            
+                                </thead>
+                                <tbody className="text-[10px]">
+
+                                    {
+                                        permissible.value.map((key, index) => (
+                                            <tr key={index} >
+                                                <td className="font-semibold text-xs text-gray-700 text-start whitespace-nowrap overflow-hidden ">{key.activity}</td>
+                                                <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">
+                                                    <Switch
+                                                        type={'checkbox'}
+                                                        color="blue"
+                                                        name={key.activity + '__add'}
+                                                        defaultChecked={key.add}
+
+                                                        data-main-key="permissions"
+                                                        data-group-key={'activity'}
+
+                                                        data-group-key-value={key.activity}
+                                                        data-group-value={'add'}
+                                                    />
+                                                </td>
+                                                <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">
+                                                    <Switch
+                                                        type={'checkbox'}
+                                                        color="yellow"
+                                                        name={key.activity + '__view'}
+                                                        defaultChecked={key.view}
+
+                                                        data-main-key="permissions"
+                                                        data-group-key={'activity'}
+
+                                                        data-group-key-value={key.activity}
+                                                        data-group-value={'view'}
+                                                    />
+                                                </td>
+                                                <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">
+                                                    <Switch
+                                                        defaultChecked={key.edit}
+                                                        color="green"
+                                                        name={key.activity + '__edit'}
+
+                                                        data-main-key="permissions"
+                                                        data-group-key={'activity'}
+
+                                                        data-group-key-value={key.activity}
+                                                        data-group-value={'edit'}
+                                                    />
+                                                </td>
+                                                <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">
+                                                    <Switch
+                                                        defaultChecked={key.delete}
+                                                        color="red"
+                                                        name={key.activity + '__delete'}
+
+                                                        data-main-key="permissions"
+                                                        data-group-key={'activity'}
+
+                                                        data-group-key-value={key.activity}
+                                                        data-group-value={'deleteFlag'}
+                                                    />
+                                                </td>
+                                            </tr>
+                                        ))
+                                    }
+                                </tbody>
+                            </Table>
+
                         </CustomTable>
 
-                        <div className="flex w-full px-6 py-8">
-                            <p className="text-sm text-neutral-600">
-                                Showing {page * limit - limit + 1} to {page * limit} of {dataInfo.count} entries
-                            </p>
-                            <div className="flex-1"></div>
-                            <Pagination
-                                color="brand"
-                                total={Math.ceil(dataInfo.count / limit)}
-                                limit={limit}
-                                page={page}
-                                onChange={(page) => setPage(page)}
-                            />
 
-                        </div>
+                        :
+                        <LoadingOverlay visible />
 
-                    </Card>
-                    :
-                    <LoadingOverlay visible />
-                }
+                    }
+                </Card>
             </div>
         </PageProvider>
+        </PermissionWrapper>
     )
 }
 
-const PermissionList = ({ id ,name, description }) => {
+const PermissionList = ({ id, name, description }) => {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
     useEffect(() => {
         setLoading(true)
         getAccessList(id).then(({ data }) => {
-            setData(data)
+            setData(data.accessList)
             setLoading(false)
         })
             .catch((err) => {
-                
+
                 setError(err.response.data.message || err.message || 'Something went wrong')
                 setLoading(false)
             })
@@ -210,8 +196,8 @@ const PermissionList = ({ id ,name, description }) => {
     if (loading) return <LoadingOverlay visible />
 
     if (error) return <Alert color="red" icon={<IconAlertCircle />}>
-            <Text color="red">{error}</Text>
-        </Alert>
+        <Text color="red">{error}</Text>
+    </Alert>
 
     const trueIcon = useMemo(() => <ThemeIcon color="teal" size={24} radius="xl">
         <IconCircleCheck size="1rem" />
@@ -221,35 +207,35 @@ const PermissionList = ({ id ,name, description }) => {
     </ThemeIcon>, [])
 
     return (
-<div>
-   
-    <Title size={18} className="text-neutral-700">{name}</Title>
-    <Title size={12} className="text-neutral-500">{description}</Title>
-    <Divider className="my-4" />
-        <Table striped withBorder className="relative max-w-[100%]">
-            <thead className="text-[10px]">
-                <tr>
-                    <th>Activity</th>
-                    <th>Add</th>
-                    <th>View</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
-                </tr>
-            </thead>
-            <tbody className="text-[10px]">
-                {
-                    data.map((item, index) => (
-                        <tr key={index}>
-                            <td>{item.accessList.activity}</td>
-                            <td>{item.accessList.add ? trueIcon : falseIcon}</td>
-                            <td>{item.accessList.view ? trueIcon : falseIcon}</td>
-                            <td>{item.accessList.edit ? trueIcon : falseIcon}</td>
-                            <td>{item.accessList.delete ? trueIcon : falseIcon}</td>
-                        </tr>
-                    ))
-                }
-            </tbody>
-        </Table>
+        <div>
+
+            <Title size={18} className="text-neutral-700">{name}</Title>
+            <Title size={12} className="text-neutral-500">{description}</Title>
+            <Divider className="my-4" />
+            <Table striped withBorder className="relative max-w-[100%]">
+                <thead className="text-[10px]">
+                    <tr>
+                        <th>Activity</th>
+                        <th>Add</th>
+                        <th>View</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody className="text-[10px]">
+                    {
+                        data.map((item, index) => (
+                            <tr key={index}>
+                                <td>{item.activity}</td>
+                                <td>{item.add ? trueIcon : falseIcon}</td>
+                                <td>{item.view ? trueIcon : falseIcon}</td>
+                                <td>{item.edit ? trueIcon : falseIcon}</td>
+                                <td>{item.delete ? trueIcon : falseIcon}</td>
+                            </tr>
+                        ))
+                    }
+                </tbody>
+            </Table>
         </div>
     )
 }

@@ -5,6 +5,8 @@ import { IconPremiumRights, IconUserCheck } from "@tabler/icons"
 import {useState} from 'preact/hooks'
 import { FaUserEdit, FaUsersCog } from 'react-icons/fa'
 import PermissionsProvider from "../../../../providers/PermissionsProvider"
+import PermissionWrapper from "../../../../providers/PermissionsProvider"
+import { PERMISSIONS } from "../../../../common"
 export default () => {
     
     
@@ -12,17 +14,19 @@ export default () => {
     const [data, setData] = useState({
         "User Management": {
             icon: <FaUserEdit size={30} className="text-[#0071b9]" />,
+            permission: PERMISSIONS["User Management"],
             route: 'users'
         },
         "Roles and Permissions": {
             // icon: <IconPremiumRights size={25} className="text-[#0071b9]" />,
             icon : <FaUsersCog size={30} className="text-[#0071b9]" />,
+            permission: PERMISSIONS["Roles Management"],
             route: 'r&p'
         }
     })
 
     return (
-        // <PermissionsProvider permission={'Dashboard View'}>
+        <PermissionsProvider permission={PERMISSIONS.Administration} view message>
         <PageProvider>
             <div class=''>
                 <Card>
@@ -37,12 +41,14 @@ export default () => {
                             {
                                 Object.keys(data).map((key, index) => {
                                     return (
+                                        <PermissionWrapper permission={data[key].permission} view>
                                         <div className="p-2 m-2 hover:bg-sky-200 transition-all cursor-pointer hover:scale-95 hover:shadow-md rounded-md" onClick={() => { route(`/administration/${data[key].route}`) }} key={index} >
                                             <div className={'flex flex-col items-center justify-center'}>
                                                 {data[key].icon}
                                                 <Text size={'xs'} className="text-sky-700 font-bold">{key}</Text>
                                             </div>
                                         </div>
+                                        </PermissionWrapper>
                                     )
                                 })
                             }

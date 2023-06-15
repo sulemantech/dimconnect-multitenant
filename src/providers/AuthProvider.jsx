@@ -8,12 +8,13 @@ import { lazy } from 'preact/compat'
 
 // import PrivateRoutes from '../routes/PrivateRoutes'
 const PrivateRoutes = lazy(() => import('../routes/PrivateRoutes'))
-// import PublicRoutes from '../routes/PublicRoutes'
-const PublicRoutes = lazy(() => import('../routes/PublicRoutes'))
+import PublicRoutes from '../routes/PublicRoutes'
+// const PublicRoutes = lazy(() => import('../routes/PublicRoutes'))
 
-import api, { getAccessList, refreshAuth } from '../api'
+import api, { getAccessList, getCurrentUserPermissions, getRegionList, refreshAuth } from '../api'
 import appConfig from '../config/appConfig'
 import jwtDecode from 'jwt-decode'
+import { permissible, regsionListSignal, userDataSignal } from '../signals'
 
 const createAuthState = () => {
     const auth = signal(false)
@@ -25,8 +26,25 @@ const createAuthState = () => {
 
     api.defaults.headers.common['authorization'] = `Bearer ${sessionStorage.getItem(appConfig.sessionStorageKey)}`
     const jwt = (jwtDecode(sessionStorage.getItem(appConfig.sessionStorageKey)))
-    getAccessList(1).then(({ data }) => {
-        console.log(data)
+    userDataSignal.value = jwt?.data
+    getRegionList().then(({ data }) => {
+        regsionListSignal.value = data
+    }).catch(err => {
+        console.log(`---->RegionList`, err)
+    })
+    getCurrentUserPermissions().then(({ data }) => {
+        // permissible.value = permissible.value.concat(data.accessList)
+        // update the activity key in permissible.value array with the activity key in the data.accessList array else keep the old value
+        
+        permissible.value = permissible.value.map(p => {
+            const index = data.accessList.findIndex(a => a.activity === p.activity)
+            if (index !== -1) {
+                return data.accessList[index]
+            }
+            return p
+        })
+    }).catch(err => {
+       
     })
     const timer = () => setTimeout(() => {
         if (auth.value && sessionStorage.getItem(appConfig.sessionStorageKey)) {

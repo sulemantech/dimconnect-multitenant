@@ -1,16 +1,16 @@
 
-import { Suspense, lazy, useEffect, useState } from 'preact/compat';
+import { useEffect, useState } from 'preact/compat';
 import {  Map, Marker, ScaleControl, useMap } from 'react-map-gl';
 import maplibregl from 'maplibre-gl';
 import { signal } from '@preact/signals';
-import { LoadingOverlay } from '@mantine/core';
+
 import { showNotification } from '@mantine/notifications';
 
 import SearchControl from '../../private/Admin/Map/SearchControl';
 import DataTiles from '../../private/Admin/Map/DataTiles';
 import { Boundary } from '../../private/Admin/Dashboard/Submap';
 import AddressPoints, { CRUDAddressPoint, } from '../../private/Admin/Map/AddressPoints';
-const InfoCard = lazy(() => import('../../private/Admin/Map/InfoCard'));
+import InfoCard from '../../private/Admin/Map/InfoCard';
 
 import appConfig from '../../../config/appConfig';
 import Popup from '../../private/Admin/Map/Popup';
@@ -19,10 +19,11 @@ import Gpx from '../../private/Admin/Map/Gpx';
 import { IconCompass } from '@tabler/icons';
 import DistrictPhase from '../../private/Admin/Map/DistrictPhase';
 
-import { mapClickBindings , additionalInteractiveLayers , mapStyle, DistrictPhaseVisibility, infoCardVal, visibility, addressPointsCRUDstate } from '../../../signals';
+import { mapClickBindings , additionalInteractiveLayers , mapStyle, DistrictPhaseVisibility, infoCardVal, visibility, addressPointsCRUDstate, mapSignal } from '../../../signals';
 import { FabClass } from '../../../layout';
+import ExtraViewables from '../../private/Admin/Map/ExtraViewables';
 
-
+let mapFirstRender = false
 const CustomGeoLocateData = signal(null)
 export default () => {
   const params = new URLSearchParams(window.location.search)
@@ -74,7 +75,13 @@ export default () => {
       mapLib={maplibregl}
       mapStyle={basemap}
       trackResize={true}
-      // hash={true}
+      onRender={({ target }) => {
+        if (!mapFirstRender) {
+        console.log('map loaded')
+        mapSignal.value = target
+        mapFirstRender = true
+        }
+      }}
       style={{ flex : 1 ,display: 'flex'}}
       initialViewState={{
         longitude: 7.785873,
@@ -98,7 +105,7 @@ export default () => {
         }
     }}
     >
-      
+     
 
         <InfoCard modal presegment={APVPage ? 'ADDRESS POINT' : null} />
         <Boundary noFill />
@@ -132,14 +139,14 @@ export default () => {
         <Gpx />
         <Photos />
         <CRUDAddressPoint />
-      
+          <ExtraViewables />
          <DataTiles ags />
         <Popup />
         
         <CustomGeoLocateMarker />
         </>
 }
-      
+     
     </Map>
   );
 

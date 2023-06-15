@@ -3,19 +3,21 @@ import Footer from "../layout/Footer"
 
 export default ({ children }) => {
     return (
-        
-        <div className="mt-24  ">
-           
-            <div className="relative px-2 ">
+        <>
+            <ScrollArea className="h-screen">
+                <div className="mt-2  ">
 
-            <hr className="" />
-           
-            {children}
-            </div>
-           
-           <Footer />
-          
-        </div>
-      
+                    <div className="relative px-2 ">
+
+                        <hr className="" />
+
+                        {children}
+                    </div>
+
+
+                </div>
+            </ScrollArea>
+            <Footer />
+        </>
     )
 }

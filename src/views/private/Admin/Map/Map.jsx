@@ -17,8 +17,10 @@ import appConfig from '../../../../config/appConfig';
 
 const Gpx = lazy(() => import('./Gpx'));
 
-import { mapClickBindings,addressPointsCRUDstate ,infoCardVal,visibility,mapStyle,additionalInteractiveLayers} from '../../../../signals';
+import { mapClickBindings,addressPointsCRUDstate ,infoCardVal,visibility,mapStyle,additionalInteractiveLayers, mapSignal} from '../../../../signals';
+import ExtraViewables from './ExtraViewables';
 
+let mapFirstRender = false
 
 export default ({ children }) => {
   const [basemap, setBasemap] = useState('https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json')
@@ -61,11 +63,25 @@ export default ({ children }) => {
       mapLib={maplibregl}
       mapStyle={basemap}
       trackResize={true}
+      onMoveEnd={({ target }) => {
+        window.location.hash = `${target.getZoom()}/${target.getCenter().lng}/${target.getCenter().lat}`
+      }}
+      onRender={({ target }) => {
+        if (!mapFirstRender) {
+          if(window.location.hash.split('/').length === 3){
+            const [zoom,lng,lat] = window.location.hash.split('/')
+            
+            target.setZoom(parseFloat(zoom.replace('#','')))
+            target.setCenter([parseFloat(lng),parseFloat(lat)])
+          }
+        console.log('map loaded')
+        mapSignal.value = target
+        mapFirstRender = true
+        }
+      }}
       antialias={true}
       optimizeForTerrain={true}
-      workerCount={4}
-      flex={3}
-      onError={(e) => {}}
+      
       // hash={true}
       refreshExpiredTiles={true}
       style={{ width: '100%', height: '100%' }}
@@ -93,6 +109,7 @@ export default ({ children }) => {
 
         <AddressPoints />
         <SearchControl />
+        <ExtraViewables />
         <MapControls />
         <ScaleControl position='bottom-right' maxWidth={200} unit='metric' />
         {/* <CustomLayerPanel /> */}

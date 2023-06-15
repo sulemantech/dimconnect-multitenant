@@ -90,7 +90,7 @@ const Component = ({ modal = false, presegment = null,val }) => {
                     })
                 }
                 }catch(err){
-                    console.log(err)
+                  
                     distinct.pop()
                 }
             }
@@ -235,7 +235,7 @@ const CustomSegmentedControl = ({ data, value, onChange }) => {
         setTimeout(() => {
             onChange(segment)
 
-        }, 100)
+        }, 10)
     }, [segment])
 
     return (

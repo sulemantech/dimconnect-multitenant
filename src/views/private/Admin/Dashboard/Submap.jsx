@@ -24,7 +24,7 @@ export default () => {
 
       }}
         onClick={(e) => {
-          route(`/map/${dropvalue.value}${window.location.hash}`)
+          route(`/map?ags=${dropvalue.value}${window.location.hash}`)
         }}
         transformRequest={(url, resourceType) => {
             if(url.includes('https://dim-tileserver-dev.hiwifipro.com/data/')) {
@@ -50,16 +50,17 @@ export const Boundary = ({noFill=false}) => {
    
     useEffect(() => {
         dropvalue.subscribe((dropvalueValue) => {
-        if (!map) return
-        if (!districts.value.hasOwnProperty('features')) return
-        const dd = districts.value?.features?.find(district => district.properties?.c == dropvalueValue)
-        if (dd?.geometry == undefined) return 
+            if (!map) return
+            if (!districts.value.hasOwnProperty('features')) return
+            const dd = districts.value?.features?.find(district => district.properties?.c == dropvalueValue)
+            if (dd?.geometry == undefined) return 
+           
         setBound(dd)
         const geometry = dd.geometry.type === 'MultiPolygon' ? dd.geometry.coordinates[0][0] : dd.geometry.coordinates[0]
         const bounds = geometry.reduce((bounds, coord) => {
             return bounds.extend(coord);
         }, new maplibregl.LngLatBounds(geometry[0], geometry[0]));
-        if(window.location.hash) return
+        
         map.fitBounds(bounds, { padding: noFill ? 100 : 10 });
     })
     }, [districts.value])

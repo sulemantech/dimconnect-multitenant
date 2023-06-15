@@ -1,41 +1,64 @@
 import PageProvider from "../../../../providers/PageProvider"
 import CustomTable from "../../../../components/CustomTable"
-import { Card, CardSection, Divider, Pagination } from "@mantine/core"
-import { createUser, deleteUser, editUser, getRoles, getUsers } from "../../../../api";
+import { ActionIcon, Alert, Badge, Button, Card, CardSection, Chip, Divider, Loader, MANTINE_COLORS, MultiSelect, Pagination, Select, Text, Title } from "@mantine/core"
+import { assignRolesToUser, createUser, deleteUser, editUser, getRoles, getUsers } from "../../../../api";
 import { useState, useLayoutEffect } from 'preact/hooks'
 import { IconUser, IconUserCheck, IconUserPlus } from "@tabler/icons";
 import { IconUserCancel } from "@tabler/icons-react";
-import { useDidUpdate } from "@mantine/hooks";
+import { useEffect } from "preact/hooks";
+import { closeDrawer, openDrawer } from "../../../../providers/DrawerProvider";
+import PermissionWrapper from "../../../../providers/PermissionsProvider";
+import { PERMISSIONS } from "../../../../common";
 export default () => {
 
 
-    const [dataInfo, setDataInfo] = useState({ page: 0, count: 10 });
-    const [page, setPage] = useState(1);
+   
     const [data, setData] = useState([]);
-    const [limit, setLimit] = useState(10);
+
     const [roles, setRoles] = useState([]);
     const [ready, setReady] = useState(false)
 
    
     const getData = async () => {
         try {
-            const users = await getUsers(page - 1, JSON.stringify([['id', 'ASC']]), limit).catch(e => setData([]))
-            setData(users.data.users);
+            const rolesx = await getRoles().catch(e => setRoles([]));
+            setRoles(rolesx.data.roles)
+            
+            
+            const users = await getUsers().catch(e => setData([]))
+            setData(users.data.map(user => ({
+                ...user,
+                'Assign Role':<Chip checked={false} 
+                color="blue"
+                
+                variant="light"
+                onClick={() => {
+                    openDrawer({
+                        'title': 'Assign Role',
+                        'children': <AssignRole user={user} roles={rolesx.data.roles} refreshData={refreshData} />
+                    })
+                }}
+            >
+                <Text mt={2} color="brand" className="flex tracking-wide font-semibold text-xs items-center justify-center"> <IconUserPlus className="mr-2" size={20}/> Assign Role</Text>
+              </Chip>,
+            })))
+           
+           
         } catch (err) {}
-        try {
-            const roles = await getRoles().catch(e => setRoles([]));
-            setRoles(roles.data.roles)
-        } catch (err) {}
+        
         setReady(true)
     }
     const refreshData = () => {
         getData()
     }
 
-    useLayoutEffect(getData, [page, limit])
+    useLayoutEffect(()=>{
+        getData()
+    }, [])
 
 
     return (
+        <PermissionWrapper permission={PERMISSIONS["User Management"]} view message>
         <PageProvider>
             <div className="">
 
@@ -107,45 +130,132 @@ export default () => {
                         <Divider />
                     </CardSection>
 
-                    {ready && <CustomTable
-                        attributes={['username', 'email', 'userRole']}
+                    {ready ? <CustomTable
+                   
+                        attributes={['id', 'email', 'userRole','vorname','nachname','agreement_signed','Assign Role']}
                         remove
+                        edit
                         data={data}
-                        setLimit={setLimit}
+                       
                         newStruct={{
                             data: {
-                                username: '',
+                                vorname: '',
+                                nachname: '',
                                 email: '',
-                                userRole: roles.map((role) => ({
-                                    value: role.id,
-                                    label: role.name
-                                })),
-                                password: '',
+                                agreement_signed: false,
                             },
                             createMethod: createUser,
                             deleteMethod: deleteUser,
                             editMethod: editUser,
                         }}
                         refreshData={refreshData}
-                    />}
+                    />
+                        :
+                        <div className="min-h-[300px] items-center flex justify-center">
+                        <Loader color='brand' />
+                        </div>
+                }
 
-                    <div className="flex w-full px-6 py-8">
-                        <p className="text-sm text-neutral-600">
-                            Showing {page * limit - limit + 1} to {page * limit} of {dataInfo.count} entries
-                        </p>
-                        <div className="flex-1"></div>
-                        <Pagination
-                            
-                            total={Math.ceil(dataInfo.count / limit)}
-                            limit={limit}
-                            page={page}
-                            onChange={(page) => setPage(page)}
-                        />
-
-                    </div>
+                  
 
                 </Card>
             </div>
         </PageProvider>
+        </PermissionWrapper>
     )
 }
+
+
+const AssignRole = ({ user, roles, refreshData }) => {
+   
+    const [selectedRole, setSelectedRole] = useState(user.userRole)
+    const [ready, setReady] = useState(false)
+    const [error, setError] = useState(false)
+    const [success, setSuccess] = useState(false)
+    const [loading, setLoading] = useState(false)
+    const [message, setMessage] = useState('')
+    const assignRole = async () => {
+        const temp = {}
+        selectedRole.forEach((role) => {
+            temp[role] = roles.find((r) => r.id === role).name
+        })
+        
+        setLoading(true)
+        try {
+            const res = await assignRolesToUser(user.id, temp )
+            setSuccess(true)
+            setMessage(res.message)
+            refreshData()
+            closeDrawer()
+        } catch (err) {
+            setError(true)
+            setMessage(err.message)
+        }
+        setLoading(false)
+    }
+    useEffect(() => {
+        setReady(true)
+    }
+        , [])
+    return (
+        <PermissionWrapper permission={PERMISSIONS["User Management"]} add>
+        <div className="flex flex-col">
+            <div className="flex flex-col">
+
+{/* user details */}
+
+            <div>
+                <div className="flex flex-col m-auto">
+                    <p className="flex justify-between items-center h-10">
+                    <Text className="text-sm">User ID</Text>
+                    <Text color="brand" className="mt-1">{user.id}</Text>
+                    
+                    </p><Divider /><p className="flex justify-between items-center h-10">
+                    <Text className="text-sm">Email</Text>
+                    <Text color="brand" className="mt-1">{user.email}</Text>
+                    </p><Divider /><p className="flex justify-between items-center h-10">
+                    <Text className="text-sm">Name</Text>
+                    <Text color="brand" className="mt-1">{user.vorname} {user.nachname}</Text>
+                    </p><Divider /><p className="flex justify-between items-center h-10">
+                    <Text className="text-sm">Existing Role</Text>
+                    <Text color="brand" className="mt-1">{user.userRole?.join(', ')}</Text>
+                    </p><Divider />
+                    </div>
+            </div>
+
+                <Title size={'sm'} mt={20}>Select Role</Title>
+               
+                <MultiSelect
+                    className="mt-1"
+                    data={roles?.map((role,index) => ({
+                        value: role.id,
+                        label: <Badge color={MANTINE_COLORS[index]}>{role.name}</Badge>,
+                    }))}
+                   
+                    value={selectedRole}
+                    onChange={(e) => setSelectedRole(e)}
+                />
+            </div>
+            <div className="flex flex-col mt-2">
+                <Button
+                    onClick={assignRole}
+                    loading={loading}
+                    disabled={loading}
+                    className="mt-2"
+                    variant="default"
+                >
+                    Assign Role
+                </Button>
+            </div>
+            {error && <div className="mt-2">
+                <Alert severity="error">{message}</Alert>
+            </div>}
+            {success && <div className="mt-2">
+                <Alert severity="success">{message}</Alert>
+            </div>}
+        </div>
+        </PermissionWrapper>
+    )
+}
+
+

@@ -1,15 +1,13 @@
-import { Avatar, Group, Menu, Select, Burger } from "@mantine/core"
-import { IconLogout } from "@tabler/icons"
-import { useContext, useEffect } from "preact/hooks"
+import { Avatar, Group, Menu, Select, Burger, Box, Breadcrumbs, Anchor } from "@mantine/core"
+import { IconChevronRight, IconLogout } from "@tabler/icons"
+import { useContext, useEffect, useState, useLayoutEffect } from "preact/hooks"
 import { useRouter, route, } from "preact-router"
-import { useShallowEffect } from "@mantine/hooks"
+
 
 import appConfig from "../config/appConfig"
 import { AuthState } from "../providers/AuthProvider"
-import { collapsed,dropvalue } from "../signals"
-
-
-
+import { dropvalue, regsionListSignal, userDataSignal } from "../signals"
+import { IconArrowBadgeRightFilled } from "@tabler/icons-react"
 
 
 
@@ -185,59 +183,69 @@ export const tilesAvailable = [
   { "value": '073405008', "label": "Zweibrücken-Land (Verbandsgemeinde)" },
   { "value": '073405009', "label": "Thaleischweiler-Wallhalben (Verbandsgemeinde)" },
 ]
-
+// {
+//   "ags": "073310000",
+//   "name": "Alzey-Worms",
+//   "bezeichnung": "Kreis",
+//   "bemerkung": "Kreis",
+//   "kreis": null,
+//   "groupid": "021_Alzey-Worms"
+// }
 
 
 export default () => {
+
   const router = useRouter()
   const auth = useContext(AuthState)
+  const [userData, setUserData] = useState(null)
+  const [isOpen, setIsOpen] = useState(false)
+  const [regsionList, setRegsionList] = useState([])
+
+  useLayoutEffect(() => {
+ 
+    const unsub = () => {
+      dropvalue.subscribe((value) => {
+        const parentRoute = router?.[0]?.path?.replace('/:ags', '') || ''
+        route(`${parentRoute}?ags=${value}${window.location.hash}`)
+      })
+      
+
+      userDataSignal.subscribe(value => {
+
+        setUserData(value)
+      })
+
+      regsionListSignal.subscribe(value => {
+        setRegsionList(value.map(item => ({
+          value: item.ags,
+          label: item.name
+        })
+        ))
+      })
+
+     
+
+    }
+
+    return unsub()
+  }, [])
+
+
+
   const logout = () => {
     sessionStorage.removeItem(appConfig.sessionStorageKey)
     auth.setAuth(false)
     window.location.reload()
   }
 
-  const currentRoute = router[0].path
-
-  useEffect(() => {
-    let firstPageLoad = true
-    dropvalue.subscribe((value) => {
-      if (firstPageLoad && currentRoute !== '/map') {
-        firstPageLoad = false
-        return
-      }
-      const parentRoute = router?.[0]?.path?.replace('/:ags', '') || ''
-      route(`${parentRoute}/${value}${window.location.hash}`)
-    })
-  }, [])
-  useShallowEffect(() => {
-    if (router[0].matches?.ags) {
-      dropvalue.value = router[0].matches.ags
-    } else {
-      const parentRoute = router?.[0]?.path?.replace('/:ags', '') || ''
-      // route(`${parentRoute}/${dropvalue.value}${window.location.hash}`)
-    }
-  }, [])
 
   return (
-    <div className="absolute z-[100] shadow-lg border-white border-solid border-2 items-center right-0 left-0 m-2 rounded-2xl top-0 h-20  flex px-4 bg-[#0071b9] ">
-      <Burger
-        onClick={() => {
-          collapsed.value = !collapsed.value
-        }}
-        className="mr-4"
-        color="white"
-        size="sm"
-        opened={collapsed.value}
-      />
-
-      <div className="flex-grow font-thin text-white text-lg">
+    <div className=" z-[100] shadow-lg right-0 left-0 top-0">
+    <div className=" items-center  h-20 bg-white flex p-2 text-[#0071b9] ">
+      <div className="flex-grow font-bold text-[#0071b9] text-lg">
         <h6 className={window.innerWidth < 768 ? 'text-xs' : 'text-lg'}>
           {
-
-            router[0].matches?.ags ? tilesAvailable.find((tile) => tile.value === router[0].matches.ags)?.label
-              :
-              router[0].url.replace('/', '').toUpperCase() || 'DASHBOARD'
+           ( (router[0].path?.split(':'))?.[0]?.split('/')?.[1])?.toUpperCase().split('_').join(' ')
           }
         </h6>
       </div>
@@ -245,13 +253,14 @@ export default () => {
 
       <Select
         className="ml-4"
-        radius="xl"
-        size="sm"
-        placeholder="Select"
+        radius="lg"
+        size="xs"
+        placeholder="Select AGS"
         searchable
         autoComplete="on"
-        data={tilesAvailable}
-        sx={{ width: 200 }}
+        data={regsionList}
+        color="brand"
+        sx={{ width: 350 }}
         defaultValue={dropvalue.value}
         onChange={(value) => {
           dropvalue.value = value
@@ -265,16 +274,30 @@ export default () => {
         transition="pop-top-right"
 
       >
+     
         <Menu.Target>
           <div className="items-center flex cursor-pointer hover:scale-105 transition-all">
-            <Group color="white" spacing={7}>
-              <Avatar size='md' radius="xl" />
+            <Group color="brand" spacing={7}>
+              <Avatar size='md' color="brand" variant="outline" radius="lg" />
 
 
             </Group>
           </div>
         </Menu.Target>
         <Menu.Dropdown>
+
+          <Box className="p-4">
+            <div className="flex items-center">
+              <Avatar size='md' radius="lg" />
+              <div className="ml-4">
+                <h6 className="text-sm font-semibold">{userData?.nachname} {userData?.vorname}</h6>
+                <p className="text-xs text-gray-500">{userData?.email}</p>
+              </div>
+            </div>
+          </Box>
+          <Menu.Divider />
+
+
 
           <Menu.Item color="red" icon={<IconLogout size={14} stroke={1.5} />} onClick={logout}>
             Logout
@@ -283,7 +306,26 @@ export default () => {
       </Menu>
 
 
+    
 
     </div>
+      <Breadcrumbs separator={<IconArrowBadgeRightFilled size={14} className="text-[#0071b9]" />}
+      p='xs'
+        className="bg-neutral-200 items-center text-xs "
+        style={{
+          clipPath: 'polygon(0 0, 60% 39%, 100% 100%, 0% 100%)',
+        }}
+      >{
+     
+        router[0].path?.split(':')?.[0]?.split('/').filter(item => item !== '')
+          .map((item, index) => {
+            return (
+            <Anchor href={`${index === 0 ? '/' : ''}${item}`} className="text-[#0071b9]">
+              {item.split('_').join(' ').toUpperCase()}
+            </Anchor>
+          )})
+      }
+  </Breadcrumbs>
+</div>
   )
 }

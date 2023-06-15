@@ -1,39 +1,80 @@
 import { signal } from '@preact/signals'
-
-export const dropvalue = signal('073140000')
+// check if url has ags query param
+const urlParams = new URLSearchParams(window.location.search);
+const ags = urlParams.get('ags');
+export const dropvalue = signal(ags?ags:'072325001')
 export const districts = signal({})
 export const mapClickBindings = signal({})
 export const collapsed = signal(false)
 export const costInfoData = signal(null);
+export const userDataSignal = signal(null);
+export const regsionListSignal = signal([]);
+export const permissible = signal([
+    {
+        "activity": "Dashboard",
+        "add": false,
+        "view": false,
+        "edit": false,
+        "delete": false
+    },
+    {
+        "activity": "Administration",
+        "add": false,
+        "view": false,
+        "edit": false,
+        "delete": false
+    },
+    {
+        "activity": "User Management",
+        "add": false,
+        "view": false,
+        "edit": false,
+        "delete": false
+    },
+    {
+        "activity": "Roles Management",
+        "add": false,
+        "view": false,
+        "edit": false,
+        "delete": false
+    },
+    {
+        "activity": "Map",
+        "add": false,
+        "view": false,
+        "edit": false,
+        "delete": false
+    },
+    {
+        "activity": "AddressPoint",
+        "add": false,
+        "view": false,
+        "edit": false,
+        "delete": false
+    },
+    {
+        "activity": "Photo",
+        "add": false,
+        "view": false,
+        "edit": false,
+        "delete": false
+    },
+    {
+        "activity": "Video",
+        "add": false,
+        "view": false,
+        "edit": false,
+        "delete": false
+    },
+    {
+        "activity": "Ticket",
+        "add": false,
+        "view": false,
+        "edit": false,
+        "delete": false
+    }
+])
 
-export const permissible = signal({
-
-    'Admin Map View': {
-        componentID: 'Admin Map View',
-        read: true,
-        write: true,
-        delete: true,
-    },
-    "Address Point Validation": {
-        componentID: "Address Point Validation",
-        read: true,
-        write: true,
-        delete: true,
-    },
-    'Dashboard View': {
-        componentID: 'Dashboard View',
-        read: true,
-        write: true,
-        delete: true,
-    },
-    'Ticket Resolution': {
-        componentID: 'Ticket Resolution',
-        read: true,
-        write: true,
-        delete: true,
-    },
-
-})
 
 export const UserType = signal('admin')
 
@@ -52,8 +93,8 @@ export const addressPointsCRUDstate = signal('')
 export const visibility = signal(null)
 export const photoVisibility = signal(true)
 
-export const mapStyle = signal('https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json')
-
+export const mapStyle = signal('https://basemaps.cartocdn.com/gl/positron-gl-style/style.json')
+export const mapSignal = signal(null)
 export const additionalInteractiveLayers = signal(['addressPoints'])
 
 
@@ -156,3 +197,52 @@ export const editControlLoading = signal(false)
 export const videoVisibility = signal(true)
 
 export const infoCardVal = signal(null)
+
+export const BarrierState = signal(false)
+export const roadandwaterstate = signal(false)
+export const equipmentState = signal(false)
+
+export const costInputParams = signal({
+    "cables": {
+      "distribution": {
+        "materialCost": 9,
+        "labourCost": 1
+      },
+      "feeder": {
+        "materialCost": 8.09,
+        "labourCost": 8.09
+      },
+      "primary": {
+        "materialCost": 8.09,
+        "labourCost": 8.09
+      }
+    },
+    "duct": {
+      "distribution": {
+        "materialCost": 8.09,
+        "labourCost": 8.09
+      },
+      "feeder": {
+        "materialCost": 8.09,
+        "labourCost": 8.09
+      },
+      "primary": {
+        "materialCost": 8.09,
+        "labourCost": 8.09
+      }
+    },
+    "homeActivation": {
+      "building": {
+        "greaterMaterialCost":8.09,
+        "greaterLabourCost": 8.09,
+        "lowerMaterialCost":8.09,
+        "lowerLabourCost": 8.09
+      },
+      "home": {
+        "greaterMaterialCost":8.09,
+        "greaterLabourCost": 8.09,
+        "lowerMaterialCost":8.09,
+        "lowerLabourCost": 8.09
+      }
+    }
+  })

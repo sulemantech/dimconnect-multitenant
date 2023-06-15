@@ -20,7 +20,7 @@ export default () => {
     getGPXList(dropvalue.value).then(({ data }) => {
       setData(data?.[0]?.json_object_agg)
     }).catch((err) => {
-      console.log(err)
+      
     })
 
   }, [dropvalue.value])
@@ -59,7 +59,7 @@ export default () => {
                           })
                           extendedGPXData.value = convertedData
                         }).catch((err) => {
-                          console.log(err)
+                          
                         })
                       }} />
                     </Marker>
