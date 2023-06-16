@@ -318,7 +318,7 @@ export default () => {
 
       >{
 
-          router[0].path?.split(':')?.[0]?.split('/').filter(item => item !== '')
+          router[0].url?.split('?')?.[0]?.split('/').filter(item => item !== '')
             .map((item, index) => {
               return (
                 <Anchor href={`${index === 0 ? '/' : ''}${item}`} className="text-neutral-500">

@@ -1,10 +1,39 @@
-import { Input } from "@mantine/core"
+import { Input, ScrollArea } from "@mantine/core"
 import { IconSearch } from "@tabler/icons"
+import { useEffect, useState } from "preact/hooks"
+
 import Icons from "../../../../layout/icons"
+import { getFAQs } from "../../../../api"
+import { Link } from "preact-router"
+import { FAQState } from "../../../../signals"
+
+export const getFAQ_Memory = async () => {
+    if(FAQState.value.length < 1) {
+        const res = await getFAQs("d2lmaS10ZXN0MUBybHAuZGV2LXR1di5kZTpXaWZpLVRlc3Qx")
+        
+        FAQState.value = res.data.list
+        return res.data.list
+    }else{
+        console.log(FAQState.value)
+        return FAQState.value
+    }
+}
+
 
 export default () => {
+
+    const [data, setData] = useState([])
+    useEffect(() => {
+        getFAQs("d2lmaS10ZXN0MUBybHAuZGV2LXR1di5kZTpXaWZpLVRlc3Qx").then((res) => {
+            FAQState.value = res.data.list
+        })
+        FAQState.subscribe(setData)
+    }, [])
+
+    const categories = [...new Set(data.map(item => Object.values(item.categoriesNames)[0]))];
+
     return (
-        <div className={'h-screen bg-white'}>
+        <div className={'h-screen bg-white overflow-x-auto'}>
             <div style={{ backgroundImage: 'url("/horizontal blue background.svg")' }} className="flex flex-col pl-20 justify-center h-1/3">
                 <div className="text-4xl font-bold tracking-wide text-white">We Can Help.</div>
                 <div className="text-xs text-white my-2">FAQ : Frequently Asked Questions, Conclusively Answered</div>
@@ -21,24 +50,27 @@ export default () => {
                 </ul>
             </div>
             <div className={`px-16 mt-10`}>
-
-                <div className={`flex`}>
-                    <PageControlButton label={'General Questions'} href={'/'} icon={<Icons.TopicFAQ />} />
-                    <PageControlButton label={'General Questions'} href={'/'} icon={<Icons.TopicFAQ />} />
-                    <PageControlButton label={'General Questions'} href={'/'} icon={<Icons.TopicFAQ />} />
+                <ScrollArea className={`h-96`}>
+                <div className="grid grid-cols-3 gap-4">
+                    {
+                    categories.map((category, index) => (
+                        <Link href={`./faq/${category}`} >
+                            <PageControlButton
+                                label={category}
+                                key={index}
+                                icon={<Icons.TopicFAQ />}
+                            />
+                        </Link>
+                    ))}
                 </div>
-                <div className={`flex`}>
-                <PageControlButton label={'General Questions'} href={'/'} icon={<Icons.TopicFAQ />} />
-                    <PageControlButton label={'General Questions'} href={'/'} icon={<Icons.TopicFAQ />} />
-                    <PageControlButton label={'General Questions'} href={'/'} icon={<Icons.TopicFAQ />} />
-                </div>
+                </ScrollArea>
             </div>
 
         </div>
     )
 }
 
-const PageControlButton = ({icon, label, href}) => {
+const PageControlButton = ({ icon, label, href }) => {
     return (
         <div className={`flex flex-1 flex-col justify-center items-center space-x-2 bg-slate-300 m-2 rounded-3xl shadow-md border-white border-2 border-solid py-2 hover:scale-105 transition-all cursor-pointer`}>
             <div className={`flex justify-center items-center w-10 h-10 rounded-full  text-[#0071b9]`}>

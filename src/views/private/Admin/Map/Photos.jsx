@@ -8,32 +8,35 @@ import { openModal } from "@mantine/modals"
 
 import { dispatchPopupView } from "./Popup"
 import { getPhotos } from "../../../../api"
-import { dropvalue,photoVisibility } from "../../../../signals"
+import { dropvalue, photoVisibility } from "../../../../signals"
 
 
 export default () => {
     const [data, setData] = useState([])
     useEffect(() => {
-        getPhotos(dropvalue.value).then(({ data }) => {
-           
-            setData(data?.[0]?.json_object_agg)
-        }).catch((err) => {
-            setData([])
+        dropvalue.subscribe((value) => {
+            getPhotos(value).then(({ data }) => {
+
+                setData(data?.[0]?.json_object_agg)
+            }).catch((err) => {
+                setData([])
+            })
         })
-    }, [dropvalue.value])
+    }, [])
 
     const markers = useMemo(() => {
-       if(!photoVisibility.value) return null
+        if (!photoVisibility.value) return null
+        if (!data) return null
         return Object.keys(data)?.map((key) => (
             <>
                 {
-                    data[key].filter((item) => parseFloat(item[3]) > 0 && parseFloat(item[2]) > 0)?.map((item,index) => (
+                    data[key].filter((item) => parseFloat(item[3]) > 0 && parseFloat(item[2]) > 0)?.map((item, index) => (
                         <Marker
                             key={'efe0' + index}
                             latitude={parseFloat(item[3])}
                             longitude={parseFloat(item[2])}
                             anchor="bottom"
-                            
+
                         >
                             <Pin onClick={(e) => {
                                 e.stopPropagation();
@@ -43,7 +46,7 @@ export default () => {
                                 setTimeout(() => {
                                     dispatchPopupView(<ImageComponent src={`${appConfig.backendUrl}/static${item[1]}.jpeg`} />, parseFloat(item[3]), parseFloat(item[2]))
                                 }, 500)
-                            }}/>
+                            }} />
                         </Marker>
                     ))
                 }
@@ -53,17 +56,17 @@ export default () => {
 
     return (
         <>
-            {markers}
+            {data && markers}
         </>
     )
 }
 
 const ImageComponent = ({ src }) => {
-   return <>
+    return <>
         <div className="flex flex-col items-center">
             <img className="w-64 h-64 cursor-pointer hover:scale-90 transition-transform" src={src}
-             
-                onClick={()=>{
+
+                onClick={() => {
                     openModal({
                         children: <img className="w-full h-full" src={src} />
                     })

@@ -78,3 +78,5 @@ export const getEquipment = (districtId,minX, minY, maxX, maxY) => api.get(`netz
 export const getTicketsCategories = () => api.get(`/ticketcategory/all`)
 export const getTicketPriorities = () => api.get(`/ticketpriority/all`)
 export const postTicket = (data) => api.post(`/tickets`, data)
+
+export const getFAQs = (auth) => api.get(`/faqs?auth=${auth}`)

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'preact/hooks';
-import { TextInput, Button, Select, Paper, Textarea } from '@mantine/core';
+import { TextInput, Button, Select, Paper, Textarea, Title } from '@mantine/core';
 import { getTicketPriorities, getTicketsCategories, postTicket } from '../../../../api';
 import { showNotification } from '@mantine/notifications';
 
@@ -57,6 +57,7 @@ export default function TicketCreationPage() {
   return (
     <div className="p-4 w-full">
       <Paper p='lg' className="space-y-4">
+        <Title order={3}>Create Ticket</Title>
         <TextInput
           label="Title"
           placeholder="Enter title"
@@ -93,7 +94,9 @@ export default function TicketCreationPage() {
           value={ticketData.priority_id}
           onChange={(value) => setTicketData({ ...ticketData, priority_id: value })}
         />
-        <Button onClick={handleTicketSubmit}>Create Ticket</Button>
+        <Button 
+        loading={loading} 
+        onClick={handleTicketSubmit}>Create Ticket</Button>
       </Paper>
     </div>
   );

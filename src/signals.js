@@ -248,3 +248,4 @@ export const costInputParams = signal({
   })
 
   export const regionCostState = signal(false)
+  export const FAQState = signal([])
