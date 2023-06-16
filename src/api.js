@@ -74,3 +74,7 @@ export const getRegionListByAGS = (ags) => api.get(`/region/list/${ags}`)
 export const getBoundaries = (districtId) => api.get(`netzplanning/boundries/${districtId}`)
 export const getEquipment = (districtId,minX, minY, maxX, maxY) => api.get(`netzplanning/point-lookup/${districtId}/${minX}/${minY}/${maxX}/${maxY}`)
 
+// tickets
+export const getTicketsCategories = () => api.get(`/ticketcategory/all`)
+export const getTicketPriorities = () => api.get(`/ticketpriority/all`)
+export const postTicket = (data) => api.post(`/tickets`, data)

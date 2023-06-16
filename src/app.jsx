@@ -12,6 +12,7 @@ const AuthProvider = lazy(() => import('./providers/AuthProvider'));
 
 import { districts } from './signals';
 
+
 fetch('/german.json.lz').then(res => res.text()).then(res => {
   const uncompressed = JSON.parse(LZString.decompressFromBase64(res))
 
@@ -46,6 +47,7 @@ export function App() {
       }}
 
     >
+
       
       <Suspense fallback={<LoadingOverlay visible />} >
         <ModalsProvider modalProps={{

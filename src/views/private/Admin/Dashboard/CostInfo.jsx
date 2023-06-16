@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'preact/hooks';
-import { Loader, Table } from '@mantine/core';
+import { ActionIcon, Loader, SegmentedControl, Table } from '@mantine/core';
 import { Input } from '@mantine/core';
 import { commarize } from '../../../../utils/convertor';
 import { dropvalue, costInfoData, costInputParams } from '../../../../signals';
 import { getCostInfoByDistrictId } from '../../../../api';
 import appConfig from '../../../../config/appConfig';
 import axios from 'axios';
+import { openDrawer } from '../../../../providers/DrawerProvider';
+import { IconRefresh, IconSettings } from '@tabler/icons';
+import { useDidUpdate } from '@mantine/hooks';
 
 
 const costInfoSampleData = {
@@ -142,118 +145,256 @@ const costInfoSampleData = {
 }
 
 export default () => {
-  const [data, setData] = useState({}); // as costInfoSampleData
+  const [data, setData] = useState(null); // as costInfoSampleData
   const [loading, setLoading] = useState(false);
+  const [ags, setAgs] = useState('');
   useEffect(() => {
-    dropvalue.subscribe((value) => {
-      setLoading(true);
+    dropvalue.subscribe(setAgs)
+  }, [])
+  
+  useDidUpdate(() => {
+    if (ags) {
+      getCost();
+      costInfoData.subscribe(setData);
+    }
+  }, [ags])
 
-      const URLSearchParam = new URLSearchParams();
-      URLSearchParam.append('costs', JSON.stringify(costInputParams.value));
+  const getCost = () => {
+    setLoading(true);
+    const URLSearchParam = new URLSearchParams();
+    URLSearchParam.append('costs', JSON.stringify(costInputParams.value));
+    getCostInfoByDistrictId(ags, URLSearchParam)
 
-      
-      
-        
-      getCostInfoByDistrictId(value,URLSearchParam)
-      
       .then((res) => {
-        
+
         setLoading(false);
         costInfoData.value = res.data;
       }).catch((err) => {
         setLoading(false);
         console.log(err);
       })
-    })
-    costInfoData.subscribe((data) => {
-      setData(data);
-    });
-  }, [])
+  }
 
   if (loading) {
     return <div className='flex justify-center h-full items-center'><Loader size='lg' /></div>
   }
   return (
     <>
+      <div className="flex">
 
-      { Object.keys(data).length > 0 && 
-        Object.keys(data).map((key) => (
-          <>
-            <div className='my-2 flex tracking-wider font-bold items-center text-center text-sky-600'>
-              {key.toUpperCase()}
-            </div>
-            <hr />
-            <Table className="w-full" striped responsive>
-              <thead>
-                <tr>
-                  <th>Type</th>
-                  <th>Material Cost</th>
-                  <th>Labour Cost</th>
-                  <th>Volume</th>
-                  <th>Total Cost</th>
-                </tr>
-              </thead>
-              <tbody>
-                {
-                  
-                  key == 'homeActivation' ? <> 
-                  <tr>
-                    <td className='text-xs'>Total Building Count</td>
-                    
-                    </tr>
-                  </>
-                  :
-                  Object.keys(data[key]).map((item) =>{ 
-                    const dd = data[key][item];
-                    const reduced = dd.reduce((acc, item) => {
+        <p className="flex-grow flex-1 font-thin text-neutral-700 text-lg">
+          Cost Info
+        </p>
+        <div className='flex'>
+          <ActionIcon
+            onClick={() => {
+              getCost();
+            }}
+          >
+            <IconRefresh />
 
-                      if(key == 'cable'){
-                        acc.materialcost = acc.materialcost + parseFloat(item.duct_materialcost);
-                        acc.labourcost = acc.labourcost + parseFloat(item.duct_labourcost);
-                        acc.total = acc.total + parseFloat(item.total);
-                        acc.volume = acc.volume + parseFloat(item.duct_volume);
-                        acc.total_cost = acc.total_cost + parseFloat(item.total_cost);
-                      }else{
 
-                      acc.materialcost = acc.materialcost + parseFloat(item.materialcost);
-                      acc.labourcost = acc.labourcost + parseFloat(item.labourcost);
-                      acc.total = acc.total + parseFloat(item.total);
-                      acc.volume = acc.volume + parseFloat(item.volume);
-                      acc.total_cost = acc.total_cost + parseFloat(item.total_cost);
-                      }
-                      return acc;
-                    }, {
-                      materialcost: 0,
-                      labourcost: 0,
-                      total: 0,
-                      volume: 0,
-                      total_cost: 0
-                    })
-                   return (
-                    <>
-                
-                      return <tr>
-                      <td className='text-xs'>{item.split('_').join(' ').toUpperCase()}</td>
-                      <td>{commarize(reduced.materialcost)} €</td>
-                      <td>{commarize(reduced.labourcost)} €</td>
-                      <td>{commarize(reduced.volume)} €</td>
-                      <td>{commarize(reduced.total_cost)} €</td>
-                    </tr>
-                     
-                    
-                    </>
-                  )
-                })
-                }
-              </tbody>
-            </Table>
-          </>
-        ))
-      }
+          </ActionIcon>
+
+          <ActionIcon onClick={() => {
+            openDrawer({
+              children: <CostInfoSettings />,
+              title: 'Cost Info Settings'
+            })
+          }}>
+            <IconSettings />
+          </ActionIcon>
+        </div>
+      </div>
+      <hr />
+      {data && <CostInfoModalContent data={data} />}
     </>
   )
 }
 
+
+
+
+
+export const CostInfoModalContent = ({ data }) => {
+  
+  const [segmentedControl, setSegmentedControl] = useState('homeActivation')
+
+  return (
+      <div>
+          <SegmentedControl
+              className="mb-4"
+              data={[
+                  { label: 'Home Activation', value: 'homeActivation' },
+                  { label: 'Cables', value: 'cable' },
+                  { label: 'Ducts', value: 'duct' },
+              ]}
+              fullWidth
+              color="brand"
+              onChange={(value) => {
+                  setSegmentedControl(value)
+              }}
+              value={segmentedControl}
+          />
+          <div>
+              {
+                  segmentedControl === 'cable' ?
+                      <CableTable data={data.cables} />
+                      : segmentedControl === 'duct' ?
+                          <DuctTable data={data.duct} />
+                          : segmentedControl === 'homeActivation' ?
+                              <HomeActivationTable data={data.homeActivation} />
+                              : null
+              }
+          </div>
+
+      </div>
+  )
+}
+
+
+export const HomeActivationTable = ({ data }) => {
+
+  return (
+      <div>
+          
+          <div className="flex flex-col">
+              <div className="-my-2 overflow-x-auto">
+                  <div className="py-2 align-middle inline-block min-w-full overflow-hidden sm:px-6 lg:px-8">
+                      <div className="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
+                          <table className="min-w-full divide-y divide-gray-200">
+                              <thead className="bg-gray-50">
+                                  <tr>
+
+                                      <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                                          Key
+                                      </th>
+                                      <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                                          Value
+                                      </th>
+                                  </tr>
+                              </thead>
+                              <tbody className="bg-white divide-y divide-gray-200">
+                                  {
+                                      Object.keys(data).map((key, index) => {
+                                          return (
+                                              <tr key={index}>
+                                                  <td className="px-6 py-4 whitespace-nowrap">
+                                                      <div className="text-sm text-gray-900">{key.split('_').join(' ').toUpperCase()}</div>
+                                                  </td>
+                                                  <td className="px-6 py-4 whitespace-nowrap">
+                                                      {
+
+                                                          <div className="text-sm text-gray-900">{commarize(data[key])}</div>
+
+                                                      }
+                                                  </td>
+                                              </tr>
+                                          )
+                                      })
+                                  }
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div >
+  )
+}
+
+
+
+export const DuctTable = ({ data }) => {
+  const sections = Object.keys(data);
+
+  return (
+      <div className="overflow-x-auto">
+          {sections.map(section => (
+              <div key={section}>
+                  <h2 className="text-md font-semibold mt-4 mb-2 text-sky-700">{section.split('_').join(' ').toUpperCase()}</h2>
+                  <hr />
+                  <div className=" overflow-x-auto">
+                      <div className="py-2 px-1 align-middle inline-block min-w-full overflow-hidden shadow-md">
+                          <div className="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
+                              <table className="min-w-full divide-y divide-gray-200">
+                                  <thead className="justify-between">
+                                      <tr>
+                                          <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Duct Type</th>
+                                          <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Material Cost</th>
+                                          <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Labour Cost</th>
+                                          <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Volume</th>
+                                          <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Total Cost</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                      {data[section].map((row, index) => (
+                                          <tr key={index} className={index % 2 === 0 ? 'bg-gray-200' : ''}>
+                                              <td className="px-2 py-4 whitespace-nowrap text-xs text-gray-900">{row.duct_type}</td>
+                                              <td className="px-2 py-4 whitespace-nowrap text-xs text-gray-900">{row.duct_materialcost}</td>
+                                              <td className="px-2 py-4 whitespace-nowrap text-xs text-gray-900">{row.duct_labourcost}</td>
+                                              <td className="px-2 py-4 whitespace-nowrap text-xs font-semibold text-gray-900">{commarize(row.duct_volume)}</td>
+                                              <td className="px-2 py-4 whitespace-nowrap text-xs font-semibold text-gray-900">{commarize(row.total_cost)}</td>
+                                          </tr>
+                                      ))}
+                                  </tbody>
+                              </table>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          ))}
+      </div>
+  );
+};
+
+
+export const CableTable = ({ data }) => {
+  const sections = Object.keys(data);
+
+  return (
+      <div className="overflow-x-auto">
+          
+          {sections.map(section => (
+              <div key={section}>
+                  <h2 className="text-md font-semibold mt-4 mb-2 text-sky-700">{section.split('_').join(' ').toUpperCase()}</h2>
+                  <hr />
+                  <div className=" overflow-x-auto">
+                      <div className="py-2 px-1 align-middle inline-block min-w-full overflow-hidden shadow-md">
+                          <div className="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
+                              <table className="min-w-full divide-y divide-gray-200">
+                                  <thead className="justify-between">
+                                      <tr>
+                                          <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Cable Type</th>
+                                          <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Material Cost</th>
+                                          <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Labour Cost</th>
+                                          <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Total</th>
+                                          <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Volume</th>
+                                          <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Total Cost</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                      {data[section].map((row, index) => (
+                                          <tr key={index} className={index % 2 === 0 ? 'bg-gray-200' : ''}>
+                                              <td className="px-2 py-4 whitespace-nowrap text-xs text-gray-900">{row.cable_type}</td>
+                                              <td className="px-2 py-4 whitespace-nowrap text-xs text-gray-900">{row.materialcost}</td>
+                                              <td className="px-2 py-4 whitespace-nowrap text-xs text-gray-900">{row.labourcost}</td>
+                                              <td className="px-2 py-4 whitespace-nowrap text-xs text-gray-900">{row.total}</td>
+                                              <td className="px-2 py-4 whitespace-nowrap text-xs font-semibold text-gray-900">{commarize(row.volume)}</td>
+                                              <td className="px-2 py-4 whitespace-nowrap text-xs font-semibold text-gray-900">{commarize(row.total_cost)}</td>
+                                          </tr>
+                                      ))}
+                                  </tbody>
+                              </table>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          ))
+          }
+      </div >
+  );
+};
 
 
 export const CostInfoSettings = () => {
@@ -281,13 +422,13 @@ export const CostInfoSettings = () => {
                 <td> {key.toUpperCase()}</td>
                 <td>
                   <Input type="number" value={data.cables[key].materialCost} onChange={(e) => {
-                    data.cables[key].materialCost = e.target.value;
+                    data.cables[key].materialCost = parseFloat(e.target.value);
                     setData(data);
                   }} />
                 </td>
                 <td>
                   <Input type="number" value={data.cables[key].labourCost} onChange={(e) => {
-                    data.cables[key].labourCost = e.target.value;
+                    data.cables[key].labourCost = parseFloat(e.target.value);
                     setData(data);
                   }} />
                 </td>

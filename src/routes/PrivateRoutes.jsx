@@ -15,6 +15,7 @@ const PermissionsManagement = lazy(() => import('../views/private/Admin/Administ
 import { UserType } from '../signals';
 import Ticket from '../views/private/Admin/Ticket';
 import FAQ from '../views/private/Customer/Support Team/FAQ';
+import CreateTicket from '../views/private/Customer/Support Team/CreateTicket';
 
 const TypeRoutes = {
     'admin': [
@@ -26,6 +27,7 @@ const TypeRoutes = {
         <Ticket path="/support_ticket_office/inbox" />,
         <Styles path="/styles" />,
         <FAQ path="/support_team/faq" />,
+        <CreateTicket path="/support_team/support_ticket" />,
     ],
 }
 

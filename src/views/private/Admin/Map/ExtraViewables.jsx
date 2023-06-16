@@ -1,17 +1,23 @@
 
-import { Button, Divider, LoadingOverlay, Menu, SegmentedControl } from "@mantine/core"
-import { IconEye, IconBarrierBlock, IconRoad, IconTools } from "@tabler/icons"
+import { ActionIcon, Button, Divider, LoadingOverlay, Menu, SegmentedControl } from "@mantine/core"
+import { IconEye, IconBarrierBlock, IconRoad, IconTools, IconDownload } from "@tabler/icons"
 import { closeAllModals, openModal } from "@mantine/modals"
 import { useState, useEffect, useMemo } from "preact/hooks"
 import { useDidUpdate } from "@mantine/hooks"
 import { Layer, Marker, Source } from "react-map-gl"
 import proj4 from "proj4"
 import * as turf from "@turf/turf"
-
+import { Page, Text, View, Document, StyleSheet, PDFDownloadLink, usePDF, PDFViewer, } from '@react-pdf/renderer';
+import React from "react"
 import { BarrierState, dropvalue, mapSignal, roadandwaterstate, equipmentState, districts, regionCostState, mapClickBindings, costInputParams } from "../../../../signals"
 import { FabClass } from "../../../../layout"
 import { getBoundaries, getCostInfoByDistrictId, getEquipment } from "../../../../api"
 import { IconWorldDollar } from "@tabler/icons-react"
+import { commarize } from "../../../../utils/convertor"
+import { jsPDF } from "jspdf";
+import autoTable from 'jspdf-autotable';
+import GeoCodingOSM from "geocoding-osm"
+import { CostInfoModalContent,CableTable,CostInfoSettings,DuctTable,HomeActivationTable } from "../Dashboard/CostInfo"
 
 
 const barrierLayers = {
@@ -345,6 +351,66 @@ const Barriers = () => {
     )
 }
 
+const generatePDF = (data,fileName) => {
+    const doc = new jsPDF();
+
+    // add title of filename
+    doc.text(`${fileName} kalkulation`, 10, 10);
+    
+
+  
+    const categories = ['distribution', 'feeder', 'primary'];
+  
+    let startY = 30;
+    for (let category of categories) {
+      const cableHeaders = [['Cable Type', 'Material Cost', 'Labour Cost', 'Total', 'Volume', 'Total Cost']];
+      const cableData = data.cables[category].map(item => Object.values(item));
+      doc.text(`Cables - ${category}`, 10, startY);
+      doc.autoTable({
+        head: cableHeaders,
+        body: cableData,
+        startY: startY + 5
+      });
+  
+      const ductHeaders = [['Duct Type', 'Material Cost', 'Labour Cost', 'Volume', 'Total Cost']];
+      const ductData = data.duct[category].map(item => Object.values(item))
+      startY = doc.lastAutoTable.finalY + 10;
+      doc.text(`Ducts - ${category}`, 10, startY);
+      doc.autoTable({
+        head: ductHeaders,
+        body: ductData,
+        startY: startY + 5
+      });
+  
+      startY = doc.lastAutoTable.finalY + 10;
+    }
+  
+    // const activationHeaders = [['Building Count', '1 to 3 Buildings', 'Building Connections 1 to 3', 'Building Per Connection Cost 1 to 3', 'Total Cost Building Connections 1 to 3', 'Building Count 3 Plus', 'Building Connections 3 Plus', 'Building Per Connection Cost 3 Plus', 'Total Cost Building Connections 3 Plus', 'Total Homes Count', 'Homes Count 1 to 3', 'Home Count Connections 1 to 3', 'Home Count Per Connection Cost 1 to 3', 'Total Cost Home Count Connections 1 to 3', 'Home Count 3 Plus', 'Home Count Connections 3 Plus', 'Home Count Per Connection Cost 3 Plus', 'Total Cost Home Count Connections 3 Plus', 'Total Cost']];
+    // const activationData = [Object.values(data.homeActivation)];
+    // startY = doc.lastAutoTable.finalY + 10;
+    // doc.text(`Home Activation`, 10, startY);
+    // doc.autoTable({
+    //   head: activationHeaders,
+    //   body: activationData,
+    //   startY: startY + 5
+    // });
+
+    const activationHeaders = [['key', 'value']];
+    const activationData = Object.entries(data.homeActivation);
+    startY = doc.lastAutoTable.finalY + 10;
+    doc.text(`Home Activation`, 10, startY);
+    doc.autoTable({
+        head: activationHeaders,
+        body: activationData,
+        startY: startY + 5
+    });
+
+    
+
+  
+    doc.save(`${fileName}-${new Date().toISOString()}-kalkulation.pdf`);
+  };
+
 const RegionCostCalculation = () => {
     const [visible, setVisible] = useState(false)
     const [map, setMap] = useState(null)
@@ -395,7 +461,7 @@ const RegionCostCalculation = () => {
         }
     }, [geometry])
 
-    const submitRegionCostCalculation = () => {
+    const submitRegionCostCalculation = async () => {
         if (!polygon) return
         setLoading(true)
         const URLSearchParam = new URLSearchParams();
@@ -407,6 +473,15 @@ const RegionCostCalculation = () => {
             }
         ));
 
+        const center = turf.center(turf.polygon([polygon])).geometry.coordinates;
+        const geo = new GeoCodingOSM()
+
+        const areaName = await geo.reverse({
+            lat: center[1],
+            lon: center[0],
+            zoom: parseInt( map.getZoom() )
+        })
+
         getCostInfoByDistrictId(ags, URLSearchParam)
 
             .then((res) => {
@@ -416,8 +491,20 @@ const RegionCostCalculation = () => {
                 setPolygon([]);
 
                 openModal({
-                    title: 'Kosteninformationen',
-                    children: <CostInfoModalContent data={res.data} />
+                    title: <div className="flex w-full items-center ">
+                      
+                        <h3 className="flex-1">Regionale Kostenkalkulation</h3>
+                        <div className="ml-8">
+                            <ActionIcon 
+                            onClick={() => generatePDF(res.data, areaName.display_name)}
+                            color="brand" className="hover:bg-red-600">
+                                <IconDownload className="animate-bounce"/>
+                            </ActionIcon>
+                        </div>
+                    </div>,
+                    children: <CostInfoModalContent data={res.data} />,
+                    size: 'xl'
+
                 })
 
             }).catch((err) => {
@@ -426,6 +513,7 @@ const RegionCostCalculation = () => {
             })
 
     }
+
 
 
     return (
@@ -499,163 +587,9 @@ const RegionCostCalculation = () => {
 
 }
 
-const CostInfoModalContent = ({ data }) => {
-    const [segmentedControl, setSegmentedControl] = useState('homeActivation')
-    
-    return (
-        <div>
-            <SegmentedControl
-                className="mb-4"
-                data={[
-                    { label: 'Home Activation', value: 'homeActivation' },
-                    { label: 'Cables', value: 'cable' },
-                    { label: 'Ducts', value: 'duct' },
-                ]}
-                fullWidth
-                color="brand"
-                onChange={(value) => {
-                    setSegmentedControl(value)
-                }}
-                value={segmentedControl}
-            />
-            <div>
-                {
-                    segmentedControl === 'cable' ?
-                        <CableTable data={data.cables} />
-                        : segmentedControl === 'duct' ?
-                            <DuctTable data={data.duct} />
-                            : segmentedControl === 'homeActivation' ?
-                                <HomeActivationTable data={data.homeActivation} />
-                                : null
-                }
-            </div>
-
-        </div>
-    )
-}
-
-const CableTable = ({ data }) => {
-    const sections = Object.keys(data);
-  
-    return (
-      <div className="overflow-x-auto">
-        {sections.map(section => (
-          <div key={section}>
-            <h2 className="text-xl font-semibold mb-2">{section}</h2>
-            <table className="min-w-full table-auto">
-              <thead className="justify-between">
-                <tr>
-                  <th className="px-2 py-2">Cable Type</th>
-                  <th className="px-2 py-2">Material Cost</th>
-                  <th className="px-2 py-2">Labour Cost</th>
-                  <th className="px-2 py-2">Total</th>
-                  <th className="px-2 py-2">Volume</th>
-                  <th className="px-2 py-2">Total Cost</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data[section].map((row, index) => (
-                  <tr key={index} className={index % 2 === 0 ? 'bg-gray-200' : ''}>
-                    <td className="px-2 py-2">{row.cable_type}</td>
-                    <td className="px-2 py-2">{row.materialcost}</td>
-                    <td className="px-2 py-2">{row.labourcost}</td>
-                    <td className="px-2 py-2">{row.total}</td>
-                    <td className="px-2 py-2">{row.volume}</td>
-                    <td className="px-2 py-2">{row.total_cost}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        ))}
-      </div>
-    );
-  };
-
-const HomeActivationTable = ({ data }) => {
-    return (
-        <div>
-            <div className="flex flex-col">
-                <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                    <div className="py-2 align-middle inline-block min-w-full overflow-hidden sm:px-6 lg:px-8">
-                        <div className="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
-                            <table className="min-w-full divide-y divide-gray-200">
-                                <thead className="bg-gray-50">
-                                    <tr>
-
-                                        <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                                            Key
-                                        </th>
-                                        <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                                            Value
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody className="bg-white divide-y divide-gray-200">
-                                    {
-                                        Object.keys(data).map((key, index) => {
-                                            return (
-                                                <tr key={index}>
-                                                    <td className="px-6 py-4 whitespace-nowrap">
-                                                        <div className="text-sm text-gray-900">{key.split('_').join(' ').toUpperCase()}</div>
-                                                    </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap">
-                                                        <div className="text-sm text-gray-900">{data[key]}</div>
-                                                    </td>
-                                                </tr>
-                                            )
-                                        })
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div >
-    )
-}
 
 
 
-
-const DuctTable = ({ data }) => {
-    const sections = Object.keys(data);
-  
-    return (
-      <div className="overflow-x-auto">
-        {sections.map(section => (
-          <div key={section}>
-            <h2 className="text-xl font-semibold mb-2">{section}</h2>
-            <table className="min-w-full table-auto">
-              <thead className="justify-between">
-                <tr>
-                  <th className="px-2 py-2">Duct Type</th>
-                  <th className="px-2 py-2">Material Cost</th>
-                  <th className="px-2 py-2">Labour Cost</th>
-                  <th className="px-2 py-2">Volume</th>
-                  <th className="px-2 py-2">Total Cost</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data[section].map((row, index) => (
-                  <tr key={index} className={index % 2 === 0 ? 'bg-gray-200' : ''}>
-                    <td className="px-2 py-2">{row.duct_type}</td>
-                    <td className="px-2 py-2">{row.duct_materialcost}</td>
-                    <td className="px-2 py-2">{row.duct_labourcost}</td>
-                    <td className="px-2 py-2">{row.duct_volume}</td>
-                    <td className="px-2 py-2">{row.total_cost}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        ))}
-      </div>
-    );
-  };
-
- 
 
 
 
