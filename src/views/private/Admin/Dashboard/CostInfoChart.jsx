@@ -26,6 +26,10 @@ export default () => {
     }]
   });
 
+  if (data) {
+    return <div className='flex justify-center h-full items-center'><Loader size='lg' /></div>
+  }
+
   if (loading || !data.cables) {
     return <div className='flex justify-center h-full items-center'><Loader size='lg' /></div>
   }
