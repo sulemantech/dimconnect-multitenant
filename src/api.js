@@ -17,6 +17,7 @@ const routes = {
     dashboard: "/dashboard",
     style: "/style",
     tiles: "/tiles",
+    ticket: "/tickets",
 }
 export const AuthAttributes = ["username", "email", "userRole", "password"]
 export const getAuth = () => api.get(`${routes.auth}/`)
@@ -59,16 +60,6 @@ export const editRole = (id, data) => api.put(`/roles/${id}`, data)
 
 // permission/current-user/all
 export const getCurrentUserPermissions = () => api.get(`/permission/current-user/all`) 
-<<<<<<< HEAD
-
-
-
-export const getAllTickets = () => api.get(`/tickets/all`);
-export const getTicketById = (id) => api.get(`/tickets/${id}`);
-export const createTicket = (data) => api.post(`/tickets`, data);
-export const deleteTicket = (id) => api.delete(`/tickets/${id}`);
-export const editTicket = (id, data) => api.put(`/tickets/${id}`, data);
-=======
 // 
 
 // POST: roles/with-permissions
@@ -84,4 +75,4 @@ export const getRegionListByAGS = (ags) => api.get(`/region/list/${ags}`)
 export const getBoundaries = (districtId) => api.get(`netzplanning/boundries/${districtId}`)
 export const getEquipment = (districtId,minX, minY, maxX, maxY) => api.get(`netzplanning/point-lookup/${districtId}/${minX}/${minY}/${maxX}/${maxY}`)
 
->>>>>>> 43d2b3b3f6a9dc694f16c8ca1c3e1493d9b082e7
+export const getAllTickets = () => api.get(`${routes.ticket}/all`)

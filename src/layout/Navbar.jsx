@@ -32,24 +32,6 @@ export default () => {
     }
   }, [collapsed.value]);
 
-  return (
-    <div
-      id="sidenav"
-      className=" transition-all border-r-2 border-solid border-white duration-300 shadow-xl bg-[#0071b9] text-white flex flex-col p-2 "
-    >
-      <div>
-        <Logo />
-      </div>
-{/* 
-        if (!collapsed.value) {
-            sidenav.classList.remove('w-64')
-            sidenav.classList.add('w-20')
-        } else {
-            sidenav.classList.remove('w-20')
-            sidenav.classList.add('w-64')
-        } */}
-
-    {/* }, [collapsed.value]) */}
 
     return (
         <div id='sidenav' 
@@ -84,7 +66,7 @@ export default () => {
 
 
         </div>
-        </div>
+        // </div>
     )
 }
 

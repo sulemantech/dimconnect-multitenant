@@ -309,9 +309,9 @@ export default () => {
     
 
     </div>
-      <Breadcrumbs separator={<IconArrowBadgeRightFilled size={14} className="text-[#0071b9]" />}
+      <Breadcrumbs separator={<IconArrowBadgeRightFilled size={10} className="text-black" />}
       p='xs'
-        className="bg-neutral-200 items-center text-xs "
+        className="bg-neutral-200 items-center text-[0.5rem] "
         style={{
           clipPath: 'polygon(0 0, 60% 39%, 100% 100%, 0% 100%)',
         }}
@@ -320,7 +320,7 @@ export default () => {
         router[0].path?.split(':')?.[0]?.split('/').filter(item => item !== '')
           .map((item, index) => {
             return (
-            <Anchor href={`${index === 0 ? '/' : ''}${item}`} className="text-[#0071b9]">
+            <Anchor href={`${index === 0 ? '/' : ''}${item}`} className="text-black">
               {item.split('_').join(' ').toUpperCase()}
             </Anchor>
           )})
