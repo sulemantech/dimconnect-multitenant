@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import Search from "./components/Search";
 // import Navbar from './components/Navbar'
-import TicketsMang from "./components/TicketsMang";
-import Table from "./components/Table";
-import UserCard from "./components/UserCard";
 import { getAllTickets } from "../../../../api";
 // import SideBar from './components/SideBar'
+import TicketManagment from './components/TicketManagment';
+import Searchbars from './components/Searchbars';
+import Table from './components/Table';
+import UserCard from './components/UserCard';
 const status = {
   1: { name: "Open", color: "text-cyan-500", colorCode: "#06b6d4" },
   2: { name: "Closed", color: "text-lime-400", colorCode: "#84cc16" },
@@ -34,23 +35,24 @@ export default () => {
   useEffect(() => {
     getAllTickets()
       .then((res) => {
-        console.log(res.data);
+        console.log("Tickets = = = = = = = = = == >>>>",res.data);
 
         setTicketCounts(count(res.data));
 
         setTickets(
-          res.data?.map((ticket) => ({
-            id: ticket.id,
-            Ticket: "000" + ticket.id,
-            Status: status[ticket.status_id].name,
-            Name: ticket.user_id,
-            Problem: ticket.category_id,
-            Title: ticket.title,
-            Description: ticket.description,
-            Attachments: "missing",
-            Reasponsible: ticket.user_id,
-            updated_at: new Date(ticket.updated_at).toLocaleDateString(),
-          }))
+          res.data
+          // res.data?.map((ticket) => ({
+          //   id: ticket.id,
+          //   Ticket: "000" + ticket.id,
+          //   Status: status[ticket.status_id].name,
+          //   Name: ticket.user_id,
+          //   Problem: ticket.category_id,
+          //   Title: ticket.title,
+          //   Description: ticket.description,
+          //   Attachments: "missing",
+          //   Reasponsible: ticket.user_id,
+          //   updated_at: new Date(ticket.updated_at).toLocaleDateString(),
+          // }))
         );
       })
       .catch((err) => console.log(err));
@@ -87,7 +89,13 @@ export default () => {
   //   );
   // };
 
-  return <div className="mx-4">
-      <TicketsMang ticketCounts={ticketCounts} />
-  </div>;
+  return<>
+  <div className='fbody min-h-screen'>
+  <TicketManagment/>
+  <Searchbars/>
+ 
+ <div className='flex flex-1'><Table data={tickets} />
+  <UserCard/> </div> 
+  </div>
+  </>
 };

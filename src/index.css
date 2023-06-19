@@ -11,3 +11,18 @@ body {
   html {
     height: -webkit-fill-available;
   }
+
+  @layer components {
+    .rot {
+        transform: rotate(240deg);
+    }
+    .tcolor{
+        background-color: #D8E4EE;
+    }
+    .rcolor{
+        background-color:#FFFFFF;
+    }
+    .fbody{
+        background-color: #F5F7F9;
+    }
+  }

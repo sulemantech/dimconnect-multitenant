@@ -5,11 +5,13 @@ import PublicWrapper from '../../providers/PublicWrapper'
 import api, { postAuth } from '../../api'
 import Logo from '../../components/Logo'
 import appConfig from '../../config/appConfig'
+import { Loader } from '@mantine/core'
 
 // import {logo} from '../../../public/logo.svg'
 export default () => {
 
   const authState = useContext(AuthState)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
 
@@ -34,6 +36,7 @@ export default () => {
   const [error, setError] = useState('')
 
   const handleSubmit = async event => {
+    setLoading(true)
     event.preventDefault();
 
     const email = event.target.email.value
@@ -46,9 +49,11 @@ export default () => {
       sessionStorage.setItem(appConfig.sessionStorageKey, data.token)
       sessionStorage.setItem(appConfig.sessionStorageRefreshKey, data.refreshToken)
       api.defaults.headers.common['authorization'] = `Bearer ${data.token}`
+      setLoading(false)
       window.location.reload()
     }).catch((err) => {
       setError(err.response.data.message)
+      setLoading(false)
     })
 
   };
@@ -137,7 +142,13 @@ export default () => {
                   <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                     <IconLock className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
                   </span>
-                  Sign in
+                  {/* Sign in */}
+                  {
+                    loading ? <Loader size={20} color='white' />
+                    
+                    : 'Sign in'
+                  }
+
                 </button>
               </div>
             </form>
