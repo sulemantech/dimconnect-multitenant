@@ -1,16 +1,23 @@
 
-import { Divider, LoadingOverlay, Menu } from "@mantine/core"
-import { IconEye, IconBarrierBlock, IconRoad, IconTools } from "@tabler/icons"
+import { ActionIcon, Button, Divider, LoadingOverlay, Menu, SegmentedControl } from "@mantine/core"
+import { IconEye, IconBarrierBlock, IconRoad, IconTools, IconDownload } from "@tabler/icons"
 import { closeAllModals, openModal } from "@mantine/modals"
-import { useState, useEffect,useMemo } from "preact/hooks"
+import { useState, useEffect, useMemo } from "preact/hooks"
 import { useDidUpdate } from "@mantine/hooks"
-import { Layer, Source } from "react-map-gl"
+import { Layer, Marker, Source } from "react-map-gl"
 import proj4 from "proj4"
-import { bbox } from "@turf/turf"
-
-import { BarrierState, dropvalue, mapSignal, roadandwaterstate, equipmentState, districts } from "../../../../signals"
+import * as turf from "@turf/turf"
+import { Page, Text, View, Document, StyleSheet, PDFDownloadLink, usePDF, PDFViewer, } from '@react-pdf/renderer';
+import React from "react"
+import { BarrierState, dropvalue, mapSignal, roadandwaterstate, equipmentState, districts, regionCostState, mapClickBindings, costInputParams } from "../../../../signals"
 import { FabClass } from "../../../../layout"
-import { getBoundaries, getEquipment } from "../../../../api"
+import { getBoundaries, getCostInfoByDistrictId, getEquipment } from "../../../../api"
+import { IconWorldDollar } from "@tabler/icons-react"
+import { commarize } from "../../../../utils/convertor"
+import { jsPDF } from "jspdf";
+import autoTable from 'jspdf-autotable';
+import GeoCodingOSM from "geocoding-osm"
+import { CostInfoModalContent,CableTable,CostInfoSettings,DuctTable,HomeActivationTable } from "../Dashboard/CostInfo"
 
 
 const barrierLayers = {
@@ -171,7 +178,7 @@ const RoadsAndWater = () => {
 
 
 const availableLegende = {
-    5:  "KollSch",
+    5: "KollSch",
     6: "PoP",
     10: "Nvt"
 }
@@ -188,8 +195,8 @@ const Equipments = () => {
     const [loading, setLoading] = useState(false)
     useEffect(() => {
         equipmentState.subscribe(setVisible)
-        mapSignal.subscribe((value)=>{
-            if(!value) return
+        mapSignal.subscribe((value) => {
+            if (!value) return
             setMap(value)
             value.loadImage('/icons/square.png', (error, image) => {
                 if (error) throw error;
@@ -214,7 +221,7 @@ const Equipments = () => {
             setLoading(true)
 
             const dd = districts.value?.features?.find(district => district.properties?.c == ags)
-            const bboxDD = bbox(dd)
+            const bboxDD = turf.bbox(dd)
             const epsgeur = '+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs'
             const epsg4326 = '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'
 
@@ -223,7 +230,7 @@ const Equipments = () => {
             const [minX, minY, maxX, maxY] = bboxDD4326
 
             getEquipment(ags, minX, minY, maxX, maxY).then(res => {
-               
+
 
                 setData((prev) => ({ ...prev, [ags]: res.data }))
                 setLoading(false)
@@ -238,7 +245,7 @@ const Equipments = () => {
     //     <>
     //         {
     //             Object.keys(data?.[ags] ?? {}).map((key, index) => {
-                   
+
     //                return data?.[ags]?.[key]?.data?.map((coordinates) => {
     //                     return <MarkerMemo key={coordinates[0]} x={coordinates[0]} y={coordinates[1]} legendeCode={data?.[ags]?.[key]?.id} />
     //                 })
@@ -275,7 +282,7 @@ const Equipments = () => {
                 "icon-image": ["get", "legende"],
                 "icon-size": 0.9,
                 "icon-allow-overlap": false
-            }} 
+            }}
                 beforeId="addressPoints"
             />
         </Source>
@@ -344,6 +351,247 @@ const Barriers = () => {
     )
 }
 
+const generatePDF = (data,fileName) => {
+    const doc = new jsPDF();
+
+    // add title of filename
+    doc.text(`${fileName} kalkulation`, 10, 10);
+    
+
+  
+    const categories = ['distribution', 'feeder', 'primary'];
+  
+    let startY = 30;
+    for (let category of categories) {
+      const cableHeaders = [['Cable Type', 'Material Cost', 'Labour Cost', 'Total', 'Volume', 'Total Cost']];
+      const cableData = data.cables[category].map(item => Object.values(item));
+      doc.text(`Cables - ${category}`, 10, startY);
+      doc.autoTable({
+        head: cableHeaders,
+        body: cableData,
+        startY: startY + 5
+      });
+  
+      const ductHeaders = [['Duct Type', 'Material Cost', 'Labour Cost', 'Volume', 'Total Cost']];
+      const ductData = data.duct[category].map(item => Object.values(item))
+      startY = doc.lastAutoTable.finalY + 10;
+      doc.text(`Ducts - ${category}`, 10, startY);
+      doc.autoTable({
+        head: ductHeaders,
+        body: ductData,
+        startY: startY + 5
+      });
+  
+      startY = doc.lastAutoTable.finalY + 10;
+    }
+  
+    // const activationHeaders = [['Building Count', '1 to 3 Buildings', 'Building Connections 1 to 3', 'Building Per Connection Cost 1 to 3', 'Total Cost Building Connections 1 to 3', 'Building Count 3 Plus', 'Building Connections 3 Plus', 'Building Per Connection Cost 3 Plus', 'Total Cost Building Connections 3 Plus', 'Total Homes Count', 'Homes Count 1 to 3', 'Home Count Connections 1 to 3', 'Home Count Per Connection Cost 1 to 3', 'Total Cost Home Count Connections 1 to 3', 'Home Count 3 Plus', 'Home Count Connections 3 Plus', 'Home Count Per Connection Cost 3 Plus', 'Total Cost Home Count Connections 3 Plus', 'Total Cost']];
+    // const activationData = [Object.values(data.homeActivation)];
+    // startY = doc.lastAutoTable.finalY + 10;
+    // doc.text(`Home Activation`, 10, startY);
+    // doc.autoTable({
+    //   head: activationHeaders,
+    //   body: activationData,
+    //   startY: startY + 5
+    // });
+
+    const activationHeaders = [['key', 'value']];
+    const activationData = Object.entries(data.homeActivation);
+    startY = doc.lastAutoTable.finalY + 10;
+    doc.text(`Home Activation`, 10, startY);
+    doc.autoTable({
+        head: activationHeaders,
+        body: activationData,
+        startY: startY + 5
+    });
+
+    
+
+  
+    doc.save(`${fileName}-${new Date().toISOString()}-kalkulation.pdf`);
+  };
+
+const RegionCostCalculation = () => {
+    const [visible, setVisible] = useState(false)
+    const [map, setMap] = useState(null)
+    const [data, setData] = useState(null)
+    const [ags, setAgs] = useState(null)
+    const [loading, setLoading] = useState(false)
+    const [geometry, setGeometry] = useState([])
+    const [polygon, setPolygon] = useState([])
+    useEffect(() => {
+        mapSignal.subscribe(setMap)
+        dropvalue.subscribe(setAgs)
+        regionCostState.subscribe(setVisible)
+    }, [])
+    useDidUpdate(() => {
+        if (!map) return
+        if (!visible) {
+            map.getCanvas().style.cursor = ''
+            delete mapClickBindings.value['CostCalculation']
+            setPolygon([])
+            setGeometry([])
+            return
+        }
+
+        map.getCanvas().style.cursor = 'crosshair'
+        mapClickBindings.value['CostCalculation'] = (e) => {
+            e.preventDefault()
+            if (!visible) return
+
+            const { lng, lat } = e.lngLat
+            if (!polygon) {
+                console.log('set')
+                setGeometry([[lng, lat]])
+            } else {
+                setGeometry((prev) => [...prev, [lng, lat]])
+            }
+        }
+
+    }, [visible, ags, map])
+
+    useDidUpdate(() => {
+        if (!geometry) return
+        if (geometry.length === 1) {
+            setPolygon(geometry)
+        } else if (geometry.length === 2) {
+            setPolygon([geometry[0], geometry[1], geometry[1], geometry[0]])
+        } else if (geometry.length > 2) {
+            setPolygon([...geometry, geometry[0]])
+        }
+    }, [geometry])
+
+    const submitRegionCostCalculation = async () => {
+        if (!polygon) return
+        setLoading(true)
+        const URLSearchParam = new URLSearchParams();
+        URLSearchParam.append('costs', JSON.stringify(costInputParams.value));
+        URLSearchParam.append('geom', JSON.stringify(
+            {
+                type: "Polygon",
+                coordinates: [polygon]
+            }
+        ));
+
+        const center = turf.center(turf.polygon([polygon])).geometry.coordinates;
+        const geo = new GeoCodingOSM()
+
+        const areaName = await geo.reverse({
+            lat: center[1],
+            lon: center[0],
+            zoom: parseInt( map.getZoom() )
+        })
+
+        getCostInfoByDistrictId(ags, URLSearchParam)
+
+            .then((res) => {
+
+                setLoading(false);
+                setGeometry([]);
+                setPolygon([]);
+
+                openModal({
+                    title: <div className="flex w-full items-center ">
+                      
+                        <h3 className="flex-1">Regionale Kostenkalkulation</h3>
+                        <div className="ml-8">
+                            <ActionIcon 
+                            onClick={() => generatePDF(res.data, areaName.display_name)}
+                            color="brand" className="hover:bg-red-600">
+                                <IconDownload className="animate-bounce"/>
+                            </ActionIcon>
+                        </div>
+                    </div>,
+                    children: <CostInfoModalContent data={res.data} />,
+                    size: 'xl'
+
+                })
+
+            }).catch((err) => {
+                setLoading(false);
+                console.log(err);
+            })
+
+    }
+
+
+
+    return (
+        <>
+            {
+                visible &&
+                <>
+
+                    <Source id="region-cost-calculation" type="geojson" data={{
+                        type: "FeatureCollection",
+                        features: [{
+                            type: "Feature",
+                            properties: {
+                                "area": polygon.length > 2 ? `${turf.area(turf.polygon([polygon])).toFixed(1)} sqm` : ""
+                            },
+                            geometry: {
+                                "type": polygon.length == 1 ? 'Point' : polygon.length == 2 ? 'LineString' : 'Polygon',
+                                "coordinates": polygon.length == 1 ? polygon[0] : polygon.length == 2 ? polygon : [polygon]
+                            }
+                        }]
+                    }}>
+                        <Layer id="region-cost-calculation" type="fill" paint={{
+                            "fill-color": "red",
+                            "fill-opacity": 0.4
+                        }} />
+                        <Layer id="region-cost-calculation-line" type="line" paint={{
+                            "line-color": "red",
+                            "line-width": 4,
+                            "line-opacity": 0.4
+                        }} />
+                        {
+                            polygon.length == 1 && <Layer id="region-cost-calculation-point" type="circle" paint={{
+                                "circle-color": "red",
+                                "circle-radius": 5
+                            }} />
+                        }
+                        <Layer id="region-cost-calculation-label" type="symbol" layout={{
+                            "text-field": ["get", "area"],
+                            "text-size": 15,
+                            "text-allow-overlap": true,
+                            "text-ignore-placement": true
+                        }} paint={{
+                            "text-color": "white"
+                        }} />
+                    </Source>
+
+                    {
+                        // add marker in center of polygon if more than 3 points
+                        polygon.length > 4 && <Marker
+                            latitude={polygon[0][1]}
+                            longitude={polygon[0][0]}
+                            anchor="center"
+                            draggable={false}
+                        >
+                            <Button
+                                loading={loading}
+
+                                onClick={submitRegionCostCalculation}
+                                className="px-4 py-2 font-bold text-white border-white border-2 border-solid hover:scale-105 transition-all cursor-pointer bg-red-600 hover:bg-red-800 rounded-full">
+                                Calculate
+                            </Button>
+                        </Marker>
+
+                    }
+
+
+                </>
+            }
+        </>
+    )
+
+}
+
+
+
+
+
+
 
 
 
@@ -353,6 +601,7 @@ export default () => {
             <RoadsAndWater />
             <Barriers />
             <Equipments />
+            <RegionCostCalculation />
         </>
     )
 }
@@ -394,6 +643,18 @@ export const ExtraViewableControl = ({ modal = false, webview = false }) => {
                 equipmentState.value = false
             }
         },
+        'Region Cost': {
+            icon: <IconWorldDollar className="scale-110 text-[#0071b9] " />,
+            selectable: true,
+            "method": () => {
+                regionCostState.value = true
+            }
+            ,
+            "antiMethod": () => {
+                regionCostState.value = false
+            }
+
+        }
 
 
     }
@@ -427,6 +688,8 @@ export const ExtraViewableControl = ({ modal = false, webview = false }) => {
                 onClick={() => {
                     openModal({
                         title: 'Create',
+                        size: 'xl',
+                        className: 'w-[90vw] h-[90vh]',
                         children: (
                             <div className="flex flex-col gap-2">
                                 {

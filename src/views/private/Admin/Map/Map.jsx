@@ -17,7 +17,7 @@ import appConfig from '../../../../config/appConfig';
 
 const Gpx = lazy(() => import('./Gpx'));
 
-import { mapClickBindings,addressPointsCRUDstate ,infoCardVal,visibility,mapStyle,additionalInteractiveLayers, mapSignal} from '../../../../signals';
+import { mapClickBindings,addressPointsCRUDstate ,infoCardVal,visibility,mapStyle,additionalInteractiveLayers, mapSignal, regionCostState} from '../../../../signals';
 import ExtraViewables from './ExtraViewables';
 
 let mapFirstRender = false
@@ -40,7 +40,7 @@ export default ({ children }) => {
       binding(event)
     })
    
-    if (addressPointsCRUDstate.value !== '') return
+    if (addressPointsCRUDstate.value !== '' || regionCostState.value !== false) return
     if (features.length > 0){
         infoCardVal.value = null
         setTimeout(() => {

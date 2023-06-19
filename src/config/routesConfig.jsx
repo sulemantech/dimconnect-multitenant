@@ -6,7 +6,7 @@ export const privateRoutes = [{
     label: 'Dashboard',
     path: `/dashboard?ags=${dropvalue?.value}`,
     permission: PERMISSIONS.Dashboard,
-    icon: <icons.DasboardIcon/>,
+    icon: <icons.DasboardIcon />,
 }, {
     label: 'Map',
     path: `/map?ags=${dropvalue?.value}`,
@@ -24,7 +24,32 @@ export const privateRoutes = [{
     path: `/support_ticket_office/inbox`,
     icon: <icons.TicketIcon />,
 },
+{
+    label: 'Support Team',
+    permission: PERMISSIONS.Ticket,
+    path: `/support_team`,
+    icon: <icons.supportTeamIcon />,
+    subroutes: [{
+        label: 'FAQ',
+        path: `/support_team/faq`,
+        permission: PERMISSIONS.Ticket,
+        icon: <icons.FAQIcon />,
+    }, {
+        label: 'Support Ticket',
+        permission: PERMISSIONS.Ticket,
+        path: `/support_team/support_ticket`,
+        icon: <icons.TicketIconBlue />,
+    }, {
+        label: 'Contacts',
+        permission: PERMISSIONS.Ticket,
+        path: `/support_team/contacts`,
+        icon: <icons.ContactIcon />,
 
+    }
+    ]
+
+
+},
     // {
     //     label: 'Styles',
     //     path: `/styles/${dropvalue.value}`,

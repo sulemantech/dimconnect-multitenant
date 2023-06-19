@@ -1,18 +1,18 @@
 import { Suspense, lazy } from "preact/compat"
 import PageProvider from "../../../../providers/PageProvider"
-import { ActionIcon, Badge, Skeleton } from "@mantine/core"
+import { Badge, Skeleton } from "@mantine/core"
 import MapElements from "./MapElements"
 import PermissionWrapper from "../../../../providers/PermissionsProvider"
 import { PERMISSIONS } from "../../../../common"
-import { IconSettings } from "@tabler/icons"
+
 const MaterialCount = lazy(() => import("./MaterialCount"))
 const CostInfo = lazy(() => import("./CostInfo"))
 const CostInfoChart = lazy(() => import("./CostInfoChart"))
 const Submap = lazy(() => import("./Submap"))
 const Tickets = lazy(() => import("./Tickets"))
-import { openDrawer } from "../../../../providers/DrawerProvider"
-import { CostInfoSettings } from "./CostInfo"
+
 const Dashboard = () => {
+  
   return (
     <PermissionWrapper permission={PERMISSIONS.Dashboard} view>
       <PageProvider>
@@ -27,23 +27,7 @@ const Dashboard = () => {
           <div className="flex-[2]">
             <div className="flex flex-col md:flex-row flex-1">
               <div className="flex-[2] min-h-[300px] h-full m-1 bg-white shadow-lg p-2 rounded-xl ">
-                <div className="flex">
-
-                  <p className="flex-grow flex-1 font-thin text-neutral-700 text-lg">
-                    Cost Info
-                  </p>
-                  <div>
-                    <ActionIcon onClick={() => {
-                      openDrawer({
-                        children: <CostInfoSettings />,
-                        title: 'Cost Info Settings'
-                      })
-                    }}>
-                      <IconSettings />
-                    </ActionIcon>
-                  </div>
-                </div>
-                <hr />
+                
                 <Suspense fallback={<Skeleton />}>
                   <CostInfo />
 

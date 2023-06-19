@@ -18,46 +18,41 @@ export default () => {
     }, []
   )
 
-  if (loading) {
+  const getChartData = (dataset) => ({
+    labels: dataset.map(item => item.cable_type),
+    datasets: [{
+      data: dataset.map(item => item.total_cost),
+      backgroundColor: ['red', 'orange', 'yellow', 'green', 'blue', 'purple', 'cyan']
+    }]
+  });
+
+  if (data) {
+    return <div className='flex justify-center h-full items-center'><Loader size='lg' /></div>
+  }
+
+  if (loading || !data?.cables) {
     return <div className='flex justify-center h-full items-center'><Loader size='lg' /></div>
   }
 
   return <div className="w-full h-[350px] flex justify-center items-center">
-    <Doughnut data={{
-      labels: ['Feeder Cable Cost', 'PRM Distribution Cable Cost', 'Distribution Cable Cost', 'Duct Cost', 'Home Activation Cost'],
-      datasets: [
-        {
-          label: 'Cost',
-          data: [parseFloat(data?.feeder_cable_cost), parseFloat(data?.prm_distrb_cable_cost), parseFloat(data?.distrb_cable_cost), parseFloat(data?.duct_cost), parseFloat(data?.home_activation_cost)],
-          backgroundColor: [
-            '#FF6384',
-            '#36A2EB',
-            '#FFCE56',
-            '#00a0e9',
-            '#0071b9',
-          ],
-          hoverBackgroundColor: [
-            '#FF6384',
-            '#36A2EB',
-            '#FFCE56',
-            '#00a0e9',
-            '#0071b9',
-          ],
-        },
-      ],
+   
 
-    }}
-      options={{
-        responsive: true,
-        maintainAspectRatio: false,
-        legend: {
-          display: false,
-          labels: {
-            display: false
-          }
-        }
 
-      }}
-    />
+      <div>
+      <h2>Distribution Cable Types</h2>
+      <Doughnut className="w-1/3 h-96"  data={getChartData(data.cables.distribution)} />
+      </div>
+
+      <div>
+      <h2>Feeder Cable Types</h2>
+      <Doughnut className="w-1/3 h-96" data={getChartData(data.cables.feeder)} />
+      </div>
+
+      <div>
+      <h2>Primary Cable Types</h2>
+      <Doughnut className="w-1/3 h-96" data={getChartData(data.cables.primary)} />
+      </div>
+   
+ 
   </div>
 }

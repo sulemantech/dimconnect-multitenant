@@ -10,7 +10,7 @@ export function commarize(number) {
         }
     }
 
-    return number;
+    return number
 }
 
 export const formatCamelCaseToTitleCase = (str) => {
