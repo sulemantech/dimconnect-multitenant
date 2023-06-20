@@ -14,21 +14,21 @@ export default () => {
 
     if (windowWidth < 768) {
       if (!collapsed.value) {
-        sidenav.classList.remove("w-64");
-        sidenav.classList.add("-ml-20");
+        sidenav?.classList.remove("w-64");
+        sidenav?.classList.add("-ml-20");
       } else {
-        sidenav.classList.remove("-ml-20");
-        sidenav.classList.add("w-64");
+        sidenav?.classList.remove("-ml-20");
+        sidenav?.classList.add("w-64");
       }
       return;
     }
 
     if (!collapsed.value) {
       sidenav?.classList.remove("w-64");
-      sidenav.classList.add("w-20");
+      sidenav?.classList.add("w-20");
     } else {
-      sidenav.classList.remove("w-20");
-      sidenav.classList.add("w-64");
+      sidenav?.classList.remove("w-20");
+      sidenav?.classList.add("w-64");
     }
   }, [collapsed.value]);
 
