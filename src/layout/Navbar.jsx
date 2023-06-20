@@ -38,12 +38,12 @@ export default () => {
             style={{
                 backgroundImage: 'url("/vertical blue background.svg")',
             }}
-            className=" transition-all border-r-2 border-solid border-white duration-300 shadow-xl  text-white flex flex-col p-2 ">
-            <div className={` ${collapsed.value ? 'p-6' : 'p-0'}`}>
+            className=" transition-all duration-300 shadow-xl  text-white flex flex-col ">
+            <div className={` ${collapsed.value ? 'p-6' : 'p-2'}`}>
                 <Logo />
             </div>
 
-            <div className="flex justify-center items-center mt-4">
+            <div className={`flex items-center justify-center py-8  h-14 my-2 text-white font-light border-sky-600 transition-all border-b-[2px] hover:border-sky-600 hover:bg-sky-600`}>
 
 
                 <Burger
@@ -52,14 +52,14 @@ export default () => {
                     }}
 
                     color="white"
-                    size="sm"
+                   
                     opened={collapsed.value}
                 />
             </div>
 
             <div className="flex-grow">
                 {
-                    privateRoutes?.map((route, index) => <PermissionWrapper permission={route.permission} view><RouteComponent path={route.path} label={route.label} icon={route.icon} subroutes={route.subroutes} /></PermissionWrapper>)
+                    privateRoutes?.map((route, index) => <PermissionWrapper key={index} permission={route.permission} view><RouteComponent path={route.path} label={route.label} icon={<route.icon />} subroutes={route.subroutes} /></PermissionWrapper>)
                 }
             </div>
             {/* Collapse Rounded Button */}
@@ -78,18 +78,18 @@ const RouteComponent = ({ path, label, icon, subroutes, isSubRoute = false }) =>
             <HoverCard position="right-start">
                 <HoverCard.Target>
                    
-                        <div className={`flex items-center py-8 ${collapsed.value ? 'px-6' : 'px-4'} h-14 my-2 text-white font-light border-sky-600 transition-all border-b-[2px] hover:border-sky-600 hover:bg-[#0071b9]  bg-opacity-50`}>
+                        <div className={`flex items-center py-8 px-6 h-14 my-2 text-white font-light border-sky-600 transition-all border-b-[2px] hover:border-sky-600 hover:bg-sky-600`}>
 
                             <p className="flex justify-center items-center text-center">
-                                {icon} <p className="text-sm pl-4 truncate font-[400]">  {collapsed.value && label} </p>
+                                {icon}   {collapsed.value && <p className="text-sm pl-4 truncate font-[400]"> {label} </p>} 
                             </p>
                         </div>
                     
                 </HoverCard.Target>
-                <HoverCard.Dropdown className="rounded-r-xl p-0 bg-transparent backdrop-blur-md">
+                <HoverCard.Dropdown className="rounded-r-xl -ml-2 p-0 bg-white  ">
                     <div>
                         <Link href={path}>
-                        <div className={`flex items-center py-8 ${collapsed.value ? 'px-6' : 'px-4'} h-14 my-2 text-[#0071b9] hover:text-white font-light border-neutral-200 transition-all border-b-[1px] hover:border-sky-600 hover:bg-[#0071b9]  bg-opacity-50`}>
+                        <div className={`flex  items-center justify-center py-8 ${collapsed.value ? 'px-6' : 'px-4'} h-14 my-2 text-[#448ab6] hover:text-white font-light border-neutral-200 transition-all border-b-[1px] hover:border-sky-600 hover:bg-[#0071b9]  bg-opacity-50`}>
 
                             <p className="flex justify-center items-center text-center ">
                                  <p className="text-sm pl-4 truncate font-[500]"> {label} </p>
@@ -97,7 +97,7 @@ const RouteComponent = ({ path, label, icon, subroutes, isSubRoute = false }) =>
                         </div>
                         </Link>
                         {
-                            subroutes.map((route, index) => <PermissionWrapper permission={route.permission} view><RouteComponent path={route.path} label={route.label} icon={route.icon} subroutes={route.subroutes} isSubRoute /></PermissionWrapper>)
+                            subroutes.map((route, index) => <PermissionWrapper permission={route.permission} view><RouteComponent path={route.path} label={route.label} icon={<route.icon/>} subroutes={route.subroutes} isSubRoute /></PermissionWrapper>)
                         }
                     </div>
                 </HoverCard.Dropdown>
@@ -111,10 +111,12 @@ const RouteComponent = ({ path, label, icon, subroutes, isSubRoute = false }) =>
 
     return (
         <Link href={path}>
-            <Tooltip disabled={isSubRoute} label={label} openDelay={0} position="right" className="bg-opacity-50" color='brand' py={17} display={collapsed.value ? 'none' : ''}>
-                <div className={`flex items-center py-8 ${(collapsed.value || isSubRoute) ? 'px-6' : 'px-4'} h-14 my-2 ${!isSubRoute?"text-white hover:border-sky-600 border-sky-600 border-b-[2px] ":"text-[#0071b9] hover:border-white hover:text-white  border-neutral-200 border-b-[1px]"} font-light  transition-all   hover:bg-[#0071b9] bg-opacity-50 `}>
+            <Tooltip disabled={isSubRoute} label={<p className="text-sm mx-2 my-1 truncate font-[400]"> {label}</p>} openDelay={0} position="right" classNames={{
+                tooltip: 'bg-sky-600 bg-opacity-50 bg-sky-600 backdrop-blur-sm border-b-2 border-[#0000005e] text-white rounded-r-xl -ml-2',
+            }} color='brand' py={20} display={collapsed.value ? 'none' : ''}>
+                <div className={`flex hover:bg-opacity-50 hover:bg-sky-600 hover:backdrop-blur-sm items-center hover:border-b-2  py-8 px-6 h-14 my-2 ${!isSubRoute?"text-white hover:border-sky-600 border-sky-600 border-b-[2px] ":"text-[#0071b9] hover:border-white hover:text-white  border-neutral-200 border-b-[1px]"} font-light  transition-all   hover:bg-sky-600  `}>
                     <p className="flex justify-center items-center text-center">
-                        {icon} <p className="text-sm pl-4 truncate font-[400]">  {(collapsed.value || isSubRoute) && label} </p>
+                        {icon}  {(collapsed.value || isSubRoute) && <p className="text-sm pl-4 truncate font-[400]"> {label}</p>} 
                     </p>
                 </div>
             </Tooltip>
