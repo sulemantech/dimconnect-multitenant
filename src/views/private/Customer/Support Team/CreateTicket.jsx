@@ -56,13 +56,13 @@ export default function TicketCreationPage() {
   };
 
   return (
-    <div className="w-full">
-      <div style={{ backgroundImage: 'url("/horizontal blue background.svg")' }} className="flex flex-col pl-20 justify-center h-1/3">
+    <div className="w-full h-full">
+      <div style={{ backgroundImage: 'url("/horizontal blue background.svg")' }} className="flex flex-col pl-20 justify-center h-1/6">
 
       </div>
-      <Paper p='xl' className="space-y-4 px-8">
-        <Title order={1} color='brand'>Support Ticket To DIM Team</Title>
-        <Title order={5} className='w-1/2' >Please describe your issue in detail, with relevant information including device platform, a version affected, steps taken to reproduce the issue, and any other relevant information.</Title>
+      <Paper className="space-y-6 px-20 py-10 flex-grow ">
+        <Title order={2} color='brand'>Support Ticket To DIM Team</Title>
+        <Title order={5} className='w-1/2 font-light' >Please describe your issue in detail, with relevant information including device platform, a version affected, steps taken to reproduce the issue, and any other relevant information.</Title>
 
         <Paper className="flex-grow flex mt-8" radius={'xl'} withBorder>
           <Box className="rounded-l-full flex-1 items-center justify-center" display='flex'>
