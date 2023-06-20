@@ -13,13 +13,13 @@ export default () => {
 
     const [data, setData] = useState({
         "User Management": {
-            icon: <FaUserEdit size={30} className="text-[#0071b9]" />,
+            icon: <FaUserEdit size={30} className="text-[#0E76BB]" />,
             permission: PERMISSIONS["User Management"],
             route: 'users'
         },
         "Roles and Permissions": {
-            // icon: <IconPremiumRights size={25} className="text-[#0071b9]" />,
-            icon : <FaUsersCog size={30} className="text-[#0071b9]" />,
+            // icon: <IconPremiumRights size={25} className="text-[#0E76BB]" />,
+            icon : <FaUsersCog size={30} className="text-[#0E76BB]" />,
             permission: PERMISSIONS["Roles Management"],
             route: 'r&p'
         }

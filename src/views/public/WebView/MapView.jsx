@@ -116,7 +116,7 @@ export default () => {
         <>
         <AddressPoints /> 
         <SearchControl nohead />
-        <div  className={`absolute top-2 right-2 ${FabClass} text-[#0071b9] bg-white `}
+        <div  className={`absolute top-2 right-2 ${FabClass} text-[#0E76BB] bg-white `}
            onClick={() => {
             navigator.geolocation.getCurrentPosition((position) => {
               CustomGeoLocateData.value = {

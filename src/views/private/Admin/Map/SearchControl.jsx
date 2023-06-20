@@ -77,7 +77,7 @@ const goTo = (item) => {
         <>
             <div className={`absolute flex flex-col w-64 z-50 left-2 top-${!nohead ? '2' : '2'}`}>
                 <Input value={search} onChange={setSearch}
-                    placeholder="Search" color="white" icon={<IconSearch className=" text-[#0071b9] " />} variant="unstyled" className="shadow-lg text-[#0071b9] bg-white  border-white border-solid border-2 rounded-lg" />
+                    placeholder="Search" color="white" icon={<IconSearch className=" text-[#0E76BB] " />} variant="unstyled" className="shadow-lg text-[#0E76BB] bg-white  border-white border-solid border-2 rounded-lg" />
                  
                  <div className={` flex flex-col left-2 `} ref={ref}>
                 {

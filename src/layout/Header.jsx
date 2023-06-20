@@ -241,8 +241,8 @@ export default () => {
 
   return (
     <div className=" z-[100] shadow-lg right-0 left-0 top-0">
-      <div className=" items-center  h-20 bg-white flex p-2 text-[#0071b9] ">
-        <div className="flex-grow font-bold text-[#0071b9] text-lg">
+      <div className=" items-center  h-20 bg-white flex p-2 text-[#0E76BB] ">
+        <div className="flex-grow font-bold text-[#0E76BB] text-lg">
           <h6 className={window.innerWidth < 768 ? 'text-xs' : 'text-lg'}>
             {
               ((router[0].path?.split(':'))?.[0]?.split('/')?.[1])?.toUpperCase().split('_').join(' ')

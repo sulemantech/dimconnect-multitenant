@@ -27,7 +27,7 @@ export default () => {
                         Demand Points
                     </p>
                     <hr />
-                    <div className="flex justify-center items-center text-sm md:text-4xl font-light text-[#0071b9]">
+                    <div className="flex justify-center items-center text-sm md:text-4xl font-light text-[#0E76BB]">
                         <b>
                             {loading ? <Loader className="mt-1" /> :
                                 MaterialCount?.data?.[0]?.demand_points || <span className="text-red-500 text-sm">No Data</span>}
@@ -39,7 +39,7 @@ export default () => {
                         Feeder Cables
                     </p>
                     <hr />
-                    <div className="flex justify-center items-center text-sm md:text-4xl font-light text-[#0071b9]">
+                    <div className="flex justify-center items-center text-sm md:text-4xl font-light text-[#0E76BB]">
                         <b>
                             {loading ? <Loader className="mt-1" /> :
                                 MaterialCount?.data?.[0]?.feeder_cables || <span className="text-red-500 text-sm">No Data</span>}
@@ -53,7 +53,7 @@ export default () => {
                         Distribution Cables
                     </p>
                     <hr />
-                    <div className="flex justify-center items-center text-sm md:text-4xl font-light text-[#0071b9]">
+                    <div className="flex justify-center items-center text-sm md:text-4xl font-light text-[#0E76BB]">
                         <b>
                             {loading ? <Loader className="mt-1" /> :
                                 MaterialCount?.data?.[0]?.out_distributioncables || <span className="text-red-500 text-sm">No Data</span>}
@@ -65,7 +65,7 @@ export default () => {
                     Primary Cables
                     </p>
                     <hr />
-                    <div className="flex justify-center items-center text-sm md:text-4xl font-light text-[#0071b9]">
+                    <div className="flex justify-center items-center text-sm md:text-4xl font-light text-[#0E76BB]">
                         <b>
                             {loading ? <Loader className="mt-1" /> :
                                 MaterialCount?.data?.[0]?.primary_distribution_cables || <span className="text-red-500 text-sm">No Data</span>}

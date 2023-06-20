@@ -9,7 +9,7 @@ export default ({ title, count, color, active, handleClick, id }) => {
     <div
       onClick={() => handleClick(id)}
       className={`flex flex-row justify-around items-center ${
-        active ? "bg-[#0071b90a]" : "bg-white"
+        active ? "bg-[#0E76BB0a]" : "bg-white"
       } rounded-xl shadow-lg p-4 w-[30%]`}
     >
       <div className="flex flex-col items-start">

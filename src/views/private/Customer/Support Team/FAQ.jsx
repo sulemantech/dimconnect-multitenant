@@ -41,7 +41,7 @@ export default () => {
             </div>
 
             <div className={`px-20 mt-10`}>
-                <h6 className={`text-[#0071b9] font-bold text-xl`}>Popular FAQ Topics are here:</h6>
+                <h6 className={`text-[#0E76BB] font-bold text-xl`}>Popular FAQ Topics are here:</h6>
                 <p className={'font-semibold text-sm mt-1'}>General Questions: Short And Briefly Answered</p>
                 <ul className={`mt-4 list-disc list-inside  text-sm font-light tracking-wider`}>
                     <li>What is a comprehensive Cross-Municipal network detail planning?</li>
@@ -73,10 +73,10 @@ export default () => {
 const PageControlButton = ({ icon, label, href }) => {
     return (
         <div className={`flex flex-1 flex-col justify-center items-center space-x-2 bg-slate-300 m-2 rounded-3xl shadow-md border-white border-2 border-solid py-2 hover:scale-105 transition-all cursor-pointer`}>
-            <div className={`flex justify-center items-center w-10 h-10 rounded-full  text-[#0071b9]`}>
+            <div className={`flex justify-center items-center w-10 h-10 rounded-full  text-[#0E76BB]`}>
                 {icon}
             </div>
-            <div className={`text-[#0071b9] tracking-wide text-xs`}>
+            <div className={`text-[#0E76BB] tracking-wide text-xs`}>
                 {label}
             </div>
         </div>

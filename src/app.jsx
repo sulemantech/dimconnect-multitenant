@@ -30,7 +30,7 @@ export function App() {
         fontFamily: 'Greycliff CF, sans-serif',
         primaryShade : 4,
         colors: {
-          brand: ['#1a7fc0', '#338dc7', '#4d9cce', '#66aad5', '#0071b9', '#0066a7', '#005a94', '#004f82', '#00446f'],
+          brand: ['#1a7fc0', '#338dc7', '#4d9cce', '#66aad5', '#0E76BB', '#0066a7', '#005a94', '#004f82', '#00446f'],
 
         },
         // hover color
@@ -39,14 +39,30 @@ export function App() {
           'Button': {
             defaultProps: {
               variant: 'filled',
-              mx: 5,
-              className: "bg-[#0071b9]  hover:shadow-md shadow-xs  shadow-[#0071b9] border-2 border-white border-solid transition-all duration-200 ease-in-out"
+              uppercase: true,
+              size: 'lg',
+              style: {
+                boxShadow: '0px 0px 3px 1px rgba(0,0,0,0.25)',
+              },
+              className: "text-[#0E76BB] font-semibold capitalize hover:scale-95 active:bg-sky-400 hover:bg-sky-200 bg-sky-100 rounded-2xl justify-self-end items-end hover:shadow-md transition-all duration-200 ease-in-out"
+            },
+            styles:{
+              leftIcon:{
+                backgroundColor: '#0E76BB',
+                borderRadius: '50%',
+              },
+              label:{
+                fontSize: '16px',
+                margin : '1rem 2rem',
+              }
             }
           },
         }
       }}
 
     >
+
+     
 
       
       <Suspense fallback={<LoadingOverlay visible />} >

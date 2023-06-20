@@ -145,7 +145,7 @@ export default () => {
                         filter={['has', 'point_count']}
                         paint={{
                             
-                                'circle-color': '#0071b9',
+                                'circle-color': '#0E76BB',
                                 'circle-radius': ['step', ['get', 'point_count'], 10, 100, 20, 750, 30]
                         
                         }}

@@ -612,7 +612,7 @@ export const ExtraViewableControl = ({ modal = false, webview = false }) => {
 
     const Options = {
         'Roads and Waterways': {
-            icon: <IconRoad className="scale-110 text-[#0071b9] " />,
+            icon: <IconRoad className="scale-110 text-[#0E76BB] " />,
             selectable: true,
             "method": () => {
                 roadandwaterstate.value = true
@@ -622,7 +622,7 @@ export const ExtraViewableControl = ({ modal = false, webview = false }) => {
             }
         },
         'Barriers': {
-            icon: <IconBarrierBlock className="scale-110 text-[#0071b9] " />,
+            icon: <IconBarrierBlock className="scale-110 text-[#0E76BB] " />,
             selectable: true,
             "method": () => {
                 BarrierState.value = true
@@ -633,7 +633,7 @@ export const ExtraViewableControl = ({ modal = false, webview = false }) => {
             }
         },
         'Equipment': {
-            icon: <IconTools className="scale-110 text-[#0071b9] " />,
+            icon: <IconTools className="scale-110 text-[#0E76BB] " />,
             selectable: true,
             "method": () => {
                 equipmentState.value = true
@@ -644,7 +644,7 @@ export const ExtraViewableControl = ({ modal = false, webview = false }) => {
             }
         },
         'Region Cost': {
-            icon: <IconWorldDollar className="scale-110 text-[#0071b9] " />,
+            icon: <IconWorldDollar className="scale-110 text-[#0E76BB] " />,
             selectable: true,
             "method": () => {
                 regionCostState.value = true
@@ -663,7 +663,7 @@ export const ExtraViewableControl = ({ modal = false, webview = false }) => {
 
     }, [])
 
-    const AddControlButton = <div className={`mt-2 ${FabClass}  ${activeOption ? 'bg-red-500 text-white' : 'bg-white text-[#0071b9]'}`}>
+    const AddControlButton = <div className={`mt-2 ${FabClass}  ${activeOption ? 'bg-red-500 text-white' : 'bg-white text-[#0E76BB]'}`}>
 
         <IconEye className="scale-150" />
     </div>
@@ -704,7 +704,7 @@ export const ExtraViewableControl = ({ modal = false, webview = false }) => {
                                             >
                                                 <div className="flex items-center gap-2 cursor-pointer">
                                                     {Options[key].icon}
-                                                    <b className=" text-[#0071b9] tracking-wide font-bold">
+                                                    <b className=" text-[#0E76BB] tracking-wide font-bold">
                                                         {key}
                                                     </b>
                                                 </div>
@@ -743,7 +743,7 @@ export const ExtraViewableControl = ({ modal = false, webview = false }) => {
                             >
                                 <div className="flex items-center gap-2">
                                     {Options[key].icon}
-                                    <b className=" text-[#0071b9] tracking-wide font-bold">
+                                    <b className=" text-[#0E76BB] tracking-wide font-bold">
                                         {key}
                                     </b>
                                 </div>
