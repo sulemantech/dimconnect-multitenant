@@ -6,68 +6,119 @@ import subtract1 from "./Subtractred.png";
 import { openModal } from "@mantine/modals";
 // import blueDot from './Ellipse.png'
 
-const MyTable = ({ data }) => {
+const status = {
+  1: { name: "Open", color: "text-cyan-500", colorCode: "#06b6d4", svg: '/StatusGreen.svg' },
+  2: { name: "Closed", color: "text-lime-400", colorCode: "#84cc16", svg: '/StatusGreen.svg' },
+  3: { name: "Pending", color: "text-amber-400", colorCode: "#f59e0b", svg: '/StatusBlue.svg' },
+  4: { name: "Rejected", color: "text-red-500", colorCode: "#ef4444", svg: '/StatusRed.svg' },
+  5: { name: "Solved", color: "text-green-500", colorCode: "#10b981", svg: '/StatusGreen.svg' },
+  6: { name: "Deleted", color: "text-red-500", colorCode: "#ef4444", svg: '/StatusRed.svg' },
+};
+
+const MyTable = ({ data, select, setSelect }) => {
   const mRef = useRef();
   // console.log("ticketssssss======================....",data)
 
   return (
     <>
-      <dialog ref={mRef} className="modal">
-        <div className="modal-content">
-          <span className="close">&times;</span>
-          <p>Some text in the Modal..</p>
-        </div>
-      </dialog>
-      <table className="mt-3 ml-3 pb-2 w-[80%]">
-        <thead className="tcolor text-xs">
+     
+      <table className="mt-3 ml-3 pb-2 w-full mb-5 h-max">
+        <thead className="bg-[#D8E4EE] text-xs">
           <tr className="text-end">
-            <th>
+            <th className=" flex justify-center ">
               <Checkbox size="xs" />
             </th>
-            <th>Ticket ID</th>
-            <th>Status</th>
-            <th> Requester</th>
-            <th>Problem Type</th>
-            <th>Title</th>
-            <th>Priority</th>
-            <th>Created</th>
-            <th>Updated</th>
+            <th className=" text-left">Ticket ID</th>
+            <th className=" text-left">Status</th>
+            <th className=" text-left"> Requester</th>
+            <th className=" text-left">Problem Type</th>
+            <th className=" text-left">Title</th>
+            <th className=" text-left">Priority</th>
+            <th className=" text-left">Created</th>
+            <th className=" text-left">Updated</th>
             <th></th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="mt-5">
+          <tr className="text-end text-[0.75rem] h-[10px]"></tr>
           {data.map((item, index) => {
             return (
+
               <tr
-                className={`${
-                  index % 2 === 0 ? "rcolor" : ""
-                } text-end  text-xs `}
+                className={` text-end text-[0.75rem] pt-5`}
               >
-                <td>
-                  <Checkbox size="xs" />
+                <td className={`${
+                  index % 2 === 0 ? "bg-[#FFFFFF] rounded-l-full p-1" : ""
+                } p-0`}>
+                  <Checkbox size="xs" className="flex justify-center items-center" checked={select=== item.id? true : false} onChange={(e)=>{
+                    setSelect(item.id)
+                  }} />
                 </td>
-                <td>000{item.id}</td>
-                <td>🎟️</td>
-                <td>{item.user_id}</td>
-                <td>{item.ticketCategory.name}</td>
-                <td>{item.title}</td>
-                <td>{item.ticketPriority.name}</td>
-                <td>{new Date(item.created_at).toLocaleDateString()}</td>
-                <td>{new Date(item.updated_at).toLocaleDateString()}</td>
-                <td>
+                <td className={`${
+                  index % 2 === 0 ? "bg-[#FFFFFF] p-1" : ""
+                } text-left p-1`}>
+                  {/* should be 6 digit, rest of the digits will be zero */}
+                  {item.id.toString().padStart(6, "0")}
+
+                </td>
+                <td className={`${
+                  index % 2 === 0 ? "bg-[#FFFFFF] p-1" : ""
+                } p-1`}>
+                  <img src={status[item.status_id].svg} alt="status" />
+                </td>
+                <td className={`${
+                  index % 2 === 0 ? "bg-[#FFFFFF] p-1" : ""
+                } p-1 text-left`}>{item.gpUser.vorname +" " + item.gpUser.nachname}</td>
+                <td className={`${
+                  index % 2 === 0 ? "bg-[#FFFFFF] p-1" : ""
+                } p-1 text-left`}>{item.ticketCategory.name}</td>
+                <td className={`${
+                  index % 2 === 0 ? "bg-[#FFFFFF] p-1" : ""
+                } p-1 text-left`}>{item.title}</td>
+                <td className={`${
+                  index % 2 === 0 ? "bg-[#FFFFFF] p-1" : ""
+                } p-1 text-left`}>{item.ticketPriority.name}</td>
+                <td className={`${
+                  index % 2 === 0 ? "bg-[#FFFFFF] p-1" : ""
+                } p-1 text-left`}>{new Date(item.created_at).toLocaleDateString().replaceAll('/','.')}</td>
+                <td className={`${
+                  index % 2 === 0 ? "bg-[#FFFFFF]  p-1" : ""
+                } p-1 text-left`}>{new Date(item.updated_at).toLocaleDateString().replaceAll('/','.')}</td>
+                <td className={`${
+                  index % 2 === 0 ? "bg-[#FFFFFF] rounded-r-full p-1" : ""
+                } p-1 text-left`}>
                   <button
                     className="bg-transparent border-none text-sky-600"
                     onClick={
                       () =>
+                        // openModal({
+                        //   children: <TicketModal ticket={item} />,
+                        //   size: "lg",
+                        //   padding: "0",
+                        //   backgroundColor: "transparent",
+                        // })
+                        // openModal without top close button and with custom close button
                         openModal({
                           children: <TicketModal ticket={item} />,
                           size: "lg",
-                          withCloseButton: true,
                           padding: "0",
                           backgroundColor: "transparent",
+                          closeButtonLabel: "Close",
+                          hideCloseButton: true,
+                          closeOnOverlayClick: true,
+                          closeButtonProps: {
+                            style: {
+                              position: "absolute",
+                              top: 10,
+                              right: 10,
+                              backgroundColor: "transparent",
+                              color: "#3E3F3F",
+                              border: "none",
+                              outline: "none",
+                              cursor: "pointer",
+                            },
+                          },
                         })
-                      // open dialog box
-                      // mRef.current.showModal()
                     }
                   >
                     See Ticket →
@@ -85,14 +136,7 @@ const MyTable = ({ data }) => {
 export default MyTable;
 
 function TicketModal({ ticket }) {
-  const status = {
-    1: { name: "Open", color: "text-cyan-500", colorCode: "#06b6d4" },
-    2: { name: "Closed", color: "text-lime-400", colorCode: "#84cc16" },
-    3: { name: "Pending", color: "text-amber-400", colorCode: "#f59e0b" },
-    4: { name: "Rejected", color: "text-red-500", colorCode: "#ef4444" },
-    5: { name: "Solved", color: "text-green-500", colorCode: "#10b981" },
-    6: { name: "Deleted", color: "text-red-500", colorCode: "#ef4444" },
-  };
+  
   return (
     <>
       <div className="flex flex-col h-[100%] p-0 m-0">
