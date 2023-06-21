@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'preact/hooks';
-import { TextInput, Button, Select, Paper, Textarea, Title, Input, Box, Text, FileInput } from '@mantine/core';
+import { TextInput, Button, Select, Paper, Textarea, Title, Input, Box, Text, FileInput, Container, Flex, Stack, Image } from '@mantine/core';
 import { getTicketPriorities, getTicketsCategories, postTicket } from '../../../../api';
 import { showNotification } from '@mantine/notifications';
 import { IconFile, IconPaperclip, IconSearch } from '@tabler/icons';
+import { openModal } from '@mantine/modals';
 
 
 export default function TicketCreationPage() {
@@ -36,6 +37,20 @@ export default function TicketCreationPage() {
   };
 
   const handleTicketSubmit = async () => {
+    openModal({
+      title: <></>,
+
+      size: 'xl',
+      classNames: {
+        title: 'hidden',
+        header: 'bg-brand py-1',
+        body: 'p-0',
+      },
+      children: <ThanksModalContent ticketNumber={1103891} currentStatus={'sent'} date={'May 29, 2023'} name="elon musk" problemType="mapView" title="map Problem" description="The map does not show a new connection line"
+        attatchedFiles={['file1.png', 'file2.png']}
+      />,
+    });
+    return;
     setLoading(true);
     postTicket(ticketData).then((res) => {
       showNotification({
@@ -174,5 +189,80 @@ export default function TicketCreationPage() {
         </div>
       </Paper>
     </div>
+  );
+}
+
+
+export const ThanksModalContent = ({ ticketNumber, currentStatus, date, name, problemType, title, description, attatchedFiles }) => {
+  return (
+    <div>
+
+      <Container bg={'brand'} className='text-white'>
+        <div className='space-y-4 px-20 pb-4 flex-grow '>
+
+          <Title order={2} className="text-center">Thank you!</Title>
+          <Text className="text-center text-xs font-light">We are about to recieve your support ticket</Text>
+          <Text className="text-center text-xs font-light">Just let us see it and we will come back with fast and easy solution</Text>
+          <Text className="text-center text-xs font-light">DIM SUPPORT TEAM appreciates your patience. Take care!</Text>
+
+        </div>
+
+
+      </Container>
+      <Container className='px-12 py-4' >
+        <Flex justify='space-between' >
+
+          <Stack className='space-y-2'>
+            <Flex>
+              <Text size={'xs'} mr={15}>TICKET NUMBER</Text><Text size={'xs'} fw={'bold'}>{ticketNumber}</Text>
+            </Flex>
+            <Flex>
+              <Text size={'xs'} mr={15}>NAME</Text><Text size={'xs'} fw={'bold'}>{name.toUpperCase()}</Text>
+            </Flex>
+            <Flex>
+              <Text size={'xs'} mr={15}>TITLE</Text><Text size={'xs'} fw={'bold'}>{title.toUpperCase()}</Text>
+            </Flex>
+          </Stack>
+          <Stack>
+            <Flex>
+              <Text size={'xs'} mr={15}>CURRENT STATUS</Text><Text size={'xs'} fw={'bold'}>{currentStatus.toUpperCase()}</Text>
+            </Flex>
+            <Flex>
+              <Text size={'xs'} mr={15}>PROBLEM TYPE</Text><Text size={'xs'} fw={'bold'}>{problemType.toUpperCase()}</Text>
+            </Flex>
+          </Stack>
+
+          <Text size={'xs'} fw={'bold'}>{date}</Text>
+
+        </Flex>
+        <Text mt={20} className='text-neutral-600' size={'xs'}>
+          {description}
+        </Text>
+        {attatchedFiles.length > 0 &&
+          <>
+            <Text mt={20} className='text-neutral-700' size={'xs'}>
+              {attatchedFiles.length} Attatched Files
+            </Text>
+            <Flex mt={20}>
+
+              {
+                attatchedFiles.map((file) => (
+                  <Image src={file.url} alt={file.name} width={100} height={100} mr={15} />
+                ))
+              }
+            </Flex>
+          </>
+        }
+      </Container>
+      <div style={{ backgroundImage: 'url("/horizontal blue background.svg")' }} className="w-full py-8" >
+        <div className='bg-white flex text-center text-xs p-2 justify-center'>
+          You can <a href="#" className="text-sky-600 px-1"> Edit </a> or <a href="#" className="text-sky-600 px-1"> Check Status </a> of your ticket anytime!
+        </div>
+
+      </div>
+
+
+    </div>
+
   );
 }
