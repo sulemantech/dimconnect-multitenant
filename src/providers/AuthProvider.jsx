@@ -74,7 +74,7 @@ const createAuthState = () => {
             })
         }
         timer()
-    }, 1000 * 60 * 3)
+    }, 1000 * 60 * 25)
     timer()
     return { auth, setAuth }
 }

@@ -2,14 +2,17 @@ import { useEffect, useState } from 'preact/hooks';
 import { ActionIcon, Loader, SegmentedControl, Table } from '@mantine/core';
 import { Input } from '@mantine/core';
 import { commarize } from '../../../../utils/convertor';
-import { dropvalue, costInfoData, costInputParams } from '../../../../signals';
+import { dropvalue, costInfoData, costInputParams, regsionListSignal } from '../../../../signals';
 import { getCostInfoByDistrictId } from '../../../../api';
 import appConfig from '../../../../config/appConfig';
 import axios from 'axios';
 import { openDrawer } from '../../../../providers/DrawerProvider';
 import { IconRefresh, IconSettings } from '@tabler/icons';
 import { useDidUpdate } from '@mantine/hooks';
-
+import { IconPdf } from '@tabler/icons-react';
+import { jsPDF } from "jspdf";
+import autoTable from 'jspdf-autotable';
+import { tilesAvailable } from '../../../../layout/Header';
 
 const costInfoSampleData = {
   "cables": {
@@ -144,6 +147,72 @@ const costInfoSampleData = {
   }
 }
 
+export const generatePDF = (data,fileName) => {
+  const doc = new jsPDF();
+
+  // add title of filename
+  doc.text(`${fileName} kalkulation`, 10, 10);
+  
+
+
+  const categories = ['distribution', 'feeder', 'primary'];
+
+  let startY = 30;
+  for (let category of categories) {
+    const cableHeaders = [['Cable Type', 'Material Cost', 'Labour Cost', 'Total', 'Volume', 'Total Cost']];
+    const cableData = data.cables[category].map(item => Object.values(item)).map(item => {
+      return item.map(item => commarize(item))
+    })
+    
+    doc.text(`Cables - ${category}`, 10, startY);
+    doc.autoTable({
+      head: cableHeaders,
+      body: cableData,
+      startY: startY + 5
+    });
+
+    const ductHeaders = [['Duct Type', 'Material Cost', 'Labour Cost', 'Volume', 'Total Cost']];
+    const ductData = data.duct[category].map(item => Object.values(item)).map(item => {
+      return item.map(item => commarize(item))
+    })
+    startY = doc.lastAutoTable.finalY + 10;
+    doc.text(`Ducts - ${category}`, 10, startY);
+    doc.autoTable({
+      head: ductHeaders,
+      body: ductData,
+      startY: startY + 5
+    });
+
+    startY = doc.lastAutoTable.finalY + 10;
+  }
+
+  // const activationHeaders = [['Building Count', '1 to 3 Buildings', 'Building Connections 1 to 3', 'Building Per Connection Cost 1 to 3', 'Total Cost Building Connections 1 to 3', 'Building Count 3 Plus', 'Building Connections 3 Plus', 'Building Per Connection Cost 3 Plus', 'Total Cost Building Connections 3 Plus', 'Total Homes Count', 'Homes Count 1 to 3', 'Home Count Connections 1 to 3', 'Home Count Per Connection Cost 1 to 3', 'Total Cost Home Count Connections 1 to 3', 'Home Count 3 Plus', 'Home Count Connections 3 Plus', 'Home Count Per Connection Cost 3 Plus', 'Total Cost Home Count Connections 3 Plus', 'Total Cost']];
+  // const activationData = [Object.values(data.homeActivation)];
+  // startY = doc.lastAutoTable.finalY + 10;
+  // doc.text(`Home Activation`, 10, startY);
+  // doc.autoTable({
+  //   head: activationHeaders,
+  //   body: activationData,
+  //   startY: startY + 5
+  // });
+
+  const activationHeaders = [['key', 'value']];
+  const activationData = Object.entries(data.homeActivation).map(item => [item[0].split('_').join(' ').toUpperCase(), commarize(item[1])])
+ 
+  startY = doc.lastAutoTable.finalY + 10;
+  doc.text(`Home Activation`, 10, startY);
+  doc.autoTable({
+      head: activationHeaders,
+      body: activationData,
+      startY: startY + 5
+  });
+
+  
+
+
+  doc.save(`${fileName}-${new Date().toISOString()}-kalkulation.pdf`);
+};
+
 export default () => {
   const [data, setData] = useState(null); // as costInfoSampleData
   const [loading, setLoading] = useState(false);
@@ -186,6 +255,11 @@ export default () => {
           Cost Info
         </p>
         <div className='flex'>
+        <ActionIcon onClick={() => {
+             generatePDF(data,regsionListSignal.value.find(tile => tile.ags === ags).name)
+          }}>
+            <IconPdf />
+          </ActionIcon>
           <ActionIcon
             onClick={() => {
               getCost();
@@ -204,6 +278,7 @@ export default () => {
           }}>
             <IconSettings />
           </ActionIcon>
+          
         </div>
       </div>
       <hr />

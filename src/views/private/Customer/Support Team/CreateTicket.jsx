@@ -4,6 +4,7 @@ import { getTicketPriorities, getTicketsCategories, postTicket } from '../../../
 import { showNotification } from '@mantine/notifications';
 import { IconFile, IconPaperclip, IconSearch } from '@tabler/icons';
 import { openModal } from '@mantine/modals';
+import { Link } from 'preact-router';
 
 
 export default function TicketCreationPage() {
@@ -256,7 +257,7 @@ export const ThanksModalContent = ({ ticketNumber, currentStatus, date, name, pr
       </Container>
       <div style={{ backgroundImage: 'url("/horizontal blue background.svg")' }} className="w-full py-8" >
         <div className='bg-white flex text-center text-xs p-2 justify-center'>
-          You can <a href="#" className="text-sky-600 px-1"> Edit </a> or <a href="#" className="text-sky-600 px-1"> Check Status </a> of your ticket anytime!
+          You can <Link href="support_ticket/edit_or_check_ticket_status" className="text-sky-600 px-1"> Edit </Link> or <Link href="support_ticket/edit_or_check_ticket_status" className="text-sky-600 px-1"> Check Status </Link> of your ticket anytime!
         </div>
 
       </div>

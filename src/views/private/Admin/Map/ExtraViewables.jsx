@@ -13,11 +13,9 @@ import { BarrierState, dropvalue, mapSignal, roadandwaterstate, equipmentState, 
 import { FabClass } from "../../../../layout"
 import { getBoundaries, getCostInfoByDistrictId, getEquipment } from "../../../../api"
 import { IconWorldDollar } from "@tabler/icons-react"
-import { commarize } from "../../../../utils/convertor"
-import { jsPDF } from "jspdf";
-import autoTable from 'jspdf-autotable';
+
 import GeoCodingOSM from "geocoding-osm"
-import { CostInfoModalContent,CableTable,CostInfoSettings,DuctTable,HomeActivationTable } from "../Dashboard/CostInfo"
+import { CostInfoModalContent,CableTable,CostInfoSettings,DuctTable,HomeActivationTable, generatePDF } from "../Dashboard/CostInfo"
 
 
 const barrierLayers = {
@@ -351,65 +349,7 @@ const Barriers = () => {
     )
 }
 
-const generatePDF = (data,fileName) => {
-    const doc = new jsPDF();
 
-    // add title of filename
-    doc.text(`${fileName} kalkulation`, 10, 10);
-    
-
-  
-    const categories = ['distribution', 'feeder', 'primary'];
-  
-    let startY = 30;
-    for (let category of categories) {
-      const cableHeaders = [['Cable Type', 'Material Cost', 'Labour Cost', 'Total', 'Volume', 'Total Cost']];
-      const cableData = data.cables[category].map(item => Object.values(item));
-      doc.text(`Cables - ${category}`, 10, startY);
-      doc.autoTable({
-        head: cableHeaders,
-        body: cableData,
-        startY: startY + 5
-      });
-  
-      const ductHeaders = [['Duct Type', 'Material Cost', 'Labour Cost', 'Volume', 'Total Cost']];
-      const ductData = data.duct[category].map(item => Object.values(item))
-      startY = doc.lastAutoTable.finalY + 10;
-      doc.text(`Ducts - ${category}`, 10, startY);
-      doc.autoTable({
-        head: ductHeaders,
-        body: ductData,
-        startY: startY + 5
-      });
-  
-      startY = doc.lastAutoTable.finalY + 10;
-    }
-  
-    // const activationHeaders = [['Building Count', '1 to 3 Buildings', 'Building Connections 1 to 3', 'Building Per Connection Cost 1 to 3', 'Total Cost Building Connections 1 to 3', 'Building Count 3 Plus', 'Building Connections 3 Plus', 'Building Per Connection Cost 3 Plus', 'Total Cost Building Connections 3 Plus', 'Total Homes Count', 'Homes Count 1 to 3', 'Home Count Connections 1 to 3', 'Home Count Per Connection Cost 1 to 3', 'Total Cost Home Count Connections 1 to 3', 'Home Count 3 Plus', 'Home Count Connections 3 Plus', 'Home Count Per Connection Cost 3 Plus', 'Total Cost Home Count Connections 3 Plus', 'Total Cost']];
-    // const activationData = [Object.values(data.homeActivation)];
-    // startY = doc.lastAutoTable.finalY + 10;
-    // doc.text(`Home Activation`, 10, startY);
-    // doc.autoTable({
-    //   head: activationHeaders,
-    //   body: activationData,
-    //   startY: startY + 5
-    // });
-
-    const activationHeaders = [['key', 'value']];
-    const activationData = Object.entries(data.homeActivation);
-    startY = doc.lastAutoTable.finalY + 10;
-    doc.text(`Home Activation`, 10, startY);
-    doc.autoTable({
-        head: activationHeaders,
-        body: activationData,
-        startY: startY + 5
-    });
-
-    
-
-  
-    doc.save(`${fileName}-${new Date().toISOString()}-kalkulation.pdf`);
-  };
 
 const RegionCostCalculation = () => {
     const [visible, setVisible] = useState(false)

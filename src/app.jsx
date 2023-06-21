@@ -75,7 +75,7 @@ export function App() {
           },
           classNames: {
             inner: 'shadow-2xl border-2 border-gray-200 rounded-xl',
-            overlay: 'bg-red-500',
+          
           },
           lockScroll: false
 

@@ -19,6 +19,7 @@ import Ticket from '../views/private/Admin/Ticket';
 import FAQ from '../views/private/Customer/Support Team/FAQ';
 import CreateTicket from '../views/private/Customer/Support Team/CreateTicket';
 import FAQCategory from '../views/private/Customer/Support Team/FAQCategory';
+import EditOrCheckStatusTicket from '../views/private/Customer/Support Team/EditOrCheckStatusTicket';
 
 const TypeRoutes = {
     'admin': [
@@ -32,6 +33,7 @@ const TypeRoutes = {
         <FAQ path="/support_team/faq" />,
         <FAQCategory path="/support_team/faq/:id" />,
         <CreateTicket path="/support_team/support_ticket" />,
+        <EditOrCheckStatusTicket path="/support_team/support_ticket/edit_or_check_ticket_status" />,
     ],
 }
 
