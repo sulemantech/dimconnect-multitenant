@@ -59,7 +59,7 @@ export function App() {
           },
         }
       }}
-
+      
     >
 
      
@@ -69,8 +69,13 @@ export function App() {
         <ModalsProvider modalProps={{
           overlayProps: {
             style: {
-              backdropFilter: 'blur(3px)'
-            }
+              backdropFilter: 'blur(3px)',
+              
+            },
+          },
+          classNames: {
+            inner: 'shadow-2xl border-2 border-gray-200 rounded-xl',
+            overlay: 'bg-red-500',
           },
           lockScroll: false
 
