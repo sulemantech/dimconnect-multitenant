@@ -56,7 +56,7 @@ export default function TicketCreationPage() {
   };
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full overflow-y-auto">
       <div style={{ backgroundImage: 'url("/horizontal blue background.svg")' }} className="flex flex-col pl-20 justify-center h-1/6">
 
       </div>

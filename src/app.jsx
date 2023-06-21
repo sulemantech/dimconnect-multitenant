@@ -27,11 +27,11 @@ export function App() {
   return (
     <MantineProvider
       theme={{
-        fontFamily: 'Greycliff CF, sans-serif',
+        fontFamily: 'Roboto Condensed, Roboto',
         primaryShade : 4,
         colors: {
-          brand: ['#1a7fc0', '#338dc7', '#4d9cce', '#66aad5', '#0E76BB', '#0066a7', '#005a94', '#004f82', '#00446f'],
-
+          brand: ['#0E76BB', '#0E76BB', '#0E76BB', '#0E76BB', '#0E76BB', '#0E76BB', '#0E76BB', '#0E76BB', '#0E76BB'],
+          
         },
         // hover color
         primaryColor: 'brand',
@@ -78,7 +78,7 @@ export function App() {
           <Notifications />
           <DrawerProvider />
 
-          <div className='select-none antialiased text-gray-700 '>
+          <div className='select-none antialiased scroll-smooth text-gray-700 '>
             <AuthProvider />
           </div>
         </ModalsProvider>
