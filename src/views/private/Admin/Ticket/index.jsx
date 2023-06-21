@@ -1,12 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Search from "./components/Search";
 // import Navbar from './components/Navbar'
 import { getAllTickets } from "../../../../api";
 // import SideBar from './components/SideBar'
-import TicketManagment from './components/TicketManagment';
-import Searchbars from './components/Searchbars';
-import Table from './components/Table';
-import UserCard from './components/UserCard';
+import TicketManagment from "./components/TicketManagment";
+import Searchbars from "./components/Searchbars";
+import Table from "./components/Table";
+import UserCard from "./components/UserCard";
 const status = {
   1: { name: "Open", color: "text-cyan-500", colorCode: "#06b6d4" },
   2: { name: "Closed", color: "text-lime-400", colorCode: "#84cc16" },
@@ -17,6 +17,10 @@ const status = {
 };
 export default () => {
   const [tickets, setTickets] = useState([]);
+
+  const [search, setSearch] = useState(1);
+
+  const [select, setSelect] = useState();
 
   // ================= function for ticket count =================
   const count = (data) => {
@@ -35,28 +39,42 @@ export default () => {
   useEffect(() => {
     getAllTickets()
       .then((res) => {
-        console.log("Tickets = = = = = = = = = == >>>>",res.data);
+        console.log("Tickets = = = = = = = = = == >>>>", res.data);
 
         setTicketCounts(count(res.data));
 
         setTickets(
           res.data
-          // res.data?.map((ticket) => ({
-          //   id: ticket.id,
-          //   Ticket: "000" + ticket.id,
-          //   Status: status[ticket.status_id].name,
-          //   Name: ticket.user_id,
-          //   Problem: ticket.category_id,
-          //   Title: ticket.title,
-          //   Description: ticket.description,
-          //   Attachments: "missing",
-          //   Reasponsible: ticket.user_id,
-          //   updated_at: new Date(ticket.updated_at).toLocaleDateString(),
-          // }))
+          
         );
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [search]);
+
+
+  // useEffect(() => {
+  //   // add search functionality
+  //   console.log(search)
+  //   const r = tickets
+  //   if(!search === ""){const results = r.filter((ticket) =>
+  //     {
+  //       console.log(ticket)
+  //       return ticket.title.toLowerCase().includes(search.toLowerCase())
+  //     }
+  //   );
+  //   console.log("results =============>>>",results)
+  //   setTickets(results);}
+  //   else{
+  //     getAllTickets()
+  //     .then((res) => {
+  //         setTickets(
+  //           res.data
+  //         )
+  //     })
+  //     .catch((err) => console.log(err));
+  //   }
+  // }, [search]);
+
 
   //   return (
   //     <div class={"flex overflow-y-auto justify-between"}>
@@ -89,13 +107,21 @@ export default () => {
   //   );
   // };
 
-  return<>
-  <div className='fbody min-h-screen'>
-  <TicketManagment/>
-  <Searchbars/>
- 
- <div className='flex flex-1'><Table data={tickets} />
-  <UserCard/> </div> 
-  </div>
-  </>
+  return (
+    <>
+      <div className="fbody h-full overflow-y-scroll">
+        <TicketManagment ticketCounts={ticketCounts} />
+        <Searchbars search={search} setSearch={setSearch} setTickets={setTickets} tickets={tickets} />
+
+        <div className="flex flex-1 flex-wrap w-full justify-center items-start">
+          <div className="min-w-[79%]">
+            <Table data={tickets} select={select} setSelect={setSelect} />
+          </div>
+          <div className="min-w-[20%]">
+            <UserCard tickets={tickets} select={select} />
+          </div>
+        </div>
+      </div>
+    </>
+  );
 };
