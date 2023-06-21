@@ -1,18 +1,37 @@
 import { Router } from 'preact-router';
-import Navbar from '../layout/Navbar';
-import Dashboard from '../views/private/Dashboard';
-import Administration from '../views/private/Administration';
-import PageWrapper from '../layout/PageWrapper';
-import Styles from '../views/private/Styles';
-import Map from '../views/private/Map';
+import {lazy,Suspense} from 'preact/compat';
+import { Skeleton } from '@mantine/core';
 
+const Navbar = lazy(() => import('../layout/Navbar').catch((e) => console.log(e)));
+const Dashboard = lazy(() => import('../views/private/Admin/Dashboard'));
+const Administration = lazy(() => import('../views/private/Admin/Administration'));
+const PageWrapper = lazy(() => import('../layout/PageWrapper'));
+const Styles = lazy(() => import('../views/private/Admin/Styles'));
+const Map = lazy(() => import('../views/private/Admin/Map'));
 
-const UserType = {
-    'type1': [
-        <Dashboard path="/" />,
+const UserManagement = lazy(() => import('../views/private/Admin/Administration/UserManagement'));
+const PermissionsManagement = lazy(() => import('../views/private/Admin/Administration/PermissionsManagement'));
+
+// const Ticket = lazy(() => import('../views/private/Ticket'));
+
+import { UserType } from '../signals';
+import Ticket from '../views/private/Admin/Ticket';
+import FAQ from '../views/private/Customer/Support Team/FAQ';
+import CreateTicket from '../views/private/Customer/Support Team/CreateTicket';
+import FAQCategory from '../views/private/Customer/Support Team/FAQCategory';
+
+const TypeRoutes = {
+    'admin': [
+        <Dashboard path="/dashboard" default/>,
         <Map path="/map" />,
         <Administration path="/administration" />,
-        <Styles path="/styles" />
+        <UserManagement path="/administration/users" />,
+        <PermissionsManagement path="/administration/r&p" />,
+        <Ticket path="/support_ticket_office/inbox" />,
+        <Styles path="/styles" />,
+        <FAQ path="/support_team/faq" />,
+        <FAQCategory path="/support_team/faq/:id" />,
+        <CreateTicket path="/support_team/support_ticket" />,
     ],
 }
 
@@ -20,8 +39,12 @@ const UserType = {
 export default () => <div className='flex absolute top-0 left-0 bottom-0 bg-neutral-200 right-0 overflow-hidden'>
     <Navbar />
     <PageWrapper>
-    <Router>
-        {UserType['type1'].map((route) => route)}
+   
+    <Router hashHistory >
+        {TypeRoutes[
+            UserType.value
+        ]?.map((route) => route)}
     </Router>
+   
     </PageWrapper>
 </div>

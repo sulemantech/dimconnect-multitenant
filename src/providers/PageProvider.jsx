@@ -1,12 +1,23 @@
 import { ScrollArea } from "@mantine/core"
+import Footer from "../layout/Footer"
 
 export default ({ children }) => {
     return (
-        <div className="mt-24 px-2 max-h-screen h-screen">
-            <hr className="pt-2" />
-           
-            {children}
-           
-        </div>
+        <>
+            <ScrollArea className="h-screen">
+                <div className="mt-2  ">
+
+                    <div className="relative px-2 ">
+
+                        <hr className="" />
+
+                        {children}
+                    </div>
+
+
+                </div>
+            </ScrollArea>
+            <Footer />
+        </>
     )
 }

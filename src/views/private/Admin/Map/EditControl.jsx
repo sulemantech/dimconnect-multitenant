@@ -1,0 +1,89 @@
+import { Divider, Loader, Menu } from "@mantine/core"
+import { IconAddressBook, IconPencil } from "@tabler/icons"
+import { useState } from "react"
+import { useEffect } from "preact/hooks"
+
+import { addressPointsCRUDstate, editControlLoading } from "../../../../signals"
+import { FabClass } from "../../../../layout"
+
+export default ({ modal = false }) => {
+
+    const [activeOption, setActiveOption] = useState(null)
+
+    const Options = {
+        'Address Point': {
+            icon: <IconAddressBook className="scale-110 text-[#0071b9] " />,
+            "method": () => {
+                addressPointsCRUDstate.value = 'edit'
+            },
+            "antiMethod": () => {
+                addressPointsCRUDstate.value = ''
+            }
+        },
+
+    }
+
+    useEffect(() => {
+        addressPointsCRUDstate.subscribe(() => {
+            if (addressPointsCRUDstate.value === 'edit') {
+                setActiveOption('Address Point')
+            } else {
+                setActiveOption(null)
+            }
+        })
+    }, [])
+
+    const EditControlButton = <div className={`mt-2 ${FabClass}  ${activeOption ? 'bg-red-500 text-white' : 'bg-white text-[#0071b9]'}`}>
+
+        {editControlLoading.value ? <Loader color="white" className="scale-150" /> : <IconPencil className="scale-150" />}
+    </div>
+
+    if (activeOption) {
+        return <div
+            onClick={() => {
+                setActiveOption(null)
+                // call all anti methods
+                Object.keys(Options)?.map((key, index) => {
+                    Options[key].antiMethod()
+                })
+            }}
+        >
+            {EditControlButton}
+        </div>
+    }
+
+
+    return (
+
+        <Menu position="left-end" withArrow >
+            <Menu.Target
+
+            >
+                {EditControlButton}
+            </Menu.Target>
+            <Menu.Dropdown>
+                {
+                    Object.keys(Options)?.map((key, index) => {
+                        return (
+                            <Menu.Item key={index}
+                                onClick={() => {
+                                    setActiveOption(key)
+                                    Options[key].method()
+                                }}
+                            >
+                                <div className="flex items-center gap-2 cursor-pointer">
+                                    {Options[key].icon}
+                                    <b className=" text-[#0071b9] tracking-wide font-bold">
+                                        {key}
+                                    </b>
+                                </div>
+                              
+                            </Menu.Item>
+                        )
+                    })
+                }
+            </Menu.Dropdown>
+        </Menu>
+
+    )
+}
