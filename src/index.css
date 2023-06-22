@@ -26,3 +26,51 @@ body {
         background-color: #F5F7F9;
     }
   }
+
+
+/* Styles for the entire scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px; /* Adjust scrollbar width */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #F5F7F9;
+  border-radius: 5px;
+}
+
+/* Styles for the handle or "thumb" */
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #D8E4EE;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #D8E4EE;
+}
+
+
+.custom-scrollbar-page::-webkit-scrollbar {
+  width: 10px; /* Adjust scrollbar width */
+}
+
+.custom-scrollbar-page::-webkit-scrollbar-track {
+  background: #cad4d4;
+  border-radius: 10px;
+}
+
+/* Styles for the handle or "thumb" */
+.custom-scrollbar-page::-webkit-scrollbar-thumb {
+  background: #85c0f0;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+.custom-scrollbar-page::-webkit-scrollbar-thumb:hover {
+  background: #66aee9;
+}
+
+
+.dataTable-ticket-page {
+    border-bottom: none !important;
+}

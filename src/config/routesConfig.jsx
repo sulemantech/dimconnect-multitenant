@@ -19,9 +19,9 @@ export const privateRoutes = [{
     icon: <icons.AdministrationIcon />,
 },
 {
-    label: 'Support Ticket Office',
+    label: 'Support Ticket Back Office',
     permission: PERMISSIONS.Ticket,
-    path: `/support_ticket_office/inbox`,
+    path: `/support_ticket_back_office/inbox`,
     icon: <icons.TicketIcon />,
 },
 {

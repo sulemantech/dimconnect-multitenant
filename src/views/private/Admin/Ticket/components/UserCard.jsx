@@ -6,11 +6,10 @@ function UserCard({tickets, select}) {
 
   const [active, setActive] = React.useState('userCard');
 
-  const [item, setItem] = React.useState(select? tickets.find((i)=> i.id === select): null);
-console.log(select? tickets.find((i)=> i.id === select): null)
+  const [item, setItem] = React.useState(select || null)
 
 useEffect(() => {
-  setItem(select? tickets.find((i)=> i.id === select): null)
+  setItem(select? select : null)
 }, [select])
 
 
@@ -18,7 +17,7 @@ useEffect(() => {
   return (
     <>
       <div className="mt-3 w-full rounded-r-md mb-5 flex flex-col justify-center items-center">
-        <div className=" text-center   text-xs h-[18px] tcolor w-full flex justify-evenly">
+        <div className=" text-center   text-xs h-[18px] bg-[#D8E4EE] rounded-r-lg w-full flex justify-evenly">
           <button className={active === "userTicket"? "text-sky-600 font-bold":""}
           onClick={() => setActive("userTicket")}
           >
@@ -32,7 +31,7 @@ useEffect(() => {
           </button>
           
         </div>
-        <div className="h-[60vh] ml-3 mr-3 mt-1 rcolor rounded-md px-2 w-min overflow-y-auto">
+        <div className="h-[60vh] ml-6 mt-3 rcolor rounded-md px-2 w-min overflow-y-auto custom-scrollbar ">
           {
             item !== null ? 
           (  active === "userTicket"?<div className="w-[15vw] p-2">
