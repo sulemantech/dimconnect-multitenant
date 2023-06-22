@@ -32,6 +32,17 @@ export default () => {
 
     const categories = [...new Set(data.map(item => Object.values(item.categoriesNames)[0]))];
 
+
+    const allowedCatID = [
+        "610cf5bee37598dc3",
+        "610cf6bcc03a171db",
+        "610cf6dad6e09ff26",
+        "610cf6f201d682d18",
+        //news
+        "60ec1a0a2f119b147",
+        "61f9532b9c18b0d45"
+      ]
+
     return (
         <div className={'h-screen bg-white overflow-x-auto'}>
             <div style={{ backgroundImage: 'url("/horizontal blue background.svg")' }} className="flex flex-col pl-20 justify-center h-1/3">
