@@ -1,7 +1,7 @@
 import PageProvider from "../../../../providers/PageProvider"
 import CustomTable from "../../../../components/CustomTable"
 import { ActionIcon, Alert, Badge, Button, Card, CardSection, Chip, Divider, Loader, MANTINE_COLORS, MultiSelect, Pagination, Select, Text, Title } from "@mantine/core"
-import { assignRolesToUser, createUser, deleteUser, editUser, getRoles, getUsers } from "../../../../api";
+import { assignRolesToUser, createUser, deleteUser, editUser, getRoles, getUsers,getUserById } from "../../../../api";
 import { useState, useLayoutEffect } from 'preact/hooks'
 import { IconUser, IconUserCheck, IconUserPlus } from "@tabler/icons";
 import { IconUserCancel } from "@tabler/icons-react";
@@ -9,6 +9,7 @@ import { useEffect } from "preact/hooks";
 import { closeDrawer, openDrawer } from "../../../../providers/DrawerProvider";
 import PermissionWrapper from "../../../../providers/PermissionsProvider";
 import { PERMISSIONS } from "../../../../common";
+
 export default () => {
 
 
@@ -26,6 +27,9 @@ export default () => {
             
             
             const users = await getUsers().catch(e => setData([]))
+           
+            
+            getUserById.assignData(users.data)
             setData(users.data.map(user => ({
                 ...user,
                 'Assign Role':<Chip checked={false} 
@@ -124,14 +128,11 @@ export default () => {
                     </div>
                 </div>
 
-                <Card >
-                    <CardSection className="p-2">
-                        <h6 className='font-bold text-neutral-700 tracking-wider'>User Management</h6>
-                        <Divider />
-                    </CardSection>
+                <div >
+                   
 
                     {ready ? <CustomTable
-                   
+                        title = "Users Management"
                         attributes={['id', 'email', 'userRole','vorname','nachname','agreement_signed','Assign Role']}
                         remove
                         edit
@@ -147,6 +148,7 @@ export default () => {
                             createMethod: createUser,
                             deleteMethod: deleteUser,
                             editMethod: editUser,
+                            getMethod: getUserById.findUserById,
                         }}
                         refreshData={refreshData}
                     />
@@ -158,7 +160,7 @@ export default () => {
 
                   
 
-                </Card>
+                </div>
             </div>
         </PageProvider>
         </PermissionWrapper>

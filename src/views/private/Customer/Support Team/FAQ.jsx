@@ -44,16 +44,28 @@ export default () => {
                 <h6 className={`text-[#0E76BB] font-bold text-xl`}>Popular FAQ Topics are here:</h6>
                 <p className={'font-semibold text-sm mt-1'}>General Questions: Short And Briefly Answered</p>
                 <ul className={`mt-4 list-disc list-inside  text-sm font-light tracking-wider`}>
-                    <li>What is a comprehensive Cross-Municipal network detail planning?</li>
-                    <li>What is a comprehensive Cross-Municipal network detail planning?</li>
-                    <li>What is a comprehensive Cross-Municipal network detail planning?</li>
+                  {
+                    data
+                    .filter(item => item.name.length > 100)
+                    
+                    .slice(0, 3).map((item, index) => {
+                        return(
+                        <li key={index} className={`my-2`} >
+                            <Link href={`./faq/${Object.values(item.categoriesNames)[0]}`} >
+                                <a className={`text-[#0E76BB] hover:underline`}>{item.name}</a>
+                            </Link>
+                        </li>
+                    )})
+                  }
                 </ul>
             </div>
             <div className={`px-16 mt-10`}>
                 <ScrollArea className={`h-96`}>
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-3 gap-4 grow">
                     {
-                    categories.map((category, index) => (
+                    categories
+                    .filter(item => item)
+                    .map((category, index) => (
                         <Link href={`./faq/${category}`} >
                             <PageControlButton
                                 label={category}
@@ -72,7 +84,7 @@ export default () => {
 
 const PageControlButton = ({ icon, label, href }) => {
     return (
-        <div className={`flex flex-1 flex-col justify-center items-center space-x-2 bg-slate-300 m-2 rounded-3xl shadow-md border-white border-2 border-solid py-2 hover:scale-105 transition-all cursor-pointer`}>
+        <div className={`flex h-full flex-1 flex-col justify-center items-center space-x-2 bg-slate-300 m-2 rounded-3xl shadow-md border-white border-2 border-solid py-2 hover:scale-105 transition-all cursor-pointer`}>
             <div className={`flex justify-center items-center w-10 h-10 rounded-full  text-[#0E76BB]`}>
                 {icon}
             </div>

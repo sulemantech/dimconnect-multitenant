@@ -44,6 +44,15 @@ export const getUsers = () => api.get(`/user`)
 export const createUser = (data) => api.post(`/user`, data)
 export const deleteUser = (id) => api.delete(`/user/${id}`)
 export const editUser = (id, data) => api.patch(`/user/${id}`, data)
+let usersdata = []
+export const getUserById = {
+    findUserById : (id) => {
+        return usersdata.find(user => user.id === id)
+    },
+    assignData : (data) => {
+        usersdata = data
+    }
+}
 
 export const getPermissions = () => api.get(`/permissions`)
 export const createPermission = (data, title) => api.post(`/permissions/${title}`, data)

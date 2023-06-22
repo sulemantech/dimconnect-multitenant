@@ -322,7 +322,7 @@ export default () => {
             .map((item, index) => {
               return (
                 <Anchor href={`${index === 0 ? '/' : ''}${item}`} className="text-neutral-500">
-                  {item.split('_').join(' ').toUpperCase()}
+                  {item.split('_').join(' ').toUpperCase().toLocaleUpperCase('de')}
                 </Anchor>
               )
             })

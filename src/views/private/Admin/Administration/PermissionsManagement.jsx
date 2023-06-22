@@ -50,16 +50,14 @@ export default () => {
         <PageProvider>
             <div className="">
 
-                <Card >
+                <div >
 
-                    <CardSection className="p-2">
-                        <h6 className='font-bold text-neutral-700 tracking-wider'>Roles and Permissions Management</h6>
-                        <Divider />
-                    </CardSection>
+                    
+            
                     {!loading ?
                         <CustomTable
                             attributes={['name', 'description', 'permissions']}
-
+                            title={'Roles and Permissions'}
                             remove
                             edit
                             data={data}
@@ -167,7 +165,7 @@ export default () => {
                         <LoadingOverlay visible />
 
                     }
-                </Card>
+                </div>
             </div>
         </PageProvider>
         </PermissionWrapper>

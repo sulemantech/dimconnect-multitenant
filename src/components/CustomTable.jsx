@@ -1,6 +1,6 @@
-import { ActionIcon, Button, Chip, Flex, Input, MultiSelect, Pagination, ScrollArea, Select, Switch } from "@mantine/core";
+import { ActionIcon, Button, Chip, Flex, Input, MultiSelect, Pagination, Paper, Text, Select, Switch, Table, Title, Divider } from "@mantine/core";
 import { closeAllModals, openConfirmModal, openModal } from "@mantine/modals";
-import { IconAlertCircle, IconArrowDown, IconArrowUp, IconPaperclip, IconPlus } from "@tabler/icons";
+import { IconAlertCircle, IconArrowDown, IconArrowUp, IconPaperclip, IconPlus, IconSearch } from "@tabler/icons";
 import { useState } from "preact/hooks";
 import readXlsxFile from 'read-excel-file';
 import appConfig from '../config/appConfig'
@@ -9,7 +9,7 @@ import { closeDrawer, openDrawer } from "../providers/DrawerProvider";
 import { useCallback } from 'preact/hooks'
 import { showNotification } from "@mantine/notifications";
 import { isValidElement } from "preact";
-export default ({ children, data, attributes = [], newStruct = {}, refreshData, edit = false, remove = false, attatchment = false }) => { // as {"id":25,"name":"HO1V","min":"25","max":"55"}[]
+export default ({ children,title, data, attributes = [], newStruct = {}, refreshData, edit = false, remove = false, attatchment = false }) => { // as {"id":25,"name":"HO1V","min":"25","max":"55"}[]
 
     const [sort, setSort] = useState({ field: "name", order: "asc" });
     const [filter, setFilter] = useState('')
@@ -144,23 +144,12 @@ export default ({ children, data, attributes = [], newStruct = {}, refreshData, 
 
     const handleEdit = async (item) => {
         try {
-
-         
-
-
             const resp = await newStruct.getMethod(item.id)
-
-
             item = {
                 ...item,
                 ...resp.data
             }
-
-
             const childrenClone = children
-            
-            
-
             openDrawer({
                 title: 'Edit',
                 children: <EditForm item={item} newStruct={newStruct} >
@@ -170,6 +159,7 @@ export default ({ children, data, attributes = [], newStruct = {}, refreshData, 
                 </EditForm>,
             })
         } catch (err) {
+            console.error(err)
             showNotification({
                 title: 'Error',
                 color: 'red',
@@ -181,25 +171,54 @@ export default ({ children, data, attributes = [], newStruct = {}, refreshData, 
     }
 
     return (
-        <div className="flex flex-col rounded-md bg-white">
+        <div className="flex flex-col rounded-md bg-white mb-10 ">
             <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                     <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+            <Title order={2} color='brand' className="text-center mt-2">{title}</Title>
+            <Divider my={10} />
                         <div className="flex p-2 text-neutral-700 text-xs items-center">
                             <div>
-                                Show <select className="bg-gray-200 rounded-md p-1" onChange={e => setLimit(e.target.value)}>
-                                    <option>10</option>
-                                    <option>25</option>
-                                    <option>50</option>
-                                    <option>100</option>
-                                </select> entries
+                                <Paper withBorder radius="xl" className="flex items-center">
+
+                                <Text mx={15} color="brand" fw={'bold'}>
+                                    Show
+                                    </Text> 
+                                
+                                <Select data={[
+                                    {
+                                        label: '10',
+                                        value: 10
+                                    },
+                                    {
+                                        label: '25',
+                                        value: 25
+                                    },
+                                    {
+                                        label: '50',
+                                        value: 50
+                                    },
+                                    {
+                                        label: '100',
+                                        value: 100
+                                    },
+                                ]} onChange={e => setLimit(e)} 
+                                classNames={{
+                                    input:'rounded-r-full'
+                                }}
+                                size="md"
+                                value={limit}
+                                variant="filled"
+                                />
+                               
+                                </Paper>
 
                             </div>
 
                             <div className="flex-1"></div>
 
-                            <div className="flex">
-                                <input type="text" className="bg-gray-200 rounded-md p-1" placeholder="Search" onChange={e => setFilter(e.target.value)} />
+                            <div className="flex items-center">
+                                <Input type="text" variant="filled" size="lg" radius={'lg'} mr={15} icon={<IconSearch />} className="mr-xs" placeholder="Search" onChange={(e)=>setFilter(e.currentTarget.value)} />
                                 {newStruct.hasOwnProperty('createMethod') && <Button
                                     leftIcon={<IconPlus size={15} />}
                                     onClick={createNew}
@@ -210,7 +229,7 @@ export default ({ children, data, attributes = [], newStruct = {}, refreshData, 
 
                         </div>
 
-                        <table className="min-w-full divide-y divide-gray-200 px-2">
+                        <Table striped highlightOnHover horizontalSpacing={'md'} className="min-w-full divide-y divide-gray-200 px-2 min-h-[50vh]">
 
                             <thead className="bg-gray-200">
                                 <tr>
@@ -299,7 +318,7 @@ export default ({ children, data, attributes = [], newStruct = {}, refreshData, 
                                         </tr>
                                     ))}
                             </tbody>
-                        </table>
+                        </Table>
 
                         <div className="flex w-full px-6 py-8">
                             <p className="text-sm text-neutral-600">

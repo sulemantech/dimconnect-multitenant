@@ -48,8 +48,7 @@ export function App() {
             },
             styles:{
               leftIcon:{
-                backgroundColor: '#0E76BB',
-                borderRadius: '50%',
+                fontWeight: 'bold',
               },
               label:{
                 fontSize: '16px',

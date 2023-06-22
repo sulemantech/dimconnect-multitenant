@@ -151,7 +151,7 @@ export const generatePDF = (data,fileName) => {
   const doc = new jsPDF();
 
   // add title of filename
-  doc.text(`${fileName} kalkulation`, 10, 10);
+  doc.text(`Kosteninformationen von ${fileName}`, 10, 10);
   
 
 
@@ -342,7 +342,7 @@ export const HomeActivationTable = ({ data }) => {
                                   <tr>
 
                                       <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                                          Key
+                                          Type
                                       </th>
                                       <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                                           Value
