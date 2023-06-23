@@ -11,6 +11,14 @@ module.exports = {
         'brand-dark': '#E0E0E0',
       },
     },
+    ripple: theme => ({
+      colors: theme('colors'),
+      modifierTransition: 'background 0.2',
+      activeTransition: 'background 0.1s'
+      
+    }),
   },
-  plugins: [],
+  plugins: [
+    require('tailwindcss-ripple')()
+  ],
 }

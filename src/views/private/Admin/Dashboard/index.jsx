@@ -21,19 +21,24 @@ const Dashboard = () => {
           <Suspense fallback={<Skeleton />}>
             <MaterialCount />
           </Suspense>
-
+          <div className="flex-[1] min-h[100%] flex-grow p-1 rounded-xl">
+                
+                <Suspense fallback={<Skeleton />}>
+                  <MapElements />
+                </Suspense>
+              </div>
         </div>
         <div className="flex flex-col md:flex-row">
           <div className="flex-[2]">
             <div className="flex flex-col md:flex-row flex-1">
-              <div className="flex-[2] min-h-[300px] h-full m-1 bg-white shadow-lg p-2 rounded-xl ">
+              <div className="flex-[2] min-h-[300px] h-full m-1 bg-white shadow-lg rounded-xl ">
                 
                 <Suspense fallback={<Skeleton />}>
                   <CostInfo />
 
                 </Suspense>
               </div>
-
+              
 
             </div>
             <div className="flex flex-col md:flex-row flex-1">
@@ -59,15 +64,7 @@ const Dashboard = () => {
                 </Badge>
 
               </div>
-              <div className="flex-[1] m-1 min-h[100%] flex-grow bg-white shadow-lg p-2 rounded-xl">
-                <h6 className="flex-grow font-thin text-neutral-700 text-lg">
-                  Address Points
-                </h6>
-                <hr />
-                <Suspense fallback={<Skeleton />}>
-                  <MapElements />
-                </Suspense>
-              </div>
+             
             </div>
             <div className="flex-[1] m-1 min-h[100%] flex-grow bg-white shadow-lg p-2 rounded-xl">
               <p className="flex-grow font-thin text-neutral-700 text-lg">

@@ -249,7 +249,7 @@ export default () => {
   }
   return (
     <>
-      <div className="flex">
+      <div className="flex p-2">
 
         <p className="flex-grow flex-1 font-thin text-neutral-700 text-lg">
           Cost Info
@@ -293,7 +293,7 @@ export default () => {
 
 export const CostInfoModalContent = ({ data }) => {
   
-  const [segmentedControl, setSegmentedControl] = useState('homeActivation')
+  const [segmentedControl, setSegmentedControl] = useState('cable')
 
   return (
       <div>
@@ -335,9 +335,9 @@ export const HomeActivationTable = ({ data }) => {
           
           <div className="flex flex-col">
               <div className="-my-2 overflow-x-auto">
-                  <div className="py-2 align-middle inline-block min-w-full overflow-hidden sm:px-6 lg:px-8">
+                  <div className="py-2 align-middle inline-block min-w-full overflow-hidden">
                       <div className="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
-                          <table className="min-w-full divide-y divide-gray-200">
+                          <Table striped className="min-w-full divide-y divide-gray-200">
                               <thead className="bg-gray-50">
                                   <tr>
 
@@ -369,7 +369,7 @@ export const HomeActivationTable = ({ data }) => {
                                       })
                                   }
                               </tbody>
-                          </table>
+                          </Table>
                       </div>
                   </div>
               </div>
@@ -387,7 +387,7 @@ export const DuctTable = ({ data }) => {
       <div className="overflow-x-auto">
           {sections.map(section => (
               <div key={section}>
-                  <h2 className="text-md font-semibold mt-4 mb-2 text-sky-700">{section.split('_').join(' ').toUpperCase()}</h2>
+                  <h2 className="text-md font-semibold mt-4 m-1 text-sky-700">{section.split('_').join(' ').toUpperCase()}</h2>
                   <hr />
                   <div className=" overflow-x-auto">
                       <div className="py-2 px-1 align-middle inline-block min-w-full overflow-hidden shadow-md">
@@ -432,7 +432,7 @@ export const CableTable = ({ data }) => {
           
           {sections.map(section => (
               <div key={section}>
-                  <h2 className="text-md font-semibold mt-4 mb-2 text-sky-700">{section.split('_').join(' ').toUpperCase()}</h2>
+                  <h2 className="text-md font-semibold mt-4 m-1 text-sky-700">{section.split('_').join(' ').toUpperCase()}</h2>
                   <hr />
                   <div className=" overflow-x-auto">
                       <div className="py-2 px-1 align-middle inline-block min-w-full overflow-hidden shadow-md">

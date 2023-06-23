@@ -44,7 +44,7 @@ export function App() {
               style: {
                 boxShadow: '0px 0px 3px 1px rgba(0,0,0,0.25)',
               },
-              className: "text-[#0E76BB] font-semibold capitalize hover:scale-95 active:bg-sky-400 hover:bg-sky-200 bg-sky-100 rounded-2xl justify-self-end items-end hover:shadow-md transition-all duration-200 ease-in-out"
+              className: "text-[#0E76BB] font-semibold capitalize hover:scale-95 active:bg-sky-400 hover:bg-sky-200 bg-sky-100 rounded-2xl justify-self-end items-end hover:shadow-md transition-all duration-200 ease-in-out ripple-bg-sky-50"
             },
             styles:{
               leftIcon:{

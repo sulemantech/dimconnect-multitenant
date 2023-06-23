@@ -44,12 +44,20 @@ export default () => {
     }, [])
 
     return (
-        <div className="relative flex flex-col w-full h-full">
-            <div className="relative text-xs flex flex-col p-2 shadow-md rounded-md mt-2 bg-white">
+        <div className="relative flex flex-row w-full h-full shadow-md rounded-lg flex-1 bg-white">
+           
+                <div className="bg-brand text-white font-bold py-2 rounded-r-lg" style={{writingMode: 'vertical-rl', textOrientation: 'bottomright', transform: 'rotate(180deg)'}}>
+                   <div>
+                   Address Points
+                    </div> 
+                </div>
+        
+            <div className="relative text-xs flex flex-col p-2 flex-1 ">
                 <div>
                     {
                         Object.entries(content)?.map(([key, item]) => {
                             return (
+                                <>
                                 <div className={'flex items-center justify-center'}>
                                     <div className="flex flex-1 py-1 flex-row items-center">
                                         <div className={`w-4 h-4 rounded-full mr-2`}
@@ -70,8 +78,9 @@ export default () => {
                                             data && data[item.type] ? data[item.type] : 0
                                         }
                                     </div>
-                                    <hr />
                                 </div>
+                                    <hr className="last:hidden"/>
+                                    </>
                             )
                         })
                     }
