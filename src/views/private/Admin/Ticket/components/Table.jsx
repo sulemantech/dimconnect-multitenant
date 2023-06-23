@@ -530,5 +530,5 @@ function TicketModal({ ticket }) {
         
       </div>
     </>
-  );
+  )
 }
