@@ -226,7 +226,7 @@ useEffect(() => {
             <input
               placeholder={item !== null ? (item?.gpUser?.vorname + " " + item?.gpUser?.nachname) : ""}
               id="name"
-              className=" bg-[#F5F7F9] text-sm rounded-lg p-1 mt-1 px-5"
+              className=" bg-[#F5F7F9] text-sm rounded-lg p-1 mt-1 px-5 focus:outline-none"
               lab
               type="text"
               value={item !== null ? (item?.gpUser?.vorname + " " + item?.gpUser?.nachname): ""}
@@ -236,7 +236,7 @@ useEffect(() => {
             </label>
             <input
               placeholder={item !== null ? (item?.gpUser?.email):""}
-              className=" bg-[#F5F7F9] text-sm rounded-lg p-1 mt-1 px-5"
+              className=" bg-[#F5F7F9] text-sm rounded-lg p-1 mt-1 px-5 focus:outline-none"
               type="email"
               id="email"
               value={item !== null ? (item?.gpUser?.email):""}
@@ -246,7 +246,7 @@ useEffect(() => {
             </label>
             <input
               placeholder=" Frankfurt, Germany"
-              className="bg-[#F5F7F9] text-sm rounded-lg p-1 mt-1 px-5"
+              className="bg-[#F5F7F9] text-sm rounded-lg p-1 mt-1 px-5 focus:outline-none"
               type="password"
               name=""
               id="location"
@@ -258,7 +258,7 @@ useEffect(() => {
             <input
               id="company"
               placeholder=" Tesla Germany"
-              className="bg-[#F5F7F9] text-sm rounded-lg p-1 mt-1 px-5"
+              className="bg-[#F5F7F9] text-sm rounded-lg p-1 mt-1 px-5 focus:outline-none"
               type="text"
             />
             <label htmlFor="vip" className="text-gray-700 text-sm font-medium mt-5">
@@ -266,7 +266,7 @@ useEffect(() => {
             </label>
             <input
               placeholder=" VIP"
-              className="bg-[#F5F7F9] text-sm rounded-lg p-1 mt-1 px-5"
+              className="bg-[#F5F7F9] text-sm rounded-lg p-1 mt-1 px-5 focus:outline-none"
               type="text"
               id="vip"
             />
@@ -277,7 +277,7 @@ useEffect(() => {
               placeholder=" a regular customer,  
               the head of the company, always demands
                a quick response "
-              className=" bg-[#F5F7F9] rounded-lg text-sm p-1 px-5  h-[100px]"
+              className=" bg-[#F5F7F9] rounded-lg text-sm p-1 px-5  h-[100px] focus:outline-none"
               type="text"
               id="description"
             />

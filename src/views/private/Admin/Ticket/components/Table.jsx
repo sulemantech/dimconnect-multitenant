@@ -48,6 +48,31 @@ export const status = {
 
 const MyTable = ({ data, select, setSelect }) => {
   const columns = [
+    // {
+    //   // add an dropdown option with select options, when selected some onption it will filter data and show only selected data
+    //   name: ">",
+    //   selector: ">",
+    //   cell: (row) => (""),
+    //   headCell: () => (
+        
+    //     <select
+    //       className="w-10 h-10 rounded-md bg-gray-100"
+    //       onChange={(e) => {
+    //         // setSelect(e.target.value);
+    //         console.log(e.target.value);
+    //       }
+    //       }
+    //     >
+    //       <option value="1">All</option>
+    //       <option value="2">Open</option>
+    //       <option value="3">Closed</option>
+    //       <option value="4">In Progress</option>
+    //       <option value="5">Rejected</option>
+    //       <option value="6">Solved</option>
+    //     </select>
+    //   ),
+        
+    // },
     { 
       name: 'Ticket ID', 
       selector: 'id',
