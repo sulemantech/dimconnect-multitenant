@@ -259,6 +259,7 @@ export default () => {
           className="ml-4"
           radius="lg"
           size="xs"
+          maxDropdownHeight={'80vh'}
           placeholder="Select AGS"
           searchable
           autoComplete="on"
