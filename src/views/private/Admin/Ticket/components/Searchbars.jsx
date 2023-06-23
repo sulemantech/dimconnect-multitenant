@@ -6,10 +6,10 @@ function Searchbars({search, setSearch, setTickets, tickets}) {
     <>
         <div className="flex justify-between items-center  mt-1 ml-6">
           <div className="flex  flex-row w-[50%]">
-            <p className="text-xs mt-0.5">Find Ticket</p>
+            <p className="text-xs mt-0.5 ml-3">Find Ticket</p>
             <img src={Image} alt="" className="w-[10px] h-[12px] m-1" />
             <input
-              className="border-none bg-transparent  text-xs w-2/3"
+              className="border-none bg-transparent  text-xs w-2/3 focus:outline-none"
               // value={search}
               onChange={(e) => {
                 // setSearch(e.target.value);
@@ -35,12 +35,13 @@ function Searchbars({search, setSearch, setTickets, tickets}) {
             />
           </div>
 
-          <div className="flex flex-row w-[30%]">
+          <div className="flex flex-row w-[30%] justify-end mr-3">
             <p className="text-xs ml-5 mt-0.5">Find User</p>
             <img src={Image} alt="" className="w-[10px] h-[12px] m-1" />
             <input
-              className="border-none bg-transparent text-xs w-2/3"
+              className="border-none bg-transparent text-xs w-2/6 focus:outline-none"
               type="text"
+
               placeholder="Enter Here Name Of User"
               onChange={(e) => {
                 if(e.target.value !== "") {

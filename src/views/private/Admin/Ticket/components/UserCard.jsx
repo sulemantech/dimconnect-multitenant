@@ -1,5 +1,6 @@
 import React,{useEffect} from "react";
 import subtract2 from "./SubtractBlue.png";
+import DataTable from "react-data-table-component";
 // import VectorStroke from './VectorStroke.png'
 
 function UserCard({tickets, select}) {
@@ -35,8 +36,59 @@ useEffect(() => {
           {
             item !== null ? 
           (  active === "userTicket"?<div className="w-[15vw] p-2">
+
+
+            <DataTable
+              columns={[
+                {
+                  name: "Status",
+                  selector: "status",
+                  sortable: true,
+                  cell: (row) => (
+                    <div className="flex justify-center items-center">
+                      <div
+                        className={`w-2 h-2 rounded-full ${
+                          row.status === "Open"
+                            ? "bg-[#FF6161]"
+                            : row.status === "Closed"
+                            ? "bg-[#1DAF1A]"
+                            : row.status === "In Progress"
+                            ? "bg-[#FF862E]"
+                            : row.status === "Overdue"
+                            ? "bg-[#FF6161]"
+                            : row.status === "On Hold"
+                            ? "bg-[#0E76BB]"
+                            : row.status === "Resolved"
+                            ? "bg-[#1DAF1A]"
+                            
+                            : ""
+                        }`}
+                      ></div>
+                      <span className="ml-2">{row.status}</span>
+                    </div>
+                  ),
+                },
+                {
+                  name: "Ticket ID",
+                  selector: "ticketId",
+                  sortable: true,
+                },
+                {
+                  name: "Ticket Type",
+                  selector: "ticketType",
+                  sortable: true,
+                },
+                {
+                  name: "Due Date",
+                  selector: "dueDate",
+                  sortable: true,
+                },
+              ]}
+              data={tickets}
+              
+              />
             
-          <table className=" mt-2">
+          {/* <table className=" mt-2">
             <tbody className="overflow-y-scroll">
               <tr className="text-xs flex space-x-4 ">
                 <td className=" w-3 mt-1 ml-1">
@@ -143,7 +195,7 @@ useEffect(() => {
                 <td>29.05.2023</td>
               </tr>
             </tbody>
-          </table>
+          </table> */}
           </div>
           :
           <div className="w-[15vw] flex flex-col p-2 text-xs"> 

@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { Checkbox } from "@mantine/core";
+import { Checkbox, LoadingOverlay } from "@mantine/core";
 import subtract2 from "./SubtractBlue.png";
 import subtract3 from "./SubtractGreen.png";
 import subtract1 from "./Subtractred.png";
@@ -136,7 +136,9 @@ const MyTable = ({ data, select, setSelect }) => {
 
 
   return ( <DataTable
-  className="mt-3 "
+    progressPending={data.length === 0}
+    progressComponent={<LoadingOverlay visible />}
+    className="mt-3 "
     title=""
     columns={columns}
     data={data}
