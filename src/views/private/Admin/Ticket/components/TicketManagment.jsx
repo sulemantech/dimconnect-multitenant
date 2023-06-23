@@ -5,61 +5,30 @@ import Vector from "./Vector.png";
 function TicketManagment({ ticketCounts }) {
   return (
     <>
-      <div className="flex flex-row flex-wrap w-full justify-evenly">
-        {/* <Ticket
-          ticket="OVERDUE TICKETS"
-          color2="red"
-          color="text-red-500"
-          Number="007"
-          Number2=" ↑ +3.5%"
-          progressvalue="33"
-        />
-        <Ticket
-          ticket="OVERDUE TICKETS"
-          color2="blue"
-          color="text-blue-800"
-          Number="010"
-          Number2=" ↑ +3.5%"
-          progressvalue="33"
-        />
-        <Ticket
-          ticket="OVERDUE TICKETS"
-          color2="orange"
-          color="text-orange-400"
-          Number="010"
-          Number2=" ↑ +3.5%"
-          progressvalue="33"
-        />
-        <Ticket
-          ticket="OVERDUE TICKETS"
-          color2="lime"
-          color="text-lime-600"
-          Number="003"
-          Number2=" ↑ +3.5%"
-          progressvalue="33"
-        />
-        <Ticket
-          ticket="OVERDUE TICKETS"
-          color2="black"
-          color="text-black"
-          Number="005"
-          Number2=" ↑ +3.5%"
-          progressvalue="33"
-        /> */}
+      <div className="flex flex-row flex-wrap w-full justify-between px-5">
+       
         {ticketCounts.map((ticket) => {
           return (
             <Ticket
               ticket={ticket.name}
               color2={ticket.colorCode}
               color={ticket.color}
-              Number={ticket.count.toString()}
+              Number={
+                // must be 3 digit number for better UI add extra 0 in front of number
+                ticket.count < 10
+                  ? "00" + ticket.count
+                  : ticket.count < 100
+                  ? "0" + ticket.count
+                  : ticket.count
+
+              }
               Number2={" ↑ " + ticket.count + "%"}
               progressvalue={ticket.count}
             />
           );
         })}
 
-        <div className="rcolor w-auto h-24 rounded-md mt-2  ml-3 border-[2px]">
+        <div className="rcolor w-auto h-24 rounded-md mt-2  border-[2px]">
           {/* <div className="fixed ml-10 w-5 mt-[30px]"> */}
             <img src={Vector} alt="" className="absolute ml-10 w-5 mt-[30px]" />
           {/* </div> */}
@@ -69,23 +38,23 @@ function TicketManagment({ ticketCounts }) {
             thickness={12}
             // roundCaps
             sections={[
-              { value: 10, color: "red" },
-              { value: 20, color: "blue" },
-              { value: 20, color: "orange" },
-              { value: 15, color: "lime" },
+              { value: 10, color: "#0E76BB" },
+              { value: 20, color: "#1DAF1A" },
+              { value: 20, color: "#FF862E" },
+              { value: 15, color: "#FF6161" },
             ]}
           />
         </div>
-        <div className="rcolor min-h-[14%] rounded-md mt-2 w-max border-[2px] p-[0.4rem] ml-3 ">
+        <div className="rcolor min-h-[17%] rounded-md mt-2 min-w-[15%]  border-[2px] p-5 ">
           {/* <p className="text-[10px] font-medium pl-1 pt-1">
             TICKETS BY PROBLEM TYPE
             TOP 3
           </p> */}
           <div className="flex justify-between items-center">
-            <p className="text-[0.5rem] font-medium pl-1 pt-1">
+            <p className="text-[0.625rem] font-bold">
               TICKETS BY PROBLEM TYPE
             </p>
-            <p className="text-[10px] font-medium pl-1 pt-1">TOP 3</p>
+            <p className="text-[10px] font-medium ">TOP 3</p>
           </div>
           <div className="w-full mt-2 flex flex-col space-y-2">
             <Progress color="#0E76BB" value={50} />
@@ -101,15 +70,15 @@ function Ticket({ ticket, Number, color2, color, progressvalue, Number2 }) {
   console.log(progressvalue);
   return (
     <>
-      <div className="rcolor  h-24 rounded-md mt-2  border-[2px] w-max p-2 ">
-        <p className="text-[10px] font-medium pl-1 pt-1">{ticket.toUpperCase()} TICEKTS</p>
+      <div className="rcolor  h-auto rounded-md mt-2  border-[2px] w-max p-5 ">
+        <p className="text-[0.625rem] font-bold ">{ticket.toUpperCase()} TICEKTS</p>
         <div className="flex flex-col">
-          <p className={`text-[8px] pl-2 ${color} flex items-baseline justify-between`}>
+          <p className={`text-[0.625rem]  ${color} flex items-baseline justify-between font-medium`}>
             {Number2} 
-            <span className={`${color} font-medium text-[25px]`}>{Number}</span>
+            <span className={`${color} font-bold text-[25px]`}>{Number}</span>
           </p>
           <Progress
-            className="w-36 ml-2"
+            className="w-36 h-[0.63244rem]"
             color={`${color2}`}
             value={progressvalue}
             // value={Number.toString()}

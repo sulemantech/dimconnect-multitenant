@@ -28,3 +28,64 @@ body {
         background-color: #F5F7F9;
     }
   }
+  .rdt__expandable-icon {
+    width: 5px; /* Adjust as needed */
+    height: 5px; /* Adjust as needed */
+
+}
+.hzejPW{
+  padding: 0px !important;
+  flex: none  !important;
+  min-width: 0px !important;
+}
+.hzejPW svg{
+  width: 15px !important;
+  height: 15px !important;
+}
+
+/* Styles for the entire scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px; /* Adjust scrollbar width */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #F5F7F9;
+  border-radius: 5px;
+}
+
+/* Styles for the handle or "thumb" */
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #D8E4EE;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #D8E4EE;
+}
+
+
+.custom-scrollbar-page::-webkit-scrollbar {
+  width: 10px; /* Adjust scrollbar width */
+}
+
+.custom-scrollbar-page::-webkit-scrollbar-track {
+  background: #cad4d4;
+  border-radius: 10px;
+}
+
+/* Styles for the handle or "thumb" */
+.custom-scrollbar-page::-webkit-scrollbar-thumb {
+  background: #85c0f0;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+.custom-scrollbar-page::-webkit-scrollbar-thumb:hover {
+  background: #66aee9;
+}
+
+
+.dataTable-ticket-page {
+    border-bottom: none !important;
+}
