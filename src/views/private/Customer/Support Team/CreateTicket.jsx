@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'preact/hooks';
-import { TextInput, Button, Select, Paper, Textarea, Title, Input, Box, Text, FileInput, Container, Flex, Stack, Image } from '@mantine/core';
+import { TextInput, Button, Select, Paper, Textarea, Title, Input, Box, Text, FileInput, Container, Flex, Stack, Image, Loader, LoadingOverlay } from '@mantine/core';
 import { getTicketPriorities, getTicketsCategories, postTicket } from '../../../../api';
 import { showNotification } from '@mantine/notifications';
 import { IconFile, IconPaperclip, IconSearch } from '@tabler/icons';
@@ -11,13 +11,7 @@ export default function TicketCreationPage() {
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
   const [priorities, setPriorities] = useState([]);
-  const [ticketData, setTicketData] = useState({
-    title: '',
-    description: '',
-    status: 1,
-    category_id: '',
-    priority_id: '',
-  });
+
 
   useEffect(() => {
     const fetchTicketData = async () => {
@@ -33,11 +27,20 @@ export default function TicketCreationPage() {
     fetchTicketData();
   }, []);
 
-  const handleInputChange = (event) => {
-    setTicketData({ ...ticketData, [event.target.name]: event.target.value });
-  };
+ 
 
-  const handleTicketSubmit = async () => {
+  const handleTicketSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const form = e.target;
+    const formData = new FormData(form);
+    const ticketData = Object.fromEntries(formData.entries());
+    console.log(ticketData)
+    return
+    const ticketPosted = await postTicket(ticketData)
+    console.log(ticketPosted)
+
     openModal({
       title: <></>,
 
@@ -52,37 +55,24 @@ export default function TicketCreationPage() {
       />,
     });
     return;
-    setLoading(true);
-    postTicket(ticketData).then((res) => {
-      showNotification({
-        title: 'Ticket created',
-        message: 'Ticket has been created successfully',
-        color: 'green',
-      });
-      setLoading(false);
-    }).catch((err) => {
-      showNotification({
-        title: 'Ticket creation failed',
-        message: 'Something went wrong',
-        color: 'red',
-      });
-      setLoading(false);
-    });
+    
 
   };
 
   return (
-    <div className="w-full h-full overflow-y-auto">
+    <div className="w-full h-full overflow-y-auto flex-grow">
       <div style={{ backgroundImage: 'url("/horizontal blue background.svg")' }} className="flex flex-col pl-20 justify-center h-1/6">
 
       </div>
-      <Paper className="space-y-6 px-20 py-10 flex-grow ">
+      <Paper className="space-y-4 px-20 py-4 flex-grow ">
         <Title order={2} color='brand'>Support Ticket To DIM Team</Title>
-        <Title order={5} className='w-1/2 font-light' >Please describe your issue in detail, with relevant information including device platform, a version affected, steps taken to reproduce the issue, and any other relevant information.</Title>
+        <Title order={5} className='w-2/3 font-light text-xs' >Please describe your issue in detail, with relevant information including device platform, a version affected, steps taken to reproduce the issue, and any other relevant information.</Title>
+        <form  onSubmit={handleTicketSubmit}>
 
+        
         <Paper className="flex-grow flex mt-8" radius={'xl'} withBorder>
           <Box className="rounded-l-full flex-1 items-center justify-center" display='flex'>
-            <Text color='brand' className='font-bold'>
+            <Text color='brand' className='font-bold text-sm' >
               Problem Type
             </Text>
           </Box>
@@ -90,20 +80,22 @@ export default function TicketCreationPage() {
             classNames={{
               input: 'rounded-r-full relative',
             }}
-            size='md'
+            required
+            name='category_id'
+            size='sm'
             variant='filled'
             className='flex-[3]'
             data={categories.map((category) => ({
               value: category.id,
               label: category.name,
             }))}
-            value={ticketData.category_id}
-            onChange={(value) => setTicketData({ ...ticketData, category_id: value })}
+            
+           
           />
         </Paper>
         <Paper className="flex-grow flex mt-8" radius={'xl'} withBorder>
           <Box className="rounded-l-full flex-1 items-center justify-center" display='flex'>
-            <Text color='brand' className='font-bold'>
+            <Text color='brand' className='font-bold text-sm'>
               Title
             </Text>
           </Box>
@@ -114,15 +106,16 @@ export default function TicketCreationPage() {
             classNames={{
               input: 'rounded-r-full relative',
             }}
-            size='md'
+            size='sm'
             name="title"
-            value={ticketData.title}
-            onChange={handleInputChange}
+          
+            required
+           
           />
         </Paper>
-        <Paper className="flex-grow flex mt-8" radius={'xl'} withBorder>
-          <Box className="rounded-l-full flex-1 items-center justify-center" display='flex'>
-            <Text color='brand' className='font-bold'>
+        <Paper className="flex-grow flex mt-8" radius={'lg'} withBorder>
+          <Box className="rounded-l-lg flex-1 items-center justify-center" display='flex'>
+            <Text color='brand' className='font-bold text-sm'>
               Description
             </Text>
           </Box>
@@ -130,18 +123,19 @@ export default function TicketCreationPage() {
             variant='filled'
             className='flex-[3]'
             classNames={{
-              input: 'rounded-r-full relative',
+              input: 'rounded-r-2xl relative',
             }}
+            size='sm'
             placeholder="Enter description"
             name="description"
             multiline
-            value={ticketData.description}
-            onChange={handleInputChange}
+          
+            required
           />
         </Paper>
         <Paper className="flex-grow flex mt-8" radius={'xl'} withBorder>
           <Box className="rounded-l-full flex-1 items-center justify-center" display='flex'>
-            <Text color='brand' className='font-bold'>
+            <Text color='brand' className='font-bold text-sm'>
               Priority
             </Text>
           </Box>
@@ -152,42 +146,47 @@ export default function TicketCreationPage() {
             classNames={{
               input: 'rounded-r-full relative',
             }}
+            size='sm'
             data={
               priorities.map((priority) => ({
                 value: priority.id,
                 label: priority.name,
               }))
             }
-            value={ticketData.priority_id}
-            onChange={(value) => setTicketData({ ...ticketData, priority_id: value })}
+           name='priority_id'
+            
+            required
           />
         </Paper>
 
         <Paper className="flex-grow flex mt-8" radius={'xl'} withBorder>
           <Box className="rounded-l-full flex-1 items-center justify-center" display='flex'>
-            <Text color='brand' className='font-bold'>
+            <Text color='brand' className='font-bold text-sm'>
               Attachments
             </Text>
           </Box>
           <FileInput
             icon={<IconPaperclip size={23} className='text-sky-600' />}
-            size='md'
+            size='sm'
             placeholder='Attatch files'
             multiple
             variant='filled'
             className='flex-[3]'
             classNames={{ input: 'rounded-r-full relative' }} />
-
+            
         </Paper>
         <p className='text-xs'>
           To protect your privacy, please do not include Any personal information in your request. Review our <a href="#" className="text-sky-600">privacy statement</a> for more information.
         </p>
         <div className='justify-end items-end flex'>
           <Button
-            loading={loading}
-            onClick={handleTicketSubmit}>Submit</Button>
+          type='submit'
+          loading={loading}
+           
+           >Submit</Button>
 
         </div>
+      </form>
       </Paper>
     </div>
   );

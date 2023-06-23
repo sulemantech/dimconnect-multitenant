@@ -216,9 +216,13 @@ export default () => {
       })
 
       regsionListSignal.subscribe(value => {
-        setRegsionList(value.map(item => ({
+     
+        setRegsionList(value
+          .filter(item => (item.kreis !== null && item.bezeichnung !== 'Kreis'))
+          .map(item => ({
           value: item.ags,
-          label: item.name
+          label: `${item.name} (${item.bezeichnung})`,
+          group: item.kreis
         })
         ))
       })
@@ -241,7 +245,7 @@ export default () => {
 
   return (
     <div className=" z-[100] shadow-lg right-0 left-0 top-0">
-      <div className=" items-center  h-20 bg-white flex p-2 text-[#0E76BB] ">
+      <div className=" items-center  h-12 bg-white flex p-2 text-[#0E76BB] ">
         <div className="flex-grow font-bold text-[#0E76BB] text-lg">
           <h6 className={window.innerWidth < 768 ? 'text-xs' : 'text-lg'}>
             {
@@ -261,7 +265,7 @@ export default () => {
           data={regsionList}
           color="brand"
           sx={{ width: 350 }}
-          defaultValue={dropvalue.value}
+         unselectable
           onChange={(value) => {
             dropvalue.value = value
           }}
@@ -278,7 +282,7 @@ export default () => {
           <Menu.Target>
             <div className="items-center flex cursor-pointer hover:scale-105 transition-all">
               <Group color="brand" spacing={7}>
-                <Avatar size='md' color="brand" variant="outline" radius="lg" />
+                <Avatar size='sm' color="brand" variant="outline" radius="lg" />
 
 
               </Group>
@@ -309,25 +313,26 @@ export default () => {
 
 
       </div>
-      <Breadcrumbs separator={<IconArrowBadgeRightFilled size={14} className="text-neutral-500" />}
-        p='xs'
-        className="bg-neutral-200 items-center text-[10px] "
-        style={{
-          clipPath: 'polygon(0 0, 60% 39%, 100% 100%, 0% 100%)',
-        }}
-
-      >{
-
+      <div className="pl-2 bg-neutral-100 items-center text-[10px] "> 
+        
+      <Breadcrumbs separator={<IconArrowBadgeRightFilled size={12} className="text-neutral-500" />}
+        p={2}
+        
+        
+        
+        >{
+          
           router[0].url?.split('?')?.[0]?.split('/').filter(item => item !== '')
-            .map((item, index) => {
-              return (
-                <Anchor href={`${index === 0 ? '/' : ''}${item}`} className="text-neutral-500">
+          .map((item, index) => {
+            return (
+              <Anchor href={`${index === 0 ? '/' : ''}${item}`} className="text-neutral-500">
                   {item.split('_').join(' ').toUpperCase().toLocaleUpperCase('de')}
                 </Anchor>
               )
             })
-        }
+          }
       </Breadcrumbs>
+          </div>
     </div>
   )
 }

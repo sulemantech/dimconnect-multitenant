@@ -39,11 +39,11 @@ export default () => {
                 backgroundImage: 'url("/vertical blue background.svg")',
             }}
             className=" transition-all duration-300 shadow-xl  text-white flex flex-col ">
-            <div className={` ${collapsed.value ? 'p-6' : 'p-2'}`}>
+            <div className={` ${collapsed.value ? 'p-6' : 'p-2'} pt-4`}>
                 <Logo />
             </div>
 
-            <div className={`flex items-center justify-center py-8  h-14 my-2 text-white font-light border-sky-600 transition-all border-b-[2px] hover:border-sky-600 hover:bg-sky-600`}>
+            <div className={`flex items-center justify-center py-4  text-white font-light border-sky-600 transition-all border-b-[2px] hover:border-sky-600 hover:bg-sky-600`}>
 
 
                 <Burger
@@ -89,7 +89,7 @@ const RouteComponent = ({ path, label, icon, subroutes, isSubRoute = false }) =>
                 <HoverCard.Dropdown className="rounded-r-xl -ml-2 p-0 bg-white  ">
                     <div>
                         <Link href={path}>
-                        <div className={`flex  items-center justify-center py-8 ${collapsed.value ? 'px-6' : 'px-4'} h-14 my-2 text-[#448ab6] hover:text-white font-light border-neutral-200 transition-all border-b-[1px] hover:border-sky-600 hover:bg-[#0E76BB]  bg-opacity-50`}>
+                        <div className={`flex  items-center justify-center py-6 ${collapsed.value ? 'px-6' : 'px-4'} h-14 my-2 text-[#448ab6] hover:text-white font-light border-neutral-200 transition-all border-b-[1px] hover:border-sky-600 hover:bg-[#0E76BB]  bg-opacity-50`}>
 
                             <p className="flex justify-center items-center text-center ">
                                  <p className="text-sm pl-4 truncate font-[500]"> {label} </p>
@@ -111,10 +111,10 @@ const RouteComponent = ({ path, label, icon, subroutes, isSubRoute = false }) =>
 
     return (
         <Link href={path}>
-            <Tooltip disabled={isSubRoute} label={<p className="text-sm mx-2 my-1 truncate font-[400]"> {label}</p>} openDelay={0} position="right" classNames={{
+            <Tooltip disabled={isSubRoute} label={<p className="text-sm mx-2 truncate font-[400]"> {label}</p>} openDelay={0} position="right" classNames={{
                 tooltip: 'bg-sky-600 bg-opacity-50 bg-sky-600 backdrop-blur-sm border-b-2 border-[#0000005e] text-white rounded-r-xl -ml-2',
             }} color='brand' py={20} display={collapsed.value ? 'none' : ''}>
-                <div className={`flex hover:bg-opacity-50 hover:bg-sky-600 hover:backdrop-blur-sm items-center hover:border-b-2  py-8 px-6 h-14 my-2 ${!isSubRoute?"text-white hover:border-sky-600 border-sky-600 border-b-[2px] ":"text-[#0E76BB] hover:border-white hover:text-white  border-neutral-200 border-b-[1px]"} font-light  transition-all   hover:bg-sky-600  `}>
+                <div className={`flex hover:bg-opacity-50 hover:bg-sky-600 hover:backdrop-blur-sm items-center hover:border-b-2  py-4 px-6 h-14 my-2 ${!isSubRoute?"text-white hover:border-sky-600 border-sky-600 border-b-[2px] ":"text-[#0E76BB] hover:border-white hover:text-white  border-neutral-200 border-b-[1px]"} font-light  transition-all   hover:bg-sky-600  `}>
                     <p className="flex justify-center items-center text-center">
                         {icon}  {(collapsed.value || isSubRoute) && <p className="text-sm pl-4 truncate font-[400]"> {label}</p>} 
                     </p>
