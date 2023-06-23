@@ -7,7 +7,7 @@ import { openModal } from "@mantine/modals";
 // import blueDot from './Ellipse.png'
 import DataTable from 'react-data-table-component';
 
-const status = {
+export const status = {
   1: {
     name: "Open",
     color: "text-cyan-500",

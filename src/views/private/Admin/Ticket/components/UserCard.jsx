@@ -1,6 +1,7 @@
 import React,{useEffect} from "react";
 import subtract2 from "./SubtractBlue.png";
 import DataTable from "react-data-table-component";
+import { status } from "./Table";
 // import VectorStroke from './VectorStroke.png'
 
 function UserCard({tickets, select}) {
@@ -9,8 +10,11 @@ function UserCard({tickets, select}) {
 
   const [item, setItem] = React.useState(select || null)
 
+  const [filteredTickets, setFilteredTickets] = React.useState([])
+
 useEffect(() => {
   setItem(select? select : null)
+  setFilteredTickets(tickets.filter(ticket => ticket.gpUser.email === select?.gpUser.email))
 }, [select])
 
 
@@ -33,58 +37,75 @@ useEffect(() => {
           
         </div>
         <div className="h-[60vh] ml-6 mt-3 rcolor rounded-md px-2 w-min overflow-y-auto custom-scrollbar ">
-          {
-            item !== null ? 
-          (  active === "userTicket"?<div className="w-[15vw] p-2">
+          {  active === "userTicket"?<div className="w-auto p-2">
 
 
             <DataTable
+              className="mt-3"
+              expandOnRowClicked = {true}
+              expandableRows
+              expandableRowsComponent={(row)=>{ return <div className="px-5 py-5 pt-0"><h3 className="font-bold text-[0.75rem]"> Problem Type: {row.data.ticketCategory.name} </h3><p className="text-[0.75rem]">{row.data.description}</p></div>}}
+              // add logic to show expandable rows icon after the 1st column
+              expandableRowsComponentProps={{className:"text-sky-600 font-bold"}}
+              
+
               columns={[
                 {
-                  name: "Status",
+                  name: "",
                   selector: "status",
+                  // cell size max content
+                  width: "max-content",
                   sortable: true,
-                  cell: (row) => (
-                    <div className="flex justify-center items-center">
-                      <div
-                        className={`w-2 h-2 rounded-full ${
-                          row.status === "Open"
-                            ? "bg-[#FF6161]"
-                            : row.status === "Closed"
-                            ? "bg-[#1DAF1A]"
-                            : row.status === "In Progress"
-                            ? "bg-[#FF862E]"
-                            : row.status === "Overdue"
-                            ? "bg-[#FF6161]"
-                            : row.status === "On Hold"
-                            ? "bg-[#0E76BB]"
-                            : row.status === "Resolved"
-                            ? "bg-[#1DAF1A]"
-                            
-                            : ""
-                        }`}
-                      ></div>
-                      <span className="ml-2">{row.status}</span>
-                    </div>
-                  ),
+                  cell: (row) => (<img src={status[row.status_id].svg} alt="status" />),
                 },
                 {
-                  name: "Ticket ID",
+                  name: "",
                   selector: "ticketId",
                   sortable: true,
+                  width: "max-content",
+                  cell: (row) => (row.id ? row.id.toString().padStart(6, "0") : '---'),
                 },
                 {
-                  name: "Ticket Type",
+                  name: "",
                   selector: "ticketType",
                   sortable: true,
+                  width: "max-content",
+                  cell: (row) => (row.ticketCategory ? row.ticketCategory.name : '---'),
                 },
                 {
-                  name: "Due Date",
+                  name: "",
                   selector: "dueDate",
                   sortable: true,
+                  width: "max-content",
+                  cell: (row) => (row.created_at ? new Date(row.created_at).toLocaleDateString().replaceAll('/','.') : '---'),
                 },
               ]}
-              data={tickets}
+              data={filteredTickets}
+              // if there is no data show this message
+              noDataComponent={<div className="text-xs text-gray-400 w-[15vw]">No Tickets Found</div>}
+              customStyles={{
+                headCells: {
+                  style: {
+                    display: "none",
+                  },
+                },
+                headRow: {
+                  style: {
+                    display: "none",
+                  },
+                },
+                rows: {
+                  style: {
+                    minHeight: "0px", // override the row height
+                    maxHeight: "15px",
+                    marginBottom: "15px",
+                    borderBottomWidth: "0px !important",
+                    fontSize: "10px",
+                  },
+                },
+
+
+              }}
               
               />
             
@@ -203,22 +224,22 @@ useEffect(() => {
               Name
             </label>
             <input
-              placeholder={item?.gpUser.vorname + " " + item?.gpUser.nachname}
+              placeholder={item !== null ? (item?.gpUser?.vorname + " " + item?.gpUser?.nachname) : ""}
               id="name"
               className=" bg-[#F5F7F9] text-sm rounded-lg p-1 mt-1 px-5"
               lab
               type="text"
-              value={item?.gpUser.vorname + " " + item?.gpUser.nachname}
+              value={item !== null ? (item?.gpUser?.vorname + " " + item?.gpUser?.nachname): ""}
             />
             <label htmlFor="email" className=" text-gray-700 text-sm font-medium mt-5">
               Email
             </label>
             <input
-              placeholder={item?.gpUser.email}
+              placeholder={item !== null ? (item?.gpUser?.email):""}
               className=" bg-[#F5F7F9] text-sm rounded-lg p-1 mt-1 px-5"
               type="email"
               id="email"
-              value={item?.gpUser.email}
+              value={item !== null ? (item?.gpUser?.email):""}
             />
             <label htmlFor="location" className="text-gray-700  text-sm font-medium mt-5">
               Location
@@ -260,9 +281,7 @@ useEffect(() => {
               type="text"
               id="description"
             />
-          </div>):
-          // show no ticket selected
-          <h1 className="text-2xl text-center mt-20 w-[15vw]">No Ticket Selected</h1>
+          </div>
 }
           
         </div>
