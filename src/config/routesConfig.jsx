@@ -22,7 +22,7 @@ export const privateRoutes = [{
     label: 'Support Ticket Back Office',
     permission: PERMISSIONS.Ticket,
     path: `/support_ticket_back_office/inbox`,
-    icon: <icons.TicketIcon />,
+    icon: icons.TicketIcon ,
 },
 {
     label: 'Support Team',
