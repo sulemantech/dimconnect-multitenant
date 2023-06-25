@@ -1,6 +1,6 @@
 import { Router } from 'preact-router';
 import {lazy,Suspense} from 'preact/compat';
-import { Skeleton } from '@mantine/core';
+import { LoadingOverlay } from '@mantine/core';
 
 const Navbar = lazy(() => import('../layout/Navbar').catch((e) => console.log(e)));
 const Dashboard = lazy(() => import('../views/private/Admin/Dashboard'));
@@ -20,6 +20,7 @@ import FAQ from '../views/private/Customer/Support Team/FAQ';
 import CreateTicket from '../views/private/Customer/Support Team/CreateTicket';
 import FAQCategory from '../views/private/Customer/Support Team/FAQCategory';
 import EditOrCheckStatusTicket from '../views/private/Customer/Support Team/EditOrCheckStatusTicket';
+import RegionListValidator from '../providers/RegionListValidator';
 
 const TypeRoutes = {
     'admin': [
@@ -40,13 +41,14 @@ const TypeRoutes = {
 
 export default () => <div className='flex absolute top-0 left-0 bottom-0 bg-neutral-200 right-0 overflow-hidden'>
     <Navbar />
+    <RegionListValidator />
     <PageWrapper>
-   
+    <Suspense fallback={<LoadingOverlay visible/>}>
     <Router hashHistory >
         {TypeRoutes[
             UserType.value
         ]?.map((route) => route)}
     </Router>
-   
+    </Suspense>
     </PageWrapper>
 </div>

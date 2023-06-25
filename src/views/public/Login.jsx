@@ -126,11 +126,11 @@ export default () => {
                 </label> */}
                 </div>
 
-                <div className="text-sm"> 
+                {/* <div className="text-sm"> 
                   <a href="#" className="font-medium text-white hover:text-sky-100">
                     Forgot your password?
                   </a>
-                </div>
+                </div> */}
               </div>
 
               <div>

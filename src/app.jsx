@@ -52,6 +52,16 @@ export function App() {
             },
             
           },
+          LoadingOverlay: {
+            defaultProps: {
+              color: 'brand',
+              loaderProps: {
+                variant: 'bars',
+                color: 'brand',
+                size: 'xl',
+              }
+            },
+          }
         }
       }}
       

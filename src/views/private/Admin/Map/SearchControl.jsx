@@ -5,8 +5,8 @@ import GeoCodingOSM from "geocoding-osm"
 import { useEffect, useState } from "preact/hooks"
 import { useMap } from "react-map-gl"
 import {booleanWithin} from '@turf/turf'
-import { districts,dropvalue } from "../../../../signals"
-import {  tilesAvailable } from "../../../../layout/Header"
+import { districts,dropvalue, regsionListSignal } from "../../../../signals"
+
 import { showNotification } from "@mantine/notifications"
 
 GeoCodingOSM.setLanguage("de")
@@ -50,7 +50,7 @@ const goTo = (item) => {
             }
         }
         if(booleanWithin(point, district)){
-            if(Object.values(tilesAvailable)?.map((item) => item.value).includes(district.properties.c[0])){
+            if(regsionListSignal.value?.map((item) => item.ags).includes(district.properties.c[0])){
             dropvalue.value = district.properties.c[0]
             }else{
                 showNotification({

@@ -1,8 +1,11 @@
-import { signal } from '@preact/signals'
+import { effect, signal } from '@preact/signals'
 // check if url has ags query param
 const urlParams = new URLSearchParams(window.location.search);
 const ags = urlParams.get('ags');
-export const dropvalue = signal(ags?ags:'072325001')
+export const dropvalue = signal(ags?ags:'NULL')
+
+
+
 export const districts = signal({})
 export const mapClickBindings = signal({})
 export const collapsed = signal(false)
@@ -249,3 +252,15 @@ export const costInputParams = signal({
 
   export const regionCostState = signal(false)
   export const FAQState = signal([])
+
+
+
+  /////////////////////effects
+  effect(() => {
+    if(regsionListSignal.value.filter(item => (item.kreis !== null && item.bezeichnung !== 'Kreis'))
+    .map(item => item.ags).includes(dropvalue.value)){
+        dropvalue.value = dropvalue.value
+    }else{
+        dropvalue.value = 'NULL'
+    }
+})

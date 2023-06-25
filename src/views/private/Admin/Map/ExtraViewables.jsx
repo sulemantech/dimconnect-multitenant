@@ -1,6 +1,6 @@
 
 import { ActionIcon, Button, Divider, LoadingOverlay, Menu, SegmentedControl } from "@mantine/core"
-import { IconEye, IconBarrierBlock, IconRoad, IconTools, IconDownload } from "@tabler/icons"
+import { IconEye, IconBarrierBlock, IconRoad, IconTools, IconDownload, IconInfoCircle } from "@tabler/icons"
 import { closeAllModals, openModal } from "@mantine/modals"
 import { useState, useEffect, useMemo } from "preact/hooks"
 import { useDidUpdate } from "@mantine/hooks"
@@ -16,6 +16,7 @@ import { IconWorldDollar } from "@tabler/icons-react"
 
 import GeoCodingOSM from "geocoding-osm"
 import { CostInfoModalContent,CableTable,CostInfoSettings,DuctTable,HomeActivationTable, generatePDF } from "../Dashboard/CostInfo"
+import { showNotification } from "@mantine/notifications"
 
 
 const barrierLayers = {
@@ -587,7 +588,14 @@ export const ExtraViewableControl = ({ modal = false, webview = false }) => {
             icon: <IconWorldDollar className="scale-110 text-[#0E76BB] " />,
             selectable: true,
             "method": () => {
-                regionCostState.value = true
+                regionCostState.value = true,
+                showNotification({
+                  variant : 'info',
+                  message : 'Click on Map To Draw the Boundary With Atleast 3 Points to Calculate the Result',
+                  autoClose: 5000,
+                  color : 'orange',
+                  icon: <IconInfoCircle className="text-white" />
+                })
             }
             ,
             "antiMethod": () => {

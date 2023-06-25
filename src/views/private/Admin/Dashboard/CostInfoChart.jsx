@@ -22,11 +22,11 @@ export default () => {
     labels: dataset.map(item => item.cable_type),
     datasets: [{
       data: dataset.map(item => item.total_cost),
-      backgroundColor: ['red', 'orange', 'yellow', 'green', 'blue', 'purple', 'cyan']
+      backgroundColor: ['#0E76BB', '#0092c3', 'sky', 'blue', 'indigo', 'purple', 'cyan']
     }]
   });
 
-  if (data) {
+  if (!data) {
     return <div className='flex justify-center h-full items-center'><Loader size='lg' /></div>
   }
 
@@ -40,17 +40,17 @@ export default () => {
 
       <div>
       <h2>Distribution Cable Types</h2>
-      <Doughnut className="w-1/3 h-96"  data={getChartData(data.cables.distribution)} />
+      <Doughnut className="w-1/3 h-96 p-6 flex items-center justify-center text-center" title="" data={getChartData(data.cables.distribution)} />
       </div>
 
       <div>
       <h2>Feeder Cable Types</h2>
-      <Doughnut className="w-1/3 h-96" data={getChartData(data.cables.feeder)} />
+      <Doughnut className="w-1/3 h-96 p-6" title="" data={getChartData(data.cables.feeder)} />
       </div>
 
       <div>
       <h2>Primary Cable Types</h2>
-      <Doughnut className="w-1/3 h-96" data={getChartData(data.cables.primary)} />
+      <Doughnut className="w-1/3 h-96 p-6" title="" data={getChartData(data.cables.primary)} />
       </div>
    
  

@@ -21,18 +21,6 @@ export const getFAQ_Memory = async () => {
 
 
 export default () => {
-
-    const [data, setData] = useState([])
-    useEffect(() => {
-        getFAQs("d2lmaS10ZXN0MUBybHAuZGV2LXR1di5kZTpXaWZpLVRlc3Qx").then((res) => {
-            FAQState.value = res.data.list
-        })
-        FAQState.subscribe(setData)
-    }, [])
-
-    const categories = [...new Set(data.map(item => Object.values(item.categoriesNames)[0]))];
-
-
     const allowedCatID = [
         "610cf5bee37598dc3",
         "610cf6bcc03a171db",
@@ -42,6 +30,21 @@ export default () => {
         "60ec1a0a2f119b147",
         "61f9532b9c18b0d45"
       ]
+    const [data, setData] = useState([])
+    useEffect(() => {
+        getFAQs("d2lmaS10ZXN0MUBybHAuZGV2LXR1di5kZTpXaWZpLVRlc3Qx").then((res) => {
+            
+            FAQState.value = res.data.list.filter(item => allowedCatID.includes(item.categoriesIds[0]))
+        })
+        FAQState.subscribe(setData)
+    }, [])
+
+
+
+    const categories = [...new Set(data.map(item => Object.values(item.categoriesNames)[0]))];
+
+
+    
 
     return (
         <div className={'h-screen bg-white overflow-x-auto'}>

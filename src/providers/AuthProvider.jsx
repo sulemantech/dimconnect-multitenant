@@ -14,9 +14,10 @@ import PublicRoutes from '../routes/PublicRoutes'
 import api, { getAccessList, getCurrentUserPermissions, getRegionList, refreshAuth } from '../api'
 import appConfig from '../config/appConfig'
 import jwtDecode from 'jwt-decode'
-import { permissible, regsionListSignal, userDataSignal } from '../signals'
+import { permissible, regsionListSignal, userDataSignal,dropvalue } from '../signals'
 
 const createAuthState = () => {
+  
     const auth = signal(false)
     const setAuth = (value) => { auth.value = value }
     sessionStorage.getItem(appConfig.sessionStorageKey) ? auth.value = true : auth.value = false
@@ -29,10 +30,14 @@ const createAuthState = () => {
     userDataSignal.value = jwt?.data
     getRegionList().then(({ data }) => {
         regsionListSignal.value = data
+        setTimeout(()=>dropvalue.value = data[0].ags,10)
+        
     }).catch(err => {
         console.log(`---->RegionList`, err)
     })
     getCurrentUserPermissions().then(({ data }) => {
+       
+      
         // permissible.value = permissible.value.concat(data.accessList)
         // update the activity key in permissible.value array with the activity key in the data.accessList array else keep the old value
         
@@ -92,7 +97,7 @@ export const AuthProvider = () => {
 
 const AppRoutes = () => {
     const auth = useContext(AuthState)
-
+   
     return <>
         {
             auth.auth.value ? <PrivateRoutes auth={auth} /> : <PublicRoutes auth={auth} />

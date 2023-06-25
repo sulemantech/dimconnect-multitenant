@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'preact/hooks';
-import { ActionIcon, Loader, SegmentedControl, Table } from '@mantine/core';
+import { ActionIcon, Loader, LoadingOverlay, SegmentedControl, Table } from '@mantine/core';
 import { Input } from '@mantine/core';
 import { commarize } from '../../../../utils/convertor';
 import { dropvalue, costInfoData, costInputParams, regsionListSignal } from '../../../../signals';
@@ -12,7 +12,7 @@ import { useDidUpdate } from '@mantine/hooks';
 import { IconPdf } from '@tabler/icons-react';
 import { jsPDF } from "jspdf";
 import autoTable from 'jspdf-autotable';
-import { tilesAvailable } from '../../../../layout/Header';
+
 
 const costInfoSampleData = {
   "cables": {
@@ -244,12 +244,11 @@ export default () => {
       })
   }
 
-  if (loading) {
-    return <div className='flex justify-center h-full items-center'><Loader size='lg' /></div>
-  }
+
   return (
     <>
-      <div className="flex p-2">
+      <div className="flex p-2 flex-grow relative">
+    <LoadingOverlay visible={loading} />
 
         <p className="flex-grow flex-1 font-thin text-neutral-700 text-lg">
           Cost Info
