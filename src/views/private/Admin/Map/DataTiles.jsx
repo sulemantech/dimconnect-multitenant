@@ -21,7 +21,7 @@ export default () => {
             fetch(`https://dim-tileserver-dev.hiwifipro.com/data/${value}.json`,{
                 method: 'GET',
                 headers: {
-                    'Authorization' :`Bearer ${sessionStorage.getItem(appConfig.sessionStorageKey) || sessionStorage.getItem(appConfig.sessionStorageKeyWebview)}`,
+                    'Authorization' :`Bearer ${localStorage.getItem(appConfig.localStorageKey) || localStorage.getItem(appConfig.localStorageKeyWebview)}`,
                 }
             })
             .then(res => res.json())

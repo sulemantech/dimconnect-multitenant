@@ -98,7 +98,7 @@ export default () => {
             return {
                 url: url,
                 headers: {
-                  "Authorization" :`Bearer ${sessionStorage.getItem(appConfig.sessionStorageKeyWebview)}`
+                  "Authorization" :`Bearer ${localStorage.getItem(appConfig.localStorageKeyWebview)}`
                 }
               }
 

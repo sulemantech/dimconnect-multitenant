@@ -246,7 +246,7 @@ const epsgeur = '+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m
 export const CRUDAddressPointForm = ({ prevdata, edit = false, add = false,lat ,lng }) => {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
-    const decoded = jwtDecode(sessionStorage.getItem(appConfig.sessionStorageKey) || sessionStorage.getItem(appConfig.sessionStorageKeyWebview))
+    const decoded = jwtDecode(localStorage.getItem(appConfig.localStorageKey) || localStorage.getItem(appConfig.localStorageKeyWebview))
 
     const onSubmit = (e) => {
         e.preventDefault()

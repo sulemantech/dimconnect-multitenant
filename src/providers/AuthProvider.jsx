@@ -21,13 +21,13 @@ const createAuthState = () => {
     const mounted = signal(false)
     const auth = signal(false)
     const setAuth = (value) => { auth.value = value }
-    sessionStorage.getItem(appConfig.sessionStorageKey) ? auth.value = true : auth.value = false
+    localStorage.getItem(appConfig.localStorageKey) ? auth.value = true : auth.value = false
     if (!auth.value) {
         return { auth, setAuth }
     }
 
-    api.defaults.headers.common['authorization'] = `Bearer ${sessionStorage.getItem(appConfig.sessionStorageKey)}`
-    const jwt = (jwtDecode(sessionStorage.getItem(appConfig.sessionStorageKey)))
+    api.defaults.headers.common['authorization'] = `Bearer ${localStorage.getItem(appConfig.localStorageKey)}`
+    const jwt = (jwtDecode(localStorage.getItem(appConfig.localStorageKey)))
     userDataSignal.value = jwt?.data
     getRegionList().then(({ data }) => {
         regsionListSignal.value = data
@@ -48,7 +48,8 @@ const createAuthState = () => {
         },10)
         
     }).catch(err => {
-        console.log(`---->RegionList`, err)
+        auth.value = false
+        localStorage.removeItem(appConfig.localStorageKey)
     })
     getCurrentUserPermissions().then(({ data }) => {
        
@@ -67,9 +68,9 @@ const createAuthState = () => {
        
     })
     const timer = () => setTimeout(() => {
-        if (auth.value && sessionStorage.getItem(appConfig.sessionStorageKey)) {
-            refreshAuth(sessionStorage.getItem(appConfig.sessionStorageRefreshKey)).then(res => {
-                sessionStorage.setItem(appConfig.sessionStorageKey, res.data.token)
+        if (auth.value && localStorage.getItem(appConfig.localStorageKey)) {
+            refreshAuth(localStorage.getItem(appConfig.localStorageRefreshKey)).then(res => {
+                localStorage.setItem(appConfig.localStorageKey, res.data.token)
                 api.defaults.headers.common['authorization'] = `Bearer ${res.data.token}`
                 showNotification({
                     title: 'Session refreshed',
@@ -86,8 +87,8 @@ const createAuthState = () => {
                     icon: <IconCross size={24} />,
                     timeout: 5000,
                     onClose: () => {
-                        sessionStorage.removeItem(appConfig.sessionStorageRefreshKey)
-                        sessionStorage.removeItem(appConfig.sessionStorageKey)
+                        localStorage.removeItem(appConfig.localStorageRefreshKey)
+                        localStorage.removeItem(appConfig.localStorageKey)
                         auth.value = false
                     }
                 })

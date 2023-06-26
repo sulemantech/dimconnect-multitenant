@@ -36,6 +36,7 @@ export default ({noAddressPoint=false,noStatus=false}) => {
                 }
                 setValue(e)}
             }}>
+                <NetzplanningLegend />
               {!noAddressPoint &&  <Accordion.Item value="Address Points" className="text-xs" >
                     <Accordion.Control className="text-xs last:p-0"  value={"Address Points"}>Address Points</Accordion.Control>
                     <Accordion.Panel>
@@ -118,4 +119,9 @@ export default ({noAddressPoint=false,noStatus=false}) => {
             </Accordion>
         </div>
     )
+}
+
+const NetzplanningLegend = () => {
+   return <></>
+
 }

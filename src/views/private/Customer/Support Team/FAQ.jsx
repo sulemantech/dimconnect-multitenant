@@ -6,6 +6,7 @@ import Icons from "../../../../layout/icons"
 import { getFAQs } from "../../../../api"
 import { Link } from "preact-router"
 import { FAQState } from "../../../../signals"
+import DimBot from "../../../../components/DimBot"
 
 export const getFAQ_Memory = async () => {
     if(FAQState.value.length < 1) {
@@ -27,8 +28,8 @@ export default () => {
         "610cf6dad6e09ff26",
         "610cf6f201d682d18",
         //news
-        "60ec1a0a2f119b147",
-        "61f9532b9c18b0d45"
+        // "60ec1a0a2f119b147",
+        // "61f9532b9c18b0d45"
       ]
     const [data, setData] = useState([])
     useEffect(() => {
@@ -91,7 +92,7 @@ export default () => {
                 </div>
                 </ScrollArea>
             </div>
-
+<DimBot height={'400px'} width={'350px'}/>
         </div>
     )
 }

@@ -4,8 +4,8 @@ import appConfig from "./config/appConfig";
 const api = axios.create({
     baseURL: appConfig.backendUrl,
    
-    // headers: (sessionStorage.getItem(appConfig.sessionStorageKeyWebview) || appConfig.sessionStorageKey) ? {
-    //     "authorization": `Bearer ${sessionStorage.getItem(appConfig.sessionStorageKeyWebview) || appConfig.sessionStorageKey}`,
+    // headers: (localStorage.getItem(appConfig.localStorageKeyWebview) || appConfig.localStorageKey) ? {
+    //     "authorization": `Bearer ${localStorage.getItem(appConfig.localStorageKeyWebview) || appConfig.localStorageKey}`,
     // } : {},
 });
 
@@ -43,7 +43,7 @@ export const updateAddressPoint = (districtId, pointId, data) => api.post(`/addr
 export const getUsers = () => api.get(`/user`)
 export const createUser = (data) => api.post(`/user`, data)
 export const deleteUser = (id) => api.delete(`/user/${id}`)
-export const editUser = (id, data) => api.patch(`/user/${id}`, data)
+export const editUser = (id, data) => api.put(`/user/${id}`, data)
 let usersdata = []
 export const getUserById = {
     findUserById : (id) => {

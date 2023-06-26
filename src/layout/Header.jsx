@@ -68,7 +68,7 @@ export default () => {
 
 
   const logout = () => {
-    sessionStorage.removeItem(appConfig.sessionStorageKey)
+    localStorage.removeItem(appConfig.localStorageKey)
     auth.setAuth(false)
     window.location.reload()
   }

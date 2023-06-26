@@ -40,17 +40,17 @@ export default () => {
 
       <div>
       <h2>Distribution Cable Types</h2>
-      <Doughnut className="w-1/3 h-96 p-6 flex items-center justify-center text-center" title="" data={getChartData(data.cables.distribution)} />
+      <Doughnut className="w-1/3 h-96 p-6 max-w-xs" title="" data={getChartData(data.cables.distribution)} />
       </div>
 
       <div>
       <h2>Feeder Cable Types</h2>
-      <Doughnut className="w-1/3 h-96 p-6" title="" data={getChartData(data.cables.feeder)} />
+      <Doughnut  className="w-1/3 h-96 p-6 max-w-xs" title="" data={getChartData(data.cables.feeder)} />
       </div>
 
       <div>
       <h2>Primary Cable Types</h2>
-      <Doughnut className="w-1/3 h-96 p-6" title="" data={getChartData(data.cables.primary)} />
+      <Doughnut className="w-1/3 h-96 p-6 max-w-xs" title="" data={getChartData(data.cables.primary)} />
       </div>
    
  

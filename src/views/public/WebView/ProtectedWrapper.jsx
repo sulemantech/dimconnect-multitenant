@@ -12,7 +12,7 @@ export default ({ children }) => {
     if (token) {
 
         api.defaults.headers.common['authorization'] = `Bearer ${token}`
-        sessionStorage.setItem(appConfig.sessionStorageKeyWebview, token)
+        localStorage.setItem(appConfig.localStorageKeyWebview, token)
 
         getCurrentUserPermissions().then(({ data }) => {
             permissible.value = permissible.value.map( p => {

@@ -31,7 +31,7 @@ export default () => {
                 return {
                     url: url,
                     headers: {
-                        'Authorization' :`Bearer ${sessionStorage.getItem(a.sessionStorageKey)}`
+                        'Authorization' :`Bearer ${localStorage.getItem(a.localStorageKey)}`
                     }
                 }
             }

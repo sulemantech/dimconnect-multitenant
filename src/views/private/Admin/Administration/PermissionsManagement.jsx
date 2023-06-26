@@ -59,7 +59,7 @@ export default () => {
                             attributes={['name', 'description', 'permissions']}
                             title={'Roles and Permissions'}
                             remove
-                            edit
+                            
                             data={data}
 
                             newStruct={{

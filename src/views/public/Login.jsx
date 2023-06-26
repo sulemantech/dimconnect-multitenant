@@ -46,8 +46,8 @@ export default () => {
     postAuth(email, pass).then(({ data }) => {
 
       authState.setAuth(true)
-      sessionStorage.setItem(appConfig.sessionStorageKey, data.token)
-      sessionStorage.setItem(appConfig.sessionStorageRefreshKey, data.refreshToken)
+      localStorage.setItem(appConfig.localStorageKey, data.token)
+      localStorage.setItem(appConfig.localStorageRefreshKey, data.refreshToken)
       api.defaults.headers.common['authorization'] = `Bearer ${data.token}`
       setLoading(false)
       window.location.reload()
