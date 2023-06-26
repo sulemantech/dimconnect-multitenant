@@ -166,7 +166,9 @@ const MyTable = ({ data, select, setSelect }) => {
       title=""
       columns={columns}
       data={data}
-      // pagination
+      pagination
+      // pages per page
+      paginationPerPage={20}
       // className=".dataTable-ticket-page"
       selectableRows
       selectableRowsSingle
@@ -651,6 +653,7 @@ function TicketModal({ ticket }) {
             // create a new form data object and add answer state as body, and files as file key value pair
             const formData = new FormData();
             formData.append("body", answer);
+
             files.forEach((file) => {
               formData.append("files", file);
             }
