@@ -15,7 +15,7 @@ import { getBoundaries, getCostInfoByDistrictId, getEquipment } from "../../../.
 import { IconWorldDollar } from "@tabler/icons-react"
 
 import GeoCodingOSM from "geocoding-osm"
-import { CostInfoModalContent,CableTable,CostInfoSettings,DuctTable,HomeActivationTable, generatePDF } from "../Dashboard/CostInfo"
+import { CostInfoModalContent, CableTable, CostInfoSettings, DuctTable, HomeActivationTable, generatePDF } from "../Dashboard/CostInfo"
 import { showNotification } from "@mantine/notifications"
 
 
@@ -420,7 +420,7 @@ const RegionCostCalculation = () => {
         const areaName = await geo.reverse({
             lat: center[1],
             lon: center[0],
-            zoom: parseInt( map.getZoom() )
+            zoom: parseInt(map.getZoom())
         })
 
         getCostInfoByDistrictId(ags, URLSearchParam)
@@ -433,13 +433,13 @@ const RegionCostCalculation = () => {
 
                 openModal({
                     title: <div className="flex w-full items-center ">
-                      
+
                         <h3 className="flex-1">Regionale Kostenkalkulation</h3>
                         <div className="ml-8">
-                            <ActionIcon 
-                            onClick={() => generatePDF(res.data, areaName.display_name)}
-                            color="brand" className="hover:bg-red-600">
-                                <IconDownload className="animate-bounce"/>
+                            <ActionIcon
+                                onClick={() => generatePDF(res.data, areaName.display_name)}
+                                color="brand" className="hover:bg-red-600">
+                                <IconDownload className="animate-bounce" />
                             </ActionIcon>
                         </div>
                     </div>,
@@ -455,7 +455,12 @@ const RegionCostCalculation = () => {
 
     }
 
-
+    const center = polygon.length > 2 ? turf.center(turf.polygon([polygon])) : null;
+    if (center) {
+        center.properties = {
+            "area": polygon.length > 2 ? `${turf.area(turf.polygon([polygon])).toFixed(1)} sqm` : null
+        }
+    }
 
     return (
         <>
@@ -467,18 +472,16 @@ const RegionCostCalculation = () => {
                         type: "FeatureCollection",
                         features: [{
                             type: "Feature",
-                            properties: {
-                                "area": polygon.length > 2 ? `${turf.area(turf.polygon([polygon])).toFixed(1)} sqm` : ""
-                            },
                             geometry: {
-                                "type": polygon.length == 1 ? 'Point' : polygon.length == 2 ? 'LineString' : 'Polygon',
-                                "coordinates": polygon.length == 1 ? polygon[0] : polygon.length == 2 ? polygon : [polygon]
+                                "type": polygon.length == 1 ? 'Point' : 'MultiLineString',
+
+                                "coordinates": polygon.length == 1 ? polygon[0] : [polygon]
                             }
                         }]
                     }}>
                         <Layer id="region-cost-calculation" type="fill" paint={{
                             "fill-color": "red",
-                            "fill-opacity": 0.4
+                            "fill-opacity": 0.1
                         }} />
                         <Layer id="region-cost-calculation-line" type="line" paint={{
                             "line-color": "red",
@@ -486,34 +489,31 @@ const RegionCostCalculation = () => {
                             "line-opacity": 0.4
                         }} />
                         {
-                            polygon.length == 1 && <Layer id="region-cost-calculation-point" type="circle" paint={{
+                            <Layer id="region-cost-calculation-point" type="circle" paint={{
                                 "circle-color": "red",
                                 "circle-radius": 5
                             }} />
                         }
-                        <Layer id="region-cost-calculation-label" type="symbol" layout={{
-                            "text-field": ["get", "area"],
-                            "text-size": 15,
-                            "text-allow-overlap": true,
-                            "text-ignore-placement": true
-                        }} paint={{
-                            "text-color": "white"
-                        }} />
+
                     </Source>
 
+
+
                     {
-                        // add marker in center of polygon if more than 3 points
-                        polygon.length > 4 && <Marker
-                            latitude={polygon[0][1]}
-                            longitude={polygon[0][0]}
+                        center && <Marker
+                            latitude={center.geometry.coordinates[1]}
+                            longitude={center.geometry.coordinates[0]}
                             anchor="center"
                             draggable={false}
                         >
+                            <div className="p-2 flex flex-col items-center justify-center bg-sky-200 bg-opacity-50 rounded-full">
+                                <p className="text-brand text-xs font-bold">{center.properties.area}</p>
+                            </div>
                             <Button
                                 loading={loading}
 
                                 onClick={submitRegionCostCalculation}
-                                className="px-4 py-2 font-bold text-white border-white border-2 border-solid hover:scale-105 transition-all cursor-pointer bg-red-600 hover:bg-red-800 rounded-full">
+                            >
                                 Calculate
                             </Button>
                         </Marker>
@@ -589,13 +589,13 @@ export const ExtraViewableControl = ({ modal = false, webview = false }) => {
             selectable: true,
             "method": () => {
                 regionCostState.value = true,
-                showNotification({
-                  variant : 'info',
-                  message : 'Click on Map To Draw the Boundary With Atleast 3 Points to Calculate the Result',
-                  autoClose: 5000,
-                  color : 'orange',
-                  icon: <IconInfoCircle className="text-white" />
-                })
+                    showNotification({
+                        variant: 'info',
+                        message: 'Click on Map To Draw the Boundary With Atleast 3 Points to Calculate the Result',
+                        autoClose: 5000,
+                        color: 'orange',
+                        icon: <IconInfoCircle className="text-white" />
+                    })
             }
             ,
             "antiMethod": () => {
