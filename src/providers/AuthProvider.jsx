@@ -6,8 +6,8 @@ import { showNotification } from '@mantine/notifications'
 import { IconCheck, IconCross } from '@tabler/icons'
 import { lazy } from 'preact/compat'
 
-// import PrivateRoutes from '../routes/PrivateRoutes'
-const PrivateRoutes = lazy(() => import('../routes/PrivateRoutes'))
+import PrivateRoutes from '../routes/PrivateRoutes'
+// const PrivateRoutes = lazy(() => import('../routes/PrivateRoutes'))
 import PublicRoutes from '../routes/PublicRoutes'
 // const PublicRoutes = lazy(() => import('../routes/PublicRoutes'))
 
@@ -15,9 +15,10 @@ import api, { getAccessList, getCurrentUserPermissions, getRegionList, refreshAu
 import appConfig from '../config/appConfig'
 import jwtDecode from 'jwt-decode'
 import { permissible, regsionListSignal, userDataSignal,dropvalue } from '../signals'
+import { Loader } from '@mantine/core'
 
 const createAuthState = () => {
-  
+    const mounted = signal(false)
     const auth = signal(false)
     const setAuth = (value) => { auth.value = value }
     sessionStorage.getItem(appConfig.sessionStorageKey) ? auth.value = true : auth.value = false
@@ -30,7 +31,21 @@ const createAuthState = () => {
     userDataSignal.value = jwt?.data
     getRegionList().then(({ data }) => {
         regsionListSignal.value = data
-        setTimeout(()=>dropvalue.value = data[0].ags,10)
+        setTimeout(()=>{
+            const filtered = data.filter(item => (item.kreis !== null && item.bezeichnung !== 'Kreis'))
+            if(dropvalue.value == 'NULL'){
+                
+            dropvalue.value = filtered[0].ags
+            }else{
+                const index = filtered.findIndex(a => a.ags === dropvalue.value)
+                if (index !== -1) {
+                    dropvalue.value = filtered[index].ags
+                }else{
+                    dropvalue.value = filtered[0].ags
+                }
+            }
+            mounted.value = true
+        },10)
         
     }).catch(err => {
         console.log(`---->RegionList`, err)
@@ -81,7 +96,7 @@ const createAuthState = () => {
         timer()
     }, 1000 * 60 * 25)
     timer()
-    return { auth, setAuth }
+    return { auth, setAuth, mounted }
 }
 
 export const AuthState = createContext()
@@ -100,9 +115,17 @@ const AppRoutes = () => {
    
     return <>
         {
-            auth.auth.value ? <PrivateRoutes auth={auth} /> : <PublicRoutes auth={auth} />
+            auth.auth.value ? <> { auth.mounted.value ?<PrivateRoutes auth={auth} /> : <NoRegionList /> } </> : <PublicRoutes auth={auth} />
         }
     </>
 }
 
 export default AuthProvider
+
+const NoRegionList = () => {
+    return <div className="flex justify-center items-center h-screen">
+        <div className="text-center">
+            <Loader variant='dots' />
+        </div>
+    </div>
+}

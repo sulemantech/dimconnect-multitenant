@@ -29,11 +29,13 @@ export default () => {
   const [userData, setUserData] = useState(null)
   const [isOpen, setIsOpen] = useState(false)
   const [regsionList, setRegsionList] = useState([])
+  const [ags, setAgs] = useState('NULL')
 
   useLayoutEffect(() => {
 
     const unsub = () => {
       dropvalue.subscribe((value) => {
+        setAgs(value)
         const parentRoute = router?.[0]?.path?.replace('/:ags', '') || ''
         route(`${parentRoute}?ags=${value}${window.location.hash}`)
       })
@@ -99,6 +101,7 @@ export default () => {
           onChange={(value) => {
             dropvalue.value = value
           }}
+          value={ags}
         />
         <div className="ml-4">
         </div>

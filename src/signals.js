@@ -2,7 +2,7 @@ import { effect, signal } from '@preact/signals'
 // check if url has ags query param
 const urlParams = new URLSearchParams(window.location.search);
 const ags = urlParams.get('ags');
-export const dropvalue = signal(ags?ags:'NULL')
+export const dropvalue = signal(ags ? ags : 'NULL')
 
 
 
@@ -207,60 +207,51 @@ export const equipmentState = signal(false)
 
 export const costInputParams = signal({
     "cables": {
-      "distribution": {
-        "materialCost": 9,
-        "labourCost": 1
-      },
-      "feeder": {
-        "materialCost": 8.09,
-        "labourCost": 8.09
-      },
-      "primary": {
-        "materialCost": 8.09,
-        "labourCost": 8.09
-      }
+        "distribution": {
+            "materialCost": 9,
+            "labourCost": 1
+        },
+        "feeder": {
+            "materialCost": 8.09,
+            "labourCost": 8.09
+        },
+        "primary": {
+            "materialCost": 8.09,
+            "labourCost": 8.09
+        }
     },
     "duct": {
-      "distribution": {
-        "materialCost": 8.09,
-        "labourCost": 8.09
-      },
-      "feeder": {
-        "materialCost": 8.09,
-        "labourCost": 8.09
-      },
-      "primary": {
-        "materialCost": 8.09,
-        "labourCost": 8.09
-      }
+        "distribution": {
+            "materialCost": 8.09,
+            "labourCost": 8.09
+        },
+        "feeder": {
+            "materialCost": 8.09,
+            "labourCost": 8.09
+        },
+        "primary": {
+            "materialCost": 8.09,
+            "labourCost": 8.09
+        }
     },
     "homeActivation": {
-      "building": {
-        "greaterMaterialCost":8.09,
-        "greaterLabourCost": 8.09,
-        "lowerMaterialCost":8.09,
-        "lowerLabourCost": 8.09
-      },
-      "home": {
-        "greaterMaterialCost":8.09,
-        "greaterLabourCost": 8.09,
-        "lowerMaterialCost":8.09,
-        "lowerLabourCost": 8.09
-      }
-    }
-  })
-
-  export const regionCostState = signal(false)
-  export const FAQState = signal([])
-
-
-
-  /////////////////////effects
-  effect(() => {
-    if(regsionListSignal.value.filter(item => (item.kreis !== null && item.bezeichnung !== 'Kreis'))
-    .map(item => item.ags).includes(dropvalue.value)){
-        dropvalue.value = dropvalue.value
-    }else{
-        dropvalue.value = 'NULL'
+        "building": {
+            "greaterMaterialCost": 8.09,
+            "greaterLabourCost": 8.09,
+            "lowerMaterialCost": 8.09,
+            "lowerLabourCost": 8.09
+        },
+        "home": {
+            "greaterMaterialCost": 8.09,
+            "greaterLabourCost": 8.09,
+            "lowerMaterialCost": 8.09,
+            "lowerLabourCost": 8.09
+        }
     }
 })
+
+export const regionCostState = signal(false)
+export const FAQState = signal([])
+
+
+
