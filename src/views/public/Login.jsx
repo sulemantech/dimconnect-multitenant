@@ -45,9 +45,9 @@ export default () => {
 
 
 
-      <div className="min-w-[350px] rounded-lg shadow-2xl pb-14  bg-[#FFFFFF26] max-h-[80vh] backdrop-blur-md max-[850px]:w-[200px] max-[850px]:h-[350px]">
+      <div className="min-w-[350px] rounded-lg shadow-2xl pb-14  bg-[#FFFFFF26] max-h-[80vh] backdrop-blur-md max-[850px]:w-[200px]">
         <div className="flex justify-center">
-          <div className=" mt-[40px] w-[200px] max-[850px]:h-[100px] max-[850px]:mt-[20px]" >
+          <div className=" mt-[40px] w-[200px]" >
             <Logo />
           </div>
         </div>
