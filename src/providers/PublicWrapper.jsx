@@ -6,12 +6,12 @@ export default ({children}) => {
     left : 0,
     right:0,
         display: 'flex',
-   
+        flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
         padding: '12px 4px',
 
-        backgroundImage: 'url(/bganim.gif)',
+        backgroundImage: 'url(/bgimg.png)',
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
         backgroundPosition: 'center',

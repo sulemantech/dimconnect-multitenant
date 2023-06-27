@@ -273,7 +273,7 @@ export default MyTable;
 // import SubGreen from "./SubtractGreen.svg";
 // import Clip from "./Clip.svg";
 // import Del from "./Group.svg";
-function TicketModal({ ticket }) {
+export function TicketModal({ ticket }) {
 
   const handleOpen = () => {
     setIsOpen(true);
