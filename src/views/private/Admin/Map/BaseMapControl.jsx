@@ -13,7 +13,7 @@ export default ({ modal = false }) => {
     }
 
     const Basemapbutton = <div
-        className={` ${FabClass} text-[#0071b9] bg-white `}
+        className={` ${FabClass} text-[#0E76BB] bg-white `}
         ><IconMap className="scale-150" /> </div>
 
     if (modal) {
@@ -28,7 +28,7 @@ export default ({ modal = false }) => {
                                     Object.keys(Styles)?.map((key, index) => {
                                         return (
                                             <>
-                                                <div className={`flex gap-2 items-center ${mapStyle.value === Styles[key] ? ' text-gray-600' : ' text-[#0071b9]'
+                                                <div className={`flex gap-2 items-center ${mapStyle.value === Styles[key] ? ' text-gray-600' : ' text-[#0E76BB]'
                                                     }`} key={index} onClick={() => {
                                                         mapStyle.value = Styles[key]
                                                         closeAllModals()

@@ -13,7 +13,7 @@ export default ({ modal = false, webview = false }) => {
 
     const Options = {
         'Address Point': {
-            icon: <IconAddressBook className="scale-110 text-[#0071b9] " />,
+            icon: <IconAddressBook className="scale-110 text-[#0E76BB] " />,
             selectable: true,
             "method": () => {
                 addressPointsCRUDstate.value = 'add'
@@ -23,7 +23,7 @@ export default ({ modal = false, webview = false }) => {
             }
         },
         // 'Photo': {
-        //     icon: <IconPhotoPlus className="scale-110 text-[#0071b9]" />,
+        //     icon: <IconPhotoPlus className="scale-110 text-[#0E76BB]" />,
         //     selectable: !webview,
         //     "method": () => {
         //         if (webview) {
@@ -36,7 +36,7 @@ export default ({ modal = false, webview = false }) => {
         //     }
         // },
         // 'Video': {
-        //     icon: <IconVideoPlus className="scale-110 text-[#0071b9]" />,
+        //     icon: <IconVideoPlus className="scale-110 text-[#0E76BB]" />,
         //     selectable: !webview,
         //     "method": () => {
         //         if (webview) {
@@ -60,7 +60,7 @@ export default ({ modal = false, webview = false }) => {
         })
     }, [])
 
-    const AddControlButton = <div className={`mt-2 ${FabClass}  ${activeOption ? 'bg-red-500 text-white' : 'bg-white text-[#0071b9]'}`}>
+    const AddControlButton = <div className={`mt-2 ${FabClass}  ${activeOption ? 'bg-red-500 text-white' : 'bg-white text-[#0E76BB]'}`}>
 
         <IconPlus className="scale-150" />
     </div>
@@ -99,7 +99,7 @@ export default ({ modal = false, webview = false }) => {
                                             >
                                                 <div className="flex items-center gap-2 cursor-pointer">
                                                     {Options[key].icon}
-                                                    <b className=" text-[#0071b9] tracking-wide font-bold">
+                                                    <b className=" text-[#0E76BB] tracking-wide font-bold">
                                                         {key}
                                                     </b>
                                                 </div>
@@ -138,7 +138,7 @@ export default ({ modal = false, webview = false }) => {
                             >
                                 <div className="flex items-center gap-2">
                                     {Options[key].icon}
-                                    <b className=" text-[#0071b9] tracking-wide font-bold">
+                                    <b className=" text-[#0E76BB] tracking-wide font-bold">
                                         {key}
                                     </b>
                                 </div>

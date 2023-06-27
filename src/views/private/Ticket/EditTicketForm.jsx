@@ -78,7 +78,7 @@ export default ({ data }) => {
             className="
                         mt-4
 
-                            bg-[#0071b9]
+                            bg-[#0E76BB]
                         "
             type="submit"
           >
@@ -87,7 +87,7 @@ export default ({ data }) => {
           <Button
             className="
                         mt-4
-                        bg-[#0071b9]
+                        bg-[#0E76BB]
                         "
             onClick={() => closeAllModals()}
           >

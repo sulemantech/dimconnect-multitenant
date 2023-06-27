@@ -12,7 +12,7 @@ export default ({ modal = false }) => {
 
     const Options = {
         'Address Point': {
-            icon: <IconAddressBook className="scale-110 text-[#0071b9] " />,
+            icon: <IconAddressBook className="scale-110 text-[#0E76BB] " />,
             "method": () => {
                 addressPointsCRUDstate.value = 'edit'
             },
@@ -33,7 +33,7 @@ export default ({ modal = false }) => {
         })
     }, [])
 
-    const EditControlButton = <div className={`mt-2 ${FabClass}  ${activeOption ? 'bg-red-500 text-white' : 'bg-white text-[#0071b9]'}`}>
+    const EditControlButton = <div className={`mt-2 ${FabClass}  ${activeOption ? 'bg-red-500 text-white' : 'bg-white text-[#0E76BB]'}`}>
 
         {editControlLoading.value ? <Loader color="white" className="scale-150" /> : <IconPencil className="scale-150" />}
     </div>
@@ -73,7 +73,7 @@ export default ({ modal = false }) => {
                             >
                                 <div className="flex items-center gap-2 cursor-pointer">
                                     {Options[key].icon}
-                                    <b className=" text-[#0071b9] tracking-wide font-bold">
+                                    <b className=" text-[#0E76BB] tracking-wide font-bold">
                                         {key}
                                     </b>
                                 </div>

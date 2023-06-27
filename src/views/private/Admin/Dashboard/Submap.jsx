@@ -31,7 +31,7 @@ export default () => {
                 return {
                     url: url,
                     headers: {
-                        'Authorization' :`Bearer ${sessionStorage.getItem(a.sessionStorageKey)}`
+                        'Authorization' :`Bearer ${localStorage.getItem(a.localStorageKey)}`
                     }
                 }
             }
@@ -71,7 +71,7 @@ export const Boundary = ({noFill=false}) => {
                 id="boundary"
                 type="line"
                 paint={{
-                    'line-color': '#0071b9',
+                    'line-color': '#0E76BB',
                     'line-width': !noFill ? 2 : 0,
                 }}
             />
@@ -80,7 +80,7 @@ export const Boundary = ({noFill=false}) => {
                 id="boundary-fill"
                 type="fill"
                 paint={{
-                    'fill-color': '#0071b9',
+                    'fill-color': '#0E76BB',
                     'fill-opacity': 0.1,
                 }}
             />

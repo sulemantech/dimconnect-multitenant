@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'preact/hooks';
-import { ActionIcon, Loader, SegmentedControl, Table } from '@mantine/core';
+import { ActionIcon, Loader, LoadingOverlay, SegmentedControl, Table } from '@mantine/core';
 import { Input } from '@mantine/core';
 import { commarize } from '../../../../utils/convertor';
-import { dropvalue, costInfoData, costInputParams } from '../../../../signals';
+import { dropvalue, costInfoData, costInputParams, regsionListSignal } from '../../../../signals';
 import { getCostInfoByDistrictId } from '../../../../api';
 import appConfig from '../../../../config/appConfig';
 import axios from 'axios';
 import { openDrawer } from '../../../../providers/DrawerProvider';
 import { IconRefresh, IconSettings } from '@tabler/icons';
 import { useDidUpdate } from '@mantine/hooks';
+import { IconPdf } from '@tabler/icons-react';
+import { jsPDF } from "jspdf";
+import autoTable from 'jspdf-autotable';
 
 
 const costInfoSampleData = {
@@ -144,6 +147,72 @@ const costInfoSampleData = {
   }
 }
 
+export const generatePDF = (data,fileName) => {
+  const doc = new jsPDF();
+
+  // add title of filename
+  doc.text(`Kosteninformationen von ${fileName}`, 10, 10);
+  
+
+
+  const categories = ['distribution', 'feeder', 'primary'];
+
+  let startY = 30;
+  for (let category of categories) {
+    const cableHeaders = [['Cable Type', 'Material Cost', 'Labour Cost', 'Total', 'Volume', 'Total Cost']];
+    const cableData = data.cables[category].map(item => Object.values(item)).map(item => {
+      return item.map(item => commarize(item))
+    })
+    
+    doc.text(`Cables - ${category}`, 10, startY);
+    doc.autoTable({
+      head: cableHeaders,
+      body: cableData,
+      startY: startY + 5
+    });
+
+    const ductHeaders = [['Duct Type', 'Material Cost', 'Labour Cost', 'Volume', 'Total Cost']];
+    const ductData = data.duct[category].map(item => Object.values(item)).map(item => {
+      return item.map(item => commarize(item))
+    })
+    startY = doc.lastAutoTable.finalY + 10;
+    doc.text(`Ducts - ${category}`, 10, startY);
+    doc.autoTable({
+      head: ductHeaders,
+      body: ductData,
+      startY: startY + 5
+    });
+
+    startY = doc.lastAutoTable.finalY + 10;
+  }
+
+  // const activationHeaders = [['Building Count', '1 to 3 Buildings', 'Building Connections 1 to 3', 'Building Per Connection Cost 1 to 3', 'Total Cost Building Connections 1 to 3', 'Building Count 3 Plus', 'Building Connections 3 Plus', 'Building Per Connection Cost 3 Plus', 'Total Cost Building Connections 3 Plus', 'Total Homes Count', 'Homes Count 1 to 3', 'Home Count Connections 1 to 3', 'Home Count Per Connection Cost 1 to 3', 'Total Cost Home Count Connections 1 to 3', 'Home Count 3 Plus', 'Home Count Connections 3 Plus', 'Home Count Per Connection Cost 3 Plus', 'Total Cost Home Count Connections 3 Plus', 'Total Cost']];
+  // const activationData = [Object.values(data.homeActivation)];
+  // startY = doc.lastAutoTable.finalY + 10;
+  // doc.text(`Home Activation`, 10, startY);
+  // doc.autoTable({
+  //   head: activationHeaders,
+  //   body: activationData,
+  //   startY: startY + 5
+  // });
+
+  const activationHeaders = [['key', 'value']];
+  const activationData = Object.entries(data.homeActivation).map(item => [item[0].split('_').join(' ').toUpperCase(), commarize(item[1])])
+ 
+  startY = doc.lastAutoTable.finalY + 10;
+  doc.text(`Home Activation`, 10, startY);
+  doc.autoTable({
+      head: activationHeaders,
+      body: activationData,
+      startY: startY + 5
+  });
+
+  
+
+
+  doc.save(`${fileName}-${new Date().toISOString()}-kalkulation.pdf`);
+};
+
 export default () => {
   const [data, setData] = useState(null); // as costInfoSampleData
   const [loading, setLoading] = useState(false);
@@ -175,17 +244,21 @@ export default () => {
       })
   }
 
-  if (loading) {
-    return <div className='flex justify-center h-full items-center'><Loader size='lg' /></div>
-  }
+
   return (
     <>
-      <div className="flex">
+      <div className="flex p-2 flex-grow relative">
+    <LoadingOverlay visible={loading} />
 
         <p className="flex-grow flex-1 font-thin text-neutral-700 text-lg">
           Cost Info
         </p>
         <div className='flex'>
+        <ActionIcon onClick={() => {
+             generatePDF(data,regsionListSignal.value.find(tile => tile.ags === ags).name)
+          }}>
+            <IconPdf />
+          </ActionIcon>
           <ActionIcon
             onClick={() => {
               getCost();
@@ -204,6 +277,7 @@ export default () => {
           }}>
             <IconSettings />
           </ActionIcon>
+          
         </div>
       </div>
       <hr />
@@ -218,7 +292,7 @@ export default () => {
 
 export const CostInfoModalContent = ({ data }) => {
   
-  const [segmentedControl, setSegmentedControl] = useState('homeActivation')
+  const [segmentedControl, setSegmentedControl] = useState('cable')
 
   return (
       <div>
@@ -260,14 +334,14 @@ export const HomeActivationTable = ({ data }) => {
           
           <div className="flex flex-col">
               <div className="-my-2 overflow-x-auto">
-                  <div className="py-2 align-middle inline-block min-w-full overflow-hidden sm:px-6 lg:px-8">
+                  <div className="py-2 align-middle inline-block min-w-full overflow-hidden">
                       <div className="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
-                          <table className="min-w-full divide-y divide-gray-200">
+                          <Table striped className="min-w-full divide-y divide-gray-200">
                               <thead className="bg-gray-50">
                                   <tr>
 
                                       <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                                          Key
+                                          Type
                                       </th>
                                       <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                                           Value
@@ -294,7 +368,7 @@ export const HomeActivationTable = ({ data }) => {
                                       })
                                   }
                               </tbody>
-                          </table>
+                          </Table>
                       </div>
                   </div>
               </div>
@@ -312,7 +386,7 @@ export const DuctTable = ({ data }) => {
       <div className="overflow-x-auto">
           {sections.map(section => (
               <div key={section}>
-                  <h2 className="text-md font-semibold mt-4 mb-2 text-sky-700">{section.split('_').join(' ').toUpperCase()}</h2>
+                  <h2 className="text-md font-semibold mt-4 m-1 text-sky-700">{section.split('_').join(' ').toUpperCase()}</h2>
                   <hr />
                   <div className=" overflow-x-auto">
                       <div className="py-2 px-1 align-middle inline-block min-w-full overflow-hidden shadow-md">
@@ -357,7 +431,7 @@ export const CableTable = ({ data }) => {
           
           {sections.map(section => (
               <div key={section}>
-                  <h2 className="text-md font-semibold mt-4 mb-2 text-sky-700">{section.split('_').join(' ').toUpperCase()}</h2>
+                  <h2 className="text-md font-semibold mt-4 m-1 text-sky-700">{section.split('_').join(' ').toUpperCase()}</h2>
                   <hr />
                   <div className=" overflow-x-auto">
                       <div className="py-2 px-1 align-middle inline-block min-w-full overflow-hidden shadow-md">

@@ -1,32 +1,32 @@
-import { Button, Card, CardSection, Divider, Grid, Text } from "@mantine/core"
+import { Card, CardSection, Text } from "@mantine/core"
 import PageProvider from "../../../../providers/PageProvider"
 import { route } from "preact-router"
-import { IconPremiumRights, IconUserCheck } from "@tabler/icons"
-import {useState} from 'preact/hooks'
-import { FaUserEdit, FaUsersCog } from 'react-icons/fa'
-import PermissionsProvider from "../../../../providers/PermissionsProvider"
-import PermissionWrapper from "../../../../providers/PermissionsProvider"
-import { PERMISSIONS } from "../../../../common"
-export default () => {
-    
-    
 
+import {useState} from 'preact/hooks'
+
+import icons from "../../../../layout/icons"
+export default () => {
+   
     const [data, setData] = useState({
-        "User Management": {
-            icon: <FaUserEdit size={30} className="text-[#0E76BB]" />,
-            permission: PERMISSIONS["User Management"],
-            route: 'users'
+        "FAQs": {
+            icon: <icons.FAQIcon fill="#0E76BB" />,
+           
+            route: 'faq'
         },
-        "Roles and Permissions": {
+        "Support Ticket": {
             // icon: <IconPremiumRights size={25} className="text-[#0E76BB]" />,
-            icon : <FaUsersCog size={30} className="text-[#0E76BB]" />,
-            permission: PERMISSIONS["Roles Management"],
-            route: 'r&p'
-        }
+            icon : <icons.TicketIconBlue fill="#0E76BB" />,
+            route: 'support_ticket'
+        },
+        "My Tickets": {
+          // icon: <IconPremiumRights size={25} className="text-[#0E76BB]" />,
+          icon : <icons.TicketIconBlue fill="#0E76BB" />,
+          route: 'my_tickets'
+      }
     })
 
     return (
-        <PermissionsProvider permission={PERMISSIONS.Administration} view message>
+       
         <PageProvider>
             <div class=''>
                 <Card>
@@ -41,14 +41,14 @@ export default () => {
                             {
                                 Object.keys(data).map((key, index) => {
                                     return (
-                                        <PermissionWrapper permission={data[key].permission} view>
-                                        <div className="p-2 m-2 hover:bg-sky-200 transition-all cursor-pointer hover:scale-95 hover:shadow-md rounded-md" onClick={() => { route(`/administration/${data[key].route}`) }} key={index} >
+                                       
+                                        <div className="p-2 m-2 hover:bg-sky-200 transition-all cursor-pointer hover:scale-95 hover:shadow-md rounded-md min-w-[100px]" onClick={() => { route(`/support_team/${data[key].route}`) }} key={index} >
                                             <div className={'flex flex-col items-center justify-center'}>
                                                 {data[key].icon}
                                                 <Text size={'xs'} className="text-sky-700 font-bold">{key}</Text>
                                             </div>
                                         </div>
-                                        </PermissionWrapper>
+                                       
                                     )
                                 })
                             }
@@ -58,6 +58,6 @@ export default () => {
                 </Card>
             </div>
         </PageProvider>
-        // </PermissionsProvider>
+       
     )
 }

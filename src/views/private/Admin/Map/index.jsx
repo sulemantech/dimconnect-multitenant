@@ -3,6 +3,7 @@ import { useScrollLock } from '@mantine/hooks'
 
 import { BottomLeft, BottomRight } from '../../../../layout/Fixed'
 import PermissionWrapper from '../../../../providers/PermissionsProvider'
+
 import { PERMISSIONS } from '../../../../common'
 import { ExtraViewableControl } from './ExtraViewables'
 const Map = lazy(() => import('./Map'))
@@ -17,7 +18,9 @@ export default () => {
   return (
     <div className="flex flex-grow touch-none overflow-hidden">
       <PermissionWrapper permission={PERMISSIONS.Map} view showError>
+        
         <Map />
+        
       </PermissionWrapper>
         <BottomRight>
           <Suspense fallback={<div>Loading...</div>}>
