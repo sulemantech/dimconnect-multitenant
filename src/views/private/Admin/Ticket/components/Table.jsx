@@ -48,30 +48,12 @@ export const status = {
   },
 };
 
-const FilterSelect = ({}) => (
-  <Select
-    options={[
-      { value: 1, label: "Open" },
-      { value: 2, label: "Closed" },
-      { value: 3, label: "In Progress" },
-      { value: 4, label: "Rejected" },
-    ]}
-    onChange={(e) => console.log(e.target.value)}
-    isClearable={true}
-    placeholder="Filter by status"
-    styles={{ menu: (provided) => ({ ...provided, zIndex: 9999 }) }}
-  />
-);
+
 const MyTable = ({ data, select, setSelect }) => {
+  const [page, setPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(20);
   const columns = [
-    // {
-    //   name: <FilterSelect  />,
-    //   selector: row => row.id, // A unique selector for this column. Adjust according to your data structure.
-    //   sortable: false,
-    //   hide: 'md',
-    //   width: '200px', // Adjust this according to your needs.
-    //   cell: () => " ",
-    // },
+  
     {
       name: "Ticket ID",
       selector: "id",
@@ -165,10 +147,122 @@ const MyTable = ({ data, select, setSelect }) => {
       className="mt-3 "
       title=""
       columns={columns}
-      data={data}
+      data={
+        data.length > 0
+          ? data.slice(
+              (page - 1) * rowsPerPage,
+              (page - 1) * rowsPerPage + rowsPerPage
+            )
+          : []
+      }
       pagination
       // pages per page
       paginationPerPage={20}
+
+      paginationComponent={()=>{
+        return(
+          <div className="flex justify-start mt-1">
+            <div className="flex items-center ml-5 w-[50%]">
+              {/* <div className="text-sm text-gray-700 mr-2">Tickets per page:</div> */}
+              {/* <Select
+                size="sm"
+                defaultValue={rowsPerPage}
+                value={rowsPerPage}
+
+                onChange={(e) => {
+                  setRowsPerPage(e);
+                }}
+                data={[
+                  { value: 10, label: 10 },
+                  { value: 20, label: 20 },
+                  { value: 50, label: 50 },
+                  { value: 100, label: 100 },
+                ]}
+              /> */}
+              <p className="text-sm text-gray-700 mr-2 text-[10px]">
+                {/* 1-21 From 172 Items */}
+                {/* {data.length > 0
+                  ? `${
+                      (page - 1) * rowsPerPage + 1
+                    }-${(page - 1) * rowsPerPage + rowsPerPage} From ${
+                      data.length
+                    } Items`
+                  : ""} */}
+                  <span className="text-[#0E76BB] text-[10px]">
+                    {data.length > 0
+                  ? `${
+                      (page - 1) * rowsPerPage + 1
+                    }-${(page - 1) * rowsPerPage + rowsPerPage}`
+                  : ""}
+                  </span>
+                  &nbsp; <span className="text-[10px]">From</span> &nbsp;
+                  <span className="text-[#0E76BB] text-[10px]">
+                    {data.length}
+                  </span>
+                  &nbsp; <span className="text-[10px]">Items</span>
+
+              </p>
+            </div>
+            <div className="flex items-center">
+              
+              <p className="text-sm text-gray-700 mr-2">
+                 {/* Previous  1 2 3 4  Next */}
+                 <span className="cursor-pointer text-[10px]"
+                 onClick={() => {
+                  // setPage(page - 1);
+                  // first check if page is not 1
+                  if (page !== 1) {
+                    setPage(page - 1);
+                  }
+                 }}
+                 >
+                  Previous
+                 </span>
+                 {/* <span className="text-[#0E76BB]"> */}
+                    {/* count pages and show page numbers */}
+                    {data.length > 0
+                    ? Array.from(
+                        { length: Math.ceil(data.length / rowsPerPage) },
+                        (_, i) => {
+                          return { value: i + 1, label: i + 1 };
+                        }
+                      ).map((item, index) => {
+                        return (
+                          <span
+                            key={index}
+                            className={`${
+                              page === item.value
+                                ? "bg-[#D8E4EE] rounded"
+                                : ""
+                            } mx-1 p-3 pb-1 pt-1 text-[#0E76BB] cursor-pointer text-[10px]`}
+                            onClick={() => {
+                              setPage(item.value);
+                            }}
+                          >
+                            {item.value}
+                          </span>
+                        );
+                      })
+                    : ""}
+                    {/* </span> */}
+                  <span className="cursor-pointer text-[10px]"
+                  onClick={() => {
+                    // setPage(page + 1);
+                    // first check if page is not last
+                    if (page !== Math.ceil(data.length / rowsPerPage)) {
+                      setPage(page + 1);
+                    }
+                  }}
+
+                  >
+                  Next
+                  </span>
+
+              </p>
+            </div>
+          </div>
+        )
+      }}
       // className=".dataTable-ticket-page"
       selectableRows
       selectableRowsSingle

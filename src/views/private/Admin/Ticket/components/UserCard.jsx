@@ -36,7 +36,7 @@ useEffect(() => {
           </button>
           
         </div>
-        <div className="h-[60vh] ml-6 mt-3 rcolor rounded-md px-2 w-min overflow-y-auto custom-scrollbar ">
+        <div className="h-[56vh] ml-6 mt-3 rcolor rounded-md px-2 w-min overflow-y-auto custom-scrollbar ">
           {  active === "userTicket"?<div className="w-auto p-2">
 
 
