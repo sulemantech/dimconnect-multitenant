@@ -22,7 +22,11 @@ export default () => {
           // icon: <IconPremiumRights size={25} className="text-[#0E76BB]" />,
           icon : <icons.TicketIconBlue fill="#0E76BB" />,
           route: 'my_tickets'
-      }
+      },
+        "Live Chat": { 
+            icon: <icons.LiveChat fill="#0E76BB" />,
+            route: 'live_chat'
+        },
     })
 
     return (

@@ -23,6 +23,7 @@ import EditOrCheckStatusTicket from '../views/private/Customer/Support Team/Edit
 import RegionListValidator from '../providers/RegionListValidator';
 import SupportTeam from '../views/private/Customer/Support Team/SupportTeam';
 import MyTickets from '../views/private/Customer/Support Team/MyTickets';
+import LiveChat from '../views/private/Customer/Support Team/LiveChat';
 
 const TypeRoutes = {
     'admin': [
@@ -40,6 +41,7 @@ const TypeRoutes = {
         <SupportTeam path="/support_team" />,
         <MyTickets path="/support_team/my_tickets" />,
         <EditOrCheckStatusTicket path="/support_team/my_tickets/:edit_or_check_ticket_status" />,
+        <LiveChat path="/support_team/live_chat" />,
     ],
 }
 

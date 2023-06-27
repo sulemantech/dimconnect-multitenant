@@ -39,7 +39,14 @@ export const privateRoutes = [{
         permission: PERMISSIONS.SupportTeam,
         path: `/support_team/support_ticket`,
         icon: icons.TicketIconBlue,
-    }, {
+    }, 
+    {
+        label: 'Live Chat',
+        permission: PERMISSIONS.SupportTeam,
+        path: `/support_team/live_chat`,
+        icon: icons.LiveChat,
+    },
+    {
         label: 'Contacts',
         permission: PERMISSIONS.SupportTeam,
         path: `/support_team/contacts`,
