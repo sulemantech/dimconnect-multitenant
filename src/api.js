@@ -85,3 +85,5 @@ export const getFAQs = (auth) => api.get(`/faqs?auth=${auth}`)
 
 
 export const postComment = (ticketId, data) => api.post(`/tickets/${ticketId}/comments`, data)
+
+export const getComment = (ticketId) => api.get(`/tickets/${ticketId}/comments`)

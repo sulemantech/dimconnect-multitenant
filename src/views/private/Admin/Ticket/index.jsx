@@ -21,6 +21,8 @@ export default () => {
 
   const [select, setSelect] = useState();
 
+  const [update, setUpdate] = useState(1);
+
   // ================= function for ticket count =================
   const count = (data) => {
     return Object.keys(status).map((key) => {
@@ -48,7 +50,7 @@ export default () => {
         );
       })
       .catch((err) => console.log(err));
-  }, [search]);
+  }, [search, update]);
 
   return (
     <>
@@ -60,7 +62,7 @@ export default () => {
           <div className="min-w-[78%] " style={{
             borderTopLeftRadius: "0.5rem",}
           }>
-            <Table data={tickets} select={select} setSelect={setSelect} />
+            <Table data={tickets} select={select} setSelect={setSelect} setUpdate={setUpdate} />
           </div>
           <div className="min-w-[20%]">
             <UserCard tickets={tickets} select={select} />
