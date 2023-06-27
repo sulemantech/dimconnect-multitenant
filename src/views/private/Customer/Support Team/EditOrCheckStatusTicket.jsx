@@ -140,14 +140,9 @@ function TicketDetails({ data, getTicketData }) {
           </Accordion.Panel>
         </Accordion.Item>
 
-        {/* {data?.ticketComments? sort them */}
+        {/* {data?.ticketComments? sort them by id */}
         {data?.ticketComments
-          ?.sort((a, b) => {
-            return (
-              new Date(a.created_at).getTime() -
-              new Date(b.created_at).getTime()
-            );
-          })   
+          ?.sort((a, b) => b.id - a.id) 
         .map((comment) => (
           <CommentItem comment={comment} value={comment.id} data={data} />
         ))}
@@ -155,7 +150,7 @@ function TicketDetails({ data, getTicketData }) {
 
 
       {/* send reply */}
-      <div
+      {data?.ticketComments.length === 0 ? <></> : <div
         className="
       flex  space-x-[38px]  mt-4
       "
@@ -174,7 +169,7 @@ function TicketDetails({ data, getTicketData }) {
         >
           Send
         </button>
-      </div>
+      </div>}
 
       
     </div>
