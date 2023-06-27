@@ -82,3 +82,6 @@ export const getTicketPriorities = () => api.get(`/ticketpriority/all`)
 export const postTicket = (data) => api.post(`/tickets`, data)
 
 export const getFAQs = (auth) => api.get(`/faqs?auth=${auth}`)
+
+
+export const postComment = (ticketId, data) => api.post(`/tickets/${ticketId}/comments`, data)

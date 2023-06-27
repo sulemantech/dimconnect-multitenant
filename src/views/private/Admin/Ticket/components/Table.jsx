@@ -6,6 +6,8 @@ import subtract1 from "./Subtractred.png";
 import { openModal } from "@mantine/modals";
 // import blueDot from './Ellipse.png'
 import DataTable from "react-data-table-component";
+import { useState } from "react";
+import { postComment } from "../../../../../api";
 
 export const status = {
   1: {
@@ -164,7 +166,9 @@ const MyTable = ({ data, select, setSelect }) => {
       title=""
       columns={columns}
       data={data}
-      // pagination
+      pagination
+      // pages per page
+      paginationPerPage={20}
       // className=".dataTable-ticket-page"
       selectableRows
       selectableRowsSingle
@@ -251,18 +255,15 @@ const MyTable = ({ data, select, setSelect }) => {
 
 export default MyTable;
 
-// import { CKEditor } from '@ckeditor/ckeditor5-react';
-// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
-// import Dwl from "./Download.svg";
-// import Cable from "./Cable.svg";
-// import SubBlue from "./SubtractBlue.svg";
-// import SubRed from "./SubtractRed.svg";
-// import SubOrange from "./SubtractOrange.svg";
-// import SubGreen from "./SubtractGreen.svg";
-// import Clip from "./Clip.svg";
-// import Del from "./Group.svg";
 function TicketModal({ ticket }) {
+
+  const [files, setFiles] = useState([]);
+  const [answer, setAnswer] = useState("");
+
+
+  const fileInputRef = useRef();
+
   const handleOpen = () => {
     setIsOpen(true);
   };
@@ -280,6 +281,13 @@ function TicketModal({ ticket }) {
   const handleFormSubmit = (event) => {
     event.preventDefault();
   };
+ 
+  const handleFileChange = (event) => {
+    const files = Array.from(event.target.files);
+    setFiles(files);
+  };
+  
+
   return (
     <>
       <div className="flex flex-col h-[100%] p-0 m-0 overflow-y-auto custom-scrollbar pt-3 bg-[#D8E4EE]">
@@ -305,7 +313,12 @@ function TicketModal({ ticket }) {
             Ticket ID {ticket.id}
           </h4>
           <h4 className="text-[12px] font-bold text-[#3E3F3F]">
-            Current Status &nbsp; <img src={`${status[ticket.status_id].svg}`} alt="status" className="inline-block" />
+            Current Status &nbsp;{" "}
+            <img
+              src={`${status[ticket.status_id].svg}`}
+              alt="status"
+              className="inline-block"
+            />
           </h4>
           {/*<h4 className="text-[12px] font-[600] text-[#3E3F3F]">
               <svg
@@ -331,25 +344,25 @@ function TicketModal({ ticket }) {
               day: "numeric",
             })}
           </h4>
-            <div className="mr-10">
-          <svg
-            width="11"
-            height="11"
-            viewBox="0 0 11 11"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              id="Rectangle 307 (Stroke)"
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M2.99706 1.08977L1.08787 3.04031C0.97071 3.16001 0.97071 3.35407 1.08787 3.47377L2.99706 5.42431C3.11421 5.544 3.30416 5.544 3.42132 5.42431C3.53848 5.30461 3.53848 5.11055 3.42132 4.99086L2.02426 3.56354H7.3C8.4598 3.56354 9.4 4.52411 9.4 5.70903V10H10V5.70903C10 4.18556 8.79117 2.95054 7.3 2.95054H2.02426L3.42132 1.52323C3.53848 1.40353 3.53848 1.20947 3.42132 1.08977C3.30416 0.970076 3.11421 0.970076 2.99706 1.08977Z"
-              fill="#3E3F3F"
-              stroke="#3E3F3F"
-              stroke-width="0.3"
-            />
-          </svg>
-            </div>
+          <div className="mr-10">
+            <svg
+              width="11"
+              height="11"
+              viewBox="0 0 11 11"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                id="Rectangle 307 (Stroke)"
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M2.99706 1.08977L1.08787 3.04031C0.97071 3.16001 0.97071 3.35407 1.08787 3.47377L2.99706 5.42431C3.11421 5.544 3.30416 5.544 3.42132 5.42431C3.53848 5.30461 3.53848 5.11055 3.42132 4.99086L2.02426 3.56354H7.3C8.4598 3.56354 9.4 4.52411 9.4 5.70903V10H10V5.70903C10 4.18556 8.79117 2.95054 7.3 2.95054H2.02426L3.42132 1.52323C3.53848 1.40353 3.53848 1.20947 3.42132 1.08977C3.30416 0.970076 3.11421 0.970076 2.99706 1.08977Z"
+                fill="#3E3F3F"
+                stroke="#3E3F3F"
+                stroke-width="0.3"
+              />
+            </svg>
+          </div>
           {/* 
             <br />
             <br />
@@ -404,42 +417,37 @@ function TicketModal({ ticket }) {
             <br />
             <br />
           </div> */}
-          
         </div>
         <div className="flex flex-row justify-between bg-[#F5F7F9] w-full items-center mt-0 pt-0 text-[12px] font-[400] px-6 ">
-        <h4 className="py-2"></h4>
+          <h4 className="py-2"></h4>
 
-            <h4 className="text-[12px] font-[400] text-[#3E3F3F] py-2">Title</h4>
-            <h4 className="text-[12px] font-[700] text-[#3E3F3F] ml-5 py-2">
-              &nbsp;&nbsp;&nbsp;&nbsp;{ticket.title}
-            </h4>
-            <h4  className="py-2"></h4>
-            <h4 className="py-2"></h4>
-            <h4 className="py-2"></h4>
-            </div>
-
-
-
-
-
-
+          <h4 className="text-[12px] font-[400] text-[#3E3F3F] py-2">Title</h4>
+          <h4 className="text-[12px] font-[700] text-[#3E3F3F] ml-5 py-2">
+            &nbsp;&nbsp;&nbsp;&nbsp;{ticket.title}
+          </h4>
+          <h4 className="py-2"></h4>
+          <h4 className="py-2"></h4>
+          <h4 className="py-2"></h4>
+        </div>
 
         <div className="bg-white h-[0.2225rem]"></div>
         <div className="flex flex-col justify-between items-center bg-[#F5F7F9] min-h-[30%] px-10 pt-4">
-
           <div className="flex flex-row justify-between items-center  w-full py-3">
-            <h3 className="text-[12px] font-bold text-[#3E3F3F]">{ticket.gpUser.vorname + " " + ticket.gpUser.nachname}</h3>
-            <h3 className="text-[12px] font-bold text-[#3E3F3F]">{new Date(ticket.updated_at).toLocaleDateString(
-              "us-Us", {
+            <h3 className="text-[12px] font-bold text-[#3E3F3F]">
+              {ticket.gpUser.vorname + " " + ticket.gpUser.nachname}
+            </h3>
+            <h3 className="text-[12px] font-bold text-[#3E3F3F]">
+              {new Date(ticket.updated_at).toLocaleDateString("us-Us", {
                 year: "numeric",
                 month: "long",
                 day: "numeric",
-              }
-            )}</h3>
-          
+              })}
+            </h3>
           </div>
-          <p className="text-[12px] font-[400] text-[#3E3F3F] text-justify w-full my-4">{ticket.description}</p>
-          
+          <p className="text-[12px] font-[400] text-[#3E3F3F] text-justify w-full my-4">
+            {ticket.description}
+          </p>
+
           <div className="flex flex-row justify-between w-full items-center mt-0 pt-0 text-[12px] font-[400] mb-2">
             <h4 className="text-[12px] font-[400] text-[#3E3F3F]">
               Attached Files
@@ -471,90 +479,90 @@ function TicketModal({ ticket }) {
           <br />
           <br />
           <br /> */}
-          {ticket.ticketAttachments?.length > 0 && <div className="flex justify-start items-start w-full h-[90px] px-2 py-2 mr-2 mb-5">
-            {ticket.ticketAttachments?.map((attachment, index) => {
-              return (
-                <img
-                  className="mr-2"
-                  src={`http://localhost:3002/static/tickets/${attachment.filename}`}
-                  alt=""
-                  width={150}
-                  height={150}
-                />
-              );
-            })}
-          </div>}
+          {ticket.ticketAttachments?.length > 0 && (
+            <div className="flex justify-start items-start w-full h-[90px] px-2 py-2 mr-2 mb-5">
+              {ticket.ticketAttachments?.map((attachment, index) => {
+                return (
+                  <img
+                    className="mr-2"
+                    src={`http://localhost:3002/static/tickets/${attachment.filename}`}
+                    alt=""
+                    width={150}
+                    height={150}
+                  />
+                );
+              })}
+            </div>
+          )}
         </div>
 
         <>
           {ticket.ticketComments?.map((comment, index) => {
             return (
-              <div className="flex flex-col px-10 py-5 bg-white" key={comment.id}>
-              <div className="flex flex-row justify-between items-center  w-full py-3">
-            <h3 className="text-[12px] font-bold text-[#3E3F3F]">{ticket.gpUser.id === comment.user_id ? ticket.gpUser.vorname + " " + ticket.gpUser.nachname : "support Specialist"}</h3>
-            <h3 className="text-[12px] font-bold text-[#3E3F3F]">{new Date(ticket.updated_at).toLocaleDateString(
-              "us-Us", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              }
-            )}</h3>
-          
-          </div>
-          <p className="text-[12px] font-[400] text-[#3E3F3F] text-justify w-full my-1">{ticket.description}</p>
-          </div>
-              // <div className="flex flex-col px-10 py-5 " key={comment.id}>
-              //   <div className="flex flex-row justify-start w-full items-center mt-0 pt-0 text-[12px] font-[400]">
-              //     <svg
-              //       width="11"
-              //       height="11"
-              //       viewBox="0 0 11 11"
-              //       fill="none"
-              //       xmlns="http://www.w3.org/2000/svg"
-              //     >
-              //       <path
-              //         fill-rule="evenodd"
-              //         clip-rule="evenodd"
-              //         d="M8.00294 1.08977L9.91213 3.04031C10.0293 3.16001 10.0293 3.35407 9.91213 3.47377L8.00294 5.42431C7.88579 5.544 7.69584 5.544 7.57868 5.42431C7.46152 5.30461 7.46152 5.11055 7.57868 4.99086L8.97574 3.56354H3.7C2.5402 3.56354 1.6 4.52411 1.6 5.70903V10H1V5.70903C1 4.18556 2.20883 2.95054 3.7 2.95054H8.97574L7.57868 1.52323C7.46152 1.40353 7.46152 1.20947 7.57868 1.08977C7.69584 0.970076 7.88579 0.970076 8.00294 1.08977Z"
-              //         fill="#3E3F3F"
-              //         stroke="#3E3F3F"
-              //         stroke-width="0.3"
-              //       />
-              //     </svg>
+              <>
+              <div
+                className={`flex flex-col px-10 py-5 ${ticket.gpUser.id === comment.user_id
+                  ? ' bg-[#F5F7F9]'
+                  : 'bg-white'}`}
+                key={comment.id}
+              >
+                <div className="flex flex-row justify-between items-center  w-full py-3">
+                  <h3 className="text-[12px] font-bold text-[#3E3F3F]">
+                    {ticket.gpUser.id === comment.user_id
+                      ? ticket.gpUser.vorname + " " + ticket.gpUser.nachname
+                      : "support Specialist"}
+                  </h3>
+                  <h3 className="text-[12px] font-bold text-[#3E3F3F]">
+                    {new Date(ticket.updated_at).toLocaleDateString("us-Us", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </h3>
+                </div>
+                <p className="text-[12px] font-[400] text-[#3E3F3F] text-justify w-full my-1">
+                  {comment.body}
+                </p>
+              </div>
 
-              //     <h4 className="text-[0.75rem] font-semibold text-[#3E3F3F] ml-2">
-              //       Answer
-              //     </h4>
-              //   </div>
+              {/* <div className="bg-[#F5F7F9] flex flex-row"> */}
+                <div className={`flex flex-row px-10 flex-wrap ${ticket.gpUser.id === comment.user_id
+                  ? ' bg-[#F5F7F9]'
+                  : 'bg-white'} `}>
+                  {comment.ticketAttachments?.map((attachment, index) => {
+                    console.log(attachment.filename);
 
-              //   <p className="text-[#3E3F3F] text-justify font-light text-[0.75rem] my-3">
-              //     {comment.body}
-              //   </p>
-              //   <div className="flex flex-col my-3">
-              //     {comment.ticketAttachments?.map((attachment, index) => {
-              //       console.log(attachment.filename);
-
-              //       return (
-              //         <a
-              //           key={attachment.id}
-              //           target="_blank"
-              //           download={attachment.filename}
-              //           href={`http://localhost:3002/static/tickets/${attachment.filename}`}
-              //           className="text-[#3E3F3F] text-justify font-[400] text-sm bg-[#F5F7F9] rounded-lg px-5"
-              //         >
-              //           {attachment.filename}
-              //         </a>
-              //       );
-              //     })}
-              //   </div>
-              //   <hr className="w-full" />
-              // </div>
+                    return (
+                      <a
+                        key={attachment.id}
+                        target="_blank"
+                        download={attachment.filename}
+                        href={`http://localhost:3002/static/tickets/${attachment.filename}`}
+                        className={`text-[#3E3F3F] text-justify font-[400] mx-2 text-sm bg-[#F5F7F9] rounded-lg px-5 ${ticket.gpUser.id === comment.user_id
+                          ? 'bg-white'
+                          : 'bg-[#F5F7F9]'}`}
+                      >
+                        {attachment.filename}
+                      </a>
+                    );
+                  })}
+                </div>
+                {/* </div> */}
+                </>
+              
             );
           })}
         </>
-        <div className="flex justify-start items-center  my-3 px-10 pt-4 mb-8">
+        <div className="flex flex-col justify-start items-start  px-10 pt-4 pb-8 bg-white">
+          <textarea
+          value={answer}
+          onChange={(e) => setAnswer(e.target.value)}
+            className="w-full h-20 bg-[#F5F7F9] rounded-lg px-5 py-3 mb-5 focus:border-[#d01e1e]"
+            placeholder="Write your answer here..."
+          ></textarea>
           {/* <div className="text-[#3E3F3F] text-justify font-[400] text-sm bg-[#F5F7F9] rounded-lg px-5"> */}
-          <div className="text-[#3E3F3F]  font-[400] bg-[#F5F7F9] text-sm  rounded-2xl px-3 py-1 mb-6s flex">
+          <div className="flex flex-row justify-start items-center w-full">
+          <div className="text-[#3E3F3F]  font-[400] bg-[#F5F7F9] text-sm  rounded-2xl px-3 py-1 mb-6s flex mr-5">
             Choose Status &nbsp; &nbsp; &nbsp;
             {Object.keys(status)
               .slice(0, 4)
@@ -570,8 +578,99 @@ function TicketModal({ ticket }) {
                 );
               })}
           </div>
+          <div htmlFor="file"
+          onClick={() => {
+            fileInputRef.current.click();
+          }}
+           className="text-[#3E3F3F] cursor-pointer font-[400] bg-[#F5F7F9] text-sm  rounded-2xl px-3 py-1 mb-6s flex w-[40%]">
+            {/* choose file or Drop Files here to Upload */}
+            <label htmlFor="file" className="w-full flex flex-row justify-start items-center cursor-pointer">
+              <svg
+              htmlFor="file"
+                width="14"
+                height="18"
+                viewBox="0 0 14 18"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g id="Vector">
+                  <path
+                    d="M5.40644 1C5.64128 1.0771 5.89178 1.12407 6.10822 1.23678C6.86441 1.63208 7.27226 2.26455 7.3114 3.12284C7.32079 3.32441 7.31257 3.52714 7.31257 3.75023C7.38224 3.75023 7.43704 3.75023 7.49223 3.75023C8.1173 3.75023 8.74198 3.75297 9.36705 3.74827C9.50874 3.7471 9.61716 3.79484 9.71422 3.8923C10.7628 4.94237 11.8149 5.9897 12.858 7.04525C12.9363 7.12431 12.9934 7.26325 12.9938 7.3744C13.0012 10.1552 13.0008 12.9359 12.9985 15.7167C12.9977 16.4572 12.4544 16.9984 11.7163 16.9988C8.57093 17.0004 5.42522 17.0004 2.2799 16.9988C1.54993 16.9988 1.00236 16.4579 1.00158 15.7284C0.999229 12.1614 0.999621 8.59434 1.00197 5.0273C1.00236 4.28916 1.54915 3.75375 2.28969 3.75062C2.49752 3.74983 2.70575 3.75062 2.93824 3.75062C2.93824 3.60698 2.94255 3.46882 2.93746 3.33067C2.91593 2.70994 3.09794 2.16201 3.52261 1.70292C3.86235 1.3358 4.2788 1.10763 4.77471 1.02935C4.79859 1.02544 4.8209 1.01018 4.8436 1C5.03108 1 5.21895 1 5.40644 1ZM4.15786 4.37448C3.54962 4.37448 2.96212 4.37448 2.37462 4.37448C1.87049 4.37448 1.62782 4.61713 1.62782 5.12201C1.62782 8.62604 1.62782 12.1301 1.62782 15.6345C1.62782 16.1292 1.87284 16.3746 2.36601 16.375C5.4538 16.375 8.54158 16.375 11.6294 16.375C12.1257 16.375 12.3726 16.1311 12.3726 15.6396C12.373 13.0259 12.3726 10.4119 12.3726 7.79827V7.6245C11.746 7.6245 11.1425 7.6245 10.5393 7.6245C9.68174 7.6241 9.12594 7.06991 9.1232 6.20966C9.12125 5.65781 9.1232 5.10597 9.1232 4.55373C9.1232 4.49815 9.1232 4.44297 9.1232 4.38309H7.31609C7.31609 4.44727 7.31609 4.50324 7.31609 4.55921C7.31492 5.09031 7.32196 5.62141 7.31101 6.15252C7.29261 7.04408 6.35285 7.78379 5.47845 7.60375C4.66942 7.43702 4.16021 6.81434 4.15864 5.98696C4.15747 5.45664 4.15864 4.92632 4.15864 4.37448H4.15786ZM4.15864 3.74357C4.15864 3.53379 4.15277 3.34123 4.15981 3.14907C4.18408 2.48294 4.82559 2.04264 5.44714 2.26181C5.84402 2.40192 6.08591 2.77334 6.08669 3.25357C6.08826 4.1283 6.08748 5.00342 6.08709 5.87816C6.08709 6.16935 5.97515 6.32159 5.76457 6.32081C5.55517 6.32003 5.44597 6.16778 5.44597 5.87424C5.44597 5.02025 5.44597 4.16587 5.44597 3.31188C5.44597 3.24965 5.44675 3.18664 5.4397 3.1248C5.4217 2.96434 5.29723 2.84888 5.13911 2.84105C4.9755 2.83283 4.84516 2.92833 4.81033 3.08997C4.79506 3.16042 4.78919 3.234 4.7888 3.30601C4.78723 4.15491 4.78684 5.00382 4.7888 5.85272C4.7888 5.97209 4.79624 6.09224 4.81111 6.21044C4.87021 6.6801 5.37238 7.05739 5.83698 6.98537C6.36185 6.90397 6.68633 6.53137 6.6875 5.9987C6.68985 5.08718 6.68633 4.17605 6.68907 3.26452C6.69024 2.83557 6.55481 2.46259 6.27379 2.13657C5.77475 1.55732 4.79545 1.47122 4.19387 1.94323C3.5958 2.41249 3.51791 3.04731 3.57741 3.74318L4.15864 3.74357ZM11.8689 6.99946C11.162 6.29224 10.4559 5.5858 9.74945 4.87857C9.74945 5.33218 9.74671 5.79871 9.75023 6.26484C9.75376 6.68597 10.0379 6.98616 10.4614 6.99672C10.9342 7.00846 11.4074 6.99946 11.8689 6.99946Z"
+                    fill="#0E76BB"
+                  />
+                  <path
+                    d="M6.98317 9.2495C6.18667 9.2495 5.39016 9.24872 4.59365 9.25029C4.44883 9.25029 4.34159 9.19393 4.27936 9.06321C4.22456 8.94814 4.23356 8.82173 4.32672 8.74658C4.40774 8.68122 4.52751 8.63191 4.63044 8.63073C5.45826 8.62173 6.28608 8.62565 7.11351 8.62565C7.87362 8.62565 8.63372 8.62486 9.39383 8.62643C9.57348 8.62682 9.69247 8.72388 9.7183 8.87887C9.74492 9.03777 9.67211 9.17867 9.52534 9.22759C9.46311 9.24833 9.39265 9.24911 9.32572 9.24911C8.54487 9.25068 7.76402 9.2495 6.98317 9.2495Z"
+                    fill="#0E76BB"
+                  />
+                  <path
+                    d="M6.99883 10.8753C7.79025 10.8753 8.58166 10.8749 9.37269 10.8757C9.55195 10.8757 9.67407 10.9559 9.71321 11.0925C9.77153 11.2968 9.63885 11.4878 9.42436 11.4976C9.27367 11.5046 9.12258 11.4995 8.9715 11.4995C7.55032 11.4995 6.12913 11.4995 4.70755 11.4995C4.66606 11.4995 4.62418 11.5007 4.58269 11.4995C4.38464 11.4933 4.24687 11.3614 4.25 11.1825C4.25313 11.0095 4.38817 10.8804 4.578 10.8769C4.78622 10.8729 4.99445 10.8757 5.20268 10.8757C5.80152 10.8757 6.39998 10.8753 6.99883 10.8753Z"
+                    fill="#0E76BB"
+                  />
+                  <path
+                    d="M6.98904 13.7496C6.19762 13.7496 5.40621 13.7484 4.61518 13.7508C4.48015 13.7508 4.36899 13.7155 4.29658 13.5958C4.18268 13.4075 4.29658 13.1641 4.51498 13.1296C4.5506 13.1242 4.58778 13.1253 4.62418 13.1253C6.20154 13.1253 7.77889 13.1253 9.35664 13.1253C9.54961 13.1253 9.6729 13.2017 9.7136 13.3414C9.77623 13.5574 9.6318 13.7465 9.39461 13.7484C8.97816 13.7519 8.5617 13.7496 8.14525 13.7496C7.76011 13.7496 7.37418 13.7496 6.98904 13.7496Z"
+                    fill="#0E76BB"
+                  />
+                  <path
+                    d="M5.40644 1C5.64128 1.0771 5.89178 1.12407 6.10822 1.23678C6.86441 1.63208 7.27226 2.26455 7.3114 3.12284C7.32079 3.32441 7.31257 3.52714 7.31257 3.75023C7.38224 3.75023 7.43704 3.75023 7.49223 3.75023C8.1173 3.75023 8.74198 3.75297 9.36705 3.74827C9.50874 3.7471 9.61716 3.79484 9.71422 3.8923C10.7628 4.94237 11.8149 5.9897 12.858 7.04525C12.9363 7.12431 12.9934 7.26325 12.9938 7.3744C13.0012 10.1552 13.0008 12.9359 12.9985 15.7167C12.9977 16.4572 12.4544 16.9984 11.7163 16.9988C8.57093 17.0004 5.42522 17.0004 2.2799 16.9988C1.54993 16.9988 1.00236 16.4579 1.00158 15.7284C0.999229 12.1614 0.999621 8.59434 1.00197 5.0273C1.00236 4.28916 1.54915 3.75375 2.28969 3.75062C2.49752 3.74983 2.70575 3.75062 2.93824 3.75062C2.93824 3.60698 2.94255 3.46882 2.93746 3.33067C2.91593 2.70994 3.09794 2.16201 3.52261 1.70292C3.86235 1.3358 4.2788 1.10763 4.77471 1.02935C4.79859 1.02544 4.8209 1.01018 4.8436 1C5.03108 1 5.21895 1 5.40644 1ZM4.15786 4.37448C3.54962 4.37448 2.96212 4.37448 2.37462 4.37448C1.87049 4.37448 1.62782 4.61713 1.62782 5.12201C1.62782 8.62604 1.62782 12.1301 1.62782 15.6345C1.62782 16.1292 1.87284 16.3746 2.36601 16.375C5.4538 16.375 8.54158 16.375 11.6294 16.375C12.1257 16.375 12.3726 16.1311 12.3726 15.6396C12.373 13.0259 12.3726 10.4119 12.3726 7.79827V7.6245C11.746 7.6245 11.1425 7.6245 10.5393 7.6245C9.68174 7.6241 9.12594 7.06991 9.1232 6.20966C9.12125 5.65781 9.1232 5.10597 9.1232 4.55373C9.1232 4.49815 9.1232 4.44297 9.1232 4.38309H7.31609C7.31609 4.44727 7.31609 4.50324 7.31609 4.55921C7.31492 5.09031 7.32196 5.62141 7.31101 6.15252C7.29261 7.04408 6.35285 7.78379 5.47845 7.60375C4.66942 7.43702 4.16021 6.81434 4.15864 5.98696C4.15747 5.45664 4.15864 4.92632 4.15864 4.37448H4.15786ZM4.15864 3.74357C4.15864 3.53379 4.15277 3.34123 4.15981 3.14907C4.18408 2.48294 4.82559 2.04264 5.44714 2.26181C5.84402 2.40192 6.08591 2.77334 6.08669 3.25357C6.08826 4.1283 6.08748 5.00342 6.08709 5.87816C6.08709 6.16935 5.97515 6.32159 5.76457 6.32081C5.55517 6.32003 5.44597 6.16778 5.44597 5.87424C5.44597 5.02025 5.44597 4.16587 5.44597 3.31188C5.44597 3.24965 5.44675 3.18664 5.4397 3.1248C5.4217 2.96434 5.29723 2.84888 5.13911 2.84105C4.9755 2.83283 4.84516 2.92833 4.81033 3.08997C4.79506 3.16042 4.78919 3.234 4.7888 3.30601C4.78723 4.15491 4.78684 5.00382 4.7888 5.85272C4.7888 5.97209 4.79624 6.09224 4.81111 6.21044C4.87021 6.6801 5.37238 7.05739 5.83698 6.98537C6.36185 6.90397 6.68633 6.53137 6.6875 5.9987C6.68985 5.08718 6.68633 4.17605 6.68907 3.26452C6.69024 2.83557 6.55481 2.46259 6.27379 2.13657C5.77475 1.55732 4.79545 1.47122 4.19387 1.94323C3.5958 2.41249 3.51791 3.04731 3.57741 3.74318L4.15864 3.74357ZM11.8689 6.99946C11.162 6.29224 10.4559 5.5858 9.74945 4.87857C9.74945 5.33218 9.74671 5.79871 9.75023 6.26484C9.75376 6.68597 10.0379 6.98616 10.4614 6.99672C10.9342 7.00846 11.4074 6.99946 11.8689 6.99946Z"
+                    stroke="#0E76BB"
+                    stroke-width="0.4"
+                  />
+                  <path
+                    d="M6.98317 9.2495C6.18667 9.2495 5.39016 9.24872 4.59365 9.25029C4.44883 9.25029 4.34159 9.19393 4.27936 9.06321C4.22456 8.94814 4.23356 8.82173 4.32672 8.74658C4.40774 8.68122 4.52751 8.63191 4.63044 8.63073C5.45826 8.62173 6.28608 8.62565 7.11351 8.62565C7.87362 8.62565 8.63372 8.62486 9.39383 8.62643C9.57348 8.62682 9.69247 8.72388 9.7183 8.87887C9.74492 9.03777 9.67211 9.17867 9.52534 9.22759C9.46311 9.24833 9.39265 9.24911 9.32572 9.24911C8.54487 9.25068 7.76402 9.2495 6.98317 9.2495Z"
+                    stroke="#0E76BB"
+                    stroke-width="0.4"
+                  />
+                  <path
+                    d="M6.99883 10.8753C7.79025 10.8753 8.58166 10.8749 9.37269 10.8757C9.55195 10.8757 9.67407 10.9559 9.71321 11.0925C9.77153 11.2968 9.63885 11.4878 9.42436 11.4976C9.27367 11.5046 9.12258 11.4995 8.9715 11.4995C7.55032 11.4995 6.12913 11.4995 4.70755 11.4995C4.66606 11.4995 4.62418 11.5007 4.58269 11.4995C4.38464 11.4933 4.24687 11.3614 4.25 11.1825C4.25313 11.0095 4.38817 10.8804 4.578 10.8769C4.78622 10.8729 4.99445 10.8757 5.20268 10.8757C5.80152 10.8757 6.39998 10.8753 6.99883 10.8753Z"
+                    stroke="#0E76BB"
+                    stroke-width="0.4"
+                  />
+                  <path
+                    d="M6.98904 13.7496C6.19762 13.7496 5.40621 13.7484 4.61518 13.7508C4.48015 13.7508 4.36899 13.7155 4.29658 13.5958C4.18268 13.4075 4.29658 13.1641 4.51498 13.1296C4.5506 13.1242 4.58778 13.1253 4.62418 13.1253C6.20154 13.1253 7.77889 13.1253 9.35664 13.1253C9.54961 13.1253 9.6729 13.2017 9.7136 13.3414C9.77623 13.5574 9.6318 13.7465 9.39461 13.7484C8.97816 13.7519 8.5617 13.7496 8.14525 13.7496C7.76011 13.7496 7.37418 13.7496 6.98904 13.7496Z"
+                    stroke="#0E76BB"
+                    stroke-width="0.4"
+                  />
+                </g>
+              </svg>
+              <p className="text-xs text-[#8F8F8F] mx-4">
+              <span className="text-[#0E76BB]">Attach file</span> or Drop files here to upload
+              </p>
+              </label>
+              <input
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                type="file"
+                name="file"
+                className="hidden w-0"
+                multiple
+              />
+             
+          </div>
+          
+          </div>
+          <button 
+          onClick={() =>{
+            // create a new form data object and add answer state as body, and files as file key value pair
+            const formData = new FormData();
+            formData.append("body", answer);
 
-          {/* </div> */}
+            files.forEach((file) => {
+              formData.append("files", file);
+            }
+            );
+            // call the post request function
+            try{
+              postComment(ticket.id,formData);
+            }catch(err){
+              console.log(err);
+            }
+
+          }}
+          className="bg-[#D8E4EE] text-lg font-bold rounded-lg text-[#0E76BB] px-5 py-3 mt-4 ml-1
+            hover:bg-[#0E76BB] hover:text-white transition duration-300 ease-in-out
+          ">
+            Send
+          </button>
         </div>
       </div>
     </>
