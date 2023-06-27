@@ -158,8 +158,8 @@ export default () => {
           router[0].url?.split('?')?.[0]?.split('/').filter(item => item !== '')
           .map((item, index) => {
             return (
-              <Anchor href={`${index === 0 ? '/' : ''}${item}`} className="text-neutral-500">
-                  {item.split('_').join(' ').toUpperCase().toLocaleUpperCase('de')}
+              <Anchor href={getHrefByIndex(router[0].url, index)} className="text-neutral-500">
+                  {getLabelFromURI(item).toUpperCase().toLocaleUpperCase('de')}
                 </Anchor>
               )
             })
@@ -169,3 +169,21 @@ export default () => {
     </div>
   )
 }
+
+const getHrefByIndex = (path, index) => {
+  const pathSegments = path.split('?')[0].split('/').filter(item => item !== '');
+  let href = '';
+  for (let i = 0; i <= index; i++) {
+    href += '/' + pathSegments[i];
+  }
+  return href;
+};
+
+const getLabelFromURI = (uri) => {
+  // Decode the URI component to get the original string
+  let decoded = decodeURIComponent(uri);
+  // Replace underscores with spaces
+  let replaced = decoded.split('_').join(' ');
+  // Return the final label
+  return replaced;
+};

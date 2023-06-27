@@ -1,120 +1,139 @@
-import { Input } from "@mantine/core"
-import { useClickOutside, useInputState } from "@mantine/hooks"
+import { Input, Loader } from "@mantine/core"
+import { useClickOutside, useDebouncedState, useDidUpdate } from "@mantine/hooks"
 import { IconSearch } from "@tabler/icons"
-import GeoCodingOSM from "geocoding-osm"
-import { useEffect, useState } from "preact/hooks"
+import { useState } from "preact/hooks"
 import { useMap } from "react-map-gl"
-import {booleanWithin} from '@turf/turf'
-import { districts,dropvalue, regsionListSignal } from "../../../../signals"
+import { booleanWithin } from '@turf/turf'
+import { districts, dropvalue, regsionListSignal } from "../../../../signals"
 
 import { showNotification } from "@mantine/notifications"
 
-GeoCodingOSM.setLanguage("de")
 
-export default ({within=false,nohead=false}) => {
-    const [search, setSearch] = useInputState("")
+
+export default ({ within = false, nohead = false }) => {
+    const [search, setSearch] = useDebouncedState("", 500)
     const [searchResult, setSearchResult] = useState([])
+    const [loading, setLoading] = useState(false)
+    
     const ref = useClickOutside(() => setSearchResult([]))
     const map = useMap()?.current
-   
-    const community = districts.value?.features?.find((district) => district.properties.c[0] === dropvalue.value)
-                          
-    useEffect(() => {
-        if (search.length > 0) {
-            (async () => {
-                const geo = new GeoCodingOSM()
-                
-                const result = await geo.search({
-                    q: search,
-                    addressdetails: 1,
-                    extratags: 1,
-                    namedetails: 1,
-                    countrycodes: "de",
 
-                    
-                })
+    const community = districts.value?.features?.find((district) => district.properties.c[0] === dropvalue.value)
+
+    useDidUpdate(() => {
+        if (search.length > 0) {
+            setLoading(true);
+            (async () => {
+            
+                const req = await fetch(`https://sg.geodatenzentrum.de/gdz_geokodierung__6b23477c-4ea6-1a73-d0f0-c6c82cfa13d6/suggest?query=${search}`)
+                const result = await req.json()
+
+
                 setSearchResult(result)
-              
+                setLoading(false)
             })()
         }
     }, [search])
 
-const goTo = (item) => {
-    
-    districts.value?.features.forEach((district) => {
-        const point = {
-            type: 'Feature',
-            geometry: {
-                type: 'Point',
-                coordinates: [item.lon, item.lat]
-            }
-        }
-        if(booleanWithin(point, district)){
-            if(regsionListSignal.value?.map((item) => item.ags).includes(district.properties.c[0])){
-            dropvalue.value = district.properties.c[0]
-            }else{
-                showNotification({
-                    title: "District not available",
-                    message: "This district is not available right now.",
-                    color: "red",
-                })
-            }
-        }
-    })
-
-    setTimeout(() => {
-        map.flyTo({
-            center: [item.lon, item.lat],
-            zoom: 15,
-        })
-    }, 2000)
-
-    setSearchResult([])
-}
+    const goTo = async (item) => {
 
 
-    return (
-        <>
-            <div className={`absolute flex flex-col w-64 z-50 left-2 top-${!nohead ? '2' : '2'}`}>
-                <Input value={search} onChange={setSearch}
-                    placeholder="Search" color="white" icon={<IconSearch className=" text-[#0E76BB] " />} variant="unstyled" className="shadow-lg text-[#0E76BB] bg-white  border-white border-solid border-2 rounded-lg" />
-                 
-                 <div className={` flex flex-col left-2 `} ref={ref}>
-                {
-                    searchResult
-                    .filter((item) => {
-                        if(within){
-                            const point = {
-                                type: 'Feature',
-                                geometry: {
-                                    type: 'Point',
-                                    coordinates: [item.lon, item.lat]
-                                }
-                            }
-                            return booleanWithin(point, community)
-                        }else{
-                            return true
+
+        if (item) {
+            const req = await fetch(`https://sg.geodatenzentrum.de/gdz_geokodierung__6b23477c-4ea6-1a73-d0f0-c6c82cfa13d6/geosearch?query=${item.suggestion}`)
+            const result = await req.json()
+           
+
+            if (result.features.length > 0) {
+                const firstFeatureCoordinates = result.features[0].geometry.coordinates
+
+
+                const founddistricts = districts.value?.features.map((district) => {
+                    const point = {
+                        type: 'Feature',
+                        geometry: {
+                            type: 'Point',
+                            coordinates: [firstFeatureCoordinates[0], firstFeatureCoordinates[1]],
                         }
-                    })?.map((item, index) => {
-                        return (
-                            <>
-                            <div 
-                            onClick={() => goTo(item)}
-                            key={index} className="bg-white shadow-lg rounded-lg p-2 cursor-pointer hover:bg-slate-100 hover:scale-105 transition-all">
-                                {
-                                    item.display_name
-                                }
-                            </div>
-                            <hr />
-                                </>
-                        )
+                    }
+                    if (booleanWithin(point, district)) {
+                        if (regsionListSignal.value?.map((item) => item.ags).includes(district.properties.c[0])) {
+                            dropvalue.value = district.properties.c[0]
+                            setTimeout(() => {
+                                map.flyTo({
+                                    center: [firstFeatureCoordinates[0], firstFeatureCoordinates[1]],
+                                    zoom: 15,
+                                })
+                            }, 1000)
+                            return district 
+                        } else {
+                            showNotification({
+                                title: "District not available",
+                                message: "This district is not available right now.",
+                                color: "red",
+                            })
+                        }
+                    }
+                })
+
+                if(founddistricts.length === 0){
+                    showNotification({
+                        title: "District not available",
+                        message: "This district is not available right now.",
+                        color: "red",
                     })
                 }
-            </div>
 
-            </div>
-           
-        </>
 
-    )
-}
+
+                
+            }
+
+            setSearchResult([])
+        }
+
+    }
+
+
+        return (
+            <>
+                <div className={`absolute flex flex-col w-64 z-50 left-2 top-${!nohead ? '2' : '2'}`}>
+                    <Input 
+                    
+                    value={search} onChange={(e) => {
+                        setSearch(e.currentTarget.value)
+                    }}
+                    rightSection={
+                       loading && <Loader size={'sm'} />
+                    }
+                        placeholder="Search" color="white" icon={<IconSearch className=" text-[#0E76BB] " />} variant="unstyled" className="shadow-lg text-[#0E76BB] bg-white  border-white border-solid border-2 rounded-lg" />
+
+                    <div className={` flex flex-col left-2 max-h-96 overflow-y-auto`} ref={ref}>
+                        {
+                            searchResult?.map((item, index) => {
+                                    return (
+                                        <>
+                                            <div
+                                                onClick={() => goTo(item)}
+                                                key={index} className="bg-white bg-opacity-0 backdrop-blur-xl shadow-lg p-2 cursor-pointer hover:bg-opacity-30 hover:scale-96 transition-all">
+                                                <div className="flex flex-row justify-between">
+                                                    <div className="flex flex-col">
+                                                        <div className="text-sm" dangerouslySetInnerHTML={{ __html: item.highlighted }} />
+                                                        <div className="text-xs text-gray-500">{item.type}</div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <hr />
+                                        </>
+                                    )
+                                })
+                        }
+                    </div>
+
+                </div>
+
+            </>
+
+        )
+    }

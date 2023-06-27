@@ -56,7 +56,7 @@ export default () => {
             
                     {!loading ?
                         <CustomTable
-                            attributes={['name', 'description', 'permissions']}
+                            attributes={['id','name', 'description', 'permissions']}
                             title={'Roles and Permissions'}
                             remove
                             

@@ -11,7 +11,7 @@ export default function TicketCreationPage() {
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
   const [priorities, setPriorities] = useState([]);
-
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchTicketData = async () => {
@@ -35,12 +35,38 @@ export default function TicketCreationPage() {
 
     const form = e.target;
     const formData = new FormData(form);
-    const ticketData = Object.fromEntries(formData.entries());
-    console.log(ticketData)
-    return
-    const ticketPosted = await postTicket(ticketData)
-    console.log(ticketPosted)
+   
+    const files = formData.getAll('file');
+    
+    // check all files are less than 512kb
+    for (let i = 0; i < files.length; i++) {
+      if (files[i].size > 512000) {
+        setError('File size must be less than 512kb');
+        setLoading(false);
+        return;
+      }
+    }
 
+    // check if category is selected
+    // check if priority is selected
+
+    if(!formData.get('category_id') || !formData.get('priority_id')){
+      setError('Please select a category and priority');
+      setLoading(false);
+      return;
+    }
+    
+    // local urls of each file
+    const fileUrls = [];
+    for (let i = 0; i < files.length; i++) {
+      fileUrls.push(URL.createObjectURL(files[i]));
+    }
+
+
+    try{
+    const ticketPosted = await postTicket(formData)
+    
+  
     openModal({
       title: <></>,
 
@@ -50,12 +76,26 @@ export default function TicketCreationPage() {
         header: 'bg-brand py-1',
         body: 'p-0',
       },
-      children: <ThanksModalContent ticketNumber={1103891} currentStatus={'sent'} date={'May 29, 2023'} name="elon musk" problemType="mapView" title="map Problem" description="The map does not show a new connection line"
-        attatchedFiles={['file1.png', 'file2.png']}
+      children: <ThanksModalContent 
+      ticketNumber={ticketPosted.data.id}
+      currentStatus={'open'}
+      date={new Date().toLocaleDateString()}
+      name={ticketPosted.data.title}
+      problemType={categories.find((category) => category.id === ticketPosted.data.category_id).name}
+      title={ticketPosted.data.title}
+      description={ticketPosted.data.description}
+        attatchedFiles={fileUrls}
       />,
     });
     return;
-    
+  } catch (err) {
+    console.log(err)
+    setError(err.message);
+   
+    return;
+  } finally {
+    setLoading(false);
+  }
 
   };
 
@@ -166,10 +206,14 @@ export default function TicketCreationPage() {
             </Text>
           </Box>
           <FileInput
+          label='Max file size 512KB'
+          labelProps={{ className: 'text-[10px]' }}
             icon={<IconPaperclip size={23} className='text-sky-600' />}
             size='sm'
             placeholder='Attatch files'
             multiple
+            name="file"
+            error={error}
             variant='filled'
             className='flex-[3]'
             classNames={{ input: 'rounded-r-full relative' }} />
@@ -247,7 +291,7 @@ export const ThanksModalContent = ({ ticketNumber, currentStatus, date, name, pr
 
               {
                 attatchedFiles.map((file) => (
-                  <Image src={file.url} alt={file.name} width={100} height={100} mr={15} />
+                  <Image src={file} alt={"Uploaded Attatchment"} width={100} height={100} mr={15} />
                 ))
               }
             </Flex>
@@ -256,7 +300,7 @@ export const ThanksModalContent = ({ ticketNumber, currentStatus, date, name, pr
       </Container>
       <div style={{ backgroundImage: 'url("/horizontal blue background.svg")' }} className="w-full py-8" >
         <div className='bg-white flex text-center text-xs p-2 justify-center'>
-          You can <Link href="support_ticket/edit_or_check_ticket_status" className="text-sky-600 px-1"> Edit </Link> or <Link href="support_ticket/edit_or_check_ticket_status" className="text-sky-600 px-1"> Check Status </Link> of your ticket anytime!
+          You can <Link href={"support_ticket/"+ticketNumber} className="text-sky-600 px-1"> Edit </Link> or <Link href="support_ticket/edit_or_check_ticket_status" className="text-sky-600 px-1"> Check Status </Link> of your ticket anytime!
         </div>
 
       </div>

@@ -8,8 +8,30 @@ import New from "./New.svg";
 import MessageBox from "./MessageBox.svg";
 import TextPen from "./TextPen.svg";
 import Ellipse from "./Ellipse.svg";
-
+import { useRouter } from "preact-router";
+import { useLayoutEffect,useState } from "preact/hooks";
+import { getTickets } from "../../../../api";
 export default () => {
+  const router = useRouter()
+  const [data,setdata] = useState({})
+  const getTicketData = () => {
+    const matches = router[0].matches
+    getTickets(matches?.edit_or_check_ticket_status).then((res) => {
+      setdata(res.data)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }
+
+  useLayoutEffect(() => {
+    getTicketData()
+
+  
+    return () => {
+      
+    };
+  }, [])
     return (
         <div className="w-full h-full overflow-y-auto bg-white">
             <div className="p-12">
@@ -74,39 +96,7 @@ const useStyles = createStyles((theme) => ({
 function TicketDetails() {
     const { classes } = useStyles();
     return (
-        // <Accordion
-            
-        //     mx="auto"
-        //     variant="filled"
-        //     defaultValue="customization"
-        //     classNames={classes}
-        //     className={classes.root}
-        // >
-        //     <Accordion.Item value="photos">
-        //         <Accordion.Control icon={<IconPhoto size={20} color={'brand'} />}>
-        //             Recent photos
-        //         </Accordion.Control>
-        //         <Accordion.Panel>
-        //             <Paper withBorder padding="md">
-        //                 jakdjaklsjd
-        //             </Paper>
-        //         </Accordion.Panel>
-        //     </Accordion.Item>
-
-        //     <Accordion.Item value="print">
-        //         <Accordion.Control icon={<IconPrinter size={20} color={'brand'} />}>
-        //             Print photos
-        //         </Accordion.Control>
-        //         <Accordion.Panel>Content</Accordion.Panel>
-        //     </Accordion.Item>
-
-        //     <Accordion.Item value="camera">
-        //         <Accordion.Control icon={<IconCameraSelfie size={20} color={'brand'} />}>
-        //             Camera settings
-        //         </Accordion.Control>
-        //         <Accordion.Panel>Content</Accordion.Panel>
-        //     </Accordion.Item>
-        // </Accordion>
+        
         <Component />
     );
 }

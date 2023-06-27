@@ -12,4 +12,5 @@ export const PERMISSIONS = {
     "RaiseTicket": "RaiseTicket",
     "ReplyTicket": "ReplyTicket",
     "FAQ":"FAQ",
+    "SupportTeam" : "SupportTeam",
 }

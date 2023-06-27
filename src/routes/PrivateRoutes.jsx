@@ -34,7 +34,7 @@ const TypeRoutes = {
         <FAQ path="/support_team/faq" />,
         <FAQCategory path="/support_team/faq/:id" />,
         <CreateTicket path="/support_team/support_ticket" />,
-        <EditOrCheckStatusTicket path="/support_team/support_ticket/edit_or_check_ticket_status" />,
+        <EditOrCheckStatusTicket path="/support_team/support_ticket/:edit_or_check_ticket_status" />,
     ],
 }
 

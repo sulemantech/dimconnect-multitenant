@@ -93,6 +93,12 @@ export const permissible = signal([
         "view": false,
         "edit": false,
         "delete": false
+    },{
+        "activity": "SupportTeam",
+        "add": false,
+        "view": false,
+        "edit": false,
+        "delete": false
     }
 ])
 

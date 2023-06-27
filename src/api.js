@@ -3,10 +3,6 @@ import appConfig from "./config/appConfig";
 
 const api = axios.create({
     baseURL: appConfig.backendUrl,
-   
-    // headers: (localStorage.getItem(appConfig.localStorageKeyWebview) || appConfig.localStorageKey) ? {
-    //     "authorization": `Bearer ${localStorage.getItem(appConfig.localStorageKeyWebview) || appConfig.localStorageKey}`,
-    // } : {},
 });
 
 export default api;
@@ -57,7 +53,7 @@ export const getUserById = {
 export const getPermissions = () => api.get(`/permissions`)
 export const createPermission = (data, title) => api.post(`/permissions/${title}`, data)
 export const deletePermission = (id) => api.delete(`/permissions/${id}`)
-export const editPermission = (id, data) => api.patch(`/permissions/${id}`, data)
+export const editPermission = (id, data) => api.put(`/permissions/${id}`, data)
 
 
 export const getAccessList = (roleId) => api.get(`/permission/accesslist/${roleId}`)
@@ -91,3 +87,4 @@ export const getTicketPriorities = () => api.get(`/ticketpriority/all`)
 export const postTicket = (data) => api.post(`/tickets`, data)
 
 export const getFAQs = (auth) => api.get(`/faqs?auth=${auth}`)
+export const getTickets = (id) => api.get(`/tickets/${id}`)

@@ -76,6 +76,7 @@ export default ({ children, title, data, attributes = [], newStruct = {}, refres
                 values[key] = values[key]
             }
         })
+       
 
         newStruct.createMethod(values).then((res) => {
             setsubmitLoading(false)

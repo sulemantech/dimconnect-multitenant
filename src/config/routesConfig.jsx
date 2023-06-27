@@ -26,22 +26,22 @@ export const privateRoutes = [{
 },
 {
     label: 'Support Team',
-    permission: PERMISSIONS.Ticket,
+    permission: PERMISSIONS.SupportTeam,
     path: `/support_team`,
     icon: icons.supportTeamIcon,
     subroutes: [{
         label: 'FAQ',
         path: `/support_team/faq`,
-        permission: PERMISSIONS.Ticket,
+        permission: PERMISSIONS.SupportTeam,
         icon: icons.FAQIcon,
     }, {
         label: 'Support Ticket',
-        permission: PERMISSIONS.Ticket,
+        permission: PERMISSIONS.SupportTeam,
         path: `/support_team/support_ticket`,
         icon: icons.TicketIconBlue,
     }, {
         label: 'Contacts',
-        permission: PERMISSIONS.Ticket,
+        permission: PERMISSIONS.SupportTeam,
         path: `/support_team/contacts`,
         icon: icons.ContactIcon,
 

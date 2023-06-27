@@ -133,7 +133,7 @@ export default () => {
 
                         {ready ? <CustomTable
                             title="Users Management"
-                            attributes={['id', 'email', 'userRole', 'vorname', 'nachname', 'agreement_signed', 'Assign Role']}
+                            attributes={['id', 'email', 'userRole', 'vorname', 'nachname', 'agreement_signed','roles', 'Assign Role']}
                             remove
                             edit
                             data={data}
