@@ -1,11 +1,11 @@
-import { IconLock } from '@tabler/icons'
-import { useContext, useEffect, useState } from 'preact/hooks'
+
+import { useContext,useState } from 'preact/hooks'
 import { AuthState } from '../../providers/AuthProvider'
 import PublicWrapper from '../../providers/PublicWrapper'
 import api, { postAuth } from '../../api'
 import Logo from '../../components/Logo'
 import appConfig from '../../config/appConfig'
-import { Button, Divider, Input, Loader, PasswordInput, TextInput } from '@mantine/core'
+import { Button, Input, PasswordInput } from '@mantine/core'
 
 // import {logo} from '../../../public/logo.svg'
 export default () => {
@@ -45,30 +45,31 @@ export default () => {
 
 
 
-      <div className="min-w-[350px] rounded-lg shadow-2xl pb-20  bg-[#FFFFFF26] bg-white  backdrop-blur-md max-[850px]:w-[200px] max-[850px]:h-[350px]">
+      <div className="min-w-[350px] rounded-lg shadow-2xl pb-14  bg-[#FFFFFF26] max-h-[80vh] backdrop-blur-md max-[850px]:w-[200px] max-[850px]:h-[350px]">
         <div className="flex justify-center">
           <div className=" mt-[40px] w-[200px] max-[850px]:h-[100px] max-[850px]:mt-[20px]" >
             <Logo />
           </div>
         </div>
-        <p className="flex justify-center text-white text-[0.7rem] text-lg mt-12">
+        <p className="flex justify-center text-white text-[0.7rem] text-sm mt-6">
           Willkommen!
         </p>
-        <p className="flex justify-center text-white text-[0.7rem]  text-lg mb-12">
+        <p className="flex justify-center text-white text-[0.7rem]  text-sm mb-6">
           Bitte melden Sie sick an.
         </p>
         <form className="mt-8 space-y-8" onSubmit={handleSubmit}>
-          <div className=" flex flex-1 flex-col space-y-6 px-8 mt-8">
-            <TextInput
-
+          <div className=" flex flex-1 flex-col space-y-6 px-8 mt-6">
+            <Input
+              color='blue'
               icon={<img src="/mail_in.svg" alt="" />}
               classNames={
                 {
-                  input: " text-white  border-none bg-transparent outline-none",
-                  wrapper: 'border-b-[1px] border-white'
+                  input: " text-white  border-none bg-transparent outline-none ",
+                  wrapper: 'border-b-[1px] border-white',
+                  
                 }}
+                
               type="email"
-
               placeholder="innayan@wifi-connect.eu"
               required
               name='email'
@@ -80,7 +81,8 @@ export default () => {
             <PasswordInput
               classNames={{
                 input: 'text-white border-none bg-transparent outline-none',
-                wrapper: 'border-b-[1px] border-white'
+                wrapper: 'border-b-[1px] border-white',
+                'innerInput' : 'text-white border-none bg-transparent outline-none'
               }}
               icon={<img src="/lock.svg" alt="" />}
 
@@ -90,7 +92,9 @@ export default () => {
               name='password'
             />
            
-            <p className="text-white text-[9px] font-light flex flex-row-reverse mt-2 mr-8 opacity-70 "></p>
+            <p className="text-red-700 text-xs font-light flex flex-row-reverse mt-2  ">
+              {error}
+            </p>
             {/* <img className=" w-[2rem] " src="closed_eye.svg" alt="" /> */}
           </div>
 

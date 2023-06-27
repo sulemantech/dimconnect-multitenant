@@ -83,22 +83,22 @@ export const permissible = signal([
         "delete": false
     },{
         "activity": "RaiseTicket",
-        "add": false,
-        "view": false,
-        "edit": false,
-        "delete": false
+        "add": true,
+        "view": true,
+        "edit": true,
+        "delete": true
     },{
         "activity": "ReplyTicket",
-        "add": false,
-        "view": false,
-        "edit": false,
-        "delete": false
+        "add": true,
+        "view": true,
+        "edit": true,
+        "delete": true
     },{
         "activity": "SupportTeam",
-        "add": false,
-        "view": false,
-        "edit": false,
-        "delete": false
+        "add": true,
+        "view": true,
+        "edit": true,
+        "delete": true
     }
 ])
 
