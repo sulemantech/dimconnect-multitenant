@@ -67,6 +67,7 @@ export default () => {
 
 
 function TicketDetails({ data }) {
+  console.log(data)
   return (
     <div>
       <Accordion
@@ -129,8 +130,9 @@ function TicketDetails({ data }) {
         </Accordion.Item>
        
         {
+          
           data?.ticketComments?.map((comment) => (
-            <CommentItem comment={comment} value={comment.id} />
+            <CommentItem comment={comment} value={comment.id} data = {data}/>
           ))
         }
 
@@ -147,9 +149,13 @@ function TicketDetails({ data }) {
 
 
 
-const CommentItem = ({ comment,value }) => {
- 
-  if(comment.reply_to === null) return (
+const CommentItem = ({ comment,value, data }) => {
+    
+  if(
+    data.user_id === comment.user_id
+                      ? true
+                      : false
+  ) return (
     <Accordion.Item className="" value={typeof value === "number" ? value.toString() : value}>
           <Accordion.Control className="bg-[#F5F7F9]  h-[1.3rem]">
             <div className="flex  space-x-[38px]  ">
