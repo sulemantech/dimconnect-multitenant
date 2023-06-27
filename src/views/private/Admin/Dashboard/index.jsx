@@ -74,7 +74,7 @@ const Dashboard = () => {
         </div>
         <div className="flex-[1] m-1 min-h[100%] flex-grow bg-white shadow-lg p-2 rounded-xl">
               <p className="flex-grow font-thin text-neutral-700 text-lg">
-                Tickets
+                Support Tickets
               </p>
               <hr />
               <Suspense fallback={<Skeleton />}>
