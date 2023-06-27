@@ -350,7 +350,7 @@ const MyTable = ({ data, select, setSelect, setUpdate }) => {
 export default MyTable;
 
 
-function TicketModal({ ticket, setUpdate }) {
+export function TicketModal({ ticket, setUpdate }) {
 
   const [files, setFiles] = useState([]);
   const [answer, setAnswer] = useState("");
