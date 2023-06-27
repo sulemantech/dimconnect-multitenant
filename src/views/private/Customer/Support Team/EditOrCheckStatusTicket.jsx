@@ -142,7 +142,7 @@ function TicketDetails({ data, getTicketData }) {
 
         {/* {data?.ticketComments? sort them by id */}
         {data?.ticketComments
-          ?.sort((a, b) => b.id - a.id) 
+          ?.sort((a, b) => b.id - a.id).reverse() 
         .map((comment) => (
           <CommentItem comment={comment} value={comment.id} data={data} />
         ))}
@@ -177,7 +177,7 @@ function TicketDetails({ data, getTicketData }) {
 }
 
 const CommentItem = ({ comment, value, data }) => {
-  if (data.user_id === comment.user_id ? true : false)
+  if (data.user_id === comment.user_id ? false : true)
     return (
       <Accordion.Item
         className=""
@@ -245,21 +245,14 @@ const CommentItem = ({ comment, value, data }) => {
       </Accordion.Control>
       <Accordion.Panel>
         <p className=" flex flex-col space-y-2 ml-[3.8rem] my-2 text-[0.7rem] ">
-          <div className="flex flex-1 space-x-6">
-            <p className=" font-medium">Problem Type</p>{" "}
-            <span className=" font-normal">Map View</span>
-          </div>
-          <div className="flex flex-1 space-x-[70px]">
-            {" "}
-            <p className=" font-medium">Tilte</p>{" "}
-            <span className=" font-normal">Map Problem</span>
-          </div>
+          
           <div className="flex flex-1 space-x-8">
             {" "}
-            <p className=" font-medium">Describtion</p>{" "}
+            
             <span className=" font-normal">
-              Hello! The map does not show a new connection line, but mobile{" "}
-              <br /> applications shows each line correctly..
+              {
+                comment?.body
+              }
             </span>
           </div>
         </p>{" "}
