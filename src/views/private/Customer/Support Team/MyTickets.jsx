@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'preact/hooks'
-import { getAllTickets } from '../../../../api'
+import { getAllTickets, getMyTickets } from '../../../../api'
 import {  Table } from '@mantine/core'
 import { route } from 'preact-router'
 export default () => {
     const [data, setData] = useState([])
     useEffect(() => {
-        getAllTickets().then(res => {
+        getMyTickets().then(res => {
             setData(res.data)
         })
     }, [])

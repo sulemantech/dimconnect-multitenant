@@ -3,7 +3,7 @@ import { Checkbox, LoadingOverlay, Select } from "@mantine/core";
 import subtract2 from "./SubtractBlue.png";
 import subtract3 from "./SubtractGreen.png";
 import subtract1 from "./Subtractred.png";
-import { openModal } from "@mantine/modals";
+import { closeAllModals, openModal } from "@mantine/modals";
 // import blueDot from './Ellipse.png'
 import DataTable from "react-data-table-component";
 import { useState } from "react";
@@ -49,7 +49,7 @@ export const status = {
 };
 
 
-const MyTable = ({ data, select, setSelect }) => {
+const MyTable = ({ data, select, setSelect, setUpdate }) => {
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(20);
   const columns = [
@@ -112,7 +112,7 @@ const MyTable = ({ data, select, setSelect }) => {
           onClick={() =>
             // openModal without top close button and with custom close button
             openModal({
-              children: <TicketModal ticket={row} />,
+              children: <TicketModal ticket={row} setUpdate={setUpdate} />,
               size: "xl",
               padding: "0",
               backgroundColor: "transparent",
@@ -350,10 +350,11 @@ const MyTable = ({ data, select, setSelect }) => {
 export default MyTable;
 
 
-export function TicketModal({ ticket }) {
+function TicketModal({ ticket, setUpdate }) {
 
   const [files, setFiles] = useState([]);
   const [answer, setAnswer] = useState("");
+  const [ticketStatus, setTicketStatus] = useState(status[ticket.status_id]);
 
 
   const fileInputRef = useRef();
@@ -591,7 +592,14 @@ export function TicketModal({ ticket }) {
         </div>
 
         <>
-          {ticket.ticketComments?.map((comment, index) => {
+          {/* {ticket.ticketComments?. sort comments by timestamp */}
+          {ticket.ticketComments?.sort((a, b) => {
+            return (
+              new Date(a.created_at).getTime() -
+              new Date(b.created_at).getTime()
+            );
+          })
+          .map((comment, index) => {
             return (
               <>
               <div
@@ -666,8 +674,11 @@ export function TicketModal({ ticket }) {
                     title={` ${status[key].name}`}
                     src={status[key].svg}
                     alt=""
-                    className="w-5 h-5 mx-2"
-                    onClick={() => handleStatusChange(key)}
+                    className={`cursor-pointer w-7 h-5 mx-2 px-1 ${status[key].name === ticketStatus?.name ? `bg-[#1e6ed068] rounded-lg` : ""}`}
+                    onClick={() => {
+                      setTicketStatus(status[key]);
+                      
+                    }}
                   />
                 );
               })}
@@ -743,7 +754,7 @@ export function TicketModal({ ticket }) {
           
           </div>
           <button 
-          onClick={() =>{
+          onClick={async() =>{
             // create a new form data object and add answer state as body, and files as file key value pair
             const formData = new FormData();
             formData.append("body", answer);
@@ -754,7 +765,12 @@ export function TicketModal({ ticket }) {
             );
             // call the post request function
             try{
-              postComment(ticket.id,formData);
+             const data = await postComment(ticket.id,formData);
+              // if the request is successful, update the ticket state with the new comment
+              setUpdate(prev => prev + 1);
+              setAnswer("");
+              setFiles([]);
+              closeAllModals();
             }catch(err){
               console.log(err);
             }

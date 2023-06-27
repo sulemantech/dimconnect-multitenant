@@ -81,6 +81,7 @@ export const getBoundaries = (districtId) => api.get(`netzplanning/boundries/${d
 export const getEquipment = (districtId,minX, minY, maxX, maxY) => api.get(`netzplanning/point-lookup/${districtId}/${minX}/${minY}/${maxX}/${maxY}`)
 
 export const getAllTickets = () => api.get(`${routes.ticket}/all`)
+export const getMyTickets = () => api.get(`${routes.ticket}/my`)
 export const getNRecentTickets = (count) => api.get(`${routes.ticket}/recent?count=${count}`)
 
 // tickets
@@ -93,3 +94,5 @@ export const getTickets = (id) => api.get(`/tickets/${id}`)
 
 
 export const postComment = (ticketId, data) => api.post(`/tickets/${ticketId}/comments`, data)
+
+export const getComment = (ticketId) => api.get(`/tickets/${ticketId}/comments`)
