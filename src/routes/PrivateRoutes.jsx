@@ -21,6 +21,8 @@ import CreateTicket from '../views/private/Customer/Support Team/CreateTicket';
 import FAQCategory from '../views/private/Customer/Support Team/FAQCategory';
 import EditOrCheckStatusTicket from '../views/private/Customer/Support Team/EditOrCheckStatusTicket';
 import RegionListValidator from '../providers/RegionListValidator';
+import SupportTeam from '../views/private/Customer/Support Team/SupportTeam';
+import MyTickets from '../views/private/Customer/Support Team/MyTickets';
 
 const TypeRoutes = {
     'admin': [
@@ -35,6 +37,9 @@ const TypeRoutes = {
         <FAQCategory path="/support_team/faq/:id" />,
         <CreateTicket path="/support_team/support_ticket" />,
         <EditOrCheckStatusTicket path="/support_team/support_ticket/:edit_or_check_ticket_status" />,
+        <SupportTeam path="/support_team" />,
+        <MyTickets path="/support_team/my_tickets" />,
+        <EditOrCheckStatusTicket path="/support_team/my_tickets/:edit_or_check_ticket_status" />,
     ],
 }
 

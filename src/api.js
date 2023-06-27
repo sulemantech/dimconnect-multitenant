@@ -72,7 +72,7 @@ export const createRoleWithPermissions = (data) => api.post(`/roles/with-permiss
 export const updateRoleWithPermissions = (id, data) => api.put(`/roles/with-permissions/${id}`, data)
 
 
-export const assignRolesToUser = (userId, data) => api.post(`/user/assign-roles/${userId}`, {"roles":data})
+export const assignRolesToUser = (userId, data) => api.post(`/user/assign-roles/${userId}`, {data})
 
 
 export const getRegionList = () => api.get(`/region/list`)

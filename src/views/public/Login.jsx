@@ -55,7 +55,7 @@ export default () => {
           Willkommen!
         </p>
         <p className="flex justify-center text-white text-[0.7rem]  text-sm mb-6">
-          Bitte melden Sie sick an.
+        Bitte melden Sie sich an.
         </p>
         <form className="mt-8 space-y-8" onSubmit={handleSubmit}>
           <div className=" flex flex-1 flex-col space-y-6 px-8 mt-6">
