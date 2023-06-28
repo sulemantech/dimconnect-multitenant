@@ -4,7 +4,8 @@ import { getNRecentTickets } from "../../../../api";
 import { IconCheck } from "@tabler/icons";
 import { showNotification } from "@mantine/notifications";
 import { openModal } from "@mantine/modals";
-import { TicketModal } from "../Ticket/components/Table";
+import { TicketModal } from "../Ticket/components/Table.jsx";
+// import { TicketModal } from "../Ticket/components/Table";
 
 export const status = {
   1: {

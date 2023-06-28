@@ -59,12 +59,12 @@ export default () => {
         <Searchbars search={search} setSearch={setSearch} setTickets={setTickets} tickets={tickets} />
 
         <div className="flex flex-1 flex-wrap w-full justify-center items-start">
-          <div className="min-w-[78%] " style={{
+          <div className="min-w-[60%] " style={{
             borderTopLeftRadius: "0.5rem",}
           }>
             <Table data={tickets} select={select} setSelect={setSelect} setUpdate={setUpdate} />
           </div>
-          <div className="min-w-[20%]">
+          <div className="max-w-[30%]">
             <UserCard tickets={tickets} select={select} />
           </div>
         </div>

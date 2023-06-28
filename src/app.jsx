@@ -6,6 +6,7 @@ import LZString from 'lz-string';
 import { feature } from 'topojson-client'
 import { Notifications } from '@mantine/notifications';
 import { Suspense, lazy } from 'preact/compat';
+import "./index.css"
 
 const DrawerProvider = lazy(() => import('./providers/DrawerProvider'));
 const AuthProvider = lazy(() => import('./providers/AuthProvider'));

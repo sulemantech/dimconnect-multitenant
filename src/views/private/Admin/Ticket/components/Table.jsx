@@ -8,6 +8,7 @@ import { closeAllModals, openModal } from "@mantine/modals";
 import DataTable from "react-data-table-component";
 import { useState } from "react";
 import { postComment } from "../../../../../api";
+// import './table.css'
 
 export const status = {
   1: {
@@ -350,7 +351,7 @@ const MyTable = ({ data, select, setSelect, setUpdate }) => {
 export default MyTable;
 
 
-export function TicketModal({ ticket, setUpdate }) {
+export const TicketModal = ({ ticket, setUpdate }) => {
 
   const [files, setFiles] = useState([]);
   const [answer, setAnswer] = useState("");
@@ -785,4 +786,4 @@ export function TicketModal({ ticket, setUpdate }) {
       </div>
     </>
   );
-}
+};
