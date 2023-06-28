@@ -290,7 +290,7 @@ const PermissionList = ({ id, name, description, editMode = false }) => {
                                                     
                                                 </td>
                                                 <td >
-                                                    <Switch type="checkbox" color="red" name={`${item.activity}__deleteFlag`} defaultChecked={item.deleteFlag} />
+                                                    <Switch type="checkbox" color="red" name={`${item.activity}__deleteFlag`} defaultChecked={item.delete} />
                                                    
                                                 </td>
                                             </>

@@ -1,4 +1,4 @@
-import { Card, CardSection, Text } from "@mantine/core"
+import { Card, CardSection, Button } from "@mantine/core"
 import PageProvider from "../../../../providers/PageProvider"
 import { route } from "preact-router"
 
@@ -46,12 +46,19 @@ export default () => {
                                 Object.keys(data).map((key, index) => {
                                     return (
                                        
-                                        <div className="p-2 m-2 hover:bg-sky-200 transition-all cursor-pointer hover:scale-95 hover:shadow-md rounded-md min-w-[100px]" onClick={() => { route(`/support_team/${data[key].route}`) }} key={index} >
-                                            <div className={'flex flex-col items-center justify-center'}>
-                                                {data[key].icon}
-                                                <Text size={'xs'} className="text-sky-700 font-bold">{key}</Text>
-                                            </div>
-                                        </div>
+                                        // <div className="p-2 m-2 hover:bg-sky-200 transition-all cursor-pointer hover:scale-95 hover:shadow-md rounded-md min-w-[100px]" onClick={() => { route(`/support_team/${data[key].route}`) }} key={index} >
+                                        //     <div className={'flex flex-col items-center justify-center'}>
+                                        //         {data[key].icon}
+                                        //         <Text size={'xs'} className="text-sky-700 font-bold">{key}</Text>
+                                        //     </div>
+                                        // </div>
+                                        <Button
+                                        mrs={15}
+                                        leftIcon={data[key].icon}
+                                        onClick={() => { route(`/support_team/${data[key].route}`) }}
+                                        >
+                                            {key}
+                                        </Button>
                                        
                                     )
                                 })
