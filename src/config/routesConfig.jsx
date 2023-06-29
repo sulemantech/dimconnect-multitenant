@@ -17,6 +17,17 @@ export const privateRoutes = [{
     permission: PERMISSIONS.Administration,
     path: `/administration`,
     icon: icons.AdministrationIcon ,
+    subroutes : [{
+        label: 'User Management',
+        path: `/administration/user_management`,
+        permission: PERMISSIONS['User Management'],
+        icon: icons.UserManagementIcon ,
+    }, {
+        label: 'Role Management',
+        path: `/administration/role_management`,
+        permission: PERMISSIONS['Roles Management'],
+        icon: icons.RoleManagementIcon ,
+    }]
 },
 {
     label: 'Support Ticket Back Office',

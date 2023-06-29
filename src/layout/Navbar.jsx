@@ -88,14 +88,14 @@ const RouteComponent = ({ path, label, icon, subroutes, isSubRoute = false }) =>
                 </HoverCard.Target>
                 <HoverCard.Dropdown className="rounded-r-xl -ml-2 p-0 bg-white  ">
                     <div>
-                        <Link href={path}>
-                        <div className={`flex  items-center justify-center py-6 ${collapsed.value ? 'px-6' : 'px-4'} h-14 my-2 text-[#448ab6] hover:text-white font-light border-neutral-200 transition-all border-b-[1px] hover:border-sky-600 hover:bg-[#0E76BB]  bg-opacity-50`}>
+                       
+                        <div className={`flex  items-center justify-center py-6 ${collapsed.value ? 'px-6' : 'px-4'} h-14 my-2 text-[#448ab6]  font-light border-neutral-200 transition-all border-b-[1px]   bg-opacity-50`}>
 
                             <p className="flex justify-center items-center text-center ">
                                  <p className="text-sm pl-4 truncate font-[500]"> {label} </p>
                             </p>
                         </div>
-                        </Link>
+                       
                         {
                             subroutes.map((route, index) => <PermissionWrapper permission={route.permission} view><RouteComponent path={route.path} label={route.label} icon={<route.icon/>} subroutes={route.subroutes} isSubRoute /></PermissionWrapper>)
                         }
