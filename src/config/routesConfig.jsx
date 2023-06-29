@@ -49,7 +49,7 @@ export const privateRoutes = [{
     {
         label: 'Contacts',
         permission: PERMISSIONS.SupportTeam,
-        path: `/support_team/contacts`,
+        path: `/support_team/contact`,
         icon: icons.ContactIcon,
 
     }
