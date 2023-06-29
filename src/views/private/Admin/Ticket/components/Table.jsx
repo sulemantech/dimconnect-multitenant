@@ -7,7 +7,7 @@ import { closeAllModals, openModal } from "@mantine/modals";
 // import blueDot from './Ellipse.png'
 import DataTable from "react-data-table-component";
 import { useState } from "react";
-import { getResource, postComment } from "../../../../../api";
+import { getResource, postComment, putTicket } from "../../../../../api";
 import { useLayoutEffect } from "react";
 // import './table.css'
 
@@ -730,6 +730,8 @@ export const TicketModal = ({ ticket, setUpdate }) => {
                     alt=""
                     className={`cursor-pointer w-7 h-5 mx-2 px-1 ${status[key].name === ticketStatus?.name ? `bg-[#1e6ed068] rounded-lg` : ""}`}
                     onClick={() => {
+                      putTicket(ticket.id, {status_id: Number(key)}).then(res=> {if(res.status === 200){setUpdate(prev => prev + 1)}})
+                      console.log(ticket.id, {...ticket, status_id: key})
                       setTicketStatus(status[key]);
                       
                     }}

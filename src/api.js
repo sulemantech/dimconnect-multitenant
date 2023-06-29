@@ -98,5 +98,7 @@ export const postComment = (ticketId, data) => api.post(`/tickets/${ticketId}/co
 
 export const getComment = (ticketId) => api.get(`/tickets/${ticketId}/comments`)
 
+export const putTicket = (ticketId, data) => api.put(`/tickets/${ticketId}`, data)
+
 
 export const getResource = async(filename) => api.get(`/resource/${filename}`, { responseType: 'blob' });
