@@ -7,7 +7,8 @@ import { closeAllModals, openModal } from "@mantine/modals";
 // import blueDot from './Ellipse.png'
 import DataTable from "react-data-table-component";
 import { useState } from "react";
-import { postComment } from "../../../../../api";
+import { getResource, postComment, putTicket } from "../../../../../api";
+import { useLayoutEffect } from "react";
 // import './table.css'
 
 export const status = {
@@ -382,6 +383,47 @@ export const TicketModal = ({ ticket, setUpdate }) => {
     const files = Array.from(event.target.files);
     setFiles(files);
   };
+
+
+  const [ticketAttachments, setTicketAttachments] = useState([]);
+  const [commentAttachments, setCommentAttachments] = useState([]);
+
+  const handleAttachmentsDownload = async() => {
+    
+    const ticketFiles = await Promise.all(
+      ticket.ticketAttachments.map(async (item) => {
+        const response = await getResource(item.filename);
+        return window.URL.createObjectURL(new Blob([response.data]));
+      })
+    );
+    console.log(ticketFiles)
+    setTicketAttachments(ticketFiles);
+
+    const commentsFiles = ticket.ticketComments.map(comment=>{
+      return comment.ticketAttachments.map(async (item) => {
+        const response = await getResource(item.filename);
+        return {uri: window.URL.createObjectURL(new Blob([response.data])), filename: item.filename};
+      }
+      )
+
+    })
+
+    
+    // setCommentAttachments(commentsFiles);
+    // commentsFiles is an array of arrays, I want to combine all the array of arrays into a single array
+    const commentsFiles2 = await Promise.all(commentsFiles.flat());
+    console.log(commentsFiles2)
+    setCommentAttachments(commentsFiles2);
+  };
+  
+  useLayoutEffect(() => {
+    handleAttachmentsDownload();
+
+    return () => {
+      setCommentAttachments([]);
+      setTicketAttachments([]);
+    };
+  }, []);
   
 
   return (
@@ -578,14 +620,24 @@ export const TicketModal = ({ ticket, setUpdate }) => {
           {ticket.ticketAttachments?.length > 0 && (
             <div className="flex justify-start items-start w-full h-[90px] px-2 py-2 mr-2 mb-5">
               {ticket.ticketAttachments?.map((attachment, index) => {
+               
+                // return (
+                //   <a href={ticketAttachments[0]} download={attachment.filename}  target="_blank" > Download </a>
+                // )
                 return (
+                  <a key={attachment.id} href={ticketAttachments[index]} download={attachment.filename} target="_blank" >
                   <img
                     className="mr-2"
-                    src={`http://localhost:3002/static/tickets/${attachment.filename}`}
+                    // src={`http://localhost:3002/static/tickets/${attachment.filename}`}
+                    src={ticketAttachments[index]}
                     alt=""
                     width={150}
                     height={150}
                   />
+                  </a>
+                  // <a href={ticketAttachments[0]} download="test.jpeg" target="_blank" > Download </a>
+                  // make this blob a file and download it
+                  
                 );
               })}
             </div>
@@ -633,14 +685,14 @@ export const TicketModal = ({ ticket, setUpdate }) => {
                   ? ' bg-[#F5F7F9]'
                   : 'bg-white'} `}>
                   {comment.ticketAttachments?.map((attachment, index) => {
-                    console.log(attachment.filename);
+                    console.log();
 
                     return (
                       <a
                         key={attachment.id}
                         target="_blank"
                         download={attachment.filename}
-                        href={`http://localhost:3002/static/tickets/${attachment.filename}`}
+                        href={commentAttachments?.find(file=> file.filename === attachment.filename)?.uri}
                         className={`text-[#3E3F3F] text-justify font-[400] mx-2 text-sm bg-[#F5F7F9] rounded-lg px-5 ${ticket.gpUser.id === comment.user_id
                           ? 'bg-white'
                           : 'bg-[#F5F7F9]'}`}
@@ -670,6 +722,7 @@ export const TicketModal = ({ ticket, setUpdate }) => {
             {Object.keys(status)
               .slice(0, 4)
               .map((key) => {
+                
                 return (
                   <img
                     title={` ${status[key].name}`}
@@ -677,6 +730,8 @@ export const TicketModal = ({ ticket, setUpdate }) => {
                     alt=""
                     className={`cursor-pointer w-7 h-5 mx-2 px-1 ${status[key].name === ticketStatus?.name ? `bg-[#1e6ed068] rounded-lg` : ""}`}
                     onClick={() => {
+                      putTicket(ticket.id, {status_id: Number(key)}).then(res=> {if(res.status === 200){setUpdate(prev => prev + 1)}})
+                      console.log(ticket.id, {...ticket, status_id: key})
                       setTicketStatus(status[key]);
                       
                     }}
