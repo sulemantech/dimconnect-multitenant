@@ -2,7 +2,8 @@ import axios from "axios";
 import appConfig from "./config/appConfig";
 
 const api = axios.create({
-    baseURL: appConfig.backendUrl,
+    // baseURL: appConfig.backendUrl,
+    baseURL: "http://localhost:3002",
 });
 
 export default api;
@@ -96,3 +97,6 @@ export const getTickets = (id) => api.get(`/tickets/${id}`)
 export const postComment = (ticketId, data) => api.post(`/tickets/${ticketId}/comments`, data)
 
 export const getComment = (ticketId) => api.get(`/tickets/${ticketId}/comments`)
+
+
+export const getResource = async(filename) => api.get(`/resource/${filename}`, { responseType: 'blob' });
