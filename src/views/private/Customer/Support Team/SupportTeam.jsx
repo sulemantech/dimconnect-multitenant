@@ -53,7 +53,7 @@ export default () => {
                                         //     </div>
                                         // </div>
                                         <Button
-                                        mrs={15}
+                                        mr={15}
                                         leftIcon={data[key].icon}
                                         onClick={() => { route(`/support_team/${data[key].route}`) }}
                                         >
