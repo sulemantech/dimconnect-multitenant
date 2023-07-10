@@ -98,7 +98,7 @@ export default ({ children }) => {
           return {
             url: url,
             headers: {
-              "Authorization": `Bearer ${sessionStorage.getItem(appConfig.sessionStorageKey)}`
+              "Authorization": `Bearer ${localStorage.getItem(appConfig.localStorageKey)}`
             }
           }
 

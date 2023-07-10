@@ -6,6 +6,7 @@ import LZString from 'lz-string';
 import { feature } from 'topojson-client'
 import { Notifications } from '@mantine/notifications';
 import { Suspense, lazy } from 'preact/compat';
+import "./index.css"
 
 const DrawerProvider = lazy(() => import('./providers/DrawerProvider'));
 const AuthProvider = lazy(() => import('./providers/AuthProvider'));
@@ -27,11 +28,11 @@ export function App() {
   return (
     <MantineProvider
       theme={{
-        fontFamily: 'Greycliff CF, sans-serif',
+        fontFamily: 'Roboto Condensed, Roboto',
         primaryShade : 4,
         colors: {
-          brand: ['#1a7fc0', '#338dc7', '#4d9cce', '#66aad5', '#0071b9', '#0066a7', '#005a94', '#004f82', '#00446f'],
-
+          brand: ['#0E76BB', '#0E76BB', '#0E76BB', '#0E76BB', '#0E76BB', '#0E76BB', '#0E76BB', '#0E76BB', '#0E76BB'],
+          
         },
         // hover color
         primaryColor: 'brand',
@@ -39,22 +40,50 @@ export function App() {
           'Button': {
             defaultProps: {
               variant: 'filled',
-              mx: 5,
-              className: "bg-[#0071b9]  hover:shadow-md shadow-xs  shadow-[#0071b9] border-2 border-white border-solid transition-all duration-200 ease-in-out"
-            }
+              uppercase: true,
+              size: 'lg',
+              loaderProps: {
+                color: 'brand',
+                size: 'sm',
+              },
+              radius: 'lg',
+          
+              style: {
+                boxShadow: '0px 0px 3px 1px rgba(0,0,0,0.25)',
+              },
+              className: "px-10 text-[#0E76BB] font-semibold capitalize hover:scale-95 active:bg-sky-400 hover:bg-sky-200 bg-[#D8E4EEE5]  justify-self-end items-end hover:shadow-md transition-all duration-200 ease-in-out ripple-bg-sky-50"
+            },
+            
           },
+          LoadingOverlay: {
+            defaultProps: {
+              color: 'brand',
+              loaderProps: {
+                variant: 'bars',
+                color: 'brand',
+                size: 'xl',
+              }
+            },
+          }
         }
       }}
-
+      
     >
+
+     
 
       
       <Suspense fallback={<LoadingOverlay visible />} >
         <ModalsProvider modalProps={{
           overlayProps: {
             style: {
-              backdropFilter: 'blur(3px)'
-            }
+              backdropFilter: 'blur(3px)',
+              
+            },
+          },
+          classNames: {
+            inner: 'shadow-2xl border-2 border-gray-200 rounded-xl',
+          
           },
           lockScroll: false
 
@@ -62,7 +91,7 @@ export function App() {
           <Notifications />
           <DrawerProvider />
 
-          <div className='select-none antialiased text-gray-700 '>
+          <div className='select-none antialiased scroll-smooth text-gray-700 '>
             <AuthProvider />
           </div>
         </ModalsProvider>

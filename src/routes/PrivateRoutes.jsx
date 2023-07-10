@@ -1,6 +1,6 @@
 import { Router } from 'preact-router';
 import {lazy,Suspense} from 'preact/compat';
-import { Skeleton } from '@mantine/core';
+import { LoadingOverlay } from '@mantine/core';
 
 const Navbar = lazy(() => import('../layout/Navbar').catch((e) => console.log(e)));
 const Dashboard = lazy(() => import('../views/private/Admin/Dashboard'));
@@ -19,6 +19,12 @@ import Ticket from '../views/private/Admin/Ticket';
 import FAQ from '../views/private/Customer/Support Team/FAQ';
 import CreateTicket from '../views/private/Customer/Support Team/CreateTicket';
 import FAQCategory from '../views/private/Customer/Support Team/FAQCategory';
+import EditOrCheckStatusTicket from '../views/private/Customer/Support Team/EditOrCheckStatusTicket';
+import RegionListValidator from '../providers/RegionListValidator';
+import SupportTeam from '../views/private/Customer/Support Team/SupportTeam';
+import MyTickets from '../views/private/Customer/Support Team/MyTickets';
+import LiveChat from '../views/private/Customer/Support Team/LiveChat';
+import ContactPage from '../views/private/Customer/Support Team/ContactPage';
 
 const TypeRoutes = {
     'admin': [
@@ -32,19 +38,26 @@ const TypeRoutes = {
         <FAQ path="/support_team/faq" />,
         <FAQCategory path="/support_team/faq/:id" />,
         <CreateTicket path="/support_team/support_ticket" />,
+        <EditOrCheckStatusTicket path="/support_team/support_ticket/:edit_or_check_ticket_status" />,
+        <SupportTeam path="/support_team" />,
+        <MyTickets path="/support_team/my_tickets" />,
+        <EditOrCheckStatusTicket path="/support_team/my_tickets/:edit_or_check_ticket_status" />,
+        <LiveChat path="/support_team/live_chat" />,
+        <ContactPage path="/support_team/contact" />,
     ],
 }
 
 
 export default () => <div className='flex absolute top-0 left-0 bottom-0 bg-neutral-200 right-0 overflow-hidden'>
     <Navbar />
+    <RegionListValidator />
     <PageWrapper>
-   
+    <Suspense fallback={<LoadingOverlay visible/>}>
     <Router hashHistory >
         {TypeRoutes[
             UserType.value
         ]?.map((route) => route)}
     </Router>
-   
+    </Suspense>
     </PageWrapper>
 </div>

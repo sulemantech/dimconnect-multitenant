@@ -3,11 +3,13 @@ import { Checkbox, LoadingOverlay, Select } from "@mantine/core";
 import subtract2 from "./SubtractBlue.png";
 import subtract3 from "./SubtractGreen.png";
 import subtract1 from "./Subtractred.png";
-import { openModal } from "@mantine/modals";
+import { closeAllModals, openModal } from "@mantine/modals";
 // import blueDot from './Ellipse.png'
 import DataTable from "react-data-table-component";
 import { useState } from "react";
-import { postComment } from "../../../../../api";
+import { getResource, postComment, putTicket } from "../../../../../api";
+import { useLayoutEffect } from "react";
+// import './table.css'
 
 export const status = {
   1: {
@@ -48,30 +50,12 @@ export const status = {
   },
 };
 
-const FilterSelect = ({}) => (
-  <Select
-    options={[
-      { value: 1, label: "Open" },
-      { value: 2, label: "Closed" },
-      { value: 3, label: "In Progress" },
-      { value: 4, label: "Rejected" },
-    ]}
-    onChange={(e) => console.log(e.target.value)}
-    isClearable={true}
-    placeholder="Filter by status"
-    styles={{ menu: (provided) => ({ ...provided, zIndex: 9999 }) }}
-  />
-);
-const MyTable = ({ data, select, setSelect }) => {
+
+const MyTable = ({ data, select, setSelect, setUpdate }) => {
+  const [page, setPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(20);
   const columns = [
-    // {
-    //   name: <FilterSelect  />,
-    //   selector: row => row.id, // A unique selector for this column. Adjust according to your data structure.
-    //   sortable: false,
-    //   hide: 'md',
-    //   width: '200px', // Adjust this according to your needs.
-    //   cell: () => " ",
-    // },
+  
     {
       name: "Ticket ID",
       selector: "id",
@@ -130,7 +114,7 @@ const MyTable = ({ data, select, setSelect }) => {
           onClick={() =>
             // openModal without top close button and with custom close button
             openModal({
-              children: <TicketModal ticket={row} />,
+              children: <TicketModal ticket={row} setUpdate={setUpdate} />,
               size: "xl",
               padding: "0",
               backgroundColor: "transparent",
@@ -165,10 +149,122 @@ const MyTable = ({ data, select, setSelect }) => {
       className="mt-3 "
       title=""
       columns={columns}
-      data={data}
+      data={
+        data.length > 0
+          ? data.slice(
+              (page - 1) * rowsPerPage,
+              (page - 1) * rowsPerPage + rowsPerPage
+            )
+          : []
+      }
       pagination
       // pages per page
       paginationPerPage={20}
+
+      paginationComponent={()=>{
+        return(
+          <div className="flex justify-start mt-1">
+            <div className="flex items-center ml-5 w-[50%]">
+              {/* <div className="text-sm text-gray-700 mr-2">Tickets per page:</div> */}
+              {/* <Select
+                size="sm"
+                defaultValue={rowsPerPage}
+                value={rowsPerPage}
+
+                onChange={(e) => {
+                  setRowsPerPage(e);
+                }}
+                data={[
+                  { value: 10, label: 10 },
+                  { value: 20, label: 20 },
+                  { value: 50, label: 50 },
+                  { value: 100, label: 100 },
+                ]}
+              /> */}
+              <p className="text-sm text-gray-700 mr-2 text-[10px]">
+                {/* 1-21 From 172 Items */}
+                {/* {data.length > 0
+                  ? `${
+                      (page - 1) * rowsPerPage + 1
+                    }-${(page - 1) * rowsPerPage + rowsPerPage} From ${
+                      data.length
+                    } Items`
+                  : ""} */}
+                  <span className="text-[#0E76BB] text-[10px]">
+                    {data.length > 0
+                  ? `${
+                      (page - 1) * rowsPerPage + 1
+                    }-${(page - 1) * rowsPerPage + rowsPerPage}`
+                  : ""}
+                  </span>
+                  &nbsp; <span className="text-[10px]">From</span> &nbsp;
+                  <span className="text-[#0E76BB] text-[10px]">
+                    {data.length}
+                  </span>
+                  &nbsp; <span className="text-[10px]">Items</span>
+
+              </p>
+            </div>
+            <div className="flex items-center">
+              
+              <p className="text-sm text-gray-700 mr-2">
+                 {/* Previous  1 2 3 4  Next */}
+                 <span className="cursor-pointer text-[10px]"
+                 onClick={() => {
+                  // setPage(page - 1);
+                  // first check if page is not 1
+                  if (page !== 1) {
+                    setPage(page - 1);
+                  }
+                 }}
+                 >
+                  Previous
+                 </span>
+                 {/* <span className="text-[#0E76BB]"> */}
+                    {/* count pages and show page numbers */}
+                    {data.length > 0
+                    ? Array.from(
+                        { length: Math.ceil(data.length / rowsPerPage) },
+                        (_, i) => {
+                          return { value: i + 1, label: i + 1 };
+                        }
+                      ).map((item, index) => {
+                        return (
+                          <span
+                            key={index}
+                            className={`${
+                              page === item.value
+                                ? "bg-[#D8E4EE] rounded"
+                                : ""
+                            } mx-1 p-3 pb-1 pt-1 text-[#0E76BB] cursor-pointer text-[10px]`}
+                            onClick={() => {
+                              setPage(item.value);
+                            }}
+                          >
+                            {item.value}
+                          </span>
+                        );
+                      })
+                    : ""}
+                    {/* </span> */}
+                  <span className="cursor-pointer text-[10px]"
+                  onClick={() => {
+                    // setPage(page + 1);
+                    // first check if page is not last
+                    if (page !== Math.ceil(data.length / rowsPerPage)) {
+                      setPage(page + 1);
+                    }
+                  }}
+
+                  >
+                  Next
+                  </span>
+
+              </p>
+            </div>
+          </div>
+        )
+      }}
       // className=".dataTable-ticket-page"
       selectableRows
       selectableRowsSingle
@@ -256,10 +352,11 @@ const MyTable = ({ data, select, setSelect }) => {
 export default MyTable;
 
 
-function TicketModal({ ticket }) {
+export const TicketModal = ({ ticket, setUpdate }) => {
 
   const [files, setFiles] = useState([]);
   const [answer, setAnswer] = useState("");
+  const [ticketStatus, setTicketStatus] = useState(status[ticket.status_id]);
 
 
   const fileInputRef = useRef();
@@ -286,6 +383,47 @@ function TicketModal({ ticket }) {
     const files = Array.from(event.target.files);
     setFiles(files);
   };
+
+
+  const [ticketAttachments, setTicketAttachments] = useState([]);
+  const [commentAttachments, setCommentAttachments] = useState([]);
+
+  const handleAttachmentsDownload = async() => {
+    
+    const ticketFiles = await Promise.all(
+      ticket.ticketAttachments.map(async (item) => {
+        const response = await getResource(item.filename);
+        return window.URL.createObjectURL(new Blob([response.data]));
+      })
+    );
+    console.log(ticketFiles)
+    setTicketAttachments(ticketFiles);
+
+    const commentsFiles = ticket.ticketComments.map(comment=>{
+      return comment.ticketAttachments.map(async (item) => {
+        const response = await getResource(item.filename);
+        return {uri: window.URL.createObjectURL(new Blob([response.data])), filename: item.filename};
+      }
+      )
+
+    })
+
+    
+    // setCommentAttachments(commentsFiles);
+    // commentsFiles is an array of arrays, I want to combine all the array of arrays into a single array
+    const commentsFiles2 = await Promise.all(commentsFiles.flat());
+    console.log(commentsFiles2)
+    setCommentAttachments(commentsFiles2);
+  };
+  
+  useLayoutEffect(() => {
+    handleAttachmentsDownload();
+
+    return () => {
+      setCommentAttachments([]);
+      setTicketAttachments([]);
+    };
+  }, []);
   
 
   return (
@@ -482,14 +620,24 @@ function TicketModal({ ticket }) {
           {ticket.ticketAttachments?.length > 0 && (
             <div className="flex justify-start items-start w-full h-[90px] px-2 py-2 mr-2 mb-5">
               {ticket.ticketAttachments?.map((attachment, index) => {
+               
+                // return (
+                //   <a href={ticketAttachments[0]} download={attachment.filename}  target="_blank" > Download </a>
+                // )
                 return (
+                  <a key={attachment.id} href={ticketAttachments[index]} download={attachment.filename} target="_blank" >
                   <img
                     className="mr-2"
-                    src={`http://localhost:3002/static/tickets/${attachment.filename}`}
+                    // src={`http://localhost:3002/static/tickets/${attachment.filename}`}
+                    src={ticketAttachments[index]}
                     alt=""
                     width={150}
                     height={150}
                   />
+                  </a>
+                  // <a href={ticketAttachments[0]} download="test.jpeg" target="_blank" > Download </a>
+                  // make this blob a file and download it
+                  
                 );
               })}
             </div>
@@ -497,7 +645,14 @@ function TicketModal({ ticket }) {
         </div>
 
         <>
-          {ticket.ticketComments?.map((comment, index) => {
+          {/* {ticket.ticketComments?. sort comments by timestamp */}
+          {ticket.ticketComments?.sort((a, b) => {
+            return (
+              new Date(a.created_at).getTime() -
+              new Date(b.created_at).getTime()
+            );
+          })
+          .map((comment, index) => {
             return (
               <>
               <div
@@ -530,14 +685,14 @@ function TicketModal({ ticket }) {
                   ? ' bg-[#F5F7F9]'
                   : 'bg-white'} `}>
                   {comment.ticketAttachments?.map((attachment, index) => {
-                    console.log(attachment.filename);
+                    console.log();
 
                     return (
                       <a
                         key={attachment.id}
                         target="_blank"
                         download={attachment.filename}
-                        href={`http://localhost:3002/static/tickets/${attachment.filename}`}
+                        href={commentAttachments?.find(file=> file.filename === attachment.filename)?.uri}
                         className={`text-[#3E3F3F] text-justify font-[400] mx-2 text-sm bg-[#F5F7F9] rounded-lg px-5 ${ticket.gpUser.id === comment.user_id
                           ? 'bg-white'
                           : 'bg-[#F5F7F9]'}`}
@@ -567,13 +722,19 @@ function TicketModal({ ticket }) {
             {Object.keys(status)
               .slice(0, 4)
               .map((key) => {
+                
                 return (
                   <img
                     title={` ${status[key].name}`}
                     src={status[key].svg}
                     alt=""
-                    className="w-5 h-5 mx-2"
-                    onClick={() => handleStatusChange(key)}
+                    className={`cursor-pointer w-7 h-5 mx-2 px-1 ${status[key].name === ticketStatus?.name ? `bg-[#1e6ed068] rounded-lg` : ""}`}
+                    onClick={() => {
+                      putTicket(ticket.id, {status_id: Number(key)}).then(res=> {if(res.status === 200){setUpdate(prev => prev + 1)}})
+                      console.log(ticket.id, {...ticket, status_id: key})
+                      setTicketStatus(status[key]);
+                      
+                    }}
                   />
                 );
               })}
@@ -649,7 +810,7 @@ function TicketModal({ ticket }) {
           
           </div>
           <button 
-          onClick={() =>{
+          onClick={async() =>{
             // create a new form data object and add answer state as body, and files as file key value pair
             const formData = new FormData();
             formData.append("body", answer);
@@ -660,7 +821,12 @@ function TicketModal({ ticket }) {
             );
             // call the post request function
             try{
-              postComment(ticket.id,formData);
+             const data = await postComment(ticket.id,formData);
+              // if the request is successful, update the ticket state with the new comment
+              setUpdate(prev => prev + 1);
+              setAnswer("");
+              setFiles([]);
+              closeAllModals();
             }catch(err){
               console.log(err);
             }
@@ -675,4 +841,4 @@ function TicketModal({ ticket }) {
       </div>
     </>
   );
-}
+};

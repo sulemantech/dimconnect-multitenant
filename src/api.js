@@ -3,10 +3,6 @@ import appConfig from "./config/appConfig";
 
 const api = axios.create({
     baseURL: appConfig.backendUrl,
-   
-    // headers: (sessionStorage.getItem(appConfig.sessionStorageKeyWebview) || appConfig.sessionStorageKey) ? {
-    //     "authorization": `Bearer ${sessionStorage.getItem(appConfig.sessionStorageKeyWebview) || appConfig.sessionStorageKey}`,
-    // } : {},
 });
 
 export default api;
@@ -43,12 +39,21 @@ export const updateAddressPoint = (districtId, pointId, data) => api.post(`/addr
 export const getUsers = () => api.get(`/user`)
 export const createUser = (data) => api.post(`/user`, data)
 export const deleteUser = (id) => api.delete(`/user/${id}`)
-export const editUser = (id, data) => api.patch(`/user/${id}`, data)
+export const editUser = (id, data) => api.put(`/user/${id}`, data)
+let usersdata = []
+export const getUserById = {
+    findUserById : (id) => {
+        return usersdata.find(user => user.id === id)
+    },
+    assignData : (data) => {
+        usersdata = data
+    }
+}
 
 export const getPermissions = () => api.get(`/permissions`)
 export const createPermission = (data, title) => api.post(`/permissions/${title}`, data)
 export const deletePermission = (id) => api.delete(`/permissions/${id}`)
-export const editPermission = (id, data) => api.patch(`/permissions/${id}`, data)
+export const editPermission = (id, data) => api.put(`/permissions/${id}`, data)
 
 
 export const getAccessList = (roleId) => api.get(`/permission/accesslist/${roleId}`)
@@ -64,10 +69,10 @@ export const getCurrentUserPermissions = () => api.get(`/permission/current-user
 
 // POST: roles/with-permissions
 export const createRoleWithPermissions = (data) => api.post(`/roles/with-permissions`, data)
+export const updateRoleWithPermissions = (id, data) => api.put(`/roles/with-permissions/${id}`, data)
 
 
-
-export const assignRolesToUser = (userId, data) => api.post(`/user/assign-roles/${userId}`, data)
+export const assignRolesToUser = (userId, data) => api.put(`/user/roles-json/${userId}`, {"roles":data})
 
 
 export const getRegionList = () => api.get(`/region/list`)
@@ -76,12 +81,23 @@ export const getBoundaries = (districtId) => api.get(`netzplanning/boundries/${d
 export const getEquipment = (districtId,minX, minY, maxX, maxY) => api.get(`netzplanning/point-lookup/${districtId}/${minX}/${minY}/${maxX}/${maxY}`)
 
 export const getAllTickets = () => api.get(`${routes.ticket}/all`)
+export const getMyTickets = () => api.get(`${routes.ticket}/my`)
+export const getNRecentTickets = (count) => api.get(`${routes.ticket}/recent?count=${count}`)
+
 // tickets
 export const getTicketsCategories = () => api.get(`/ticketcategory/all`)
 export const getTicketPriorities = () => api.get(`/ticketpriority/all`)
 export const postTicket = (data) => api.post(`/tickets`, data)
 
 export const getFAQs = (auth) => api.get(`/faqs?auth=${auth}`)
+export const getTickets = (id) => api.get(`/tickets/${id}`)
 
 
 export const postComment = (ticketId, data) => api.post(`/tickets/${ticketId}/comments`, data)
+
+export const getComment = (ticketId) => api.get(`/tickets/${ticketId}/comments`)
+
+export const putTicket = (ticketId, data) => api.put(`/tickets/${ticketId}`, data)
+
+
+export const getResource = async(filename) => api.get(`/resource/${filename}`, { responseType: 'blob' });

@@ -6,44 +6,51 @@ export const privateRoutes = [{
     label: 'Dashboard',
     path: `/dashboard?ags=${dropvalue?.value}`,
     permission: PERMISSIONS.Dashboard,
-    icon: <icons.DasboardIcon />,
+    icon: icons.DasboardIcon ,
 }, {
     label: 'Map',
     path: `/map?ags=${dropvalue?.value}`,
     permission: PERMISSIONS.Map,
-    icon: <icons.MapIcon />,
+    icon: icons.MapIcon ,
 }, {
     label: 'Administration',
     permission: PERMISSIONS.Administration,
     path: `/administration`,
-    icon: <icons.AdministrationIcon />,
+    icon: icons.AdministrationIcon ,
 },
 {
     label: 'Support Ticket Back Office',
     permission: PERMISSIONS.Ticket,
     path: `/support_ticket_back_office/inbox`,
-    icon: <icons.TicketIcon />,
+    icon: icons.TicketIcon ,
 },
 {
     label: 'Support Team',
-    permission: PERMISSIONS.Ticket,
+    permission: PERMISSIONS.SupportTeam,
     path: `/support_team`,
-    icon: <icons.supportTeamIcon />,
+    icon: icons.supportTeamIcon,
     subroutes: [{
         label: 'FAQ',
         path: `/support_team/faq`,
-        permission: PERMISSIONS.Ticket,
-        icon: <icons.FAQIcon />,
+        permission: PERMISSIONS.SupportTeam,
+        icon: icons.FAQIcon,
     }, {
         label: 'Support Ticket',
-        permission: PERMISSIONS.Ticket,
+        permission: PERMISSIONS.SupportTeam,
         path: `/support_team/support_ticket`,
-        icon: <icons.TicketIconBlue />,
-    }, {
+        icon: icons.TicketIconBlue,
+    }, 
+    {
+        label: 'Live Chat',
+        permission: PERMISSIONS.SupportTeam,
+        path: `/support_team/live_chat`,
+        icon: icons.LiveChat,
+    },
+    {
         label: 'Contacts',
-        permission: PERMISSIONS.Ticket,
-        path: `/support_team/contacts`,
-        icon: <icons.ContactIcon />,
+        permission: PERMISSIONS.SupportTeam,
+        path: `/support_team/contact`,
+        icon: icons.ContactIcon,
 
     }
     ]

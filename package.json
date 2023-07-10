@@ -67,6 +67,7 @@
     "recharts": "^2.3.2",
     "spline-wrapper": "^1.1.1",
     "styled-components": "^6.0.0-rc.3",
+    "tailwindcss-ripple": "^0.7.1",
     "topojson-client": "^3.1.0"
   },
   "devDependencies": {

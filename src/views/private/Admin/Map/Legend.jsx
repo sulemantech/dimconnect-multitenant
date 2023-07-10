@@ -18,7 +18,7 @@ export default ({noAddressPoint=false,noStatus=false}) => {
         if(collapsed == false) setValue('')
     }, [collapsed])
 
-    if(collapsed) return <div className="absolute -left-8 hover:scale-95 transition-all cursor-pointer bottom-24 justify-center rotate-90 font-bold text-lg tracking-wide text-white bg-[#0071b9] shadow-2xl z-40 rounded-md p-2 " onClick={() => setCollapsed(false)}>
+    if(collapsed) return <div className="absolute -left-8 hover:scale-95 transition-all cursor-pointer bottom-24 justify-center rotate-90 font-bold text-lg tracking-wide text-white bg-[#0092c3] shadow-2xl z-40 rounded-md p-2 " onClick={() => setCollapsed(false)}>
         Legend
     </div>
 
@@ -36,6 +36,7 @@ export default ({noAddressPoint=false,noStatus=false}) => {
                 }
                 setValue(e)}
             }}>
+                <NetzplanningLegend />
               {!noAddressPoint &&  <Accordion.Item value="Address Points" className="text-xs" >
                     <Accordion.Control className="text-xs last:p-0"  value={"Address Points"}>Address Points</Accordion.Control>
                     <Accordion.Panel>
@@ -118,4 +119,9 @@ export default ({noAddressPoint=false,noStatus=false}) => {
             </Accordion>
         </div>
     )
+}
+
+const NetzplanningLegend = () => {
+   return <></>
+
 }

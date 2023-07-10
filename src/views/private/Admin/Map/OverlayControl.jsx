@@ -12,7 +12,7 @@ export default ({ modal = false }) => {
         setData(JSON.parse(visibility.value) || {})
     }, [visibility.value])
 
-    const OverlayControlButton =   <div id='overlaycontrol' className={`${FabClass} mb-2 text-[#0071b9] bg-white`}>
+    const OverlayControlButton =   <div id='overlaycontrol' className={`${FabClass} mb-2 text-[#0E76BB] bg-white`}>
     <IconStack2 className="scale-150" />
 </div>
 

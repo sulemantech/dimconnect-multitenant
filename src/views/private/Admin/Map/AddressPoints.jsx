@@ -145,7 +145,7 @@ export default () => {
                         filter={['has', 'point_count']}
                         paint={{
                             
-                                'circle-color': '#0071b9',
+                                'circle-color': '#0E76BB',
                                 'circle-radius': ['step', ['get', 'point_count'], 10, 100, 20, 750, 30]
                         
                         }}
@@ -246,7 +246,7 @@ const epsgeur = '+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m
 export const CRUDAddressPointForm = ({ prevdata, edit = false, add = false,lat ,lng }) => {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
-    const decoded = jwtDecode(sessionStorage.getItem(appConfig.sessionStorageKey) || sessionStorage.getItem(appConfig.sessionStorageKeyWebview))
+    const decoded = jwtDecode(localStorage.getItem(appConfig.localStorageKey) || localStorage.getItem(appConfig.localStorageKeyWebview))
 
     const onSubmit = (e) => {
         e.preventDefault()

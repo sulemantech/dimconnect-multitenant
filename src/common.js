@@ -9,4 +9,8 @@ export const PERMISSIONS = {
     "Video": "Video",
     "Ticket": "Ticket",
     "Styles": "Styles",
+    "RaiseTicket": "RaiseTicket",
+    "ReplyTicket": "ReplyTicket",
+    "FAQ":"FAQ",
+    "SupportTeam" : "SupportTeam",
 }

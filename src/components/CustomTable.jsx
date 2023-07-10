@@ -1,6 +1,6 @@
-import { ActionIcon, Button, Chip, Flex, Input, MultiSelect, Pagination, ScrollArea, Select, Switch } from "@mantine/core";
+import { ActionIcon, Button, Chip, Flex, Input, MultiSelect, Pagination, Paper, Text, Select, Switch, Table, Title, Divider, Checkbox } from "@mantine/core";
 import { closeAllModals, openConfirmModal, openModal } from "@mantine/modals";
-import { IconAlertCircle, IconArrowDown, IconArrowUp, IconPaperclip, IconPlus } from "@tabler/icons";
+import { IconAlertCircle, IconArrowDown, IconArrowUp, IconPaperclip, IconPlus, IconSearch } from "@tabler/icons";
 import { useState } from "preact/hooks";
 import readXlsxFile from 'read-excel-file';
 import appConfig from '../config/appConfig'
@@ -9,7 +9,7 @@ import { closeDrawer, openDrawer } from "../providers/DrawerProvider";
 import { useCallback } from 'preact/hooks'
 import { showNotification } from "@mantine/notifications";
 import { isValidElement } from "preact";
-export default ({ children, data, attributes = [], newStruct = {}, refreshData, edit = false, remove = false, attatchment = false }) => { // as {"id":25,"name":"HO1V","min":"25","max":"55"}[]
+export default ({ children, title, data, attributes = [], newStruct = {}, refreshData, edit = false, remove = false, attatchment = false }) => { // as {"id":25,"name":"HO1V","min":"25","max":"55"}[]
 
     const [sort, setSort] = useState({ field: "name", order: "asc" });
     const [filter, setFilter] = useState('')
@@ -26,7 +26,7 @@ export default ({ children, data, attributes = [], newStruct = {}, refreshData, 
 
         const values = {}
 
-        
+
 
         for (let i = 0; i < creationform.length; i++) {
 
@@ -34,10 +34,10 @@ export default ({ children, data, attributes = [], newStruct = {}, refreshData, 
 
             if (creationform[i].getAttribute('data-type') == 'array') {
                 values[creationform[i].getAttribute('data-key')] = formdata.forEach((value, key) => {
-                   
+
                 })
                 // values[creationform[i].getAttribute('data-key')] = formdata.get(creationform[i].getAttribute('data-key')).split(',').map(item => item.trim())
-           } else if (creationform[i].getAttribute('data-main-key')) {
+            } else if (creationform[i].getAttribute('data-main-key')) {
 
 
                 let mainKey = elem.getAttribute('data-main-key');
@@ -65,11 +65,19 @@ export default ({ children, data, attributes = [], newStruct = {}, refreshData, 
 
             } else {
                 values[creationform[i].name] = formdata.get(creationform[i].name) == 'on' ? true : formdata.get(creationform[i].name)
-                
+
             }
         }
+        // check if each value can be JSON parsed else keep it as it is
+        Object.keys(values).forEach((key) => {
+            try {
+                values[key] = JSON.parse(values[key])
+            } catch (e) {
+                values[key] = values[key]
+            }
+        })
+       
 
-        
         newStruct.createMethod(values).then((res) => {
             setsubmitLoading(false)
             refreshData()
@@ -92,20 +100,12 @@ export default ({ children, data, attributes = [], newStruct = {}, refreshData, 
                             Object.keys(newStruct.data)?.map((item) => (
 
                                 (Array.isArray(newStruct.data[item])) ?
-                               
+
                                     <div className="flex flex-col">
                                         <label className="text-sm text-gray-600">{item.replace('_', ' ').trim().toUpperCase()}</label>
-                                        {/* <select required className="bg-gray-200 rounded-md p-1" name={item}>
-                                            {
-                                                newStruct?.data[item]?.map((option) => {
-                                                    return (
-                                                        <option value={option}>{option}</option>
-                                                    )
-                                                })
-                                            }
-                                        </select> */}
-                                        <MultiSelect  data={newStruct?.data[item]} data-type="array"  required className="bg-gray-200 rounded-md p-1" name={item}/>
-                                      
+
+                                        <MultiSelect data={newStruct?.data[item]} data-type="array" required className="bg-gray-200 rounded-md p-1" name={item} />
+
                                     </div>
                                     :
                                     typeof newStruct.data[item] === 'boolean' ?
@@ -113,13 +113,15 @@ export default ({ children, data, attributes = [], newStruct = {}, refreshData, 
 
                                             <div className="flex">
                                                 <label className="text-sm text-gray-600 flex-1">{item.replace('_', ' ').trim().toUpperCase()}</label>
-                                                <Switch required className=" rounded-md p-1 flex-1" name={item} />
+                                                <Checkbox className=" rounded-md p-1 flex-1" name={item} defaultValue={false} />
                                             </div>
                                         </>
                                         :
                                         <div className="flex flex-col">
                                             <label className="text-sm text-gray-600">{item.replace('_', ' ').trim().toUpperCase()}</label>
-                                            <Input required type="text" className="bg-gray-200 rounded-md p-1" name={item} />
+                                            <Input required type={
+                                                item.toLowerCase().includes('password') ? 'password' : item.toLowerCase().includes('email') ? 'email' : 'text'
+                                            } className="bg-gray-200 rounded-md p-1" name={item} />
                                         </div>
 
                             ))
@@ -144,32 +146,22 @@ export default ({ children, data, attributes = [], newStruct = {}, refreshData, 
 
     const handleEdit = async (item) => {
         try {
-
-         
-
-
             const resp = await newStruct.getMethod(item.id)
-
-
             item = {
                 ...item,
                 ...resp.data
             }
-
-
             const childrenClone = children
-            
-            
-
             openDrawer({
                 title: 'Edit',
-                children: <EditForm item={item} newStruct={newStruct} >
+                children: <EditForm item={item} newStruct={newStruct} refreshData={refreshData}>
                     {
                         childrenClone
                     }
                 </EditForm>,
             })
         } catch (err) {
+            console.error(err)
             showNotification({
                 title: 'Error',
                 color: 'red',
@@ -181,25 +173,54 @@ export default ({ children, data, attributes = [], newStruct = {}, refreshData, 
     }
 
     return (
-        <div className="flex flex-col rounded-md bg-white">
+        <div className="flex flex-col rounded-md bg-white mb-10 ">
             <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                     <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                        <Title order={2} color='brand' className="text-center mt-2">{title}</Title>
+                        <Divider my={10} />
                         <div className="flex p-2 text-neutral-700 text-xs items-center">
                             <div>
-                                Show <select className="bg-gray-200 rounded-md p-1" onChange={e => setLimit(e.target.value)}>
-                                    <option>10</option>
-                                    <option>25</option>
-                                    <option>50</option>
-                                    <option>100</option>
-                                </select> entries
+                                <Paper withBorder radius="xl" className="flex items-center">
+
+                                    <Text mx={15} color="brand" fw={'bold'}>
+                                        Show
+                                    </Text>
+
+                                    <Select data={[
+                                        {
+                                            label: '10',
+                                            value: 10
+                                        },
+                                        {
+                                            label: '25',
+                                            value: 25
+                                        },
+                                        {
+                                            label: '50',
+                                            value: 50
+                                        },
+                                        {
+                                            label: '100',
+                                            value: 100
+                                        },
+                                    ]} onChange={e => setLimit(e)}
+                                        classNames={{
+                                            input: 'rounded-r-full'
+                                        }}
+                                        size="md"
+                                        value={limit}
+                                        variant="filled"
+                                    />
+
+                                </Paper>
 
                             </div>
 
                             <div className="flex-1"></div>
 
-                            <div className="flex">
-                                <input type="text" className="bg-gray-200 rounded-md p-1" placeholder="Search" onChange={e => setFilter(e.target.value)} />
+                            <div className="flex items-center">
+                                <Input type="text" variant="filled" size="lg" radius={'lg'} mr={15} icon={<IconSearch />} className="mr-xs" placeholder="Search" onChange={(e) => setFilter(e.currentTarget.value)} />
                                 {newStruct.hasOwnProperty('createMethod') && <Button
                                     leftIcon={<IconPlus size={15} />}
                                     onClick={createNew}
@@ -210,7 +231,7 @@ export default ({ children, data, attributes = [], newStruct = {}, refreshData, 
 
                         </div>
 
-                        <table className="min-w-full divide-y divide-gray-200 px-2">
+                        <Table striped highlightOnHover horizontalSpacing={'md'} className="min-w-full divide-y divide-gray-200 px-2 ">
 
                             <thead className="bg-gray-200">
                                 <tr>
@@ -237,69 +258,67 @@ export default ({ children, data, attributes = [], newStruct = {}, refreshData, 
                                 </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200 ">
-                                {data
-                                    
-                                    .sort((a, b) => {
-                                        if (sort.order === "asc") {
-                                            if (a[sort.field] < b[sort.field]) {
-                                                return -1;
-                                            }
-                                            if (a[sort.field] > b[sort.field]) {
-                                                return 1;
-                                            }
-                                            return 0;
-                                        } else {
-                                            if (a[sort.field] > b[sort.field]) {
-                                                return -1;
-                                            }
-                                            if (a[sort.field] < b[sort.field]) {
-                                                return 1;
-                                            }
-                                            return 0;
+                                {data?.filter((obj) => {
+                                    if (filter === '') return data;
+                                    return Object.values(obj).filter(val => typeof val === 'string' || typeof val === 'number').some(val => val.toString().toLowerCase().includes(filter.toLowerCase()))
+                                }).sort((a, b) => {
+                                    if (sort.order === "asc") {
+                                        if (a[sort.field] < b[sort.field]) {
+                                            return -1;
                                         }
-                                    }).slice((page - 1) * limit, page * limit)?.filter((obj) => {
-                                        if (filter === '') return data;
-                                        return Object.values(obj).filter(val => typeof val === 'string' || typeof val === 'number').some(val => val.toString().toLowerCase().includes(filter.toLowerCase()))
-                                    })?.map((item) => (
-                                        <tr key={item.id} >
-                                            {
-                                                attributes?.map((attr) => {
-                                                    return (
-                                                        <td key={attr + 'hgrui'} className="px-6 text-left py-4 whitespace-nowrap text-sm text-gray-500">
-                                                            {Array.isArray(item[attr]) ? item[attr].map((i) => i.name).join(', ') : (isObject(item[attr]) ? Object.values(item[attr]).join(', ') : item[attr])}
-                                                        </td>
-                                                    )
-                                                }
+                                        if (a[sort.field] > b[sort.field]) {
+                                            return 1;
+                                        }
+                                        return 0;
+                                    } else {
+                                        if (a[sort.field] > b[sort.field]) {
+                                            return -1;
+                                        }
+                                        if (a[sort.field] < b[sort.field]) {
+                                            return 1;
+                                        }
+                                        return 0;
+                                    }
+                                }).slice((page - 1) * limit, page * limit)?.map((item) => (
+                                    <tr key={item.id} >
+                                        {
+                                            attributes?.map((attr) => {
+                                                return (
+                                                    <td key={attr + 'hgrui'} className="px-6 text-left py-4 whitespace-nowrap text-sm text-gray-500">
+                                                        {Array.isArray(item[attr]) ? item[attr].map((i) => i.name).join(', ') : (isObject(item[attr]) ? Object.values(item[attr]).join(', ') : item[attr])}
+                                                    </td>
                                                 )
                                             }
-                                            <td className="flex justify-end px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                {edit && <ActionIcon
-                                                    onClick={() => handleEdit(item)}
-                                                ><FaEdit /></ActionIcon>}
-                                                {attatchment && <ActionIcon
-                                                    onClick={() => {
-                                                        openDrawer({
-                                                            title: 'Attatchment',
-                                                            children: <AttatchmentForm item={item} newStruct={newStruct} />,
-                                                        })
-                                                    }}
+                                            )
+                                        }
+                                        <td className="flex justify-end px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            {edit && <ActionIcon
+                                                onClick={() => handleEdit(item)}
+                                            ><FaEdit /></ActionIcon>}
+                                            {attatchment && <ActionIcon
+                                                onClick={() => {
+                                                    openDrawer({
+                                                        title: 'Attatchment',
+                                                        children: <AttatchmentForm item={item} newStruct={newStruct} />,
+                                                    })
+                                                }}
 
-                                                ><IconPaperclip /></ActionIcon>}
-                                                {remove && <ActionIcon
-                                                    color="red"
-                                                    onClick={() => openConfirmModal({
-                                                        title: 'Are You Sure?',
-                                                        children: <div>This action cannot be undone</div>,
-                                                        labels: { confirm: 'Delete', cancel: 'Cancel' },
-                                                        cancelProps: { variant: 'default' },
-                                                        onConfirm: () => newStruct.deleteMethod(item.id).then(res => refreshData())
-                                                    })}
-                                                ><FaTrash /></ActionIcon>}
-                                            </td>
-                                        </tr>
-                                    ))}
+                                            ><IconPaperclip /></ActionIcon>}
+                                            {remove && <ActionIcon
+                                                color="red"
+                                                onClick={() => openConfirmModal({
+                                                    title: 'Are You Sure?',
+                                                    children: <div>This action cannot be undone</div>,
+                                                    labels: { confirm: 'Delete', cancel: 'Cancel' },
+                                                    cancelProps: { variant: 'default' },
+                                                    onConfirm: () => newStruct.deleteMethod(item.id).then(res => refreshData())
+                                                })}
+                                            ><FaTrash /></ActionIcon>}
+                                        </td>
+                                    </tr>
+                                ))}
                             </tbody>
-                        </table>
+                        </Table>
 
                         <div className="flex w-full px-6 py-8">
                             <p className="text-sm text-neutral-600">
@@ -324,14 +343,32 @@ export default ({ children, data, attributes = [], newStruct = {}, refreshData, 
     )
 }
 
-const EditForm = ({ item, newStruct, children }) => {
+const EditForm = ({ item, newStruct,refreshData }) => {
     const [form, setForm] = useState(item);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    const update = () => {
+
+
+
+    const afterloadform = (e) => {
+        e.preventDefault();
         setLoading(true);
-        newStruct.updateMethod(form).then(res => {
+        const filteredForm = Object.keys(form).filter((key) => {
+            console.log(typeof form[key]);
+            if (typeof form[key] == 'object') {
+                if(form[key]?.hasOwnProperty('$$typeof')) return false;
+                return true;
+            }
+            return true;
+        }).reduce((obj, key) => {
+            obj[key] = form[key];
+            return obj;
+        }, {});
+        
+        newStruct.editMethod(form.id,filteredForm).then(res => {
+            closeDrawer();
+            refreshData();
             setLoading(false);
             if (res.status === 200) {
                 openModal({
@@ -353,60 +390,89 @@ const EditForm = ({ item, newStruct, children }) => {
                     }
                 })
             }
+        }).catch(err => {
+            console.log(err);
+            setLoading(false);
+            setError(err.message);
         })
-    }
 
-    
 
-    const afterloadform = (e) => {
-        e.preventDefault();
-        const form = e.target;
-        const data = new FormData(form);
-        const values = {}
-        for (var pair of data.entries()) {
-            values[pair[0]] = pair[1]
-        }
-       
     }
 
     try {
         return (
             <form className="flex flex-col" onSubmit={afterloadform}>
-            <div className="flex flex-col">
-                {
-                    Object.keys(newStruct.data)?.map((attr) => {
-                        return (
-                            <div key={attr} className="flex flex-col mb-4">
-                                <label className="text-gray-700">{attr.replace('_', ' ').toUpperCase()}</label>
-                                <input
-                                    className="bg-gray-200 rounded-md p-2"
-                                    value={form[attr]}
-                                    name = {attr}
-                                    onChange={(e) => setForm({ ...form, [attr]: e.target.value })}
-                                />
-                            </div>
-                        )
-                    })
+                <div className="flex flex-col">
+                    {
+                        Object.keys(newStruct.data)?.map((attr) => {
+                            return (
+                                // <div key={attr} className="flex flex-col mb-4">
+                                //     <label className="text-gray-700">{attr.replace('_', ' ').toUpperCase()}</label>
+                                //     <input
+                                //         className="bg-gray-200 rounded-md p-2"
+                                //         value={form[attr]}
+                                //         name = {attr}
+                                //         onChange={(e) => setForm({ ...form, [attr]: e.target.value })}
+                                //     />
+                                // </div>
+                                // like create form
+                                typeof newStruct.data[attr] === 'object' ? (
+                                    <Input.Wrapper>
+                                        <Input.Label>{attr.replace('_', ' ').toUpperCase()}</Input.Label>
+                                        <MultiSelect
+                                            key={attr}
+                                            required
+                                            options={newStruct.data[attr]}
+                                            value={form[attr]}
+                                            onChange={(value) => setForm({ ...form, [attr]: value.currentTarget.value })}
+                                        />
+                                    </Input.Wrapper>
 
-                }
-                <div className="my-4">
-                    {children}
+                                ) : typeof newStruct.data[attr] === 'boolean' ? (
+                                    <Input.Wrapper>
+                                        <Input.Label>{attr.replace('_', ' ').toUpperCase()}</Input.Label>
+                                        <Checkbox
+                                            key={attr}
+                                            r
+                                            value={form[attr]}
+                                            onChange={(value) => setForm({ ...form, [attr]: value.currentTarget.value })}
+                                        />
+                                    </Input.Wrapper>
+                                ) : (
+                                    <Input.Wrapper>
+                                        <Input.Label>{attr.replace('_', ' ').toUpperCase()}</Input.Label>
+                                        <Input
+                                            key={attr}
+                                            label={attr.replace('_', ' ').toUpperCase()}
+                                            value={form[attr]}
+                                            required
+                                            type={attr.toLowerCase().includes('password') ? 'password' : attr.toLowerCase().includes('email') ? 'email' : 'text'}
+                                            onChange={(value) => setForm({ ...form, [attr]: value.currentTarget.value })}
+                                        />
+                                    </Input.Wrapper>
+                                )
+                            )
+                        })
+
+                    }
+
+                    {error && <div className="text-red-500">{error}</div>}
+
+                    <div className="flex">
+                        <Button
+                            // onClick={update}
+                            type="submit"
+                        >
+                            Update
+                        </Button>
+                        <Button
+                            onClick={() => closeDrawer()}
+                        >
+                            Cancel
+                        </Button>
+                    </div>
                 </div>
-                <div className="flex">
-                    <Button
-                        // onClick={update}
-                        type="submit"
-                    >
-                        Update
-                    </Button>
-                    <Button
-                        onClick={() => closeDrawer()}
-                    >
-                        Cancel
-                    </Button>
-                </div>
-            </div>
-        </form>
+            </form>
         )
     } catch (error) {
         return (

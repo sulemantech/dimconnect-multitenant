@@ -1,3 +1,13 @@
+/* .hzejPW{
+  padding: 0px !important;
+  flex: none  !important;
+  min-width: 0px !important;
+}
+.hzejPW svg{
+  width: 15px !important;
+  height: 15px !important;
+} */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,6 +16,8 @@ body {
     min-height: 100vh;
     /* mobile viewport bug fix */
     min-height: -webkit-fill-available;
+    font-family: 'Roboto';
+    letter-spacing: 0.02rem;
   }
   
   html {
@@ -31,7 +43,7 @@ body {
     height: 5px; /* Adjust as needed */
 
 }
-.hzejPW{
+/* .hzejPW{
   padding: 0px !important;
   flex: none  !important;
   min-width: 0px !important;
@@ -39,7 +51,7 @@ body {
 .hzejPW svg{
   width: 15px !important;
   height: 15px !important;
-}
+} */
 
 /* Styles for the entire scrollbar */
 .custom-scrollbar::-webkit-scrollbar {
@@ -86,4 +98,12 @@ body {
 
 .dataTable-ticket-page {
     border-bottom: none !important;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+    -webkit-text-fill-color: white !important;
 }

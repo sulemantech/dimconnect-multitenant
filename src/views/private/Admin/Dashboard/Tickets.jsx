@@ -1,122 +1,156 @@
-import {
-    Avatar,
-    Badge,
-    Table,
-    Group,
-    Text,
-    ActionIcon,
-    Anchor,
-    ScrollArea,
-    useMantineTheme,
-  } from '@mantine/core';
-import { IconPencil,IconTrash } from '@tabler/icons';
+import React, { useEffect, useState } from "react";
+import DataTable from "react-data-table-component";
+import { getNRecentTickets } from "../../../../api";
+import { IconCheck } from "@tabler/icons";
+import { showNotification } from "@mantine/notifications";
+import { openModal } from "@mantine/modals";
+import { TicketModal } from "../Ticket/components/Table.jsx";
+// import { TicketModal } from "../Ticket/components/Table";
+
+export const status = {
+  1: {
+    name: "Open",
+    color: "text-cyan-500",
+    colorCode: "#06b6d4",
+    svg: "/StatusBlue.svg",
+  },
+  2: {
+    name: "Closed",
+    color: "text-lime-400",
+    colorCode: "#84cc16",
+    svg: "/StatusGreen.svg",
+  },
+  3: {
+    name: "In Progres",
+    color: "text-amber-400",
+    colorCode: "#f59e0b",
+    svg: "/StatusBlue.svg",
+  },
+  4: {
+    name: "Rejected",
+    color: "text-red-500",
+    colorCode: "#ef4444",
+    svg: "/StatusRed.svg",
+  },
+  5: {
+    name: "Solved",
+    color: "text-green-500",
+    colorCode: "#10b981",
+    svg: "/StatusGreen.svg",
+  },
+  6: {
+    name: "Deleted",
+    color: "text-red-500",
+    colorCode: "#0000",
+    svg: "/StatusRed.svg",
+  },
+};
+
+
+export default ({ selected }) => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    getNRecentTickets(5)
+      .then((res) => {
+        console.log(res.data);
+        setData(res.data); // Store the fetched data in the state variable
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   
-  const data = [
-
-      {
-        "avatar": "https://images.unsplash.com/photo-1624298357597-fd92dfbec01d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=250&q=80",
-        "name": "Robert Wolfkisser",
-        "job": "Engineer",
-        "email": "rob_wolf@gmail.com",
-        "phone": "+44 (452) 886 09 12"
-      },
-      {
-        "avatar": "https://images.unsplash.com/photo-1586297135537-94bc9ba060aa?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=250&q=80",
-        "name": "Jill Jailbreaker",
-        "job": "Engineer",
-        "email": "jj@breaker.com",
-        "phone": "+44 (934) 777 12 76"
-      },
-      {
-        "avatar": "https://images.unsplash.com/photo-1632922267756-9b71242b1592?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=250&q=80",
-        "name": "Henry Silkeater",
-        "job": "Designer",
-        "email": "henry@silkeater.io",
-        "phone": "+44 (901) 384 88 34"
-      },
-      {
-        "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=250&q=80",
-        "name": "Bill Horsefighter",
-        "job": "Designer",
-        "email": "bhorsefighter@gmail.com",
-        "phone": "+44 (667) 341 45 22"
-      },
-      {
-        "avatar": "https://images.unsplash.com/photo-1630841539293-bd20634c5d72?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=250&q=80",
-        "name": "Jeremy Footviewer",
-        "job": "Manager",
-        "email": "jeremy@foot.dev",
-        "phone": "+44 (881) 245 65 65"
-      }
-    ]
- 
-    const jobColors = {
-        engineer: 'teal',
-        designer: 'blue',
-        manager: 'red',
-        };
-  
-  export default function UsersTable() {
-    const theme = useMantineTheme();
-    const rows = data?.map((item) => (
-      <tr key={item.name}>
-        <td>
-          <Group spacing="sm">
-            <Avatar size={30} src={item.avatar} radius={30} />
-            <Text fz="sm" fw={500}>
-              {item.name}
-            </Text>
-          </Group>
-        </td>
-  
-        <td>
-          <Badge
-            color={jobColors[item.job.toLowerCase()]}
-            variant={theme.colorScheme === 'dark' ? 'light' : 'outline'}
-          >
-            {item.job}
-          </Badge>
-        </td>
-        {window.innerWidth > 768 && <>
-        <td>
-          <Anchor component="button" size="sm">
-            {item.email}
-          </Anchor>
-        </td>
-        <td>
-          <Text fz="sm" c="dimmed">
-            {item.phone}
-          </Text>
-        </td>
-        <td>
-          <Group spacing={0} position="right">
-            <ActionIcon>
-              <IconPencil size="1rem" stroke={1.5} />
-            </ActionIcon>
-            <ActionIcon color="red">
-              <IconTrash size="1rem" stroke={1.5} />
-            </ActionIcon>
-          </Group>
-        </td>
-        </>}
-      </tr>
-    ));
-  
-    return (
-      <ScrollArea>
-        <Table className='w-full' verticalSpacing="sm">
-          <thead>
-            <tr>
-              <th>Employee</th>
-              <th>Job title</th>
-              {window.innerWidth > 768 && <><th>Email</th>
-              <th>Phone</th>
-              <th /></>}
-            </tr>
-          </thead>
-          <tbody>{rows}</tbody>
-        </Table>
-      </ScrollArea>
-    );
-  }
+  const columns = [
+    { 
+      name: <strong>Ticket ID</strong>, 
+      selector: 'id',
+      cell: row => row.id.toString().padStart(6, "0"),
+      sortable: true,
+    },
+    { 
+      name: <strong>Status</strong>,
+      selector: 'status_id',
+      cell: row => <img src={status[row.status_id].svg} alt="status" />,
+      sortable: true,
+    },
+    {
+      name: <strong>Requester</strong>,
+      selector: 'requester',
+      cell: row => row.gpUser.vorname + " " + row.gpUser.nachname,
+      sortable: true,
+    },
+    {
+      name: <strong>Problem Type</strong>,
+      selector: 'problemType',
+      cell: row => row.ticketCategory.name,
+      sortable: true,
+    },
+    {
+      name: <strong>Title</strong>,
+      selector: 'title',
+      sortable: true,
+    },
+    {
+      name: <strong>Priority</strong>,
+      selector: 'priority',
+      cell: row => row.ticketPriority.name,
+      sortable: true,
+    },
+    {
+      name: <strong>Created</strong>,
+      selector: 'created_at',
+      cell: row => new Date(row.created_at).toLocaleDateString().replaceAll("/", "."),
+      sortable: true,
+    },
+    {
+      name: <strong>Updated</strong>,
+      selector: 'updated_at',
+      cell: row => new Date(row.updated_at).toLocaleDateString().replaceAll("/", "."),
+      sortable: true,
+    },
+    {
+      name: '',
+      button: true,
+      cell: row => (
+        <button
+          className="bg-transparent border-none text-sky-600"
+          onClick={() =>
+            // openModal without top close button and with custom close button
+            openModal({
+              children: <TicketModal ticket={row} />,
+              size: "lg",
+              padding: "0",
+              backgroundColor: "transparent",
+              closeButtonLabel: "Close",
+              hideCloseButton: true,
+              closeOnOverlayClick: true,
+              closeButtonProps: {
+                style: {
+                  position: "absolute",
+                  top: 10,
+                  right: 10,
+                  backgroundColor: "transparent",
+                  color: "#3E3F3F",
+                  border: "none",
+                  outline: "none",
+                  cursor: "pointer",
+                },
+              },
+            })
+          }
+        >
+          See Ticket →
+        </button>
+      ),
+    },
+  ];
+  return (
+    <>
+      <div>
+        <DataTable columns={columns} data={data} />
+      </div>
+    </>
+  );
+};

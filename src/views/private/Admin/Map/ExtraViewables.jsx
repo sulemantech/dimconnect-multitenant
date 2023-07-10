@@ -1,6 +1,6 @@
 
 import { ActionIcon, Button, Divider, LoadingOverlay, Menu, SegmentedControl } from "@mantine/core"
-import { IconEye, IconBarrierBlock, IconRoad, IconTools, IconDownload } from "@tabler/icons"
+import { IconEye, IconBarrierBlock, IconRoad, IconTools, IconDownload, IconInfoCircle } from "@tabler/icons"
 import { closeAllModals, openModal } from "@mantine/modals"
 import { useState, useEffect, useMemo } from "preact/hooks"
 import { useDidUpdate } from "@mantine/hooks"
@@ -13,11 +13,10 @@ import { BarrierState, dropvalue, mapSignal, roadandwaterstate, equipmentState, 
 import { FabClass } from "../../../../layout"
 import { getBoundaries, getCostInfoByDistrictId, getEquipment } from "../../../../api"
 import { IconWorldDollar } from "@tabler/icons-react"
-import { commarize } from "../../../../utils/convertor"
-import { jsPDF } from "jspdf";
-import autoTable from 'jspdf-autotable';
+
 import GeoCodingOSM from "geocoding-osm"
-import { CostInfoModalContent,CableTable,CostInfoSettings,DuctTable,HomeActivationTable } from "../Dashboard/CostInfo"
+import { CostInfoModalContent, CableTable, CostInfoSettings, DuctTable, HomeActivationTable, generatePDF } from "../Dashboard/CostInfo"
+import { showNotification } from "@mantine/notifications"
 
 
 const barrierLayers = {
@@ -351,65 +350,7 @@ const Barriers = () => {
     )
 }
 
-const generatePDF = (data,fileName) => {
-    const doc = new jsPDF();
 
-    // add title of filename
-    doc.text(`${fileName} kalkulation`, 10, 10);
-    
-
-  
-    const categories = ['distribution', 'feeder', 'primary'];
-  
-    let startY = 30;
-    for (let category of categories) {
-      const cableHeaders = [['Cable Type', 'Material Cost', 'Labour Cost', 'Total', 'Volume', 'Total Cost']];
-      const cableData = data.cables[category].map(item => Object.values(item));
-      doc.text(`Cables - ${category}`, 10, startY);
-      doc.autoTable({
-        head: cableHeaders,
-        body: cableData,
-        startY: startY + 5
-      });
-  
-      const ductHeaders = [['Duct Type', 'Material Cost', 'Labour Cost', 'Volume', 'Total Cost']];
-      const ductData = data.duct[category].map(item => Object.values(item))
-      startY = doc.lastAutoTable.finalY + 10;
-      doc.text(`Ducts - ${category}`, 10, startY);
-      doc.autoTable({
-        head: ductHeaders,
-        body: ductData,
-        startY: startY + 5
-      });
-  
-      startY = doc.lastAutoTable.finalY + 10;
-    }
-  
-    // const activationHeaders = [['Building Count', '1 to 3 Buildings', 'Building Connections 1 to 3', 'Building Per Connection Cost 1 to 3', 'Total Cost Building Connections 1 to 3', 'Building Count 3 Plus', 'Building Connections 3 Plus', 'Building Per Connection Cost 3 Plus', 'Total Cost Building Connections 3 Plus', 'Total Homes Count', 'Homes Count 1 to 3', 'Home Count Connections 1 to 3', 'Home Count Per Connection Cost 1 to 3', 'Total Cost Home Count Connections 1 to 3', 'Home Count 3 Plus', 'Home Count Connections 3 Plus', 'Home Count Per Connection Cost 3 Plus', 'Total Cost Home Count Connections 3 Plus', 'Total Cost']];
-    // const activationData = [Object.values(data.homeActivation)];
-    // startY = doc.lastAutoTable.finalY + 10;
-    // doc.text(`Home Activation`, 10, startY);
-    // doc.autoTable({
-    //   head: activationHeaders,
-    //   body: activationData,
-    //   startY: startY + 5
-    // });
-
-    const activationHeaders = [['key', 'value']];
-    const activationData = Object.entries(data.homeActivation);
-    startY = doc.lastAutoTable.finalY + 10;
-    doc.text(`Home Activation`, 10, startY);
-    doc.autoTable({
-        head: activationHeaders,
-        body: activationData,
-        startY: startY + 5
-    });
-
-    
-
-  
-    doc.save(`${fileName}-${new Date().toISOString()}-kalkulation.pdf`);
-  };
 
 const RegionCostCalculation = () => {
     const [visible, setVisible] = useState(false)
@@ -479,7 +420,7 @@ const RegionCostCalculation = () => {
         const areaName = await geo.reverse({
             lat: center[1],
             lon: center[0],
-            zoom: parseInt( map.getZoom() )
+            zoom: parseInt(map.getZoom())
         })
 
         getCostInfoByDistrictId(ags, URLSearchParam)
@@ -492,13 +433,13 @@ const RegionCostCalculation = () => {
 
                 openModal({
                     title: <div className="flex w-full items-center ">
-                      
+
                         <h3 className="flex-1">Regionale Kostenkalkulation</h3>
                         <div className="ml-8">
-                            <ActionIcon 
-                            onClick={() => generatePDF(res.data, areaName.display_name)}
-                            color="brand" className="hover:bg-red-600">
-                                <IconDownload className="animate-bounce"/>
+                            <ActionIcon
+                                onClick={() => generatePDF(res.data, areaName.display_name)}
+                                color="brand" className="hover:bg-red-600">
+                                <IconDownload className="animate-bounce" />
                             </ActionIcon>
                         </div>
                     </div>,
@@ -514,7 +455,12 @@ const RegionCostCalculation = () => {
 
     }
 
-
+    const center = polygon.length > 2 ? turf.center(turf.polygon([polygon])) : null;
+    if (center) {
+        center.properties = {
+            "area": polygon.length > 2 ? `${turf.area(turf.polygon([polygon])).toFixed(1)} sqm` : null
+        }
+    }
 
     return (
         <>
@@ -526,18 +472,16 @@ const RegionCostCalculation = () => {
                         type: "FeatureCollection",
                         features: [{
                             type: "Feature",
-                            properties: {
-                                "area": polygon.length > 2 ? `${turf.area(turf.polygon([polygon])).toFixed(1)} sqm` : ""
-                            },
                             geometry: {
-                                "type": polygon.length == 1 ? 'Point' : polygon.length == 2 ? 'LineString' : 'Polygon',
-                                "coordinates": polygon.length == 1 ? polygon[0] : polygon.length == 2 ? polygon : [polygon]
+                                "type": polygon.length == 1 ? 'Point' : 'MultiLineString',
+
+                                "coordinates": polygon.length == 1 ? polygon[0] : [polygon]
                             }
                         }]
                     }}>
                         <Layer id="region-cost-calculation" type="fill" paint={{
                             "fill-color": "red",
-                            "fill-opacity": 0.4
+                            "fill-opacity": 0.1
                         }} />
                         <Layer id="region-cost-calculation-line" type="line" paint={{
                             "line-color": "red",
@@ -545,34 +489,31 @@ const RegionCostCalculation = () => {
                             "line-opacity": 0.4
                         }} />
                         {
-                            polygon.length == 1 && <Layer id="region-cost-calculation-point" type="circle" paint={{
+                            <Layer id="region-cost-calculation-point" type="circle" paint={{
                                 "circle-color": "red",
                                 "circle-radius": 5
                             }} />
                         }
-                        <Layer id="region-cost-calculation-label" type="symbol" layout={{
-                            "text-field": ["get", "area"],
-                            "text-size": 15,
-                            "text-allow-overlap": true,
-                            "text-ignore-placement": true
-                        }} paint={{
-                            "text-color": "white"
-                        }} />
+
                     </Source>
 
+
+
                     {
-                        // add marker in center of polygon if more than 3 points
-                        polygon.length > 4 && <Marker
-                            latitude={polygon[0][1]}
-                            longitude={polygon[0][0]}
+                        center && <Marker
+                            latitude={center.geometry.coordinates[1]}
+                            longitude={center.geometry.coordinates[0]}
                             anchor="center"
                             draggable={false}
                         >
+                            <div className="p-2 flex flex-col items-center justify-center bg-sky-200 bg-opacity-50 rounded-full">
+                                <p className="text-brand text-xs font-bold">{center.properties.area}</p>
+                            </div>
                             <Button
                                 loading={loading}
 
                                 onClick={submitRegionCostCalculation}
-                                className="px-4 py-2 font-bold text-white border-white border-2 border-solid hover:scale-105 transition-all cursor-pointer bg-red-600 hover:bg-red-800 rounded-full">
+                            >
                                 Calculate
                             </Button>
                         </Marker>
@@ -612,7 +553,7 @@ export const ExtraViewableControl = ({ modal = false, webview = false }) => {
 
     const Options = {
         'Roads and Waterways': {
-            icon: <IconRoad className="scale-110 text-[#0071b9] " />,
+            icon: <IconRoad className="scale-110 text-[#0E76BB] " />,
             selectable: true,
             "method": () => {
                 roadandwaterstate.value = true
@@ -622,7 +563,7 @@ export const ExtraViewableControl = ({ modal = false, webview = false }) => {
             }
         },
         'Barriers': {
-            icon: <IconBarrierBlock className="scale-110 text-[#0071b9] " />,
+            icon: <IconBarrierBlock className="scale-110 text-[#0E76BB] " />,
             selectable: true,
             "method": () => {
                 BarrierState.value = true
@@ -633,7 +574,7 @@ export const ExtraViewableControl = ({ modal = false, webview = false }) => {
             }
         },
         'Equipment': {
-            icon: <IconTools className="scale-110 text-[#0071b9] " />,
+            icon: <IconTools className="scale-110 text-[#0E76BB] " />,
             selectable: true,
             "method": () => {
                 equipmentState.value = true
@@ -644,10 +585,17 @@ export const ExtraViewableControl = ({ modal = false, webview = false }) => {
             }
         },
         'Region Cost': {
-            icon: <IconWorldDollar className="scale-110 text-[#0071b9] " />,
+            icon: <IconWorldDollar className="scale-110 text-[#0E76BB] " />,
             selectable: true,
             "method": () => {
-                regionCostState.value = true
+                regionCostState.value = true,
+                    showNotification({
+                        variant: 'info',
+                        message: 'Click on Map To Draw the Boundary With Atleast 3 Points to Calculate the Result',
+                        autoClose: 5000,
+                        color: 'orange',
+                        icon: <IconInfoCircle className="text-white" />
+                    })
             }
             ,
             "antiMethod": () => {
@@ -663,7 +611,7 @@ export const ExtraViewableControl = ({ modal = false, webview = false }) => {
 
     }, [])
 
-    const AddControlButton = <div className={`mt-2 ${FabClass}  ${activeOption ? 'bg-red-500 text-white' : 'bg-white text-[#0071b9]'}`}>
+    const AddControlButton = <div className={`mt-2 ${FabClass}  ${activeOption ? 'bg-red-500 text-white' : 'bg-white text-[#0E76BB]'}`}>
 
         <IconEye className="scale-150" />
     </div>
@@ -704,7 +652,7 @@ export const ExtraViewableControl = ({ modal = false, webview = false }) => {
                                             >
                                                 <div className="flex items-center gap-2 cursor-pointer">
                                                     {Options[key].icon}
-                                                    <b className=" text-[#0071b9] tracking-wide font-bold">
+                                                    <b className=" text-[#0E76BB] tracking-wide font-bold">
                                                         {key}
                                                     </b>
                                                 </div>
@@ -743,7 +691,7 @@ export const ExtraViewableControl = ({ modal = false, webview = false }) => {
                             >
                                 <div className="flex items-center gap-2">
                                     {Options[key].icon}
-                                    <b className=" text-[#0071b9] tracking-wide font-bold">
+                                    <b className=" text-[#0E76BB] tracking-wide font-bold">
                                         {key}
                                     </b>
                                 </div>

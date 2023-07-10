@@ -1,4 +1,12 @@
 export function commarize(number) {
+    const splitval = number?.toString().split('.');
+    if(splitval.length > 1){
+        if(splitval[0].length < 6){
+            return splitval[0]
+        }
+    }
+    
+
     var units = ["k", "M", "B", "T"];
     var decimal;
 
