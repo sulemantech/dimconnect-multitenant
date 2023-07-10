@@ -22,15 +22,27 @@ export default () => {
     return (
         <div className="flex flex-col flex-1 flex-grow">
             <div className="flex flex-col md:flex-row w-full flex-grow">
-                <CountCard title="Demand Points" count={ loading ? <Loader className="mt-1" /> : MaterialCount?.data?.[0]?.demand_points || <span className="text-red-500 text-sm">No Data</span> } />
+                <CountCard title="Demand Points" count={ loading ? <Loader className="mt-1" /> : MaterialCount?.data?.demand_points || <span className="text-red-500 text-sm">No Data</span> } />
                 
-                <CountCard title="Feeder Cables" count={ loading ? <Loader className="mt-1" /> : MaterialCount?.data?.[0]?.feeder_cables || <span className="text-red-500 text-sm">No Data</span> } />
+                <CountCard title="Feeder Cables" count={ loading ? <Loader className="mt-1" /> : Math.round(MaterialCount?.data?.feeder_cables) || <span className="text-red-500 text-sm">No Data</span> } />
             </div>
             <div className="flex flex-col md:flex-row w-full flex-grow">
                 
-                <CountCard title="Distribution Cables" count={ loading ? <Loader className="mt-1" /> : MaterialCount?.data?.[0]?.out_distributioncables || <span className="text-red-500 text-sm">No Data</span> } />
+                <CountCard title="Distribution Cables" count={ loading ? <Loader className="mt-1" /> : Math.round(MaterialCount?.data?.out_distributioncables) || <span className="text-red-500 text-sm">No Data</span> } />
                 
-                <CountCard title="Primary Cables" count={ loading ? <Loader className="mt-1" /> : MaterialCount?.data?.[0]?.primary_distribution_cables || <span className="text-red-500 text-sm">No Data</span> } />
+                <CountCard title="Primary Cables" count={ loading ? <Loader className="mt-1" /> : Math.round(MaterialCount?.data?.primary_distribution_cables) || <span className="text-red-500 text-sm">No Data</span> } />
+            </div>
+            <div className="flex flex-col md:flex-row w-full flex-grow">
+                
+                <CountCard title="Distribution Duct" count={ loading ? <Loader className="mt-1" /> : Math.round(MaterialCount?.data?.distribution_ducts) || <span className="text-red-500 text-sm">No Data</span> } />
+                
+                <CountCard title="Primary Duct" count={ loading ? <Loader className="mt-1" /> : Math.round(MaterialCount?.data?.primary_distribution_ducts) || <span className="text-red-500 text-sm">No Data</span> } />
+            </div>
+            <div className="flex flex-col md:flex-row w-full flex-grow">
+                
+                <CountCard title="Feeder Duct" count={ loading ? <Loader className="mt-1" /> : Math.round(MaterialCount?.data?.feeder_ducts) || <span className="text-red-500 text-sm">No Data</span> } />
+                
+                <CountCard title="Drop Duct" count={ loading ? <Loader className="mt-1" /> : Math.round(MaterialCount?.data?.drop_ducts) || <span className="text-red-500 text-sm">No Data</span> } />
             </div>
         </div>
     )
