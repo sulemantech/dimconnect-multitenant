@@ -46,8 +46,8 @@ export default () => {
     return (
         <div className="relative flex flex-row w-full h-full shadow-md rounded-lg flex-1 bg-white">
            
-                <div className="bg-brand text-white font-bold py-2 rounded-r-lg" style={{writingMode: 'vertical-rl', textOrientation: 'bottomright', transform: 'rotate(180deg)'}}>
-                   <div>
+                <div className="bg-brand text-white font-bold py-2 rounded-r-lg" style={{writingMode: 'vertical-rl', textOrientation: 'centerright', transform: 'rotate(180deg)'}}>
+                   <div className="text-center">
                    Address Points
                     </div> 
                 </div>
