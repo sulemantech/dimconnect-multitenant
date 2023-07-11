@@ -75,7 +75,7 @@ const RouteComponent = ({ path, label, icon, subroutes, isSubRoute = false }) =>
     if (subroutes) {
 
         return (
-            <HoverCard position="right-start" width={165} shadow="lg">
+            <HoverCard position="right-start" width={166} shadow="lg">
                 <HoverCard.Target >
                    
                         <div className={`flex items-center -mt-[6px]   px-6 h-14  text-white font-light border-sky-600 transition-all border-b-[2px] hover:border-sky-600 `}>
