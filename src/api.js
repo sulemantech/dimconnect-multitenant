@@ -22,7 +22,7 @@ export const refreshAuth = (refreshToken) => api.post(`${routes.auth}/refresh`, 
 export const postAuthRegister = (email, password, firstname, userRole) => api.post(`${routes.auth}/register`)
 export const getDistrictById = () => api.get(`${routes.district}/${id}`)
 export const getMaterialCountByDistrictId = (districtId) => api.get(`${routes.dashboard}/materialCount/${districtId}`)
-export const getCostInfoByDistrictId = (districtId,body) => api.post(`${routes.dashboard}/cost/${districtId}`,body)
+export const getCostInfoByDistrictId = (districtId,body) => api.post(`${routes.dashboard}/cost-v2/${districtId}`,body)
 export const postStyle = () => api.post(`${routes.style}/`)
 export const getTiles = () => api.get(`${routes.tiles}/`)
 export const getAddressPointStatus = (districtId) => api.get(`/address/${districtId}`)

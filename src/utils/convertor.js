@@ -7,7 +7,7 @@ export function commarize(number) {
     }
 
 
-    var units = ["k", "M", "B", "T"];
+    var units = ["K", "M", "B", "T"];
     var decimal;
 
     for (var i = units.length - 1; i >= 0; i--) {
