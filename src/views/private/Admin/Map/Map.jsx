@@ -17,7 +17,7 @@ import appConfig from '../../../../config/appConfig';
 
 const Gpx = lazy(() => import('./Gpx'));
 
-import { mapClickBindings,addressPointsCRUDstate ,infoCardVal,visibility,mapStyle,additionalInteractiveLayers, mapSignal, regionCostState} from '../../../../signals';
+import { mapClickBindings, addressPointsCRUDstate, infoCardVal, visibility, mapStyle, additionalInteractiveLayers, mapSignal, regionCostState } from '../../../../signals';
 import ExtraViewables from './ExtraViewables';
 
 let mapFirstRender = false
@@ -35,22 +35,22 @@ export default ({ children }) => {
   const handleMapClick = (event) => {
     const features = event.features
     // .filter(f => !additionalInteractiveLayers.value.includes(f.layer.id))
-    
+
     Object.values(mapClickBindings.value).forEach((binding) => {
       binding(event)
     })
-   
+
     if (addressPointsCRUDstate.value !== '' || regionCostState.value !== false) return
-    if (features.length > 0){
-        infoCardVal.value = null
-        setTimeout(() => {
-       infoCardVal.value = features
-        }, 100);
+    if (features.length > 0) {
+      infoCardVal.value = null
+      setTimeout(() => {
+        infoCardVal.value = features
+      }, 100);
     }
 
   };
   const handleMaphover = (event) => {
-    
+
 
   };
 
@@ -68,20 +68,20 @@ export default ({ children }) => {
       }}
       onRender={({ target }) => {
         if (!mapFirstRender) {
-          if(window.location.hash.split('/').length === 3){
-            const [zoom,lng,lat] = window.location.hash.split('/')
-            
-            target.setZoom(parseFloat(zoom.replace('#','')))
-            target.setCenter([parseFloat(lng),parseFloat(lat)])
+          if (window.location.hash.split('/').length === 3) {
+            const [zoom, lng, lat] = window.location.hash.split('/')
+
+            target.setZoom(parseFloat(zoom.replace('#', '')))
+            target.setCenter([parseFloat(lng), parseFloat(lat)])
           }
-        console.log('map loaded')
-        mapSignal.value = target
-        mapFirstRender = true
+          console.log('map loaded')
+          mapSignal.value = target
+          mapFirstRender = true
         }
       }}
       antialias={true}
       optimizeForTerrain={true}
-      
+
       // hash={true}
       refreshExpiredTiles={true}
       style={{ width: '100%', height: '100%' }}

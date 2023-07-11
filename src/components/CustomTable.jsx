@@ -76,7 +76,7 @@ export default ({ children, title, data, attributes = [], newStruct = {}, refres
                 values[key] = values[key]
             }
         })
-       
+
 
         newStruct.createMethod(values).then((res) => {
             setsubmitLoading(false)
@@ -343,7 +343,7 @@ export default ({ children, title, data, attributes = [], newStruct = {}, refres
     )
 }
 
-const EditForm = ({ item, newStruct,refreshData }) => {
+const EditForm = ({ item, newStruct, refreshData }) => {
     const [form, setForm] = useState(item);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -357,7 +357,7 @@ const EditForm = ({ item, newStruct,refreshData }) => {
         const filteredForm = Object.keys(form).filter((key) => {
             console.log(typeof form[key]);
             if (typeof form[key] == 'object') {
-                if(form[key]?.hasOwnProperty('$$typeof')) return false;
+                if (form[key]?.hasOwnProperty('$$typeof')) return false;
                 return true;
             }
             return true;
@@ -365,8 +365,8 @@ const EditForm = ({ item, newStruct,refreshData }) => {
             obj[key] = form[key];
             return obj;
         }, {});
-        
-        newStruct.editMethod(form.id,filteredForm).then(res => {
+
+        newStruct.editMethod(form.id, filteredForm).then(res => {
             closeDrawer();
             refreshData();
             setLoading(false);

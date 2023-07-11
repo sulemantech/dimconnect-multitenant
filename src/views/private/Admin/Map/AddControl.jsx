@@ -1,10 +1,10 @@
 import { Divider, Menu } from "@mantine/core"
-import { IconAddressBook, IconPlus, } from "@tabler/icons"
 import { closeAllModals, openModal } from "@mantine/modals"
-import { useState , useEffect } from "preact/hooks"
+import { IconAddressBook, IconPlus, } from "@tabler/icons"
+import { useEffect, useState } from "preact/hooks"
 
-import { addressPointsCRUDstate } from "../../../../signals"
 import { FabClass } from "../../../../layout"
+import { addressPointsCRUDstate } from "../../../../signals"
 
 
 export default ({ modal = false, webview = false }) => {

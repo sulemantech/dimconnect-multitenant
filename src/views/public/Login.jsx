@@ -1,5 +1,5 @@
 
-import { useContext,useState } from 'preact/hooks'
+import { useContext, useState } from 'preact/hooks'
 import { AuthState } from '../../providers/AuthProvider'
 import PublicWrapper from '../../providers/PublicWrapper'
 import api, { postAuth } from '../../api'
@@ -55,7 +55,7 @@ export default () => {
           Willkommen!
         </p>
         <p className="flex justify-center text-white text-[0.7rem]  text-sm mb-6">
-        Bitte melden Sie sich an.
+          Bitte melden Sie sich an.
         </p>
         <form className="mt-8 space-y-8" onSubmit={handleSubmit}>
           <div className=" flex flex-1 flex-col space-y-6 px-8 mt-6">
@@ -66,23 +66,23 @@ export default () => {
                 {
                   input: " text-white  border-none bg-transparent outline-none ",
                   wrapper: 'border-b-[1px] border-white',
-                  
+
                 }}
-                
+
               type="email"
               placeholder="innayan@wifi-connect.eu"
               required
               name='email'
 
             />
-            
+
 
 
             <PasswordInput
               classNames={{
                 input: 'text-white border-none bg-transparent outline-none',
                 wrapper: 'border-b-[1px] border-white',
-                'innerInput' : 'text-white border-none bg-transparent outline-none'
+                'innerInput': 'text-white border-none bg-transparent outline-none'
               }}
               icon={<img src="/lock.svg" alt="" />}
 
@@ -91,7 +91,7 @@ export default () => {
               required
               name='password'
             />
-           
+
             <p className="text-red-700 text-xs font-light flex flex-row-reverse mt-2  ">
               {error}
             </p>

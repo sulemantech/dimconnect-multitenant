@@ -16,7 +16,7 @@ function LiveChat() {
         <div className="text-green-600 ml-4 flex items-end">
           <div className="bg-white flex py-2 px-4 rounded-t-md items-center">
 
-          <p className="h-4 w-4 bg-green-600 rounded-full mr-2"></p> Online
+            <p className="h-4 w-4 bg-green-600 rounded-full mr-2"></p> Online
           </div>
         </div>
       </div>

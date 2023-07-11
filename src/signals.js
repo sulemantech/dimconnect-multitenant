@@ -1,4 +1,4 @@
-import { effect, signal } from '@preact/signals'
+import { signal } from '@preact/signals';
 // check if url has ags query param
 const urlParams = new URLSearchParams(window.location.search);
 const ags = urlParams.get('ags');

@@ -250,8 +250,8 @@ const PermissionList = ({ id, name, description, editMode = false }) => {
             <Divider className="my-4" />
             {
                 (editMode && error) && <Alert color="red" icon={<IconAlertCircle />}>
-                <Text color="red">{error}</Text>
-            </Alert>
+                    <Text color="red">{error}</Text>
+                </Alert>
             }
             <form onSubmit={handleSubmit}>
 
@@ -270,41 +270,41 @@ const PermissionList = ({ id, name, description, editMode = false }) => {
                             (editMode ? [...permissible.value.map((item) => ({ ...item, add: false, view: false, edit: false, delete: false }))
                                 .filter((item) => !data.find((i) => i.activity === item.activity))
                                 , ...data]
-                                 : data).map((item, index) => (
-                                <tr key={index}>
-                                    {
-                                        editMode ?
-                                            <>
-                                                <td>{item.activity}</td>
-                                                
-                                                <td >
-                                                    <Switch type="checkbox" color="blue" name={`${item.activity}__add`} defaultChecked={item.add} />
-                                                    
-                                                </td>
-                                                <td >
-                                                    <Switch type="checkbox" color="yellow" name={`${item.activity}__view`} defaultChecked={item.view} />
-                                                   
-                                                </td>
-                                                <td >
-                                                    <Switch type="checkbox" color="green" name={`${item.activity}__edit`} defaultChecked={item.edit} />
-                                                    
-                                                </td>
-                                                <td >
-                                                    <Switch type="checkbox" color="red" name={`${item.activity}__deleteFlag`} defaultChecked={item.delete} />
-                                                   
-                                                </td>
-                                            </>
-                                            :
-                                            <>
-                                                <td>{item.activity}</td>
-                                                <td>{item.add ? trueIcon : falseIcon}</td>
-                                                <td>{item.view ? trueIcon : falseIcon}</td>
-                                                <td>{item.edit ? trueIcon : falseIcon}</td>
-                                                <td>{item.delete ? trueIcon : falseIcon}</td>
-                                            </>
-                                    }
-                                </tr>
-                            ))
+                                : data).map((item, index) => (
+                                    <tr key={index}>
+                                        {
+                                            editMode ?
+                                                <>
+                                                    <td>{item.activity}</td>
+
+                                                    <td >
+                                                        <Switch type="checkbox" color="blue" name={`${item.activity}__add`} defaultChecked={item.add} />
+
+                                                    </td>
+                                                    <td >
+                                                        <Switch type="checkbox" color="yellow" name={`${item.activity}__view`} defaultChecked={item.view} />
+
+                                                    </td>
+                                                    <td >
+                                                        <Switch type="checkbox" color="green" name={`${item.activity}__edit`} defaultChecked={item.edit} />
+
+                                                    </td>
+                                                    <td >
+                                                        <Switch type="checkbox" color="red" name={`${item.activity}__deleteFlag`} defaultChecked={item.delete} />
+
+                                                    </td>
+                                                </>
+                                                :
+                                                <>
+                                                    <td>{item.activity}</td>
+                                                    <td>{item.add ? trueIcon : falseIcon}</td>
+                                                    <td>{item.view ? trueIcon : falseIcon}</td>
+                                                    <td>{item.edit ? trueIcon : falseIcon}</td>
+                                                    <td>{item.delete ? trueIcon : falseIcon}</td>
+                                                </>
+                                        }
+                                    </tr>
+                                ))
                         }
                     </tbody>
                 </Table>

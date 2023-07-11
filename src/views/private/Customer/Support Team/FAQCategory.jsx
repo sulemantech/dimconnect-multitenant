@@ -9,7 +9,7 @@ class NextPage extends Component {
         category: ''
     };
 
-    
+
 
     async componentDidMount() {
         const memory = await getFAQ_Memory();
@@ -30,7 +30,7 @@ class NextPage extends Component {
         this.setState({ data });
     }
 
-   
+
 
     render({ }, { data, category }) {
         return (

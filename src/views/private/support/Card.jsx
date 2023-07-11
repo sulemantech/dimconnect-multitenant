@@ -8,9 +8,8 @@ export default ({ title, count, color, active, handleClick, id }) => {
     // background color of the card will be white
     <div
       onClick={() => handleClick(id)}
-      className={`flex flex-row justify-around items-center ${
-        active ? "bg-[#0E76BB0a]" : "bg-white"
-      } rounded-xl shadow-lg p-4 w-[30%]`}
+      className={`flex flex-row justify-around items-center ${active ? "bg-[#0E76BB0a]" : "bg-white"
+        } rounded-xl shadow-lg p-4 w-[30%]`}
     >
       <div className="flex flex-col items-start">
         <h1 className="text-2xl text-gray-700 font-semibold">{title}</h1>
@@ -18,13 +17,12 @@ export default ({ title, count, color, active, handleClick, id }) => {
         {/* <p className="text-sm text-gray-500">{}</p> */}
       </div>
       <div
-        className={`flex flex-col items-end p-5 bg-[${
-          color === "blue"
+        className={`flex flex-col items-end p-5 bg-[${color === "blue"
             ? "#3b82f6"
             : color === "yellow"
-            ? "#f59e0b"
-            : "#10b981"
-        }]`}
+              ? "#f59e0b"
+              : "#10b981"
+          }]`}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -37,8 +35,8 @@ export default ({ title, count, color, active, handleClick, id }) => {
             color === "blue"
               ? "#3b82f6"
               : color === "yellow"
-              ? "#f59e0b"
-              : "#10b981"
+                ? "#f59e0b"
+                : "#10b981"
           }
           fill="none"
           strokeLinecap="round"

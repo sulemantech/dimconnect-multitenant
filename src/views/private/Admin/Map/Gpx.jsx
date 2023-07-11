@@ -8,7 +8,7 @@ import { openModal } from "@mantine/modals"
 import { IconVideo, IconVideoPlus } from "@tabler/icons"
 
 import { getGPX, getGPXList } from "../../../../api"
-import { dropvalue,videoVisibility } from "../../../../signals"
+import { dropvalue, videoVisibility } from "../../../../signals"
 import appConfig from "../../../../config/appConfig"
 
 
@@ -20,7 +20,7 @@ export default () => {
     getGPXList(dropvalue.value).then(({ data }) => {
       setData(data?.[0]?.json_object_agg)
     }).catch((err) => {
-      
+
     })
 
   }, [dropvalue.value])
@@ -44,13 +44,13 @@ export default () => {
                     >
                       <Pin onClick={(e) => {
                         e.stopPropagation();
-                       
+
                         getGPX(item[0]).then(({ data }) => {
                           const gpx = new DOMParser().parseFromString(data, 'text/xml');
                           const convertedData = tj.gpx(gpx);
                           convertedData.video = item[2].replace('resources/media/uploads/gpx/', '').replace('.gpx', '.mp4')
                           openModal({
-                         
+
                             children: <>
                               <video controls
                                 onLoad={(e => { e.target.play(); e.target.requestFullscreen() })}
@@ -59,7 +59,7 @@ export default () => {
                           })
                           extendedGPXData.value = convertedData
                         }).catch((err) => {
-                          
+
                         })
                       }} />
                     </Marker>
@@ -132,7 +132,7 @@ export const ExtendedGPX = () => {
 
 
                       openModal({
-                        
+
                         children: <>
                           <video controls
                             onLoad={(e => { e.target.play(); e.target.requestFullscreen() })}
@@ -160,7 +160,7 @@ export const ExtendedGPX = () => {
                       <ExtendedPin onClick={(e) => {
                         e.stopPropagation();
                         openModal({
-                          
+
                           children: <>
                             <video controls
                               onLoad={(e => { e.currentTarget.play(); e.currentTarget.requestFullscreen() })}

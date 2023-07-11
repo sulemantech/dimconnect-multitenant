@@ -140,8 +140,8 @@ function UserCard({ tickets, select }) {
                     cell: (row) =>
                       row.created_at
                         ? new Date(row.created_at)
-                            .toLocaleDateString()
-                            .replaceAll("/", ".")
+                          .toLocaleDateString()
+                          .replaceAll("/", ".")
                         : "---",
                   },
                 ]}

@@ -133,7 +133,7 @@ export default () => {
 
                         {ready ? <CustomTable
                             title="Users Management"
-                            attributes={['id', 'email', 'userRole', 'vorname', 'nachname', 'agreement_signed','roles', 'Assign Role']}
+                            attributes={['id', 'email', 'userRole', 'vorname', 'nachname', 'agreement_signed', 'roles', 'Assign Role']}
                             remove
                             edit
                             data={data}
@@ -266,26 +266,27 @@ const AssignRole = ({ user, roles, refreshData }) => {
 
 const RoleSelectOnCreate = ({ roles }) => {
     const [selectedRole, setSelectedRole] = useState([])
-     const temp = {}
+    const temp = {}
     selectedRole.forEach((role) => {
         temp[role] = roles.find((r) => r.id === role).name
     })
-    return(
-    <>
-        <Title size={'sm'} mt={20}>Select Role</Title>
-        <input type="hidden" name="roles" value={JSON.stringify(temp)} />
-        <MultiSelect
-            className="mt-1"
-            
-            data={roles?.map((role, index) => ({
-                value: role.id,
-                label: <Badge color={MANTINE_COLORS[index]}>{role.name}</Badge>,
-            }))}
-            value={selectedRole}
-            onChange={(e) => setSelectedRole(e)}
+    return (
+        <>
+            <Title size={'sm'} mt={20}>Select Role</Title>
+            <input type="hidden" name="roles" value={JSON.stringify(temp)} />
+            <MultiSelect
+                className="mt-1"
 
-        />
-    </>
-)}
+                data={roles?.map((role, index) => ({
+                    value: role.id,
+                    label: <Badge color={MANTINE_COLORS[index]}>{role.name}</Badge>,
+                }))}
+                value={selectedRole}
+                onChange={(e) => setSelectedRole(e)}
+
+            />
+        </>
+    )
+}
 
 

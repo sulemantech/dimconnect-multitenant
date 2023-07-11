@@ -26,32 +26,32 @@ const PermissionWrapper = ({ permission, children, add = false, edit = false, vi
 
 
     return (
-       <>
+        <>
             {
-            hasPermission ? children : <>
-               {showError ? <div className='h-full w-full flex items-center justify-center '>
-                    <Alert color='red' icon={<IconAlertCircle />}
-                        title='Permission Denied'
-                        radius={'xl'}
-                        className='flex items-center justify-center'
-                        description='You do not have permission to access this page'
-                    />
-                </div>
-                :
-                message ? <div className='h-full w-full flex items-center justify-center '>
-                    <Alert color='red' icon={<IconAlertCircle />}
-                        title='Permission Denied' 
-                        radius={'xl'}
-                        className='flex items-center justify-center'
-                        description={message}
-                    />
-                </div>
-                : null}
+                hasPermission ? children : <>
+                    {showError ? <div className='h-full w-full flex items-center justify-center '>
+                        <Alert color='red' icon={<IconAlertCircle />}
+                            title='Permission Denied'
+                            radius={'xl'}
+                            className='flex items-center justify-center'
+                            description='You do not have permission to access this page'
+                        />
+                    </div>
+                        :
+                        message ? <div className='h-full w-full flex items-center justify-center '>
+                            <Alert color='red' icon={<IconAlertCircle />}
+                                title='Permission Denied'
+                                radius={'xl'}
+                                className='flex items-center justify-center'
+                                description={message}
+                            />
+                        </div>
+                            : null}
 
 
-            </>
+                </>
             }
-      </>
+        </>
     );
 };
 

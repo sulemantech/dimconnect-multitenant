@@ -6,19 +6,19 @@ import { useState } from "preact/hooks"
 import { DistrictPhaseLayersVisibility, DistrictPhaseVisibility, addressPointsStatusVisibility, legendContent, netzplanninglegend } from "../../../../signals"
 
 
-export default ({noAddressPoint=false,noStatus=false}) => {
+export default ({ noAddressPoint = false, noStatus = false }) => {
     const [value, setValue] = useState('Address Points')
     const [collapsed, setCollapsed] = useState(!noAddressPoint)
     useDidUpdate(() => {
         setTimeout(() => {
-        if(value == null) setCollapsed(true)
+            if (value == null) setCollapsed(true)
         }, 500)
     }, [value])
     useDidUpdate(() => {
-        if(collapsed == false) setValue('')
+        if (collapsed == false) setValue('')
     }, [collapsed])
 
-    if(collapsed) return <div className="absolute -left-8 hover:scale-95 transition-all cursor-pointer bottom-24 justify-center rotate-90 font-bold text-lg tracking-wide text-white bg-[#0092c3] shadow-2xl z-40 rounded-md p-2 " onClick={() => setCollapsed(false)}>
+    if (collapsed) return <div className="absolute -left-8 hover:scale-95 transition-all cursor-pointer bottom-24 justify-center rotate-90 font-bold text-lg tracking-wide text-white bg-[#0092c3] shadow-2xl z-40 rounded-md p-2 " onClick={() => setCollapsed(false)}>
         Legend
     </div>
 
@@ -26,19 +26,21 @@ export default ({noAddressPoint=false,noStatus=false}) => {
         <div className="relative text-xs flex flex-col p-2 shadow-md rounded-md mt-2 bg-white">
             <h6 className="mb-1"><b>Legend</b></h6>
             <hr className="mb-2" />
-            <Accordion defaultValue={window.innerWidth>768?'Address Points':''} className="text-xs" onChange={(e) => {
-               const params = new URLSearchParams(window.location.search)
-               if(!params.get('statusPage')) {if (e !== 'Status') {
-                    
-                    DistrictPhaseVisibility.value = false
-                } else {
-                    DistrictPhaseVisibility.value = true
+            <Accordion defaultValue={window.innerWidth > 768 ? 'Address Points' : ''} className="text-xs" onChange={(e) => {
+                const params = new URLSearchParams(window.location.search)
+                if (!params.get('statusPage')) {
+                    if (e !== 'Status') {
+
+                        DistrictPhaseVisibility.value = false
+                    } else {
+                        DistrictPhaseVisibility.value = true
+                    }
+                    setValue(e)
                 }
-                setValue(e)}
             }}>
                 <NetzplanningLegend />
-              {!noAddressPoint &&  <Accordion.Item value="Address Points" className="text-xs" >
-                    <Accordion.Control className="text-xs last:p-0"  value={"Address Points"}>Address Points</Accordion.Control>
+                {!noAddressPoint && <Accordion.Item value="Address Points" className="text-xs" >
+                    <Accordion.Control className="text-xs last:p-0" value={"Address Points"}>Address Points</Accordion.Control>
                     <Accordion.Panel>
                         <div>
                             {
@@ -72,7 +74,7 @@ export default ({noAddressPoint=false,noStatus=false}) => {
                         </div>
                     </Accordion.Panel>
                 </Accordion.Item>}
-               {!noStatus && <Accordion.Item value="Status" className="text-xs">
+                {!noStatus && <Accordion.Item value="Status" className="text-xs">
                     <Accordion.Control value={'Status'} className="text-xs last:p-0">Status</Accordion.Control>
                     <Accordion.Panel>
                         <div>
@@ -89,7 +91,7 @@ export default ({noAddressPoint=false,noStatus=false}) => {
                                                             ...DistrictPhaseLayersVisibility.value,
                                                             [item.key]: !DistrictPhaseLayersVisibility.value[item.key]
                                                         }
-                                                       
+
                                                     }}
                                                 >
                                                     <div className={`w-4 h-4 rounded-full mr-2`}
@@ -122,6 +124,6 @@ export default ({noAddressPoint=false,noStatus=false}) => {
 }
 
 const NetzplanningLegend = () => {
-   return <></>
+    return <></>
 
 }

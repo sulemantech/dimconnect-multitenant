@@ -61,15 +61,15 @@ export default ({ selected }) => {
       });
   }, []);
 
-  
+
   const columns = [
-    { 
-      name: <strong>Ticket ID</strong>, 
+    {
+      name: <strong>Ticket ID</strong>,
       selector: 'id',
       cell: row => row.id.toString().padStart(6, "0"),
       sortable: true,
     },
-    { 
+    {
       name: <strong>Status</strong>,
       selector: 'status_id',
       cell: row => <img src={status[row.status_id].svg} alt="status" />,

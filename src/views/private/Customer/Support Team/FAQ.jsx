@@ -9,12 +9,12 @@ import { FAQState } from "../../../../signals"
 import DimBot from "../../../../components/DimBot"
 
 export const getFAQ_Memory = async () => {
-    if(FAQState.value.length < 1) {
+    if (FAQState.value.length < 1) {
         const res = await getFAQs("d2lmaS10ZXN0MUBybHAuZGV2LXR1di5kZTpXaWZpLVRlc3Qx")
-        
+
         FAQState.value = res.data.list
         return res.data.list
-    }else{
+    } else {
         console.log(FAQState.value)
         return FAQState.value
     }
@@ -30,11 +30,11 @@ export default () => {
         //news
         // "60ec1a0a2f119b147",
         // "61f9532b9c18b0d45"
-      ]
+    ]
     const [data, setData] = useState([])
     useEffect(() => {
         getFAQs("d2lmaS10ZXN0MUBybHAuZGV2LXR1di5kZTpXaWZpLVRlc3Qx").then((res) => {
-            
+
             FAQState.value = res.data.list.filter(item => allowedCatID.includes(item.categoriesIds[0]))
         })
         FAQState.subscribe(setData)
@@ -45,7 +45,7 @@ export default () => {
     const categories = [...new Set(data.map(item => Object.values(item.categoriesNames)[0]))];
 
 
-    
+
 
     return (
         <div className={'h-screen bg-white overflow-x-auto'}>
@@ -59,40 +59,41 @@ export default () => {
                 <h6 className={`text-[#0E76BB] font-bold text-xl`}>Popular FAQ Topics are here:</h6>
                 <p className={'font-semibold text-sm mt-1'}>General Questions: Short And Briefly Answered</p>
                 <ul className={`mt-4 list-disc list-inside  text-sm font-light tracking-wider`}>
-                  {
-                    data
-                    .filter(item => item.name.length > 100)
-                    
-                    .slice(0, 3).map((item, index) => {
-                        return(
-                        <li key={index} className={`my-2`} >
-                            <Link href={`./faq/${Object.values(item.categoriesNames)[0]}`} >
-                                <a className={`text-[#0E76BB] hover:underline`}>{item.name}</a>
-                            </Link>
-                        </li>
-                    )})
-                  }
+                    {
+                        data
+                            .filter(item => item.name.length > 100)
+
+                            .slice(0, 3).map((item, index) => {
+                                return (
+                                    <li key={index} className={`my-2`} >
+                                        <Link href={`./faq/${Object.values(item.categoriesNames)[0]}`} >
+                                            <a className={`text-[#0E76BB] hover:underline`}>{item.name}</a>
+                                        </Link>
+                                    </li>
+                                )
+                            })
+                    }
                 </ul>
             </div>
             <div className={`px-16 mt-10`}>
                 <ScrollArea className={`h-96`}>
-                <div className="grid grid-cols-3 gap-4 grow">
-                    {
-                    categories
-                    .filter(item => item)
-                    .map((category, index) => (
-                        <Link href={`./faq/${category}`} >
-                            <PageControlButton
-                                label={category}
-                                key={index}
-                                icon={<Icons.TopicFAQ />}
-                            />
-                        </Link>
-                    ))}
-                </div>
+                    <div className="grid grid-cols-3 gap-4 grow">
+                        {
+                            categories
+                                .filter(item => item)
+                                .map((category, index) => (
+                                    <Link href={`./faq/${category}`} >
+                                        <PageControlButton
+                                            label={category}
+                                            key={index}
+                                            icon={<Icons.TopicFAQ />}
+                                        />
+                                    </Link>
+                                ))}
+                    </div>
                 </ScrollArea>
             </div>
-<DimBot height={'400px'} width={'350px'}/>
+            <DimBot height={'400px'} width={'350px'} />
         </div>
     )
 }

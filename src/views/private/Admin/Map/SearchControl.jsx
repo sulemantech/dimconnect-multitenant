@@ -14,7 +14,7 @@ export default ({ within = false, nohead = false }) => {
     const [search, setSearch] = useDebouncedState("", 500)
     const [searchResult, setSearchResult] = useState([])
     const [loading, setLoading] = useState(false)
-    
+
     const ref = useClickOutside(() => setSearchResult([]))
     const map = useMap()?.current
 
@@ -24,7 +24,7 @@ export default ({ within = false, nohead = false }) => {
         if (search.length > 0) {
             setLoading(true);
             (async () => {
-            
+
                 const req = await fetch(`https://sg.geodatenzentrum.de/gdz_geokodierung__6b23477c-4ea6-1a73-d0f0-c6c82cfa13d6/suggest?query=${search}`)
                 const result = await req.json()
 
@@ -42,7 +42,7 @@ export default ({ within = false, nohead = false }) => {
         if (item) {
             const req = await fetch(`https://sg.geodatenzentrum.de/gdz_geokodierung__6b23477c-4ea6-1a73-d0f0-c6c82cfa13d6/geosearch?query=${item.suggestion}`)
             const result = await req.json()
-           
+
 
             if (result.features.length > 0) {
                 const firstFeatureCoordinates = result.features[0].geometry.coordinates
@@ -65,7 +65,7 @@ export default ({ within = false, nohead = false }) => {
                                     zoom: 15,
                                 })
                             }, 1000)
-                            return district 
+                            return district
                         } else {
                             showNotification({
                                 title: "District not available",
@@ -76,7 +76,7 @@ export default ({ within = false, nohead = false }) => {
                     }
                 })
 
-                if(founddistricts.length === 0){
+                if (founddistricts.length === 0) {
                     showNotification({
                         title: "District not available",
                         message: "This district is not available right now.",
@@ -86,7 +86,7 @@ export default ({ within = false, nohead = false }) => {
 
 
 
-                
+
             }
 
             setSearchResult([])
@@ -95,45 +95,45 @@ export default ({ within = false, nohead = false }) => {
     }
 
 
-        return (
-            <>
-                <div className={`absolute flex flex-col w-64 z-50 left-2 top-${!nohead ? '2' : '2'}`}>
-                    <Input 
-                    
+    return (
+        <>
+            <div className={`absolute flex flex-col w-64 z-50 left-2 top-${!nohead ? '2' : '2'}`}>
+                <Input
+
                     value={search} onChange={(e) => {
                         setSearch(e.currentTarget.value)
                     }}
                     rightSection={
-                       loading && <Loader size={'sm'} />
+                        loading && <Loader size={'sm'} />
                     }
-                        placeholder="Search" color="white" icon={<IconSearch className=" text-[#0E76BB] " />} variant="unstyled" className="shadow-lg text-[#0E76BB] bg-white  border-white border-solid border-2 rounded-lg" />
+                    placeholder="Search" color="white" icon={<IconSearch className=" text-[#0E76BB] " />} variant="unstyled" className="shadow-lg text-[#0E76BB] bg-white  border-white border-solid border-2 rounded-lg" />
 
-                    <div className={` flex flex-col left-2 max-h-96 overflow-y-auto`} ref={ref}>
-                        {
-                            searchResult?.map((item, index) => {
-                                    return (
-                                        <>
-                                            <div
-                                                onClick={() => goTo(item)}
-                                                key={index} className="bg-white bg-opacity-0 backdrop-blur-xl shadow-lg p-2 cursor-pointer hover:bg-opacity-30 hover:scale-96 transition-all">
-                                                <div className="flex flex-row justify-between">
-                                                    <div className="flex flex-col">
-                                                        <div className="text-sm" dangerouslySetInnerHTML={{ __html: item.highlighted }} />
-                                                        <div className="text-xs text-gray-500">{item.type}</div>
-                                                    </div>
-                                                </div>
-
+                <div className={` flex flex-col left-2 max-h-96 overflow-y-auto`} ref={ref}>
+                    {
+                        searchResult?.map((item, index) => {
+                            return (
+                                <>
+                                    <div
+                                        onClick={() => goTo(item)}
+                                        key={index} className="bg-white bg-opacity-0 backdrop-blur-xl shadow-lg p-2 cursor-pointer hover:bg-opacity-30 hover:scale-96 transition-all">
+                                        <div className="flex flex-row justify-between">
+                                            <div className="flex flex-col">
+                                                <div className="text-sm" dangerouslySetInnerHTML={{ __html: item.highlighted }} />
+                                                <div className="text-xs text-gray-500">{item.type}</div>
                                             </div>
-                                            <hr />
-                                        </>
-                                    )
-                                })
-                        }
-                    </div>
+                                        </div>
 
+                                    </div>
+                                    <hr />
+                                </>
+                            )
+                        })
+                    }
                 </div>
 
-            </>
+            </div>
 
-        )
-    }
+        </>
+
+    )
+}
