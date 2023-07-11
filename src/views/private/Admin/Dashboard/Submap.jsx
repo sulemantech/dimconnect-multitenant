@@ -3,10 +3,27 @@ import maplibregl from 'maplibre-gl';
 import { route } from 'preact-router';
 import { useEffect, useState } from 'preact/hooks';
 import { dropvalue, districts } from '../../../../signals';
+import { LoadingOverlay } from '@mantine/core';
 
 
 export default () => {
+    const [mounted, setMounted] = useState(false)
+    useEffect(() => {
+        setTimeout(() => {
+            setMounted(true)
+        }
+            , 1000)
+    }, [])
+    return (
+        <>
+        {
+            mounted ? <Component /> : <LoadingOverlay visible={true} />
+        }
+        </>
+    )
+}
 
+    const Component = () => {
     return (
         <Map
 
@@ -15,8 +32,8 @@ export default () => {
             mapLib={maplibregl}
             mapStyle={'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json'}
             trackResize={true}
-            flex={3}
-            style={{ width: '100%', height: '90%' }}
+            
+            style={{ flex:1, height: '90%' }}
             initialViewState={{
                 longitude: 7.785873,
                 latitude: 50.614182,

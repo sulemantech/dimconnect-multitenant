@@ -1,4 +1,4 @@
-import { Loader, Paper } from "@mantine/core";
+import { Loader, Paper, Skeleton } from "@mantine/core";
 import { useEffect, useState } from "preact/hooks";
 import { getMaterialCountByDistrictId } from "../../../../api";
 import { dropvalue } from "../../../../signals";
@@ -24,12 +24,13 @@ export default () => {
       <div className="flex flex-col md:flex-row w-full flex-grow">
         <CountCard
           title="Demand Points"
-      
+          loading={loading}
           count={MaterialCount?.data?.demand_points}
         />
 
         <CountCard
           title="Feeder Cables"
+          loading={loading}
           unit="m"
           count={MaterialCount?.data?.feeder_cables}
         />
@@ -90,11 +91,11 @@ const CountCard = ({ title, count,unit="", loading = false }) => (
       {title}
     </span>
     <hr />
-    <div className="flex justify-center items-center text-sm md:text-xl font-light text-brand">
+    <div className="flex relative justify-center items-center text-sm md:text-xl font-light text-brand">
       <b>
         {
           loading ? (
-            <Loader className="mt-1" />
+            <Loader variant="dots" size="md" className="text-brand" />
           ) : (
             count ? 
             commarize(count) 
@@ -103,7 +104,7 @@ const CountCard = ({ title, count,unit="", loading = false }) => (
             
           )
         }
-        {count && unit}
+        {(count && !loading) && unit}
       </b>
     </div>
   </Paper>

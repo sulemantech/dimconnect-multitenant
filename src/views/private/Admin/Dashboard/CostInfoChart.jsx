@@ -18,13 +18,23 @@ export default () => {
     }, []
   )
 
-  const getChartData = (dataset) => ({
+  if (!data) {
+    return <div className='flex justify-center h-full items-center'>
+      <p>No Data</p>
+      </div>
+  }
+
+  const getChartData = (dataset) => {
+    if (!dataset) {
+      return {}
+    }
+    return({
     labels: dataset.map(item => item.cable_type),
     datasets: [{
       data: dataset.map(item => item.total_cost),
       backgroundColor: ['#0E76BB', '#0092c3', 'sky', 'blue', 'indigo', 'purple', 'cyan']
     }]
-  });
+  })};
 
   if (!data) {
     return <div className='flex justify-center h-full items-center'><Loader size='lg' /></div>

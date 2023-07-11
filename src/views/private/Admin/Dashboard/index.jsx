@@ -31,7 +31,7 @@ const Dashboard = () => {
         <div className="flex flex-col md:flex-row">
           <div className="flex-[2]">
             <div className="flex flex-col md:flex-row flex-1">
-              <div className="flex-[2] min-h-[300px] min-w-[500px] h-full m-1 bg-white shadow-lg rounded-xl ">
+              <div className="flex-[2] min-h-[300px] h-full m-1 bg-white shadow-lg rounded-xl ">
 
                 <Suspense fallback={<LoadingOverlay visible />}>
                   <CostInfo />
@@ -45,7 +45,7 @@ const Dashboard = () => {
           </div>
           <div className="flex-grow flex flex-col" >
             <div className="flex flex-col md:flex-row">
-              <div className="flex-[1] relative m-1 w-[400px] h-[400px] bg-white shadow-lg p-2 justify-right rounded-xl">
+              <div className="flex-[1] relative m-1 w-80 h-[400px] bg-white shadow-lg p-2 justify-right rounded-xl">
 
                 <Suspense fallback={<Skeleton />}>
                   <Submap />
