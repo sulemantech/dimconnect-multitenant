@@ -75,23 +75,23 @@ const RouteComponent = ({ path, label, icon, subroutes, isSubRoute = false }) =>
     if (subroutes) {
 
         return (
-            <HoverCard position="right-start">
-                <HoverCard.Target>
+            <HoverCard position="right-start" width={165} shadow="lg">
+                <HoverCard.Target >
                    
-                        <div className={`flex items-center py-8 px-6 h-14 my-2 text-white font-light border-sky-600 transition-all border-b-[2px] hover:border-sky-600 hover:bg-sky-600`}>
+                        <div className={`flex items-center -mt-[6px]   px-6 h-14  text-white font-light border-sky-600 transition-all border-b-[2px] hover:border-sky-600 `}>
 
-                            <p className="flex justify-center items-center text-center">
+                            <p className={`flex justify-center  items-center text-center`}>
                                 {icon}   {collapsed.value && <p className="text-sm pl-4 truncate font-[400]"> {label} </p>} 
                             </p>
                         </div>
                     
                 </HoverCard.Target>
-                <HoverCard.Dropdown className="rounded-r-xl -ml-2 p-0 bg-white  ">
+                <HoverCard.Dropdown className="rounded-r-2xl bg-[#FFFFF] hover:bg-[#0e76bb80]  -ml-2 p-0  ">
                     <div>
                        
-                        <div className={`flex  items-center justify-center py-6 ${collapsed.value ? 'px-6' : 'px-4'} h-14 my-2 text-[#448ab6]  font-light border-neutral-200 transition-all border-b-[1px]   bg-opacity-50`}>
+                        <div className={`flex  items-center  justify-center py-2 ${collapsed.value ? 'px-6' : 'px-4'} h-[50px] my-1 text-[#448ab6]  font-light border-neutral-200  transition-all border-b-[1px]   bg-opacity-50`}>
 
-                            <p className="flex justify-center items-center text-center ">
+                            <p className="flex justify-center bg-white items-center text-center ">
                                  <p className="text-sm pl-4 truncate font-[500]"> {label} </p>
                             </p>
                         </div>

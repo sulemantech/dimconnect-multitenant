@@ -1,11 +1,11 @@
 
 function LiveChat() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen  bg-white">
       <div
-        className="flex h-24"
+        className="flex h-[78px]"
         style={{
-          backgroundImage: `url("/horizontal blue background.svg")`,
+          backgroundImage: `url("/BGFAQ2.svg")`,
         }}
       >
         <div className="text-white justify-center flex flex-col pl-24">
@@ -14,20 +14,21 @@ function LiveChat() {
           <p>we are here to give you any technical  support! </p>
         </div>
         <div className="text-green-600 ml-4 flex items-end">
-          <div className="bg-white flex py-2 px-4 rounded-t-md items-center">
+          <div className="bg-white flex py-2 px-4 ml-[365px] rounded-t-md items-center">
 
-          <p className="h-4 w-4 bg-green-600 rounded-full mr-2"></p> Online
+          <p className="h-4 w-4 bg-green-600 rounded-full mr-2 "></p> Online
           </div>
         </div>
       </div>
-      <div className=" h-auto bg-[#F5F7F942] text-[#3E3F3F] rounded-md border-[2px] mt-4 border-[#DDE7F0] w-[50%] font-[Roboto] ml-24 shadow-lg">
-        <p className="flex flex-row-reverse font-[550] pr-2 h-8 text-[12px] pt-1.5 bg-[#D8E4EEE5]">
+      <div className=" h-auto bg-[#F5F7F942] text-[#3E3F3F] rounded-md border-[2px] mt-4 border-[#DDE7F0] w-[50%] font-[Roboto] ml-24 shadow-lg ">
+        <p className="flex flex-row-reverse font-[550] pr-[40px] h-8 text-[12px] pt-1.5 bg-[#D8E4EEE5] ">
           21.06.2023, Thursday
         </p>
+        <div className="h-auto overflow-y-auto">
         <div className="flex flex-1 space-x-5 px-3 py-[12px]">
           {" "}
           <div className="flex flex-1 space-x-4">
-            <img className="w-[1.7rem]" src="/Vector1.svg" alt="" />
+            <img className="w-[1.7rem]" src="/Vector8.svg" alt="" />
             <div>
               {" "}
               <p className=" text-[12px] font-[550]">DIM TEAM SPECIALIST</p>
@@ -62,7 +63,7 @@ function LiveChat() {
         <div className="flex flex-1 space-x-5 px-3 py-[12px]">
           {" "}
           <div className="flex flex-1 space-x-4">
-            <img className="w-[1.7rem]" src="/Vector1.svg" alt="" />
+            <img className="w-[1.7rem]" src="/Vector8.svg" alt="" />
             <div>
               {" "}
               <p className=" text-[12px] font-[550]">DIM TEAM SPECIALIST</p>
@@ -115,7 +116,7 @@ function LiveChat() {
         <div className="flex flex-1 space-x-5 px-3 py-[12px]">
           {" "}
           <div className="flex flex-1 space-x-4">
-            <img className="w-[1.7rem]" src="/Vector1.svg" alt="" />
+            <img className="w-[1.7rem]" src="/Vector8.svg" alt="" />
             <div>
               {" "}
               <p className=" text-[12px] font-[550]">DIM TEAM SPECIALIST</p>
@@ -127,20 +128,21 @@ function LiveChat() {
           <p className="text-[12px]">13:15</p>
           <img src="/Group3.svg" alt="" />
         </div>
-        <div className=" h-28 rounded-t-lg text-[12px]  bg-[#D8E4EEE5] max-md:h-36">
+        </div>
+        <div className=" h-[100px]  rounded-t-lg text-[12px]  bg-[#D8E4EEE5] max-md:h-36">
           <p className=" pt-3 ml-14">Please type text here</p>
           <div className="flex flex-1 ml-3  max-md:block">
-            <img src="/Vector4.svg" alt="" />
+            <img className="w-[16px] pb-8 ml-3" src="/Vector4.svg" alt="" />
             <label className="">
               <p className=" mt-2.5 ml-5  text-[#0E76BB]">Attach File </p>
               <input type="file" name="attach file" className="hidden  w-48" />
             </label>
             <input
-              className="border-b-[1px] ml-5 w-[28rem] border-[#0E76BB] bg-transparent text-xs outline-none max-md:w-[8rem] "
+              className="border-b-[1px] mb-10 pt-3 ml-2 w-[35rem] border-[#0E76BB] bg-transparent text-[8px] outline-none max-md:w-[8rem] "
               type="text"
               placeholder="Please prepare test drive in Frankfurt for next monday!"
             />
-            <img className=" ml-10 w-10 max-md:float-right max-md:w-[w-4] max-md:pb-14 max-md:mr-10" src="/Vector5.svg" alt="" />
+            <img className=" ml-10 w-9 mb-8 max-md:float-right max-md:w-[w-4] max-md:pb-14 max-md:mr-10" src="/Vector5.svg" alt="" />
           </div>
         </div>
       </div>
