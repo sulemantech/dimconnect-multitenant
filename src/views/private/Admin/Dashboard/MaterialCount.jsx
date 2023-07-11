@@ -85,7 +85,7 @@ const CountCard = ({ title, count,unit="", loading = false }) => (
   <Paper
     withBorder
     p={0}
-    className=" flex-grow items-center  min-h-[40px] md:min-h-[50px] m-1 bg-white shadow-lg rounded-lg"
+    className="flex-1 flex-grow items-center  min-h-[40px] md:min-h-[50px] m-1 bg-white shadow-lg rounded-lg"
   >
     <span className="flex rounded-t-lg font-thintext-xs md:text-sm truncate bg-brand text-white p-1">
       {title}
