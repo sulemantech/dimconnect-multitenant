@@ -49,7 +49,7 @@ export default () => {
 
     return (
         <div className={'h-screen bg-white overflow-x-auto'}>
-            <div style={{ backgroundImage: 'url("/horizontal blue background.svg")' }} className="flex flex-col pl-20 justify-center h-1/3">
+            <div style={{ backgroundImage: 'url("/horizontal blue background.svg")' }} className="flex flex-col pl-20 justify-center h-[37%]">
                 <div className="text-4xl font-bold tracking-wide text-white">We Can Help.</div>
                 <div className="text-xs text-white my-2">FAQ : Frequently Asked Questions, Conclusively Answered</div>
                 <Input rightSection={<IconSearch size={20} />} radius={'xl'} placeholder="Search" className="w-1/2 mt-4" />
