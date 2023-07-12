@@ -77,7 +77,7 @@ export default ({ modal = false }) => {
                                         {key}
                                     </b>
                                 </div>
-                              
+
                             </Menu.Item>
                         )
                     })

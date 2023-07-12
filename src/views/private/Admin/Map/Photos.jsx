@@ -1,14 +1,14 @@
+import { Loader } from "@mantine/core"
+import { openModal } from "@mantine/modals"
+import { IconPhoto } from "@tabler/icons"
+import { memo } from "preact/compat"
 import { useEffect, useMemo, useState } from "preact/hooks"
 import { Marker } from "react-map-gl"
 import appConfig from "../../../../config/appConfig"
-import { memo } from "preact/compat"
-import { IconPhoto } from "@tabler/icons"
-import { Loader } from "@mantine/core"
-import { openModal } from "@mantine/modals"
 
-import { dispatchPopupView } from "./Popup"
 import { getPhotos } from "../../../../api"
 import { dropvalue, photoVisibility } from "../../../../signals"
+import { dispatchPopupView } from "./Popup"
 
 
 export default () => {

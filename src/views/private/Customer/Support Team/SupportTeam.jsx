@@ -2,35 +2,35 @@ import { Card, CardSection, Button } from "@mantine/core"
 import PageProvider from "../../../../providers/PageProvider"
 import { route } from "preact-router"
 
-import {useState} from 'preact/hooks'
+import { useState } from 'preact/hooks'
 
 import icons from "../../../../layout/icons"
 export default () => {
-   
+
     const [data, setData] = useState({
         "FAQs": {
             icon: <icons.FAQIcon fill="#0E76BB" />,
-           
+
             route: 'faq'
         },
         "Support Ticket": {
             // icon: <IconPremiumRights size={25} className="text-[#0E76BB]" />,
-            icon : <icons.TicketIconBlue fill="#0E76BB" />,
+            icon: <icons.TicketIconBlue fill="#0E76BB" />,
             route: 'support_ticket'
         },
         "My Tickets": {
-          // icon: <IconPremiumRights size={25} className="text-[#0E76BB]" />,
-          icon : <icons.TicketIconBlue fill="#0E76BB" />,
-          route: 'my_tickets'
-      },
-        "Live Chat": { 
+            // icon: <IconPremiumRights size={25} className="text-[#0E76BB]" />,
+            icon: <icons.TicketIconBlue fill="#0E76BB" />,
+            route: 'my_tickets'
+        },
+        "Live Chat": {
             icon: <icons.LiveChat fill="#0E76BB" />,
             route: 'live_chat'
         },
     })
 
     return (
-       
+
         <PageProvider>
             <div class=''>
                 <Card>
@@ -40,12 +40,12 @@ export default () => {
                         <Divider /> */}
                         <div className={'flex rounded-md'}>
 
-                        
+
 
                             {
                                 Object.keys(data).map((key, index) => {
                                     return (
-                                       
+
                                         // <div className="p-2 m-2 hover:bg-sky-200 transition-all cursor-pointer hover:scale-95 hover:shadow-md rounded-md min-w-[100px]" onClick={() => { route(`/support_team/${data[key].route}`) }} key={index} >
                                         //     <div className={'flex flex-col items-center justify-center'}>
                                         //         {data[key].icon}
@@ -53,13 +53,13 @@ export default () => {
                                         //     </div>
                                         // </div>
                                         <Button
-                                        mr={15}
-                                        leftIcon={data[key].icon}
-                                        onClick={() => { route(`/support_team/${data[key].route}`) }}
+                                            mr={15}
+                                            leftIcon={data[key].icon}
+                                            onClick={() => { route(`/support_team/${data[key].route}`) }}
                                         >
                                             {key}
                                         </Button>
-                                       
+
                                     )
                                 })
                             }
@@ -69,6 +69,6 @@ export default () => {
                 </Card>
             </div>
         </PageProvider>
-       
+
     )
 }

@@ -29,10 +29,10 @@ export function App() {
     <MantineProvider
       theme={{
         fontFamily: 'Roboto Condensed, Roboto',
-        primaryShade : 4,
+        primaryShade: 4,
         colors: {
           brand: ['#0E76BB', '#0E76BB', '#0E76BB', '#0E76BB', '#0E76BB', '#0E76BB', '#0E76BB', '#0E76BB', '#0E76BB'],
-          
+
         },
         // hover color
         primaryColor: 'brand',
@@ -47,13 +47,13 @@ export function App() {
                 size: 'sm',
               },
               radius: 'lg',
-          
+
               style: {
                 boxShadow: '0px 0px 3px 1px rgba(0,0,0,0.25)',
               },
               className: "px-10 text-[#0E76BB] font-semibold capitalize hover:scale-95 active:bg-sky-400 hover:bg-sky-200 bg-[#D8E4EEE5]  justify-self-end items-end hover:shadow-md transition-all duration-200 ease-in-out ripple-bg-sky-50"
             },
-            
+
           },
           LoadingOverlay: {
             defaultProps: {
@@ -67,23 +67,23 @@ export function App() {
           }
         }
       }}
-      
+
     >
 
-     
 
-      
+
+
       <Suspense fallback={<LoadingOverlay visible />} >
         <ModalsProvider modalProps={{
           overlayProps: {
             style: {
               backdropFilter: 'blur(3px)',
-              
+
             },
           },
           classNames: {
             inner: 'shadow-2xl border-2 border-gray-200 rounded-xl',
-          
+
           },
           lockScroll: false
 

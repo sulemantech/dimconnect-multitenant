@@ -1,13 +1,13 @@
-import { Avatar, Group, Menu, Select, Burger, Box, Breadcrumbs, Anchor } from "@mantine/core"
-import { IconChevronRight, IconLogout } from "@tabler/icons"
-import { useContext, useEffect, useState, useLayoutEffect } from "preact/hooks"
-import { useRouter, route, } from "preact-router"
+import { Anchor, Avatar, Box, Breadcrumbs, Group, Menu, Select } from "@mantine/core"
+import { IconLogout } from "@tabler/icons"
+import { route, useRouter, } from "preact-router"
+import { useContext, useLayoutEffect, useState } from "preact/hooks"
 
 
+import { IconArrowBadgeRightFilled } from "@tabler/icons-react"
 import appConfig from "../config/appConfig"
 import { AuthState } from "../providers/AuthProvider"
 import { dropvalue, regsionListSignal, userDataSignal } from "../signals"
-import { IconArrowBadgeRightFilled } from "@tabler/icons-react"
 
 
 
@@ -47,15 +47,15 @@ export default () => {
       })
 
       regsionListSignal.subscribe(value => {
-     
+
         setRegsionList(value
           .filter(item => (item.kreis !== null && item.bezeichnung !== 'Kreis'))
           .map(item => ({
-          value: item.ags,
-          label: `${item.name} (${item.bezeichnung})`,
-          group: item.kreis
-        })
-        ))
+            value: item.ags,
+            label: `${item.name} (${item.bezeichnung})`,
+            group: item.kreis
+          })
+          ))
       })
 
 
@@ -97,7 +97,7 @@ export default () => {
           data={regsionList}
           color="brand"
           sx={{ width: 350 }}
-         unselectable
+          unselectable
           onChange={(value) => {
             dropvalue.value = value
           }}
@@ -146,26 +146,26 @@ export default () => {
 
 
       </div>
-      <div className="pl-2 bg-neutral-100 items-center text-[10px] "> 
-        
-      <Breadcrumbs separator={<IconArrowBadgeRightFilled size={12} className="text-neutral-500" />}
-        p={2}
-        
-        
-        
+      <div className="pl-2 bg-neutral-100 items-center text-[10px] ">
+
+        <Breadcrumbs separator={<IconArrowBadgeRightFilled size={12} className="text-neutral-500" />}
+          p={2}
+
+
+
         >{
-          
-          router[0].url?.split('?')?.[0]?.split('/').filter(item => item !== '')
-          .map((item, index) => {
-            return (
-              <Anchor href={getHrefByIndex(router[0].url, index)} className="text-neutral-500">
-                  {getLabelFromURI(item).toUpperCase().toLocaleUpperCase('de')}
-                </Anchor>
-              )
-            })
+
+            router[0].url?.split('?')?.[0]?.split('/').filter(item => item !== '')
+              .map((item, index) => {
+                return (
+                  <Anchor href={getHrefByIndex(router[0].url, index)} className="text-neutral-500">
+                    {getLabelFromURI(item).toUpperCase().toLocaleUpperCase('de')}
+                  </Anchor>
+                )
+              })
           }
-      </Breadcrumbs>
-          </div>
+        </Breadcrumbs>
+      </div>
     </div>
   )
 }

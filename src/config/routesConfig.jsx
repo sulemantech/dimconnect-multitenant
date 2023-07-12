@@ -6,34 +6,34 @@ export const privateRoutes = [{
     label: 'Dashboard',
     path: `/dashboard?ags=${dropvalue?.value}`,
     permission: PERMISSIONS.Dashboard,
-    icon: icons.DasboardIcon ,
+    icon: icons.DasboardIcon,
 }, {
     label: 'Map',
     path: `/map?ags=${dropvalue?.value}`,
     permission: PERMISSIONS.Map,
-    icon: icons.MapIcon ,
+    icon: icons.MapIcon,
 }, {
     label: 'Administration',
     permission: PERMISSIONS.Administration,
     path: `/administration`,
-    icon: icons.AdministrationIcon ,
-    subroutes : [{
+    icon: icons.AdministrationIcon,
+    subroutes: [{
         label: 'User Management',
         path: `/administration/user_management`,
         permission: PERMISSIONS['User Management'],
-        icon: icons.UserManagementIcon ,
+        icon: icons.UserManagementIcon,
     }, {
         label: 'Role Management',
         path: `/administration/role_management`,
         permission: PERMISSIONS['Roles Management'],
-        icon: icons.RoleManagementIcon ,
+        icon: icons.RoleManagementIcon,
     }]
 },
 {
     label: 'Support Ticket Back Office',
     permission: PERMISSIONS.Ticket,
     path: `/support_ticket_back_office/inbox`,
-    icon: icons.TicketIcon ,
+    icon: icons.TicketIcon,
 },
 {
     label: 'Support Team',
@@ -50,7 +50,7 @@ export const privateRoutes = [{
         permission: PERMISSIONS.SupportTeam,
         path: `/support_team/support_ticket`,
         icon: icons.TicketIconBlue,
-    }, 
+    },
     {
         label: 'Live Chat',
         permission: PERMISSIONS.SupportTeam,

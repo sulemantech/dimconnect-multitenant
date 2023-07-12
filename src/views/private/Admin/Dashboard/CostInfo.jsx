@@ -147,12 +147,12 @@ const costInfoSampleData = {
   }
 }
 
-export const generatePDF = (data,fileName) => {
+export const generatePDF = (data, fileName) => {
   const doc = new jsPDF();
 
   // add title of filename
   doc.text(`Kosteninformationen von ${fileName}`, 10, 10);
-  
+
 
 
   const categories = ['distribution', 'feeder', 'primary'];
@@ -163,7 +163,7 @@ export const generatePDF = (data,fileName) => {
     const cableData = data.cables[category].map(item => Object.values(item)).map(item => {
       return item.map(item => commarize(item))
     })
-    
+
     doc.text(`Cables - ${category}`, 10, startY);
     doc.autoTable({
       head: cableHeaders,
@@ -198,16 +198,16 @@ export const generatePDF = (data,fileName) => {
 
   const activationHeaders = [['key', 'value']];
   const activationData = Object.entries(data.homeActivation).map(item => [item[0].split('_').join(' ').toUpperCase(), commarize(item[1])])
- 
+
   startY = doc.lastAutoTable.finalY + 10;
   doc.text(`Home Activation`, 10, startY);
   doc.autoTable({
-      head: activationHeaders,
-      body: activationData,
-      startY: startY + 5
+    head: activationHeaders,
+    body: activationData,
+    startY: startY + 5
   });
 
-  
+
 
 
   doc.save(`${fileName}-${new Date().toISOString()}-kalkulation.pdf`);
@@ -220,7 +220,7 @@ export default () => {
   useEffect(() => {
     dropvalue.subscribe(setAgs)
   }, [])
-  
+
   useDidUpdate(() => {
     if (ags) {
       getCost();
@@ -248,14 +248,14 @@ export default () => {
   return (
     <>
       <div className="flex p-2 flex-grow relative">
-    <LoadingOverlay visible={loading} />
+        <LoadingOverlay visible={loading} />
 
         <p className="flex-grow flex-1 font-thin text-neutral-700 text-lg">
           Cost Info
         </p>
         <div className='flex'>
-        <ActionIcon onClick={() => {
-             generatePDF(data,regsionListSignal.value.find(tile => tile.ags === ags).name)
+          <ActionIcon onClick={() => {
+            generatePDF(data, regsionListSignal.value.find(tile => tile.ags === ags).name)
           }}>
             <IconPdf />
           </ActionIcon>
@@ -277,7 +277,7 @@ export default () => {
           }}>
             <IconSettings />
           </ActionIcon>
-          
+
         </div>
       </div>
       <hr />
@@ -291,38 +291,38 @@ export default () => {
 
 
 export const CostInfoModalContent = ({ data }) => {
-  
+
   const [segmentedControl, setSegmentedControl] = useState('cable')
 
   return (
+    <div>
+      <SegmentedControl
+        className="mb-4"
+        data={[
+          { label: 'Home Activation', value: 'homeActivation' },
+          { label: 'Cables', value: 'cable' },
+          { label: 'Ducts', value: 'duct' },
+        ]}
+        fullWidth
+        color="brand"
+        onChange={(value) => {
+          setSegmentedControl(value)
+        }}
+        value={segmentedControl}
+      />
       <div>
-          <SegmentedControl
-              className="mb-4"
-              data={[
-                  { label: 'Home Activation', value: 'homeActivation' },
-                  { label: 'Cables', value: 'cable' },
-                  { label: 'Ducts', value: 'duct' },
-              ]}
-              fullWidth
-              color="brand"
-              onChange={(value) => {
-                  setSegmentedControl(value)
-              }}
-              value={segmentedControl}
-          />
-          <div>
-              {
-                  segmentedControl === 'cable' ?
-                      <CableTable data={data.cables} />
-                      : segmentedControl === 'duct' ?
-                          <DuctTable data={data.duct} />
-                          : segmentedControl === 'homeActivation' ?
-                              <HomeActivationTable data={data.homeActivation} />
-                              : null
-              }
-          </div>
-
+        {
+          segmentedControl === 'cable' ?
+            <CableTable data={data.cables} />
+            : segmentedControl === 'duct' ?
+              <DuctTable data={data.duct} />
+              : segmentedControl === 'homeActivation' ?
+                <HomeActivationTable data={data.homeActivation} />
+                : null
+        }
       </div>
+
+    </div>
   )
 }
 
@@ -330,50 +330,50 @@ export const CostInfoModalContent = ({ data }) => {
 export const HomeActivationTable = ({ data }) => {
 
   return (
-      <div>
-          
-          <div className="flex flex-col">
-              <div className="-my-2 overflow-x-auto">
-                  <div className="py-2 align-middle inline-block min-w-full overflow-hidden">
-                      <div className="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
-                          <Table striped className="min-w-full divide-y divide-gray-200">
-                              <thead className="bg-gray-50">
-                                  <tr>
+    <div>
 
-                                      <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                                          Type
-                                      </th>
-                                      <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                                          Value
-                                      </th>
-                                  </tr>
-                              </thead>
-                              <tbody className="bg-white divide-y divide-gray-200">
-                                  {
-                                      Object.keys(data).map((key, index) => {
-                                          return (
-                                              <tr key={index}>
-                                                  <td className="px-6 py-4 whitespace-nowrap">
-                                                      <div className="text-sm text-gray-900">{key.split('_').join(' ').toUpperCase()}</div>
-                                                  </td>
-                                                  <td className="px-6 py-4 whitespace-nowrap">
-                                                      {
+      <div className="flex flex-col">
+        <div className="-my-2 overflow-x-auto">
+          <div className="py-2 align-middle inline-block min-w-full overflow-hidden">
+            <div className="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
+              <Table striped className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
 
-                                                          <div className="text-sm text-gray-900">{commarize(data[key])}</div>
+                    <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                      Type
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                      Value
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {
+                    Object.keys(data).map((key, index) => {
+                      return (
+                        <tr key={index}>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="text-sm text-gray-900">{key.split('_').join(' ').toUpperCase()}</div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            {
 
-                                                      }
-                                                  </td>
-                                              </tr>
-                                          )
-                                      })
-                                  }
-                              </tbody>
-                          </Table>
-                      </div>
-                  </div>
-              </div>
+                              <div className="text-sm text-gray-900">{commarize(data[key])}</div>
+
+                            }
+                          </td>
+                        </tr>
+                      )
+                    })
+                  }
+                </tbody>
+              </Table>
+            </div>
           </div>
-      </div >
+        </div>
+      </div>
+    </div >
   )
 }
 
@@ -383,42 +383,42 @@ export const DuctTable = ({ data }) => {
   const sections = Object.keys(data);
 
   return (
-      <div className="overflow-x-auto">
-          {sections.map(section => (
-              <div key={section}>
-                  <h2 className="text-md font-semibold mt-4 m-1 text-sky-700">{section.split('_').join(' ').toUpperCase()}</h2>
-                  <hr />
-                  <div className=" overflow-x-auto">
-                      <div className="py-2 px-1 align-middle inline-block min-w-full overflow-hidden shadow-md">
-                          <div className="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
-                              <table className="min-w-full divide-y divide-gray-200">
-                                  <thead className="justify-between">
-                                      <tr>
-                                          <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Duct Type</th>
-                                          <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Material Cost</th>
-                                          <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Labour Cost</th>
-                                          <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Volume</th>
-                                          <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Total Cost</th>
-                                      </tr>
-                                  </thead>
-                                  <tbody>
-                                      {data[section].map((row, index) => (
-                                          <tr key={index} className={index % 2 === 0 ? 'bg-gray-200' : ''}>
-                                              <td className="px-2 py-4 whitespace-nowrap text-xs text-gray-900">{row.duct_type}</td>
-                                              <td className="px-2 py-4 whitespace-nowrap text-xs text-gray-900">{row.duct_materialcost}</td>
-                                              <td className="px-2 py-4 whitespace-nowrap text-xs text-gray-900">{row.duct_labourcost}</td>
-                                              <td className="px-2 py-4 whitespace-nowrap text-xs font-semibold text-gray-900">{commarize(row.duct_volume)}</td>
-                                              <td className="px-2 py-4 whitespace-nowrap text-xs font-semibold text-gray-900">{commarize(row.total_cost)}</td>
-                                          </tr>
-                                      ))}
-                                  </tbody>
-                              </table>
-                          </div>
-                      </div>
-                  </div>
+    <div className="overflow-x-auto">
+      {sections.map(section => (
+        <div key={section}>
+          <h2 className="text-md font-semibold mt-4 m-1 text-sky-700">{section.split('_').join(' ').toUpperCase()}</h2>
+          <hr />
+          <div className=" overflow-x-auto">
+            <div className="py-2 px-1 align-middle inline-block min-w-full overflow-hidden shadow-md">
+              <div className="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="justify-between">
+                    <tr>
+                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Duct Type</th>
+                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Material Cost</th>
+                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Labour Cost</th>
+                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Volume</th>
+                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Total Cost</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {data[section].map((row, index) => (
+                      <tr key={index} className={index % 2 === 0 ? 'bg-gray-200' : ''}>
+                        <td className="px-2 py-4 whitespace-nowrap text-xs text-gray-900">{row.duct_type}</td>
+                        <td className="px-2 py-4 whitespace-nowrap text-xs text-gray-900">{row.duct_materialcost}</td>
+                        <td className="px-2 py-4 whitespace-nowrap text-xs text-gray-900">{row.duct_labourcost}</td>
+                        <td className="px-2 py-4 whitespace-nowrap text-xs font-semibold text-gray-900">{commarize(row.duct_volume)}</td>
+                        <td className="px-2 py-4 whitespace-nowrap text-xs font-semibold text-gray-900">{commarize(row.total_cost)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
-          ))}
-      </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
   );
 };
 
@@ -427,46 +427,46 @@ export const CableTable = ({ data }) => {
   const sections = Object.keys(data);
 
   return (
-      <div className="overflow-x-auto">
-          
-          {sections.map(section => (
-              <div key={section}>
-                  <h2 className="text-md font-semibold mt-4 m-1 text-sky-700">{section.split('_').join(' ').toUpperCase()}</h2>
-                  <hr />
-                  <div className=" overflow-x-auto">
-                      <div className="py-2 px-1 align-middle inline-block min-w-full overflow-hidden shadow-md">
-                          <div className="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
-                              <table className="min-w-full divide-y divide-gray-200">
-                                  <thead className="justify-between">
-                                      <tr>
-                                          <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Cable Type</th>
-                                          <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Material Cost</th>
-                                          <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Labour Cost</th>
-                                          <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Total</th>
-                                          <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Volume</th>
-                                          <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Total Cost</th>
-                                      </tr>
-                                  </thead>
-                                  <tbody>
-                                      {data[section].map((row, index) => (
-                                          <tr key={index} className={index % 2 === 0 ? 'bg-gray-200' : ''}>
-                                              <td className="px-2 py-4 whitespace-nowrap text-xs text-gray-900">{row.cable_type}</td>
-                                              <td className="px-2 py-4 whitespace-nowrap text-xs text-gray-900">{row.materialcost}</td>
-                                              <td className="px-2 py-4 whitespace-nowrap text-xs text-gray-900">{row.labourcost}</td>
-                                              <td className="px-2 py-4 whitespace-nowrap text-xs text-gray-900">{row.total}</td>
-                                              <td className="px-2 py-4 whitespace-nowrap text-xs font-semibold text-gray-900">{commarize(row.volume)}</td>
-                                              <td className="px-2 py-4 whitespace-nowrap text-xs font-semibold text-gray-900">{commarize(row.total_cost)}</td>
-                                          </tr>
-                                      ))}
-                                  </tbody>
-                              </table>
-                          </div>
-                      </div>
-                  </div>
+    <div className="overflow-x-auto">
+
+      {sections.map(section => (
+        <div key={section}>
+          <h2 className="text-md font-semibold mt-4 m-1 text-sky-700">{section.split('_').join(' ').toUpperCase()}</h2>
+          <hr />
+          <div className=" overflow-x-auto">
+            <div className="py-2 px-1 align-middle inline-block min-w-full overflow-hidden shadow-md">
+              <div className="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="justify-between">
+                    <tr>
+                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Cable Type</th>
+                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Material Cost</th>
+                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Labour Cost</th>
+                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Total</th>
+                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Volume</th>
+                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Total Cost</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {data[section].map((row, index) => (
+                      <tr key={index} className={index % 2 === 0 ? 'bg-gray-200' : ''}>
+                        <td className="px-2 py-4 whitespace-nowrap text-xs text-gray-900">{row.cable_type}</td>
+                        <td className="px-2 py-4 whitespace-nowrap text-xs text-gray-900">{row.materialcost}</td>
+                        <td className="px-2 py-4 whitespace-nowrap text-xs text-gray-900">{row.labourcost}</td>
+                        <td className="px-2 py-4 whitespace-nowrap text-xs text-gray-900">{row.total}</td>
+                        <td className="px-2 py-4 whitespace-nowrap text-xs font-semibold text-gray-900">{commarize(row.volume)}</td>
+                        <td className="px-2 py-4 whitespace-nowrap text-xs font-semibold text-gray-900">{commarize(row.total_cost)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
-          ))
-          }
-      </div >
+            </div>
+          </div>
+        </div>
+      ))
+      }
+    </div >
   );
 };
 

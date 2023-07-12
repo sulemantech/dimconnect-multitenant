@@ -46,7 +46,7 @@ export default () => {
 
         setTickets(
           res.data
-          
+
         );
       })
       .catch((err) => console.log(err));
@@ -60,7 +60,8 @@ export default () => {
 
         <div className="flex flex-1 flex-wrap w-full justify-center items-start">
           <div className="min-w-[60%] " style={{
-            borderTopLeftRadius: "0.5rem",}
+            borderTopLeftRadius: "0.5rem",
+          }
           }>
             <Table data={tickets} select={select} setSelect={setSelect} setUpdate={setUpdate} />
           </div>

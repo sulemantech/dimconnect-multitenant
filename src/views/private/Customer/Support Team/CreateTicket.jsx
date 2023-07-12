@@ -27,7 +27,7 @@ export default function TicketCreationPage() {
     fetchTicketData();
   }, []);
 
- 
+
 
   const handleTicketSubmit = async (e) => {
     e.preventDefault();
@@ -35,9 +35,9 @@ export default function TicketCreationPage() {
 
     const form = e.target;
     const formData = new FormData(form);
-   
+
     const files = formData.getAll('file');
-    
+
     // check all files are less than 512kb
     for (let i = 0; i < files.length; i++) {
       if (files[i].size > 512000) {
@@ -50,12 +50,12 @@ export default function TicketCreationPage() {
     // check if category is selected
     // check if priority is selected
 
-    if(!formData.get('category_id') || !formData.get('priority_id')){
+    if (!formData.get('category_id') || !formData.get('priority_id')) {
       setError('Please select a category and priority');
       setLoading(false);
       return;
     }
-    
+
     // local urls of each file
     const fileUrls = [];
     for (let i = 0; i < files.length; i++) {
@@ -63,39 +63,39 @@ export default function TicketCreationPage() {
     }
 
 
-    try{
-    const ticketPosted = await postTicket(formData)
-    
-  
-    openModal({
-      title: <></>,
+    try {
+      const ticketPosted = await postTicket(formData)
 
-      size: 'xl',
-      classNames: {
-        title: 'hidden',
-        header: 'bg-brand py-1',
-        body: 'p-0',
-      },
-      children: <ThanksModalContent 
-      ticketNumber={ticketPosted.data.id}
-      currentStatus={'open'}
-      date={new Date().toLocaleDateString()}
-      name={ticketPosted.data.title}
-      problemType={categories.find((category) => category.id === ticketPosted.data.category_id).name}
-      title={ticketPosted.data.title}
-      description={ticketPosted.data.description}
-        attatchedFiles={fileUrls}
-      />,
-    });
-    return;
-  } catch (err) {
-    console.log(err)
-    setError(err.message);
-   
-    return;
-  } finally {
-    setLoading(false);
-  }
+
+      openModal({
+        title: <></>,
+
+        size: 'xl',
+        classNames: {
+          title: 'hidden',
+          header: 'bg-brand py-1',
+          body: 'p-0',
+        },
+        children: <ThanksModalContent
+          ticketNumber={ticketPosted.data.id}
+          currentStatus={'open'}
+          date={new Date().toLocaleDateString()}
+          name={ticketPosted.data.title}
+          problemType={categories.find((category) => category.id === ticketPosted.data.category_id).name}
+          title={ticketPosted.data.title}
+          description={ticketPosted.data.description}
+          attatchedFiles={fileUrls}
+        />,
+      });
+      return;
+    } catch (err) {
+      console.log(err)
+      setError(err.message);
+
+      return;
+    } finally {
+      setLoading(false);
+    }
 
   };
 
@@ -107,130 +107,130 @@ export default function TicketCreationPage() {
       <Paper className="space-y-4 px-20 py-4 flex-grow ">
         <Title order={2} color='brand'>Support Ticket To DIM Team</Title>
         <Title order={5} className='w-2/3 font-light text-xs' >Please describe your issue in detail, with relevant information including device platform, a version affected, steps taken to reproduce the issue, and any other relevant information.</Title>
-        <form  onSubmit={handleTicketSubmit}>
+        <form onSubmit={handleTicketSubmit}>
 
-        
-        <Paper className="flex-grow flex mt-8" radius={'xl'} withBorder>
-          <Box className="rounded-l-full flex-1 items-center justify-center" display='flex'>
-            <Text color='brand' className='font-bold text-sm' >
-              Problem Type
-            </Text>
-          </Box>
-          <Select
-            classNames={{
-              input: 'rounded-r-full relative',
-            }}
-            required
-            name='category_id'
-            size='sm'
-            variant='filled'
-            className='flex-[3]'
-            data={categories.map((category) => ({
-              value: category.id,
-              label: category.name,
-            }))}
-            
-           
-          />
-        </Paper>
-        <Paper className="flex-grow flex mt-8" radius={'xl'} withBorder>
-          <Box className="rounded-l-full flex-1 items-center justify-center" display='flex'>
-            <Text color='brand' className='font-bold text-sm'>
-              Title
-            </Text>
-          </Box>
-          <TextInput
-            placeholder="Enter Map Problem"
-            className='flex-[3]'
-            variant='filled'
-            classNames={{
-              input: 'rounded-r-full relative',
-            }}
-            size='sm'
-            name="title"
-          
-            required
-           
-          />
-        </Paper>
-        <Paper className="flex-grow flex mt-8" radius={'lg'} withBorder>
-          <Box className="rounded-l-lg flex-1 items-center justify-center" display='flex'>
-            <Text color='brand' className='font-bold text-sm'>
-              Description
-            </Text>
-          </Box>
-          <Textarea
-            variant='filled'
-            className='flex-[3]'
-            classNames={{
-              input: 'rounded-r-2xl relative',
-            }}
-            size='sm'
-            placeholder="Enter description"
-            name="description"
-            multiline
-          
-            required
-          />
-        </Paper>
-        <Paper className="flex-grow flex mt-8" radius={'xl'} withBorder>
-          <Box className="rounded-l-full flex-1 items-center justify-center" display='flex'>
-            <Text color='brand' className='font-bold text-sm'>
-              Priority
-            </Text>
-          </Box>
-          <Select
-            variant='filled'
-            placeholder="Select priority"
-            className='flex-[3]'
-            classNames={{
-              input: 'rounded-r-full relative',
-            }}
-            size='sm'
-            data={
-              priorities.map((priority) => ({
-                value: priority.id,
-                label: priority.name,
-              }))
-            }
-           name='priority_id'
-            
-            required
-          />
-        </Paper>
 
-        <Paper className="flex-grow flex mt-8" radius={'xl'} withBorder>
-          <Box className="rounded-l-full flex-1 items-center justify-center" display='flex'>
-            <Text color='brand' className='font-bold text-sm'>
-              Attachments
-            </Text>
-          </Box>
-          <FileInput
-          label='Max file size 512KB'
-          labelProps={{ className: 'text-[10px]' }}
-            icon={<IconPaperclip size={23} className='text-sky-600' />}
-            size='sm'
-            placeholder='Attatch files'
-            multiple
-            name="file"
-            error={error}
-            variant='filled'
-            className='flex-[3]'
-            classNames={{ input: 'rounded-r-full relative' }} />
-            
-        </Paper>
-        <p className='text-xs'>
-          To protect your privacy, please do not include Any personal information in your request. Review our <a href="#" className="text-sky-600">privacy statement</a> for more information.
-        </p>
-        <div className='justify-end items-end flex'>
-          <Button
-          type='submit'
-          loading={loading}
-           
-           >Submit</Button>
+          <Paper className="flex-grow flex mt-8" radius={'xl'} withBorder>
+            <Box className="rounded-l-full flex-1 items-center justify-center" display='flex'>
+              <Text color='brand' className='font-bold text-sm' >
+                Problem Type
+              </Text>
+            </Box>
+            <Select
+              classNames={{
+                input: 'rounded-r-full relative',
+              }}
+              required
+              name='category_id'
+              size='sm'
+              variant='filled'
+              className='flex-[3]'
+              data={categories.map((category) => ({
+                value: category.id,
+                label: category.name,
+              }))}
 
-        </div>
-      </form>
+
+            />
+          </Paper>
+          <Paper className="flex-grow flex mt-8" radius={'xl'} withBorder>
+            <Box className="rounded-l-full flex-1 items-center justify-center" display='flex'>
+              <Text color='brand' className='font-bold text-sm'>
+                Title
+              </Text>
+            </Box>
+            <TextInput
+              placeholder="Enter Map Problem"
+              className='flex-[3]'
+              variant='filled'
+              classNames={{
+                input: 'rounded-r-full relative',
+              }}
+              size='sm'
+              name="title"
+
+              required
+
+            />
+          </Paper>
+          <Paper className="flex-grow flex mt-8" radius={'lg'} withBorder>
+            <Box className="rounded-l-lg flex-1 items-center justify-center" display='flex'>
+              <Text color='brand' className='font-bold text-sm'>
+                Description
+              </Text>
+            </Box>
+            <Textarea
+              variant='filled'
+              className='flex-[3]'
+              classNames={{
+                input: 'rounded-r-2xl relative',
+              }}
+              size='sm'
+              placeholder="Enter description"
+              name="description"
+              multiline
+
+              required
+            />
+          </Paper>
+          <Paper className="flex-grow flex mt-8" radius={'xl'} withBorder>
+            <Box className="rounded-l-full flex-1 items-center justify-center" display='flex'>
+              <Text color='brand' className='font-bold text-sm'>
+                Priority
+              </Text>
+            </Box>
+            <Select
+              variant='filled'
+              placeholder="Select priority"
+              className='flex-[3]'
+              classNames={{
+                input: 'rounded-r-full relative',
+              }}
+              size='sm'
+              data={
+                priorities.map((priority) => ({
+                  value: priority.id,
+                  label: priority.name,
+                }))
+              }
+              name='priority_id'
+
+              required
+            />
+          </Paper>
+
+          <Paper className="flex-grow flex mt-8" radius={'xl'} withBorder>
+            <Box className="rounded-l-full flex-1 items-center justify-center" display='flex'>
+              <Text color='brand' className='font-bold text-sm'>
+                Attachments
+              </Text>
+            </Box>
+            <FileInput
+              label='Max file size 512KB'
+              labelProps={{ className: 'text-[10px]' }}
+              icon={<IconPaperclip size={23} className='text-sky-600' />}
+              size='sm'
+              placeholder='Attatch files'
+              multiple
+              name="file"
+              error={error}
+              variant='filled'
+              className='flex-[3]'
+              classNames={{ input: 'rounded-r-full relative' }} />
+
+          </Paper>
+          <p className='text-xs'>
+            To protect your privacy, please do not include Any personal information in your request. Review our <a href="#" className="text-sky-600">privacy statement</a> for more information.
+          </p>
+          <div className='justify-end items-end flex'>
+            <Button
+              type='submit'
+              loading={loading}
+
+            >Submit</Button>
+
+          </div>
+        </form>
       </Paper>
     </div>
   );
@@ -300,7 +300,7 @@ export const ThanksModalContent = ({ ticketNumber, currentStatus, date, name, pr
       </Container>
       <div style={{ backgroundImage: 'url("/horizontal blue background.svg")' }} className="w-full py-8" >
         <div className='bg-white flex text-center text-xs p-2 justify-center'>
-          You can <Link href={"support_ticket/"+ticketNumber} className="text-sky-600 px-1"> Edit </Link> or <Link href="support_ticket/edit_or_check_ticket_status" className="text-sky-600 px-1"> Check Status </Link> of your ticket anytime!
+          You can <Link href={"support_ticket/" + ticketNumber} className="text-sky-600 px-1"> Edit </Link> or <Link href="support_ticket/edit_or_check_ticket_status" className="text-sky-600 px-1"> Check Status </Link> of your ticket anytime!
         </div>
 
       </div>

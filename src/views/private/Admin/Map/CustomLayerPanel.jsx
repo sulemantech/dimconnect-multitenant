@@ -1,5 +1,5 @@
-import {memo} from 'preact/compat';
-import {useState, useEffect} from 'preact/hooks';
+import { memo } from 'preact/compat';
+import { useEffect, useState } from 'preact/hooks';
 import { useMap } from 'react-map-gl';
 
 
@@ -23,7 +23,7 @@ const colorClass = {
   symbol: 'text-color'
 };
 
-function getMapStyle({map,visibility, color}) {
+function getMapStyle({ map, visibility, color }) {
 
 
   const layers = map.getStyle().layers
@@ -40,12 +40,12 @@ function getMapStyle({map,visibility, color}) {
       return layer;
     });
 
-  return {...map.getStyle(), layers};
+  return { ...map.getStyle(), layers };
 }
 
 function StyleControls(props) {
 
-    const map = useMap()?.current;
+  const map = useMap()?.current;
 
   const [visibility, setVisibility] = useState({
     water: true,
@@ -66,15 +66,15 @@ function StyleControls(props) {
   });
 
   useEffect(() => {
-    props.onChange(getMapStyle({map,visibility, color}));
+    props.onChange(getMapStyle({ map, visibility, color }));
   }, [visibility, color]);
 
   const onColorChange = (name, value) => {
-    setColor({...color, [name]: value});
+    setColor({ ...color, [name]: value });
   };
 
   const onVisibilityChange = (name, value) => {
-    setVisibility({...visibility, [name]: value});
+    setVisibility({ ...visibility, [name]: value });
   };
 
   return (
