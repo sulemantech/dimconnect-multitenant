@@ -10,7 +10,7 @@ module.exports = {
 
       'laptop': '1284px',
       'laptop1': '1270px',
-      'laptop2':'1367px',
+      'laptop2':'1537px',
       'Mobile': '870px',
     },
       colors: {

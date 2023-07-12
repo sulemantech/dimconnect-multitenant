@@ -7,7 +7,7 @@ function LiveChat() {
           backgroundImage: `url("/BGFAQ2.svg")`,
         }}
       >
-        <div className="flex space-x-[381px] max-laptop:space-x-[158px] max-laptop1:space-x-[130px]  max-Mobile:space-x-[10px] max-laptop2:space-x-[200px] ">
+        <div className="flex space-x-[381px] max-laptop:space-x-[158px] max-laptop1:space-x-[130px]  max-Mobile:space-x-[10px] max-laptop2:space-x-[286px] ">
           <div className="text-white justify-center flex flex-col pl-24">
             <b className="text-2xl max-Mobile:text-sm">Live Chat</b>
             <p className="max-Mobile:text-xs">we are here to give you any technical support! </p>
@@ -23,7 +23,7 @@ function LiveChat() {
         <p className="flex flex-row-reverse font-[550] pr-[40px] h-8 text-[12px] pt-1.5 bg-[#D8E4EEE5] ">
           21.06.2023, Thursday
         </p>
-        <div className="h-50px overflow-y-auto max-laptop:h-[230px]">
+        <div className="overflow-y-auto max-laptop:h-[230px] max-laptop2:h-[445px]">
           <div className="flex flex-1 space-x-5 px-3 py-[12px]">
             {" "}
             <div className="flex flex-1 space-x-4">
