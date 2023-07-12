@@ -108,24 +108,24 @@ input:-webkit-autofill:active {
     -webkit-text-fill-color: white !important;
 }
   
-/* width */
+
 ::-webkit-scrollbar {
   width: 4px;
   height: 4px;
 }
 
-/* Track */
+
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
 }
 
-/* Handle */
+
 ::-webkit-scrollbar-thumb {
   background: #0E76BB;
   border-radius: 5px;
 }
 
-/* Handle on hover */
+
 ::-webkit-scrollbar-thumb:hover {
   background: #5495eb;
 }

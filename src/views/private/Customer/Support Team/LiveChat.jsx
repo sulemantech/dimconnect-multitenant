@@ -7,7 +7,7 @@ function LiveChat() {
           backgroundImage: `url("/BGFAQ2.svg")`,
         }}
       >
-        <div className="flex space-x-[381px] max-laptop:space-x-[158px] max-Mobile:space-x-[10px] max-laptop2:space-x-[200px] ">
+        <div className="flex space-x-[381px] max-laptop:space-x-[158px] max-laptop1:space-x-[130px]  max-Mobile:space-x-[10px] max-laptop2:space-x-[200px] ">
           <div className="text-white justify-center flex flex-col pl-24">
             <b className="text-2xl max-Mobile:text-sm">Live Chat</b>
             <p className="max-Mobile:text-xs">we are here to give you any technical support! </p>
