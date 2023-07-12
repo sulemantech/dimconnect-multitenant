@@ -45,9 +45,9 @@ export default () => {
 
 
 
-      <div className="min-w-[350px] rounded-lg shadow-2xl pb-14  bg-[#FFFFFF26] max-h-[80vh] backdrop-blur-md max-[850px]:w-[200px]">
+      <div className="min-w-[350px] rounded-lg shadow-2xl pb-14  bg-[#FFFFFF26] max-h-[80vh] max-laptop:max-h-[82vh] backdrop-blur-md max-laptop:min-w-[300px] max-[850px]:w-[200px]">
         <div className="flex justify-center">
-          <div className=" mt-[40px] w-[200px]" >
+          <div className=" mt-[40px] w-[200px] max-laptop:mt-[35px] max-laptop:w-[180px]" >
             <Logo />
           </div>
         </div>
@@ -57,8 +57,8 @@ export default () => {
         <p className="flex justify-center text-white text-[0.7rem]  text-sm mb-6">
           Bitte melden Sie sich an.
         </p>
-        <form className="mt-8 space-y-8" onSubmit={handleSubmit}>
-          <div className=" flex flex-1 flex-col space-y-6 px-8 mt-6">
+        <form className="mt-8 space-y-8 max-laptop:mt-6 max-laptop:space-y-3" onSubmit={handleSubmit}>
+          <div className=" flex flex-1 flex-col space-y-6 px-8 mt-6 max-laptop:mt-4">
             <Input
               color='blue'
               icon={<img src="/mail_in.svg" alt="" />}
@@ -99,8 +99,8 @@ export default () => {
           </div>
 
 
-          <div className="flex justify-center  mt-10  max-[850px]:mt-3">
-            <Button
+          <div className="flex justify-center  mt-10 max-laptop:mt-4   max-[850px]:mt-3">
+            <Button size='sm'
               type='submit'
               loading={loading}
             >SIGN IN</Button>
@@ -108,7 +108,7 @@ export default () => {
         </form>
       </div>
 
-      <div className="flex justify-center mt-8  "><img src="/logo_TUV.svg" className="" alt="" /></div>
+      <div className="flex justify-center mt-8 max-laptop:mt-5 "><img src="/logo_TUV.svg" className="" alt="" /></div>
 
     </PublicWrapper>
   )
