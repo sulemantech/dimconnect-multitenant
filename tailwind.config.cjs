@@ -5,6 +5,12 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    screens:{
+
+      'laptop': '1284px',
+      'laptop2':'1367px',
+      'Mobile': '870px',
+    },
     extend: {
       colors: {
         'brand': '#0E76BB',
