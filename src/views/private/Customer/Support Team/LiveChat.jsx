@@ -9,7 +9,11 @@ function LiveChat() {
           backgroundImage: `url("/BGFAQ2.svg")`,
         }}
       >
+<<<<<<< HEAD
         <div className="flex space-x-[381px] max-laptop:space-x-[158px] max-laptop1:space-x-[130px]  max-Mobile:space-x-[10px] max-laptop2:space-x-[286px] ">
+=======
+        <div className="flex space-x-[381px] max-laptop:space-x-[158px] max-laptop1:space-x-[130px]  max-Mobile:space-x-[10px] max-laptop2:space-x-[200px] ">
+>>>>>>> abfb062 (Fixed size of sign in button and make sign in page responsive)
           <div className="text-white justify-center flex flex-col pl-24">
             <b className="text-2xl max-Mobile:text-sm">{t('Live Chat')}</b>
             <p className="max-Mobile:text-xs">{t('we are here to give you any technical support!')} </p>
