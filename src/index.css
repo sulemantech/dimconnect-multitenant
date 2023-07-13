@@ -25,6 +25,10 @@ body {
   }
 
   @layer components {
+    .scroll{
+      overflow: auto;
+      direction: rtl;
+    }
     .rot {
         transform: rotate(240deg);
     }
