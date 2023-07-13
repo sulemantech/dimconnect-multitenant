@@ -11,17 +11,17 @@ import DimBot from "../../../../components/DimBot"
 export const getFAQ_Memory = async () => {
     if (FAQState.value.length < 1) {
         const res = await getFAQs("d2lmaS10ZXN0MUBybHAuZGV2LXR1di5kZTpXaWZpLVRlc3Qx")
-
-        FAQState.value = res.data.list
-        return res.data.list
+        
+        FAQState.value = res.data.list.filter(faq => !faq.deleted) // Filter out FAQs with deleted=true
+        return FAQState.value
     } else {
         console.log(FAQState.value)
         return FAQState.value
     }
 }
 
-
 export default () => {
+    //TODO:Replace the harcoded categories and take the list from the logged in user
     const allowedCatID = [
         "610cf5bee37598dc3",
         "610cf6bcc03a171db",
@@ -33,10 +33,10 @@ export default () => {
     ]
     const [data, setData] = useState([])
     useEffect(() => {
+        //TODO: Replace the hardcoded authentication token
         getFAQs("d2lmaS10ZXN0MUBybHAuZGV2LXR1di5kZTpXaWZpLVRlc3Qx").then((res) => {
-
-            FAQState.value = res.data.list.filter(item => allowedCatID.includes(item.categoriesIds[0]))
-        })
+            FAQState.value = res.data.list.filter(item => !item.deleted && allowedCatID.includes(item.categoriesIds[0]))
+        })        
         FAQState.subscribe(setData)
     }, [])
 
