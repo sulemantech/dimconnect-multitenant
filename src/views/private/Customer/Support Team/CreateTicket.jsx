@@ -120,7 +120,7 @@ export default function TicketCreationPage() {
   };
 
   return (
-    <div className="w-full h-full overflow-y-auto flex-grow">
+    <div className="w-full h-full overflow-y-auto  flex-grow">
       <div
         style={{ backgroundImage: 'url("/BGFAQ2.svg")' }}
         className="flex flex-col pl-20 justify-center h-[77px]"
@@ -280,12 +280,12 @@ export default function TicketCreationPage() {
                   labelProps={{ className: "text-[10px]" }}
                   icon={<IconPaperclip size={23} className="text-sky-600" />}
                   size="sm"
-                  placeholder="Attach File Or Drop Files Here To Upload"
+                  placeholder= "Attach File Or Drop Files Here To Upload"
                   multiple
                   name="file"
                   error={error}
                   variant="filled"
-                  className="flex-[3]"
+                  className="flex-[3] bg-[#F5F7F9]"
                   classNames={{ input: "rounded-r-[10px] relative" }}
                 />
               </Paper>
