@@ -4,7 +4,7 @@ import { route, useRouter, } from "preact-router"
 import { useContext, useLayoutEffect, useState } from "preact/hooks"
 
 
-import { IconArrowBadgeRightFilled } from "@tabler/icons-react"
+import { IconArrowBadgeRightFilled, IconChevronRight, IconMan, IconUserCircle } from "@tabler/icons-react"
 import appConfig from "../config/appConfig"
 import { AuthState } from "../providers/AuthProvider"
 import { dropvalue, regsionListSignal, userDataSignal } from "../signals"
@@ -77,10 +77,18 @@ export default () => {
   return (
     <div className=" z-[100] shadow-lg right-0 left-0 top-0">
       <div className=" items-center  h-12 bg-white flex p-2 text-[#0E76BB] ">
-        <div className="flex-grow font-bold text-[#0E76BB] text-lg">
+        <div className="flex-grow  text-[#0E76BB] text-lg font-[500]">
           <h6 className={window.innerWidth < 768 ? 'text-xs' : 'text-lg'}>
+          <b>
             {
-              ((router[0].path?.split(':'))?.[0]?.split('/')?.[1])?.toUpperCase().split('_').join(' ')
+              
+              router[0].path?.split(':')?.[0]?.split('/')?.[1]?.split('_')?.[0]?.toUpperCase() 
+              
+            }
+            </b>
+            {' '}
+            {
+              router[0].path?.split(':')?.[0]?.split('/')?.[1]?.split('_')?.slice(1)?.join(' ')?.toUpperCase()
             }
           </h6>
         </div>
@@ -97,6 +105,10 @@ export default () => {
           data={regsionList}
           color="brand"
           sx={{ width: 350 }}
+          classNames={{
+           
+            input: 'border-brand ',
+          }}
           unselectable
           onChange={(value) => {
             dropvalue.value = value
@@ -113,12 +125,12 @@ export default () => {
         >
 
           <Menu.Target>
-            <div className="items-center flex cursor-pointer hover:scale-105 transition-all">
-              <Group color="brand" spacing={7}>
-                <Avatar size='sm' color="brand" variant="outline" radius="lg" />
+            <div className="items-center pr-2 flex cursor-pointer hover:scale-105 transition-all text-brand font-thin">
+             
+                <IconUserCircle  size={'30px'} stroke={1} />
 
 
-              </Group>
+              
             </div>
           </Menu.Target>
           <Menu.Dropdown>
@@ -148,7 +160,7 @@ export default () => {
       </div>
       <div className="pl-2 bg-neutral-100 items-center text-[10px] ">
 
-        <Breadcrumbs separator={<IconArrowBadgeRightFilled size={12} className="text-neutral-500" />}
+        <Breadcrumbs separator={<IconChevronRight size={12} className="text-neutral-500" />}
           p={2}
 
 
@@ -158,7 +170,7 @@ export default () => {
             router[0].url?.split('?')?.[0]?.split('/').filter(item => item !== '')
               .map((item, index) => {
                 return (
-                  <Anchor href={getHrefByIndex(router[0].url, index)} className="text-neutral-500">
+                  <Anchor href={getHrefByIndex(router[0].url, index)} className="text-neutral-500 text-xs font-thin">
                     {getLabelFromURI(item).toUpperCase().toLocaleUpperCase('de')}
                   </Anchor>
                 )

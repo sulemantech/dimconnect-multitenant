@@ -10,11 +10,11 @@ export default ({ height, width }) => {
                 <div style={{ background: "url('/horizontal blue background.svg')", width }}
                     onClick={() => setCollapsed(!collapsed)}
 
-                    className={'flex p-2 justify-between rounded-t-lg'}
+                    className={'flex p-4 justify-around items-center rounded-t-3xl'}
                 >
-                    <div className={'text-white font-semibold'}>
+                    <div className={'text-white font-normal text-xs'}>
 
-                        <p>Hello, I am the DIM-Bot.</p>
+                        <p>Hello, I am the <b>DIM-Bot.</b></p>
                         <p> Ask me something!</p>
 
                     </div>

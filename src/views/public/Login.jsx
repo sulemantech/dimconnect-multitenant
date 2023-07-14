@@ -1,11 +1,11 @@
 
+import { Button, Input, PasswordInput } from '@mantine/core'
 import { useContext, useState } from 'preact/hooks'
-import { AuthState } from '../../providers/AuthProvider'
-import PublicWrapper from '../../providers/PublicWrapper'
 import api, { postAuth } from '../../api'
 import Logo from '../../components/Logo'
 import appConfig from '../../config/appConfig'
-import { Button, Input, PasswordInput } from '@mantine/core'
+import { AuthState } from '../../providers/AuthProvider'
+import PublicWrapper from '../../providers/PublicWrapper'
 
 // import {logo} from '../../../public/logo.svg'
 export default () => {

@@ -1,6 +1,6 @@
-import { dropvalue } from './../signals'
 import { PERMISSIONS } from '../common'
 import icons from '../layout/icons'
+import { dropvalue } from './../signals'
 
 export const privateRoutes = [{
     label: 'Dashboard',

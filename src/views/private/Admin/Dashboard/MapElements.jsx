@@ -47,9 +47,9 @@ export default () => {
         <div className="relative flex flex-row w-full h-full shadow-md rounded-lg flex-1 bg-white">
 
             <div className="bg-brand text-white font-bold justify-center flex py-2 rounded-r-lg" style={{ writingMode: 'vertical-rl', textOrientation: 'bottomright', transform: 'rotate(180deg)' }}>
-                
-                    Address Points
-              
+
+                Address Points
+
             </div>
 
             <div className="relative text-xs flex flex-col p-2 flex-1 ">

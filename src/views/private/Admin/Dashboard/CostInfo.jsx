@@ -1,17 +1,13 @@
-import { useEffect, useState } from 'preact/hooks';
-import { ActionIcon, Loader, LoadingOverlay, SegmentedControl, Table } from '@mantine/core';
-import { Input } from '@mantine/core';
-import { commarize } from '../../../../utils/convertor';
-import { dropvalue, costInfoData, costInputParams, regsionListSignal } from '../../../../signals';
-import { getCostInfoByDistrictId } from '../../../../api';
-import appConfig from '../../../../config/appConfig';
-import axios from 'axios';
-import { openDrawer } from '../../../../providers/DrawerProvider';
-import { IconRefresh, IconSettings } from '@tabler/icons';
+import { ActionIcon, Input, LoadingOverlay, SegmentedControl, Table } from '@mantine/core';
 import { useDidUpdate } from '@mantine/hooks';
+import { IconRefresh, IconSettings } from '@tabler/icons';
 import { IconPdf } from '@tabler/icons-react';
 import { jsPDF } from "jspdf";
-import autoTable from 'jspdf-autotable';
+import { useEffect, useState } from 'preact/hooks';
+import { getCostInfoByDistrictId } from '../../../../api';
+import { openDrawer } from '../../../../providers/DrawerProvider';
+import { costInfoData, costInputParams, dropvalue, regsionListSignal } from '../../../../signals';
+import { commarize } from '../../../../utils/convertor';
 
 
 const costInfoSampleData = {

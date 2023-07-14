@@ -1,15 +1,15 @@
+import { openModal } from "@mantine/modals"
+import tj from "@mapbox/togeojson"
+import { signal } from "@preact/signals"
+import { IconVideo, IconVideoPlus } from "@tabler/icons"
 import { memo } from "preact/compat"
 import { useEffect, useState } from "preact/hooks"
-import tj from "@mapbox/togeojson"
 import { Marker } from "react-map-gl"
 import { DOMParser } from 'xmldom'
-import { signal } from "@preact/signals"
-import { openModal } from "@mantine/modals"
-import { IconVideo, IconVideoPlus } from "@tabler/icons"
 
 import { getGPX, getGPXList } from "../../../../api"
-import { dropvalue, videoVisibility } from "../../../../signals"
 import appConfig from "../../../../config/appConfig"
+import { dropvalue, videoVisibility } from "../../../../signals"
 
 
 export default () => {

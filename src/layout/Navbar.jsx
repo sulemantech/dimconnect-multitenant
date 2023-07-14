@@ -1,11 +1,11 @@
-import Logo from "../components/Logo"
-import { privateRoutes } from "../config/routesConfig"
+import { Burger, HoverCard, Tooltip } from "@mantine/core"
 import { Link } from 'preact-router'
 import { useLayoutEffect } from "preact/hooks"
-import { Burger, HoverCard, Menu, Tooltip } from "@mantine/core"
+import Logo from "../components/Logo"
+import { privateRoutes } from "../config/routesConfig"
 
-import { collapsed } from "../signals"
 import PermissionWrapper from "../providers/PermissionsProvider"
+import { collapsed } from "../signals"
 
 export default () => {
     useLayoutEffect(() => {
@@ -86,13 +86,14 @@ const RouteComponent = ({ path, label, icon, subroutes, isSubRoute = false }) =>
                     </div>
 
                 </HoverCard.Target>
-                <HoverCard.Dropdown className="rounded-r-xl -ml-2 -mt-2 p-0 bg-white  ">
-                    <div>
+                <HoverCard.Dropdown className="rounded-r-3xl  -ml-2 -mt-2 p-0 bg-white  ">
+                    <div className="relative">
 
                         <div className={`flex  items-center justify-center h-[86px] ${collapsed.value ? 'px-6' : 'px-4'}  text-[#0E76BB]  font-light border-neutral-200 transition-all border-b-[1px]   `}>
 
                             <p className="flex justify-center items-center text-center ">
-                                <p className="text-sm pl-4 truncate font-[500]"> {label} </p>
+                                {/* first word bold */}
+                                <p className="text-sm pl-4 truncate font-[500]"><b>{label.split(" ")[0]}</b> {label.split(" ").slice(1).join(" ")}</p>
                             </p>
                         </div>
 
@@ -112,9 +113,9 @@ const RouteComponent = ({ path, label, icon, subroutes, isSubRoute = false }) =>
     return (
         <Link href={path}>
             <Tooltip disabled={isSubRoute} label={<p className="text-sm mx-2 truncate font-[400]"> {label}</p>} openDelay={0} position="right" classNames={{
-                tooltip: 'bg-sky-600 bg-opacity-80 bg-sky-600 backdrop-blur-sm border-b-2 border-[#0000005e] text-white rounded-r-xl -ml-2',
+                tooltip: 'bg-sky-600 bg-opacity-80 bg-sky-600 backdrop-blur-sm border-b-2 border-[#0000005e] text-white rounded-r-xl -ml-2 ',
             }} color='brand' py={20} display={collapsed.value ? 'none' : ''}>
-                <div className={`flex  hover:bg-[#0E76BB] hover:backdrop-blur-sm items-center hover:border-b-2  py-[30px] px-6 h-[86px] my-2 ${!isSubRoute ? "text-white hover:border-sky-600 border-sky-600 border-b-[2px] " : "text-[#0E76BB] hover:border-white hover:text-white  border-neutral-200 border-b-[1px]"} font-light  transition-all   hover:bg-sky-600  `}>
+                <div className={`flex  hover:bg-[#0E76BB] hover:backdrop-blur-sm items-center hover:border-b-2 group-last:border-none py-[30px] px-6 h-[86px] my-2 ${!isSubRoute ? "text-white hover:border-sky-600 border-sky-600 border-b-[2px] " : "text-[#0E76BB] hover:border-white hover:text-white  border-neutral-200 border-b-[1px]"} font-light  transition-all   hover:bg-sky-600  `}>
                     <p className="flex justify-center items-center text-center">
                         {icon}  {(collapsed.value || isSubRoute) && <p className="text-sm pl-4 truncate font-[400]"> {label}</p>}
                     </p>

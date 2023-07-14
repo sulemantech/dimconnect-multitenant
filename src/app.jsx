@@ -2,11 +2,11 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 
 import { LoadingOverlay, MantineProvider } from '@mantine/core';
 import { ModalsProvider } from '@mantine/modals';
-import LZString from 'lz-string';
-import { feature } from 'topojson-client'
 import { Notifications } from '@mantine/notifications';
+import LZString from 'lz-string';
 import { Suspense, lazy } from 'preact/compat';
-import "./index.css"
+import { feature } from 'topojson-client';
+import "./index.css";
 
 const DrawerProvider = lazy(() => import('./providers/DrawerProvider'));
 const AuthProvider = lazy(() => import('./providers/AuthProvider'));

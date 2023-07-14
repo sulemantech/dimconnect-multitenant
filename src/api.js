@@ -22,7 +22,7 @@ export const refreshAuth = (refreshToken) => api.post(`${routes.auth}/refresh`, 
 export const postAuthRegister = (email, password, firstname, userRole) => api.post(`${routes.auth}/register`)
 export const getDistrictById = () => api.get(`${routes.district}/${id}`)
 export const getMaterialCountByDistrictId = (districtId) => api.get(`${routes.dashboard}/materialCount/${districtId}`)
-export const getCostInfoByDistrictId = (districtId,body) => api.post(`${routes.dashboard}/cost-v2/${districtId}`,body)
+export const getCostInfoByDistrictId = (districtId, body) => api.post(`${routes.dashboard}/cost-v2/${districtId}`, body)
 export const postStyle = () => api.post(`${routes.style}/`)
 export const getTiles = () => api.get(`${routes.tiles}/`)
 export const getAddressPointStatus = (districtId) => api.get(`/address/${districtId}`)
@@ -42,10 +42,10 @@ export const deleteUser = (id) => api.delete(`/user/${id}`)
 export const editUser = (id, data) => api.put(`/user/${id}`, data)
 let usersdata = []
 export const getUserById = {
-    findUserById : (id) => {
+    findUserById: (id) => {
         return usersdata.find(user => user.id === id)
     },
-    assignData : (data) => {
+    assignData: (data) => {
         usersdata = data
     }
 }
@@ -64,7 +64,7 @@ export const deleteRole = (id) => api.delete(`/roles/${id}`)
 export const editRole = (id, data) => api.put(`/roles/${id}`, data)
 
 // permission/current-user/all
-export const getCurrentUserPermissions = () => api.get(`/permission/current-user/all`) 
+export const getCurrentUserPermissions = () => api.get(`/permission/current-user/all`)
 // 
 
 // POST: roles/with-permissions
@@ -72,13 +72,13 @@ export const createRoleWithPermissions = (data) => api.post(`/roles/with-permiss
 export const updateRoleWithPermissions = (id, data) => api.put(`/roles/with-permissions/${id}`, data)
 
 
-export const assignRolesToUser = (userId, data) => api.put(`/user/roles-json/${userId}`, {"roles":data})
+export const assignRolesToUser = (userId, data) => api.put(`/user/roles-json/${userId}`, { "roles": data })
 
 
 export const getRegionList = () => api.get(`/region/list`)
 export const getRegionListByAGS = (ags) => api.get(`/region/list/${ags}`)
 export const getBoundaries = (districtId) => api.get(`netzplanning/boundries/${districtId}`)
-export const getEquipment = (districtId,minX, minY, maxX, maxY) => api.get(`netzplanning/point-lookup/${districtId}/${minX}/${minY}/${maxX}/${maxY}`)
+export const getEquipment = (districtId, minX, minY, maxX, maxY) => api.get(`netzplanning/point-lookup/${districtId}/${minX}/${minY}/${maxX}/${maxY}`)
 
 export const getAllTickets = () => api.get(`${routes.ticket}/all`)
 export const getMyTickets = () => api.get(`${routes.ticket}/my`)
@@ -100,4 +100,4 @@ export const getComment = (ticketId) => api.get(`/tickets/${ticketId}/comments`)
 export const putTicket = (ticketId, data) => api.put(`/tickets/${ticketId}`, data)
 
 
-export const getResource = async(filename) => api.get(`/resource/${filename}`, { responseType: 'blob' });
+export const getResource = async (filename) => api.get(`/resource/${filename}`, { responseType: 'blob' });

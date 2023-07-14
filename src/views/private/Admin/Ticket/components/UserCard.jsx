@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import subtract2 from "./SubtractBlue.png";
 import DataTable from "react-data-table-component";
 import { status } from "./Table";
 // import VectorStroke from './VectorStroke.png'

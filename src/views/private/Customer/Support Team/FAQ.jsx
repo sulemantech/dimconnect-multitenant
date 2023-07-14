@@ -57,7 +57,7 @@ export default () => {
 
             <div className={`px-20 mt-10`}>
                 <h6 className={`text-[#0E76BB] font-bold text-xl`}>Popular FAQ Topics are here:</h6>
-                <p className={'font-semibold text-sm mt-1'}>General Questions: Short And Briefly Answered</p>
+                <p className={'text-sm'}>General Questions: Short And Briefly Answered</p>
                 <ul className={`mt-4 list-disc list-inside  text-sm font-light tracking-wider`}>
                     {
                         data
@@ -93,14 +93,15 @@ export default () => {
                     </div>
                 </ScrollArea>
             </div>
-            <DimBot height={'400px'} width={'350px'} />
+            <DimBot height={'400px'} width={'300px'} />
         </div>
     )
 }
 
 const PageControlButton = ({ icon, label, href }) => {
+    
     return (
-        <div className={`flex h-full flex-1 flex-col justify-center items-center space-x-2 bg-slate-300 m-2 rounded-3xl shadow-md border-white border-2 border-solid py-2 hover:scale-105 transition-all cursor-pointer`}>
+        <div className={`flex flex-1 flex-col flex-grow h-24 rounded-3xl justify-center px-10 text-[#0E76BB] font-semibold capitalize hover:scale-95 active:bg-sky-400 hover:bg-sky-200 bg-[#D8E4EEE5]  justify-self-end items-center hover:shadow-lg shadow-md transition-all duration-200 ease-in-out ripple-bg-sky-50`}>
             <div className={`flex justify-center items-center w-10 h-10 rounded-full  text-[#0E76BB]`}>
                 {icon}
             </div>
@@ -108,5 +109,6 @@ const PageControlButton = ({ icon, label, href }) => {
                 {label}
             </div>
         </div>
+        
     )
 }

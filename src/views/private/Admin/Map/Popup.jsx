@@ -1,5 +1,5 @@
 import { useClickOutside } from "@mantine/hooks"
-import { effect, signal } from "@preact/signals"
+import { signal } from "@preact/signals"
 import { useEffect, useState } from "preact/hooks"
 import { Popup, useMap } from "react-map-gl"
 

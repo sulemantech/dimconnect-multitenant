@@ -1,10 +1,10 @@
-import { Divider, Loader, Menu } from "@mantine/core"
+import { Loader, Menu } from "@mantine/core"
 import { IconAddressBook, IconPencil } from "@tabler/icons"
-import { useState } from "react"
 import { useEffect } from "preact/hooks"
+import { useState } from "react"
 
-import { addressPointsCRUDstate, editControlLoading } from "../../../../signals"
 import { FabClass } from "../../../../layout"
+import { addressPointsCRUDstate, editControlLoading } from "../../../../signals"
 
 export default ({ modal = false }) => {
 

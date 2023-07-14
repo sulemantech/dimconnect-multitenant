@@ -34,7 +34,7 @@ export default () => {
           unit="m"
           count={MaterialCount?.data?.feeder_cables}
         />
-     
+
         <CountCard
           title="Distribution Cables"
           unit="m"
@@ -63,7 +63,7 @@ export default () => {
           count={MaterialCount?.data?.primary_distribution_ducts}
           loading={loading}
         />
-      
+
         <CountCard
           title="Feeder Duct"
           unit="m"
@@ -81,7 +81,7 @@ export default () => {
   );
 };
 
-const CountCard = ({ title, count,unit="", loading = false }) => (
+const CountCard = ({ title, count, unit = "", loading = false }) => (
   <Paper
     withBorder
     p={0}
@@ -97,11 +97,11 @@ const CountCard = ({ title, count,unit="", loading = false }) => (
           loading ? (
             <Loader variant="dots" size="md" className="text-brand" />
           ) : (
-            count ? 
-            commarize(count) 
-            : 
+            count ?
+              commarize(count)
+              :
               <span className="text-red-500 text-sm">No Data</span>
-            
+
           )
         }
         {(count && !loading) && unit}
