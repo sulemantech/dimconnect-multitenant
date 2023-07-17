@@ -5,7 +5,8 @@ import { ModalsProvider } from '@mantine/modals';
 import { Notifications } from '@mantine/notifications';
 import LZString from 'lz-string';
 import { Suspense, lazy } from 'preact/compat';
-import { feature } from 'topojson-client';
+import { feature } from 'topojson-client'
+import { useTranslation, withTranslation, Trans } from 'react-i18next';
 import "./index.css";
 
 const DrawerProvider = lazy(() => import('./providers/DrawerProvider'));
@@ -72,21 +73,23 @@ export function App() {
 
 
 
+<Trans>
 
       <Suspense fallback={<LoadingOverlay visible />} >
+        
         <ModalsProvider modalProps={{
           overlayProps: {
             style: {
               backdropFilter: 'blur(3px)',
-
+              
             },
           },
           classNames: {
             inner: 'shadow-2xl border-2 border-gray-200 rounded-xl',
-
+            
           },
           lockScroll: false
-
+        
         }}>
           <Notifications />
           <DrawerProvider />
@@ -96,6 +99,7 @@ export function App() {
           </div>
         </ModalsProvider>
       </Suspense>
+          </Trans>
     </MantineProvider>
 
 
