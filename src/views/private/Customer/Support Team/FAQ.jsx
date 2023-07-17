@@ -1,11 +1,11 @@
-import { Input, ScrollArea } from "@mantine/core"
+import { Input, Loader, ScrollArea } from "@mantine/core"
 import { IconSearch } from "@tabler/icons"
 import { useEffect, useState } from "preact/hooks"
 
 import Icons from "../../../../layout/icons"
 import { getFAQs } from "../../../../api"
 import { Link } from "preact-router"
-import { FAQState } from "../../../../signals"
+import { FAQState, userDataSignal } from "../../../../signals"
 import DimBot from "../../../../components/DimBot"
 
 export const getFAQ_Memory = async () => {
@@ -21,21 +21,16 @@ export const getFAQ_Memory = async () => {
 }
 
 export default () => {
+    const [loading,setLoading] = useState(false)
     //TODO:Replace the harcoded categories and take the list from the logged in user
-    const allowedCatID = [
-        "610cf5bee37598dc3",
-        "610cf6bcc03a171db",
-        "610cf6dad6e09ff26",
-        "610cf6f201d682d18",
-        //news
-        // "60ec1a0a2f119b147",
-        // "61f9532b9c18b0d45"
-    ]
+    const allowedCatID = userDataSignal.value.faqIds
     const [data, setData] = useState([])
     useEffect(() => {
+        setLoading(true)
         //TODO: Replace the hardcoded authentication token
         getFAQs("d2lmaS10ZXN0MUBybHAuZGV2LXR1di5kZTpXaWZpLVRlc3Qx").then((res) => {
             FAQState.value = res.data.list.filter(item => !item.deleted && allowedCatID.includes(item.categoriesIds[0]))
+            setLoading(false)
         })        
         FAQState.subscribe(setData)
     }, [])
@@ -44,20 +39,27 @@ export default () => {
 
     const categories = [...new Set(data.map(item => Object.values(item.categoriesNames)[0]))];
 
+    if(loading) return (
+        <div className="h-screen bg-white overflow-x-auto flex justify-center items-center">
+            <Loader variant="bars" size={'lg'} />
+        </div>
+    )
 
 
 
     return (
         <div className={'h-screen bg-white overflow-x-auto'}>
-            <div style={{ backgroundImage: 'url("/horizontal blue background.svg")' }} className="flex flex-col pl-20 justify-center h-[37%]">
+            <div style={{ backgroundImage: 'url("/horizontal blue background.svg")', }} className="flex bg-no-repeat bg-cover flex-col pl-20 justify-center h-[295px]">
+                <div className="py-6" />
                 <div className="text-4xl font-bold tracking-wide text-white">We Can Help.</div>
                 <div className="text-xs text-white my-2">FAQ : Frequently Asked Questions, Conclusively Answered</div>
-                <Input rightSection={<IconSearch size={20} />} radius={'xl'} placeholder="Search" className="w-1/2 mt-4" />
+                <Input  size="lg"
+                rightSection={<IconSearch size={20} />} radius={'xl'} placeholder="Search" className="w-1/2 mt-4" />
             </div>
 
             <div className={`px-20 mt-10`}>
                 <h6 className={`text-[#0E76BB] font-bold text-xl`}>Popular FAQ Topics are here:</h6>
-                <p className={'text-sm'}>General Questions: Short And Briefly Answered</p>
+                <p className={'text-sm mt-1'}>General Questions: Short And Briefly Answered</p>
                 <ul className={`mt-4 list-disc list-inside  text-sm font-light tracking-wider`}>
                     {
                         data
@@ -75,7 +77,7 @@ export default () => {
                     }
                 </ul>
             </div>
-            <div className={`px-16 mt-10`}>
+            <div className={`px-16 mt-10 max-w-[1600px]`}>
                 <ScrollArea className={`h-96`}>
                     <div className="grid grid-cols-3 gap-4 grow">
                         {
@@ -102,7 +104,7 @@ const PageControlButton = ({ icon, label, href }) => {
     
     return (
         <div className={`flex flex-1 flex-col flex-grow h-24 rounded-3xl justify-center px-10 text-[#0E76BB] font-semibold capitalize hover:scale-95 active:bg-sky-400 hover:bg-sky-200 bg-[#D8E4EEE5]  justify-self-end items-center hover:shadow-lg shadow-md transition-all duration-200 ease-in-out ripple-bg-sky-50`}>
-            <div className={`flex justify-center items-center w-10 h-10 rounded-full  text-[#0E76BB]`}>
+            <div className={`flex justify-center items-center -mt-6 w-12 h-12 rounded-full  text-[#0E76BB]`}>
                 {icon}
             </div>
             <div className={`text-[#0E76BB] tracking-wide text-xs`}>

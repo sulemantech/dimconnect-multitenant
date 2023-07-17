@@ -2,7 +2,7 @@ import { useState } from 'preact/hooks'
 export default ({ height, width }) => {
     const [collapsed, setCollapsed] = useState(true)
     return (
-        <div className={'fixed bottom-0 right-32'}>
+        <div className={'fixed bottom-0 right-32 bg-white shadow-md rounded-t-3xl'}>
 
             <div className={'relative'}
 
@@ -10,7 +10,7 @@ export default ({ height, width }) => {
                 <div style={{ background: "url('/horizontal blue background.svg')", width }}
                     onClick={() => setCollapsed(!collapsed)}
 
-                    className={'flex p-4 justify-around items-center rounded-t-3xl'}
+                    className={'flex p-4 justify-around items-center rounded-t-3xl bg-no-repeat bg-cover'}
                 >
                     <div className={'text-white font-normal text-xs'}>
 

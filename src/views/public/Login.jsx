@@ -32,6 +32,7 @@ export default () => {
       localStorage.setItem(appConfig.localStorageRefreshKey, data.refreshToken)
       api.defaults.headers.common['authorization'] = `Bearer ${data.token}`
       setLoading(false)
+      
       window.location.reload()
     }).catch((err) => {
       setError(err.response.data.message)
