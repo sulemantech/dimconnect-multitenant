@@ -1,6 +1,8 @@
 import { useState } from 'preact/hooks'
+import { useTranslation } from "react-i18next";
 export default ({ height, width }) => {
     const [collapsed, setCollapsed] = useState(true)
+    const {t} = useTranslation()
     return (
         <div className={'fixed bottom-0 right-32 bg-white shadow-md rounded-t-3xl'}>
 

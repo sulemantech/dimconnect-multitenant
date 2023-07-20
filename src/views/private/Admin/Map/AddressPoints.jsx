@@ -252,7 +252,7 @@ export const CRUDAddressPointForm = ({ prevdata, edit = false, add = false, lat,
         e.preventDefault()
         setLoading(true)
         const data = new FormData(e.target)
-        const obj = prevdata
+        const obj = prevdata || {}
         for (const [key, value] of data.entries()) {
             obj[key] = value
         }

@@ -3,6 +3,7 @@ import { useEffect, useState } from "preact/hooks";
 import { getMaterialCountByDistrictId } from "../../../../api";
 import { dropvalue } from "../../../../signals";
 import { commarize } from "../../../../utils/convertor";
+import { useTranslation } from "react-i18next";
 
 export default () => {
   const [MaterialCount, setMaterialCount] = useState({});
@@ -81,14 +82,16 @@ export default () => {
   );
 };
 
-const CountCard = ({ title, count, unit = "", loading = false }) => (
+const CountCard = ({ title, count, unit = "", loading = false }) => {
+  const {t} = useTranslation()
+  return(
   <Paper
     withBorder
     p={0}
     className="flex-1 flex-grow items-center  min-h-[40px] md:min-h-[50px] m-1 bg-white shadow-lg rounded-lg"
   >
     <span className="flex rounded-t-lg font-thintext-xs md:text-sm truncate bg-brand text-white p-1">
-      {title}
+      {t(title)}
     </span>
     <hr />
     <div className="flex relative justify-center items-center text-sm md:text-xl font-light text-brand">
@@ -100,7 +103,7 @@ const CountCard = ({ title, count, unit = "", loading = false }) => (
             count ?
               commarize(count)
               :
-              <span className="text-red-500 text-sm">No Data</span>
+              <span className="text-red-500 text-sm">{t('No Data')}</span>
 
           )
         }
@@ -108,4 +111,4 @@ const CountCard = ({ title, count, unit = "", loading = false }) => (
       </b>
     </div>
   </Paper>
-);
+)};

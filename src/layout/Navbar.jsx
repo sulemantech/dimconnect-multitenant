@@ -6,6 +6,7 @@ import { privateRoutes } from "../config/routesConfig"
 
 import PermissionWrapper from "../providers/PermissionsProvider"
 import { collapsed } from "../signals"
+import { useTranslation } from "react-i18next"
 
 export default () => {
     useLayoutEffect(() => {
@@ -37,6 +38,8 @@ export default () => {
         <div id='sidenav'
             style={{
                 backgroundImage: 'url("/vertical blue background.svg")',
+                backgroundSize: 'cover',
+                backgroundRepeat: 'no-repeat',
             }}
             className=" transition-all duration-300 shadow-xl  text-white flex flex-col ">
             <div className={` ${collapsed.value ? 'p-6' : 'p-2'} pt-4`}>
@@ -71,17 +74,17 @@ export default () => {
 }
 
 const RouteComponent = ({ path, label, icon, subroutes, isSubRoute = false }) => {
-
+    const {t} = useTranslation()
     if (subroutes) {
 
         return (
             <HoverCard position="right-start">
                 <HoverCard.Target>
 
-                <div className={`flex  border-[#ffffff3d] border-b-[1px] hover:bg-brand backdrop-blur-sm items-center hover:border-b-2  py-[30px] px-6 h-[73.5px]  ${!isSubRoute ? "text-white  border-brand border-b-[2px] hover:bg-opacity-10" : "text-brand hover:border-white hover:text-white  border-neutral-200 border-b-[1px] h-[78.2px] bg-white hover:bg-brand"} font-light  transition-all    `}>
+                <div className={`flex  border-[#ffffff3d] border-b-[1px] hover:bg-brand backdrop-blur-sm items-center hover:border-b-2  py-[30px] px-6 h-[73.5px]  ${!isSubRoute ? "text-white  border-[#ffffff3d] border-b-[1px] hover:bg-opacity-10" : "text-brand hover:border-white hover:text-white  border-neutral-200 border-b-[1px] h-[78.2px] bg-white hover:bg-brand"} font-light  transition-all    `}>
 
                         <p className="flex justify-center items-center text-center">
-                            {icon}   {collapsed.value && <p className="text-sm pl-4 truncate font-[400]"> {label} </p>}
+                            {icon}   {collapsed.value && <p className="text-sm pl-4 truncate font-[400]"> {t(label)} </p>}
                         </p>
                     </div>
 
@@ -93,7 +96,7 @@ const RouteComponent = ({ path, label, icon, subroutes, isSubRoute = false }) =>
 
                             <p className="flex justify-center items-center text-center ">
                                 {/* first word bold */}
-                                <p className="text-sm pl-4 truncate font-[500]"><b>{label.split(" ")[0]}</b> {label.split(" ").slice(1).join(" ")}</p>
+                                <p className="text-sm pl-4 truncate font-[500]"><b>{label.split(" ")[0]}</b> {t(label.split(" ").slice(1).join(" ").toUpperCase())}</p>
                             </p>
                         </div>
 
@@ -112,12 +115,12 @@ const RouteComponent = ({ path, label, icon, subroutes, isSubRoute = false }) =>
 
     return (
         <Link href={path}>
-            <Tooltip disabled={collapsed.value || isSubRoute} label={<div className="flex  flex-1 items-center text-sm mx-2 truncate font-[400]">{icon} <p className="text-sm pl-[40px] text-center justify-center flex  flex-1 truncate font-[400]"> {label}</p></div>} openDelay={0} position="right" classNames={{
+            <Tooltip disabled={collapsed.value || isSubRoute} label={<div className="flex  flex-1 items-center text-sm mx-2 truncate font-[400]">{icon} <p className="text-sm pl-[40px] text-center justify-center flex  flex-1 truncate font-[400]"> {t(label)}</p></div>} openDelay={0} position="right" classNames={{
                 tooltip: 'flex items-center justify-start bg-opacity-80 backdrop-blur-sm  bg-[#0E76BB]  border-b-2 border-[#0000005e] text-white rounded-r-3xl rounded-l-none -ml-[100px] pl-[30px] h-[73.5px] min-w-[200px]',
             }} color='brand' py={20} display={collapsed.value ? 'none' : ''}>
                 <div className={`flex  hover:bg-brand backdrop-blur-sm items-center hover:border-b-2   px-6 h-[73.5px]  ${!isSubRoute ? "text-white  border-[#ffffff3d] border-b-[1px] hover:bg-opacity-10" : "text-brand hover:border-white hover:text-white  border-neutral-200 border-b-[1px] h-[73.5px] bg-transparent hover:bg-brand hover:bg-opacity-80"} font-light  transition-all    `}>
                     <p className="flex justify-center items-center text-center">
-                        {icon}  {(collapsed.value || isSubRoute) && <p className="text-sm pl-4 truncate font-[400]"> {label}</p>}
+                        {icon}  {(collapsed.value || isSubRoute) && <p className="text-sm pl-4 truncate font-[400]"> {t(label)}</p>}
                     </p>
                 </div>
             </Tooltip>

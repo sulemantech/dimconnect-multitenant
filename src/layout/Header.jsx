@@ -8,6 +8,8 @@ import { IconArrowBadgeRightFilled, IconChevronRight, IconMan, IconUserCircle } 
 import appConfig from "../config/appConfig"
 import { AuthState } from "../providers/AuthProvider"
 import { dropvalue, regsionListSignal, userDataSignal } from "../signals"
+import LanguageButton from "../components/LanguageButton"
+import { useTranslation } from "react-i18next"
 
 
 
@@ -30,9 +32,9 @@ export default () => {
   const [isOpen, setIsOpen] = useState(false)
   const [regsionList, setRegsionList] = useState([])
   const [ags, setAgs] = useState('NULL')
+  const {t} = useTranslation()
 
   useLayoutEffect(() => {
-
     const unsub = () => {
       dropvalue.subscribe((value) => {
         setAgs(value)
@@ -82,13 +84,13 @@ export default () => {
           <b>
             {
               
-              router[0].path?.split(':')?.[0]?.split('/')?.[1]?.split('_')?.[0]?.toUpperCase() 
+              t(router[0].path?.split(':')?.[0]?.split('/')?.[1]?.split('_')?.[0]?.toUpperCase())
               
             }
             </b>
             {' '}
             {
-              router[0].path?.split(':')?.[0]?.split('/')?.[1]?.split('_')?.slice(1)?.join(' ')?.toUpperCase()
+              t(router[0].path?.split(':')?.[0]?.split('/')?.[1]?.split('_')?.slice(1)?.join(' ')?.toUpperCase())
             }
           </h6>
         </div>
@@ -153,6 +155,9 @@ export default () => {
             </Menu.Item>
           </Menu.Dropdown>
         </Menu>
+
+        <LanguageButton />
+        
 
 
 
