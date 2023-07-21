@@ -145,7 +145,7 @@ const MyTable = ({ data, select, setSelect, setUpdate }) => {
   return (
     <DataTable
       progressPending={data.length === 0}
-      progressComponent={<LoadingOverlay visible />}
+      progressComponent={<h1>Loading ....</h1>}
       className="mt-3 "
       title=""
       columns={columns}
@@ -165,31 +165,8 @@ const MyTable = ({ data, select, setSelect, setUpdate }) => {
         return(
           <div className="flex justify-start mt-1">
             <div className="flex items-center ml-5 w-[50%]">
-              {/* <div className="text-sm text-gray-700 mr-2">Tickets per page:</div> */}
-              {/* <Select
-                size="sm"
-                defaultValue={rowsPerPage}
-                value={rowsPerPage}
-
-                onChange={(e) => {
-                  setRowsPerPage(e);
-                }}
-                data={[
-                  { value: 10, label: 10 },
-                  { value: 20, label: 20 },
-                  { value: 50, label: 50 },
-                  { value: 100, label: 100 },
-                ]}
-              /> */}
               <p className="text-sm text-gray-700 mr-2 text-[10px]">
-                {/* 1-21 From 172 Items */}
-                {/* {data.length > 0
-                  ? `${
-                      (page - 1) * rowsPerPage + 1
-                    }-${(page - 1) * rowsPerPage + rowsPerPage} From ${
-                      data.length
-                    } Items`
-                  : ""} */}
+                
                   <span className="text-[#0E76BB] text-[10px]">
                     {data.length > 0
                   ? `${
@@ -211,8 +188,6 @@ const MyTable = ({ data, select, setSelect, setUpdate }) => {
                  {/* Previous  1 2 3 4  Next */}
                  <span className="cursor-pointer text-[10px]"
                  onClick={() => {
-                  // setPage(page - 1);
-                  // first check if page is not 1
                   if (page !== 1) {
                     setPage(page - 1);
                   }
@@ -220,8 +195,6 @@ const MyTable = ({ data, select, setSelect, setUpdate }) => {
                  >
                   Previous
                  </span>
-                 {/* <span className="text-[#0E76BB]"> */}
-                    {/* count pages and show page numbers */}
                     {data.length > 0
                     ? Array.from(
                         { length: Math.ceil(data.length / rowsPerPage) },
@@ -249,7 +222,6 @@ const MyTable = ({ data, select, setSelect, setUpdate }) => {
                     {/* </span> */}
                   <span className="cursor-pointer text-[10px]"
                   onClick={() => {
-                    // setPage(page + 1);
                     // first check if page is not last
                     if (page !== Math.ceil(data.length / rowsPerPage)) {
                       setPage(page + 1);
@@ -458,23 +430,6 @@ export const TicketModal = ({ ticket, setUpdate }) => {
               className="inline-block"
             />
           </h4>
-          {/*<h4 className="text-[12px] font-[600] text-[#3E3F3F]">
-              <svg
-                width="24"
-                height="10"
-                viewBox="0 0 24 10"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M5.37068 1H18.6293C21.0391 1 23 2.78824 23 5C23 7.21176 21.0483 9 18.6293 9H4.30779C2.48438 9 1.00916 7.64471 1.00916 5.96941H1C1 4.29412 2.47522 2.93882 4.29863 2.93882H18.5835C19.8022 2.93882 20.7918 3.84235 20.7918 4.96235C20.7918 6.08235 19.8022 6.98588 18.5835 6.98588H5.37984"
-                  stroke="#3E3F3F"
-                  stroke-width="0.9"
-                  stroke-miterlimit="10"
-                  stroke-linecap="round"
-                />
-              </svg> 
-            </h4>*/}
           <h4 className="text-[12px] font-bold text-[#3E3F3F]">
             {new Date(ticket.created_at).toLocaleDateString("en-US", {
               year: "numeric",
