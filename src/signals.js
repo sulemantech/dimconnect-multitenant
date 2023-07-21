@@ -1,4 +1,4 @@
-import { effect, signal } from '@preact/signals'
+import { signal } from '@preact/signals';
 // check if url has ags query param
 const urlParams = new URLSearchParams(window.location.search);
 const ags = urlParams.get('ags');
@@ -75,25 +75,25 @@ export const permissible = signal([
         "view": false,
         "edit": false,
         "delete": false
-    },{
+    }, {
         "activity": "FAQ",
         "add": false,
         "view": false,
         "edit": false,
         "delete": false
-    },{
+    }, {
         "activity": "RaiseTicket",
         "add": true,
         "view": true,
         "edit": true,
         "delete": true
-    },{
+    }, {
         "activity": "ReplyTicket",
         "add": true,
         "view": true,
         "edit": true,
         "delete": true
-    },{
+    }, {
         "activity": "SupportTeam",
         "add": true,
         "view": true,

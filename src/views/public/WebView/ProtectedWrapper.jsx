@@ -15,13 +15,13 @@ export default ({ children }) => {
         localStorage.setItem(appConfig.localStorageKeyWebview, token)
 
         getCurrentUserPermissions().then(({ data }) => {
-            permissible.value = permissible.value.map( p => {
+            permissible.value = permissible.value.map(p => {
                 const index = data.accessList.findIndex(a => a.activity === p.activity)
                 if (index !== -1) {
                     return data.accessList[index]
                 }
                 return p
-            } )
+            })
         }).catch(err => {
 
         })

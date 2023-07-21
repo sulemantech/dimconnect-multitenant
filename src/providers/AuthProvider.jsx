@@ -14,7 +14,7 @@ import PublicRoutes from '../routes/PublicRoutes'
 import api, { getAccessList, getCurrentUserPermissions, getRegionList, refreshAuth } from '../api'
 import appConfig from '../config/appConfig'
 import jwtDecode from 'jwt-decode'
-import { permissible, regsionListSignal, userDataSignal,dropvalue } from '../signals'
+import { permissible, regsionListSignal, userDataSignal, dropvalue } from '../signals'
 import { Loader } from '@mantine/core'
 
 const createAuthState = () => {
@@ -31,32 +31,32 @@ const createAuthState = () => {
     userDataSignal.value = jwt?.data
     getRegionList().then(({ data }) => {
         regsionListSignal.value = data
-        setTimeout(()=>{
+        setTimeout(() => {
             const filtered = data.filter(item => (item.kreis !== null && item.bezeichnung !== 'Kreis'))
-            if(dropvalue.value == 'NULL'){
-                
-            dropvalue.value = filtered[0].ags
-            }else{
+            if (dropvalue.value == 'NULL') {
+
+                dropvalue.value = filtered[0].ags
+            } else {
                 const index = filtered.findIndex(a => a.ags === dropvalue.value)
                 if (index !== -1) {
                     dropvalue.value = filtered[index].ags
-                }else{
+                } else {
                     dropvalue.value = filtered[0].ags
                 }
             }
             mounted.value = true
-        },10)
-        
+        }, 10)
+
     }).catch(err => {
         auth.value = false
         localStorage.removeItem(appConfig.localStorageKey)
     })
     getCurrentUserPermissions().then(({ data }) => {
-       
-      
+
+
         // permissible.value = permissible.value.concat(data.accessList)
         // update the activity key in permissible.value array with the activity key in the data.accessList array else keep the old value
-        
+
         permissible.value = permissible.value.map(p => {
             const index = data.accessList.findIndex(a => a.activity === p.activity)
             if (index !== -1) {
@@ -65,7 +65,7 @@ const createAuthState = () => {
             return p
         })
     }).catch(err => {
-       
+
     })
     const timer = () => setTimeout(() => {
         if (auth.value && localStorage.getItem(appConfig.localStorageKey)) {
@@ -113,10 +113,10 @@ export const AuthProvider = () => {
 
 const AppRoutes = () => {
     const auth = useContext(AuthState)
-   
+
     return <>
         {
-            auth.auth.value ? <> { auth.mounted.value ?<PrivateRoutes auth={auth} /> : <NoRegionList /> } </> : <PublicRoutes auth={auth} />
+            auth.auth.value ? <> {auth.mounted.value ? <PrivateRoutes auth={auth} /> : <NoRegionList />} </> : <PublicRoutes auth={auth} />
         }
     </>
 }

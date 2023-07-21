@@ -45,42 +45,42 @@ export default () => {
 
     return (
         <div className="relative flex flex-row w-full h-full shadow-md rounded-lg flex-1 bg-white">
-           
-                <div className="bg-brand text-white font-bold py-2 rounded-r-lg" style={{writingMode: 'vertical-rl', textOrientation: 'centerright', transform: 'rotate(180deg)'}}>
-                   <div className="text-center">
-                   Address Points
-                    </div> 
-                </div>
-        
+
+            <div className="bg-brand text-white font-bold justify-center flex py-2 rounded-r-lg" style={{ writingMode: 'vertical-rl', textOrientation: 'bottomright', transform: 'rotate(180deg)' }}>
+
+                Address Points
+
+            </div>
+
             <div className="relative text-xs flex flex-col p-2 flex-1 ">
                 <div>
                     {
                         Object.entries(content)?.map(([key, item]) => {
                             return (
                                 <>
-                                <div className={'flex items-center justify-center'}>
-                                    <div className="flex flex-1 py-1 flex-row items-center">
-                                        <div className={`w-4 h-4 rounded-full mr-2`}
-                                            style={{
-                                                backgroundColor: item.color
-                                            }}
-                                        ></div>
-                                         <p>{key}</p>
-                                        
-                                       
+                                    <div className={'flex items-center justify-center'}>
+                                        <div className="flex flex-1 py-1 flex-row items-center">
+                                            <div className={`w-4 h-4 rounded-full mr-2`}
+                                                style={{
+                                                    backgroundColor: item.color
+                                                }}
+                                            ></div>
+                                            <p>{key}</p>
+
+
+                                        </div>
+                                        <div style={{
+                                            color: item.color
+                                        }}
+                                        >
+                                            {
+                                                loading ? <Loader size={'xs'} /> :
+                                                    data && data[item.type] ? data[item.type] : 0
+                                            }
+                                        </div>
                                     </div>
-                                    <div style={{
-                                        color: item.color
-                                    }}
-                                    >
-                                        {
-                                            loading ? <Loader size={'xs'}/> :
-                                            data && data[item.type] ? data[item.type] : 0
-                                        }
-                                    </div>
-                                </div>
-                                    <hr className="last:hidden"/>
-                                    </>
+                                    <hr className="last:hidden" />
+                                </>
                             )
                         })
                     }

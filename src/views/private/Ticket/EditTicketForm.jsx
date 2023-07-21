@@ -1,6 +1,6 @@
+import { Button, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { closeAllModals } from "@mantine/modals";
-import { Button, TextInput } from "@mantine/core";
 import React from "react";
 export default ({ data }) => {
   {

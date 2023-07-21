@@ -9,8 +9,10 @@ import { closeDrawer, openDrawer } from "../providers/DrawerProvider";
 import { useCallback } from 'preact/hooks'
 import { showNotification } from "@mantine/notifications";
 import { isValidElement } from "preact";
+import { useTranslation } from "react-i18next";
 export default ({ children, title, data, attributes = [], newStruct = {}, refreshData, edit = false, remove = false, attatchment = false }) => { // as {"id":25,"name":"HO1V","min":"25","max":"55"}[]
 
+    const {t} = useTranslation()
     const [sort, setSort] = useState({ field: "name", order: "asc" });
     const [filter, setFilter] = useState('')
     const [submitloading, setsubmitLoading] = useState(false)
@@ -76,7 +78,7 @@ export default ({ children, title, data, attributes = [], newStruct = {}, refres
                 values[key] = values[key]
             }
         })
-       
+
 
         newStruct.createMethod(values).then((res) => {
             setsubmitLoading(false)
@@ -91,7 +93,7 @@ export default ({ children, title, data, attributes = [], newStruct = {}, refres
     const createNew = useCallback(
         () => {
             openDrawer({
-                title: 'Create New',
+                title: t('Create New'),
                 children: (
                     <form
                         onSubmit={handleSubmit}
@@ -102,7 +104,7 @@ export default ({ children, title, data, attributes = [], newStruct = {}, refres
                                 (Array.isArray(newStruct.data[item])) ?
 
                                     <div className="flex flex-col">
-                                        <label className="text-sm text-gray-600">{item.replace('_', ' ').trim().toUpperCase()}</label>
+                                        <label className="text-sm text-gray-600">{t(item.replace('_', ' ').trim().toUpperCase())}</label>
 
                                         <MultiSelect data={newStruct?.data[item]} data-type="array" required className="bg-gray-200 rounded-md p-1" name={item} />
 
@@ -112,13 +114,13 @@ export default ({ children, title, data, attributes = [], newStruct = {}, refres
                                         <>
 
                                             <div className="flex">
-                                                <label className="text-sm text-gray-600 flex-1">{item.replace('_', ' ').trim().toUpperCase()}</label>
+                                                <label className="text-sm text-gray-600 flex-1">{t(item.replace('_', ' ').trim().toUpperCase())}</label>
                                                 <Checkbox className=" rounded-md p-1 flex-1" name={item} defaultValue={false} />
                                             </div>
                                         </>
                                         :
                                         <div className="flex flex-col">
-                                            <label className="text-sm text-gray-600">{item.replace('_', ' ').trim().toUpperCase()}</label>
+                                            <label className="text-sm text-gray-600">{t(item.replace('_', ' ').trim().toUpperCase())}</label>
                                             <Input required type={
                                                 item.toLowerCase().includes('password') ? 'password' : item.toLowerCase().includes('email') ? 'email' : 'text'
                                             } className="bg-gray-200 rounded-md p-1" name={item} />
@@ -133,7 +135,7 @@ export default ({ children, title, data, attributes = [], newStruct = {}, refres
                             <Button
                                 loading={submitloading}
                                 type={'submit'}>
-                                Create
+                               { t('Create')}
                             </Button>
                         </div>
                     </form>
@@ -343,7 +345,7 @@ export default ({ children, title, data, attributes = [], newStruct = {}, refres
     )
 }
 
-const EditForm = ({ item, newStruct,refreshData }) => {
+const EditForm = ({ item, newStruct, refreshData }) => {
     const [form, setForm] = useState(item);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -357,7 +359,7 @@ const EditForm = ({ item, newStruct,refreshData }) => {
         const filteredForm = Object.keys(form).filter((key) => {
             console.log(typeof form[key]);
             if (typeof form[key] == 'object') {
-                if(form[key]?.hasOwnProperty('$$typeof')) return false;
+                if (form[key]?.hasOwnProperty('$$typeof')) return false;
                 return true;
             }
             return true;
@@ -365,8 +367,8 @@ const EditForm = ({ item, newStruct,refreshData }) => {
             obj[key] = form[key];
             return obj;
         }, {});
-        
-        newStruct.editMethod(form.id,filteredForm).then(res => {
+
+        newStruct.editMethod(form.id, filteredForm).then(res => {
             closeDrawer();
             refreshData();
             setLoading(false);

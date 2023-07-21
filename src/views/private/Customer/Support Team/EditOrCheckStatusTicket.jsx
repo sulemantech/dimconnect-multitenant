@@ -35,7 +35,7 @@ export default () => {
   useLayoutEffect(() => {
     getTicketData();
 
-    return () => {};
+    return () => { };
   }, []);
   return (
     <div className="w-full h-full overflow-y-auto bg-white">
@@ -54,7 +54,7 @@ export default () => {
             <Input icon={<IconSearch size={20} />} variant="filled" />
           </div>
         </section>
-        {data ? <TicketDetails data={data} getTicketData={getTicketData}/> : <Loader />}
+        {data ? <TicketDetails data={data} getTicketData={getTicketData} /> : <Loader />}
       </div>
     </div>
   );
@@ -62,19 +62,19 @@ export default () => {
 
 function TicketDetails({ data, getTicketData }) {
   const [reply, setReply] = useState("");
-  const handleSendReply = async() => {
+  const handleSendReply = async () => {
     // create a form data object
     const formData = new FormData();
     // append the body key with value of reply
     formData.append("body", reply);
-    
+
     const res = await postComment(data.id, formData)
     console.log(res);
     // if (res.status === 200) {
-      if (res.status === 200) {
-        setReply("");
-        getTicketData();
-      }
+    if (res.status === 200) {
+      setReply("");
+      getTicketData();
+    }
   };
 
   return (
@@ -142,10 +142,10 @@ function TicketDetails({ data, getTicketData }) {
 
         {/* {data?.ticketComments? sort them by id */}
         {data?.ticketComments
-          ?.sort((a, b) => b.id - a.id).reverse() 
-        .map((comment) => (
-          <CommentItem comment={comment} value={comment.id} data={data} />
-        ))}
+          ?.sort((a, b) => b.id - a.id).reverse()
+          .map((comment) => (
+            <CommentItem comment={comment} value={comment.id} data={data} />
+          ))}
       </Accordion>
 
 
@@ -156,8 +156,8 @@ function TicketDetails({ data, getTicketData }) {
       "
       >
         <input
-        value={reply}
-        onChange={(e) => setReply(e.target.value)}
+          value={reply}
+          onChange={(e) => setReply(e.target.value)}
           type="text"
           placeholder="Write a comment"
           className="w-full h-10 border-2 border-gray-300 rounded-md px-4 focus:border-blue-500"
@@ -165,13 +165,13 @@ function TicketDetails({ data, getTicketData }) {
         <button
           className="bg-[#F5F7F9] w-[5rem] h-10 rounded-md hover:bg-[#D8E4EE] hover:text-[#1E86FF]
        "
-       onClick={handleSendReply}
+          onClick={handleSendReply}
         >
           Send
         </button>
       </div>}
 
-      
+
     </div>
   );
 }
@@ -245,10 +245,10 @@ const CommentItem = ({ comment, value, data }) => {
       </Accordion.Control>
       <Accordion.Panel>
         <p className=" flex flex-col space-y-2 ml-[3.8rem] my-2 text-[0.7rem] ">
-          
+
           <div className="flex flex-1 space-x-8">
             {" "}
-            
+
             <span className=" font-normal">
               {
                 comment?.body

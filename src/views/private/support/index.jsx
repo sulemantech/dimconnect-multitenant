@@ -1,61 +1,61 @@
 import { Button, Card, CardSection, Divider, Pagination, Switch, Table, Text } from "@mantine/core";
-import PageProvider from "../../../providers/PageProvider";
-import InfoCard from "./Card";
-import React, {useState} from "react";
-import CustomTable from "../../../components/CustomTable";
-import {permissible} from "../../../signals";
 import { IconEye } from "@tabler/icons";
+import React, { useState } from "react";
+import CustomTable from "../../../components/CustomTable";
 import { openDrawer } from "../../../providers/DrawerProvider";
+import PageProvider from "../../../providers/PageProvider";
+import { permissible } from "../../../signals";
+import InfoCard from "./Card";
 
 export default () => {
   const [limit, setLimit] = useState(10);
-  const [role, setRole] = useState({id: 1, name: 'Admin', description: 'Admin'})
+  const [role, setRole] = useState({ id: 1, name: 'Admin', description: 'Admin' })
   const [data, setData] = useState([
     {
       id: 1,
       name: "Admin",
       description: "Admin",
       permissions: <Button leftIcon={<IconEye />} size="xs" radius={'xl'}
-      onClick={() => {
+        onClick={() => {
           openDrawer({
-              title: 'Permissions',
-              children: <PermissionList id={role.id} name={role.name} description={role.description} />
+            title: 'Permissions',
+            children: <PermissionList id={role.id} name={role.name} description={role.description} />
           })
-      }}
-  >View</Button>,
+        }}
+      >View</Button>,
     },
     {
       id: 2,
       name: "User",
       description: "User",
       permissions: <Button leftIcon={<IconEye />} size="xs" radius={'xl'}
-      onClick={() => {
+        onClick={() => {
           openDrawer({
-              title: 'Permissions',
-              children: <PermissionList id={role.id} name={role.name} description={role.description} />
+            title: 'Permissions',
+            children: <PermissionList id={role.id} name={role.name} description={role.description} />
           })
-      }}
-  >View</Button>
+        }}
+      >View</Button>
     },
     {
       id: 3,
       name: "Guest",
       description: "Guest",
       permissions: <Button leftIcon={<IconEye />} size="xs" radius={'xl'}
-      onClick={() => {
+        onClick={() => {
           openDrawer({
-              title: 'Permissions',
-              children: <PermissionList id={role.id} name={role.name} description={role.description} />
+            title: 'Permissions',
+            children: <PermissionList id={role.id} name={role.name} description={role.description} />
           })
-      }}
-  >View</Button>
+        }}
+      >View</Button>
     },
   ]);
   const [dataInfo, setDataInfo] = useState({ page: 0, count: 10 });
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false)
 
-  
+
   const [cards, setCards] = useState([
     {
       id: 0,
@@ -138,7 +138,7 @@ export default () => {
                 // deleteMethod: deleteRole,
                 // editMethod: editRole,
               }}
-              // refreshData={refreshData}
+            // refreshData={refreshData}
             >
               <Text>Permissions</Text>
               <Divider />

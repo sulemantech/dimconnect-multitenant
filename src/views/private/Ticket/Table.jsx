@@ -1,16 +1,15 @@
+import { openModal } from "@mantine/modals";
+import { showNotification } from "@mantine/notifications";
+import {
+  IconBasketOff,
+  IconCheck,
+  IconCross,
+  IconEdit
+} from "@tabler/icons";
 import React, { useEffect } from "react";
 import DataTable from "react-data-table-component";
 import { deleteTicket, getAllTickets } from "../../../api";
-import {
-  IconBasket,
-  IconBasketOff,
-  IconCross,
-  IconEdit,
-  IconCheck,
-} from "@tabler/icons";
-import { showNotification } from "@mantine/notifications";
 import EditTicketForm from "./EditTicketForm";
-import { openModal } from "@mantine/modals";
 
 export default ({ selected }) => {
   // const columns = [ columns should be an array of objects with these names

@@ -3,7 +3,7 @@ import { openModal } from "@mantine/modals"
 import { useEffect, useState } from "preact/hooks"
 import PageProvider from "../../../../providers/PageProvider"
 
-import { dropvalue,visibility } from "../../../../signals"
+import { dropvalue, visibility } from "../../../../signals"
 
 export default () => {
     const [layers, setLayers] = useState({})
@@ -27,18 +27,18 @@ export default () => {
                                 <tr key={index}>
                                     <td>{
                                         layer.name
-                                        .replace(dropvalue.value, '')
+                                            .replace(dropvalue.value, '')
                                             .replace('_OUT_', '')
-                                        .split('_')?.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                                            .split('_')?.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
                                             .join(' ')
                                     }</td>
                                     <td>{
                                         layer.type
                                     }</td>
                                     <td>
-                                       
+
                                         <Button variant="outline" color="orange"
-                                        mr={1}
+                                            mr={1}
                                             onClick={() => {
                                                 openModal({
                                                     title: 'Style',
@@ -120,11 +120,11 @@ const onChange = (e, layer, attr) => {
         [attr]: parseFloat(e.target.value) || e.target.value
     }
     visibility.value = JSON.stringify(layers)
-    
+
 }
 
 const Styler = ({ layer }) => {
-return (
+    return (
         <div>
             <h1>Fill Color</h1>
             <Table>

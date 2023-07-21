@@ -1,8 +1,8 @@
 import { Menu } from "@mantine/core"
-import { IconMap } from "@tabler/icons"
-import { mapStyle } from "../../../../signals"
 import { closeAllModals, openModal } from "@mantine/modals"
+import { IconMap } from "@tabler/icons"
 import { FabClass } from "../../../../layout"
+import { mapStyle } from "../../../../signals"
 
 export default ({ modal = false }) => {
 
@@ -14,7 +14,7 @@ export default ({ modal = false }) => {
 
     const Basemapbutton = <div
         className={` ${FabClass} text-[#0E76BB] bg-white `}
-        ><IconMap className="scale-150" /> </div>
+    ><IconMap className="scale-150" /> </div>
 
     if (modal) {
         return (

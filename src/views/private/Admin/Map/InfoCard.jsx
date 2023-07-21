@@ -1,12 +1,12 @@
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
-import { Box, CloseButton, Loader,  Modal, Table, Transition } from "@mantine/core"
-import { useEffect, useState } from "preact/hooks"
-import { Carousel } from "react-responsive-carousel"
+import { Box, CloseButton, Loader, Modal, Table, Transition } from "@mantine/core";
+import { useEffect, useState } from "preact/hooks";
+import { Carousel } from "react-responsive-carousel";
 
-import { formatCamelCaseToTitleCase } from "../../../../utils/convertor"
-import { getAddressPointDetails } from "../../../../api"
-import { dropvalue,infoCardVal } from "../../../../signals"
+import { getAddressPointDetails } from "../../../../api";
+import { dropvalue, infoCardVal } from "../../../../signals";
+import { formatCamelCaseToTitleCase } from "../../../../utils/convertor";
 
 
 
@@ -17,64 +17,64 @@ export default ({ modal = false, presegment = null }) => {
     const [val, setVal] = useState(null)
     useEffect(() => { infoCardVal.subscribe(setVal) }, [])
 
-    return val !=null ?
-    <>
-        {!modal ?
+    return val != null ?
+        <>
+            {!modal ?
 
-            <Transition transition="slide-right" duration={400} mounted={val != null} timingFunction="ease">
-                {(styles) =>
-                    <div style={styles} className="bg-white absolute left-2 bottom-2 z-50 p-2 rounded-md shadow-lg max-w-xl" >
-                        <Component modal={modal} presegment={presegment} val={val}/>
-                    </div>
-                }
-            </Transition>
-            :
-            <>
+                <Transition transition="slide-right" duration={400} mounted={val != null} timingFunction="ease">
+                    {(styles) =>
+                        <div style={styles} className="bg-white absolute left-2 bottom-2 z-50 p-2 rounded-md shadow-lg max-w-xl" >
+                            <Component modal={modal} presegment={presegment} val={val} />
+                        </div>
+                    }
+                </Transition>
+                :
+                <>
 
-                <Modal lockScroll={false} className="overflow-x-hidden" padding={'xs'} opened={val != null} onClose={()=>{
-                    setVal(null)
-                }} title="Info Card" size={'xl'}>
-                    <div className="w-full h-full">
-                        <Component modal={modal} presegment={presegment} val={val}/>
-                    </div>
-                </Modal>
-            </>
-        }
+                    <Modal lockScroll={false} className="overflow-x-hidden" padding={'xs'} opened={val != null} onClose={() => {
+                        setVal(null)
+                    }} title="Info Card" size={'xl'}>
+                        <div className="w-full h-full">
+                            <Component modal={modal} presegment={presegment} val={val} />
+                        </div>
+                    </Modal>
+                </>
+            }
 
-    </>
-    :
-    <></>
-    
+        </>
+        :
+        <></>
+
 }
 
-const Component = ({ modal = false, presegment = null,val }) => {
+const Component = ({ modal = false, presegment = null, val }) => {
     const [infoCardData, setInfoCardData] = useState(null)
     const [segment, setSegment] = useState(presegment)
 
     useEffect(async () => {
-        
-            if (!val) {
-                setSegment(null)
-                return
-            }
-            const len = val?.length
-            // val = val.filter((feature) => feature.sourceLayer !== undefined)
 
-            const distinct = [...new Set(val?.map(item => item.sourceLayer))].filter(item => item !== undefined)
-            // if (segment == null && distinct?.length === 1) {
-            //     setSegment(distinct[0]?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase())
-            // }
+        if (!val) {
+            setSegment(null)
+            return
+        }
+        const len = val?.length
+        // val = val.filter((feature) => feature.sourceLayer !== undefined)
 
-
-            const duplicates = distinct?.map(item => val.filter(i => i.sourceLayer === item).length)
-
-            setSegment(distinct[0]?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase())
+        const distinct = [...new Set(val?.map(item => item.sourceLayer))].filter(item => item !== undefined)
+        // if (segment == null && distinct?.length === 1) {
+        //     setSegment(distinct[0]?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase())
+        // }
 
 
-            let filtered = val.filter((feature) => feature.layer.id === 'addressPoints')
+        const duplicates = distinct?.map(item => val.filter(i => i.sourceLayer === item).length)
 
-            if (filtered.length !== 0) {
-                try{
+        setSegment(distinct[0]?.replace(`${dropvalue.value}`, "")?.replace("_OUT_", "")?.replace(/_/g, " ")?.toUpperCase())
+
+
+        let filtered = val.filter((feature) => feature.layer.id === 'addressPoints')
+
+        if (filtered.length !== 0) {
+            try {
                 distinct.push('Address Point')
 
                 const id = filtered[0].properties.id
@@ -89,31 +89,31 @@ const Component = ({ modal = false, presegment = null,val }) => {
                         properties: data
                     })
                 }
-                }catch(err){
-                  
-                    distinct.pop()
-                }
+            } catch (err) {
+
+                distinct.pop()
             }
+        }
 
 
 
-            setInfoCardData(distinct?.filter(item => item !== undefined)
-                .map((item, index) => {
+        setInfoCardData(distinct?.filter(item => item !== undefined)
+            .map((item, index) => {
 
-                    return {
-                        sourceLayer: item,
-                        properties: val.filter(i => i.sourceLayer === item).map(i => i.properties),
-                        count: (item === ('Address Point' || 'Distict Boundary')) ? 1 : duplicates[index],
-                    }
-                }))
+                return {
+                    sourceLayer: item,
+                    properties: val.filter(i => i.sourceLayer === item).map(i => i.properties),
+                    count: (item === ('Address Point' || 'Distict Boundary')) ? 1 : duplicates[index],
+                }
+            }))
 
-        
+
 
     }, [])
 
     const onClose = () => {
         setInfoCardData(null)
-       
+
     }
 
     const renameKeys = {

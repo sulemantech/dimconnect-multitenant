@@ -402,7 +402,9 @@ const RegionCostCalculation = () => {
         }
     }, [geometry])
 
-    const submitRegionCostCalculation = async () => {
+    const submitRegionCostCalculation = async (e) => {
+        e.preventDefault()
+        e.stopPropagation()
         if (!polygon) return
         setLoading(true)
         const URLSearchParam = new URLSearchParams();

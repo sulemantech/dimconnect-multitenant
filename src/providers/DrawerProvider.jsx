@@ -1,4 +1,4 @@
-import { useState, useContext , useEffect } from 'preact/hooks';
+import { useState, useContext, useEffect } from 'preact/hooks';
 import { createContext } from 'preact';
 import { Drawer } from '@mantine/core';
 import { signal } from '@preact/signals';
@@ -24,8 +24,8 @@ export const DrawerProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        const unsub =  drawerSignal.subscribe((data) => {
-            
+        const unsub = drawerSignal.subscribe((data) => {
+
             if (!data.title || !data.children) {
                 setIsOpen(false);
                 return;

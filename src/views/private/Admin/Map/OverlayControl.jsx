@@ -1,10 +1,10 @@
 import { Menu } from "@mantine/core"
+import { closeAllModals, openModal } from "@mantine/modals"
 import { IconStack2 } from "@tabler/icons"
 import { useEffect, useState } from "preact/hooks"
-import { closeAllModals, openModal } from "@mantine/modals"
 
-import { dropvalue,addressPointsVisibility,videoVisibility,photoVisibility,visibility } from "../../../../signals"
 import { FabClass } from "../../../../layout"
+import { addressPointsVisibility, dropvalue, photoVisibility, videoVisibility, visibility } from "../../../../signals"
 
 export default ({ modal = false }) => {
     const [data, setData] = useState({})
@@ -12,13 +12,13 @@ export default ({ modal = false }) => {
         setData(JSON.parse(visibility.value) || {})
     }, [visibility.value])
 
-    const OverlayControlButton =   <div id='overlaycontrol' className={`${FabClass} mb-2 text-[#0E76BB] bg-white`}>
-    <IconStack2 className="scale-150" />
-</div>
+    const OverlayControlButton = <div id='overlaycontrol' className={`${FabClass} mb-2 text-[#0E76BB] bg-white`}>
+        <IconStack2 className="scale-150" />
+    </div>
 
     if (modal) {
         return (
-            <div id='overlaycontrol' 
+            <div id='overlaycontrol'
                 onClick={() => {
                     openModal({
                         title: 'Overlay Control',
@@ -45,7 +45,7 @@ export default ({ modal = false }) => {
                                                     visible: !temp[key].visible
                                                 }
                                                 visibility.value = JSON.stringify(temp)
-                                                
+
                                             }}>
                                                 {
                                                     data[key].visible ? <span className="text-green-500">✔</span> : <span className="text-red-500">✖</span>
@@ -78,7 +78,7 @@ export default ({ modal = false }) => {
                                 }>
                                     {
                                         videoVisibility.value ? <span className="text-green-500">✔</span> : <span className="text-red-500">✖</span>
-                                    
+
                                     }
                                     Videos
                                 </div>
@@ -98,10 +98,10 @@ export default ({ modal = false }) => {
 
         <Menu position="left-end" withArrow>
             <Menu.Target>
-              {OverlayControlButton}
+                {OverlayControlButton}
             </Menu.Target>
             <Menu.Dropdown>
-            <Menu.Item onClick={() => {
+                <Menu.Item onClick={() => {
                     addressPointsVisibility.value = !addressPointsVisibility.value
                 }}>
                     {
