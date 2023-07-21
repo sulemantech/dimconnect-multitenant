@@ -28,12 +28,11 @@ export default () => {
           loading={loading}
           count={MaterialCount?.data?.demand_points}
         />
-
-        <CountCard
-          title="Feeder Cables"
-          loading={loading}
+ <CountCard
+          title="Drop Duct"
           unit="m"
-          count={MaterialCount?.data?.feeder_cables}
+          count={MaterialCount?.data?.drop_ducts}
+          loading={loading}
         />
 
         <CountCard
@@ -71,11 +70,12 @@ export default () => {
           count={MaterialCount?.data?.feeder_ducts}
           loading={loading}
         />
-        <CountCard
-          title="Drop Duct"
-          unit="m"
-          count={MaterialCount?.data?.drop_ducts}
+       
+       <CountCard
+          title="Feeder Cables"
           loading={loading}
+          unit="m"
+          count={MaterialCount?.data?.feeder_cables}
         />
       </div>
     </div>

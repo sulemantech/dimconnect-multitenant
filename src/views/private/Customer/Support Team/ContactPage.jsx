@@ -1,7 +1,7 @@
 
 export default () => {
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen overflow-y-auto">
       <div className="flex flex-col">
         <div className=" font-[Roboto] flex flex-col space-y-5 mt-[3rem] pl-[3rem] ">
           <div className="">

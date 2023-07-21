@@ -1,9 +1,10 @@
-import { Badge, LoadingOverlay, Skeleton } from "@mantine/core"
+import { Grid, Skeleton } from "@mantine/core"
 import { Suspense, lazy } from "preact/compat"
 import { PERMISSIONS } from "../../../../common"
 import PageProvider from "../../../../providers/PageProvider"
 import PermissionWrapper from "../../../../providers/PermissionsProvider"
 import MapElements from "./MapElements"
+import { WeekdaysRow } from "@mantine/dates"
 
 const MaterialCount = lazy(() => import("./MaterialCount"))
 const CostInfo = lazy(() => import("./CostInfo"))
@@ -17,7 +18,7 @@ const Dashboard = () => {
     <PermissionWrapper permission={PERMISSIONS.Dashboard} view>
       <PageProvider>
 
-        <div className="flex flex-col md:flex-row">
+        {/* <div className="flex flex-col md:flex-row">
           <Suspense fallback={<Skeleton />}>
             <MaterialCount />
           </Suspense>
@@ -81,7 +82,19 @@ const Dashboard = () => {
             <Tickets />
           </Suspense>
 
-        </div>
+        </div> */}
+        <Grid>
+          <Grid.Col md={6}>
+            <Suspense fallback={<Skeleton />}>
+              <MaterialCount />
+            </Suspense>
+          </Grid.Col>
+          <Grid.Col md={6}>
+            <Suspense fallback={<Skeleton />}>
+              <MapElements />
+            </Suspense>
+          </Grid.Col>
+        </Grid>
       </PageProvider>
     </PermissionWrapper>
   )

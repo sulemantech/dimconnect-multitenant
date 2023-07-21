@@ -9,6 +9,7 @@ import { useEffect } from "preact/hooks";
 import { closeDrawer, openDrawer } from "../../../../providers/DrawerProvider";
 import PermissionWrapper from "../../../../providers/PermissionsProvider";
 import { PERMISSIONS } from "../../../../common";
+import { districts } from "../../../../signals";
 
 export default () => {
 
@@ -145,6 +146,22 @@ export default () => {
                                     email: '',
                                     password: '',
                                     agreement_signed: false,
+                                    ags_right : {
+                                        type : 'radio',
+                                        defaultValue : 0,
+                                        options : [{
+                                            label : 'View',
+                                            value : 1
+                                        },{
+                                            label :'Write',
+                                            value : 2
+                                        }]
+                                    },
+                                    isEditor: false,
+                                    ags: districts.value?.features?.map(district => ({
+                                        label: district.properties.n.toString(),
+                                        value: district.properties.c
+                                    }))
                                 },
                                 createMethod: createUser,
                                 deleteMethod: deleteUser,

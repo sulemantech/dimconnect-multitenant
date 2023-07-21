@@ -1,4 +1,4 @@
-import { ActionIcon, Button, Chip, Flex, Input, MultiSelect, Pagination, Paper, Text, Select, Switch, Table, Title, Divider, Checkbox } from "@mantine/core";
+import { ActionIcon, Button, Chip, Flex, Input, MultiSelect, Pagination, Paper, Text, Select, Switch, Table, Title, Divider, Checkbox, Radio } from "@mantine/core";
 import { closeAllModals, openConfirmModal, openModal } from "@mantine/modals";
 import { IconAlertCircle, IconArrowDown, IconArrowUp, IconPaperclip, IconPlus, IconSearch } from "@tabler/icons";
 import { useState } from "preact/hooks";
@@ -12,7 +12,7 @@ import { isValidElement } from "preact";
 import { useTranslation } from "react-i18next";
 export default ({ children, title, data, attributes = [], newStruct = {}, refreshData, edit = false, remove = false, attatchment = false }) => { // as {"id":25,"name":"HO1V","min":"25","max":"55"}[]
 
-    const {t} = useTranslation()
+    const { t } = useTranslation()
     const [sort, setSort] = useState({ field: "name", order: "asc" });
     const [filter, setFilter] = useState('')
     const [submitloading, setsubmitLoading] = useState(false)
@@ -106,25 +106,54 @@ export default ({ children, title, data, attributes = [], newStruct = {}, refres
                                     <div className="flex flex-col">
                                         <label className="text-sm text-gray-600">{t(item.replace('_', ' ').trim().toUpperCase())}</label>
 
-                                        <MultiSelect data={newStruct?.data[item]} data-type="array" required className="bg-gray-200 rounded-md p-1" name={item} />
+                                        <MultiSelect searchable data={newStruct?.data[item]} data-type="array" required className="bg-gray-200 rounded-md p-1" name={item} />
 
                                     </div>
+
                                     :
                                     typeof newStruct.data[item] === 'boolean' ?
                                         <>
 
-                                            <div className="flex">
+                                            <div className="flex mt-2">
                                                 <label className="text-sm text-gray-600 flex-1">{t(item.replace('_', ' ').trim().toUpperCase())}</label>
                                                 <Checkbox className=" rounded-md p-1 flex-1" name={item} defaultValue={false} />
                                             </div>
                                         </>
                                         :
-                                        <div className="flex flex-col">
-                                            <label className="text-sm text-gray-600">{t(item.replace('_', ' ').trim().toUpperCase())}</label>
-                                            <Input required type={
-                                                item.toLowerCase().includes('password') ? 'password' : item.toLowerCase().includes('email') ? 'email' : 'text'
-                                            } className="bg-gray-200 rounded-md p-1" name={item} />
-                                        </div>
+                                        typeof newStruct.data[item] === 'object' ?
+                                            <>
+                                                {
+                                                    newStruct.data[item].type == 'radio' ?
+                                                        <Radio.Group
+                                                            className="flex flex-col"
+                                                            name={item}
+                                                            defaultValue={newStruct.data[item].defaultValue}
+                                                            required
+                                                            label={t(item.replace('_', ' ').trim().toUpperCase())}
+                                                        >
+                                                            {
+                                                                newStruct.data[item].options?.map((option) => (
+                                                                    <Radio
+                                                                        className="flex-1"
+                                                                        value={option.value}
+                                                                        label={option.label}
+                                                                    />
+                                                                ))
+                                                            }
+                                                        </Radio.Group>
+                                                        :
+                                                        <p>
+                                                            {t('Not Supported')}
+                                                        </p>
+                                                }
+                                            </>
+                                            :
+                                            <div className="flex flex-col">
+                                                <label className="text-sm text-gray-600">{t(item.replace('_', ' ').trim().toUpperCase())}</label>
+                                                <Input required type={
+                                                    item.toLowerCase().includes('password') ? 'password' : item.toLowerCase().includes('email') ? 'email' : 'text'
+                                                } className="bg-gray-200 rounded-md p-1" name={item} />
+                                            </div>
 
                             ))
                         }
@@ -135,7 +164,7 @@ export default ({ children, title, data, attributes = [], newStruct = {}, refres
                             <Button
                                 loading={submitloading}
                                 type={'submit'}>
-                               { t('Create')}
+                                {t('Create')}
                             </Button>
                         </div>
                     </form>
@@ -287,7 +316,7 @@ export default ({ children, title, data, attributes = [], newStruct = {}, refres
                                             attributes?.map((attr) => {
                                                 return (
                                                     <td key={attr + 'hgrui'} className="px-6 text-left py-4 whitespace-nowrap text-sm text-gray-500">
-                                                        {Array.isArray(item[attr]) ? item[attr].map((i) => i.name).join(', ') : (isObject(item[attr]) ? Object.values(item[attr]).join(', ') : item[attr])}
+                                                        {Array.isArray(item[attr]) ? item[attr]?.map((i) => i.name).join(', ') : (isObject(item[attr]) ? Object.values(item[attr]).join(', ') : item[attr])}
                                                     </td>
                                                 )
                                             }
@@ -407,6 +436,7 @@ const EditForm = ({ item, newStruct, refreshData }) => {
                 <div className="flex flex-col">
                     {
                         Object.keys(newStruct.data)?.map((attr) => {
+                           
                             return (
                                 // <div key={attr} className="flex flex-col mb-4">
                                 //     <label className="text-gray-700">{attr.replace('_', ' ').toUpperCase()}</label>
@@ -421,9 +451,10 @@ const EditForm = ({ item, newStruct, refreshData }) => {
                                 typeof newStruct.data[attr] === 'object' ? (
                                     <Input.Wrapper>
                                         <Input.Label>{attr.replace('_', ' ').toUpperCase()}</Input.Label>
-                                        <MultiSelect
+                                        <Select
                                             key={attr}
                                             required
+                                            searchable
                                             options={newStruct.data[attr]}
                                             value={form[attr]}
                                             onChange={(value) => setForm({ ...form, [attr]: value.currentTarget.value })}
