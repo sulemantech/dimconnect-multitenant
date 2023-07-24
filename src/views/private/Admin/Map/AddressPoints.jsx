@@ -1,16 +1,16 @@
 import { Button, NativeSelect, ScrollArea, TextInput, Textarea } from "@mantine/core"
-import { useEffect, useMemo, useState } from "preact/hooks"
-import { Layer, Source, useMap } from "react-map-gl"
 import { closeAllModals, openModal } from "@mantine/modals"
 import { showNotification } from "@mantine/notifications"
+import { IconCheck, IconX } from "@tabler/icons"
 import jwtDecode from "jwt-decode"
-import { IconCheck, IconCross, IconX } from "@tabler/icons"
+import { useEffect, useMemo, useState } from "preact/hooks"
 import proj4 from "proj4"
+import { Layer, Source } from "react-map-gl"
 
 import appConfig from "../../../../config/appConfig"
 
-import { dropvalue, mapClickBindings, editControlLoading, addressPointsVisibility, addressPointsStatusVisibility, addressPointsCRUDstate, addressPointsReceived } from "../../../../signals"
 import { getAddressPointDetails, getAddressPointStatus, postAddressPoint, updateAddressPoint } from "../../../../api"
+import { addressPointsCRUDstate, addressPointsReceived, addressPointsStatusVisibility, addressPointsVisibility, dropvalue, editControlLoading, mapClickBindings } from "../../../../signals"
 
 
 export default () => {
@@ -252,7 +252,7 @@ export const CRUDAddressPointForm = ({ prevdata, edit = false, add = false, lat,
         e.preventDefault()
         setLoading(true)
         const data = new FormData(e.target)
-        const obj = prevdata
+        const obj = prevdata || {}
         for (const [key, value] of data.entries()) {
             obj[key] = value
         }

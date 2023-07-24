@@ -18,10 +18,10 @@ export default ({ title, count, color, active, handleClick, id }) => {
       </div>
       <div
         className={`flex flex-col items-end p-5 bg-[${color === "blue"
-            ? "#3b82f6"
-            : color === "yellow"
-              ? "#f59e0b"
-              : "#10b981"
+          ? "#3b82f6"
+          : color === "yellow"
+            ? "#f59e0b"
+            : "#10b981"
           }]`}
       >
         <svg

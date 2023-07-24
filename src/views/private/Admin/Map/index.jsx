@@ -1,5 +1,5 @@
-import { lazy, Suspense } from 'preact/compat'
 import { useScrollLock } from '@mantine/hooks'
+import { lazy, Suspense } from 'preact/compat'
 
 import { BottomLeft, BottomRight } from '../../../../layout/Fixed'
 import PermissionWrapper from '../../../../providers/PermissionsProvider'

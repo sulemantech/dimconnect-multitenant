@@ -1,12 +1,12 @@
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
-import { Box, CloseButton, Loader, Modal, Table, Transition } from "@mantine/core"
-import { useEffect, useState } from "preact/hooks"
-import { Carousel } from "react-responsive-carousel"
+import { Box, CloseButton, Loader, Modal, Table, Transition } from "@mantine/core";
+import { useEffect, useState } from "preact/hooks";
+import { Carousel } from "react-responsive-carousel";
 
-import { formatCamelCaseToTitleCase } from "../../../../utils/convertor"
-import { getAddressPointDetails } from "../../../../api"
-import { dropvalue, infoCardVal } from "../../../../signals"
+import { getAddressPointDetails } from "../../../../api";
+import { dropvalue, infoCardVal } from "../../../../signals";
+import { formatCamelCaseToTitleCase } from "../../../../utils/convertor";
 
 
 

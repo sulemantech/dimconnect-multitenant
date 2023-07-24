@@ -1,8 +1,10 @@
 import { useState } from 'preact/hooks'
+import { useTranslation } from "react-i18next";
 export default ({ height, width }) => {
     const [collapsed, setCollapsed] = useState(true)
+    const {t} = useTranslation()
     return (
-        <div className={'fixed bottom-0 right-32'}>
+        <div className={'fixed bottom-0 right-32 bg-white shadow-md rounded-t-3xl'}>
 
             <div className={'relative'}
 
@@ -10,11 +12,11 @@ export default ({ height, width }) => {
                 <div style={{ background: "url('/horizontal blue background.svg')", width }}
                     onClick={() => setCollapsed(!collapsed)}
 
-                    className={'flex p-2 justify-between rounded-t-lg'}
+                    className={'flex p-4 justify-around items-center rounded-t-3xl bg-no-repeat bg-cover'}
                 >
-                    <div className={'text-white font-semibold'}>
+                    <div className={'text-white font-normal text-xs'}>
 
-                        <p>Hello, I am the DIM-Bot.</p>
+                        <p>Hello, I am the <b>DIM-Bot.</b></p>
                         <p> Ask me something!</p>
 
                     </div>

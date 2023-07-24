@@ -5,14 +5,15 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: { 
+   
+    extend: {
       screens:{
 
-      'laptop': '1284px',
-      'laptop1': '1270px',
-      'laptop2':'1537px',
-      'Mobile': '870px',
-    },
+        'laptop': '1284px',
+        'laptop1': '1270px',
+        'laptop2':'1367px',
+        'Mobile': '870px',
+      },
       colors: {
         'brand': '#0E76BB',
         'brand-dark': '#E0E0E0',

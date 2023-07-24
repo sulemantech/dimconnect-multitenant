@@ -1,10 +1,10 @@
 import { Menu } from "@mantine/core"
+import { closeAllModals, openModal } from "@mantine/modals"
 import { IconStack2 } from "@tabler/icons"
 import { useEffect, useState } from "preact/hooks"
-import { closeAllModals, openModal } from "@mantine/modals"
 
-import { dropvalue, addressPointsVisibility, videoVisibility, photoVisibility, visibility } from "../../../../signals"
 import { FabClass } from "../../../../layout"
+import { addressPointsVisibility, dropvalue, photoVisibility, videoVisibility, visibility } from "../../../../signals"
 
 export default ({ modal = false }) => {
     const [data, setData] = useState({})

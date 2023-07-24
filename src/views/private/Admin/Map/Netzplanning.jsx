@@ -1,7 +1,7 @@
 import { useEffect, useState } from "preact/hooks"
-import { dropvalue } from "../../../../signals"
+import { Layer, Source } from "react-map-gl"
 import { getnetzplanning } from "../../../../api"
-import { Source, Layer, useMap } from "react-map-gl"
+import { dropvalue } from "../../../../signals"
 
 
 let SAMPLE = [{ "json": { "type": "Feature", "geometry": { "type": "Point", "coordinates": [7.459926816, 49.295767688] }, "properties": { "legende": "Versorgungspunkt" } } }, { "json": { "type": "Feature", "geometry": { "type": "Point", "coordinates": [7.580202076, 49.254743359] }, "properties": { "legende": "Versorgungspunkt" } } },

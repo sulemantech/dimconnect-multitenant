@@ -1,7 +1,6 @@
-import { Alert, LoadingOverlay } from '@mantine/core';
-import { Suspense } from 'preact/compat';
-import { permissible } from '../signals';
+import { Alert } from '@mantine/core';
 import { IconAlertCircle } from '@tabler/icons';
+import { permissible } from '../signals';
 
 
 const checkPermission = (permission, type) => {

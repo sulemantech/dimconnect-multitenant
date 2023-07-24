@@ -8,6 +8,7 @@ import { costInfoData } from "../../../../signals";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default () => {
+ 
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
   useEffect(
@@ -17,24 +18,25 @@ export default () => {
       })
     }, []
   )
-
-  if (!data) {
+  
+  if (!data || !data.cables || !data.cables.distribution || !data.cables.feeder || !data.cables.primary) {
     return <div className='flex justify-center h-full items-center'>
       <p>No Data</p>
-      </div>
+    </div>
   }
 
   const getChartData = (dataset) => {
     if (!dataset) {
       return {}
     }
-    return({
-    labels: dataset.map(item => item.cable_type),
-    datasets: [{
-      data: dataset.map(item => item.total_cost),
-      backgroundColor: ['#0E76BB', '#0092c3', 'sky', 'blue', 'indigo', 'purple', 'cyan']
-    }]
-  })};
+    return ({
+      labels: dataset.map(item => item.cable_type),
+      datasets: [{
+        data: dataset.map(item => item.total_cost),
+        backgroundColor: ['#0E76BB', '#0092c3', 'sky', 'blue', 'indigo', 'purple', 'cyan']
+      }]
+    })
+  };
 
   if (!data) {
     return <div className='flex justify-center h-full items-center'><Loader size='lg' /></div>
