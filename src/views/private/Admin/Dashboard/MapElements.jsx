@@ -1,5 +1,5 @@
 import { useEffect, useState } from "preact/hooks"
-import { Card, CardSection, Loader } from "@mantine/core"
+import { Card, CardSection, Divider, Loader, Title } from "@mantine/core"
 
 import { dropvalue } from "../../../../signals"
 import { getAddressPointCount } from "../../../../api"
@@ -48,15 +48,14 @@ export default () => {
             radius={'lg'}
             
         >
-            <CardSection className="border-b-4 border-neutral-200 border-solid p-4">
+           
 
             <div className="text-black text-2xl font-bold justify-start flex" >
 
                 Address Points
 
             </div>
-            </CardSection>
-            <CardSection className="p-4">
+        
 
             <div className="relative text-xs flex flex-col p-2 flex-1 ">
                 <div>
@@ -92,7 +91,15 @@ export default () => {
                     }
                 </div>
             </div>
-                        </CardSection>
+                        
+<br/>
+<Divider />
+<br/>
+                   
+                    <Title order={3}>Address Point By Type</Title>
+                    <br/>
+                    
+                        
         </Card>
     )
 }
