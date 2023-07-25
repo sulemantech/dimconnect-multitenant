@@ -2,11 +2,13 @@
 import { Accordion } from "@mantine/core"
 import { useDidUpdate } from "@mantine/hooks"
 import { useState } from "preact/hooks"
+import { useTranslation } from "react-i18next";
 
 import { DistrictPhaseLayersVisibility, DistrictPhaseVisibility, addressPointsStatusVisibility, legendContent, netzplanninglegend } from "../../../../signals"
 
 
 export default ({ noAddressPoint = false, noStatus = false }) => {
+    const {t}=useTranslation()
     const [value, setValue] = useState('Address Points')
     const [collapsed, setCollapsed] = useState(!noAddressPoint)
     useDidUpdate(() => {
@@ -19,12 +21,12 @@ export default ({ noAddressPoint = false, noStatus = false }) => {
     }, [collapsed])
 
     if (collapsed) return <div className="absolute -left-8 hover:scale-95 transition-all cursor-pointer bottom-24 justify-center rotate-90 font-bold text-lg tracking-wide text-white bg-[#0092c3] shadow-2xl z-40 rounded-md p-2 " onClick={() => setCollapsed(false)}>
-        Legend
+        {t('Legend')}
     </div>
 
     return (
         <div className="relative text-xs flex flex-col p-2 shadow-md rounded-md mt-2 bg-white">
-            <h6 className="mb-1"><b>Legend</b></h6>
+            <h6 className="mb-1"><b>{t('Legend')}</b></h6>
             <hr className="mb-2" />
             <Accordion defaultValue={window.innerWidth > 768 ? 'Address Points' : ''} className="text-xs" onChange={(e) => {
                 const params = new URLSearchParams(window.location.search)

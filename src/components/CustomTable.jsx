@@ -186,7 +186,7 @@ export default ({ children, title, data, attributes = [], newStruct = {}, refres
                                 <Paper withBorder radius="xl" className="flex items-center">
 
                                     <Text mx={15} color="brand" fw={'bold'}>
-                                        Show
+                                        {t('Show')}
                                     </Text>
 
                                     <Select data={[
@@ -222,12 +222,12 @@ export default ({ children, title, data, attributes = [], newStruct = {}, refres
                             <div className="flex-1"></div>
 
                             <div className="flex items-center">
-                                <Input type="text" variant="filled" size="lg" radius={'lg'} mr={15} icon={<IconSearch />} className="mr-xs" placeholder="Search" onChange={(e) => setFilter(e.currentTarget.value)} />
+                                <Input type="text" variant="filled" size="lg" radius={'lg'} mr={15} icon={<IconSearch />} className="mr-xs" placeholder={t('Search')} onChange={(e) => setFilter(e.currentTarget.value)} />
                                 {newStruct.hasOwnProperty('createMethod') && <Button
                                     leftIcon={<IconPlus size={15} />}
                                     onClick={createNew}
                                 >
-                                    Add New
+                                    {t('Add New')}
                                 </Button>}
                             </div>
 
@@ -242,7 +242,7 @@ export default ({ children, title, data, attributes = [], newStruct = {}, refres
                                             return (
                                                 <th scope="col" key={item} className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
                                                     <p class={`flex items-center`}>
-                                                        {item.replace('_', ' ').toUpperCase()}
+                                                        {t(`${item.replace('_', ' ').toUpperCase()}`)}
                                                         <ActionIcon className="text-gray-900"
                                                             size="xs"
                                                             variant="white"

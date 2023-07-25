@@ -151,7 +151,7 @@ export default () => {
 
 
             <Menu.Item color="red" icon={<IconLogout size={14} stroke={1.5} />} onClick={logout}>
-              Logout
+              {t('Logout')}
             </Menu.Item>
           </Menu.Dropdown>
         </Menu>

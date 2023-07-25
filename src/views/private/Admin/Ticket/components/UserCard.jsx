@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
 import DataTable from "react-data-table-component";
 import { status } from "./Table";
+import { useTranslation } from "react-i18next";
 // import VectorStroke from './VectorStroke.png'
 import "./table.css";
 
 function UserCard({ tickets, select }) {
+  const {t}=useTranslation()
   const [active, setActive] = React.useState("userCard");
 
   const [item, setItem] = React.useState(select || null);
@@ -72,14 +74,14 @@ function UserCard({ tickets, select }) {
             className={active === "userTicket" ? "text-sky-600 font-bold" : ""}
             onClick={() => setActive("userTicket")}
           >
-            User Ticket History
+            {t('User Ticket History')}
           </button>
           {/* User Card */}
           <button
             className={active === "userCard" ? "text-sky-600 font-bold" : ""}
             onClick={() => setActive("userCard")}
           >
-            User Card
+            {t('User Card')}
           </button>
         </div>
         <div className="h-[56vh] ml-6 mt-3 rcolor rounded-md px-2 w-[22vw] overflow-y-auto custom-scrollbar ">
@@ -148,7 +150,7 @@ function UserCard({ tickets, select }) {
                 // if there is no data show this message
                 noDataComponent={
                   <div className="text-xs text-gray-400 w-[15vw]">
-                    No Tickets Found
+                    {t('No Tickets Found')}
                   </div>
                 }
                 customStyles={{
@@ -296,7 +298,7 @@ function UserCard({ tickets, select }) {
                 htmlFor="name"
                 className="text-black  text-sm font-medium "
               >
-                Name
+                {t('Name')}
               </label>
               <input
                 placeholder={
@@ -318,7 +320,7 @@ function UserCard({ tickets, select }) {
                 htmlFor="email"
                 className=" text-gray-700 text-sm font-medium mt-5"
               >
-                Email
+                {t('Email')}
               </label>
               <input
                 placeholder={item !== null ? item?.gpUser?.email : ""}
@@ -331,10 +333,10 @@ function UserCard({ tickets, select }) {
                 htmlFor="location"
                 className="text-gray-700  text-sm font-medium mt-5"
               >
-                Location
+                {t('Location')}
               </label>
               <input
-                placeholder=" Frankfurt, Germany"
+                placeholder={t("Frankfurt, Germany")}
                 className="bg-[#F5F7F9] text-sm rounded-lg p-1 mt-1 px-5 focus:outline-none"
                 type="password"
                 name=""
@@ -344,11 +346,11 @@ function UserCard({ tickets, select }) {
                 htmlFor="comapny"
                 className=" text-gray-700 text-sm font-medium mt-5"
               >
-                Company
+                {t('Company')}
               </label>
               <input
                 id="company"
-                placeholder=" Tesla Germany"
+                placeholder={t('Tesla Germany')}
                 className="bg-[#F5F7F9] text-sm rounded-lg p-1 mt-1 px-5 focus:outline-none"
                 type="text"
               />
@@ -356,10 +358,10 @@ function UserCard({ tickets, select }) {
                 htmlFor="vip"
                 className="text-gray-700 text-sm font-medium mt-5"
               >
-                VIP
+                {t('VIP')}
               </label>
               <input
-                placeholder=" VIP"
+                placeholder={t('VIP')}
                 className="bg-[#F5F7F9] text-sm rounded-lg p-1 mt-1 px-5 focus:outline-none"
                 type="text"
                 id="vip"
@@ -368,7 +370,7 @@ function UserCard({ tickets, select }) {
                 htmlFor="description"
                 className="text-gray-700 text-sm font-medium mt-5"
               >
-                Comments from Customer Care
+                {t('Comments from Customer Care')}
               </label>
               <textarea
                 placeholder=" a regular customer,  

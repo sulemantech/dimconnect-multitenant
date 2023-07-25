@@ -1,4 +1,5 @@
 import { useState, useEffect } from "preact/hooks";
+import { useTranslation } from "react-i18next";
 import {
   TextInput,
   Button,
@@ -32,6 +33,7 @@ export default function TicketCreationPage() {
   const [categories, setCategories] = useState([]);
   const [priorities, setPriorities] = useState([]);
   const [error, setError] = useState(null);
+  const { t } = useTranslation()
 
   useEffect(() => {
     const fetchTicketData = async () => {
@@ -127,10 +129,10 @@ export default function TicketCreationPage() {
       >
         <div className="flex space-x-10  ">
           <a className=" underline font-bold text-white" href="#">
-            Create New
+            {t('Create New')}
           </a>
           <a className=" disabled font-[500] text-slate-100" href="#">
-            Manage Status
+            {t('Manage Status')}
           </a>
         </div>
       </div>
@@ -140,15 +142,13 @@ export default function TicketCreationPage() {
           color="brand"
           className=" font-[roboto] text-[0078BE] font-bold text-[32px]"
         >
-          Support Ticket To DIM Team
+          {t('Support Ticket To DIM Team')}
         </Title>
         <Title
           order={5}
           className="w-2/3 font-[roboto] text-[3E3F3F] font-normal text-[16px]"
         >
-          Please describe your issue in detail, with relevant information
-          including device platform, a version affected, steps taken to
-          reproduce the issue, and any other relevant information.
+          {t('Please describe your issue in detail, with relevant information including device platform, a version affected, steps taken to reproduce the issue, and any other relevant information.')}
         </Title>
         <form onSubmit={handleTicketSubmit}>
           <div className="flex flex-1 w-full">
@@ -163,7 +163,7 @@ export default function TicketCreationPage() {
                   display="flex"
                 >
                   <Text color="brand" className="font-bold text-sm">
-                    Problem Type
+                    {t('Problem Type')}
                   </Text>
                 </Box>
                 <Select
@@ -191,11 +191,11 @@ export default function TicketCreationPage() {
                   display="flex"
                 >
                   <Text color="brand" className="font-bold text-sm">
-                    Title
+                    {t('Title')}
                   </Text>
                 </Box>
                 <TextInput
-                  placeholder="Enter Map Problem"
+                  placeholder={t('Enter Map Problem')}
                   className="flex-[3]"
                   variant="filled"
                   classNames={{
@@ -216,7 +216,7 @@ export default function TicketCreationPage() {
                   display="flex"
                 >
                   <Text color="brand" className="font-bold text-sm">
-                    Description
+                    {t('Description')}
                   </Text>
                 </Box>
                 <Textarea
@@ -226,7 +226,7 @@ export default function TicketCreationPage() {
                     input: "rounded-r-[10px] relative",
                   }}
                   size="sm"
-                  placeholder="Please describe your issue in detail, with any relevant information including device platform aa version affected, steps taken leading to the issue, which period of time this proble is go on etc."
+                  placeholder={t('Please describe your issue in detail, with any relevant information including device platform aa version affected, steps taken leading to the issue, which period of time this proble is go on etc.')}
                   name="description"
                   multiline
                   required
@@ -242,12 +242,12 @@ export default function TicketCreationPage() {
                   display="flex"
                 >
                   <Text color="brand" className="font-bold text-sm">
-                    Priority
+                    {t('Priority')}
                   </Text>
                 </Box>
                 <Select
                   variant="filled"
-                  placeholder="Select priority"
+                  placeholder={t('Select priority')}
                   className="flex-[3]"
                   classNames={{
                     input: "rounded-r-[10px] relative",
@@ -272,7 +272,7 @@ export default function TicketCreationPage() {
                   display="flex"
                 >
                   <Text color="brand" className="font-bold text-sm">
-                    Attachments
+                    {t('Attachments')}
                   </Text>
                 </Box>
                 <FileInput
@@ -280,7 +280,7 @@ export default function TicketCreationPage() {
                   labelProps={{ className: "text-[10px]" }}
                   icon={<IconPaperclip size={23} className="text-sky-600" />}
                   size="sm"
-                  placeholder= "Attach File Or Drop Files Here To Upload"
+                  placeholder= {t('Attach File Or Drop Files Here To Upload')}
                   multiple
                   name="file"
                   error={error}
@@ -290,66 +290,49 @@ export default function TicketCreationPage() {
                 />
               </Paper>
               <p className="text-xs mt-4 ml-[2px]">
-                To protect your privacy, please do not include Any personal
-                information in your request. Review our{" "}
+                {t('To protect your privacy, please do not include Any personalinformation in your request. Review our')} 
                 <a href="#" className="text-sky-600">
-                  privacy statement
+                  {t('privacy statement')}
                 </a>{" "}
-                for more information.
+                {t('for more information.')}
               </p>
               <div className="justify-end items-end flex">
                 <Button type="submit" loading={loading}>
-                  Submit
+                  {t('Submit')}
                 </Button>
               </div>
             </div>
             <div className="w-[25%] ml-12 mt-10">
-              <h2 className=" font-bold text-[16px] text-[#0E76BB]">Popular Topics From FAQS Library</h2>
+              <h2 className=" font-bold text-[16px] text-[#0E76BB]">{t('Popular Topics From FAQS Library')}</h2>
               <ul className="list-without-bullets max-h-[355px] font-thin  space-y-5 text-[15px] ml-8 mt-5 scroll text-left pl-2 pt-[1px]">
-                <li><a className=" hover:text-blue-400 hover:font-bold" href="">How to reload your Map views </a></li>
-                <li><a className=" hover:text-blue-400 hover:font-bold" href="">Main reason of map bags </a></li>
-                <li><a className=" hover:text-blue-400 hover:font-bold" href="">In Mobile Application Application Works Correctly,<br />
-                 But in Desktop Application Does Not </a></li>
-                <li><a className=" hover:text-blue-400 hover:font-bold" href="">How to reload your Map views </a></li>
-                <li><a className=" hover:text-blue-400 hover:font-bold" href="">Main reason of map bags </a></li>
-                <li><a className=" hover:text-blue-400 hover:font-bold" href="">In Mobile Application Application Works Correctly,<br />
-                 But in Desktop Application Does Not </a></li>
-                <li><a className=" hover:text-blue-400 hover:font-bold" href="">How to reload your Map views </a></li>
-                <li><a className=" hover:text-blue-400 hover:font-bold" href="">Main reason of map bags </a></li>
-                <li><a className=" hover:text-blue-400 hover:font-bold" href="">In Mobile Application Application Works Correctly,<br />
-                 But in Desktop Application Does Not </a></li>
-                <li><a className=" hover:text-blue-400 hover:font-bold" href="">How to reload your Map views </a></li>
-                <li><a className=" hover:text-blue-400 hover:font-bold" href="">Main reason of map bags </a></li>
-                <li><a className=" hover:text-blue-400 hover:font-bold" href="">In Mobile Application Application Works Correctly,<br />
-                 But in Desktop Application Does Not </a></li>
-                <li><a className=" hover:text-blue-400 hover:font-bold" href="">How to reload your Map views </a></li>
-                <li><a className=" hover:text-blue-400 hover:font-bold" href="">Main reason of map bags </a></li>
-                <li><a className=" hover:text-blue-400 hover:font-bold" href="">In Mobile Application Application Works Correctly,<br />
-                 But in Desktop Application Does Not </a></li>
-                <li><a className=" hover:text-blue-400 hover:font-bold" href="">How to reload your Map views </a></li>
-                <li><a className=" hover:text-blue-400 hover:font-bold" href="">Main reason of map bags </a></li>
-                <li><a className=" hover:text-blue-400 hover:font-bold" href="">In Mobile Application Application Works Correctly,<br />
-                 But in Desktop Application Does Not </a></li>
-                <li><a className=" hover:text-blue-400 hover:font-bold" href="">How to reload your Map views </a></li>
-                <li><a className=" hover:text-blue-400 hover:font-bold" href="">Main reason of map bags </a></li>
-                <li><a className=" hover:text-blue-400 hover:font-bold" href="">In Mobile Application Application Works Correctly,<br />
-                 But in Desktop Application Does Not </a></li>
-                <li><a className=" hover:text-blue-400 hover:font-bold" href="">How to reload your Map views </a></li>
-                <li><a className=" hover:text-blue-400 hover:font-bold" href="">Main reason of map bags </a></li>
-                <li><a className=" hover:text-blue-400 hover:font-bold" href="">In Mobile Application Application Works Correctly,<br />
-                 But in Desktop Application Does Not </a></li>
-                <li><a className=" hover:text-blue-400 hover:font-bold" href="">How to reload your Map views </a></li>
-                <li><a className=" hover:text-blue-400 hover:font-bold" href="">Main reason of map bags </a></li>
-                <li><a className=" hover:text-blue-400 hover:font-bold" href="">In Mobile Application Application Works Correctly,<br />
-                 But in Desktop Application Does Not </a></li>
-                <li><a className=" hover:text-blue-400 hover:font-bold" href="">How to reload your Map views </a></li>
-                <li><a className=" hover:text-blue-400 hover:font-bold" href="">Main reason of map bags </a></li>
-                <li><a className=" hover:text-blue-400 hover:font-bold" href="">In Mobile Application Application Works Correctly,<br />
-                 But in Desktop Application Does Not </a></li>
-                <li><a className=" hover:text-blue-400 hover:font-bold" href="">How to reload your Map views </a></li>
-                <li><a className=" hover:text-blue-400 hover:font-bold" href="">Main reason of map bags </a></li>
-                <li><a className=" hover:text-blue-400 hover:font-bold" href="">In Mobile Application Application Works Correctly,<br />
-                 But in Desktop Application Does Not </a></li>
+                <li><a className=" hover:text-blue-400 hover:font-bold" href="">{t('How to reload your Map views')} </a></li>
+                <li><a className=" hover:text-blue-400 hover:font-bold" href="">{t('Main reason of map bags')} </a></li>
+                <li><a className=" hover:text-blue-400 hover:font-bold" href="">{t('In Mobile Application Application Works Correctly But in Desktop Application Does Not')} </a></li>
+                <li><a className=" hover:text-blue-400 hover:font-bold" href="">{t('How to reload your Map views')} </a></li>
+                <li><a className=" hover:text-blue-400 hover:font-bold" href="">{t('Main reason of map bags')} </a></li>
+                <li><a className=" hover:text-blue-400 hover:font-bold" href="">{t('In Mobile Application Application Works Correctly But in Desktop Application Does Not')} </a></li>
+                <li><a className=" hover:text-blue-400 hover:font-bold" href="">{t('How to reload your Map views')} </a></li>
+                <li><a className=" hover:text-blue-400 hover:font-bold" href="">{t('Main reason of map bags')} </a></li>
+                <li><a className=" hover:text-blue-400 hover:font-bold" href="">{t('In Mobile Application Application Works Correctly But in Desktop Application Does Not')} </a></li>
+                <li><a className=" hover:text-blue-400 hover:font-bold" href="">{t('How to reload your Map views')} </a></li>
+                <li><a className=" hover:text-blue-400 hover:font-bold" href="">{t('Main reason of map bags')} </a></li>
+                <li><a className=" hover:text-blue-400 hover:font-bold" href="">{t('In Mobile Application Application Works Correctly But in Desktop Application Does Not')} </a></li>
+                <li><a className=" hover:text-blue-400 hover:font-bold" href="">{t('How to reload your Map views')} </a></li>
+                <li><a className=" hover:text-blue-400 hover:font-bold" href="">{t('Main reason of map bags')} </a></li>
+                <li><a className=" hover:text-blue-400 hover:font-bold" href="">{t('In Mobile Application Application Works Correctly But in Desktop Application Does Not')} </a></li>
+                <li><a className=" hover:text-blue-400 hover:font-bold" href="">{t('How to reload your Map views')} </a></li>
+                <li><a className=" hover:text-blue-400 hover:font-bold" href="">{t('Main reason of map bags')} </a></li>
+                <li><a className=" hover:text-blue-400 hover:font-bold" href="">{t('In Mobile Application Application Works Correctly But in Desktop Application Does Not')} </a></li>
+                <li><a className=" hover:text-blue-400 hover:font-bold" href="">{t('How to reload your Map views')} </a></li>
+                <li><a className=" hover:text-blue-400 hover:font-bold" href="">{t('Main reason of map bags')} </a></li>
+                <li><a className=" hover:text-blue-400 hover:font-bold" href="">{t('In Mobile Application Application Works Correctly But in Desktop Application Does Not')} </a></li>
+                <li><a className=" hover:text-blue-400 hover:font-bold" href="">{t('How to reload your Map views')} </a></li>
+                <li><a className=" hover:text-blue-400 hover:font-bold" href="">{t('Main reason of map bags')} </a></li>
+                <li><a className=" hover:text-blue-400 hover:font-bold" href="">{t('In Mobile Application Application Works Correctly But in Desktop Application Does Not')} </a></li>
+                <li><a className=" hover:text-blue-400 hover:font-bold" href="">{t('How to reload your Map views')} </a></li>
+                <li><a className=" hover:text-blue-400 hover:font-bold" href="">{t('Main reason of map bags')} </a></li>
+                <li><a className=" hover:text-blue-400 hover:font-bold" href="">{t('In Mobile Application Application Works Correctly But in Desktop Application Does Not')} </a></li>
+              
                
               </ul>
             </div>
