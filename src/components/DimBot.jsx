@@ -17,7 +17,7 @@ export default ({ height, width }) => {
                     <div className={'text-white font-normal text-xs'}>
 
                         <p>{t('Hello, I am the')} <b>{t('DIM-Bot.')}</b></p>
-                        <p> {('Ask me something!')}</p>
+                        <p> {t('Ask me something!')}</p>
 
                     </div>
                     <svg width="41" height="46" viewBox="0 0 41 46" fill="none" xmlns="http://www.w3.org/2000/svg">
