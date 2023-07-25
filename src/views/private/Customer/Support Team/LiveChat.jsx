@@ -1,6 +1,6 @@
 function LiveChat() {
   return (
-    <div className="min-h-screen  bg-white">
+    <div className="h-full pb-10 bg-white overflow-y-auto">
       <div
         className="flex h-[78px]"
         style={{

@@ -84,12 +84,12 @@ const Dashboard = () => {
 
         </div> */}
         <Grid>
-          <Grid.Col md={6}>
+          <Grid.Col md={8}>
             <Suspense fallback={<Skeleton />}>
               <MaterialCount />
             </Suspense>
           </Grid.Col>
-          <Grid.Col md={6}>
+          <Grid.Col md={4}>
             <Suspense fallback={<Skeleton />}>
               <MapElements />
             </Suspense>

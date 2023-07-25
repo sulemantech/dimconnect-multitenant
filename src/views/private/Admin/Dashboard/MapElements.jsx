@@ -1,5 +1,5 @@
 import { useEffect, useState } from "preact/hooks"
-import { Loader } from "@mantine/core"
+import { Card, CardSection, Loader } from "@mantine/core"
 
 import { dropvalue } from "../../../../signals"
 import { getAddressPointCount } from "../../../../api"
@@ -44,13 +44,19 @@ export default () => {
     }, [])
 
     return (
-        <div className="relative flex flex-row w-full h-full shadow-md rounded-lg flex-1 bg-white">
+        <Card
+            radius={'lg'}
+            
+        >
+            <CardSection className="border-b-4 border-neutral-200 border-solid p-4">
 
-            <div className="bg-brand text-white font-bold justify-center flex py-2 rounded-r-lg" style={{ writingMode: 'vertical-rl', textOrientation: 'bottomright', transform: 'rotate(180deg)' }}>
+            <div className="text-black text-2xl font-bold justify-start flex" >
 
                 Address Points
 
             </div>
+            </CardSection>
+            <CardSection className="p-4">
 
             <div className="relative text-xs flex flex-col p-2 flex-1 ">
                 <div>
@@ -64,8 +70,8 @@ export default () => {
                                                 style={{
                                                     backgroundColor: item.color
                                                 }}
-                                            ></div>
-                                            <p>{key}</p>
+                                                ></div>
+                                            <p className="text-base">{key}</p>
 
 
                                         </div>
@@ -75,7 +81,7 @@ export default () => {
                                         >
                                             {
                                                 loading ? <Loader size={'xs'} /> :
-                                                    data && data[item.type] ? data[item.type] : 0
+                                                data && data[item.type] ? data[item.type] : 0
                                             }
                                         </div>
                                     </div>
@@ -86,6 +92,7 @@ export default () => {
                     }
                 </div>
             </div>
-        </div>
+                        </CardSection>
+        </Card>
     )
 }
