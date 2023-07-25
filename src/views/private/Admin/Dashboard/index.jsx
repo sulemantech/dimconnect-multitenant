@@ -1,4 +1,4 @@
-import { Grid, Skeleton } from "@mantine/core"
+import { Card, Grid, Skeleton, Title } from "@mantine/core"
 import { Suspense, lazy } from "preact/compat"
 import { PERMISSIONS } from "../../../../common"
 import PageProvider from "../../../../providers/PageProvider"
@@ -78,23 +78,29 @@ const Dashboard = () => {
             Support Tickets
           </p>
           <hr />
-          <Suspense fallback={<Skeleton />}>
-            <Tickets />
-          </Suspense>
+         
 
         </div> */}
         <Grid>
           <Grid.Col md={8}>
             <Suspense fallback={<Skeleton />}>
               <MaterialCount />
+              <CostInfo />
             </Suspense>
           </Grid.Col>
           <Grid.Col md={4}>
             <Suspense fallback={<Skeleton />}>
               <MapElements />
+              <Submap />
             </Suspense>
           </Grid.Col>
         </Grid>
+        <Card className="my-3">
+          <Title order={3}>Support Ticket Inbox</Title>
+        </Card>
+        <Suspense fallback={<Skeleton />}>
+            <Tickets />
+          </Suspense>
       </PageProvider>
     </PermissionWrapper>
   )
