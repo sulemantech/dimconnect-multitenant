@@ -5,17 +5,6 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-<<<<<<< HEAD
-   
-    extend: {
-      screens:{
-
-        'laptop': '1284px',
-        'laptop1': '1270px',
-        'laptop2':'1367px',
-        'Mobile': '870px',
-      },
-=======
     extend: { 
       screens:{
 
@@ -24,7 +13,6 @@ module.exports = {
       'laptop2':'1537px',
       'Mobile': '870px',
     },
->>>>>>> b1917c02847547909db8d783e4df2a068d82bdc3
       colors: {
         'brand': '#0E76BB',
         'brand-dark': '#E0E0E0',
