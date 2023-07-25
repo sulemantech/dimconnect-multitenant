@@ -5,9 +5,11 @@ import { IconCheck } from "@tabler/icons";
 import { showNotification } from "@mantine/notifications";
 import { openModal } from "@mantine/modals";
 import { TicketModal } from "../Ticket/components/Table.jsx";
+import { useTranslation } from "react-i18next";
 // import { TicketModal } from "../Ticket/components/Table";
 
 export const status = {
+
   1: {
     name: "Open",
     color: "text-cyan-500",
@@ -49,6 +51,7 @@ export const status = {
 
 export default ({ selected }) => {
   const [data, setData] = useState([]);
+  const {t}=useTranslation()
 
   useEffect(() => {
     getNRecentTickets(5)
@@ -64,48 +67,48 @@ export default ({ selected }) => {
 
   const columns = [
     {
-      name: <strong>Ticket ID</strong>,
+      name: <strong>{t('Ticket ID')}</strong>,
       selector: 'id',
       cell: row => row.id.toString().padStart(6, "0"),
       sortable: true,
     },
     {
-      name: <strong>Status</strong>,
+      name: <strong>{t('Status')}</strong>,
       selector: 'status_id',
       cell: row => <img src={status[row.status_id].svg} alt="status" />,
       sortable: true,
     },
     {
-      name: <strong>Requester</strong>,
+      name: <strong>{t('Requester')}</strong>,
       selector: 'requester',
       cell: row => row.gpUser.vorname + " " + row.gpUser.nachname,
       sortable: true,
     },
     {
-      name: <strong>Problem Type</strong>,
+      name: <strong>{t('Problem Type')}</strong>,
       selector: 'problemType',
       cell: row => row.ticketCategory.name,
       sortable: true,
     },
     {
-      name: <strong>Title</strong>,
+      name: <strong>{t('Title')}</strong>,
       selector: 'title',
       sortable: true,
     },
     {
-      name: <strong>Priority</strong>,
+      name: <strong>{t('Priority')}</strong>,
       selector: 'priority',
       cell: row => row.ticketPriority.name,
       sortable: true,
     },
     {
-      name: <strong>Created</strong>,
+      name: <strong>{t('Created')}</strong>,
       selector: 'created_at',
       cell: row => new Date(row.created_at).toLocaleDateString().replaceAll("/", "."),
       sortable: true,
     },
     {
-      name: <strong>Updated</strong>,
+      name: <strong>{t('Updated')}</strong>,
       selector: 'updated_at',
       cell: row => new Date(row.updated_at).toLocaleDateString().replaceAll("/", "."),
       sortable: true,
@@ -141,7 +144,7 @@ export default ({ selected }) => {
             })
           }
         >
-          See Ticket →
+          {t('See Ticket →')}
         </button>
       ),
     },

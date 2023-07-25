@@ -6,11 +6,14 @@ import { useState } from "preact/hooks"
 import { useMap } from "react-map-gl"
 import { districts, dropvalue, regsionListSignal } from "../../../../signals"
 
+
 import { showNotification } from "@mantine/notifications"
+import { useTranslation } from "react-i18next"
 
 
 
 export default ({ within = false, nohead = false }) => {
+    const {t}=useTranslation
     const [search, setSearch] = useDebouncedState("", 500)
     const [searchResult, setSearchResult] = useState([])
     const [loading, setLoading] = useState(false)

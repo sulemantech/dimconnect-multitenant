@@ -1,6 +1,8 @@
 import Footer from "../../../../layout/Footer";
+import { useTranslation } from "react-i18next";
 
 export default () => {
+  const {t}=useTranslation()
   return (
     <>
       <div className="flex min-h-screen bg-[#FFF]">
@@ -8,13 +10,10 @@ export default () => {
           <div className=" font-[Roboto] flex flex-col space-y-10 max-laptop:space-y-2 mt-[6.5rem] pl-[6rem] max-laptop:mt-[3rem] max-laptop:pl-[3rem]">
             <div className=" space-y-3 ">
               <p className=" flex flex-row text-[2rem] font-extrabold text-[#0078BE] max-laptop:text-[0.8rem] max-laptop:font-medium ">
-                Contacts, Training & Support
+                {t('Contacts, Training & Support')}
               </p>
               <p className="max-laptop:text-[0.6rem] max-laptop:font-sm">
-                Please describe your issue in detail, with any relevant
-                information including device <br /> platform and version
-                affected, steps taken leading to the issue, which period of time{" "}
-                <br /> this problem is go on etc.
+               {t('Please describe your issue in detail, with any relevant information including device  platform and version affected, steps taken leading to the issue, which period of time this problem is go on etc.')}
               </p>
             </div>
             <div className="flex flex-1 flex-grow justify-center space-y-[3rem] max-laptop:space-y-2  w-[60.3475rem] flex-col max-laptop:w-[30rem] ">
@@ -40,9 +39,9 @@ export default () => {
                   className="w-[2.6875rem] h-[2.6875rem]  max-laptop:w-[1.3rem] max-laptop:h-[1.3rem]"
                   alt=""
                 />
-                <p>Recall service here</p>
+                <p>{t('Recall service here')}</p>
                 <a className="text-[#6F7379B8] underline" href="#">
-                  Here
+                  {t('Here')}
                 </a>
               </div>
             </div>
@@ -64,10 +63,10 @@ export default () => {
                 <div className="flex items-start justify-start -mt-12 max-laptop:-mt-[4.2rem] pt-2 mb-2 pl-[3rem]">
                   <div className="flex flex-col pb-2 space-y-1 max-laptop:pl-[1rem] max-laptop:mt-10">
                     <p className=" text-white text-[0.68rem] max-laptop:text-[8px]">
-                      Download DIM Application!
+                     {t('Download DIM Application!')}
                     </p>
                     <p className=" text-white text-[0.68rem] max-laptop:text-[8px] ">
-                      All DIM Universe in your hand!
+                      {t('All DIM Universe in your hand!')}
                       <br />
                       <br />
                     </p>

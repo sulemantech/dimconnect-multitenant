@@ -4,7 +4,7 @@ import { PERMISSIONS } from "../../../../common"
 import PageProvider from "../../../../providers/PageProvider"
 import PermissionWrapper from "../../../../providers/PermissionsProvider"
 import MapElements from "./MapElements"
-import { WeekdaysRow } from "@mantine/dates"
+import { useTranslation } from "react-i18next";
 
 const MaterialCount = lazy(() => import("./MaterialCount"))
 const CostInfo = lazy(() => import("./CostInfo"))
@@ -13,6 +13,7 @@ const Submap = lazy(() => import("./Submap"))
 const Tickets = lazy(() => import("./Tickets"))
 
 const Dashboard = () => {
+  const {t}=useTranslation()
 
   return (
     <PermissionWrapper permission={PERMISSIONS.Dashboard} view>
@@ -53,7 +54,7 @@ const Dashboard = () => {
                 </Suspense>
                 <hr />
                 <Badge color="blue" variant="outline" size="xs" className="mb-1">
-                  Click on the map to enlarge
+                  {t('Click on the map to enlarge')}
                 </Badge>
 
               </div>
@@ -75,7 +76,7 @@ const Dashboard = () => {
         </div>
         <div className="flex-[1] m-1 min-h[100%] flex-grow bg-white shadow-lg p-2 rounded-xl">
           <p className="flex-grow font-thin text-neutral-700 text-lg">
-            Support Tickets
+            {t('Support Tickets')}
           </p>
           <hr />
          

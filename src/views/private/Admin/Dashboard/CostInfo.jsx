@@ -118,7 +118,7 @@ export default () => {
         <LoadingOverlay visible={loading} />
 
         <p className="flex-grow flex-1 font-thin text-neutral-700 text-lg">
-          Cost Info
+          {t('Cost Info')}
         </p>
         <div className='flex'>
           <ActionIcon onClick={() => {
@@ -158,7 +158,7 @@ export default () => {
 
 
 export const CostInfoModalContent = ({ data }) => {
-
+   const {t}=useTranslation()
   const [segmentedControl, setSegmentedControl] = useState('cable')
 
   return (
@@ -166,9 +166,9 @@ export const CostInfoModalContent = ({ data }) => {
       <SegmentedControl
         className="mb-4"
         data={[
-          { label: 'Home Activation', value: 'homeActivation' },
-          { label: 'Cables', value: 'cable' },
-          { label: 'Ducts', value: 'duct' },
+          { label: t('Home Activation'), value: 'homeActivation' },
+          { label: t('Cables'), value: 'cable' },
+          { label: t('Ducts'), value: 'duct' },
         ]}
         fullWidth
         color="brand"
@@ -195,7 +195,7 @@ export const CostInfoModalContent = ({ data }) => {
 
 
 export const HomeActivationTable = ({ data }) => {
-
+ const {t}=useTranslation()
   return (
     <div>
 
@@ -208,10 +208,10 @@ export const HomeActivationTable = ({ data }) => {
                   <tr>
 
                     <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                      Type
+                      {t('Type')}
                     </th>
                     <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                      Value
+                      {t('Value')}
                     </th>
                   </tr>
                 </thead>
@@ -221,7 +221,7 @@ export const HomeActivationTable = ({ data }) => {
                       return (
                         <tr key={index}>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm text-gray-900">{key.split('_').join(' ').toUpperCase()}</div>
+                            <div className="text-sm text-gray-900">{t(key.split('_').join(' ').toUpperCase())}</div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             {
@@ -247,6 +247,7 @@ export const HomeActivationTable = ({ data }) => {
 
 
 export const DuctTable = ({ data }) => {
+  const {t}=useTranslation()
   const sections = Object.keys(data);
 
   return (
@@ -261,11 +262,11 @@ export const DuctTable = ({ data }) => {
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="justify-between">
                     <tr>
-                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Duct Type</th>
-                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Material Cost</th>
-                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Labour Cost</th>
-                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Volume</th>
-                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Total Cost</th>
+                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">{t('Duct Type')}</th>
+                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">{t('Material Cost')}</th>
+                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">{t('Labour Cost')}</th>
+                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">{t('Volume')}</th>
+                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">{t('Total Cost')}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -292,13 +293,14 @@ export const DuctTable = ({ data }) => {
 
 export const CableTable = ({ data }) => {
   const sections = Object.keys(data);
+  const {t} = useTranslation()
 
   return (
     <div className="overflow-x-auto">
 
       {sections.map(section => (
         <div key={section}>
-          <h2 className="text-md font-semibold mt-4 m-1 text-sky-700">{section.split('_').join(' ').toUpperCase()}</h2>
+          <h2 className="text-md font-semibold mt-4 m-1 text-sky-700">{t(section.split('_').join(' ').toUpperCase())}</h2>
           <hr />
           <div className=" overflow-x-auto">
             <div className="py-2 px-1 align-middle inline-block min-w-full overflow-hidden shadow-md">
@@ -306,12 +308,12 @@ export const CableTable = ({ data }) => {
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="justify-between">
                     <tr>
-                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Cable Type</th>
-                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Material Cost</th>
-                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Labour Cost</th>
-                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Total</th>
-                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Volume</th>
-                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Total Cost</th>
+                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">{t('Cable Type')}</th>
+                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">{t('Material Cost')}</th>
+                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">{t('Labour Cost')}</th>
+                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">{t('Total')}</th>
+                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">{t('Volume')}</th>
+                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">{t('Total Cost')}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -340,6 +342,7 @@ export const CableTable = ({ data }) => {
 
 export const CostInfoSettings = () => {
   const [data, setData] = useState({});
+  const {t}=useTranslation()
   useEffect(() => costInputParams.subscribe(setData), [])
   return (
     <form>

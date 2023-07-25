@@ -10,6 +10,7 @@ import { useState } from "react";
 import { getResource, postComment, putTicket } from "../../../../../api";
 import { useLayoutEffect } from "react";
 // import './table.css'
+import { useTranslation } from "react-i18next"
 
 export const status = {
   1: {
@@ -52,54 +53,56 @@ export const status = {
 
 
 const MyTable = ({ data, select, setSelect, setUpdate }) => {
+  const {t}=useTranslation()
+
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(20);
   const columns = [
   
     {
-      name: "Ticket ID",
+      name: t("Ticket ID"),
       selector: "id",
       cell: (row) => row.id.toString().padStart(6, "0"),
       sortable: true,
     },
     {
-      name: "Status",
+      name:t("Status"),
       selector: "status_id",
       cell: (row) => <img src={status[row.status_id].svg} alt="status" />,
       sortable: true,
     },
     {
-      name: "Requester",
+      name: t("Requester"),
       selector: "requester",
       cell: (row) => row.gpUser.vorname + " " + row.gpUser.nachname,
       sortable: true,
     },
     {
-      name: "Problem Type",
+      name: t("Problem Type"),
       selector: "problemType",
       cell: (row) => row.ticketCategory.name,
       sortable: true,
     },
     {
-      name: "Title",
+      name: t("Title"),
       selector: "title",
       sortable: true,
     },
     {
-      name: "Priority",
+      name: t("Priority"),
       selector: "priority",
       cell: (row) => row.ticketPriority.name,
       sortable: true,
     },
     {
-      name: "Created",
+      name: t("Created"),
       selector: "created_at",
       cell: (row) =>
         new Date(row.created_at).toLocaleDateString().replaceAll("/", "."),
       sortable: true,
     },
     {
-      name: "Updated",
+      name: t("Updated"),
       selector: "updated_at",
       cell: (row) =>
         new Date(row.updated_at).toLocaleDateString().replaceAll("/", "."),
@@ -136,7 +139,7 @@ const MyTable = ({ data, select, setSelect, setUpdate }) => {
             })
           }
         >
-          See Ticket →
+          {t('See Ticket')} →
         </button>
       ),
     },

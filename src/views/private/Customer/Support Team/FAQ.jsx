@@ -1,6 +1,7 @@
-import { Input, Loader, ScrollArea } from "@mantine/core"
-import { IconSearch } from "@tabler/icons"
-import { useEffect, useState } from "preact/hooks"
+import { Input, Loader, ScrollArea } from "@mantine/core";
+import { IconSearch } from "@tabler/icons";
+import { useEffect, useState } from "preact/hooks";
+import { useTranslation } from "react-i18next";
 
 import Icons from "../../../../layout/icons"
 import { getFAQs } from "../../../../api"
@@ -21,6 +22,7 @@ export const getFAQ_Memory = async () => {
 }
 
 export default () => {
+    const { t } = useTranslation()
     const [loading,setLoading] = useState(false)
     //TODO:Replace the harcoded categories and take the list from the logged in user
     const allowedCatID = userDataSignal.value.faqIds
@@ -51,15 +53,15 @@ export default () => {
         <div className={'h-screen bg-white overflow-x-auto'}>
             <div style={{ backgroundImage: 'url("/horizontal blue background.svg")', }} className="flex bg-no-repeat bg-cover flex-col pl-20 justify-center h-[295px]">
                 <div className="py-6" />
-                <div className="text-4xl font-bold tracking-wide text-white">We Can Help.</div>
-                <div className="text-xs text-white my-2">FAQ : Frequently Asked Questions, Conclusively Answered</div>
+                <div className="text-4xl font-bold tracking-wide text-white">{t('We Can Help.')}</div>
+                <div className="text-xs text-white my-2">{t('FAQ : Frequently Asked Questions, Conclusively Answered')}</div>
                 <Input  size="lg"
-                rightSection={<IconSearch size={20} />} radius={'xl'} placeholder="Search" className="w-1/2 mt-4" />
+                rightSection={<IconSearch size={20} />} radius={'xl'} placeholder={t('Search')} className="w-1/2 mt-4" />
             </div>
 
             <div className={`px-20 mt-10`}>
-                <h6 className={`text-[#0E76BB] font-bold text-xl`}>Popular FAQ Topics are here:</h6>
-                <p className={'text-sm mt-1'}>General Questions: Short And Briefly Answered</p>
+                <h6 className={`text-[#0E76BB] font-bold text-xl`}>{t('Popular FAQ Topics are here:')}</h6>
+                <p className={'text-sm mt-1'}>{t('General Questions: Short And Briefly Answered')}</p>
                 <ul className={`mt-4 list-disc list-inside  text-sm font-light tracking-wider`}>
                     {
                         data

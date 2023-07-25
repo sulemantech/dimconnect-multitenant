@@ -1,47 +1,10 @@
 import { Progress, RingProgress } from "@mantine/core";
 import React, {useMemo} from "react";
 import Vector from "./Vector.png";
+import { useTranslation } from "react-i18next"
+
 function TicketManagment({ ticketCounts }) {
-  console.log(ticketCounts)
-  const tempCount = [
-    {
-        "name": "Open",
-        "color": "text-[#0E76BB]",
-        "colorCode": "#0E76BB",
-        "count": 0
-    },
-    {
-        "name": "Closed",
-        "color": "text-[#1DAF1A]",
-        "colorCode": "#1DAF1A",
-        "count": 0
-    },
-    {
-        "name": "In Progress",
-        "color": "text-[#FF862E]",
-        "colorCode": "#FF862E",
-        "count": 0
-    },
-    {
-        "name": "Overdue",
-        "color": "text-[#FF6161]",
-        "colorCode": "#FF6161",
-        "count": 0
-    },
-    {
-        "name": "Deleted",
-        "color": "text-black",
-        "colorCode": "#0000",
-        "count": 0
-    }
-]
-
-  const ticket = useMemo(() => {
-    // return if ticketCounts is empty then return tempCount else return ticketCounts
-    return ticketCounts.length === 0 ? tempCount : ticketCounts
-  }, [ticketCounts])
-
-
+  const { t } = useTranslation()
   return (
     <>
       <div className="flex flex-row flex-wrap w-full justify-between px-5">
@@ -93,9 +56,9 @@ function TicketManagment({ ticketCounts }) {
           </p> */}
           <div className="flex justify-between items-center">
             <p className="text-[0.625rem] font-bold">
-              TICKETS BY PROBLEM TYPE
+              {t('TICKETS BY PROBLEM TYPE')}
             </p>
-            <p className="text-[10px] font-medium ">TOP 3</p>
+            <p className="text-[10px] font-medium ">{t('TOP 3')}</p>
           </div>
           <div className="w-full mt-2 flex flex-col space-y-2">
             <Progress color="#0E76BB" value={50} />
@@ -108,11 +71,12 @@ function TicketManagment({ ticketCounts }) {
   );
 }
 function Ticket({ ticket, Number, color2, color, progressvalue, Number2 }) {
+  const { t } = useTranslation()
   console.log(progressvalue);
   return (
     <>
       <div className="rcolor  h-auto rounded-md mt-2  border-[2px] w-max p-5 ">
-        <p className="text-[0.625rem] font-bold ">{ticket.toUpperCase()} TICEKTS</p>
+        <p className="text-[0.625rem] font-bold ">{t(ticket.toUpperCase())} {t('TICEKTS')}</p>
         <div className="flex flex-col">
           <p className={`text-[0.625rem]  ${color} flex items-baseline justify-between font-medium`}>
             {Number2}

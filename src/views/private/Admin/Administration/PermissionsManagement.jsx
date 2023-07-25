@@ -9,9 +9,11 @@ import { permissible } from "../../../../signals";
 import { closeDrawer, openDrawer } from "../../../../providers/DrawerProvider";
 import PermissionWrapper from "../../../../providers/PermissionsProvider";
 import { PERMISSIONS } from "../../../../common";
+import { useTranslation } from "react-i18next"
 
 export default () => {
 
+    const {t} = useTranslation()
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false)
 
@@ -28,7 +30,7 @@ export default () => {
                                 children: <PermissionList id={role.id} name={role.name} description={role.description} />
                             })
                         }}
-                    >View</Button>
+                    >view</Button>
                         <Button leftIcon={<IconEdit />} ml={5} size="xs" radius={'xl'}
                             onClick={() => {
                                 openDrawer({
@@ -36,7 +38,7 @@ export default () => {
                                     children: <PermissionList editMode id={role.id} name={role.name} description={role.description} />
                                 })
                             }}
-                        >Edit</Button>
+                        >edit</Button>
 
                     </>
                 }
@@ -67,7 +69,7 @@ export default () => {
                         {!loading ?
                             <CustomTable
                                 attributes={['id', 'name', 'description', 'permissions']}
-                                title={'Roles and Permissions'}
+                                title={t('Roles and Permissions')}
                                 remove
 
                                 data={data}

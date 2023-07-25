@@ -4,11 +4,12 @@ import { useEffect, useState } from "preact/hooks";
 import { Doughnut } from "react-chartjs-2";
 
 import { costInfoData } from "../../../../signals";
+import { useTranslation } from "react-i18next";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default () => {
- 
+  const {t}=useTranslation()
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
   useEffect(
@@ -51,17 +52,17 @@ export default () => {
 
 
     <div>
-      <h2>Distribution Cable Types</h2>
+      <h2>{t('Distribution Cable Types')}</h2>
       <Doughnut className="w-1/3 h-96 p-6 max-w-xs" title="" data={getChartData(data.cables.distribution)} />
     </div>
 
     <div>
-      <h2>Feeder Cable Types</h2>
+      <h2>{t('Feeder Cable Types')}</h2>
       <Doughnut className="w-1/3 h-96 p-6 max-w-xs" title="" data={getChartData(data.cables.feeder)} />
     </div>
 
     <div>
-      <h2>Primary Cable Types</h2>
+      <h2>{t('Primary Cable Types')}</h2>
       <Doughnut className="w-1/3 h-96 p-6 max-w-xs" title="" data={getChartData(data.cables.primary)} />
     </div>
 
