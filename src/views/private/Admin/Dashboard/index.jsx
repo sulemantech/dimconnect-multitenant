@@ -86,7 +86,7 @@ const Dashboard = () => {
           <Grid.Col md={8}>
             <Suspense fallback={<Skeleton />}>
               <MaterialCount />
-              <CostInfo />
+              {/* <CostInfo /> */}
             </Suspense>
           </Grid.Col>
           <Grid.Col md={4} className="flex flex-col">
