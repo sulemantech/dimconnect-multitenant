@@ -45,7 +45,7 @@ export default () => {
 
     return (
         <Card
-            radius={'lg'}
+            className="m-2"
             
         >
            

@@ -117,17 +117,14 @@ const CountCard = ({ title, count, unit = "", loading = false }) => {
 const GroupedCount = ({ title, data, unit = "", loading = false, color='red' }) => {
   return (
     <Card
-      shadow="sm"
-      radius={'lg'}
+      
       withBorder
-      className="flex-1 mx-2"
+      className="flex-1 m-2"
     >
-      <CardSection >
+    
 
-        <Title className='truncate p-4' order={3}>{title}</Title>
-      </CardSection>
-
-      <CardSection className="p-4">
+        <Title className='truncate' order={3}>{title}</Title>
+      <br />
         { loading ? (
           <Loader variant="dots" size="md" className="text-brand" />
         ) :
@@ -138,7 +135,7 @@ const GroupedCount = ({ title, data, unit = "", loading = false, color='red' }) 
             </div>
           ))
         }
-      </CardSection>
+    
 
     </Card>
   );

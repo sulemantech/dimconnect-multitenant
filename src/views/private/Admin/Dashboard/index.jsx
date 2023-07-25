@@ -89,7 +89,7 @@ const Dashboard = () => {
               <CostInfo />
             </Suspense>
           </Grid.Col>
-          <Grid.Col md={4}>
+          <Grid.Col md={4} className="flex flex-col">
             <Suspense fallback={<Skeleton />}>
               <MapElements />
               <Submap />

@@ -1,4 +1,4 @@
-import { LoadingOverlay } from '@mantine/core';
+import { Card, LoadingOverlay } from '@mantine/core';
 import maplibregl from 'maplibre-gl';
 import { route } from 'preact-router';
 import { useEffect, useState } from 'preact/hooks';
@@ -25,11 +25,13 @@ export default () => {
 
 const Component = () => {
     return (
+        <Card className="flex-grow flex flex-1 m-2">
+
         <Map
 
 
-            attributionControl={false}
-            mapLib={maplibregl}
+attributionControl={false}
+mapLib={maplibregl}
             mapStyle={'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json'}
             trackResize={true}
 
@@ -38,7 +40,7 @@ const Component = () => {
                 longitude: 7.785873,
                 latitude: 50.614182,
                 zoom: 5,
-
+                
             }}
             onClick={(e) => {
                 route(`/map?ags=${dropvalue.value}${window.location.hash}`)
@@ -58,6 +60,7 @@ const Component = () => {
             <Boundary />
 
         </Map>
+</Card>
     );
 }
 

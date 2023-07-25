@@ -1,4 +1,4 @@
-import { ActionIcon, Input, LoadingOverlay, SegmentedControl, Table } from '@mantine/core';
+import { ActionIcon, Card, Input, LoadingOverlay, SegmentedControl, Table } from '@mantine/core';
 import { useDidUpdate } from '@mantine/hooks';
 import { IconRefresh, IconSettings } from '@tabler/icons';
 import { IconPdf } from '@tabler/icons-react';
@@ -114,12 +114,14 @@ export default () => {
 
   return (
     <>
-      <div className="flex p-2 flex-grow relative">
+      <Card className="flex p-2 m-2 flex-grow relative">
+        
         <LoadingOverlay visible={loading} />
 
         <p className="flex-grow flex-1 font-thin text-neutral-700 text-lg">
           {t('Cost Info')}
         </p>
+
         <div className='flex'>
           <ActionIcon onClick={() => {
             generatePDF(data, regsionListSignal.value.find(tile => tile.ags === ags).name)
@@ -146,7 +148,8 @@ export default () => {
           </ActionIcon>
 
         </div>
-      </div>
+              </Card>
+  
       <hr />
       {data && <CostInfoModalContent data={data} />}
     </>
@@ -203,7 +206,7 @@ export const HomeActivationTable = ({ data }) => {
         <div className="-my-2 overflow-x-auto">
           <div className="py-2 align-middle inline-block min-w-full overflow-hidden">
             <div className="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
-              <Table striped className="min-w-full divide-y divide-gray-200">
+              <Table striped className="min-w-full bg-white divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
 
@@ -259,7 +262,7 @@ export const DuctTable = ({ data }) => {
           <div className=" overflow-x-auto">
             <div className="py-2 px-1 align-middle inline-block min-w-full overflow-hidden shadow-md">
               <div className="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
-                <table className="min-w-full divide-y divide-gray-200">
+                <Table striped className="min-w-full divide-y bg-white divide-gray-200">
                   <thead className="justify-between">
                     <tr>
                       <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">{t('Duct Type')}</th>
@@ -280,7 +283,7 @@ export const DuctTable = ({ data }) => {
                       </tr>
                     ))}
                   </tbody>
-                </table>
+                </Table>
               </div>
             </div>
           </div>
@@ -305,7 +308,7 @@ export const CableTable = ({ data }) => {
           <div className=" overflow-x-auto">
             <div className="py-2 px-1 align-middle inline-block min-w-full overflow-hidden shadow-md">
               <div className="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
-                <table className="min-w-full divide-y divide-gray-200">
+                <Table striped className="min-w-full divide-y bg-white divide-gray-200">
                   <thead className="justify-between">
                     <tr>
                       <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">{t('Cable Type')}</th>
@@ -328,7 +331,7 @@ export const CableTable = ({ data }) => {
                       </tr>
                     ))}
                   </tbody>
-                </table>
+                </Table>
               </div>
             </div>
           </div>

@@ -56,6 +56,13 @@ export function App() {
             },
 
           },
+          Table : {
+            defaultProps : {
+              style : {
+                backgroundColor : '#fff',
+              }
+            }
+          },
           LoadingOverlay: {
             defaultProps: {
               color: 'brand',
