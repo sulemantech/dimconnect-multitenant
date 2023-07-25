@@ -10,6 +10,7 @@ import { closeDrawer, openDrawer } from "../../../../providers/DrawerProvider";
 import PermissionWrapper from "../../../../providers/PermissionsProvider";
 import { PERMISSIONS } from "../../../../common";
 import { useTranslation } from "react-i18next"
+import { districts } from "../../../../signals";
 
 export default () => {
 

@@ -4,6 +4,46 @@ import Vector from "./Vector.png";
 import { useTranslation } from "react-i18next"
 
 function TicketManagment({ ticketCounts }) {
+  console.log(ticketCounts)
+  const tempCount = [
+    {
+        "name": "Open",
+        "color": "text-[#0E76BB]",
+        "colorCode": "#0E76BB",
+        "count": 0
+    },
+    {
+        "name": "Closed",
+        "color": "text-[#1DAF1A]",
+        "colorCode": "#1DAF1A",
+        "count": 0
+    },
+    {
+        "name": "In Progress",
+        "color": "text-[#FF862E]",
+        "colorCode": "#FF862E",
+        "count": 0
+    },
+    {
+        "name": "Overdue",
+        "color": "text-[#FF6161]",
+        "colorCode": "#FF6161",
+        "count": 0
+    },
+    {
+        "name": "Deleted",
+        "color": "text-black",
+        "colorCode": "#0000",
+        "count": 0
+    }
+]
+
+  const ticket = useMemo(() => {
+    // return if ticketCounts is empty then return tempCount else return ticketCounts
+    return ticketCounts.length === 0 ? tempCount : ticketCounts
+  }, [ticketCounts])
+
+
   const { t } = useTranslation()
   return (
     <>
