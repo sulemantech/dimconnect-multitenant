@@ -40,8 +40,19 @@ export default () => {
 
       </div> */}
 
+
+
       <div className="flex flex-[3] flex-row flex-grow">
-        
+        <GroupedCount
+            title="Drop | Demand"
+            loading={loading}
+            color="border-sky-500"
+            unit="m"
+            data={[
+              { count: ( MaterialCount?.data?.demand_points), title: 'Points' },
+              { count: (MaterialCount?.data?.drop_ducts), title: 'Ducts' },
+            ]}
+          />
           <GroupedCount
             title="Primary Stations"
             loading={loading}
