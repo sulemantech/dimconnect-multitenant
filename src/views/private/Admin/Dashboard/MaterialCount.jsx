@@ -6,6 +6,7 @@ import { commarize } from "../../../../utils/convertor";
 import { useTranslation } from "react-i18next";
 import { IconChartBubble } from "@tabler/icons-react";
 import { Icon123 } from "@tabler/icons-react";
+import { IconTestPipe } from "@tabler/icons";
 
 export default () => {
   const [MaterialCount, setMaterialCount] = useState({});
@@ -49,8 +50,8 @@ export default () => {
             color="border-sky-500"
             unit="m"
             data={[
-              { count: ( MaterialCount?.data?.demand_points), title: 'Points' },
-              { count: (MaterialCount?.data?.drop_ducts), title: 'Ducts' },
+              { count: ( MaterialCount?.data?.demand_points), title: 'Points',icon:<IconTestPipe className="text-oarnge-500"/> },
+              { count: (MaterialCount?.data?.drop_ducts), title: 'Ducts',icon:<IconTestPipe className="text-orange-500"/> },
             ]}
           />
           <GroupedCount
@@ -59,8 +60,8 @@ export default () => {
             color="border-sky-500"
             unit="m"
             data={[
-              { count: ( MaterialCount?.data?.primary_distribution_ducts), title: 'Primary Ducts' },
-              { count: ( MaterialCount?.data?.primary_distribution_cables), title: 'Primary Cables' },
+              { count: ( MaterialCount?.data?.primary_distribution_ducts), title: 'Primary Ducts',icon:<IconTestPipe className="text-sky-500"/> },
+              { count: ( MaterialCount?.data?.primary_distribution_cables), title: 'Primary Cables',icon:<IconTestPipe className="text-sky-500"/> },
             ]}
           />
         <GroupedCount
@@ -69,18 +70,18 @@ export default () => {
           color="border-red-500"
           unit="m"
           data={[
-            { count: MaterialCount?.data?.feeder_ducts, title: 'Feeder Ducts' },
-            { count:  MaterialCount?.data?.feeder_cables, title: 'Feeder Cables' },
+            { count: MaterialCount?.data?.feeder_ducts, title: 'Feeder Ducts',icon:<IconTestPipe className="text-red-500"/> },
+            { count:  MaterialCount?.data?.feeder_cables, title: 'Feeder Cables',icon:<IconTestPipe className="text-red-500"/> },
           ]}
         />
         <GroupedCount
           title="Distribution Stations"
           loading={loading}
-          color="border-emerald-500"
+          color="border"
           unit="m"
           data={[
-            { count: ( MaterialCount?.data?.distribution_ducts), title: 'Distribution Ducts',icon:<Icon123 /> },
-            { count: ( MaterialCount?.data?.out_distributioncables), title: 'Distribution Cables' },
+            { count: ( MaterialCount?.data?.distribution_ducts), title: 'Distribution Ducts',icon:<IconTestPipe className="text-emerald-500"/> },
+            { count: ( MaterialCount?.data?.out_distributioncables), title: 'Distribution Cables',icon:<IconTestPipe className="text-emerald-500"/> },
           ]}
         />
 
