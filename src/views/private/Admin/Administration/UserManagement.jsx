@@ -67,7 +67,7 @@ export default () => {
     return (
         <PermissionWrapper permission={PERMISSIONS["User Management"]} view message>
             <PageProvider>
-                <div className="">
+                <div>
 
                     <div className="flex flex-wrap justify-center">
                         <div className="m-2 bg-white text-gray-700 rounded-lg p-5 shadow-lg min-w-[250px] flex-1 flex">
@@ -135,7 +135,7 @@ export default () => {
 
 
                         {ready ? <CustomTable
-                            title={t("Users Management")}
+                            title={t("User Management")}
                             attributes={['id', 'email', 'userRole', 'vorname', 'nachname', 'agreement_signed', 'roles', 'Assign Role']}
                             remove
                             edit

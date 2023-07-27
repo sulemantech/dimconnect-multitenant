@@ -1,6 +1,6 @@
 import { useEffect, useState } from "preact/hooks"
 import { Card, CardSection, Divider, Loader, Title } from "@mantine/core"
-
+import { useTranslation } from "react-i18next";
 import { dropvalue } from "../../../../signals"
 import { getAddressPointCount } from "../../../../api"
 
@@ -30,6 +30,7 @@ const content = {
 export default () => {
     const [data, setData] = useState(null) // [{"json_object_agg":{"1":443,"2":29946,"3":172,"4":175,"5":94}}]
     const [loading, setLoading] = useState(false)
+    const {t}=useTranslation()
     useEffect(() => {
         dropvalue.subscribe((value) => {
             setLoading(true)
@@ -52,7 +53,7 @@ export default () => {
 
             <div className="text-black text-2xl font-bold justify-start flex" >
 
-                Address Points
+                {t('Address Points')}
 
             </div>
         
@@ -96,7 +97,7 @@ export default () => {
 <Divider />
 <br/>
                    
-                    <Title order={3}>Address Point By Type</Title>
+                    <Title order={3}>{t('Address Point By Type')}</Title>
                     <br/>
                     
                         

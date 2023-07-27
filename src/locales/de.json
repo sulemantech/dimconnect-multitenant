@@ -157,5 +157,14 @@
    "ADMINISTRATION": "VERWALTUNG",
    "SUPPORT": "UNTERSTÜTZUNG",
    "TICKET BACK OFFICE": "TICKET BACK OFFICE",
-   "TEAM": "TEAM"
+   "TEAM": "TEAM",
+   "Primary Stations": "Primärstationen",
+   "Primary Ducts": "Primärdurchlässe",
+   "Feeder Stations": "Zuführstationen",
+   "Feeder Ducts": "Zuführdurchlässe",
+   "Distribution Stations": "Verteilerstationen",
+   "Distribution Ducts": "Verteilerdurchlässe",
+   "Address Points": "Adresspunkte",
+   "Address Point By Type": "Adresspunkt nach Typ",
+   "Support Ticket Inbox": "Support-Ticket-Eingang"
 }

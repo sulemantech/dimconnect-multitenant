@@ -8,6 +8,7 @@ import { IconChartBubble } from "@tabler/icons-react";
 import { Icon123 } from "@tabler/icons-react";
 
 export default () => {
+  const {t}=useTranslation()
   const [MaterialCount, setMaterialCount] = useState({});
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -43,33 +44,33 @@ export default () => {
       <div className="flex flex-[3] flex-row flex-grow">
         
           <GroupedCount
-            title="Primary Stations"
+            title={t("Primary Stations")}
             loading={loading}
             color="border-sky-500"
             unit="m"
             data={[
-              { count: ( MaterialCount?.data?.primary_distribution_ducts), title: 'Primary Ducts' },
-              { count: ( MaterialCount?.data?.primary_distribution_cables), title: 'Primary Cables' },
+              { count: ( MaterialCount?.data?.primary_distribution_ducts), title: t('Primary Ducts') },
+              { count: ( MaterialCount?.data?.primary_distribution_cables), title: t('Primary Cables') },
             ]}
           />
         <GroupedCount
-          title="Feeder Stations"
+          title={t("Feeder Stations")}
           loading={loading}
           color="border-red-500"
           unit="m"
           data={[
-            { count: MaterialCount?.data?.feeder_ducts, title: 'Feeder Ducts' },
-            { count:  MaterialCount?.data?.feeder_cables, title: 'Feeder Cables' },
+            { count: MaterialCount?.data?.feeder_ducts, title: t('Feeder Ducts') },
+            { count:  MaterialCount?.data?.feeder_cables, title: t('Feeder Cables') },
           ]}
         />
         <GroupedCount
-          title="Distribution Stations"
+          title={t("Distribution Stations")}
           loading={loading}
           color="border-emerald-500"
           unit="m"
           data={[
-            { count: ( MaterialCount?.data?.distribution_ducts), title: 'Distribution Ducts',icon:<Icon123 /> },
-            { count: ( MaterialCount?.data?.out_distributioncables), title: 'Distribution Cables' },
+            { count: ( MaterialCount?.data?.distribution_ducts), title: t('Distribution Ducts'),icon:<Icon123 /> },
+            { count: ( MaterialCount?.data?.out_distributioncables), title: t('Distribution Cables') },
           ]}
         />
 
