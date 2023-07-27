@@ -1,7 +1,7 @@
-import { ActionIcon, Card, Input, LoadingOverlay, SegmentedControl, Table } from '@mantine/core';
+import { ActionIcon, Badge, Card, Divider, Input, LoadingOverlay, SegmentedControl, Table, Tabs, Title } from '@mantine/core';
 import { useDidUpdate } from '@mantine/hooks';
 import { IconRefresh, IconSettings } from '@tabler/icons';
-import { IconPdf } from '@tabler/icons-react';
+import { IconDownload, IconMessage, IconPdf, IconPhoto } from '@tabler/icons-react';
 import { jsPDF } from "jspdf";
 import { useEffect, useState } from 'preact/hooks';
 import { getCostInfoByDistrictId } from '../../../../api';
@@ -9,6 +9,7 @@ import { openDrawer } from '../../../../providers/DrawerProvider';
 import { costInfoData, costInputParams, dropvalue, regsionListSignal } from '../../../../signals';
 import { commarize } from '../../../../utils/convertor';
 import { useTranslation } from "react-i18next";
+import Icons from '../../../../layout/icons';
 
 
 
@@ -82,7 +83,7 @@ export default () => {
   const [data, setData] = useState(null); // as costInfoSampleData
   const [loading, setLoading] = useState(false);
   const [ags, setAgs] = useState('');
-  const {t} = useTranslation()
+  const { t } = useTranslation()
 
   useEffect(() => {
     dropvalue.subscribe(setAgs)
@@ -114,20 +115,16 @@ export default () => {
 
   return (
     <>
+    <Divider />
       <Card className="flex p-2 m-2 flex-grow relative">
-        
+
         <LoadingOverlay visible={loading} />
 
         <p className="flex-grow flex-1 font-thin text-neutral-700 text-lg">
-          {t('Cost Info')}
+          {t('COST CENTER')} , €
         </p>
 
         <div className='flex'>
-          <ActionIcon onClick={() => {
-            generatePDF(data, regsionListSignal.value.find(tile => tile.ags === ags).name)
-          }}>
-            <IconPdf />
-          </ActionIcon>
           <ActionIcon
             onClick={() => {
               getCost();
@@ -146,11 +143,16 @@ export default () => {
           }}>
             <IconSettings />
           </ActionIcon>
+              <ActionIcon onClick={() => {
+                generatePDF(data, regsionListSignal.value.find(tile => tile.ags === ags).name)
+              }}>
+                <IconDownload />
+              </ActionIcon>
 
         </div>
-              </Card>
-  
-      <hr />
+      </Card>
+     
+
       {data && <CostInfoModalContent data={data} />}
     </>
   )
@@ -161,84 +163,135 @@ export default () => {
 
 
 export const CostInfoModalContent = ({ data }) => {
-   const {t}=useTranslation()
+  const { t } = useTranslation()
   const [segmentedControl, setSegmentedControl] = useState('cable')
   const [segmentedControl2, setSegmentedControl2] = useState('home')
 
   return (
     <div className='flex'>
-      <div className='flex flex-col'>
-      <SegmentedControl
-        className="mb-4"
-        data={[
-          { label: t('Home'), value: 'home' },
-          { label: t('Business'), value: 'business' },
-        ]}
-        fullWidth
-        color="brand"
-        onChange={(value) => {
-          setSegmentedControl2(value)
-        }}
-        value={segmentedControl2}
-      />
-        <HomeActivationTable data={data.homeActivation} />
+      <div className='flex flex-col w-1/3'>
+        <Tabs  defaultValue="gallery" 
+        className='flex flex-col flex-grow'
+          styles={{
+            tab : {
+              fontSize : '18px',
+              '&[data-active]': {
+                borderBottom : '5px solid #0E76BB',
+                color : '#0E76BB'
+              }
+            }
+          }}
+        classNames={{
+          tabsList :  'mx-2 -mb-2 z-50',
+          panel : 'flex-grow',
+        }}>
+          <Tabs.List grow>
+            <Tabs.Tab value="gallery" icon={<Icons.HomeBordered />}>Home</Tabs.Tab>
+            <Tabs.Tab value="messages" icon={<Icons.BuildingsBordered  />}>Business</Tabs.Tab>
+
+          </Tabs.List>
+
+          <Tabs.Panel value="gallery" >
+            <HomeActivationTable data={data.homeActivation} />
+          </Tabs.Panel>
+
+          <Tabs.Panel value="messages">
+            <HomeActivationTable data={data.homeActivation} business />
+          </Tabs.Panel>
+
+
+        </Tabs>
+
       </div>
       <div className='flex flex-col flex-1'>
-      <SegmentedControl
-        className="mb-4"
-        data={[
-          { label: t('Cables'), value: 'cable' },
-          { label: t('Ducts'), value: 'duct' },
-        ]}
-        fullWidth
-        color="brand"
-        onChange={(value) => {
-          setSegmentedControl(value)
+        <Tabs  
+        defaultValue="gallery" 
+        className='flex flex-col flex-grow'
+          styles={{
+            tab : {
+              fontSize : '18px',
+              '&[data-active]': {
+                borderBottom : '5px solid #0E76BB',
+                color : '#0E76BB',
+                
+              }
+            }
+          }}
+        classNames={{
+          tabsList :  'mx-2 -mb-2 z-50 w-2/3',
+          tab: {
+            '&[data-active]' : 'bg-red-500'
+          },
+          panel : 'flex-grow',
         }}
-        value={segmentedControl}
-      />
-        {
-          segmentedControl === 'cable' ?
+        >
+          <Tabs.List grow>
+            <Tabs.Tab value="gallery" icon={<Icons.IconCablesBordered  />}>Cables Costs, €</Tabs.Tab>
+            <Tabs.Tab value="messages" icon={<Icons.IconDuctsBordered  />}>Ducts Costs, €</Tabs.Tab>
+
+          </Tabs.List>
+
+          <Tabs.Panel value="gallery" >
             <CableTable data={data.cables} />
-            : segmentedControl === 'duct' ?
-              <DuctTable data={data.duct} />
-                : null
-        }
+          </Tabs.Panel>
+
+          <Tabs.Panel value="messages">
+            <DuctTable data={data.duct} />
+          </Tabs.Panel>
+
+
+        </Tabs>
+
       </div>
 
     </div>
   )
 }
 
+const ICONS_COLORS = ['text-blue-500', 'text-red-500', 'text-emerald-500', 'text-yellow-500', 'text-purple-500', 'text-pink-500', 'text-indigo-500', 'text-gray-500']
 
-export const HomeActivationTable = ({ data }) => {
- const {t}=useTranslation()
+export const HomeActivationTable = ({ data,business=false }) => {
+  const { t } = useTranslation()
   return (
+    <div className='flex flex-col flex-grow'>
     <Card className='m-2'>
+      <div className='flex justify-between items-center'>
 
+    <Title order={4}>
+        {business ? t('BUSINESS ACTIVATION') : t('HOME ACTIVATION')}
+    </Title>
+    <Badge variant='filled' color='gray' className='bg-gray-100' size='lg'>
+      <p className='font-thin text-neutral-700'> Cost, €<b className='font-bold text-base'> 286k</b></p>
+    </Badge>
+      </div>
+    <br />
+    <hr/>
       <div className="flex flex-col">
         <div className="-my-2 overflow-x-auto">
           <div className="py-2 align-middle inline-block min-w-full overflow-hidden">
             <div className="overflow-hidden border-b border-gray-200 sm:rounded-lg">
-              <Table striped className="min-w-full bg-white divide-y divide-gray-200">
+              <Table className="min-w-full bg-white divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
 
                     <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                      {t('Type')}
+                      {t('Activation Types')}
                     </th>
                     <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                      {t('Value')}
+                      {t('Value')}, €
                     </th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                   {
-                    Object.keys(data).map((key, index) => {
+                    Object.keys(data)
+                    .map((key, index) => {
+                      if(!business && key.toLowerCase().includes('building')) return null;
+                      if(business && !key.toLowerCase().includes('building')) return null;
                       return (
                         <tr key={index}>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm text-gray-900">{t(key.split('_').join(' ').toUpperCase())}</div>
+                            <div className="text-xs text-gray-900">{t(key.split('_').join(' ').toUpperCase())}</div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             {
@@ -258,59 +311,66 @@ export const HomeActivationTable = ({ data }) => {
         </div>
       </div>
     </Card >
+    <Card className='m-2 flex-grow'>
+
+    </Card>
+    </div>
   )
 }
 
 
 
 export const DuctTable = ({ data }) => {
-  const {t}=useTranslation()
+  const { t } = useTranslation()
   const sections = Object.keys(data);
 
   return (
-    
-    
+
+
     <div className="overflow-x-auto flex flex-col flex-1 flex-grow">
-      {sections.map(section => (
-          <div className='flex flex-1'>
-        <Card key={section} className='m-2 flex-[2]'>
-          <h2 className="text-md font-semibold mt-4 m-1 text-sky-700">{section.split('_').join(' ').toUpperCase()}</h2>
-          <hr />
-          <div className=" overflow-x-auto">
-            <div className="py-2 px-1 align-middle inline-block min-w-full overflow-hidden">
-              <div className="overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                <Table striped className="min-w-full divide-y bg-white divide-gray-200">
-                  <thead className="justify-between">
-                    <tr>
-                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">{t('Duct Type')}</th>
-                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">{t('Material Cost')}</th>
-                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">{t('Labour Cost')}</th>
-                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">{t('Volume')}</th>
-                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">{t('Total Cost')}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {data[section].map((row, index) => (
-                      <tr key={index} className={index % 2 === 0 ? 'bg-gray-200' : ''}>
-                        <td className="px-2 py-4 whitespace-nowrap text-xs text-gray-900">{row.duct_type}</td>
-                        <td className="px-2 py-4 whitespace-nowrap text-xs text-gray-900">{row.duct_materialcost}</td>
-                        <td className="px-2 py-4 whitespace-nowrap text-xs text-gray-900">{row.duct_labourcost}</td>
-                        <td className="px-2 py-4 whitespace-nowrap text-xs font-semibold text-gray-900">{commarize(row.duct_volume)}</td>
-                        <td className="px-2 py-4 whitespace-nowrap text-xs font-semibold text-gray-900">{commarize(row.total_cost)}</td>
+      {sections.map((section,index) => (
+        <div className='flex flex-1' key={index}>
+          <Card  className='m-2 w-2/3 min-h-[250px]'>
+          <div className='flex items-center'><p className={
+            `${ICONS_COLORS[index % ICONS_COLORS.length]} text-2xl`
+          }><Icons.IconDucts/></p> <Title ml={10} order={4}>{section.split('_').join(' ').toUpperCase()}</Title> </div> 
+           
+            <br />
+            <div className=" overflow-x-auto">
+             
+                <div className="overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                  <Table cellPadding={1} className="min-w-full divide-y bg-white divide-gray-200">
+                    <thead className="justify-between">
+                      <tr>
+                        <th >{t('Duct Type')}</th>
+                        <th >{t('Material Cost')}</th>
+                        <th >{t('Labour Cost')}</th>
+                        <th >{t('Volume')}</th>
+                        <th >{t('Total Cost')}</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </Table>
-              </div>
+                    </thead>
+                    <tbody>
+                      {data[section].map((row, index) => (
+                        <tr key={index} >
+                          <td >{row.duct_type}</td>
+                          <td >{row.duct_materialcost}</td>
+                          <td >{row.duct_labourcost}</td>
+                          <td >{commarize(row.duct_volume)}</td>
+                          <td >{commarize(row.total_cost)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                </div>
+           
             </div>
-          </div>
-        </Card>
-        <Card className='flex flex-1 flex-grow m-2'>
-      Pie Chart
-    </Card>
-    </div>
+          </Card>
+          <Card className='flex flex-1 flex-grow m-2'>
+            Pie Chart
+          </Card>
+        </div>
       ))}
-   
+
     </div>
   );
 };
@@ -318,50 +378,53 @@ export const DuctTable = ({ data }) => {
 
 export const CableTable = ({ data }) => {
   const sections = Object.keys(data);
-  const {t} = useTranslation()
+  const { t } = useTranslation()
 
   return (
     <div className="overflow-x-auto flex flex-col flex-1 flex-grow">
 
-      {sections.map(section => (
-       <div className='flex flex-1'>
-       <Card key={section} className='m-2 flex-[2]'>
-          <h2 className="text-md font-semibold mt-4 m-1 text-sky-700">{t(section.split('_').join(' ').toUpperCase())}</h2>
-          <hr />
-          <div className=" overflow-x-auto">
-            <div className="align-middle inline-block min-w-full overflow-hidden">
-              <div className="overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                <Table striped className="min-w-full divide-y bg-white divide-gray-200">
-                  <thead className="justify-between">
-                    <tr>
-                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">{t('Cable Type')}</th>
-                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">{t('Material Cost')}</th>
-                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">{t('Labour Cost')}</th>
-                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">{t('Total')}</th>
-                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">{t('Volume')}</th>
-                      <th className="px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">{t('Total Cost')}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {data[section].map((row, index) => (
-                      <tr key={index} className={index % 2 === 0 ? 'bg-gray-200' : ''}>
-                        <td className="px-2 py-4 whitespace-nowrap text-xs text-gray-900">{row.cable_type}</td>
-                        <td className="px-2 py-4 whitespace-nowrap text-xs text-gray-900">{row.materialcost}</td>
-                        <td className="px-2 py-4 whitespace-nowrap text-xs text-gray-900">{row.labourcost}</td>
-                        <td className="px-2 py-4 whitespace-nowrap text-xs text-gray-900">{row.total}</td>
-                        <td className="px-2 py-4 whitespace-nowrap text-xs font-semibold text-gray-900">{commarize(row.volume)}</td>
-                        <td className="px-2 py-4 whitespace-nowrap text-xs font-semibold text-gray-900">{commarize(row.total_cost)}</td>
+      {sections.map((section,index) => (
+        <div className='flex flex-1' key={section}>
+          <Card  className='m-2 w-2/3 min-h-[250px]'>
+           <div className='flex items-center'><p className={
+             `${ICONS_COLORS[index % ICONS_COLORS.length]} text-2xl`
+          }><Icons.IconCables/></p> <Title ml={10} order={4}>{section.split('_').join(' ').toUpperCase()}</Title> </div>
+
+            <br />
+            <div className=" overflow-x-auto">
+              <div className="align-middle inline-block min-w-full overflow-hidden">
+                <div className="overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                  <Table className="min-w-full divide-y bg-white divide-gray-200">
+                    <thead className="justify-between">
+                      <tr>
+                        <th>{t('Cable Type')}</th>
+                        <th>{t('Material Cost')}</th>
+                        <th>{t('Labour Cost')}</th>
+                        <th>{t('Total')}</th>
+                        <th>{t('Volume')}</th>
+                        <th>{t('Total Cost')}</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </Table>
+                    </thead>
+                    <tbody>
+                      {data[section].map((row, index) => (
+                        <tr key={index} >
+                          <td >{row.cable_type}</td>
+                          <td >{row.materialcost}</td>
+                          <td >{row.labourcost}</td>
+                          <td >{row.total}</td>
+                          <td >{commarize(row.volume)}</td>
+                          <td >{commarize(row.total_cost)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                </div>
               </div>
             </div>
-          </div>
-        </Card>
-        <Card className='flex flex-1 flex-grow m-2'>
-      Pie Chart
-    </Card>
+          </Card>
+          <Card className='flex flex-1 flex-grow m-2'>
+            Pie Chart
+          </Card>
         </div>
       ))
       }
@@ -372,7 +435,7 @@ export const CableTable = ({ data }) => {
 
 export const CostInfoSettings = () => {
   const [data, setData] = useState({});
-  const {t}=useTranslation()
+  const { t } = useTranslation()
   useEffect(() => costInputParams.subscribe(setData), [])
   return (
     <form>

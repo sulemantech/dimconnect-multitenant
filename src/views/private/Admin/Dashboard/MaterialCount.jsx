@@ -4,9 +4,10 @@ import { getMaterialCountByDistrictId } from "../../../../api";
 import { dropvalue } from "../../../../signals";
 import { commarize } from "../../../../utils/convertor";
 import { useTranslation } from "react-i18next";
-import { IconChartBubble } from "@tabler/icons-react";
+import { IconChartBubble, IconLocation, IconMap2, IconPin } from "@tabler/icons-react";
 import { Icon123 } from "@tabler/icons-react";
 import { IconTestPipe } from "@tabler/icons";
+import Icons from "../../../../layout/icons";
 
 export default () => {
   const [MaterialCount, setMaterialCount] = useState({});
@@ -47,41 +48,41 @@ export default () => {
         <GroupedCount
             title="Drop | Demand"
             loading={loading}
-            color="border-sky-500"
+            color=""
             unit="m"
             data={[
-              { count: ( MaterialCount?.data?.demand_points), title: 'Points',icon:<IconTestPipe className="text-oarnge-500"/> },
-              { count: (MaterialCount?.data?.drop_ducts), title: 'Ducts',icon:<IconTestPipe className="text-orange-500"/> },
+              { count: ( MaterialCount?.data?.demand_points), title: 'Points',icon:<Icons.Marker/> },
+              { count: (MaterialCount?.data?.drop_ducts), title: 'Ducts',icon:<Icons.IconDucts/> },
             ]}
           />
           <GroupedCount
-            title="Primary Stations"
+            title="Primary Breakdown"
             loading={loading}
-            color="border-sky-500"
+            color="text-red-500"
             unit="m"
             data={[
-              { count: ( MaterialCount?.data?.primary_distribution_ducts), title: 'Primary Ducts',icon:<IconTestPipe className="text-sky-500"/> },
-              { count: ( MaterialCount?.data?.primary_distribution_cables), title: 'Primary Cables',icon:<IconTestPipe className="text-sky-500"/> },
+              { count: ( MaterialCount?.data?.primary_distribution_ducts), title: 'Primary Ducts',icon:<Icons.IconCables/> },
+              { count: ( MaterialCount?.data?.primary_distribution_cables), title: 'Primary Cables',icon:<Icons.IconDucts/> },
             ]}
           />
         <GroupedCount
-          title="Feeder Stations"
+          title="Feeder Breakdown"
           loading={loading}
-          color="border-red-500"
+          color="text-emerald-500"
           unit="m"
           data={[
-            { count: MaterialCount?.data?.feeder_ducts, title: 'Feeder Ducts',icon:<IconTestPipe className="text-red-500"/> },
-            { count:  MaterialCount?.data?.feeder_cables, title: 'Feeder Cables',icon:<IconTestPipe className="text-red-500"/> },
+            { count: MaterialCount?.data?.feeder_ducts, title: 'Feeder Ducts',icon:<Icons.IconCables/> },
+            { count:  MaterialCount?.data?.feeder_cables, title: 'Feeder Cables',icon:<Icons.IconDucts/> },
           ]}
         />
         <GroupedCount
-          title="Distribution Stations"
+          title="Distribution Breakdown"
           loading={loading}
-          color="border"
+          color="text-sky-700"
           unit="m"
           data={[
-            { count: ( MaterialCount?.data?.distribution_ducts), title: 'Distribution Ducts',icon:<IconTestPipe className="text-emerald-500"/> },
-            { count: ( MaterialCount?.data?.out_distributioncables), title: 'Distribution Cables',icon:<IconTestPipe className="text-emerald-500"/> },
+            { count: ( MaterialCount?.data?.distribution_ducts), title: 'Distribution Ducts',icon:<Icons.IconCables/> },
+            { count: ( MaterialCount?.data?.out_distributioncables), title: 'Distribution Cables',icon:<Icons.IconDucts/> },
           ]}
         />
 
@@ -129,20 +130,18 @@ const CountCard = ({ title, count, unit = "", loading = false }) => {
 const GroupedCount = ({ title, data, unit = "", loading = false, color='red' }) => {
   return (
     <Card
-      
-      withBorder
       className="flex-1 m-2"
     >
     
 
-        <Title className='truncate' order={3}>{title}</Title>
-      <br />
+        <Title className='truncate mb-2' order={4}>{title}</Title>
+  
         { loading ? (
           <Loader variant="dots" size="md" className="text-brand" />
         ) :
           data.map((item, index) => (
-            <div className="flex flex-row justify-between items-center">
-             {item?.icon} <span className="text-base truncate">{item.title}</span>
+            <div className="flex flex-row justify-between items-center p-1">
+              <span className="text-base truncate flex items-center justify-center"><Card withBorder className={`${color} flex items-center justify-center`} w={30} h={25} p={2} mr={10}>{item?.icon}</Card>{item.title}</span>
               <span className="text-base truncate">{commarize(item.count)}</span>
             </div>
           ))

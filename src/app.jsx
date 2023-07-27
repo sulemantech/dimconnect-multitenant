@@ -56,7 +56,14 @@ export function App() {
             },
 
           },
-          Table : {
+          'Title':{
+            defaultProps : {
+              style : {
+                fontWeight : 500,
+              }
+            }
+          },
+          'Table' : {
             defaultProps : {
               style : {
                 backgroundColor : '#fff',

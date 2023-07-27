@@ -4,6 +4,7 @@ import { Card, CardSection, Divider, Loader, Title } from "@mantine/core"
 
 import { dropvalue } from "../../../../signals"
 import { getAddressPointCount } from "../../../../api"
+import Icons from '../../../../layout/icons';
 
 const content = {
     'ja (Anschluss prüfen)': {
@@ -46,9 +47,9 @@ export default () => {
 
     return (
         <Card className="m-2" >
-            <div className="text-black text-2xl font-bold justify-start flex" >
+            <Title order={4}>
                 Address Points
-            </div>
+            </Title>
             <div className="relative text-xs flex flex-col p-2 flex-1 ">
                 <div>
                     {
@@ -57,14 +58,21 @@ export default () => {
                                 <>
                                     <div className={'flex items-center justify-center'}>
                                         <div className="flex flex-1 py-1 flex-row items-center">
-                                            <div className={`w-4 h-4 rounded-full mr-2`}
+                                            {/* <div className={`w-4 h-4 rounded-full mr-2`}
                                                 style={{
                                                     backgroundColor: item.color
                                                 }}
-                                            ></div>
+                                            ></div> */}
+                                            <Card withBorder p={5} mr={10}>
+                                                <p style={{
+                                                    color: item.color
+                                                }}>
+                                                    <Icons.Marker />
+                                                </p>
+                                            </Card>
                                             <p className="text-base">{key}</p>
                                         </div>
-                                        <div style={{
+                                        <div className='text-base' style={{
                                             color: item.color
                                         }}
                                         >
