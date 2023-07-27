@@ -11,7 +11,7 @@ module.exports = {
 
         'laptop': '1284px',
         'laptop1': '1270px',
-        'laptop2':'1367px',
+        'laptop2':'1500px',
         'Mobile': '870px',
         'Mac':'1729px',
       },
