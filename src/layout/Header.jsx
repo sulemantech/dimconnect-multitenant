@@ -189,6 +189,10 @@ export default () => {
 
 const getHrefByIndex = (path, index) => {
   const pathSegments = path.split('?')[0].split('/').filter(item => item !== '');
+  // if length is 1, return hash
+  if (index == 0){
+    return '#';
+  }
   let href = '';
   for (let i = 0; i <= index; i++) {
     href += '/' + pathSegments[i];

@@ -1,3 +1,4 @@
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useEffect, useState } from "preact/hooks"
 import { Card, CardSection, Divider, Loader, Title } from "@mantine/core"
 import { useTranslation } from "react-i18next";
@@ -45,19 +46,12 @@ export default () => {
     }, [])
 
     return (
-        <Card
-            className="m-2"
-            
-        >
-           
-
+        <Card className="m-2" >
             <div className="text-black text-2xl font-bold justify-start flex" >
 
                 {t('Address Points')}
 
             </div>
-        
-
             <div className="relative text-xs flex flex-col p-2 flex-1 ">
                 <div>
                     {
@@ -70,10 +64,8 @@ export default () => {
                                                 style={{
                                                     backgroundColor: item.color
                                                 }}
-                                                ></div>
+                                            ></div>
                                             <p className="text-base">{key}</p>
-
-
                                         </div>
                                         <div style={{
                                             color: item.color
@@ -81,7 +73,7 @@ export default () => {
                                         >
                                             {
                                                 loading ? <Loader size={'xs'} /> :
-                                                data && data[item.type] ? data[item.type] : 0
+                                                    data && data[item.type] ? data[item.type] : 0
                                             }
                                         </div>
                                     </div>
@@ -103,4 +95,34 @@ export default () => {
                         
         </Card>
     )
+}
+
+
+
+
+
+const BarChartComp = ({ data }) => {
+
+   console.log(data)
+
+    return (
+        // <ResponsiveContainer width="100%" height="400px">
+        <BarChart width={350} height={400} data={[{
+            'ja (Anschluss prüfen)' : data?.[1] || 0,
+            'ja': data?.[2] || 0,
+            'nein (Anschluss geprüft)': data?.[3] || 0,
+            'nein': data?.[4] || 0,
+            'inexistente Adresse': data?.[5] || 0,
+        }]}>
+         {
+            Object.entries(content)?.map(([key, item]) => {
+                return (
+                    <Bar dataKey={key} fill={item.color} />
+                )
+            })
+         }
+        </BarChart>
+    //   </ResponsiveContainer>
+    );
+
 }

@@ -83,13 +83,13 @@ const Dashboard = () => {
 
         </div> */}
         <Grid>
-          <Grid.Col md={8}>
+          <Grid.Col md={9}>
             <Suspense fallback={<Skeleton />}>
               <MaterialCount />
-              {/* <CostInfo /> */}
+              <CostInfo />
             </Suspense>
           </Grid.Col>
-          <Grid.Col md={4} className="flex flex-col">
+          <Grid.Col md={3} className="flex flex-col">
             <Suspense fallback={<Skeleton />}>
               <MapElements />
               <Submap />

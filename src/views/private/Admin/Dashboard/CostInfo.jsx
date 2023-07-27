@@ -163,13 +163,30 @@ export default () => {
 export const CostInfoModalContent = ({ data }) => {
    const {t}=useTranslation()
   const [segmentedControl, setSegmentedControl] = useState('cable')
+  const [segmentedControl2, setSegmentedControl2] = useState('home')
 
   return (
-    <div>
+    <div className='flex'>
+      <div className='flex flex-col'>
       <SegmentedControl
         className="mb-4"
         data={[
-          { label: t('Home Activation'), value: 'homeActivation' },
+          { label: t('Home'), value: 'home' },
+          { label: t('Business'), value: 'business' },
+        ]}
+        fullWidth
+        color="brand"
+        onChange={(value) => {
+          setSegmentedControl2(value)
+        }}
+        value={segmentedControl2}
+      />
+        <HomeActivationTable data={data.homeActivation} />
+      </div>
+      <div className='flex flex-col flex-1'>
+      <SegmentedControl
+        className="mb-4"
+        data={[
           { label: t('Cables'), value: 'cable' },
           { label: t('Ducts'), value: 'duct' },
         ]}
@@ -180,14 +197,11 @@ export const CostInfoModalContent = ({ data }) => {
         }}
         value={segmentedControl}
       />
-      <div>
         {
           segmentedControl === 'cable' ?
             <CableTable data={data.cables} />
             : segmentedControl === 'duct' ?
               <DuctTable data={data.duct} />
-              : segmentedControl === 'homeActivation' ?
-                <HomeActivationTable data={data.homeActivation} />
                 : null
         }
       </div>
@@ -200,12 +214,12 @@ export const CostInfoModalContent = ({ data }) => {
 export const HomeActivationTable = ({ data }) => {
  const {t}=useTranslation()
   return (
-    <div>
+    <Card className='m-2'>
 
       <div className="flex flex-col">
         <div className="-my-2 overflow-x-auto">
           <div className="py-2 align-middle inline-block min-w-full overflow-hidden">
-            <div className="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
+            <div className="overflow-hidden border-b border-gray-200 sm:rounded-lg">
               <Table striped className="min-w-full bg-white divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
@@ -243,7 +257,7 @@ export const HomeActivationTable = ({ data }) => {
           </div>
         </div>
       </div>
-    </div >
+    </Card >
   )
 }
 
@@ -254,14 +268,17 @@ export const DuctTable = ({ data }) => {
   const sections = Object.keys(data);
 
   return (
-    <div className="overflow-x-auto">
+    
+    
+    <div className="overflow-x-auto flex flex-col flex-1 flex-grow">
       {sections.map(section => (
-        <div key={section}>
+          <div className='flex flex-1'>
+        <Card key={section} className='m-2 flex-[2]'>
           <h2 className="text-md font-semibold mt-4 m-1 text-sky-700">{section.split('_').join(' ').toUpperCase()}</h2>
           <hr />
           <div className=" overflow-x-auto">
-            <div className="py-2 px-1 align-middle inline-block min-w-full overflow-hidden shadow-md">
-              <div className="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
+            <div className="py-2 px-1 align-middle inline-block min-w-full overflow-hidden">
+              <div className="overflow-hidden border-b border-gray-200 sm:rounded-lg">
                 <Table striped className="min-w-full divide-y bg-white divide-gray-200">
                   <thead className="justify-between">
                     <tr>
@@ -287,8 +304,13 @@ export const DuctTable = ({ data }) => {
               </div>
             </div>
           </div>
-        </div>
+        </Card>
+        <Card className='flex flex-1 flex-grow m-2'>
+      Pie Chart
+    </Card>
+    </div>
       ))}
+   
     </div>
   );
 };
@@ -299,15 +321,16 @@ export const CableTable = ({ data }) => {
   const {t} = useTranslation()
 
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto flex flex-col flex-1 flex-grow">
 
       {sections.map(section => (
-        <div key={section}>
+       <div className='flex flex-1'>
+       <Card key={section} className='m-2 flex-[2]'>
           <h2 className="text-md font-semibold mt-4 m-1 text-sky-700">{t(section.split('_').join(' ').toUpperCase())}</h2>
           <hr />
           <div className=" overflow-x-auto">
-            <div className="py-2 px-1 align-middle inline-block min-w-full overflow-hidden shadow-md">
-              <div className="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
+            <div className="align-middle inline-block min-w-full overflow-hidden">
+              <div className="overflow-hidden border-b border-gray-200 sm:rounded-lg">
                 <Table striped className="min-w-full divide-y bg-white divide-gray-200">
                   <thead className="justify-between">
                     <tr>
@@ -335,6 +358,10 @@ export const CableTable = ({ data }) => {
               </div>
             </div>
           </div>
+        </Card>
+        <Card className='flex flex-1 flex-grow m-2'>
+      Pie Chart
+    </Card>
         </div>
       ))
       }

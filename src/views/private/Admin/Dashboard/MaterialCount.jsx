@@ -6,6 +6,7 @@ import { commarize } from "../../../../utils/convertor";
 import { useTranslation } from "react-i18next";
 import { IconChartBubble } from "@tabler/icons-react";
 import { Icon123 } from "@tabler/icons-react";
+import { IconTestPipe } from "@tabler/icons";
 
 export default () => {
   const {t}=useTranslation()
@@ -41,8 +42,19 @@ export default () => {
 
       </div> */}
 
+
+
       <div className="flex flex-[3] flex-row flex-grow">
-        
+        <GroupedCount
+            title="Drop | Demand"
+            loading={loading}
+            color="border-sky-500"
+            unit="m"
+            data={[
+              { count: ( MaterialCount?.data?.demand_points), title: 'Points',icon:<IconTestPipe className="text-oarnge-500"/> },
+              { count: (MaterialCount?.data?.drop_ducts), title: 'Ducts',icon:<IconTestPipe className="text-orange-500"/> },
+            ]}
+          />
           <GroupedCount
             title={t("Primary Stations")}
             loading={loading}
@@ -66,7 +78,7 @@ export default () => {
         <GroupedCount
           title={t("Distribution Stations")}
           loading={loading}
-          color="border-emerald-500"
+          color="border"
           unit="m"
           data={[
             { count: ( MaterialCount?.data?.distribution_ducts), title: t('Distribution Ducts'),icon:<Icon123 /> },
