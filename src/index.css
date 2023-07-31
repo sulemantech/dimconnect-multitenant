@@ -19,7 +19,16 @@ body {
     font-family: 'Roboto';
     letter-spacing: 0.02rem;
   }
+
   
+  @media (-webkit-device-pixel-ratio > 1.25) {
+    body {
+      zoom: 0.8;
+    }
+  }
+
+ 
+
   html {
     height: -webkit-fill-available;
   }

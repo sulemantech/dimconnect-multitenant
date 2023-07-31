@@ -83,8 +83,8 @@ const Dashboard = () => {
 
         </div> */}
         <Grid>
-          <Grid.Col md={9}>
-            <Suspense fallback={<Skeleton />}>
+          <Grid.Col md={9} sm={1}>
+            <Suspense fallback={<Skeleton className="h-full flex-1 flex"/>}>
               <MaterialCount />
               <CostInfo />
             </Suspense>
@@ -96,7 +96,7 @@ const Dashboard = () => {
             </Suspense>
           </Grid.Col>
         </Grid>
-        <Card className="my-3">
+        <Card className="my-3 hidden md:block">
           <Title order={3}>Support Ticket Inbox</Title>
         </Card>
         <Suspense fallback={<Skeleton />}>

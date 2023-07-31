@@ -1,4 +1,4 @@
-import { ActionIcon, Badge, Card, Divider, Input, LoadingOverlay, Progress, RingProgress, SegmentedControl, Table, Tabs, Text, Title } from '@mantine/core';
+import { ActionIcon, Badge, Box, Card, Divider, Input, LoadingOverlay, Progress, RingProgress, SegmentedControl, Table, Tabs, Text, Title } from '@mantine/core';
 import { useDidUpdate } from '@mantine/hooks';
 import { IconRefresh, IconSettings } from '@tabler/icons';
 import { IconDownload, IconMessage, IconPdf, IconPhoto } from '@tabler/icons-react';
@@ -115,7 +115,7 @@ export default () => {
 
   return (
     <>
-      <Divider />
+     
       <Card className="flex p-2 m-2 flex-grow relative">
 
         <LoadingOverlay visible={loading} />
@@ -168,9 +168,10 @@ export const CostInfoModalContent = ({ data }) => {
   const [segmentedControl2, setSegmentedControl2] = useState('home')
 
   return (
-    <div className='flex'>
-      <div className='flex flex-col w-1/3'>
+    <div className='flex flex-col md:flex-row'>
+      <div className='flex flex-col md:w-1/3 w-full'>
         <Tabs defaultValue="gallery"
+          
           className='flex flex-col flex-grow'
           styles={{
             tab: {
@@ -179,13 +180,19 @@ export const CostInfoModalContent = ({ data }) => {
                 borderBottom: '5px solid #0E76BB',
                 color: '#0E76BB'
               }
+            },
+            panel:{
+              
+               display:'flex',
+              
             }
           }}
           classNames={{
             tabsList: 'mx-2 -mb-2 z-50',
-            panel: 'flex-grow',
+            panel: 'flex-grow flex-col ',
+            root:'flex flex-col flex-grow',
           }}>
-          <Tabs.List grow>
+          <Tabs.List grow >
             <Tabs.Tab value="gallery" icon={<Icons.HomeBordered />}>Home</Tabs.Tab>
             <Tabs.Tab value="messages" icon={<Icons.BuildingsBordered />}>Business</Tabs.Tab>
 
@@ -195,7 +202,7 @@ export const CostInfoModalContent = ({ data }) => {
             <HomeActivationTable data={data.homeActivation} />
           </Tabs.Panel>
 
-          <Tabs.Panel value="messages">
+          <Tabs.Panel value="messages"  >
             <HomeActivationTable data={data.homeActivation} business />
           </Tabs.Panel>
 
@@ -203,7 +210,7 @@ export const CostInfoModalContent = ({ data }) => {
         </Tabs>
 
       </div>
-      <div className='flex flex-col flex-1'>
+      <div className='flex flex-col flex-1 '>
         <Tabs
           defaultValue="gallery"
           className='flex flex-col flex-grow'
@@ -253,14 +260,14 @@ const ICONS_COLORS = ['text-blue-500', 'text-red-500', 'text-green-500', 'text-y
 export const HomeActivationTable = ({ data, business = false }) => {
   const { t } = useTranslation()
   if(!data) return(
-    <Card className='m-2 flex flex-grow flex-1'>
+    <Card className='m-2 flex flex-grow flex-1 '>
       <Text color='red' className='text-center flex-grow'>
         {t('NO DATA')}
       </Text>
     </Card>
   )
   return (
-    <div className='flex flex-col flex-grow'>
+    <div className='flex flex-col flex-1 flex-grow '>
       <Card className='m-2'>
         <div className='flex justify-between items-center'>
 
@@ -319,7 +326,7 @@ export const HomeActivationTable = ({ data, business = false }) => {
           </div>
         </div>
       </Card >
-      <Card className='m-2 flex-grow'>
+      <Card className='m-2 flex-grow flex flex-col'>
         <Title order={4}>
           {t('Activation Cost by Type')}
         </Title>
@@ -344,10 +351,9 @@ export const HomeActivationTable = ({ data, business = false }) => {
             </span>
           </div>
         </div>
-        <br />
-        <br />
+        
 
-        <div className='border-l-[1px] border-solid border-gray-800 px-1 py-4'>
+        <div className='border-l-[1px] border-solid border-gray-800 px-1 py-4 my-auto'>
           <div className='flex items-center'>
 
           <Progress
@@ -355,7 +361,7 @@ export const HomeActivationTable = ({ data, business = false }) => {
             className='w-3/4'
             value={CalculateActivationCostByType(data, 'home') / data.total_cost * 100}
             size="xl"
-            h={50}
+            h={35}
             />
             <span className='w-1/4 justify-center text-center text-brand text-lg font-bold'>
               {commarize(CalculateActivationCostByType(data, 'home'))}
@@ -365,7 +371,7 @@ export const HomeActivationTable = ({ data, business = false }) => {
 
           <Progress
             value={CalculateActivationCostByType(data, 'building') / data.total_cost * 100}
-            h={50}
+            h={35}
             className='w-3/4'
             size="xl"
             mt={20}
@@ -379,7 +385,7 @@ export const HomeActivationTable = ({ data, business = false }) => {
             </div>
             
         </div>
-
+            
       </Card>
     </div>
   )
@@ -401,9 +407,12 @@ export const DuctTable = ({ data }) => {
 
 
     <div className="overflow-x-auto flex flex-col flex-1 flex-grow">
-      {sections.map((section, index) => (
+      {sections.map((section, index) => {
+         let sectionColor = ICONS_COLORS[index % ICONS_COLORS.length]
+         let GrandTotal =  data[section].reduce((acc, key) => acc + key.total_cost,0) 
+        return(
         <div className='flex flex-1' key={index}>
-          <Card className='m-2 w-2/3 min-h-[250px]'>
+          <Card className='m-2 md:w-2/3 w-full min-h-[250px]'>
             <div className='flex items-center'><p className={
               `${ICONS_COLORS[index % ICONS_COLORS.length]} text-2xl`
             }><Icons.IconDucts /></p> <Title ml={10} order={4}>{section.split('_').join(' ').toUpperCase()}</Title> </div>
@@ -416,8 +425,8 @@ export const DuctTable = ({ data }) => {
                   <thead className="justify-between">
                     <tr>
                       <th >{t('Duct Type')}</th>
-                      <th >{t('Material Cost')}</th>
-                      <th >{t('Labour Cost')}</th>
+                      <th className='md:block hidden'>{t('Material Cost')}</th>
+                      <th className='md:block hidden'>{t('Labour Cost')}</th>
                       <th >{t('Volume')}</th>
                       <th >{t('Total Cost')}</th>
                     </tr>
@@ -426,8 +435,8 @@ export const DuctTable = ({ data }) => {
                     {data[section].map((row, index) => (
                       <tr key={index} >
                         <td >{row.duct_type}</td>
-                        <td >{row.duct_materialcost}</td>
-                        <td >{row.duct_labourcost}</td>
+                        <td className='md:block hidden'>{row.duct_materialcost}</td>
+                        <td className='md:block hidden'>{row.duct_labourcost}</td>
                         <td >{commarize(row.duct_volume)}</td>
                         <td >{commarize(row.total_cost)}</td>
                       </tr>
@@ -438,11 +447,51 @@ export const DuctTable = ({ data }) => {
 
             </div>
           </Card>
-          <Card className='flex flex-1 flex-grow m-2'>
-            Pie Chart
+          <Card className='md:flex flex-col flex-1 flex-grow m-2 items-center justify-center hidden'>
+                        <Title order={4}>{section.charAt(0).toUpperCase() + section.slice(1)} Cable By Type</Title>
+                        <Divider />
+            <div className='flex'>
+                        <div className='flex flex-col flex-grow items-center py-6'>
+                          {
+                            data[section].map((row, index) => {
+                              let color = sectionColor.split('-')[1];
+                              let initialshade = 8
+                              let shade = initialshade - index - index
+                              color = `${color}.${shade}`
+                              return (
+                              <div className='flex items-center flex-grow' key={index}>
+                                <Badge variant='filled' color={color} h={5} w={5} mr={2}/>
+                                <p className='text-xs'>{row.duct_type.replace('(Rohrverband)','')}</p>
+                              </div>
+                            )})
+                          }
+                        </div>
+          
+           <RingProgress
+           classNames={{
+            root:'p-0',
+            label:'p-0'
+           }}
+           className=''
+           thickness={40}
+           size={180}
+           sections={
+            data[section].map((row, index) => {
+              let color = sectionColor.split('-')[1];
+              let initialshade = 8
+              let shade = initialshade - index - index
+              color = `${color}.${shade}`
+              return (
+              {value: (row.total_cost/GrandTotal)*100, color: color }
+            )})
+
+           }
+         />
+         
+         </div>
           </Card>
         </div>
-      ))}
+      )})}
 
     </div>
   );
@@ -454,11 +503,14 @@ export const CableTable = ({ data }) => {
   const { t } = useTranslation()
 
   return (
-    <div className="overflow-x-auto flex flex-col flex-1 flex-grow">
+    <div className="overflow-hidden flex flex-col flex-1 flex-grow">
 
-      {sections.map((section, index) => (
+      {sections.map((section, index) => {
+        let sectionColor = ICONS_COLORS[index % ICONS_COLORS.length]
+        let GrandTotal =  data[section].reduce((acc, key) => acc + key.total_cost,0) 
+        return(
         <div className='flex flex-1' key={section}>
-          <Card className='m-2 w-2/3 min-h-[250px]'>
+          <Card className='m-2 md:w-2/3 w-full min-h-[250px]'>
             <div className='flex items-center'><p className={
               `${ICONS_COLORS[index % ICONS_COLORS.length]} text-2xl`
             }><Icons.IconCables /></p> <Title ml={10} order={4}>{section.split('_').join(' ').toUpperCase()}</Title> </div>
@@ -471,9 +523,9 @@ export const CableTable = ({ data }) => {
                     <thead className="justify-between">
                       <tr>
                         <th>{t('Cable Type')}</th>
-                        <th>{t('Material Cost')}</th>
-                        <th>{t('Labour Cost')}</th>
-                        <th>{t('Total')}</th>
+                        <th className='md:block hidden'>{t('Material Cost')}</th>
+                        <th className='md:block hidden'>{t('Labour Cost')}</th>
+                        <th className='md:block hidden'>{t('Total')}</th>
                         <th>{t('Volume')}</th>
                         <th>{t('Total Cost')}</th>
                       </tr>
@@ -482,9 +534,9 @@ export const CableTable = ({ data }) => {
                       {data[section].map((row, index) => (
                         <tr key={index} >
                           <td >{row.cable_type}</td>
-                          <td >{row.materialcost}</td>
-                          <td >{row.labourcost}</td>
-                          <td >{row.total}</td>
+                          <td className='md:block hidden'>{row.materialcost}</td>
+                          <td className='md:block hidden'>{row.labourcost}</td>
+                          <td className='md:block hidden'>{row.total}</td>
                           <td >{commarize(row.volume)}</td>
                           <td >{commarize(row.total_cost)}</td>
                         </tr>
@@ -495,20 +547,51 @@ export const CableTable = ({ data }) => {
               </div>
             </div>
           </Card>
-          <Card className='flex flex-1 flex-grow m-2 items-center justify-center'>
+          <Card className='md:flex flex-col flex-1 flex-grow m-2 items-center justify-center hidden'>
+                        <Title order={4}>{section.charAt(0).toUpperCase() + section.slice(1)} Cable By Type</Title>
+                        <Divider />
+            <div className='flex'>
+                        <div className='flex flex-col flex-grow items-center py-6'>
+                          {
+                            data[section].map((row, index) => {
+                              let color = sectionColor.split('-')[1];
+                              let initialshade = 8
+                              let shade = initialshade - index - index
+                              color = `${color}.${shade}`
+                              return (
+                              <div className='flex items-center flex-grow' key={index}>
+                                <Badge variant='filled' color={color} h={5} w={5} mr={2}/>
+                                <p className='text-xs'>{row.cable_type}</p>
+                              </div>
+                            )})
+                          }
+                        </div>
+          
            <RingProgress
-           className='shadow-md rounded-full flex items-center justify-center'
-           thickness={22}
+           classNames={{
+            root:'p-0',
+            label:'p-0'
+           }}
+           className=''
+           thickness={40}
            size={180}
-           sections={[
-             { value: 40, color: `${(ICONS_COLORS[index % ICONS_COLORS.length]).split('-')[1]}.8` },
-             { value: 15, color: `${(ICONS_COLORS[index % ICONS_COLORS.length]).split('-')[1]}.6` },
-             { value: 15, color: `${(ICONS_COLORS[index % ICONS_COLORS.length]).split('-')[1]}.4` },
-           ]}
+           sections={
+            data[section].map((row, index) => {
+              let color = sectionColor.split('-')[1];
+              let initialshade = 8
+              let shade = initialshade - index - index
+              color = `${color}.${shade}`
+              return (
+              {value: (row.total_cost/GrandTotal)*100, color: color }
+            )})
+
+           }
          />
+         
+         </div>
           </Card>
         </div>
-      ))
+      )})
       }
     </div >
   );

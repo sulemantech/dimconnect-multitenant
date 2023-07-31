@@ -44,7 +44,7 @@ export default () => {
 
 
 
-      <div className="flex flex-[3] flex-row flex-grow">
+      <div className="flex flex-[3] md:flex-row flex-grow flex-wrap flex-col">
         <GroupedCount
             title="Drop | Demand"
             loading={loading}

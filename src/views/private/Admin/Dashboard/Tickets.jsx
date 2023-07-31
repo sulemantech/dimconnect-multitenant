@@ -151,7 +151,7 @@ export default ({ selected }) => {
   ];
   return (
     <>
-      <div>
+      <div className="hidden md:block">
         <DataTable columns={columns} data={data} />
       </div>
     </>
