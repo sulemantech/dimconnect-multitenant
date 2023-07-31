@@ -136,13 +136,16 @@ const GroupedCount = ({ title, data, unit = "", loading = false, color='red' }) 
 
         <Title className='truncate mb-2' order={4}>{title}</Title>
   
-        { loading ? (
-          <Loader variant="dots" size="md" className="text-brand" />
-        ) :
+        { 
           data.map((item, index) => (
             <div className="flex flex-row justify-between items-center p-1">
               <span className="text-base truncate flex items-center justify-center"><Card withBorder className={`${color} flex items-center justify-center`} w={30} h={25} p={2} mr={10}>{item?.icon}</Card>{item.title}</span>
-              <span className="text-base truncate">{commarize(item.count)}</span>
+              <span className="text-base truncate">{
+                loading ? (
+                  <Loader variant="dots" size="md" className="text-brand" />
+                ) :
+              commarize(item.count)
+              }</span>
             </div>
           ))
         }

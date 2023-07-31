@@ -1,4 +1,4 @@
-import { ActionIcon, Badge, Card, Divider, Input, LoadingOverlay, SegmentedControl, Table, Tabs, Title } from '@mantine/core';
+import { ActionIcon, Badge, Card, Divider, Input, LoadingOverlay, Progress, RingProgress, SegmentedControl, Table, Tabs, Text, Title } from '@mantine/core';
 import { useDidUpdate } from '@mantine/hooks';
 import { IconRefresh, IconSettings } from '@tabler/icons';
 import { IconDownload, IconMessage, IconPdf, IconPhoto } from '@tabler/icons-react';
@@ -115,7 +115,7 @@ export default () => {
 
   return (
     <>
-    <Divider />
+      <Divider />
       <Card className="flex p-2 m-2 flex-grow relative">
 
         <LoadingOverlay visible={loading} />
@@ -143,15 +143,15 @@ export default () => {
           }}>
             <IconSettings />
           </ActionIcon>
-              <ActionIcon onClick={() => {
-                generatePDF(data, regsionListSignal.value.find(tile => tile.ags === ags).name)
-              }}>
-                <IconDownload />
-              </ActionIcon>
+          <ActionIcon onClick={() => {
+            generatePDF(data, regsionListSignal.value.find(tile => tile.ags === ags).name)
+          }}>
+            <IconDownload />
+          </ActionIcon>
 
         </div>
       </Card>
-     
+
 
       {data && <CostInfoModalContent data={data} />}
     </>
@@ -170,24 +170,24 @@ export const CostInfoModalContent = ({ data }) => {
   return (
     <div className='flex'>
       <div className='flex flex-col w-1/3'>
-        <Tabs  defaultValue="gallery" 
-        className='flex flex-col flex-grow'
+        <Tabs defaultValue="gallery"
+          className='flex flex-col flex-grow'
           styles={{
-            tab : {
-              fontSize : '18px',
+            tab: {
+              fontSize: '18px',
               '&[data-active]': {
-                borderBottom : '5px solid #0E76BB',
-                color : '#0E76BB'
+                borderBottom: '5px solid #0E76BB',
+                color: '#0E76BB'
               }
             }
           }}
-        classNames={{
-          tabsList :  'mx-2 -mb-2 z-50',
-          panel : 'flex-grow',
-        }}>
+          classNames={{
+            tabsList: 'mx-2 -mb-2 z-50',
+            panel: 'flex-grow',
+          }}>
           <Tabs.List grow>
             <Tabs.Tab value="gallery" icon={<Icons.HomeBordered />}>Home</Tabs.Tab>
-            <Tabs.Tab value="messages" icon={<Icons.BuildingsBordered  />}>Business</Tabs.Tab>
+            <Tabs.Tab value="messages" icon={<Icons.BuildingsBordered />}>Business</Tabs.Tab>
 
           </Tabs.List>
 
@@ -204,30 +204,30 @@ export const CostInfoModalContent = ({ data }) => {
 
       </div>
       <div className='flex flex-col flex-1'>
-        <Tabs  
-        defaultValue="gallery" 
-        className='flex flex-col flex-grow'
+        <Tabs
+          defaultValue="gallery"
+          className='flex flex-col flex-grow'
           styles={{
-            tab : {
-              fontSize : '18px',
+            tab: {
+              fontSize: '18px',
               '&[data-active]': {
-                borderBottom : '5px solid #0E76BB',
-                color : '#0E76BB',
-                
+                borderBottom: '5px solid #0E76BB',
+                color: '#0E76BB',
+
               }
             }
           }}
-        classNames={{
-          tabsList :  'mx-2 -mb-2 z-50 w-2/3',
-          tab: {
-            '&[data-active]' : 'bg-red-500'
-          },
-          panel : 'flex-grow',
-        }}
+          classNames={{
+            tabsList: 'mx-2 -mb-2 z-50 w-2/3',
+            tab: {
+              '&[data-active]': 'bg-red-500'
+            },
+            panel: 'flex-grow',
+          }}
         >
           <Tabs.List grow>
-            <Tabs.Tab value="gallery" icon={<Icons.IconCablesBordered  />}>Cables Costs, €</Tabs.Tab>
-            <Tabs.Tab value="messages" icon={<Icons.IconDuctsBordered  />}>Ducts Costs, €</Tabs.Tab>
+            <Tabs.Tab value="gallery" icon={<Icons.IconCablesBordered />}>Cables Costs, €</Tabs.Tab>
+            <Tabs.Tab value="messages" icon={<Icons.IconDuctsBordered />}>Ducts Costs, €</Tabs.Tab>
 
           </Tabs.List>
 
@@ -248,74 +248,147 @@ export const CostInfoModalContent = ({ data }) => {
   )
 }
 
-const ICONS_COLORS = ['text-blue-500', 'text-red-500', 'text-emerald-500', 'text-yellow-500', 'text-purple-500', 'text-pink-500', 'text-indigo-500', 'text-gray-500']
+const ICONS_COLORS = ['text-blue-500', 'text-red-500', 'text-green-500', 'text-yellow-500', 'text-purple-500', 'text-pink-500', 'text-indigo-500', 'text-gray-500']
 
-export const HomeActivationTable = ({ data,business=false }) => {
+export const HomeActivationTable = ({ data, business = false }) => {
   const { t } = useTranslation()
+  if(!data) return(
+    <Card className='m-2 flex flex-grow flex-1'>
+      <Text color='red' className='text-center flex-grow'>
+        {t('NO DATA')}
+      </Text>
+    </Card>
+  )
   return (
     <div className='flex flex-col flex-grow'>
-    <Card className='m-2'>
-      <div className='flex justify-between items-center'>
+      <Card className='m-2'>
+        <div className='flex justify-between items-center'>
 
-    <Title order={4}>
-        {business ? t('BUSINESS ACTIVATION') : t('HOME ACTIVATION')}
-    </Title>
-    <Badge variant='filled' color='gray' className='bg-gray-100' size='lg'>
-      <p className='font-thin text-neutral-700'> Cost, €<b className='font-bold text-base'> 286k</b></p>
-    </Badge>
-      </div>
-    <br />
-    <hr/>
-      <div className="flex flex-col">
-        <div className="-my-2 overflow-x-auto">
-          <div className="py-2 align-middle inline-block min-w-full overflow-hidden">
-            <div className="overflow-hidden border-b border-gray-200 sm:rounded-lg">
-              <Table className="min-w-full bg-white divide-y divide-gray-200">
-                <thead className="bg-gray-50">
-                  <tr>
+          <Title order={4}>
+            {business ? t('BUSINESS ACTIVATION') : t('HOME ACTIVATION')}
+          </Title>
+          <Badge variant='filled' color='gray' className='bg-gray-100' size='lg'>
+            <p className='font-thin text-neutral-700'> Cost, €<b className='font-bold text-base'> {commarize(CalculateActivationCostByType(data, business ? 'building' : 'home'))}</b></p>
+          </Badge>
+        </div>
+        <br />
+        <hr />
+        <div className="flex flex-col">
+          <div className="-my-2 overflow-x-auto">
+            <div className="py-2 align-middle inline-block min-w-full overflow-hidden">
+              <div className="overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                <Table className="min-w-full bg-white divide-y divide-gray-200">
+                  <thead className="bg-gray-50">
+                    <tr>
 
-                    <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                      {t('Activation Types')}
-                    </th>
-                    <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                      {t('Value')}, €
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {
-                    Object.keys(data)
-                    .map((key, index) => {
-                      if(!business && key.toLowerCase().includes('building')) return null;
-                      if(business && !key.toLowerCase().includes('building')) return null;
-                      return (
-                        <tr key={index}>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-xs text-gray-900">{t(key.split('_').join(' ').toUpperCase())}</div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            {
+                      <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                        {t('Activation Types')}
+                      </th>
+                      <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                        {t('Value')}, €
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {
+                      Object.keys(data)
+                        .filter(key => key.toLowerCase() !== 'total_cost')
+                        .map((key, index) => {
+                          if (!business && key.toLowerCase().includes('building')) return null;
+                          if (business && !key.toLowerCase().includes('building')) return null;
+                          return (
+                            <tr key={index}>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <div className="text-xs text-gray-900">{t(key.split('_').join(' ').toUpperCase())}</div>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                {
 
-                              <div className="text-sm text-gray-900">{commarize(data[key])}</div>
+                                  <div className="text-sm text-gray-900">{commarize(data[key])}</div>
 
-                            }
-                          </td>
-                        </tr>
-                      )
-                    })
-                  }
-                </tbody>
-              </Table>
+                                }
+                              </td>
+                            </tr>
+                          )
+                        })
+                    }
+                  </tbody>
+                </Table>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </Card >
-    <Card className='m-2 flex-grow'>
+      </Card >
+      <Card className='m-2 flex-grow'>
+        <Title order={4}>
+          {t('Activation Cost by Type')}
+        </Title>
+        <br />
+        <hr />
+        <br />
+        <div className='flex justify-around'>
+          <div className='flex items-center justify-center'>
+            <span className='mr-4'>
+              {t('HOME')}
+            </span>
+            <span className='p-2 shadow-md rounded-full'>
+              <div className='bg-brand w-8 h-2 rounded-full'></div>
+            </span>
+          </div>
+          <div className='flex items-center justify-center'>
+            <span className='mr-4'>
+              {t('BUSINESS')}
+            </span>
+            <span className='p-2 shadow-md rounded-full'>
+              <div className='bg-brand-dark w-8 h-2 rounded-full'></div>
+            </span>
+          </div>
+        </div>
+        <br />
+        <br />
 
-    </Card>
+        <div className='border-l-[1px] border-solid border-gray-800 px-1 py-4'>
+          <div className='flex items-center'>
+
+          <Progress
+            color='brand'
+            className='w-3/4'
+            value={CalculateActivationCostByType(data, 'home') / data.total_cost * 100}
+            size="xl"
+            h={50}
+            />
+            <span className='w-1/4 justify-center text-center text-brand text-lg font-bold'>
+              {commarize(CalculateActivationCostByType(data, 'home'))}
+            </span>
+            </div>
+            <div className='flex items-center'>
+
+          <Progress
+            value={CalculateActivationCostByType(data, 'building') / data.total_cost * 100}
+            h={50}
+            className='w-3/4'
+            size="xl"
+            mt={20}
+            classNames={{
+              bar: "bg-brand-dark"
+            }}
+            />
+             <span className='w-1/4 justify-center text-center text-brand-dark text-lg font-bold'>
+              {commarize(CalculateActivationCostByType(data, 'building'))}
+            </span>
+            </div>
+            
+        </div>
+
+      </Card>
     </div>
   )
+}
+
+export const CalculateActivationCostByType = (data, type) => {
+  return Object.keys(data)
+    .filter(key => key.toLowerCase().includes(type.toLowerCase()) && key.toLowerCase().includes('cost'))
+    .reduce((acc, key) => acc + data[key], 0)
 }
 
 
@@ -328,41 +401,41 @@ export const DuctTable = ({ data }) => {
 
 
     <div className="overflow-x-auto flex flex-col flex-1 flex-grow">
-      {sections.map((section,index) => (
+      {sections.map((section, index) => (
         <div className='flex flex-1' key={index}>
-          <Card  className='m-2 w-2/3 min-h-[250px]'>
-          <div className='flex items-center'><p className={
-            `${ICONS_COLORS[index % ICONS_COLORS.length]} text-2xl`
-          }><Icons.IconDucts/></p> <Title ml={10} order={4}>{section.split('_').join(' ').toUpperCase()}</Title> </div> 
-           
+          <Card className='m-2 w-2/3 min-h-[250px]'>
+            <div className='flex items-center'><p className={
+              `${ICONS_COLORS[index % ICONS_COLORS.length]} text-2xl`
+            }><Icons.IconDucts /></p> <Title ml={10} order={4}>{section.split('_').join(' ').toUpperCase()}</Title> </div>
+
             <br />
             <div className=" overflow-x-auto">
-             
-                <div className="overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                  <Table cellPadding={1} className="min-w-full divide-y bg-white divide-gray-200">
-                    <thead className="justify-between">
-                      <tr>
-                        <th >{t('Duct Type')}</th>
-                        <th >{t('Material Cost')}</th>
-                        <th >{t('Labour Cost')}</th>
-                        <th >{t('Volume')}</th>
-                        <th >{t('Total Cost')}</th>
+
+              <div className="overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                <Table cellPadding={1} className="min-w-full divide-y bg-white divide-gray-200">
+                  <thead className="justify-between">
+                    <tr>
+                      <th >{t('Duct Type')}</th>
+                      <th >{t('Material Cost')}</th>
+                      <th >{t('Labour Cost')}</th>
+                      <th >{t('Volume')}</th>
+                      <th >{t('Total Cost')}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {data[section].map((row, index) => (
+                      <tr key={index} >
+                        <td >{row.duct_type}</td>
+                        <td >{row.duct_materialcost}</td>
+                        <td >{row.duct_labourcost}</td>
+                        <td >{commarize(row.duct_volume)}</td>
+                        <td >{commarize(row.total_cost)}</td>
                       </tr>
-                    </thead>
-                    <tbody>
-                      {data[section].map((row, index) => (
-                        <tr key={index} >
-                          <td >{row.duct_type}</td>
-                          <td >{row.duct_materialcost}</td>
-                          <td >{row.duct_labourcost}</td>
-                          <td >{commarize(row.duct_volume)}</td>
-                          <td >{commarize(row.total_cost)}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </Table>
-                </div>
-           
+                    ))}
+                  </tbody>
+                </Table>
+              </div>
+
             </div>
           </Card>
           <Card className='flex flex-1 flex-grow m-2'>
@@ -383,12 +456,12 @@ export const CableTable = ({ data }) => {
   return (
     <div className="overflow-x-auto flex flex-col flex-1 flex-grow">
 
-      {sections.map((section,index) => (
+      {sections.map((section, index) => (
         <div className='flex flex-1' key={section}>
-          <Card  className='m-2 w-2/3 min-h-[250px]'>
-           <div className='flex items-center'><p className={
-             `${ICONS_COLORS[index % ICONS_COLORS.length]} text-2xl`
-          }><Icons.IconCables/></p> <Title ml={10} order={4}>{section.split('_').join(' ').toUpperCase()}</Title> </div>
+          <Card className='m-2 w-2/3 min-h-[250px]'>
+            <div className='flex items-center'><p className={
+              `${ICONS_COLORS[index % ICONS_COLORS.length]} text-2xl`
+            }><Icons.IconCables /></p> <Title ml={10} order={4}>{section.split('_').join(' ').toUpperCase()}</Title> </div>
 
             <br />
             <div className=" overflow-x-auto">
@@ -422,8 +495,17 @@ export const CableTable = ({ data }) => {
               </div>
             </div>
           </Card>
-          <Card className='flex flex-1 flex-grow m-2'>
-            Pie Chart
+          <Card className='flex flex-1 flex-grow m-2 items-center justify-center'>
+           <RingProgress
+           className='shadow-md rounded-full flex items-center justify-center'
+           thickness={22}
+           size={180}
+           sections={[
+             { value: 40, color: `${(ICONS_COLORS[index % ICONS_COLORS.length]).split('-')[1]}.8` },
+             { value: 15, color: `${(ICONS_COLORS[index % ICONS_COLORS.length]).split('-')[1]}.6` },
+             { value: 15, color: `${(ICONS_COLORS[index % ICONS_COLORS.length]).split('-')[1]}.4` },
+           ]}
+         />
           </Card>
         </div>
       ))

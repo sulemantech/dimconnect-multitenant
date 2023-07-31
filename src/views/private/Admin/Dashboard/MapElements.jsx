@@ -1,7 +1,5 @@
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useEffect, useState } from "preact/hooks"
-import { Card, CardSection, Divider, Loader, Title } from "@mantine/core"
-
+import { Card, Text, Divider, Loader, Progress, Title } from "@mantine/core"
 import { dropvalue } from "../../../../signals"
 import { getAddressPointCount } from "../../../../api"
 import Icons from '../../../../layout/icons';
@@ -46,7 +44,7 @@ export default () => {
     }, [])
 
     return (
-        <Card className="m-2" >
+        <Card className="m-2 ml-0 mb-0" >
             <Title order={4}>
                 Address Points
             </Title>
@@ -105,30 +103,45 @@ export default () => {
 
 
 
-
+function logScale(value, base = 10) {
+    if (value <= 0) {
+      throw new Error("Value must be greater than 0 for a logarithmic scale.");
+    }
+    
+    return Math.log(value) * base;
+  }
 
 const BarChartComp = ({ data }) => {
-
-   console.log(data)
-
+    if(!data) return null
+  const total = Object.values(data)?.reduce((a, b) => a + b, 0)
+    
     return (
-        // <ResponsiveContainer width="100%" height="400px">
-        <BarChart width={350} height={400} data={[{
-            'ja (Anschluss prüfen)' : data?.[1] || 0,
-            'ja': data?.[2] || 0,
-            'nein (Anschluss geprüft)': data?.[3] || 0,
-            'nein': data?.[4] || 0,
-            'inexistente Adresse': data?.[5] || 0,
-        }]}>
-         {
+        
+    <div >
+        {
             Object.entries(content)?.map(([key, item]) => {
                 return (
-                    <Bar dataKey={key} fill={item.color} />
+                    <div className='flex items-center justify-center'>
+                   <Progress value={logScale(data[item.type], 10)} max={logScale(total, 10)}
+                   h={20}
+                   className='flex-1'
+                   color={item.color}
+                   style={{marginBottom: '10px'}}/>
+                   <Text
+                   className="flex items-center"
+                   w={40}
+                    ml={5}
+                    pb={5}
+                    color={item.color}
+                   >
+                    {data[item.type]}
+                   </Text>
+                   </div>
                 )
             })
          }
-        </BarChart>
-    //   </ResponsiveContainer>
+
+    </div>
     );
 
 }

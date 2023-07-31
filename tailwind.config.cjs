@@ -16,7 +16,7 @@ module.exports = {
       },
       colors: {
         'brand': '#0E76BB',
-        'brand-dark': '#E0E0E0',
+        'brand-dark': '#0C3957',
       },
     },
     ripple: theme => ({

@@ -25,7 +25,7 @@ export default () => {
 
 const Component = () => {
     return (
-        <Card className="flex-grow flex flex-1 m-2">
+        <Card className="flex-grow flex flex-1 m-2 mt-0 ml-0">
 
         <Map
 
