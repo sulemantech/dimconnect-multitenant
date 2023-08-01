@@ -1,4 +1,4 @@
-import { Anchor, Avatar, Box, Breadcrumbs, Group, Menu, Select } from "@mantine/core"
+import { Anchor, Avatar, Box, Breadcrumbs, Burger, Menu, Select } from "@mantine/core"
 import { IconLogout } from "@tabler/icons"
 import { route, useRouter, } from "preact-router"
 import { useContext, useLayoutEffect, useState } from "preact/hooks"
@@ -7,7 +7,7 @@ import { useContext, useLayoutEffect, useState } from "preact/hooks"
 import { IconArrowBadgeRightFilled, IconChevronRight, IconMan, IconUserCircle } from "@tabler/icons-react"
 import appConfig from "../config/appConfig"
 import { AuthState } from "../providers/AuthProvider"
-import { dropvalue, regsionListSignal, userDataSignal } from "../signals"
+import { dropvalue, regsionListSignal, userDataSignal ,collapsed} from "../signals"
 import LanguageButton from "../components/LanguageButton"
 import { useTranslation } from "react-i18next"
 
@@ -79,7 +79,7 @@ export default () => {
   return (
     <div className=" z-[100] shadow-lg right-0 left-0 top-0">
       <div className=" items-center  h-12 bg-white flex p-2 text-[#0E76BB] ">
-        <div className="flex-grow  text-[#0E76BB] text-lg font-[500]">
+        <div className="flex-grow  text-[#0E76BB] text-lg font-[500] md:inline-block hidden">
           <h6 className={window.innerWidth < 768 ? 'text-xs' : 'text-lg'}>
           <b>
             {
@@ -93,8 +93,19 @@ export default () => {
               t(router[0].path?.split(':')?.[0]?.split('/')?.[1]?.split('_')?.slice(1)?.join(' ')?.toUpperCase())
             }
           </h6>
-        </div>
+          
+          </div>
+          <div className="md:invisible visible">
 
+          <Burger
+                    onClick={() => {
+                        collapsed.value = !collapsed.value
+                    }}
+                    ml={10}
+                    opened={collapsed.value}
+                />
+                      </div>
+                    <div className='flex-1'/>
 
         <Select
           className="ml-4"
