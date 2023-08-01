@@ -425,8 +425,8 @@ export const DuctTable = ({ data }) => {
                   <thead className="justify-between">
                     <tr>
                       <th >{t('Duct Type')}</th>
-                      <th className='md:block hidden'>{t('Material Cost')}</th>
-                      <th className='md:block hidden'>{t('Labour Cost')}</th>
+                      <th className='md:visible invisible'>{t('Material Cost')}</th>
+                      <th className='md:visible invisible'>{t('Labour Cost')}</th>
                       <th >{t('Volume')}</th>
                       <th >{t('Total Cost')}</th>
                     </tr>
@@ -435,8 +435,8 @@ export const DuctTable = ({ data }) => {
                     {data[section].map((row, index) => (
                       <tr key={index} >
                         <td >{row.duct_type}</td>
-                        <td className='md:block hidden'>{row.duct_materialcost}</td>
-                        <td className='md:block hidden'>{row.duct_labourcost}</td>
+                        <td className='md:visible invisible'>{row.duct_materialcost}</td>
+                        <td className='md:visible invisible'>{row.duct_labourcost}</td>
                         <td >{commarize(row.duct_volume)}</td>
                         <td >{commarize(row.total_cost)}</td>
                       </tr>
@@ -523,9 +523,9 @@ export const CableTable = ({ data }) => {
                     <thead className="justify-between">
                       <tr>
                         <th>{t('Cable Type')}</th>
-                        <th className='md:block hidden'>{t('Material Cost')}</th>
-                        <th className='md:block hidden'>{t('Labour Cost')}</th>
-                        <th className='md:block hidden'>{t('Total')}</th>
+                        <th className='md:visible invisible'>{t('Material Cost')}</th>
+                        <th className='md:visible invisible'>{t('Labour Cost')}</th>
+                        <th className='md:visible invisible'>{t('Total')}</th>
                         <th>{t('Volume')}</th>
                         <th>{t('Total Cost')}</th>
                       </tr>
@@ -534,9 +534,9 @@ export const CableTable = ({ data }) => {
                       {data[section].map((row, index) => (
                         <tr key={index} >
                           <td >{row.cable_type}</td>
-                          <td className='md:block hidden'>{row.materialcost}</td>
-                          <td className='md:block hidden'>{row.labourcost}</td>
-                          <td className='md:block hidden'>{row.total}</td>
+                          <td className='md:visible invisible'>{row.materialcost}</td>
+                          <td className='md:visible invisible'>{row.labourcost}</td>
+                          <td className='md:visible invisible'>{row.total}</td>
                           <td >{commarize(row.volume)}</td>
                           <td >{commarize(row.total_cost)}</td>
                         </tr>
