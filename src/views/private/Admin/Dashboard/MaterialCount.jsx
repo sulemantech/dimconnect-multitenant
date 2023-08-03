@@ -144,7 +144,7 @@ const GroupedCount = ({ title, data, unit = "", loading = false, color='red' }) 
                 loading ? (
                   <Loader variant="dots" size="md" className="text-brand" />
                 ) :
-              commarize(item.count)
+              commarize(item.count ?? 0)
               }</span>
             </div>
           ))
