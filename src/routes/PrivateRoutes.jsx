@@ -25,6 +25,7 @@ import FAQCategory from '../views/private/Customer/Support Team/FAQCategory';
 import LiveChat from '../views/private/Customer/Support Team/LiveChat';
 import MyTickets from '../views/private/Customer/Support Team/MyTickets';
 import SupportTeam from '../views/private/Customer/Support Team/SupportTeam';
+import LiveChatSupport from '../views/private/Admin/support-chat/LiveChat';
 
 
 
@@ -35,6 +36,7 @@ export default () => <div className='flex absolute top-0 left-0 bottom-0 bg-slat
         <Suspense fallback={<LoadingOverlay visible />}>
             <Router hashHistory >
                 <Dashboard path="/dashboard" default />
+                <LiveChatSupport path="/support_chat_back_office" />
                 <Map path="/map" />
                 <Administration path="/administration" />
                 <UserManagement path="/administration/user_management" />
