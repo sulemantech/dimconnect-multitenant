@@ -50,7 +50,7 @@ export default () => {
 
 
 
-      <div className="relative min-w-[350px] rounded-lg shadow-2xl pb-14  bg-[#FFFFFF26] max-h-[80vh] max-laptop:max-h-[82vh] backdrop-blur-md max-laptop:min-w-[300px] max-[850px]:w-[200px]">
+      <div className="min-w-[350px] rounded-lg shadow-2xl pb-14  bg-[#FFFFFF26] max-h-[80vh] max-laptop:max-h-[82vh] backdrop-blur-md max-laptop:min-w-[300px] max-[850px]:w-[200px]">
         <div className="flex justify-center">
           <div className=" mt-[40px] w-[200px] max-laptop:mt-[35px] max-laptop:w-[180px]" >
             <Logo />

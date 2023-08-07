@@ -96,8 +96,8 @@ const Dashboard = () => {
             </Suspense>
           </Grid.Col>
         </Grid>
-        <Card className="my-3 hidden md:block">
-          <Title order={3}>Support Ticket Inbox</Title>
+        <Card className="my-3">
+          <Title order={3}>{t('Support Ticket Inbox')}</Title>
         </Card>
         <Suspense fallback={<Skeleton />}>
             <Tickets />

@@ -10,6 +10,7 @@ import { IconTestPipe } from "@tabler/icons";
 import Icons from "../../../../layout/icons";
 
 export default () => {
+  const {t}=useTranslation()
   const [MaterialCount, setMaterialCount] = useState({});
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -56,33 +57,33 @@ export default () => {
             ]}
           />
           <GroupedCount
-            title="Primary Breakdown"
+            title={t("Primary Stations")}
             loading={loading}
             color="text-red-500"
             unit="m"
             data={[
-              { count: ( MaterialCount?.data?.primary_distribution_ducts), title: 'Primary Ducts',icon:<Icons.IconCables/> },
-              { count: ( MaterialCount?.data?.primary_distribution_cables), title: 'Primary Cables',icon:<Icons.IconDucts/> },
+              { count: ( MaterialCount?.data?.primary_distribution_ducts), title: t('Primary Ducts') },
+              { count: ( MaterialCount?.data?.primary_distribution_cables), title: t('Primary Cables') },
             ]}
           />
         <GroupedCount
-          title="Feeder Breakdown"
+          title={t("Feeder Stations")}
           loading={loading}
           color="text-emerald-500"
           unit="m"
           data={[
-            { count: MaterialCount?.data?.feeder_ducts, title: 'Feeder Ducts',icon:<Icons.IconCables/> },
-            { count:  MaterialCount?.data?.feeder_cables, title: 'Feeder Cables',icon:<Icons.IconDucts/> },
+            { count: MaterialCount?.data?.feeder_ducts, title: t('Feeder Ducts') },
+            { count:  MaterialCount?.data?.feeder_cables, title: t('Feeder Cables') },
           ]}
         />
         <GroupedCount
-          title="Distribution Breakdown"
+          title={t("Distribution Stations")}
           loading={loading}
           color="text-sky-700"
           unit="m"
           data={[
-            { count: ( MaterialCount?.data?.distribution_ducts), title: 'Distribution Ducts',icon:<Icons.IconCables/> },
-            { count: ( MaterialCount?.data?.out_distributioncables), title: 'Distribution Cables',icon:<Icons.IconDucts/> },
+            { count: ( MaterialCount?.data?.distribution_ducts), title: t('Distribution Ducts'),icon:<Icon123 /> },
+            { count: ( MaterialCount?.data?.out_distributioncables), title: t('Distribution Cables') },
           ]}
         />
 
