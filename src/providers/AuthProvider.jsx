@@ -21,6 +21,7 @@ const createAuthState = () => {
     const mounted = signal(false)
     const auth = signal(false)
     const setAuth = (value) => { auth.value = value }
+    console.log(localStorage.getItem(appConfig.localStorageKey))
     localStorage.getItem(appConfig.localStorageKey) ? auth.value = true : auth.value = false
     if (!auth.value) {
         return { auth, setAuth }
@@ -28,6 +29,8 @@ const createAuthState = () => {
 
     api.defaults.headers.common['authorization'] = `Bearer ${localStorage.getItem(appConfig.localStorageKey)}`
     const jwt = (jwtDecode(localStorage.getItem(appConfig.localStorageKey)))
+    
+    
     userDataSignal.value = jwt?.data
     getRegionList().then(({ data }) => {
         regsionListSignal.value = data

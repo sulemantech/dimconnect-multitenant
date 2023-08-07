@@ -13,11 +13,13 @@
 @tailwind utilities;
 
 body {
-    min-height: 100vh;
-    /* mobile viewport bug fix */
-    min-height: -webkit-fill-available;
+  /* mobile viewport bug fix */
+  min-height: -webkit-fill-available;
+  min-height: -moz-available;
+  min-height: 100vh;
     font-family: 'Roboto';
     letter-spacing: 0.02rem;
+    overflow: hidden;
   }
 
   
@@ -38,6 +40,10 @@ body {
       zoom: 0.6;
     }
   }
+
+
+
+  
 
  
 

@@ -26,11 +26,14 @@ export default () => {
     const pass = event.target.password.value
 
 
-    postAuth(email, pass).then(({ data }) => {
+    postAuth(email, pass).then(async ({ data }) => {
 
       authState.setAuth(true)
-      localStorage.setItem(appConfig.localStorageKey, data.token)
+     
+      await new Promise((resolve) => setTimeout(resolve, 500));
       localStorage.setItem(appConfig.localStorageRefreshKey, data.refreshToken)
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      localStorage.setItem(appConfig.localStorageKey, data.token)
       api.defaults.headers.common['authorization'] = `Bearer ${data.token}`
       setLoading(false)
       
