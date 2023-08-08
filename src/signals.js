@@ -115,6 +115,12 @@ export const addressPointsStatusVisibility = signal({
     "5": true,
     "6": true,
 })
+export const netzplanning = signal(true
+    // {"1": false,
+    // "2": false,
+    // "3": false,}
+    )
+
 
 export const addressPointsCRUDstate = signal('')
 export const visibility = signal(null)
@@ -227,7 +233,7 @@ export const infoCardVal = signal(null)
 
 export const BarrierState = signal(false)
 export const roadandwaterstate = signal(false)
-export const equipmentState = signal(false)
+// export const equipmentState = signal(false)
 
 export const costInputParams = signal({
     "cables": {

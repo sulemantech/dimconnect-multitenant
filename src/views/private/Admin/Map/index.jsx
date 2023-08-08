@@ -6,6 +6,7 @@ import PermissionWrapper from '../../../../providers/PermissionsProvider'
 
 import { PERMISSIONS } from '../../../../common'
 import { ExtraViewableControl } from './ExtraViewables'
+import { NetzPlanningMarker } from './NetzPlanningMarker'
 const Map = lazy(() => import('./Map'))
 const BaseMapControl = lazy(() => import('./BaseMapControl'))
 const OverlayControl = lazy(() => import('./OverlayControl'))
@@ -28,6 +29,7 @@ export default () => {
             <OverlayControl modal={window.innerWidth < 768} />
             <BaseMapControl modal={window.innerWidth < 768} />
             <ExtraViewableControl modal={window.innerWidth < 768} />
+            <NetzPlanningMarker />
             <PermissionWrapper permission={PERMISSIONS.Map} add>
 
               <AddControl modal={window.innerWidth < 768} />

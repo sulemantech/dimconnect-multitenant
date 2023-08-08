@@ -11,7 +11,8 @@ import {
   legendContent,
   netzplanninglegend,
   visibility,
-  equipmentState,
+  // equipmentState,
+  netzplanning,
 } from "../../../../signals";
 
 export default ({
@@ -184,7 +185,7 @@ export default ({
                     name="checkbox2"
                     checked={checkboxState.checkbox2}
                     onChange={() => {   
-                      equipmentState.value = !equipmentState.value;
+                      netzplanning.value = !netzplanning.value;
                  
                   }}
                   />
