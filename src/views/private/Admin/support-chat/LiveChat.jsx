@@ -2,6 +2,8 @@ import { useTranslation } from "react-i18next";
 import { useEffect, useState, useMemo } from "preact/hooks";
 import RocketChatWebSocket from "../../../../utils/services/RocketChatWebSocket";
 import axios from "axios";
+import { getChatRooms } from "../../../../api";
+import { userDataSignal } from "../../../../signals";
 function LiveChatSupport() {
   const { t } = useTranslation();
   const [rooms, setRooms] = useState([]);
@@ -11,11 +13,7 @@ function LiveChatSupport() {
 
   useMemo(() => {
     if (selectedRoom) {
-      axios
-        .get(`http://localhost:3000/api/v1/im.history?roomId=${selectedRoom}`, {
-          // add headers here
-          headers: { "X-Auth-Token": socket.token, "X-User-Id": socket.userId },
-        })
+      getChatRooms(selectedRoom, socket.token, socket.userId)
         .then((res) => {
           console.log("res", res);
           setMessages(res.data.messages);
@@ -31,17 +29,13 @@ function LiveChatSupport() {
   }
   useEffect(() => {
     const fetchRooms = async () => {
-      const socket1 = new RocketChatWebSocket(
-        "ws://localhost:3000/websocket",
-        handleNewMessage
-      );
+      const socket1 = new RocketChatWebSocket(handleNewMessage);
       socket1.connect();
       setSocket(socket1);
-      const hashedPassword = await RocketChatWebSocket.sha256("test12345");
-      console.log("hashedPassword:", hashedPassword);
+      const hashedPassword = await RocketChatWebSocket.sha256("3EGOc85iFxY3VoCw");
 
       try {
-        await socket1.connectAndLogin("ali.naqvi", hashedPassword);
+        await socket1.connectAndLogin(userDataSignal.value.email.split('@')[0], localStorage.getItem("cLgpssstore"));
         const fetchedRooms = await socket1.getRooms();
         console.log("fetchedRooms:", fetchedRooms);
         // socket1.subscribeToAllRoomUpdates();

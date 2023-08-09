@@ -1,8 +1,14 @@
 import axios from "axios";
 import appConfig from "./config/appConfig";
 
+// Rest api's endpoint
 const api = axios.create({
     baseURL: appConfig.backendUrl,
+});
+
+// Chat server endpoint
+const chatServer = axios.create({
+    baseURL: `${appConfig.chatServerURL}/api/v1/`,
 });
 
 export default api;
@@ -101,3 +107,32 @@ export const putTicket = (ticketId, data) => api.put(`/tickets/${ticketId}`, dat
 
 
 export const getResource = async (filename) => api.get(`/resource/${filename}`, { responseType: 'blob' });
+
+
+// ======================================= CHAT SERVER API'S =======================================
+export const getChatRooms = (roomId, token, userId) => chatServer.get(`/im.history?roomId=${roomId}`, {
+  headers: { "X-Auth-Token": token, "X-User-Id": userId
+},
+})
+
+export const LoginUser = async(user, email, password) =>{
+    try{
+    const isUser = await chatServer.post(`/login`, { user, password })
+    return isUser;
+    }catch(e){
+        console.log("error", e)
+        return RegisterUser(user, email, password);
+    }
+}
+
+export const RegisterUser = async(username, email, password) => {
+    // const adminLogin = await LoginUser(appConfig.chatServerAdminUsername, appConfig.chatServerAdminPassword);
+    const adminLogin = await chatServer.post(`/login`, { user: appConfig.chatServerAdminUsername, password:appConfig.chatServerAdminPassword })
+    const adminToken = adminLogin.data.data.authToken;
+    const adminUserId = adminLogin.data.data.userId;
+    const registerUser = await chatServer.post(`/users.create`, { username, email, password, name: username, active: true, roles: ["user"] }, {
+        headers: { "X-Auth-Token": adminToken, "X-User-Id": adminUserId },
+    })
+    console.log("registerUser", registerUser)
+    return registerUser;
+}

@@ -448,7 +448,7 @@ const EditForm = ({ item, newStruct, refreshData }) => {
                                 //     />
                                 // </div>
                                 // like create form
-                                typeof newStruct.data[attr] === 'object' ? (
+                                typeof newStruct?.data[attr] === 'object' ? (
                                     <Input.Wrapper>
                                         <Input.Label>{attr.replace('_', ' ').toUpperCase()}</Input.Label>
                                         <Select
@@ -461,7 +461,7 @@ const EditForm = ({ item, newStruct, refreshData }) => {
                                         />
                                     </Input.Wrapper>
 
-                                ) : typeof newStruct.data[attr] === 'boolean' ? (
+                                ) : typeof newStruct?.data[attr] === 'boolean' ? (
                                     <Input.Wrapper>
                                         <Input.Label>{attr.replace('_', ' ').toUpperCase()}</Input.Label>
                                         <Checkbox

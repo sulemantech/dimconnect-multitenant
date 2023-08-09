@@ -1,8 +1,8 @@
 import { w3cwebsocket as W3CWebSocket } from "websocket";
-
+import appConfig from "../../config/appConfig";
 class RocketChatWebSocket {
-  constructor(url, state) {
-    this.client = new W3CWebSocket(url);
+  constructor(state) {
+    this.client = new W3CWebSocket(appConfig.chatServerWebSocketURL);
     this.isConnected = false;
     this.token = null;
     this.userId = null;
@@ -138,6 +138,7 @@ class RocketChatWebSocket {
 
         this.client.onmessage = (message) => {
           const data = JSON.parse(message.data);
+          console.log("room data ===============>>>> ",data);
           if(data.msg === "ping"){
                 console.log("Received ping from server");
                 this.send({ msg: "pong" });
@@ -213,34 +214,32 @@ class RocketChatWebSocket {
   }
   subscribeToAllRoomUpdates() {
     if (this.isConnected) {
-        const msg = {
-            "msg": "sub",
-            "id": "unique-idsndsm,nds,mdn",
-            "name": "stream-notify-all",
-            "params":[
-                "rooms-changed",
-                false
-            ]
-        }
-        this.send(msg);
+       const msg = {
+        "msg": "sub",
+        "id": "unique-idsmfnkdjafbksdjabfdka",
+        "name": "stream-notify-user",
+        "params":[
+            // "user-id/webrtc",
+            `${this.userId}/webrtc`,
+            false
+        ]
+    };
+    this.send(msg);
 
-        this.client.onmessage = (message) => {
-            const data = JSON.parse(message.data);
-            console.log("notify all messages changed detected ======================>>>>>>>>",data)
-            if (data.msg === "changed" && data.collection === "stream-notify-all") {
-                if (data.fields && data.fields.eventName === "updateRoom") { 
-                    console.log("Room update:", data.fields);
-                    if (data.fields.type === "created") { // Check based on actual data structure
-                        console.log("New room created:", data.fields.roomDetails);
-                    }
-                }
-            }
-            if(data.msg === "ping"){
-                console.log("Received ping from server");
-                this.send({ msg: "pong" });
-            }
-            // Handle other real-time events or messages here...
-        };
+    this.client.onmessage = (message) => {
+        const data = JSON.parse(message.data);
+        console.log("new notification ================>>>",data)
+        if (data.msg === 'ping') {
+            console.log("Received ping from server");
+            this.send({ msg: "pong" });
+        }
+        if (data.msg === 'changed' && data.collection === 'stream-notify-user') {
+            console.log("Received room message:", data.fields.args[0]);
+        }
+    };
+
+
+
     } else {
         console.warn("WebSocket not connected, cannot subscribe to all room updates.");
     }
