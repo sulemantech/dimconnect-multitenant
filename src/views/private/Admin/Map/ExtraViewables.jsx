@@ -17,7 +17,7 @@ import { IconWorldDollar } from "@tabler/icons-react"
 import GeoCodingOSM from "geocoding-osm"
 import { CostInfoModalContent, CableTable, CostInfoSettings, DuctTable, HomeActivationTable, generatePDF } from "../Dashboard/CostInfo"
 import { showNotification } from "@mantine/notifications"
-
+import {Equipments} from './Equipments';
 
 const barrierLayers = {
     "road_service_case": {
@@ -164,8 +164,6 @@ const barrierLayers = {
     }
 }
 
-
-
 const RoadsAndWater = () => {
     const [visible, setVisible] = useState(false)
     const [map, setMap] = useState(null)
@@ -176,117 +174,114 @@ const RoadsAndWater = () => {
 }
 
 
-const availableLegende = {
-    5: "KollSch",
-    6: "PoP",
-    10: "Nvt"
-}
+// const availableLegende = {
+//     5: "KollSch",
+//     6: "PoP",
+//     10: "Nvt"
+// }
 
 
+// const Equipments = () => {
+//     const [visible, setVisible] = useState(false)
+//     const [map, setMap] = useState(null)
+//     const [data, setData] = useState(null)
+//     const [ags, setAgs] = useState(null)
+//     const [loading, setLoading] = useState(false)
+//     useEffect(() => {
+//         equipmentState.subscribe(setVisible)
+//         mapSignal.subscribe((value) => {
+//             if (!value) return
+//             setMap(value)
+//             value.loadImage('/icons/square.png', (error, image) => {
+//                 if (error) throw error;
+//                 value.addImage('KollSch', image);
+//             });
+//             value.loadImage('/icons/house.png', (error, image) => {
+//                 if (error) throw error;
+//                 value.addImage('PoP', image);
+//             })
+//             value.loadImage('/icons/triangle.png', (error, image) => {
+//                 if (error) throw error;
+//                 value.addImage('Nvt', image);
+//             })
+//         })
+//         dropvalue.subscribe(setAgs)
+//     }, [])
+//     useDidUpdate(() => {
+//         if (!visible) return
+//         if (!data?.[ags]) {
+
+//             if (!districts.value.hasOwnProperty('features')) return
+//             setLoading(true)
+
+//             const dd = districts.value?.features?.find(district => district.properties?.c == ags)
+//             const bboxDD = turf.bbox(dd)
+//             const epsgeur = '+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs'
+//             const epsg4326 = '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'
+
+//             const bboxDD4326 = proj4(epsg4326, epsgeur, [bboxDD[0], bboxDD[1]]).concat(proj4(epsg4326, epsgeur, [bboxDD[2], bboxDD[3]]))
+
+//             const [minX, minY, maxX, maxY] = bboxDD4326
+
+//             getEquipment(ags, minX, minY, maxX, maxY).then(res => {
 
 
-
-const Equipments = () => {
-    const [visible, setVisible] = useState(false)
-    const [map, setMap] = useState(null)
-    const [data, setData] = useState(null)
-    const [ags, setAgs] = useState(null)
-    const [loading, setLoading] = useState(false)
-    useEffect(() => {
-        equipmentState.subscribe(setVisible)
-        mapSignal.subscribe((value) => {
-            if (!value) return
-            setMap(value)
-            value.loadImage('/icons/square.png', (error, image) => {
-                if (error) throw error;
-                value.addImage('KollSch', image);
-            });
-            value.loadImage('/icons/house.png', (error, image) => {
-                if (error) throw error;
-                value.addImage('PoP', image);
-            })
-            value.loadImage('/icons/triangle.png', (error, image) => {
-                if (error) throw error;
-                value.addImage('Nvt', image);
-            })
-        })
-        dropvalue.subscribe(setAgs)
-    }, [])
-    useDidUpdate(() => {
-        if (!visible) return
-        if (!data?.[ags]) {
-
-            if (!districts.value.hasOwnProperty('features')) return
-            setLoading(true)
-
-            const dd = districts.value?.features?.find(district => district.properties?.c == ags)
-            const bboxDD = turf.bbox(dd)
-            const epsgeur = '+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs'
-            const epsg4326 = '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'
-
-            const bboxDD4326 = proj4(epsg4326, epsgeur, [bboxDD[0], bboxDD[1]]).concat(proj4(epsg4326, epsgeur, [bboxDD[2], bboxDD[3]]))
-
-            const [minX, minY, maxX, maxY] = bboxDD4326
-
-            getEquipment(ags, minX, minY, maxX, maxY).then(res => {
+//                 setData((prev) => ({ ...prev, [ags]: res.data }))
+//                 setLoading(false)
+//             })
+//         }
+//     }, [visible, ags])
 
 
-                setData((prev) => ({ ...prev, [ags]: res.data }))
-                setLoading(false)
-            })
-        }
-    }, [visible, ags])
+//     if (loading) return <LoadingOverlay visible />
+//     if (!visible) return null
+//     // return (
+//     //     <>
+//     //         {
+//     //             Object.keys(data?.[ags] ?? {}).map((key, index) => {
 
+//     //                return data?.[ags]?.[key]?.data?.map((coordinates) => {
+//     //                     return <MarkerMemo key={coordinates[0]} x={coordinates[0]} y={coordinates[1]} legendeCode={data?.[ags]?.[key]?.id} />
+//     //                 })
+//     //             })
+//     //         }
+//     //     </>
+//     // )
 
-    if (loading) return <LoadingOverlay visible />
-    if (!visible) return null
-    // return (
-    //     <>
-    //         {
-    //             Object.keys(data?.[ags] ?? {}).map((key, index) => {
+//     const geojson = useMemo(() => {
+//         if (!data?.[ags]) return null
+//         const features = Object.keys(data?.[ags] ?? {}).map((key, index) => {
+//             return data?.[ags]?.[key]?.data?.map((coordinates) => {
+//                 return {
+//                     type: "Feature",
+//                     geometry: {
+//                         type: "Point",
+//                         coordinates
+//                     },
+//                     properties: {
+//                         legende: availableLegende[data?.[ags]?.[key]?.id],
+//                     }
+//                 }
+//             })
+//         }).flat()
+//         return {
+//             type: "FeatureCollection",
+//             features
+//         }
+//     })
 
-    //                return data?.[ags]?.[key]?.data?.map((coordinates) => {
-    //                     return <MarkerMemo key={coordinates[0]} x={coordinates[0]} y={coordinates[1]} legendeCode={data?.[ags]?.[key]?.id} />
-    //                 })
-    //             })
-    //         }
-    //     </>
-    // )
-
-    const geojson = useMemo(() => {
-        if (!data?.[ags]) return null
-        const features = Object.keys(data?.[ags] ?? {}).map((key, index) => {
-            return data?.[ags]?.[key]?.data?.map((coordinates) => {
-                return {
-                    type: "Feature",
-                    geometry: {
-                        type: "Point",
-                        coordinates
-                    },
-                    properties: {
-                        legende: availableLegende[data?.[ags]?.[key]?.id],
-                    }
-                }
-            })
-        }).flat()
-        return {
-            type: "FeatureCollection",
-            features
-        }
-    })
-
-    return (
-        <Source id="equipments" type="geojson" data={geojson}>
-            <Layer id="equipments" type="symbol" layout={{
-                "icon-image": ["get", "legende"],
-                "icon-size": 0.9,
-                "icon-allow-overlap": false
-            }}
-                beforeId="addressPoints"
-            />
-        </Source>
-    )
-}
+//     return (
+//         <Source id="equipments" type="geojson" data={geojson}>
+//             <Layer id="equipments" type="symbol" layout={{
+//                 "icon-image": ["get", "legende"],
+//                 "icon-size": 0.9,
+//                 "icon-allow-overlap": false
+//             }}
+//                 beforeId="addressPoints"
+//             />
+//         </Source>
+//     )
+// }
 
 const Barriers = () => {
     const [visible, setVisible] = useState(false)

@@ -116,6 +116,30 @@ export const addressPointsStatusVisibility = signal({
     "6": true,
 })
 
+export const netzPlanningStatusVisibility = signal({
+    "5": true,
+    "6": true,
+    "10": true,
+})
+export const netzPlanningLegendContent = signal({
+    'KollSch': {
+        image_src: '/icons/square.png',
+        type: 'point',
+        code: 5
+    },
+    'PoP': {
+        image_src: '/icons/house.png',
+        type: 'point',
+        code: 6
+    },
+    'Nvt': {
+        image_src: '/icons/triangle.png',
+        type: 'point',
+        code: 10
+    },
+})
+
+
 export const addressPointsCRUDstate = signal('')
 export const visibility = signal(null)
 export const photoVisibility = signal(true)
@@ -159,7 +183,9 @@ export const legendContent = signal({
     },
 })
 
-export const netzplanninglegend = signal({
+
+
+export const statuslegend = signal({
     "Status": {
         "Finalisierung Netzdetailplanung": {
             color: "orange",
