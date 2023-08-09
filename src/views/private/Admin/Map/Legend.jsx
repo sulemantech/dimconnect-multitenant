@@ -9,7 +9,7 @@ import {
   legendContent, statuslegend, netzPlanningLegendContent, netzPlanningStatusVisibility
 } from "../../../../signals"
 
-export default ({ noAddressPoint = false, noStatus = false, noNetzPlanning = false }) => {
+export default ({ noAddressPoint = false, noStatus = false }) => {
   const { t } = useTranslation()
   const [value, setValue] = useState('Address Points')
   const [collapsed, setCollapsed] = useState(!noAddressPoint)
@@ -138,7 +138,7 @@ export default ({ noAddressPoint = false, noStatus = false, noNetzPlanning = fal
           </Accordion.Item>
         )}
 
-        {!noNetzPlanning && (<Accordion.Item value="Netzplanning" className="text-xs">
+        <Accordion.Item value="Netzplanning" className="text-xs">
           <Accordion.Control value={'Netzplanning'} className="text-xs last:p-0">
             Netzplanning
           </Accordion.Control>
@@ -154,13 +154,13 @@ export default ({ noAddressPoint = false, noStatus = false, noNetzPlanning = fal
                     checked={netzPlanningStatusVisibility.value[item.code]}
                     onChange={() => {
                       console.log('netzPlanningStatusVisibility before change:', netzPlanningStatusVisibility.value);
-
+              
                       netzPlanningStatusVisibility.value = {
                         ...netzPlanningStatusVisibility.value,
                         [item.code]: !netzPlanningStatusVisibility.value[item.code],
                       };
                       console.log('netzPlanningStatusVisibility after change:', netzPlanningStatusVisibility.value);
-
+              
                     }}
                     className="mr-2"
                   />
@@ -188,7 +188,7 @@ export default ({ noAddressPoint = false, noStatus = false, noNetzPlanning = fal
             </div>
           </Accordion.Panel>
         </Accordion.Item>
-        )}
+
       </Accordion>
     </div>
   )

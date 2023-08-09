@@ -1,3 +1,6 @@
+// Must be the first import
+import "preact/debug";
+
 import 'maplibre-gl/dist/maplibre-gl.css';
 
 import { LoadingOverlay, MantineProvider } from '@mantine/core';
