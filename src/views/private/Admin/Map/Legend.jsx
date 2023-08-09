@@ -184,11 +184,25 @@ export default ({
                   <Checkbox
                     name="checkbox2"
                     checked={checkboxState.checkbox2}
-                    onChange={() => {   
-                      netzplanning.value = !netzplanning.value;
+                    onChange={(e) => {   
+                      // console.log("triangle changed ====================>>>>>>", e.target.checked)
+                      // netzplanning.value = !netzplanning.value;
+                      netzplanning.value = {
+                        ...netzplanning.value,
+                        ["10"]: e.target.checked
+                      }
                  
                   }}
                   />
+                  {/* <input type="checkbox" checked={netzplanning.value["10"]} onChange={(e)=>{
+                    console.log(e.target.checked)
+                    console.log(netzplanning.value)
+                    netzplanning.value = {
+                      ...netzplanning.value,
+                      ["10"]: e.target.checked
+                    }
+                  }}
+                  /> */}
                   <img src="/yellowtriangle.svg" alt="" />
                 </div>
                 <div className="flex space-x-2">
@@ -213,7 +227,15 @@ export default ({
                   <Checkbox
                     name="checkbox4"
                     checked={checkboxState.checkbox4}
-                    onChange={handleCheckboxChange}
+                    onChange={(e) => {   
+                      // console.log("triangle changed ====================>>>>>>", e.target.checked)
+                      // netzplanning.value = !netzplanning.value;
+                      netzplanning.value = {
+                        ...netzplanning.value,
+                        ["5"]: e.target.checked
+                      }
+                 
+                  }}
                   />
                   <img src="/redsqurewline.svg" alt="" />
                 </div>
@@ -242,7 +264,15 @@ export default ({
                   <Checkbox
                     name="checkbox6"
                     checked={checkboxState.checkbox6}
-                    onChange={handleCheckboxChange}
+                    onChange={(e) => {   
+                      // console.log("triangle changed ====================>>>>>>", e.target.checked)
+                      // netzplanning.value = !netzplanning.value;
+                      netzplanning.value = {
+                        ...netzplanning.value,
+                        ["6"]: e.target.checked
+                      }
+                 
+                  }}
                   />
                   <img src="/homeblue.svg" alt="" />
                 </div>

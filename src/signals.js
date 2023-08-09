@@ -115,10 +115,12 @@ export const addressPointsStatusVisibility = signal({
     "5": true,
     "6": true,
 })
-export const netzplanning = signal(true
-    // {"1": false,
-    // "2": false,
-    // "3": false,}
+export const netzplanning = signal(
+    {
+
+    "5": false,
+    "6": false,
+    "10": false,}
     )
 
 
