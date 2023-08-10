@@ -43,7 +43,7 @@
     "embla-carousel-react": "^8.0.0-rc02",
     "geocoding-osm": "^0.1.0",
     "i18next": "^23.2.11",
-    "i18next-browser-languagedetector": "2.0.0",
+    "i18next-browser-languagedetector": "^2.0.0",
     "i18next-http-backend": "1.0.15",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.5.29",
