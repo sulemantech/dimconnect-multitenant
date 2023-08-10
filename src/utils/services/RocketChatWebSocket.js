@@ -35,7 +35,7 @@ class RocketChatWebSocket {
   // Handle connection events
   connect() {
     this.client.onopen = () => {
-      console.log("WebSocket Client Connected");
+      // console.log("WebSocket Client Connected");
       // You can send a message here if needed
       this.send({ msg: "connect", version: "1", support: ["1"] });
     //   this.pingInterval = setInterval(() => {
@@ -45,29 +45,29 @@ class RocketChatWebSocket {
 
     this.client.onmessage = (message) => {
         const data = JSON.parse(message.data);
-        console.log(message);
+        // console.log(message);
         if (data.msg === "ping") {
             // This is where you would handle the custom ping message.
-            console.log("Received ping from server");
+            // console.log("Received ping from server");
             // Optionally, send a response if the server expects one.
             this.send({ msg: "pong" });
           }
         if (data.msg === "connected") {
           this.isConnected = true;
         } else if (data.msg === "changed" && data.collection === "stream-room-messages") {
-          console.log("Received room message:", data.fields.args[0]);
+          // console.log("Received room message:", data.fields.args[0]);
         } else {
-          console.log("Received:", message.data);
+          // console.log("Received:", message.data);
         }
       };
 
     this.client.onclose = () => {
-      console.log("WebSocket client disconnected");
+      // console.log("WebSocket client disconnected");
       this.isConnected = false;
     };
 
     this.client.onerror = (error) => {
-      console.error("Connection Error:", error);
+      // console.error("Connection Error:", error);
     };
   }
 
@@ -76,16 +76,14 @@ class RocketChatWebSocket {
     if (this.isConnected || data.msg === "connect") {
       return this.client.send(JSON.stringify(data));
     } else {
-      console.warn(
-        "Trying to send message without handshake. Wait for connection."
-      );
+      // console.warn("Trying to send message without handshake. Wait for connection.");
     }
   }
   async connectAndLogin(username, password) {
     return new Promise((resolve, reject) => {
       this.client.onmessage = (message) => {
         const data = JSON.parse(message.data);
-        console.log(message);
+        // console.log(message);
         if (data.msg === "connected") {
           this.isConnected = true;
           // Perform login
@@ -104,10 +102,10 @@ class RocketChatWebSocket {
           );
           this.client.onmessage = (message) => {
             const data = JSON.parse(message.data);
-            console.log("user data ===============>>>> ",data);
+            // console.log("user data ===============>>>> ",data);
             if(data.msg === "added" && data.collection === "users"){
                 this.username = data.fields.username;
-                console.log("username ===============>>>> ",this.username);
+                // console.log("username ===============>>>> ",this.username);
             }
             if (data.msg === "result" && data.id === "42" && data.result) {
               this.token = data.result.token;
@@ -143,13 +141,13 @@ class RocketChatWebSocket {
 
         this.client.onmessage = (message) => {
           const data = JSON.parse(message.data);
-          console.log("room data ===============>>>> ",data);
+          // console.log("room data ===============>>>> ",data);
           if(data.msg === "changed" && data.collection === "stream-room-messages"){
-            console.log("Received room message:", data.fields.args[0])
+            // console.log("Received room message:", data.fields.args[0])
             this.state(data.fields.args[0]);
         }
           if(data.msg === "ping"){
-                console.log("Received ping from server");
+                // console.log("Received ping from server");
                 this.send({ msg: "pong" });
                 // this.getRooms();
             }
@@ -180,16 +178,16 @@ class RocketChatWebSocket {
       try{
       this.send(msg);
         // this.send(msg2);
-        console.log(this.token)
+        // console.log(this.token)
         this.client.onmessage = (message) => {
             const data = JSON.parse(message.data);
-            console.log(data);
+            // console.log(data);
             // if (data.msg === 'ping) 
             // this.rooms(this.token, this.userId);
             if(data.msg === "changed" && data.collection === "stream-room-messages"){
-                // console.log("Received room message:", data.fields.args[0]);
+                // // console.log("Received room message:", data.fields.args[0]);
                 // set mesaage to state
-                console.log("Received room message:", data)
+                // console.log("Received room message:", data)
                 if(data.fields.args[0].rid === this.selectedRoom){
                 this.state(data);
                 }
@@ -199,7 +197,7 @@ class RocketChatWebSocket {
                 // this.messages = [...this.messages,data.fields.args[0]];
             }
             if(data.msg === "ping"){
-                console.log("Received ping from server");
+                // console.log("Received ping from server");
                 this.send({ msg: "pong" });
                 // this.getRooms(this.token, this.userId);
                 this.rooms(this.token, this.userId);
@@ -207,17 +205,17 @@ class RocketChatWebSocket {
             
             
             if (data.msg === "result" && data.id === "11") {
-                console.log(data.result);
+                // console.log(data.result);
             }
             }
 
       }
       catch(err){
-        console.log(err);
+        // console.log(err);
       }
 
     } else {
-      console.warn("WebSocket not connected, cannot subscribe to room.");
+      // console.warn("WebSocket not connected, cannot subscribe to room.");
     }
   }
   subscribeToAllRoomUpdates() {
@@ -236,21 +234,21 @@ class RocketChatWebSocket {
 
     this.client.onmessage = (message) => {
         const data = JSON.parse(message.data);
-        console.log("new notification ================>>>",data)
+        // console.log("new notification ================>>>",data)
         if (data.msg === 'ping') {
-            console.log("Received ping from server");
+            // console.log("Received ping from server");
             this.send({ msg: "pong" });
             this.rooms(this.token, this.userId);
         }
         if (data.msg === 'changed' && data.collection === 'stream-notify-user') {
-            console.log("Received room message:", data);
+            // console.log("Received room message:", data);
         }
     };
 
 
 
     } else {
-        console.warn("WebSocket not connected, cannot subscribe to all room updates.");
+        // console.warn("WebSocket not connected, cannot subscribe to all room updates.");
     }
 }
 }

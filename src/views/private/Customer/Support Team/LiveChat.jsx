@@ -32,7 +32,7 @@ function LiveChat() {
           localStorage.getItem("cLgpssstore")
         );
         const fetchedRooms = await socket1.getRooms();
-        console.log("fetchedRooms:", fetchedRooms);
+        // console.log("fetchedRooms:", fetchedRooms);
         // socket1.subscribeToAllRoomUpdates();
         // setRooms(fetchedRooms);
       } catch (error) {
@@ -79,7 +79,7 @@ setTimeout(() => {
       }
     } else {
       sendMessage("@superadmin", msg, socket.token, socket.userId).then((res) => {
-        console.log(res);
+        // console.log(res);
         setRoom(res.data.message.rid);
         socket.selectRoom(res.data.message.rid);
         setMessages((prevMessages) => [...prevMessages, res.data.message]);

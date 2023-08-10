@@ -70,7 +70,7 @@ function LiveChatSupport() {
 
   const handleNewRooms = (token, userId) => {
     getRooms(token, userId).then((res) => {
-      console.log("res", res.data);
+      // console.log("res", res.data);
       rooms.length !== res.data.update.length && setRooms(res.data.update);
     });
   };
@@ -90,7 +90,7 @@ function LiveChatSupport() {
           localStorage.getItem("cLgpssstore")
         );
         const fetchedRooms = await socket1.getRooms();
-        console.log("fetchedRooms:", fetchedRooms);
+        // console.log("fetchedRooms:", fetchedRooms);
         // socket1.subscribeToAllRoomUpdates();
         // setRooms(fetchedRooms);
       } catch (error) {
@@ -172,7 +172,7 @@ function LiveChatSupport() {
             hover:ease-in-out hover:transform hover:scale-105 hover:transition-all
             "
                     onClick={() => {
-                      console.log("item", selectedRoom);
+                      // console.log("item", selectedRoom);
                       // selectedRoom !== item._id &&
                       // setSelectedRoom(
                       //   // item.lastMessage ? item.lastMessage.rid : item._id
