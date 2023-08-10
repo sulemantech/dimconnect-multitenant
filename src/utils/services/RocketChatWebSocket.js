@@ -1,7 +1,7 @@
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import appConfig from "../../config/appConfig";
 class RocketChatWebSocket {
-  constructor(state) {
+  constructor(state, rooms) {
     this.client = new W3CWebSocket(appConfig.chatServerWebSocketURL);
     this.isConnected = false;
     this.token = null;
@@ -9,6 +9,11 @@ class RocketChatWebSocket {
     this.username = null;
     this.messages = [];
     this.state = state;
+    this.rooms = rooms || function(a, b){};
+    this.selectedRoom = null;
+  }
+  selectRoom(room) {
+    this.selectedRoom = room;
   }
   static async sha256(message) {
     // Convert the string to an array buffer
@@ -139,11 +144,19 @@ class RocketChatWebSocket {
         this.client.onmessage = (message) => {
           const data = JSON.parse(message.data);
           console.log("room data ===============>>>> ",data);
+          if(data.msg === "changed" && data.collection === "stream-room-messages"){
+            console.log("Received room message:", data.fields.args[0])
+            this.state(data.fields.args[0]);
+        }
           if(data.msg === "ping"){
                 console.log("Received ping from server");
                 this.send({ msg: "pong" });
+                // this.getRooms();
             }
           if (data.msg === "result" && data.id === "43") {
+            setTimeout(() => {
+            this.rooms(this.token, this.userId);
+            },2000)
             resolve(data.result);
           }
         };
@@ -160,22 +173,9 @@ class RocketChatWebSocket {
     if (this.isConnected) {
       const msg = {
         msg: "sub",
-        id: "uniqueIdForThisSubscription", // Consider using a unique id generator
+        id: `uniqueIdForThisSubscription${roomId}`, // Consider using a unique id generator
         name: "stream-room-messages",
         params: [roomId, true],
-      };
-     const msg2 = {
-        msg: "method",
-        method: "sendMessageLivechat",
-        params: [
-          {
-            _id: "XqEEHhQHvhFmK3Zoz",
-            rid: "4j9AHuKMrk7yax58dX8b3frthSkisvwzQZ",
-            msg: "test",
-            token: this.token,
-          },
-        ],
-        id: "11",
       };
       try{
       this.send(msg);
@@ -185,16 +185,24 @@ class RocketChatWebSocket {
             const data = JSON.parse(message.data);
             console.log(data);
             // if (data.msg === 'ping) 
+            // this.rooms(this.token, this.userId);
             if(data.msg === "changed" && data.collection === "stream-room-messages"){
                 // console.log("Received room message:", data.fields.args[0]);
                 // set mesaage to state
-                console.log("Received room message:", data.fields.args[0])
-                this.state(data.fields.args[0]);
+                console.log("Received room message:", data)
+                if(data.fields.args[0].rid === this.selectedRoom){
+                this.state(data);
+                }
+                else{
+                  this.state(data, true);
+                }
                 // this.messages = [...this.messages,data.fields.args[0]];
             }
             if(data.msg === "ping"){
                 console.log("Received ping from server");
                 this.send({ msg: "pong" });
+                // this.getRooms(this.token, this.userId);
+                this.rooms(this.token, this.userId);
             }
             
             
@@ -232,9 +240,10 @@ class RocketChatWebSocket {
         if (data.msg === 'ping') {
             console.log("Received ping from server");
             this.send({ msg: "pong" });
+            this.rooms(this.token, this.userId);
         }
         if (data.msg === 'changed' && data.collection === 'stream-notify-user') {
-            console.log("Received room message:", data.fields.args[0]);
+            console.log("Received room message:", data);
         }
     };
 
