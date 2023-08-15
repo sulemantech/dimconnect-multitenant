@@ -37,7 +37,7 @@ function LiveChatSupport() {
 
 const firstMessageRef = useRef(null);
 
-// Then, create an Intersection Observer instance
+// create an Intersection Observer instance
 const observer = new IntersectionObserver((entries) => {
   // If the first message is intersecting with the viewport, call your function
   if (limitReached === false) {
@@ -47,11 +47,17 @@ const observer = new IntersectionObserver((entries) => {
       setOffset((prevOffset) => prevOffset + 20);
     }
   }
+  else {
+    console.warn("limit reached")
+  }
 });
 
   // get previous messages of selected room
   useMemo(() => {
-    if (selectedRoom) {
+    console.log("selectedRoom", selectedRoom)
+    console.log("limitReached", limitReached)
+    console.log("offset", offset)
+    if (selectedRoom && limitReached === false) {
       // setLimitReached(false);
       getChatRoomMessages(selectedRoom, socket.token, socket.userId, offset)
         .then((res) => {
@@ -66,6 +72,7 @@ const observer = new IntersectionObserver((entries) => {
             setLimitReached(true);
             return;
           }
+          else {
           let temp = [...res.data.messages, ...messages];
           // sort them on the basis of _updatedAt
           temp = temp.sort(
@@ -75,6 +82,7 @@ const observer = new IntersectionObserver((entries) => {
           setTimeout(() => {
             messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
           }, 200);
+        }
         })
         .catch((err) => {
           console.log("err", err);
