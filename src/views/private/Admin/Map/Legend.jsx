@@ -11,7 +11,6 @@ import {
   legendContent,
   netzplanninglegend,
   visibility,
-  // equipmentState,
   netzplanning,
 } from "../../../../signals";
 
@@ -20,35 +19,41 @@ export default ({
   noStatus = false,
   noNetzplanung = false,
 }) => {
-  const checkboxKeys = Array.from(
-    { length: 9 },
-    (_, index) => `checkbox${index + 1}`
+  const [data, setData] = useState({});
+  useEffect(() => {
+    setData(JSON.parse(visibility.value) || {});
+  }, [visibility.value]);
+  const [netzplanningCheckbox, setnetzplanningCheckbox] = useState(
+    netzplanning.value[10] && netzplanning.value[5] && netzplanning.value[6] && addressPointsStatusVisibility.value[4]
   );
-  const [checkAll, setCheckAll] = useState(false);
-  const [checkboxState, setCheckboxState] = useState({});
-  const handleCheckAll = (event) => {
-    const isChecked = event.target.checked;
-    setCheckAll(isChecked);
-    const newCheckboxState = {};
-    checkboxKeys.forEach((key) => {
-      newCheckboxState[key] = isChecked;
-      // let lineyellow = data;
-      // lineyellow[Object.keys(data)[1]] = {
-      //   ...lineyellow[Object.keys(data)[1]],
-      //   visible: !lineyellow[Object.keys(data)[1]].visible
-      // };
-      // visibility.value = JSON.stringify(lineyellow);
-    });
-    setCheckboxState(newCheckboxState);
+  const checkAll = (e) => {
+    const isChecked = e.target.checked; 
+    addressPointsStatusVisibility.value = {
+      ...addressPointsStatusVisibility.value,
+      4: isChecked 
+    };
+    
+    netzplanning.value = {
+      10: e.target.checked,
+      5: e.target.checked,
+      6: e.target.checked,
+    };
+    const toggleVisibility = (index) => {
+      data[Object.keys(data)[index]] = {
+        ...data[Object.keys(data)[index]],
+        visible: e.target.checked
+      };
+    };
+    
+    toggleVisibility(1); 
+    toggleVisibility(6); 
+    toggleVisibility(10); 
+    visibility.value = JSON.stringify(data);
+    
+    setnetzplanningCheckbox(e.target.checked);
   };
-
-  const handleCheckboxChange = (event) => {
-    const { name, checked } = event.target;
-    setCheckboxState((prev) => ({
-      ...prev,
-      [name]: checked,
-    }));
-  };
+  const obj={"1":"apple"}
+  console.log(obj)
   const { t } = useTranslation();
   const [value, setValue] = useState("Address Points");
   const [collapsed, setCollapsed] = useState(!noAddressPoint);
@@ -70,11 +75,6 @@ export default ({
         {t("Legend")}
       </div>
     );
-
-  const [data, setData] = useState({});
-  useEffect(() => {
-    setData(JSON.parse(visibility.value) || {});
-  }, [visibility.value]);
 
   return (
     <div className="relative text-xs flex flex-col p-2 shadow-md rounded-md mt-2 bg-white overflow-scroll">
@@ -102,7 +102,19 @@ export default ({
           <Accordion.Item value="Address Points" className="text-xs">
             <div className="flex flex-1 space-x-4 ">
               <span className="mt-3 ">
-                <Checkbox className="" />
+                <Checkbox 
+                checked={  [1, 2, 3, 5, 6].every(index => addressPointsStatusVisibility.value[index])}
+               onChange={(e) => {
+                const indicesToToggle = [1,2, 3, 4, 5, 6];
+                const updatedVisibility = { ...addressPointsStatusVisibility.value };
+              
+                indicesToToggle.forEach(index => {
+                  updatedVisibility[index] = e.target.checked;
+                });
+              
+                addressPointsStatusVisibility.value = updatedVisibility;
+              }}
+              />
               </span>
               <Accordion.Control
                 className="text-xs last:p-0"
@@ -125,7 +137,9 @@ export default ({
                         };
                       }}
                     >
-                      <Checkbox />
+                      <Checkbox
+                        checked={addressPointsStatusVisibility.value[item.code]}
+                      />
                       <div
                         className={`w-4 h-4 rounded-full mr-2`}
                         style={{
@@ -157,7 +171,10 @@ export default ({
           <Accordion.Item value="Netzplanung" className="text-xs">
             <div className="flex flex-row space-x-1">
               <span className="mt-3">
-                <Checkbox checked={checkAll} onChange={handleCheckAll} />
+                <Checkbox
+                  checked={netzplanningCheckbox}
+                  onChange={checkAll}
+                />
               </span>
               <Accordion.Control
                 className="text-xs last:p-0"
@@ -168,47 +185,32 @@ export default ({
             </div>
             <Accordion.Panel>
               <div className="flex flex-col space-y-1">
-                <div className="flex space-x-2">
-                  <Checkbox
-                    name="checkbox1"
-                    checked={checkboxState.checkbox1}
-                    onChange={()=>{ addressPointsStatusVisibility.value = {
-                      ...addressPointsStatusVisibility.value,
-                      [4]:
-                        !addressPointsStatusVisibility.value[4],}
-                    }}
-                  />
-                  <img src="/black.svg" alt="" />
-                </div>
+              
                 <div className="flex space-x-2">
                   <Checkbox
                     name="checkbox2"
-                    checked={checkboxState.checkbox2}
-                    onChange={(e) => {   
-                      // console.log("triangle changed ====================>>>>>>", e.target.checked)
-                      // netzplanning.value = !netzplanning.value;
+                    checked={netzplanning.value["10"]}
+                    onChange={(e) => {
                       netzplanning.value = {
                         ...netzplanning.value,
-                        ["10"]: e.target.checked
-                      }
-                 
-                  }}
+                        ["10"]: e.target.checked,
+                      };
+                    }}
                   />
-                  {/* <input type="checkbox" checked={netzplanning.value["10"]} onChange={(e)=>{
-                    console.log(e.target.checked)
-                    console.log(netzplanning.value)
-                    netzplanning.value = {
-                      ...netzplanning.value,
-                      ["10"]: e.target.checked
-                    }
-                  }}
-                  /> */}
-                  <img src="/yellowtriangle.svg" alt="" />
+                  <img
+                    title="Yellowtriangle"
+                    src="/yellowtriangle.svg"
+                    alt=""
+                  />
                 </div>
                 <div className="flex space-x-2">
                   <Checkbox
                     name="checkbox3"
-                    checked={checkboxState.checkbox3}
+                    checked={
+                      data[Object.keys(data)[1]]
+                        ? data[Object.keys(data)[1]].visible
+                        : false
+                    }
                     onChange={() => {
                       let lineyellow = data;
                       lineyellow[Object.keys(data)[1]] = {
@@ -216,33 +218,36 @@ export default ({
                         visible: !lineyellow[Object.keys(data)[1]].visible,
                       };
                       visibility.value = JSON.stringify(lineyellow);
-                      handleCheckboxChange(!checkboxState.checkbox3);
-                      // Toggle the checkbox state
                     }}
-                  />
+                    />
 
-                  <img src="/yellowline.svg" alt="" />
+                  <img
+                    title="Distribution Cables"
+                    src="/yellowline.svg"
+                    alt=""
+                    />
                 </div>
                 <div className="flex space-x-2">
                   <Checkbox
                     name="checkbox4"
-                    checked={checkboxState.checkbox4}
-                    onChange={(e) => {   
-                      // console.log("triangle changed ====================>>>>>>", e.target.checked)
-                      // netzplanning.value = !netzplanning.value;
+                    checked={netzplanning.value["5"]}
+                    onChange={(e) => {
                       netzplanning.value = {
                         ...netzplanning.value,
-                        ["5"]: e.target.checked
-                      }
-                 
-                  }}
+                        ["5"]: e.target.checked,
+                      };
+                    }}
                   />
-                  <img src="/redsqurewline.svg" alt="" />
+                  <img title="Red Squre" src="/redsqurewline.svg" alt="" />
                 </div>
                 <div className="flex space-x-2">
                   <Checkbox
                     name="checkbox5"
-                    checked={checkboxState.checkbox5}
+                    checked={
+                      data[Object.keys(data)[6]]
+                        ? data[Object.keys(data)[6]].visible
+                        : false
+                    }
                     onChange={() => {
                       let linepurple = data;
                       linepurple[Object.keys(data)[6]] = {
@@ -250,92 +255,71 @@ export default ({
                         visible: !linepurple[Object.keys(data)[6]].visible,
                       };
                       visibility.value = JSON.stringify(linepurple);
-                      setCheckboxState((prev) => ({
-                        ...prev,
-                        checkbox5: checked,
-                      }));
-                      // handleCheckboxChange(!checkboxState.checkbox5);
-                      // Toggle the checkbox state
                     }}
                   />
-                  <img src="/redline.svg" alt="" />
+                  <img title="Feeder Cables" src="/redline.svg" alt="" />
                 </div>
                 <div className="flex space-x-2">
                   <Checkbox
                     name="checkbox6"
-                    checked={checkboxState.checkbox6}
-                    onChange={(e) => {   
-                      // console.log("triangle changed ====================>>>>>>", e.target.checked)
-                      // netzplanning.value = !netzplanning.value;
+                    checked={netzplanning.value["6"]}
+                    onChange={(e) => {
                       netzplanning.value = {
                         ...netzplanning.value,
-                        ["6"]: e.target.checked
-                      }
-                 
-                  }}
+                        ["6"]: e.target.checked,
+                      };
+                    }}
                   />
-                  <img src="/homeblue.svg" alt="" />
+                  <img title="Homes" src="/homeblue.svg" alt="" />
                 </div>
                 <div className="flex space-x-2">
                   <Checkbox
                     name="checkbox7"
-                    checked={checkboxState.checkbox7}
+                    checked={
+                      data[Object.keys(data)[10]]
+                        ? data[Object.keys(data)[10]].visible
+                        : false
+                    }
                     onChange={() => {
-                      let linepurple = data;
-                      linepurple[Object.keys(data)[10]] = {
-                        ...linepurple[Object.keys(data)[10]],
-                        visible: !linepurple[Object.keys(data)[10]].visible,
+                      let lineblue = data;
+                      lineblue[Object.keys(data)[10]] = {
+                        ...lineblue[Object.keys(data)[10]],
+                        visible: !lineblue[Object.keys(data)[10]].visible,
                       };
-                      visibility.value = JSON.stringify(linepurple);
-                      setCheckboxState((prev) => ({
-                        ...prev,
-                        checkbox7: checked,
-                      }));
-                      // handleCheckboxChange(!checkboxState.checkbox5);
-                      // Toggle the checkbox state
+                      visibility.value = JSON.stringify(lineblue);
                     }}
                   />
-                  <img src="/blueline.svg" alt="" />
-                </div>
-                <div className="flex space-x-2">
-                  <Checkbox
-                    name="checkbox8"
-                    checked={checkboxState.checkbox8}
-                    onChange={handleCheckboxChange}
+                  <img
+                    title="PrimDistribution Cables"
+                    src="/blueline.svg"
+                    alt=""
                   />
-                  <img src="/blackline.svg" alt="" />
-                </div>
-                <div className="flex space-x-2">
-                  <Checkbox
-                    name="checkbox9"
-                    checked={checkboxState.checkbox9}
-                    onChange={handleCheckboxChange}
-                  />
-                  <img src="/locationpointerblue.svg" alt="" />
-                </div>
-                <br />
-                <div className="flex space-x-2">
-                  <Checkbox />
-                  <h4 className=" text-base">Photos</h4>
-                </div>
-                <div className="flex space-x-2">
-                  <Checkbox />
-                  <h4 className=" text-base">Barrieren</h4>
-                </div>
-                <div className="flex space-x-2">
-                  <Checkbox />
-                  <h4 className=" text-base lowercase">StatusÜbersicht</h4>
-                </div>
-                <div className="flex space-x-2">
-                  <Checkbox />
-                  <h4 className=" text-base">Adressen mit Versorgung</h4>
-                </div>
-                <div className="flex space-x-2">
-                  <Checkbox />
-                  <h4 className=" text-base">Gewerbegebiete</h4>
                 </div>
               </div>
             </Accordion.Panel>
+            <div className="flex flex-col space-y-1">
+              <div className="flex space-x-2">
+                <Checkbox />
+                <p className=" text-xs">Photos</p>
+              </div>
+              <div className="flex space-x-2">
+                <Checkbox />
+                <p className=" text-xs">Barrieren</p>
+              </div>
+              <div className="flex space-x-2">
+                <Checkbox />
+                <p className=" text-xs lowercase">StatusÜbersicht</p>
+              </div>
+              <div className="flex space-x-2">
+                <Checkbox />
+                <p className=" text-xs">Adressen mit Versorgung</p>
+              </div>
+              <div className="flex space-x-2">
+                <Checkbox />
+                <p className=" text-xs">Gewerbegebiete</p>
+              </div>
+            </div>
+            <br />
           </Accordion.Item>
         )}
         {!noStatus && (
