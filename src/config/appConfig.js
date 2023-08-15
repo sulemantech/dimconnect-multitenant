@@ -5,5 +5,9 @@ export default {
     mediaServerURL: "https://dim-streaming-dev.hiwifipro.com/media/",
     localStorageKey: `hf8f8fj3dj193jf913fj91f91jf9`,
     localStorageKeyWebview: `hf8f8fj3dj193jf913fj91f91jf9localStorageKeyWebview`,
-    localStorageRefreshKey: `hf8f8fj3dj193jf913fj91f91jf9_R`
+    localStorageRefreshKey: `hf8f8fj3dj193jf913fj91f91jf9_R`,
+    chatServerURL: "https://dim-chat-dev.hiwifipro.com",
+    chatServerWebSocketURL: "ws://dim-chat-dev.hiwifipro.com/websocket",
+    chatServerAdminUsername: "niko",
+    chatServerAdminPassword: "3EGOc85iFxY3VoCw",
 }
