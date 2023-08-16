@@ -12,6 +12,10 @@ import {
   netzplanninglegend,
   visibility,
   netzplanning,
+  photoVisibility, 
+  videoVisibility,
+  BarrierState,
+  roadandwaterstate,
 } from "../../../../signals";
 
 export default ({
@@ -27,12 +31,6 @@ export default ({
     netzplanning.value[10] && netzplanning.value[5] && netzplanning.value[6] && addressPointsStatusVisibility.value[4]
   );
   const checkAll = (e) => {
-    const isChecked = e.target.checked; 
-    addressPointsStatusVisibility.value = {
-      ...addressPointsStatusVisibility.value,
-      4: isChecked 
-    };
-    
     netzplanning.value = {
       10: e.target.checked,
       5: e.target.checked,
@@ -52,8 +50,6 @@ export default ({
     
     setnetzplanningCheckbox(e.target.checked);
   };
-  const obj={"1":"apple"}
-  console.log(obj)
   const { t } = useTranslation();
   const [value, setValue] = useState("Address Points");
   const [collapsed, setCollapsed] = useState(!noAddressPoint);
@@ -299,16 +295,24 @@ export default ({
             </Accordion.Panel>
             <div className="flex flex-col space-y-1">
               <div className="flex space-x-2">
-                <Checkbox />
+                <Checkbox checked={photoVisibility.value} onChange={()=>{photoVisibility.value=!photoVisibility.value}} />
                 <p className=" text-xs">Photos</p>
               </div>
               <div className="flex space-x-2">
-                <Checkbox />
+                <Checkbox checked={videoVisibility.value} onChange={()=>{videoVisibility.value =!videoVisibility.value}} />
+                <p className=" text-xs ">Videos</p>
+              </div>
+              <div className="flex space-x-2">
+                <Checkbox checked={BarrierState.value} onChange={()=>{BarrierState.value=!BarrierState.value}} />
                 <p className=" text-xs">Barrieren</p>
               </div>
               <div className="flex space-x-2">
+                <Checkbox checked={!roadandwaterstate.value} onChange={()=>{roadandwaterstate.value=!roadandwaterstate.value}}  />
+                <p className=" text-xs">Roads and Waterways</p>
+              </div>
+              <div className="flex space-x-2">
                 <Checkbox />
-                <p className=" text-xs lowercase">StatusÜbersicht</p>
+                <p className=" text-xs">StatusÜbersicht</p>
               </div>
               <div className="flex space-x-2">
                 <Checkbox />

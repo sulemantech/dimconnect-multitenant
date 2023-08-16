@@ -232,7 +232,7 @@ export const videoVisibility = signal(true);
 
 export const infoCardVal = signal(null);
 
-export const BarrierState = signal(false);
+export const BarrierState = signal(true);
 export const roadandwaterstate = signal(false);
 // export const equipmentState = signal(false)
 
