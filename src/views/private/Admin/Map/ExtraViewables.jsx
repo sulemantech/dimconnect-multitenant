@@ -159,25 +159,55 @@ const barrierLayers = {
 };
 
 const RoadsAndWater = () => {
-  const [visible, setVisible] = useState(false);
-  const [map, setMap] = useState(null);
-  useEffect(() => roadandwaterstate.subscribe(setVisible), []);
+  const [visible, setVisible] = useState(true);
+  const [map, setMap] = useState();
+
   useEffect(() => {
-    mapSignal.subscribe(setMap);
+    const subscription = roadandwaterstate.subscribe(setVisible);
+    return () => subscription.unsubscribe();
   }, []);
-  useDidUpdate(
-    () =>
-      Object.keys(barrierLayers)?.map((key, index) =>
+
+  useEffect(() => {
+    const mapSubscription = mapSignal.subscribe(setMap);
+    return () => mapSubscription.unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    if (map && barrierLayers) {
+      Object.keys(barrierLayers).forEach((key) => {
         map.setPaintProperty(
           key,
           "line-color",
           visible ? "red" : barrierLayers[key].color
-        )
-      ),
-    [visible]
-  );
+        );
+      });
+    }
+  }, [map, visible]);
+
   return null;
 };
+
+
+// const RoadsAndWater = () => {
+//   const [visible, setVisible] = useState(true);
+//   const [map, setMap] = useState();
+//   useEffect(() => roadandwaterstate.subscribe(setVisible), []);
+//   useEffect(() => {
+//     mapSignal.subscribe(setMap);
+//   }, []);
+//   useDidUpdate(
+//     () =>
+//       Object.keys(barrierLayers)?.map((key, index) =>
+//         map.setPaintProperty(
+//           key,
+//           "line-color",
+//           visible ? "red" : barrierLayers[key].color
+//         )
+//       ),
+//     [visible]
+//   );
+//   return null;
+// };
 
 // const availableLegende = {
 //     5: "KollSch",

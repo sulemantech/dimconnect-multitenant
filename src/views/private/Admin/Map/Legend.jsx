@@ -307,7 +307,7 @@ export default ({
                 <p className=" text-xs">Barrieren</p>
               </div>
               <div className="flex space-x-2">
-                <Checkbox checked={!roadandwaterstate.value} onChange={()=>{roadandwaterstate.value=!roadandwaterstate.value}}  />
+                <Checkbox checked={roadandwaterstate.value} onChange={()=>{roadandwaterstate.value=!roadandwaterstate.value}}  />
                 <p className=" text-xs">Roads and Waterways</p>
               </div>
               <div className="flex space-x-2">
