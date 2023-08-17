@@ -26,10 +26,28 @@ export default () => {
       .then(async ({ data }) => {
         authState.setAuth(true);
         const username = email.split("@")[0];
-        LoginUser(username, email, pass)
-          .then(async (res) => {
-            console.log(res);
-            const msgBuffer = new TextEncoder().encode(pass);
+        const chatServerUser = await LoginUser(username, email, pass)
+          // .then(async (res) => {
+          //   console.log(res);
+          //   const msgBuffer = new TextEncoder().encode(pass);
+
+          //   // Hash the buffer
+          //   const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
+
+          //   // Convert the buffer to an array
+          //   const hashArray = Array.from(new Uint8Array(hashBuffer));
+
+          //   // Convert the array to a hexadecimal string
+          //   const hashHex = hashArray
+          //     .map((byte) => byte.toString(16).padStart(2, "0"))
+          //     .join("");
+          //   localStorage.setItem("cLgpssstore", hashHex)
+          // })
+          // .catch((err) => {
+          //   console.log("erererererer", err);
+          // });
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        const msgBuffer = new TextEncoder().encode(pass);
 
             // Hash the buffer
             const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
@@ -42,10 +60,8 @@ export default () => {
               .map((byte) => byte.toString(16).padStart(2, "0"))
               .join("");
             localStorage.setItem("cLgpssstore", hashHex)
-          })
-          .catch((err) => {
-            console.log("erererererer", err);
-          });
+
+
         await new Promise((resolve) => setTimeout(resolve, 500));
         localStorage.setItem(
           appConfig.localStorageRefreshKey,
@@ -105,7 +121,7 @@ export default () => {
                 wrapper: "border-b-[1px] border-white",
               }}
               type="email"
-              placeholder="innayan@wifi-connect.eu"
+              placeholder="Email"
               required
               name="email"
             />

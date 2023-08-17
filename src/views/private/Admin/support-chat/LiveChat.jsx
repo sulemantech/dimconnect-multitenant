@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
-import { useEffect, useState, useMemo } from "preact/hooks";
+import { useEffect, useState, useMemo, useRef } from "preact/hooks";
 import RocketChatWebSocket from "../../../../utils/services/RocketChatWebSocket";
 import axios from "axios";
-import { getChatRooms, getRooms } from "../../../../api";
+import { getChatRoomMessages, getRooms } from "../../../../api";
 import { userDataSignal } from "../../../../signals";
 import appConfig from "../../../../config/appConfig";
 import { showNotification } from "@mantine/notifications";
@@ -13,6 +13,8 @@ function LiveChatSupport() {
   const [selectedRoom, setSelectedRoom] = useState("");
   const [messages, setMessages] = useState([]);
   const [msg, setMsg] = useState("");
+  const [offset, setOffset] = useState(0);
+  const [limitReached, setLimitReached] = useState(false);
 
   // handle send message to selected room
   const sendMessage = () => {
@@ -33,30 +35,80 @@ function LiveChatSupport() {
     }
   };
 
+const firstMessageRef = useRef(null);
+
+// create an Intersection Observer instance
+const observer = new IntersectionObserver((entries) => {
+  // If the first message is intersecting with the viewport, call your function
+  if (limitReached === false) {
+  if (entries[0].isIntersecting) {
+    // yourFunction();
+    // setOffset((prevOffset) => prevOffset + 20);
+      setOffset((prevOffset) => prevOffset + 20);
+    }
+  }
+  else {
+    console.warn("limit reached")
+  }
+});
+
   // get previous messages of selected room
   useMemo(() => {
-    if (selectedRoom) {
-      getChatRooms(selectedRoom, socket.token, socket.userId)
+    console.log("selectedRoom", selectedRoom)
+    console.log("limitReached", limitReached)
+    console.log("offset", offset)
+    if (selectedRoom && limitReached === false) {
+      // setLimitReached(false);
+      getChatRoomMessages(selectedRoom, socket.token, socket.userId, offset)
         .then((res) => {
           // setMessages(res.data.messages);
           // sort them on the basis of _updatedAt
-          const sortedMessages = res.data.messages.sort(
+          // const sortedMessages = res.data.messages.sort(
+          //   (a, b) => new Date(a._updatedAt) - new Date(b._updatedAt)
+          // );
+          // setMessages(sortedMessages);
+          // setMessages((prevMessages) => [...sortedMessages, ...prevMessages]);
+          if(res.data.messages.length === 0) {
+            setLimitReached(true);
+            return;
+          }
+          else {
+          let temp = [...res.data.messages, ...messages];
+          // sort them on the basis of _updatedAt
+          temp = temp.sort(
             (a, b) => new Date(a._updatedAt) - new Date(b._updatedAt)
           );
-          setMessages(sortedMessages);
+          setMessages(temp);
+          setTimeout(() => {
+            messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+          }, 200);
+        }
         })
         .catch((err) => {
           console.log("err", err);
         });
     }
-  }, [socket?.selectedRoom]);
+  }, [socket?.selectedRoom, offset]);
+
+  useEffect(() => {
+    if (firstMessageRef.current && limitReached === false) {
+      observer.observe(firstMessageRef.current);
+    }
+  }, [firstMessageRef, observer]);
+
+  const messagesEndRef = useRef();
 
   // handle new incoming messages and display them in chat box
   const handleNewMessage = (message, notification = false) => {
     // if chat room is not in selected state then show notification and play sound
     // otherwise just display the message in chat box
     notification === false
-      ? setMessages((prevMessages) => [...prevMessages, message.fields.args[0]])
+      ? (setMessages((prevMessages) => [...prevMessages, message.fields.args[0]]),
+          // scroll to bottom of chat box
+          setTimeout(() => {
+            messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+          }, 100)          
+          )
       : // play notification sound
         (new Audio("/audio/chatalert.mp3").play(),
         // show notification
@@ -116,6 +168,7 @@ function LiveChatSupport() {
   });
 
 
+
   return (
     <div className="h-full pb-10 bg-white overflow-y-auto">
       <div
@@ -166,11 +219,11 @@ function LiveChatSupport() {
                   <div
                     key={item._id}
                     className="flex items-center px-4 py-2 space-x-2 bg-[#7ab4e49b] m-2 rounded-md
-            hover:bg-[#7ab4e4d4] cursor-pointer
-            hover:font-[600]
-            hover:shadow-lg hover:duration-300
-            hover:ease-in-out hover:transform hover:scale-105 hover:transition-all
-            "
+                      hover:bg-[#7ab4e4d4] cursor-pointer
+                      hover:font-[600]
+                      hover:shadow-lg hover:duration-300
+                      hover:ease-in-out hover:transform hover:scale-105 hover:transition-all
+                      "
                     onClick={() => {
                       // console.log("item", selectedRoom);
                       // selectedRoom !== item._id &&
@@ -178,8 +231,11 @@ function LiveChatSupport() {
                       //   // item.lastMessage ? item.lastMessage.rid : item._id
                       //   item._id
                       // );
+                      setMessages([]);
+                      setLimitReached(false);
                       socket.selectRoom(item._id);
                       setSelectedRoom(item._id);
+                      setOffset(0);
                     }}
                   >
                     <img
@@ -228,6 +284,9 @@ function LiveChatSupport() {
                     ? "items-end"
                     : "items-start"
                 }`}
+               ref={
+                  index === 0 ? firstMessageRef : messagesEndRef
+               }
               >
                 <div
                   className={`flex items-center px-4 py-2 space-x-2 bg-[#7ab4e49b] m-2 rounded-md
