@@ -130,8 +130,8 @@ export const getResource = async (filename) =>
   api.get(`/resource/${filename}`, { responseType: "blob" });
 
 // ======================================= CHAT SERVER API'S =======================================
-export const getChatRooms = (roomId, token, userId) =>
-  chatServer.get(`/im.history?roomId=${roomId}`, {
+export const getChatRoomMessages = (roomId, token, userId, offset) =>
+  chatServer.get(`/im.history?roomId=${roomId}&count=20&offset=${offset}`, {
     headers: { "X-Auth-Token": token, "X-User-Id": userId },
   });
 
@@ -152,6 +152,7 @@ export const sendMessage = (username, message, token, userId) =>
 export const LoginUser = async (user, email, password) => {
   try {
     const isUser = await chatServer.post(`/login`, { user, password });
+    console.log("isUser", isUser)
     return isUser;
   } catch (e) {
     console.log("error", e);
@@ -165,6 +166,7 @@ export const RegisterUser = async (username, email, password) => {
     user: appConfig.chatServerAdminUsername,
     password: appConfig.chatServerAdminPassword,
   });
+  console.log("adminLogin", adminLogin)
   const adminToken = adminLogin.data.data.authToken;
   const adminUserId = adminLogin.data.data.userId;
   const registerUser = await chatServer.post(
