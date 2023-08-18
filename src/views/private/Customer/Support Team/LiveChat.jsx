@@ -7,7 +7,7 @@ import appConfig from "../../../../config/appConfig";
 function LiveChat() {
   const { t } = useTranslation();
 
-  const [connecting , setConnecting] = useState(false);
+  const [connecting, setConnecting] = useState(false);
   const [messages, setMessages] = useState([]);
   const [socket, setSocket] = useState(null);
   const [room, setRoom] = useState(null);
@@ -15,9 +15,8 @@ function LiveChat() {
 
   const handleNewMessage = (message, notification = false) => {
     //  display the message in chat box
-    setMessages((prevMessages) => [...prevMessages, message.fields.args[0]])
+    setMessages((prevMessages) => [...prevMessages, message.fields.args[0]]);
   };
-
 
   useEffect(() => {
     setConnecting(true);
@@ -39,11 +38,10 @@ function LiveChat() {
         console.error("Failed to fetch rooms:", error);
       }
     };
-setTimeout(() => {
-    fetchRooms();
-    setConnecting(false);
-}, 4000);
-
+    setTimeout(() => {
+      fetchRooms();
+      setConnecting(false);
+    }, 4000);
 
     // Clean up the connection when the component is unmounted
     return () => {
@@ -51,8 +49,6 @@ setTimeout(() => {
         socket.client.close();
       }
     };
-
-
   }, []);
 
   const handleSendMessage = async (message) => {
@@ -78,29 +74,25 @@ setTimeout(() => {
         console.error("Failed to send message:", error);
       }
     } else {
-      sendMessage("@superadmin", msg, socket.token, socket.userId).then((res) => {
-        // console.log(res);
-        setRoom(res.data.message.rid);
-        socket.selectRoom(res.data.message.rid);
-        setMessages((prevMessages) => [...prevMessages, res.data.message]);
-        setMsg("");
-      }).catch((err) => {
-        console.log(err);
-      })
-      
+      sendMessage("@superadmin", msg, socket.token, socket.userId)
+        .then((res) => {
+          // console.log(res);
+          setRoom(res.data.message.rid);
+          socket.selectRoom(res.data.message.rid);
+          setMessages((prevMessages) => [...prevMessages, res.data.message]);
+          setMsg("");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
-  }
-
+  };
 
   useMemo(() => {
     if (room) {
       socket.subscribeToRoom(room);
     }
   }, [room]);
-
-
-
-
 
   return (
     <div className="h-full pb-10 bg-white overflow-y-auto">
@@ -118,30 +110,28 @@ setTimeout(() => {
             </p>
           </div>
 
-        {/* Online status */}
+          {/* Online status */}
           <div className="text-green-600 ml-4 flex items-end">
             <div className="bg-white flex py-2 px-4 rounded-t-md items-center ">
               <p className="h-4 w-4 bg-green-600 rounded-full mr-2"></p>{" "}
               {t("Online")}
             </div>
           </div>
-
-
         </div>
       </div>
 
       {/* chat box */}
-      {
-        connecting ? <h1 className="absolute top-[50%] right-[50%] font-extrabold text-lg animate-bounce">Connecting . . .</h1> : 
-        
+      {connecting ? (
+        <h1 className="absolute top-[50%] right-[50%] font-extrabold text-lg animate-bounce">
+          Connecting . . .
+        </h1>
+      ) : (
         <div className=" h-auto bg-[#F5F7F942] text-[#3E3F3F] rounded-md border-[2px] mt-4 border-[#DDE7F0] w-[50%] font-[Roboto] ml-24 shadow-lg">
-        <p className="flex flex-row-reverse font-[550] pr-[40px] h-8 text-[12px] pt-1.5 bg-[#D8E4EEE5] ">
-          {t("21.06.2023, Thursday")}
-        </p>
-        <div className="overflow-y-auto max-laptop:h-[230px] max-laptop2:h-[445px]">
-         
-
-{/* <div className="h-[74vh] overflow-auto"> */}
+          <p className="flex flex-row-reverse font-[550] pr-[40px] h-8 text-[12px] pt-1.5 bg-[#D8E4EEE5] ">
+            {t("21.06.2023, Thursday")}
+          </p>
+          <div className="overflow-y-auto max-laptop:h-[230px] max-laptop2:h-[445px]">
+            {/* <div className="h-[74vh] overflow-auto"> */}
             {/* display all messages here */}
             {messages.map((message, index) => (
               <div
@@ -177,39 +167,41 @@ setTimeout(() => {
                 </div>
               </div>
             ))}
-          {/* </div> */}
-
-
-        </div>
-        <div className=" h-[100px]  rounded-t-lg text-[12px]  bg-[#D8E4EEE5] max-md:h-36">
-          <p className=" pt-3 ml-14">{t("Please type text here")}</p>
-          <div className="flex flex-1 ml-3  max-md:block">
-            <img className="w-[16px] pb-8 ml-3" src="/Vector4.svg" alt="" />
-            <label className="">
-              <p className=" mt-2.5 ml-5  text-[#0E76BB]">
-                {t("Attach File")}{" "}
-              </p>
-              <input type="file" name="attach file" className="hidden  w-48" />
-            </label>
-            <input
-              className="border-b-[1px] mb-10 pt-3 ml-2 w-[35rem] max-laptop:w-[20rem] border-[#0E76BB] bg-transparent text-[8px] outline-none max-md:w-[8rem] max-laptop2:w-[20rem]"
-              type="text"
-              value={msg}
-              onChange={(e) => setMsg(e.target.value)}
-              placeholder={t(
-                "Please prepare test drive in Frankfurt for next monday!"
-              )}
-            />
-            <img
-            onClick={handleSendMessage}
-              className=" ml-10 w-9 mb-8 max-md:float-right max-md:w-[w-4] max-md:pb-14 max-md:mr-10"
-              src="/Vector5.svg"
-              alt=""
-            />
+            {/* </div> */}
+          </div>
+          <div className=" h-[100px]  rounded-t-lg text-[12px]  bg-[#D8E4EEE5] max-md:h-36">
+            <p className=" pt-3 ml-14">{t("Please type text here")}</p>
+            <div className="flex flex-1 ml-3  max-md:block">
+              <img className="w-[16px] pb-8 ml-3" src="/Vector4.svg" alt="" />
+              <label className="">
+                <p className=" mt-2.5 ml-5  text-[#0E76BB]">
+                  {t("Attach File")}{" "}
+                </p>
+                <input
+                  type="file"
+                  name="attach file"
+                  className="hidden  w-48"
+                />
+              </label>
+              <input
+                className="border-b-[1px] mb-10 pt-3 ml-2 w-[35rem] max-laptop:w-[20rem] border-[#0E76BB] bg-transparent text-[8px] outline-none max-md:w-[8rem] max-laptop2:w-[20rem]"
+                type="text"
+                value={msg}
+                onChange={(e) => setMsg(e.target.value)}
+                placeholder={t(
+                  "Please prepare test drive in Frankfurt for next monday!"
+                )}
+              />
+              <img
+                onClick={handleSendMessage}
+                className=" ml-10 w-9 mb-8 max-md:float-right max-md:w-[w-4] max-md:pb-14 max-md:mr-10"
+                src="/Vector5.svg"
+                alt=""
+              />
+            </div>
           </div>
         </div>
-      </div>
-      }
+      )}
     </div>
   );
 }

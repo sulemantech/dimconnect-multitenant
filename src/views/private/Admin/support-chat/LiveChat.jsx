@@ -123,7 +123,13 @@ const observer = new IntersectionObserver((entries) => {
   const handleNewRooms = (token, userId) => {
     getRooms(token, userId).then((res) => {
       // console.log("res", res.data);
-      rooms.length !== res.data.update.length && setRooms(res.data.update);
+      
+      rooms.length !== res.data.update.length && setRooms(res.data.update.map((item, index)=>{
+        return {
+          ...item,
+          unreadMessageCount: 5
+        }
+      }));
     });
   };
 
@@ -213,12 +219,12 @@ const observer = new IntersectionObserver((entries) => {
           <div className="overflow-y-auto max-laptop:h-[230px] max-laptop2:h-[445px] h-[94vh] overflow-x-hidden">
             {/* <div className="overflow-y-auto max-laptop:h-[70vh] max-laptop2:h-[70vh] h-[10%]"> */}
             {/* chat items */}
-            {rooms.map(
+            {rooms?.map(
               (item, index) =>
                 item._id !== "GENERAL" && (
                   <div
                     key={item._id}
-                    className="flex items-center px-4 py-2 space-x-2 bg-[#7ab4e49b] m-2 rounded-md
+                    className="flex items-center justify-between px-4 py-2 space-x-2 bg-[#7ab4e49b] m-2 rounded-md
                       hover:bg-[#7ab4e4d4] cursor-pointer
                       hover:font-[600]
                       hover:shadow-lg hover:duration-300
@@ -234,10 +240,16 @@ const observer = new IntersectionObserver((entries) => {
                       setMessages([]);
                       setLimitReached(false);
                       socket.selectRoom(item._id);
+                      // set room unreadMessageCount to 0
+                      let temp = [...rooms];
+                      console.log(temp)
+                      temp[index].unreadMessageCount = 0;
+                      setRooms(temp);
                       setSelectedRoom(item._id);
                       setOffset(0);
                     }}
                   >
+                    <div className="flex items-center space-x-2">
                     <img
                       className="w-[2rem] rounded-full"
                       src={`${appConfig.chatServerURL}/avatar/${
@@ -261,6 +273,13 @@ const observer = new IntersectionObserver((entries) => {
                         {item.lastMessage ? item.lastMessage.msg : ""}
                       </p>
                     </div>
+                    </div>
+                    {
+                      item.unreadMessageCount === 0? null : 
+                    <p className="
+                      bg-blue-500 p-1 text-white font-bold rounded-lg py-0 animate-bounce
+                    ">{item.unreadMessageCount }</p>
+}
                   </div>
                 )
             )}
