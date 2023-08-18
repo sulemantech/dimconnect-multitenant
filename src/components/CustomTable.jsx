@@ -596,6 +596,9 @@ const EditForm = ({ item, newStruct, refreshData }) => {
                                             // value={form[attr]}
                                             // onChange={(value) => setForm({ ...form, [attr]: value.currentTarget.value })}
                                         /> */}
+                                        {
+                                            console.log(newStruct.data[attr])
+                                        }
                   <select
                     key={attr}
                     required
