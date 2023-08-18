@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useState, useEffect, useMemo } from "preact/hooks";
+import { useState, useEffect, useMemo, useRef } from "preact/hooks";
 import RocketChatWebSocket from "../../../../utils/services/RocketChatWebSocket";
 import { userDataSignal } from "../../../../signals";
 import { sendMessage } from "../../../../api";
@@ -12,10 +12,13 @@ function LiveChat() {
   const [socket, setSocket] = useState(null);
   const [room, setRoom] = useState(null);
   const [msg, setMsg] = useState("");
-
+  const messagesEndRef = useRef(null);
   const handleNewMessage = (message, notification = false) => {
     //  display the message in chat box
     setMessages((prevMessages) => [...prevMessages, message.fields.args[0]]);
+    setTimeout(() => {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 200);
   };
 
   useEffect(() => {
@@ -51,7 +54,8 @@ function LiveChat() {
     };
   }, []);
 
-  const handleSendMessage = async (message) => {
+  const handleSendMessage = async (event) => {
+    event.preventDefault();
     // if room is null then send message through rest api otherwise send message through socket
     if (room) {
       try {
@@ -141,6 +145,7 @@ function LiveChat() {
                     ? "items-start"
                     : "items-end"
                 }`}
+                ref={messagesEndRef}
               >
                 <div
                   className={`flex items-center px-4 py-2 space-x-2 bg-[#7ab4e49b] m-2 rounded-md
@@ -171,7 +176,7 @@ function LiveChat() {
           </div>
           <div className=" h-[100px]  rounded-t-lg text-[12px]  bg-[#D8E4EEE5] max-md:h-36">
             <p className=" pt-3 ml-14">{t("Please type text here")}</p>
-            <div className="flex flex-1 ml-3  max-md:block">
+            <form onSubmit={handleSendMessage} className="flex flex-1 ml-3  max-md:block">
               <img className="w-[16px] pb-8 ml-3" src="/Vector4.svg" alt="" />
               <label className="">
                 <p className=" mt-2.5 ml-5  text-[#0E76BB]">
@@ -192,13 +197,14 @@ function LiveChat() {
                   "Please prepare test drive in Frankfurt for next monday!"
                 )}
               />
+              <button type="submit" onClick={handleSendMessage}>
               <img
-                onClick={handleSendMessage}
                 className=" ml-10 w-9 mb-8 max-md:float-right max-md:w-[w-4] max-md:pb-14 max-md:mr-10"
                 src="/Vector5.svg"
                 alt=""
               />
-            </div>
+              </button>
+            </form>
           </div>
         </div>
       )}

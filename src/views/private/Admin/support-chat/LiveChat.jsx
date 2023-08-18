@@ -113,12 +113,25 @@ const observer = new IntersectionObserver((entries) => {
       : // play notification sound
         (new Audio("/audio/chatalert.mp3").play(),
         // show notification
-        showNotification({
-          title: message.fields.args[0].u.username,
-          message: message.fields.args[0].md[0].value[0].value,
-          color: "blue",
-          autoClose: 5000,
-        }));
+        // showNotification({
+        //   title: message.fields.args[0].u.username,
+        //   message: message.fields.args[0].md[0].value[0].value,
+        //   color: "blue",
+        //   autoClose: 5000,
+        // }) increase unreadMessageCount
+        setRooms((prevRooms) =>
+          prevRooms.map((room) => {
+            if (room._id === message.fields.args[0].rid) {
+              return {
+                ...room,
+                unreadMessageCount: room.unreadMessageCount + 1,
+              };
+            } else {
+              return room;
+            }
+          })
+        ));
+
   };
 
   const handleNewRooms = (token, userId) => {
@@ -128,7 +141,7 @@ const observer = new IntersectionObserver((entries) => {
       rooms.length !== res.data.update.length && setRooms(res.data.update.map((item, index)=>{
         return {
           ...item,
-          unreadMessageCount: 5
+          unreadMessageCount: 0,
         }
       }));
     });
@@ -362,7 +375,6 @@ const observer = new IntersectionObserver((entries) => {
               />
               <button type="submit" onClick={sendMessage}>
               <img
-                onClick={sendMessage}
                 className=" ml-10 w-9 mb-8 max-md:float-right max-md:w-[w-4] max-md:pb-14 max-md:mr-10"
                 src="/Vector5.svg"
                 alt=""
