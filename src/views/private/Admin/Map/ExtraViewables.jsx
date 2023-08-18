@@ -160,7 +160,7 @@ const barrierLayers = {
 };
 
 const RoadsAndWater = () => {
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
   const [map, setMap] = useState();
 
   useEffect(() => {
@@ -624,7 +624,7 @@ const RegionCostCalculation = () => {
               </div>
             </div>
           ),
-          children: <CostInfoModalContent data={res.data} />,
+          children: <CostInfoModalContent data={res.data} showtab={true} flexdirection={"flex-row"} responsive={" "}/>,
           size: "xl",
         });
       })
@@ -730,7 +730,7 @@ export default () => {
   );
 };
 
-export const ExtraViewableControl = ({ modal = false, webview = false }) => {
+export const ExtraViewableControl = ({ modal = false, webview = false}) => {
   const [activeOption, setActiveOption] = useState(null);
 
   const Options = {

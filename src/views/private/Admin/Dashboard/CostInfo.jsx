@@ -153,7 +153,7 @@ export default () => {
       </Card>
 
 
-      {data && <CostInfoModalContent data={data} />}
+      {data && <CostInfoModalContent data={data} showtab={true} showtab2={true} flexdirection={"flex-col"} responsive={"md:w-1/3"}/>}
     </>
   )
 }
@@ -162,14 +162,14 @@ export default () => {
 
 
 
-export const CostInfoModalContent = ({ data }) => {
+export const CostInfoModalContent = ({ data, showtab ,showtab2 ,flexdirection,responsive}) => {
   const { t } = useTranslation()
   const [segmentedControl, setSegmentedControl] = useState('cable')
   const [segmentedControl2, setSegmentedControl2] = useState('home')
 
   return (
     <div className='flex flex-col md:flex-row'>
-      <div className='flex flex-col md:w-1/3 w-full'>
+      {showtab && ( <div className={`flex ${flexdirection} ${responsive} w-full`}>
         <Tabs defaultValue="gallery"
           
           className='flex flex-col flex-grow'
@@ -209,7 +209,8 @@ export const CostInfoModalContent = ({ data }) => {
 
         </Tabs>
 
-      </div>
+      </div>)}
+      {showtab2 &&(
       <div className='flex flex-col flex-1 '>
         <Tabs
           defaultValue="gallery"
@@ -249,7 +250,7 @@ export const CostInfoModalContent = ({ data }) => {
 
         </Tabs>
 
-      </div>
+      </div>)}
 
     </div>
   )
