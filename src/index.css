@@ -26,21 +26,18 @@ body {
   @media (-webkit-device-pixel-ratio > 1) {
     body {
       zoom: 0.8;
-      height: 100%;
     }
   }
 
   @media (-webkit-device-pixel-ratio > 1.9) {
     body {
       zoom: 0.7;
-      height: 100%;
     }
   }
 
   @media (-webkit-device-pixel-ratio > 2.9) {
     body {
       zoom: 0.6;
-      height: 100%; 
     }
   }
 
