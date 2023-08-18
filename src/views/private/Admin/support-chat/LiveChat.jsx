@@ -17,7 +17,8 @@ function LiveChatSupport() {
   const [limitReached, setLimitReached] = useState(false);
 
   // handle send message to selected room
-  const sendMessage = () => {
+  const sendMessage = (e) => {
+    e.preventDefault();
     if (msg) {
       const message = {
         msg: "method",
@@ -112,18 +113,37 @@ const observer = new IntersectionObserver((entries) => {
       : // play notification sound
         (new Audio("/audio/chatalert.mp3").play(),
         // show notification
-        showNotification({
-          title: message.fields.args[0].u.username,
-          message: message.fields.args[0].md[0].value[0].value,
-          color: "blue",
-          autoClose: 5000,
-        }));
+        // showNotification({
+        //   title: message.fields.args[0].u.username,
+        //   message: message.fields.args[0].md[0].value[0].value,
+        //   color: "blue",
+        //   autoClose: 5000,
+        // }) increase unreadMessageCount
+        setRooms((prevRooms) =>
+          prevRooms.map((room) => {
+            if (room._id === message.fields.args[0].rid) {
+              return {
+                ...room,
+                unreadMessageCount: room.unreadMessageCount + 1,
+              };
+            } else {
+              return room;
+            }
+          })
+        ));
+
   };
 
   const handleNewRooms = (token, userId) => {
     getRooms(token, userId).then((res) => {
       // console.log("res", res.data);
-      rooms.length !== res.data.update.length && setRooms(res.data.update);
+      
+      rooms.length !== res.data.update.length && setRooms(res.data.update.map((item, index)=>{
+        return {
+          ...item,
+          unreadMessageCount: 0,
+        }
+      }));
     });
   };
 
@@ -213,12 +233,12 @@ const observer = new IntersectionObserver((entries) => {
           <div className="overflow-y-auto max-laptop:h-[230px] max-laptop2:h-[445px] h-[94vh] overflow-x-hidden">
             {/* <div className="overflow-y-auto max-laptop:h-[70vh] max-laptop2:h-[70vh] h-[10%]"> */}
             {/* chat items */}
-            {rooms.map(
+            {rooms?.map(
               (item, index) =>
                 item._id !== "GENERAL" && (
                   <div
                     key={item._id}
-                    className="flex items-center px-4 py-2 space-x-2 bg-[#7ab4e49b] m-2 rounded-md
+                    className="flex items-center justify-between px-4 py-2 space-x-2 bg-[#7ab4e49b] m-2 rounded-md
                       hover:bg-[#7ab4e4d4] cursor-pointer
                       hover:font-[600]
                       hover:shadow-lg hover:duration-300
@@ -234,10 +254,16 @@ const observer = new IntersectionObserver((entries) => {
                       setMessages([]);
                       setLimitReached(false);
                       socket.selectRoom(item._id);
+                      // set room unreadMessageCount to 0
+                      let temp = [...rooms];
+                      console.log(temp)
+                      temp[index].unreadMessageCount = 0;
+                      setRooms(temp);
                       setSelectedRoom(item._id);
                       setOffset(0);
                     }}
                   >
+                    <div className="flex items-center space-x-2">
                     <img
                       className="w-[2rem] rounded-full"
                       src={`${appConfig.chatServerURL}/avatar/${
@@ -261,6 +287,13 @@ const observer = new IntersectionObserver((entries) => {
                         {item.lastMessage ? item.lastMessage.msg : ""}
                       </p>
                     </div>
+                    </div>
+                    {
+                      item.unreadMessageCount === 0? null : 
+                    <p className="
+                      bg-blue-500 p-1 text-white font-bold rounded-lg py-0 animate-bounce
+                    ">{item.unreadMessageCount }</p>
+}
                   </div>
                 )
             )}
@@ -316,7 +349,8 @@ const observer = new IntersectionObserver((entries) => {
           </div>
           <div className=" h-[100px]  rounded-t-lg text-[12px]  bg-[#D8E4EEE5] max-md:h-36 flex-end">
             <p className=" pt-3 ml-14">{t("Please type text here")}</p>
-            <div className="flex flex-1 ml-3  max-md:block">
+            <form onSubmit={sendMessage} className="flex flex-1 ml-3  max-md:block">
+             
               <img className="w-[16px] pb-8 ml-3" src="/Vector4.svg" alt="" />
               <label className="">
                 <p className=" mt-2.5 ml-5  text-[#0E76BB]">
@@ -339,13 +373,15 @@ const observer = new IntersectionObserver((entries) => {
                   "Please prepare test drive in Frankfurt for next monday!"
                 )}
               />
+              <button type="submit" onClick={sendMessage}>
               <img
-                onClick={sendMessage}
                 className=" ml-10 w-9 mb-8 max-md:float-right max-md:w-[w-4] max-md:pb-14 max-md:mr-10"
                 src="/Vector5.svg"
                 alt=""
               />
-            </div>
+              </button>
+              </form>
+            {/* </div> */}
           </div>
           {/* </div> */}
         </div>
