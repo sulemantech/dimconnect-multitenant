@@ -17,7 +17,8 @@ function LiveChatSupport() {
   const [limitReached, setLimitReached] = useState(false);
 
   // handle send message to selected room
-  const sendMessage = () => {
+  const sendMessage = (e) => {
+    e.preventDefault();
     if (msg) {
       const message = {
         msg: "method",
@@ -335,7 +336,8 @@ const observer = new IntersectionObserver((entries) => {
           </div>
           <div className=" h-[100px]  rounded-t-lg text-[12px]  bg-[#D8E4EEE5] max-md:h-36 flex-end">
             <p className=" pt-3 ml-14">{t("Please type text here")}</p>
-            <div className="flex flex-1 ml-3  max-md:block">
+            <form onSubmit={sendMessage} className="flex flex-1 ml-3  max-md:block">
+             
               <img className="w-[16px] pb-8 ml-3" src="/Vector4.svg" alt="" />
               <label className="">
                 <p className=" mt-2.5 ml-5  text-[#0E76BB]">
@@ -358,13 +360,16 @@ const observer = new IntersectionObserver((entries) => {
                   "Please prepare test drive in Frankfurt for next monday!"
                 )}
               />
+              <button type="submit" onClick={sendMessage}>
               <img
                 onClick={sendMessage}
                 className=" ml-10 w-9 mb-8 max-md:float-right max-md:w-[w-4] max-md:pb-14 max-md:mr-10"
                 src="/Vector5.svg"
                 alt=""
               />
-            </div>
+              </button>
+              </form>
+            {/* </div> */}
           </div>
           {/* </div> */}
         </div>
