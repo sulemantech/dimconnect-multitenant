@@ -551,20 +551,7 @@ const EditForm = ({ item, newStruct, refreshData }) => {
               // like create form
               typeof newStruct?.data[attr] === "object" &&
                 newStruct.data[attr]?.type === "radio" ? (
-                // <Input.Wrapper>
-                //     <Input.Label>{attr.replace('_', ' ').toUpperCase()}</Input.Label>
-                //     {
-                //         console.log(newStruct.data[attr])
-                //     }
-                //     <Select
-                //         key={attr}
-                //         required
-                //         searchable
-                //         options={newStruct.data[attr]}
-                //         value={form[attr]}
-                //         onChange={(value) => setForm({ ...form, [attr]: value.currentTarget.value })}
-                //     />
-                // </Input.Wrapper>
+               
                 <div key={attr} className="flex mb-4">
                   <label className="text-gray-700">
                     {attr.replace("_", " ").toUpperCase()}
@@ -578,47 +565,23 @@ const EditForm = ({ item, newStruct, refreshData }) => {
                     }
                   />
                 </div>
-              ) : typeof newStruct?.data[attr] === "object" &&
-                newStruct.data[attr]?.type !== "radio" ? (
-                <Input.Wrapper
-                  className="
-                                    flex mb-4 items-center
-                                    "
-                >
-                  <label className="w-10">
-                    {attr.replace("_", " ").toUpperCase()}
-                  </label>
-                  {/* <Select
-                                            key={attr}
-                                            // required
-                                            // searchable
-                                            options={newStruct.data[attr].map((item) => ({ label: item.label, value: item.value[0] }))}
-                                            // value={form[attr]}
-                                            // onChange={(value) => setForm({ ...form, [attr]: value.currentTarget.value })}
-                                        /> */}
-                                        {
-                                            console.log(newStruct.data[attr])
-                                        }
-                  <select
+              ) : 
+              Array.isArray(newStruct.data[attr])? (
+                // <div className="flex flex-col mb-5">
+                <Input.Wrapper className= "my-5">
+                <label className="text-sm text-gray-600">
+                  {attr.replace("_", " ").trim().toUpperCase()}
+                </label>
+                <Select
                     key={attr}
                     required
-                    // searchable
-                    selected={form[attr]}
-                    onChange={(value) =>
-                      setForm({ ...form, [attr]: value.currentTarget.value })
-                    }
-                    className="w-1/2 text-[#0E76BB] bg-[#D8E4EEE5] p-1 focus:border-none after:border-none rounded-lg"
-                  >
-                    {newStruct.data[attr].map((item) => (
-                      <option value={item.value[0]}>{item.label}</option>
-                    ))}
-                  </select>
+                    searchable
+                    data={newStruct?.data[attr]}
+                    value={form[attr]}
+                    onChange={(value) => {setForm({ ...form, [attr]: value })}}
+                    />
                 </Input.Wrapper>
-              ) : // <>
-              // {console.log(newStruct.data[attr])}
-
-              // "null"
-              // </>
+              ):
 
               typeof newStruct?.data[attr] === "boolean" ? (
                 <Input.Wrapper>
@@ -675,6 +638,7 @@ const EditForm = ({ item, newStruct, refreshData }) => {
       </form>
     );
   } catch (error) {
+    console.log(error)
     return (
       <div>
         <h1>Something went wrong</h1>

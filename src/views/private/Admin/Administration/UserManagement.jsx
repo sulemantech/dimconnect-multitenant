@@ -163,7 +163,7 @@ export default () => {
                                     isEditor: false,
                                     ags: districts.value?.features?.map(district => ({
                                         label: district.properties.n.toString(),
-                                        value: district.properties.c
+                                        value: district.properties.c[0],
                                     }))
                                 },
                                 createMethod: createUser,
