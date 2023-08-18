@@ -11,6 +11,7 @@ import PermissionWrapper from "../../../../providers/PermissionsProvider";
 import { PERMISSIONS } from "../../../../common";
 import { useTranslation } from "react-i18next"
 import { districts } from "../../../../signals";
+import { t } from "i18next";
 
 export default () => {
 
