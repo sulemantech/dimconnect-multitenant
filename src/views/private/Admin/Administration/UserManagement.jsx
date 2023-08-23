@@ -36,10 +36,10 @@ export default () => {
             getUserById.assignData(users.data)
             setData(users.data.map(user => ({
                 ...user,
-                'Assign Role': <Chip checked={false}
-                    color="blue"
-
-                    variant="light"
+                'Assign Role': <Chip  checked={false}
+                // radius={"md"}
+                color="indigo"  radius="md"
+                    variant="outline"
                     onClick={() => {
                         openDrawer({
                             'title': 'Assign Role',

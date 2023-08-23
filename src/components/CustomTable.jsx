@@ -15,6 +15,7 @@ import {
   Divider,
   Checkbox,
   Radio,
+  ThemeIcon,
 } from "@mantine/core";
 import { closeAllModals, openConfirmModal, openModal } from "@mantine/modals";
 import {
@@ -242,63 +243,89 @@ export default ({
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
           <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-            <Title order={2} color="brand" className="text-center mt-2">
-              {title}
-            </Title>
+            <div className="flex flex-row ml-4 space-x-3">
+              <img
+                className=" border-2 border-blue-400 rounded-md my-2 p-1"
+                src="/User.svg"
+                alt=""
+              />
+              <Title
+                order={2}
+                color="brand"
+                className="text-left mt-2 font-semibold"
+              >
+                {title}
+              </Title>
+            </div>
             <Divider my={10} />
             <div className="flex p-2 text-neutral-700 text-xs items-center">
-              <div>
-                <Paper withBorder radius="xl" className="flex items-center">
-                  <Text mx={15} color="brand" fw={"bold"}>
-                    {t("Show")}
-                  </Text>
+              <div className="flex space-x-[2px]">
+                <Text
+                  color="brand"
+                  fw={"bold"}
+                  className="bg-[#f1f3f5] flex items-center px-10 rounded-sm"
+                >
+                  {t("Show")}
+                </Text>
 
-                  <Select
-                    data={[
-                      {
-                        label: "10",
-                        value: 10,
-                      },
-                      {
-                        label: "25",
-                        value: 25,
-                      },
-                      {
-                        label: "50",
-                        value: 50,
-                      },
-                      {
-                        label: "100",
-                        value: 100,
-                      },
-                    ]}
-                    onChange={(e) => setLimit(e)}
-                    classNames={{
-                      input: "rounded-r-full",
-                    }}
-                    size="md"
-                    value={limit}
-                    variant="filled"
-                  />
-                </Paper>
+                <Select
+                 style={{ maxWidth: 90 }}
+                  data={[
+                    {
+                      label: "10",
+                      value: 10,
+                    },
+                    {
+                      label: "25",
+                      value: 25,
+                    },
+                    {
+                      label: "50",
+                      value: 50,
+                    },
+                    {
+                      label: "100",
+                      value: 100,
+                    },
+                  ]}
+                  onChange={(e) => setLimit(e)}
+                  classNames={{
+                    input: "rounded-r-[4%]",
+                  }}
+                  size="md"
+                  value={limit}
+                  variant="filled"
+                />
               </div>
 
-              <div className="flex-1"></div>
-
-              <div className="flex items-center">
+              <div className="flex space-x-[1px] ml-[6%]">
+                <Text
+                  color="brand"
+                  fw={"bold"}
+                  className="bg-[#f1f3f5] flex items-center px-10 rounded-sm"
+                >
+                  {t("Search")}
+                </Text>
                 <Input
                   type="text"
                   variant="filled"
-                  size="lg"
-                  radius={"lg"}
+                  size="md"
+                  radius={"sm"}
                   mr={15}
-                  icon={<IconSearch />}
-                  className="mr-xs"
-                  placeholder={t("Search")}
+                  rightSection={
+                    <ThemeIcon color="white">
+                      <IconSearch color="rgb(96 165 250) " size={15} />
+                    </ThemeIcon>
+                  }
+                  className="mr-xs rounded-sm"
+                  // placeholder={t("Search")}
                   onChange={(e) => setFilter(e.currentTarget.value)}
                 />
+              </div>
+              <div className="flex-1"></div>
+              <div className="flex items-center">
                 {newStruct.hasOwnProperty("createMethod") && (
-                  <Button leftIcon={<IconPlus size={15} />} onClick={createNew}>
+                  <Button className=" bg-[#2784c2] rounded-full" size="md" leftIcon={<IconPlus size={15} />} onClick={createNew}>
                     {t("Add New")}
                   </Button>
                 )}
@@ -320,9 +347,14 @@ export default ({
                         key={item}
                         className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider"
                       >
-                        <p class={`flex items-center`}>
+                        <p    onClick={() =>
+                              setSort({
+                                field: item,
+                                order: sort.order === "asc" ? "desc" : "asc",
+                              })
+                            } class={`flex items-center`}>
                           {t(`${item.replace("_", " ").toUpperCase()}`)}
-                          <ActionIcon
+                          {/* <ActionIcon
                             className="text-gray-900"
                             size="xs"
                             variant="white"
@@ -344,7 +376,7 @@ export default ({
                                 size={15}
                               />
                             )}
-                          </ActionIcon>
+                          </ActionIcon> */}
                         </p>
                       </th>
                     );
@@ -551,7 +583,6 @@ const EditForm = ({ item, newStruct, refreshData }) => {
               // like create form
               typeof newStruct?.data[attr] === "object" &&
                 newStruct.data[attr]?.type === "radio" ? (
-               
                 <div key={attr} className="flex mb-4">
                   <label className="text-gray-700">
                     {attr.replace("_", " ").toUpperCase()}
@@ -565,25 +596,24 @@ const EditForm = ({ item, newStruct, refreshData }) => {
                     }
                   />
                 </div>
-              ) : 
-              Array.isArray(newStruct.data[attr])? (
+              ) : Array.isArray(newStruct.data[attr]) ? (
                 // <div className="flex flex-col mb-5">
-                <Input.Wrapper className= "my-5">
-                <label className="text-sm text-gray-600">
-                  {attr.replace("_", " ").trim().toUpperCase()}
-                </label>
-                <Select
+                <Input.Wrapper className="my-5">
+                  <label className="text-sm text-gray-600">
+                    {attr.replace("_", " ").trim().toUpperCase()}
+                  </label>
+                  <Select
                     key={attr}
                     required
                     searchable
                     data={newStruct?.data[attr]}
                     value={form[attr]}
-                    onChange={(value) => {setForm({ ...form, [attr]: value })}}
-                    />
+                    onChange={(value) => {
+                      setForm({ ...form, [attr]: value });
+                    }}
+                  />
                 </Input.Wrapper>
-              ):
-
-              typeof newStruct?.data[attr] === "boolean" ? (
+              ) : typeof newStruct?.data[attr] === "boolean" ? (
                 <Input.Wrapper>
                   <Input.Label>
                     {attr.replace("_", " ").toUpperCase()}
@@ -638,7 +668,7 @@ const EditForm = ({ item, newStruct, refreshData }) => {
       </form>
     );
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return (
       <div>
         <h1>Something went wrong</h1>
