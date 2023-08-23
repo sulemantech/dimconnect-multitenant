@@ -1,11 +1,8 @@
-import { Source,Layer} from "react-map-gl"
-export default ({beforeId}) => {
-    
-
-        
-return(
+import { Source, Layer } from "react-map-gl";
+export default ({ beforeId }) => {
+  return (
     <>
-     <Source
+      <Source
         id="rlp_dop"
         type="raster"
         tiles={[
@@ -13,8 +10,8 @@ return(
         ]}
         tileSize={256}
       >
-        <Layer id="rlp_dop" type="raster" beforeId="park_national_park"/>
+        <Layer id="rlp_dop" type="raster" beforeId="park_national_park" />
       </Source>
     </>
-)
-}
+  );
+};
