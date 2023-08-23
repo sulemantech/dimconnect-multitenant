@@ -16,6 +16,8 @@ import {
   videoVisibility,
   BarrierState,
   roadandwaterstate,
+  aerialViewVisibility,
+  PRpropertiesVisibility,
 } from "../../../../signals";
 
 export default ({
@@ -163,6 +165,51 @@ export default ({
             </Accordion.Panel>
           </Accordion.Item>
         )}
+
+
+{!noAddressPoint && (
+          <Accordion.Item value="Background" className="text-xs">
+            <div className="flex flex-1 space-x-4 ">
+              <span className="mt-3 ">
+                
+              </span>
+              <Accordion.Control
+                className="text-xs last:p-0"
+                value={"Background"}
+              >
+                Background
+              </Accordion.Control>
+            </div>
+            <Accordion.Panel>
+              <div>
+                {
+                  ["Aerial View","RP Properties"].map((item) => (
+                    <div
+                      className="flex py-1 space-x-1 flex-row items-center cursor-pointer hover:bg-neutral-100"
+                      >
+                      <Checkbox
+                        checked={item === "Aerial View" ?aerialViewVisibility.value : PRpropertiesVisibility.value}
+                        onChange={()=>{item === "Aerial View" ? aerialViewVisibility.value=!aerialViewVisibility.value : PRpropertiesVisibility.value=!PRpropertiesVisibility.value}}
+                      />
+                      
+                      <p
+                        className='text-xs font-bold '
+                      >
+                        {item}
+                      </p>
+                    </div>
+
+                  ))
+                }
+              </div>
+            </Accordion.Panel>
+          </Accordion.Item>
+        )}
+
+
+
+
+
         {!noNetzplanung && (
           <Accordion.Item value="Netzplanung" className="text-xs">
             <div className="flex flex-row space-x-1">

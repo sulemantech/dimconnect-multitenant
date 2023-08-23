@@ -2,6 +2,7 @@ import { Suspense, lazy, useEffect, useState } from 'preact/compat';
 import { Map, ScaleControl } from 'react-map-gl';
 import maplibregl from 'maplibre-gl';
 import { LoadingOverlay } from '@mantine/core';
+import { useRef } from 'preact/hooks';
 
 import MapControls from './MapControls';
 import SearchControl from './SearchControl';
@@ -17,8 +18,10 @@ import appConfig from '../../../../config/appConfig';
 
 const Gpx = lazy(() => import('./Gpx'));
 
-import { mapClickBindings, addressPointsCRUDstate, infoCardVal, visibility, mapStyle, additionalInteractiveLayers, mapSignal, regionCostState } from '../../../../signals';
+import { mapClickBindings, addressPointsCRUDstate, infoCardVal, visibility, mapStyle, additionalInteractiveLayers, mapSignal, regionCostState, aerialViewVisibility, PRpropertiesVisibility } from '../../../../signals';
 import ExtraViewables from './ExtraViewables';
+import PRproperties from './PRproperties';
+import AerialViewLayer from './AerialViewLayer';
 
 let mapFirstRender = false
 
@@ -32,6 +35,9 @@ export default ({ children }) => {
     })
 
   }, [])
+  const mapRef = useRef(null);
+  const [beforeId, setBeforeId] = useState()
+
   const handleMapClick = (event) => {
     const features = event.features
     // .filter(f => !additionalInteractiveLayers.value.includes(f.layer.id))
@@ -57,6 +63,7 @@ export default ({ children }) => {
   return (
     <Map
       reuseMaps
+      ref={mapRef}
       onClick={handleMapClick}
       onMouseMove={handleMaphover}
       attributionControl={false}
@@ -74,7 +81,6 @@ export default ({ children }) => {
             target.setZoom(parseFloat(zoom.replace('#', '')))
             target.setCenter([parseFloat(lng), parseFloat(lat)])
           }
-          console.log('map loaded')
           mapSignal.value = target
           mapFirstRender = true
         }
@@ -106,6 +112,9 @@ export default ({ children }) => {
       }}
     >
       <Suspense fallback={<LoadingOverlay visible />}>
+
+        {PRpropertiesVisibility.value && <PRproperties />}
+        { aerialViewVisibility.value && <AerialViewLayer />}
 
         <AddressPoints />
         <SearchControl />
