@@ -106,6 +106,10 @@ export const permissible = signal([
 
 export const UserType = signal("admin");
 
+
+
+export const aerialViewVisibility = signal(false);
+export const PRpropertiesVisibility = signal(false);
 export const addressPointsVisibility = signal(true);
 export const addressPointsReceived = signal(false);
 export const addressPointsStatusVisibility = signal({

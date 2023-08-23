@@ -12,10 +12,12 @@ import {
   netzplanninglegend,
   visibility,
   netzplanning,
-  photoVisibility, 
+  photoVisibility,
   videoVisibility,
   BarrierState,
   roadandwaterstate,
+  aerialViewVisibility,
+  PRpropertiesVisibility,
 } from "../../../../signals";
 
 export default ({
@@ -28,7 +30,10 @@ export default ({
     setData(JSON.parse(visibility.value) || {});
   }, [visibility.value]);
   const [netzplanningCheckbox, setnetzplanningCheckbox] = useState(
-    netzplanning.value[10] && netzplanning.value[5] && netzplanning.value[6] && addressPointsStatusVisibility.value[4]
+    netzplanning.value[10] &&
+      netzplanning.value[5] &&
+      netzplanning.value[6] &&
+      addressPointsStatusVisibility.value[4]
   );
   const checkAll = (e) => {
     netzplanning.value = {
@@ -39,15 +44,15 @@ export default ({
     const toggleVisibility = (index) => {
       data[Object.keys(data)[index]] = {
         ...data[Object.keys(data)[index]],
-        visible: e.target.checked
+        visible: e.target.checked,
       };
     };
-    
-    toggleVisibility(1); 
-    toggleVisibility(6); 
-    toggleVisibility(10); 
+
+    toggleVisibility(1);
+    toggleVisibility(6);
+    toggleVisibility(10);
     visibility.value = JSON.stringify(data);
-    
+
     setnetzplanningCheckbox(e.target.checked);
   };
   const { t } = useTranslation();
@@ -98,19 +103,23 @@ export default ({
           <Accordion.Item value="Address Points" className="text-xs">
             <div className="flex flex-1 space-x-4 ">
               <span className="mt-3 ">
-                <Checkbox 
-                checked={  [1, 2, 3, 5, 6].every(index => addressPointsStatusVisibility.value[index])}
-               onChange={(e) => {
-                const indicesToToggle = [1,2, 3, 4, 5, 6];
-                const updatedVisibility = { ...addressPointsStatusVisibility.value };
-              
-                indicesToToggle.forEach(index => {
-                  updatedVisibility[index] = e.target.checked;
-                });
-              
-                addressPointsStatusVisibility.value = updatedVisibility;
-              }}
-              />
+                <Checkbox
+                  checked={[1, 2, 3, 5, 6].every(
+                    (index) => addressPointsStatusVisibility.value[index]
+                  )}
+                  onChange={(e) => {
+                    const indicesToToggle = [1, 2, 3, 4, 5, 6];
+                    const updatedVisibility = {
+                      ...addressPointsStatusVisibility.value,
+                    };
+
+                    indicesToToggle.forEach((index) => {
+                      updatedVisibility[index] = e.target.checked;
+                    });
+
+                    addressPointsStatusVisibility.value = updatedVisibility;
+                  }}
+                />
               </span>
               <Accordion.Control
                 className="text-xs last:p-0"
@@ -163,14 +172,50 @@ export default ({
             </Accordion.Panel>
           </Accordion.Item>
         )}
+
+        {!noAddressPoint && (
+          <Accordion.Item value="Background" className="text-xs">
+            <div className="flex flex-1 space-x-4 ">
+              <span className="mt-3 "></span>
+              <Accordion.Control
+                className="text-xs last:p-0"
+                value={"Background"}
+              >
+                Background
+              </Accordion.Control>
+            </div>
+            <Accordion.Panel>
+              <div>
+                {["Aerial View", "RP Properties"].map((item) => (
+                  <div className="flex py-1 space-x-1 flex-row items-center cursor-pointer hover:bg-neutral-100">
+                    <Checkbox
+                      checked={
+                        item === "Aerial View"
+                          ? aerialViewVisibility.value
+                          : PRpropertiesVisibility.value
+                      }
+                      onChange={() => {
+                        item === "Aerial View"
+                          ? (aerialViewVisibility.value =
+                              !aerialViewVisibility.value)
+                          : (PRpropertiesVisibility.value =
+                              !PRpropertiesVisibility.value);
+                      }}
+                    />
+
+                    <p className="text-xs font-bold ">{item}</p>
+                  </div>
+                ))}
+              </div>
+            </Accordion.Panel>
+          </Accordion.Item>
+        )}
+
         {!noNetzplanung && (
           <Accordion.Item value="Netzplanung" className="text-xs">
             <div className="flex flex-row space-x-1">
               <span className="mt-3">
-                <Checkbox
-                  checked={netzplanningCheckbox}
-                  onChange={checkAll}
-                />
+                <Checkbox checked={netzplanningCheckbox} onChange={checkAll} />
               </span>
               <Accordion.Control
                 className="text-xs last:p-0"
@@ -181,7 +226,6 @@ export default ({
             </div>
             <Accordion.Panel>
               <div className="flex flex-col space-y-1">
-              
                 <div className="flex space-x-2">
                   <Checkbox
                     name="checkbox2"
@@ -215,13 +259,13 @@ export default ({
                       };
                       visibility.value = JSON.stringify(lineyellow);
                     }}
-                    />
+                  />
 
                   <img
                     title="Distribution Cables"
                     src="/yellowline.svg"
                     alt=""
-                    />
+                  />
                 </div>
                 <div className="flex space-x-2">
                   <Checkbox
@@ -295,19 +339,39 @@ export default ({
             </Accordion.Panel>
             <div className="flex flex-col space-y-1">
               <div className="flex space-x-2">
-                <Checkbox checked={photoVisibility.value} onChange={()=>{photoVisibility.value=!photoVisibility.value}} />
+                <Checkbox
+                  checked={photoVisibility.value}
+                  onChange={() => {
+                    photoVisibility.value = !photoVisibility.value;
+                  }}
+                />
                 <p className=" text-xs">Photos</p>
               </div>
               <div className="flex space-x-2">
-                <Checkbox checked={videoVisibility.value} onChange={()=>{videoVisibility.value =!videoVisibility.value}} />
+                <Checkbox
+                  checked={videoVisibility.value}
+                  onChange={() => {
+                    videoVisibility.value = !videoVisibility.value;
+                  }}
+                />
                 <p className=" text-xs ">Videos</p>
               </div>
               <div className="flex space-x-2">
-                <Checkbox checked={BarrierState.value} onChange={()=>{BarrierState.value=!BarrierState.value}} />
+                <Checkbox
+                  checked={BarrierState.value}
+                  onChange={() => {
+                    BarrierState.value = !BarrierState.value;
+                  }}
+                />
                 <p className=" text-xs">Barrieren</p>
               </div>
               <div className="flex space-x-2">
-                <Checkbox checked={roadandwaterstate.value} onChange={()=>{roadandwaterstate.value=!roadandwaterstate.value}}  />
+                <Checkbox
+                  checked={roadandwaterstate.value}
+                  onChange={() => {
+                    roadandwaterstate.value = !roadandwaterstate.value;
+                  }}
+                />
                 <p className=" text-xs">Roads and Waterways</p>
               </div>
               <div className="flex space-x-2">
