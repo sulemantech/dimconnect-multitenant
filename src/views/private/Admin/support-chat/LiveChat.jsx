@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
-import { useEffect, useState, useMemo } from "preact/hooks";
+import { useEffect, useState, useMemo, useRef } from "preact/hooks";
 import RocketChatWebSocket from "../../../../utils/services/RocketChatWebSocket";
 import axios from "axios";
-import { getChatRooms, getRooms } from "../../../../api";
+import { getChatRoomMessages, getRooms } from "../../../../api";
 import { userDataSignal } from "../../../../signals";
 import appConfig from "../../../../config/appConfig";
 import { showNotification } from "@mantine/notifications";
@@ -13,9 +13,12 @@ function LiveChatSupport() {
   const [selectedRoom, setSelectedRoom] = useState("");
   const [messages, setMessages] = useState([]);
   const [msg, setMsg] = useState("");
+  const [offset, setOffset] = useState(0);
+  const [limitReached, setLimitReached] = useState(false);
 
   // handle send message to selected room
-  const sendMessage = () => {
+  const sendMessage = (e) => {
+    e.preventDefault();
     if (msg) {
       const message = {
         msg: "method",
@@ -33,45 +36,114 @@ function LiveChatSupport() {
     }
   };
 
+const firstMessageRef = useRef(null);
+
+// create an Intersection Observer instance
+const observer = new IntersectionObserver((entries) => {
+  // If the first message is intersecting with the viewport, call your function
+  if (limitReached === false) {
+  if (entries[0].isIntersecting) {
+    // yourFunction();
+    // setOffset((prevOffset) => prevOffset + 20);
+      setOffset((prevOffset) => prevOffset + 20);
+    }
+  }
+  else {
+    console.warn("limit reached")
+  }
+});
+
   // get previous messages of selected room
   useMemo(() => {
-    if (selectedRoom) {
-      getChatRooms(selectedRoom, socket.token, socket.userId)
+    console.log("selectedRoom", selectedRoom)
+    console.log("limitReached", limitReached)
+    console.log("offset", offset)
+    if (selectedRoom && limitReached === false) {
+      // setLimitReached(false);
+      getChatRoomMessages(selectedRoom, socket.token, socket.userId, offset)
         .then((res) => {
           // setMessages(res.data.messages);
           // sort them on the basis of _updatedAt
-          const sortedMessages = res.data.messages.sort(
+          // const sortedMessages = res.data.messages.sort(
+          //   (a, b) => new Date(a._updatedAt) - new Date(b._updatedAt)
+          // );
+          // setMessages(sortedMessages);
+          // setMessages((prevMessages) => [...sortedMessages, ...prevMessages]);
+          if(res.data.messages.length === 0) {
+            setLimitReached(true);
+            return;
+          }
+          else {
+          let temp = [...res.data.messages, ...messages];
+          // sort them on the basis of _updatedAt
+          temp = temp.sort(
             (a, b) => new Date(a._updatedAt) - new Date(b._updatedAt)
           );
-          setMessages(sortedMessages);
+          setMessages(temp);
+          setTimeout(() => {
+            messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+          }, 200);
+        }
         })
         .catch((err) => {
           console.log("err", err);
         });
     }
-  }, [socket?.selectedRoom]);
+  }, [socket?.selectedRoom, offset]);
+
+  useEffect(() => {
+    if (firstMessageRef.current && limitReached === false) {
+      observer.observe(firstMessageRef.current);
+    }
+  }, [firstMessageRef, observer]);
+
+  const messagesEndRef = useRef();
 
   // handle new incoming messages and display them in chat box
   const handleNewMessage = (message, notification = false) => {
     // if chat room is not in selected state then show notification and play sound
     // otherwise just display the message in chat box
     notification === false
-      ? setMessages((prevMessages) => [...prevMessages, message.fields.args[0]])
+      ? (setMessages((prevMessages) => [...prevMessages, message.fields.args[0]]),
+          // scroll to bottom of chat box
+          setTimeout(() => {
+            messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+          }, 100)          
+          )
       : // play notification sound
         (new Audio("/audio/chatalert.mp3").play(),
         // show notification
-        showNotification({
-          title: message.fields.args[0].u.username,
-          message: message.fields.args[0].md[0].value[0].value,
-          color: "blue",
-          autoClose: 5000,
-        }));
+        // showNotification({
+        //   title: message.fields.args[0].u.username,
+        //   message: message.fields.args[0].md[0].value[0].value,
+        //   color: "blue",
+        //   autoClose: 5000,
+        // }) increase unreadMessageCount
+        setRooms((prevRooms) =>
+          prevRooms.map((room) => {
+            if (room._id === message.fields.args[0].rid) {
+              return {
+                ...room,
+                unreadMessageCount: room.unreadMessageCount + 1,
+              };
+            } else {
+              return room;
+            }
+          })
+        ));
+
   };
 
   const handleNewRooms = (token, userId) => {
     getRooms(token, userId).then((res) => {
       // console.log("res", res.data);
-      rooms.length !== res.data.update.length && setRooms(res.data.update);
+      
+      rooms.length !== res.data.update.length && setRooms(res.data.update.map((item, index)=>{
+        return {
+          ...item,
+          unreadMessageCount: 0,
+        }
+      }));
     });
   };
 
@@ -114,6 +186,7 @@ function LiveChatSupport() {
       console.log(err);
     }
   });
+
 
 
   return (
@@ -160,17 +233,17 @@ function LiveChatSupport() {
           <div className="overflow-y-auto max-laptop:h-[230px] max-laptop2:h-[445px] h-[94vh] overflow-x-hidden">
             {/* <div className="overflow-y-auto max-laptop:h-[70vh] max-laptop2:h-[70vh] h-[10%]"> */}
             {/* chat items */}
-            {rooms.map(
+            {rooms?.map(
               (item, index) =>
                 item._id !== "GENERAL" && (
                   <div
                     key={item._id}
-                    className="flex items-center px-4 py-2 space-x-2 bg-[#7ab4e49b] m-2 rounded-md
-            hover:bg-[#7ab4e4d4] cursor-pointer
-            hover:font-[600]
-            hover:shadow-lg hover:duration-300
-            hover:ease-in-out hover:transform hover:scale-105 hover:transition-all
-            "
+                    className="flex items-center justify-between px-4 py-2 space-x-2 bg-[#7ab4e49b] m-2 rounded-md
+                      hover:bg-[#7ab4e4d4] cursor-pointer
+                      hover:font-[600]
+                      hover:shadow-lg hover:duration-300
+                      hover:ease-in-out hover:transform hover:scale-105 hover:transition-all
+                      "
                     onClick={() => {
                       // console.log("item", selectedRoom);
                       // selectedRoom !== item._id &&
@@ -178,10 +251,19 @@ function LiveChatSupport() {
                       //   // item.lastMessage ? item.lastMessage.rid : item._id
                       //   item._id
                       // );
+                      setMessages([]);
+                      setLimitReached(false);
                       socket.selectRoom(item._id);
+                      // set room unreadMessageCount to 0
+                      let temp = [...rooms];
+                      console.log(temp)
+                      temp[index].unreadMessageCount = 0;
+                      setRooms(temp);
                       setSelectedRoom(item._id);
+                      setOffset(0);
                     }}
                   >
+                    <div className="flex items-center space-x-2">
                     <img
                       className="w-[2rem] rounded-full"
                       src={`${appConfig.chatServerURL}/avatar/${
@@ -205,6 +287,13 @@ function LiveChatSupport() {
                         {item.lastMessage ? item.lastMessage.msg : ""}
                       </p>
                     </div>
+                    </div>
+                    {
+                      item.unreadMessageCount === 0? null : 
+                    <p className="
+                      bg-blue-500 p-1 text-white font-bold rounded-lg py-0 animate-bounce
+                    ">{item.unreadMessageCount }</p>
+}
                   </div>
                 )
             )}
@@ -228,6 +317,9 @@ function LiveChatSupport() {
                     ? "items-end"
                     : "items-start"
                 }`}
+               ref={
+                  index === 0 ? firstMessageRef : messagesEndRef
+               }
               >
                 <div
                   className={`flex items-center px-4 py-2 space-x-2 bg-[#7ab4e49b] m-2 rounded-md
@@ -257,7 +349,8 @@ function LiveChatSupport() {
           </div>
           <div className=" h-[100px]  rounded-t-lg text-[12px]  bg-[#D8E4EEE5] max-md:h-36 flex-end">
             <p className=" pt-3 ml-14">{t("Please type text here")}</p>
-            <div className="flex flex-1 ml-3  max-md:block">
+            <form onSubmit={sendMessage} className="flex flex-1 ml-3  max-md:block">
+             
               <img className="w-[16px] pb-8 ml-3" src="/Vector4.svg" alt="" />
               <label className="">
                 <p className=" mt-2.5 ml-5  text-[#0E76BB]">
@@ -280,13 +373,15 @@ function LiveChatSupport() {
                   "Please prepare test drive in Frankfurt for next monday!"
                 )}
               />
+              <button type="submit" onClick={sendMessage}>
               <img
-                onClick={sendMessage}
                 className=" ml-10 w-9 mb-8 max-md:float-right max-md:w-[w-4] max-md:pb-14 max-md:mr-10"
                 src="/Vector5.svg"
                 alt=""
               />
-            </div>
+              </button>
+              </form>
+            {/* </div> */}
           </div>
           {/* </div> */}
         </div>

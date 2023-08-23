@@ -775,8 +775,14 @@ export const TicketModal = ({ ticket, setUpdate }) => {
 
             files.forEach((file) => {
               formData.append("files", file);
-            }
-            );
+            });
+            const sortedComments = ticket.ticketComments?.sort((a, b) => {
+              return (
+                new Date(a.created_at).getTime() -
+                new Date(b.created_at).getTime()
+              )
+            })
+            formData.append("reply_to", sortedComments[sortedComments.length - 1].id);
             // call the post request function
             try{
              const data = await postComment(ticket.id,formData);

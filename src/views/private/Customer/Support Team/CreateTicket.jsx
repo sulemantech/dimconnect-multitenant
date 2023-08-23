@@ -131,7 +131,7 @@ export default function TicketCreationPage() {
           <a className=" underline font-bold text-white" href="#">
             {t('Create New')}
           </a>
-          <a className=" disabled font-[500] text-slate-100" href="#">
+          <a className=" font-bold text-white" href="/support_team/my_tickets">
             {t('Manage Status')}
           </a>
         </div>
