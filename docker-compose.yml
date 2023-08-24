@@ -8,18 +8,9 @@ services:
   container_name: webgis-container
   expose:
    - 4173
-  environment:
-       VITE_BACKEND_URL : https://dim-webgis-dev.hiwifipro.com
-       VITE_MEDIA_SERVER_URL : https://dim-streaming-dev.hiwifipro.com/media/
-       VITE_LOCAL_STORAGE_KEY : hf8f8fj3dj193jf913fj91f91jf9
-       VITE_LOCAL_STORAGE_KEY_WEB_VIEW : hf8f8fj3dj193jf913fj91f91jf9localStorageKeyWebview
-       VITE_LOCAL_STORAGE_REFRESH_KEY : hf8f8fj3dj193jf913fj91f91jf9_R
-       VITE_CHAT_SERVER_URL : https://dim-chat-dev.hiwifipro.com
-       VITE_CHAT_SERVER_WEB_SOCKET_URL : wss://dim-chat-dev.hiwifipro.com/websocket
-       VITE_CHAT_SERVER_ADMIN_USER_NAME : niko
-       VITE_CHAT_SERVER_ADMIN_PASSWORD : 3EGOc85iFxY3VoCw
-       VITE_AERIAL_VIEW_WMS_URL : https://geo4.service24.rlp.de/wms/rp_dop40.fcgi?SERVICE=WMS&VERSION=1.1&REQUEST=GetMap&LAYERS=rp_dop40&FORMAT=image/png&TRANSPARENT=true&STYLES=&SRS=EPSG:3857&BBOX={bbox-epsg-3857}&WIDTH=256&HEIGHT=256
-       VITE_PR_PROPERTIES_WMS_GET_CAPABILITIES_URL : https://www.geoportal.rlp.de/mapbender/php/wms.php?layer_id=61680&withChilds=1&REQUEST=GetCapabilities&VERSION=1.1.1&SERVICE=WMS
+  networks:
+   - backend_external
+  restart: unless-stopped
 
 networks:
   backend_external:
