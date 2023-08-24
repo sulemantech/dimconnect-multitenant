@@ -6,7 +6,7 @@ export default ({ beforeId }) => {
         id="rlp_dop"
         type="raster"
         tiles={[
-          import.meta.env.VITE_AERIAL_VIEW_WMS_URL,
+          `https://geo4.service24.rlp.de/wms/rp_dop40.fcgi?SERVICE=WMS&VERSION=1.1&REQUEST=GetMap&LAYERS=rp_dop40&FORMAT=image/png&TRANSPARENT=true&STYLES=&SRS=EPSG:3857&BBOX={bbox-epsg-3857}&WIDTH=256&HEIGHT=256`,
         ]}
         tileSize={256}
       >
