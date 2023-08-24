@@ -8,9 +8,6 @@ services:
   container_name: webgis-container
   expose:
    - 4173
-  networks:
-   - backend_external
-  restart: unless-stopped
   environment:
        VITE_BACKEND_URL : https://dim-webgis-dev.hiwifipro.com
        VITE_MEDIA_SERVER_URL : https://dim-streaming-dev.hiwifipro.com/media/
