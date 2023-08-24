@@ -12,6 +12,7 @@ export default () => {
   const authState = useContext(AuthState);
   const [loading, setLoading] = useState(false);
   const [lng, setlng] = useState("EN");
+  console.log(import.meta.env.VITE_BACKEND_URL)
 
   const [error, setError] = useState("");
 
