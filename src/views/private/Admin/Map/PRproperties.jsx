@@ -30,8 +30,7 @@ export default () => {
   }
 
   useEffect(() => {
-    const url =
-      "https://www.geoportal.rlp.de/mapbender/php/wms.php?layer_id=61680&withChilds=1&REQUEST=GetCapabilities&VERSION=1.1.1&SERVICE=WMS";
+    const url = import.meta.env.VITE_PR_PROPERTIES_WMS_GET_CAPABILITIES_URL;
 
     fetchCapabilities(url).then((xmlDoc) => {
       const globalSupportedFormats = extractSupportedImageFormats(xmlDoc);
