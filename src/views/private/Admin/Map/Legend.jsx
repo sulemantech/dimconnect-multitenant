@@ -24,6 +24,7 @@ export default ({
   noAddressPoint = false,
   noStatus = false,
   noNetzplanung = false,
+  noBackground = false,
 }) => {
   const [data, setData] = useState({});
   useEffect(() => {
@@ -84,7 +85,7 @@ export default ({
       </h6>
       <hr className="mb-2" />
       <Accordion
-        defaultValue={window.innerWidth > 768 ? "Address Points" : ""}
+        defaultValue={window.innerWidth > 768 ? "Background" : ""}
         className="text-xs"
         onChange={(e) => {
           const params = new URLSearchParams(window.location.search);
@@ -99,6 +100,56 @@ export default ({
         }}
       >
         <NetzplanningLegend />
+        {!noBackground && (
+          <Accordion.Item value="Background" className="text-xs">
+            <div className="flex flex-1 space-x-4 items-center">
+              {/* <span className="mt-3 "></span> */}
+              <Checkbox
+                checked={aerialViewVisibility.value || PRpropertiesVisibility.value}
+                onChange={(e) => {
+                  aerialViewVisibility.value = e.target.checked;
+                  PRpropertiesVisibility.value = e.target.checked;
+                }}
+              />
+              <Accordion.Control
+                className="text-xs last:p-0"
+                value={"Background"}
+              >
+                <h3 className="
+                text-xs
+                font-bold
+                text-gray-900
+                ">
+                  Background
+                </h3>
+              </Accordion.Control>
+            </div>
+            <Accordion.Panel>
+              <div>
+                {["Aerial View", "RP Properties"].map((item) => (
+                  <div className="flex py-1 space-x-1 flex-row items-center cursor-pointer hover:bg-neutral-100">
+                    <Checkbox
+                      checked={
+                        item === "Aerial View"
+                          ? aerialViewVisibility.value
+                          : PRpropertiesVisibility.value
+                      }
+                      onChange={() => {
+                        item === "Aerial View"
+                          ? (aerialViewVisibility.value =
+                              !aerialViewVisibility.value)
+                          : (PRpropertiesVisibility.value =
+                              !PRpropertiesVisibility.value);
+                      }}
+                    />
+
+                    <p className="text-xs font-bold ">{item}</p>
+                  </div>
+                ))}
+              </div>
+            </Accordion.Panel>
+          </Accordion.Item>
+        )}
         {!noAddressPoint && (
           <Accordion.Item value="Address Points" className="text-xs">
             <div className="flex flex-1 space-x-4 ">
@@ -168,44 +219,6 @@ export default ({
                     </div>
                   );
                 })}
-              </div>
-            </Accordion.Panel>
-          </Accordion.Item>
-        )}
-
-        {!noAddressPoint && (
-          <Accordion.Item value="Background" className="text-xs">
-            <div className="flex flex-1 space-x-4 ">
-              <span className="mt-3 "></span>
-              <Accordion.Control
-                className="text-xs last:p-0"
-                value={"Background"}
-              >
-                Background
-              </Accordion.Control>
-            </div>
-            <Accordion.Panel>
-              <div>
-                {["Aerial View", "RP Properties"].map((item) => (
-                  <div className="flex py-1 space-x-1 flex-row items-center cursor-pointer hover:bg-neutral-100">
-                    <Checkbox
-                      checked={
-                        item === "Aerial View"
-                          ? aerialViewVisibility.value
-                          : PRpropertiesVisibility.value
-                      }
-                      onChange={() => {
-                        item === "Aerial View"
-                          ? (aerialViewVisibility.value =
-                              !aerialViewVisibility.value)
-                          : (PRpropertiesVisibility.value =
-                              !PRpropertiesVisibility.value);
-                      }}
-                    />
-
-                    <p className="text-xs font-bold ">{item}</p>
-                  </div>
-                ))}
               </div>
             </Accordion.Panel>
           </Accordion.Item>
