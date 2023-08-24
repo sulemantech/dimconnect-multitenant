@@ -40,6 +40,7 @@
     "body-scroll-lock": "^4.0.0-beta.0",
     "chart.js": "^4.2.0",
     "dayjs": "^1.11.7",
+    "dotenv": "^16.3.1",
     "embla-carousel-react": "^8.0.0-rc02",
     "geocoding-osm": "^0.1.0",
     "i18next": "^23.2.11",
