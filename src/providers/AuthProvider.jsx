@@ -21,7 +21,7 @@ const createAuthState = () => {
     const mounted = signal(false)
     const auth = signal(false)
     const setAuth = (value) => { auth.value = value }
-    // console.log(localStorage.getItem(appConfig.localStorageKey))
+    console.log(localStorage.getItem(appConfig.localStorageKey))
     localStorage.getItem(appConfig.localStorageKey) ? auth.value = true : auth.value = false
     if (!auth.value) {
         return { auth, setAuth }
