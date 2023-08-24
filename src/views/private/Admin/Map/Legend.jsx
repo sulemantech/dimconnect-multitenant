@@ -1,4 +1,4 @@
-import { Accordion } from "@mantine/core";
+import { Accordion, Radio } from "@mantine/core";
 import { useDidUpdate } from "@mantine/hooks";
 import { useState, useEffect } from "preact/hooks";
 import { useTranslation } from "react-i18next";
@@ -105,47 +105,63 @@ export default ({
             <div className="flex flex-1 space-x-4 items-center">
               {/* <span className="mt-3 "></span> */}
               <Checkbox
-                checked={aerialViewVisibility.value || PRpropertiesVisibility.value}
+                checked={
+                  aerialViewVisibility.value || PRpropertiesVisibility.value
+                }
                 onChange={(e) => {
-                  aerialViewVisibility.value = e.target.checked;
-                  PRpropertiesVisibility.value = e.target.checked;
+                  if (e.target.checked === true) {
+                    aerialViewVisibility.value = true;
+                    PRpropertiesVisibility.value = false;
+                  }
+                  if (!e.target.checked) {
+                    aerialViewVisibility.value = false;
+                    PRpropertiesVisibility.value = false;
+                  }
                 }}
               />
               <Accordion.Control
                 className="text-xs last:p-0"
                 value={"Background"}
               >
-                <h3 className="
-                text-xs
-                font-bold
-                text-gray-900
-                ">
-                  Background
-                </h3>
+                Background
               </Accordion.Control>
             </div>
             <Accordion.Panel>
               <div>
-                {["Aerial View", "RP Properties"].map((item) => (
-                  <div className="flex py-1 space-x-1 flex-row items-center cursor-pointer hover:bg-neutral-100">
-                    <Checkbox
-                      checked={
-                        item === "Aerial View"
-                          ? aerialViewVisibility.value
-                          : PRpropertiesVisibility.value
-                      }
-                      onChange={() => {
-                        item === "Aerial View"
-                          ? (aerialViewVisibility.value =
-                              !aerialViewVisibility.value)
-                          : (PRpropertiesVisibility.value =
-                              !PRpropertiesVisibility.value);
-                      }}
-                    />
-
-                    <p className="text-xs font-bold ">{item}</p>
-                  </div>
-                ))}
+                <Radio.Group
+                  value={
+                    // if both false then null
+                    aerialViewVisibility.value && PRpropertiesVisibility.value
+                      ? "Aerial View"
+                      : aerialViewVisibility.value
+                      ? "Aerial View"
+                      : PRpropertiesVisibility.value
+                      ? "RP Properties"
+                      : null
+                  }
+                  onChange={(e) => {
+                    console.log(
+                      "values",
+                      (aerialViewVisibility.value = e === "Aerial View"),
+                      (PRpropertiesVisibility.value = e === "RP Properties")
+                    );
+                  }}
+                >
+                  <Radio
+                    value="Aerial View"
+                    label="Aerial View"
+                    className="text-xs my-1"
+                  >
+                    Aerial View
+                  </Radio>
+                  <Radio
+                    value="RP Properties"
+                    label="RP Properties"
+                    className="text-xs"
+                  >
+                    RP Properties
+                  </Radio>
+                </Radio.Group>
               </div>
             </Accordion.Panel>
           </Accordion.Item>
