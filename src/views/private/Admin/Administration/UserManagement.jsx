@@ -1,6 +1,6 @@
 import PageProvider from "../../../../providers/PageProvider"
 import CustomTable from "../../../../components/CustomTable"
-import { ActionIcon, Alert, Badge, Button, Card, CardSection, Chip, Divider, Loader, MANTINE_COLORS, MultiSelect, Pagination, Select, Text, Title } from "@mantine/core"
+import { ActionIcon, Alert, BackgroundImage, Badge, Button, Card, CardSection, Chip, Divider, Loader, MANTINE_COLORS, MultiSelect, Pagination, Select, Text, Title } from "@mantine/core"
 import { assignRolesToUser, createUser, deleteUser, editUser, getRoles, getUsers, getUserById } from "../../../../api";
 import { useState, useLayoutEffect } from 'preact/hooks'
 import { IconUser, IconUserCheck, IconUserPlus } from "@tabler/icons";
@@ -12,6 +12,7 @@ import { PERMISSIONS } from "../../../../common";
 import { useTranslation } from "react-i18next"
 import { districts } from "../../../../signals";
 import { t } from "i18next";
+import { openModal } from "@mantine/modals";
 
 export default () => {
 
@@ -41,9 +42,18 @@ export default () => {
                 color="indigo"  radius="md"
                     variant="outline"
                     onClick={() => {
-                        openDrawer({
-                            'title': 'Assign Role',
-                            'children': <AssignRole user={user} roles={rolesx.data.roles} refreshData={refreshData} />
+                        openModal({
+                            'title': 
+                            (
+                                <div className="flex flex-row p-4 text-white items-center space-x-2 bg-[url('/bgimg.png')] w-[34.4vw] bg-cover bg-center bg-no-repeat">
+                                <img src="/user2.svg" alt="Title Image" className="title-image" />
+                               <p> Assign Role</p>
+                              </div>
+                              
+                              ),
+                            'children': <div className="p-4"> <AssignRole user={user} roles={rolesx.data.roles} refreshData={refreshData} /></div>,
+                            padding: "0",
+                            withCloseButton:false,
                         })
                     }}
                 >
