@@ -56,7 +56,7 @@ const MyTable = ({ data, select, setSelect, setUpdate }) => {
   const {t}=useTranslation()
 
   const [page, setPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(20);
+  const [rowsPerPage, setRowsPerPage] = useState(25);
   const columns = [
   
     {
@@ -162,7 +162,7 @@ const MyTable = ({ data, select, setSelect, setUpdate }) => {
       }
       pagination
       // pages per page
-      paginationPerPage={20}
+      paginationPerPage={rowsPerPage}
 
       paginationComponent={()=>{
         return(
@@ -507,7 +507,7 @@ export const TicketModal = ({ ticket, setUpdate }) => {
             Hello! The map does not show a new connection line, but mobile
             applications shows each line correctly. I tried to reinstall Desktop
             Application and now system gives me this window (please look at
-            attached file) ried to reinstall Desktop Application and now system
+            attached file)ried to reinstall Desktop Application and now system
             gives me this window (please look at attached file)
             <br />
             <br />

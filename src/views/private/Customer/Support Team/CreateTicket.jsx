@@ -43,7 +43,7 @@ export default function TicketCreationPage() {
       ]);
 
       setCategories(categories.data);
-      setPriorities(priorities.data?.data);
+      setPriorities(priorities.data);
     };
     fetchTicketData();
   }, []);

@@ -44,10 +44,7 @@ export default () => {
 
         setTicketCounts(count(res.data));
 
-        setTickets(
-          res.data
-
-        );
+        setTickets(res.data);
       })
       .catch((err) => console.log(err));
   }, [search, update]);
@@ -56,17 +53,32 @@ export default () => {
     <>
       <div className="fbody h-full overflow-y-auto custom-scrollbar-page">
         <TicketManagment ticketCounts={ticketCounts} />
-        <Searchbars search={search} setSearch={setSearch} setTickets={setTickets} tickets={tickets} />
+        <Searchbars
+          search={search}
+          setSearch={setSearch}
+          setTickets={setTickets}
+          tickets={tickets}
+        />
 
-        <div className="flex flex-1 flex-wrap w-full justify-center items-start">
-          <div className="min-w-[60%] " style={{
-            borderTopLeftRadius: "0.5rem",
-          }
-          }>
-            <Table data={tickets} select={select} setSelect={setSelect} setUpdate={setUpdate} />
+        <div className="flex w-full px-5 h-full justify-center items-start">
+          <div
+            // className="min-w-[60%] "
+            className="w-[85%] h-full"
+            style={{
+              borderTopLeftRadius: "0.5rem",
+            }}
+          >
+            <Table
+              data={tickets}
+              select={select}
+              setSelect={setSelect}
+              setUpdate={setUpdate}
+            />
           </div>
-          <div className="max-w-[30%]">
-            <UserCard tickets={tickets} select={select} />
+          <div >
+            <UserCard 
+              className="h-full"
+            tickets={tickets} select={select} />
           </div>
         </div>
       </div>
