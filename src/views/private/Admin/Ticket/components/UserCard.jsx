@@ -20,55 +20,9 @@ function UserCard({ tickets, select }) {
     );
   }, [select]);
 
-  // useEffect(() => {
-  //     // .sc-dMnqAs jtLlGN{
-  //   //   padding: 0px !important;
-  //   //   flex: none  !important;
-  //   //   min-width: 0px !important;
-  //   // }
-  //   // .sc-dMnqAs jtLlGN svg{
-  //   //   width: 15px !important;
-  //   //   height: 15px !important;
-  //   // }
-  //   // apply this css to the svg in the table
-  //   console.log("inside use effect")
-  //   setTimeout(() => {
-  //   let elements = document.getElementsByClassName("sc-dMnqAs kGnDik")
-  //   if(elements.length>0){
-  //   //   elements.forEach(element => {
-  //   //   // padding: 0px !important;
-  //   //   //   flex: none  !important;
-  //   //   //   min-width: 0px !important;
-  //   //   element.style.padding = "0px !important"
-  //   //   element.style.flex = "none !important"
-  //   //   element.style.minWidth = "0px !important"
-
-  //   //   // each elements first child is the svg element
-  //   //   element.firstChild.style.width = "15px !important"
-  //   //   element.firstChild.style.height = "15px !important"
-  //   // })
-  //   // elements is an object
-  //   for(let key of Object.keys(elements)){
-  //     // padding: 0px !important;
-  //     //   flex: none  !important;
-  //     //   min-width: 0px !important;
-  //     elements[key].style.padding = "0px !important"
-  //     elements[key].style.flex = "none !important"
-  //     elements[key].style.minWidth = "0px !important"
-
-  //     // each elements first child is the svg element
-  //     elements[key].firstChild.style.width = "15px !important"
-  //     elements[key].firstChild.style.height = "15px !important"
-  //   }
-  // }
-
-  //   }, 1000);
-
-  // }, [active])
-
   return (
     <>
-      <div className="mt-3 w-full rounded-r-md mb-5 flex flex-col justify-center items-center">
+      <div className="mt-3 w-full  rounded-r-md mb-5 flex flex-col justify-center items-center">
         <div className=" text-center   text-xs h-[18px] bg-[#D8E4EE] rounded-r-lg w-full flex justify-evenly">
           <button
             className={active === "userTicket" ? "text-sky-600 font-bold" : ""}
@@ -84,9 +38,9 @@ function UserCard({ tickets, select }) {
             {t('User Card')}
           </button>
         </div>
-        <div className="h-[56vh] ml-6 mt-3 rcolor rounded-md px-2 w-[22vw] overflow-y-auto custom-scrollbar ">
+        <div className=" ml-6 mt-3 rcolor rounded-md px-2 w-[22vw] overflow-y-auto custom-scrollbar max-h-[67vh]">
           {active === "userTicket" ? (
-            <div className="w-[20.2vw] p-2">
+            <div className="w-full overflow-auto max-h-[100%]  p-2">
               <DataTable
                 className="mt-3"
                 expandOnRowClicked={true}
@@ -182,115 +136,6 @@ function UserCard({ tickets, select }) {
                   },
                 }}
               />
-
-              {/* <table className=" mt-2">
-            <tbody className="overflow-y-scroll">
-              <tr className="text-xs flex space-x-4 ">
-                <td className=" w-3 mt-1 ml-1">
-                  <img src={subtract2} alt="" />
-                </td>
-                <td>000005</td>
-                <td>Map View</td>
-                <td>29.05.2023</td>
-              </tr>
-              <tr className="text-xs flex space-x-4">
-                <td className=" w-3 mt-1 ml-1">
-                  <img src={subtract2} alt="" />{" "}
-                </td>
-                <td>000005</td>
-                <td>Map View</td>
-                <td>29.05.2023</td>
-              </tr>
-              <tr className="text-xs flex space-x-4">
-                <td className=" w-3 mt-1 ml-1">
-                  <img src={subtract2} alt="" />{" "}
-                </td>
-                <td>000005</td>
-                <td>Map View</td>
-                <td>29.05.2023</td>
-              </tr>
-              <tr className="text-xs flex space-x-4">
-                <td className=" w-3 mt-1 ml-1">
-                  <img src={subtract2} alt="" />{" "}
-                </td>
-                <td>000005</td>
-                <td>Map View</td>
-                <td>29.05.2023</td>
-              </tr>
-              <tr className="text-xs flex space-x-4">
-                <td className=" w-3 mt-1 ml-1">
-                  <img src={subtract2} alt="" />{" "}
-                </td>
-                <td>000005</td>
-                <td>Map View</td>
-                <td>29.05.2023</td>
-              </tr>
-              <tr className="text-xs flex space-x-4">
-                <td className=" w-3 mt-1 ml-1">
-                  <img src={subtract2} alt="" />{" "}
-                </td>
-                <td>000005</td>
-                <td>Map View</td>
-                <td>29.05.2023</td>
-              </tr>
-              <tr className="text-xs flex space-x-4">
-                <td className=" w-3 mt-1 ml-1">
-                  <img src={subtract2} alt="" />{" "}
-                </td>
-                <td>000005</td>
-                <td>Map View</td>
-                <td>29.05.2023</td>
-              </tr>
-              <tr className="text-xs flex space-x-4">
-                <td className=" w-3 mt-1 ml-1">
-                  <img src={subtract2} alt="" />{" "}
-                </td>
-                <td>000005</td>
-                <td>Map View</td>
-                <td>29.05.2023</td>
-              </tr>
-              <tr className="text-xs flex space-x-4">
-                <td className=" w-3 mt-1 ml-1">
-                  <img src={subtract2} alt="" />{" "}
-                </td>
-                <td>000005</td>
-                <td>Map View</td>
-                <td>29.05.2023</td>
-              </tr>
-              <tr className="text-xs flex space-x-4">
-                <td className=" w-3 mt-1 ml-1">
-                  <img src={subtract2} alt="" />{" "}
-                </td>
-                <td>000005</td>
-                <td>Map View</td>
-                <td>29.05.2023</td>
-              </tr>
-              <tr className="text-xs flex space-x-4">
-                <td className=" w-3 mt-1 ml-1">
-                  <img src={subtract2} alt="" />{" "}
-                </td>
-                <td>000005</td>
-                <td>Map View</td>
-                <td>29.05.2023</td>
-              </tr>
-              <tr className="text-xs flex space-x-4">
-                <td className=" w-3 mt-1 ml-1">
-                  <img src={subtract2} alt="" />{" "}
-                </td>
-                <td>000005</td>
-                <td>Map View</td>
-                <td>29.05.2023</td>
-              </tr>
-              <tr className="text-xs flex space-x-4">
-                <td className=" w-3 mt-1 ml-1">
-                  <img src={subtract2} alt="" />{" "}
-                </td>
-                <td>000005</td>
-                <td>Map View</td>
-                <td>29.05.2023</td>
-              </tr>
-            </tbody>
-          </table> */}
             </div>
           ) : (
             <div className="w-[20vw] flex flex-col p-2 text-xs justify-center">
