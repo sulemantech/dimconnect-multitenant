@@ -61,6 +61,7 @@ import {
   generatePDF,
 } from "../Dashboard/CostInfo";
 import { showNotification } from "@mantine/notifications";
+import { effect } from "@preact/signals";
 
 const barrierLayers = {
   road_service_case: {
@@ -163,29 +164,46 @@ const RoadsAndWater = () => {
   const [visible, setVisible] = useState(false);
   const [map, setMap] = useState();
 
-  useEffect(() => {
-    const subscription = roadandwaterstate.subscribe(setVisible);
-    return () => subscription.unsubscribe();
-  }, []);
+  // useEffect(() => {roadandwaterstate.subscribe(setVisible)
+  //   return () => {
+  //     roadandwaterstate.unsubscribe();
+  //   };
+  // }, []);
+  // useEffect(() => {
+  //   mapSignal.subscribe(setMap);
+  //   return () => {
+  //     mapSignal.unsubscribe();
+  //   };
+  // }
+  // , []);
 
-  useEffect(() => {
-    const mapSubscription = mapSignal.subscribe(setMap);
-    return () => mapSubscription.unsubscribe();
-  }, []);
+  // using preact-signal hook effect to trace the signal value instead of using useEffect
+  effect(() => {
+    roadandwaterstate.subscribe(setVisible);
+    mapSignal.subscribe(setMap);
+    return () => {
+      roadandwaterstate.unsubscribe(setVisible);
+      mapSignal.unsubscribe(setMap);
+    };
+  });
 
-  useEffect(() => {
-    if (map && barrierLayers) {
-      Object.keys(barrierLayers).forEach((key) => {
+
+
+
+  useDidUpdate(
+    () =>
+      Object.keys(barrierLayers)?.map((key, index) =>
         map.setPaintProperty(
           key,
           "line-color",
           visible ? "red" : barrierLayers[key].color
-        );
-      });
-    }
-  }, [map, visible]);
-
+        )
+      ),
+    [visible]
+  );
   return null;
+
+
 };
 
 
