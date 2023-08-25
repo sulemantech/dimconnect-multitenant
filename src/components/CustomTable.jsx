@@ -242,28 +242,25 @@ export default ({
     <div className="flex flex-col rounded-md bg-white mb-10 ">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-          <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-            <div className="flex flex-row ml-4 space-x-3">
+          <div className=" overflow-hidden border-b border-gray-200 sm:rounded-lg">
+            <div className="flex flex-row  bg-[#f1f5f9] pl-4    space-x-3">
               <img
-                className=" border-2 border-blue-400 rounded-md my-2 p-1"
+                className=" border-[1.5px] border-[#0E76BB] w-[22px] rounded-[3px] my-2  p-[0.8px]"
                 src="/User.svg"
                 alt=""
               />
-              <Title
-                order={2}
-                color="brand"
-                className="text-left mt-2 font-semibold"
+              <p className="font-bold text-[15px] my-2 text-[#0E76BB]"
               >
                 {title}
-              </Title>
+              </p>
             </div>
-            <Divider my={10} />
+            {/* <Divider my={10} /> */}
             <div className="flex p-2 text-neutral-700 text-xs items-center">
               <div className="flex space-x-[2px]">
                 <Text
                   color="brand"
                   fw={"bold"}
-                  className="bg-[#f1f3f5] flex items-center px-10 rounded-sm"
+                  className="bg-[#f1f3f5] flex font-medium text-xs items-center px-10 rounded-sm"
                 >
                   {t("Show")}
                 </Text>
@@ -292,7 +289,7 @@ export default ({
                   classNames={{
                     input: "rounded-r-[4%]",
                   }}
-                  size="md"
+                  size="sm"
                   value={limit}
                   variant="filled"
                 />
@@ -302,14 +299,14 @@ export default ({
                 <Text
                   color="brand"
                   fw={"bold"}
-                  className="bg-[#f1f3f5] flex items-center px-10 rounded-sm"
+                  className="bg-[#f1f3f5] flex font-medium text-xs items-center px-10 rounded-sm"
                 >
                   {t("Search")}
                 </Text>
                 <Input
                   type="text"
                   variant="filled"
-                  size="md"
+                  size="sm"
                   radius={"sm"}
                   mr={15}
                   rightSection={
@@ -325,8 +322,8 @@ export default ({
               <div className="flex-1"></div>
               <div className="flex items-center">
                 {newStruct.hasOwnProperty("createMethod") && (
-                  <Button className=" bg-[#2784c2] rounded-full" size="md" leftIcon={<IconPlus size={15} />} onClick={createNew}>
-                    {t("Add New")}
+                  <Button className=" bg-[#2784c2] font-medium text-xs rounded-full" size="sm"  leftIcon={<IconPlus size={15} />} onClick={createNew}>
+                    {t("Add User")}
                   </Button>
                 )}
               </div>
@@ -338,14 +335,14 @@ export default ({
               horizontalSpacing={"md"}
               className="min-w-full divide-y divide-gray-200 px-2 "
             >
-              <thead className="bg-gray-200">
+              <thead className="bg-white">
                 <tr>
                   {attributes?.map((item) => {
                     return (
                       <th
                         scope="col"
                         key={item}
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-900  tracking-wider"
                       >
                         <p    onClick={() =>
                               setSort({
@@ -353,7 +350,7 @@ export default ({
                                 order: sort.order === "asc" ? "desc" : "asc",
                               })
                             } class={`flex items-center`}>
-                          {t(`${item.replace("_", " ").toUpperCase()}`)}
+                          {t(`${item.replace("_", " ")}`)}
                           {/* <ActionIcon
                             className="text-gray-900"
                             size="xs"
@@ -440,9 +437,9 @@ export default ({
                       })}
                       <td className="flex justify-end px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         {edit && (
-                          <ActionIcon onClick={() => handleEdit(item)}>
-                            <FaEdit />
-                          </ActionIcon>
+                          <button className="flex flex-row text-[#339af0] bg-[#DEE6EF] px-2 rounded-md justify-center items-center space-x-5" onClick={() => handleEdit(item)}>
+                         <FaEdit /> <p className="pr-3">Edit</p>
+                          </button>
                         )}
                         {attatchment && (
                           <ActionIcon
@@ -490,11 +487,12 @@ export default ({
 
             <div className="flex w-full px-6 py-8">
               <p className="text-sm text-neutral-600">
-                Showing {page * limit - limit + 1} to {page * limit} of{" "}
-                {dataInfo.count} entries
+                <span className=" text-[#2784c2]">{page * limit - limit + 1}-{page * limit}</span> from {" "}
+                <span className=" text-[#2784c2]">{dataInfo.count}</span> items
               </p>
-              <div className="flex-1"></div>
+              {/* <div className="flex-1"></div> */}
               <Pagination
+              className="ml-[30%]"
                 color="brand"
                 total={Math.ceil(dataInfo.count / limit)}
                 limit={limit}

@@ -58,6 +58,6 @@ export default () => {
                     </Card>
                 </div>
             </PageProvider>
-        // </PermissionsProvider>
+         </PermissionsProvider>
     )
 }
