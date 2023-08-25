@@ -22,6 +22,8 @@ deploy_aws:
   script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
     - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
-    - docker stop webgis-container
-    - docker rm webgis-container
-    - docker-compose up -d
+    - docker-compose down 
+    - docker-compose up -d 
+    #- docker stop webgis-container
+    #- docker rm webgis-container
+    #- docker-compose up -d

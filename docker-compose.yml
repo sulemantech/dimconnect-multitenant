@@ -11,16 +11,6 @@ services:
   networks:
    - backend_external
   restart: unless-stopped
-  environment:
-      - VITE_BACKEND_URL=https://dim-webgis-dev.hiwifipro.com
-      - VITE_MEDIA_SERVER_URL=https://dim-streaming-dev.hiwifipro.com/media/
-      - VITE_LOCAL_STORAGE_KEY=hf8f8fj3dj193jf913fj91f91jf9
-      - VITE_LOCAL_STORAGE_KEY_WEB_VIEW=hf8f8fj3dj193jf913fj91f91jf9localStorageKeyWebview
-      - VITE_LOCAL_STORAGE_REFRESH_KEY=hf8f8fj3dj193jf913fj91f91jf9_R
-      - VITE_CHAT_SERVER_URL=https://dim-chat-dev.hiwifipro.com
-      - VITE_CHAT_SERVER_WEB_SOCKET_URL=wss://dim-chat-dev.hiwifipro.com/websocket
-      - VITE_CHAT_SERVER_ADMIN_USER_NAME=niko
-      - VITE_CHAT_SERVER_ADMIN_PASSWORD=3EGOc85iFxY3VoCw
 
 networks:
   backend_external:
