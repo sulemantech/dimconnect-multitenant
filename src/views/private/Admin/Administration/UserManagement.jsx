@@ -64,14 +64,15 @@ export default () => {
               onClick={() => {
                 openModal({
                   title: (
-                    <div className="flex flex-row p-4 text-white items-center space-x-2 ">
-                      <img
-                        src="/user2.svg"
-                        alt="Title Image"
-                        className="title-image"
-                      />
-                      <p> Assign Role</p>
-                    </div>
+                    <div className="flex flex-row p-4 w-[35.96vw] bg-cover bg-center text-white items-center space-x-2 bg-[url('/Rectangle973.png')]  bg-no-repeat">
+                    <img
+                      src="/user2.svg"
+                      alt="Title Image"
+                      className="title-image"
+                    />
+                    <p>Assign Role</p>
+                  </div>
+                  
                   ),
                   children: (
                     <div className="p-4">
@@ -83,6 +84,7 @@ export default () => {
                       />
                     </div>
                   ),
+                  size:"35.96vw",
                   padding: "0",
                   withCloseButton: false,
                 });
@@ -571,44 +573,53 @@ const AssignRole = ({ user, roles, refreshData }) => {
           {/* user details */}
 
           <div>
-            <div className="flex flex-col m-auto">
-              <p className="flex justify-between items-center h-10">
+            <div className="flex flex-col space-y-4 m-auto">
+              <div className="flex justify-center  space-x-[3vw] items-center h-12">
                 <Text className="text-sm">{t("User ID")}</Text>
-                <Text color="brand" className="mt-1">
+                <div className=" h-11 w-[25vw] bg-[#F5F7F9] pl-4 rounded-md"><Text color="brand" className="mt-2">
                   {user.id}
                 </Text>
-              </p>
-              <Divider />
-              <p className="flex justify-between items-center h-10">
-                <Text className="text-sm">{t("Email")}</Text>
-                <Text color="brand" className="mt-1">
-                  {user.email}
+                </div>
+              </div>
+
+              <div className="flex justify-center  space-x-[4vw] items-center h-12">
+                <Text className="text-sm">{t("Mail")}</Text>
+                <div className=" h-11 w-[25vw] bg-[#F5F7F9] pl-4 rounded-md"><Text color="brand" className="mt-2">
+                {user.email}
                 </Text>
-              </p>
-              <Divider />
-              <p className="flex justify-between items-center h-10">
+                </div>
+              </div>
+              <div className="flex justify-center space-x-[3.6vw] items-center h-12">
                 <Text className="text-sm">{t("Name")}</Text>
-                <Text color="brand" className="mt-1">
-                  {user.vorname} {user.nachname}
+                <div className=" h-11 w-[25vw] bg-[#F5F7F9] pl-4 rounded-md"><Text color="brand" className="mt-2">
+                {user.vorname} {user.nachname}
                 </Text>
-              </p>
-              <Divider />
-              <p className="flex justify-between items-center h-10">
+                </div>
+              </div>
+              <div className="flex justify-center space-x-[1.3vw] items-center h-12">
                 <Text className="text-sm">{t("Existing Role")}</Text>
-                <Text color="brand" className="mt-1">
-                  {user.userRole?.join(", ")}
+                <div className=" h-11 w-[25vw] bg-[#F5F7F9] pl-4 rounded-md"><Text color="brand" className="mt-2">
+                {user.userRole?.join(", ")}
                 </Text>
-              </p>
-              <Divider />
+                </div>
+              </div>
+            
+             
+             
+            
+              
+             
+             
             </div>
           </div>
 
-          <Title size={"sm"} mt={20}>
-            {t("Select Role")}
-          </Title>
+         <div className="flex flex-row ml-[1.3vw] mt-4 space-x-10">
+           <p className="mt-4"> {t("Select Role")}</p>
+          
 
           <MultiSelect
-            className="mt-1"
+          variant="filled"
+            className="mt-1 "
             data={roles?.map((role, index) => ({
               value: role.id,
               label: <Badge color={MANTINE_COLORS[index]}>{role.name}</Badge>,
@@ -616,17 +627,10 @@ const AssignRole = ({ user, roles, refreshData }) => {
             value={selectedRole}
             onChange={(e) => setSelectedRole(e)}
           />
+          </div>
         </div>
-        <div className="flex flex-col mt-2">
-          <Button
-            onClick={assignRole}
-            loading={loading}
-            disabled={loading}
-            className="mt-2"
-            variant="default"
-          >
-            Assign Role
-          </Button>
+        <div className="flex flex-col ml-5 mt-2">
+          <button className="mt-4 flex flex-1 bg-[#dde4eb]  w-[7vw] px-2 py-4 justify-center font-bold shadow-xl text-[#0E76BB] rounded-2xl" onClick={assignRole}>Assign Role</button>
         </div>
         {error && (
           <div className="mt-2">
