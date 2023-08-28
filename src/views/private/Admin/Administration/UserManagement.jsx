@@ -60,11 +60,11 @@ export default () => {
           ...user,
           "Assign Role": (
             <button
-            className=" border-2 border-[#339af0] rounded-md px-1"
+              className=" border-2 border-[#0E76BB] rounded-md px-1"
               onClick={() => {
                 openModal({
                   title: (
-                    <div className="flex flex-row p-4 text-white items-center space-x-2 bg-[url('/bgimg.png')] w-[34.4vw] bg-cover bg-center bg-no-repeat">
+                    <div className="flex flex-row p-4 text-white items-center space-x-2 ">
                       <img
                         src="/user2.svg"
                         alt="Title Image"
@@ -91,13 +91,13 @@ export default () => {
               <Text
                 mt={2}
                 // variant="outline"
-                color="brand"
+                color="#0E76BB"
                 className=" text-sm font-medium"
               >
                 {" "}
                 + Assign Role
               </Text>
-              </button>
+            </button>
           ),
         }))
       );
@@ -118,63 +118,352 @@ export default () => {
       <PageProvider>
         <div className="">
           <div className="flex flex-wrap justify-center">
-            <div className="m-2 bg-white text-gray-700 rounded-lg p-5  min-w-[250px] flex-1 flex">
+            <div className=" m-2 bg-white text-gray-700 rounded-lg px-5 pt-3   min-w-[250px] flex-1 flex">
               <div>
-                <h2 className="text-lg">{t("Pending Users")}</h2>
-                <div className="flex items-center mt-2">
-                  <h3 className="text-2xl">237</h3>
-                  <span className="text-green-500 ml-2">( + 42%)</span>
-                </div>
-                <p className="text-sm mt-2">{t("Last week analytics")}</p>
+                <h2 className="text-lg font-bold">{t("Super Admin")}</h2>
+                <div>
+                    <div className=" absolute">
+                      <svg
+                        width="148"
+                        height="82"
+                        viewBox="0 0 210 82"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M142.52 46.15L127.74 52.27C130.4 58.84 131.91 65.99 131.98 73.49H147.98C147.92 63.82 145.97 54.6 142.52 46.14V46.15Z"
+                          fill="#F5F7F9"
+                        />
+                        <path
+                          d="M126.63 22.06L115.32 33.37C120.38 38.52 124.5 44.6 127.37 51.34L142.15 45.22C138.47 36.53 133.16 28.69 126.63 22.06Z"
+                          fill="#F5F7F9"
+                        />
+                        <path
+                          d="M0.00976562 74.49C0.269766 78.67 3.73977 81.99 7.97977 81.99C12.2198 81.99 15.6998 78.67 15.9498 74.49H0.00976562Z"
+                          fill="#FF6161"
+                        />
+                        <path
+                          d="M132.01 74.49C132.27 78.67 135.74 81.99 139.98 81.99C144.22 81.99 147.7 78.67 147.95 74.49H132H132.01Z"
+                          fill="#F5F7F9"
+                        />
+                        <path
+                          d="M5.46 46.15C2.01 54.6 0.06 63.82 0 73.49H16C16.06 65.99 17.57 58.84 20.24 52.27L5.46 46.15Z"
+                          fill="#FF6161"
+                        />
+                        <path
+                          d="M102.76 5.83001L96.6396 20.61C103.38 23.48 109.47 27.59 114.62 32.65L125.93 21.34C119.31 14.8 111.46 9.50001 102.77 5.82001L102.76 5.83001Z"
+                          fill="#F5F7F9"
+                        />
+                        <path
+                          d="M74.4902 0V16C81.9902 16.06 89.1502 17.56 95.7202 20.23L101.84 5.45C93.3802 2 84.1502 0.07 74.4902 0Z"
+                          fill="#F5F7F9"
+                        />
+                        <path
+                          d="M52.2596 20.23C58.8296 17.57 65.9896 16.07 73.4896 16V0C63.8196 0.06 54.5896 2 46.1396 5.45L52.2596 20.23Z"
+                          fill="#F5F7F9"
+                        />
+                        <path
+                          d="M33.3703 32.66C38.5203 27.6 44.6003 23.48 51.3403 20.61L45.2203 5.83002C36.5303 9.51002 28.6903 14.82 22.0703 21.35L33.3803 32.66H33.3703Z"
+                          fill="#FF6161"
+                        />
+                        <path
+                          d="M21.3501 22.06C14.8101 28.68 9.51008 36.52 5.83008 45.21L20.6101 51.33C23.4801 44.59 27.6001 38.51 32.6601 33.36L21.3501 22.05V22.06Z"
+                          fill="#FF6161"
+                        />
+                      </svg>
+                    </div>
+                    <img
+                      className="w-5  relative ml-[35%] pt-10 pb-2"
+                      src="/userred.svg"
+                      alt=""
+                    />
+                  </div>
               </div>
-              <div className="flex-1" />
-              <div className="text-yellow-500">
-                <IconUser size={32} />
+
+              <div className=" flex flex-1 "></div>
+              <div className="flex flex-col items-end mt-[12%]">
+                <span className="text-[#0E76BB] text-xs ml-2">+3,5%</span>
+                <h3 className="text-2xl">19,860</h3>
+                <p className="text-xs font-extralight opacity-70 italic">{t("Last week analytics")}</p>
               </div>
             </div>
-
-            <div className="m-2 bg-white text-gray-700 rounded-lg p-5   min-w-[250px] flex-1 flex">
+            <div className=" m-2 bg-white text-gray-700 rounded-lg px-5 pt-3   min-w-[250px] flex-1 flex">
               <div>
-                <h2 className="text-lg">{t("Active Users")}</h2>
-                <div className="flex items-center mt-2">
-                  <h3 className="text-2xl">19,860</h3>
-                  <span className="text-red-500 ml-2">( - 14%)</span>
-                </div>
-                <p className="text-sm mt-2">{t("Last week analytics")}</p>
+                <h2 className="text-lg font-bold">{t("TRC Admin")}</h2>
+                
+                  <div>
+                    <div className=" absolute">
+                      <svg
+                        width="148"
+                        height="82"
+                        viewBox="0 0 210 82"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M142.52 46.15L127.74 52.27C130.4 58.84 131.91 65.99 131.98 73.49H147.98C147.92 63.82 145.97 54.6 142.52 46.14V46.15Z"
+                          fill="#F5F7F9"
+                        />
+                        <path
+                          d="M126.63 22.06L115.32 33.37C120.38 38.52 124.5 44.6 127.37 51.34L142.15 45.22C138.47 36.53 133.16 28.69 126.63 22.06Z"
+                          fill="#F5F7F9"
+                        />
+                        <path
+                          d="M0.00976562 74.49C0.269766 78.67 3.73977 81.99 7.97977 81.99C12.2198 81.99 15.6998 78.67 15.9498 74.49H0.00976562Z"
+                          fill="#FF862E"
+                        />
+                        <path
+                          d="M132.01 74.49C132.27 78.67 135.74 81.99 139.98 81.99C144.22 81.99 147.7 78.67 147.95 74.49H132H132.01Z"
+                          fill="#F5F7F9"
+                        />
+                        <path
+                          d="M5.46 46.15C2.01 54.6 0.06 63.82 0 73.49H16C16.06 65.99 17.57 58.84 20.24 52.27L5.46 46.15Z"
+                          fill="#FF862E"
+                        />
+                        <path
+                          d="M102.76 5.83001L96.6396 20.61C103.38 23.48 109.47 27.59 114.62 32.65L125.93 21.34C119.31 14.8 111.46 9.50001 102.77 5.82001L102.76 5.83001Z"
+                          fill="#F5F7F9"
+                        />
+                        <path
+                          d="M74.4902 0V16C81.9902 16.06 89.1502 17.56 95.7202 20.23L101.84 5.45C93.3802 2 84.1502 0.07 74.4902 0Z"
+                          fill="#F5F7F9"
+                        />
+                        <path
+                          d="M52.2596 20.23C58.8296 17.57 65.9896 16.07 73.4896 16V0C63.8196 0.06 54.5896 2 46.1396 5.45L52.2596 20.23Z"
+                          fill="#F5F7F9"
+                        />
+                        <path
+                          d="M33.3703 32.66C38.5203 27.6 44.6003 23.48 51.3403 20.61L45.2203 5.83002C36.5303 9.51002 28.6903 14.82 22.0703 21.35L33.3803 32.66H33.3703Z"
+                          fill="#FF862E"
+                        />
+                        <path
+                          d="M21.3501 22.06C14.8101 28.68 9.51008 36.52 5.83008 45.21L20.6101 51.33C23.4801 44.59 27.6001 38.51 32.6601 33.36L21.3501 22.05V22.06Z"
+                          fill="#FF862E"
+                        />
+                      </svg>
+                    </div>
+                    <img
+                      className=" w-5  relative ml-[45%] pt-10 pb-2"
+                      src="/userorange.svg"
+                      alt=""
+                    />
+                  </div>
+                
               </div>
-              <div className="flex-1" />
-              <div className="text-green-500">
-                <IconUserPlus size={32} />
+
+              <div className=" flex flex-1 "></div>
+              <div className="flex flex-col items-end mt-[12%]">
+                <span className="text-[#0E76BB] text-xs ml-2">+3,5%</span>
+                <h3 className="text-2xl ">19,860</h3>
+                <p className="text-xs font-extralight opacity-70 italic">{t("Last week analytics")}</p>
               </div>
             </div>
-
-            <div className="m-2 bg-white text-gray-700 rounded-lg p-5  min-w-[250px] flex-1 flex">
+            <div className=" m-2 bg-white text-gray-700 rounded-lg px-5 pt-3   min-w-[250px] flex-1 flex">
               <div>
-                <h2 className="text-lg">{t("Paid Users")}</h2>
-                <div className="flex items-center mt-2">
-                  <h3 className="text-2xl">4,567</h3>
-                  <span className="text-green-500 ml-2">( + 18%)</span>
-                </div>
-                <p className="text-sm mt-2">{t("Last week analytics")}</p>
+                <h2 className="text-lg font-bold">{t("DIM Viewer")}</h2>
+                <div>
+                    <div className=" absolute">
+                      <svg
+                        width="148"
+                        height="82"
+                        viewBox="0 0 210 82"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M142.52 46.15L127.74 52.27C130.4 58.84 131.91 65.99 131.98 73.49H147.98C147.92 63.82 145.97 54.6 142.52 46.14V46.15Z"
+                          fill="#F5F7F9"
+                        />
+                        <path
+                          d="M126.63 22.06L115.32 33.37C120.38 38.52 124.5 44.6 127.37 51.34L142.15 45.22C138.47 36.53 133.16 28.69 126.63 22.06Z"
+                          fill="#F5F7F9"
+                        />
+                        <path
+                          d="M0.00976562 74.49C0.269766 78.67 3.73977 81.99 7.97977 81.99C12.2198 81.99 15.6998 78.67 15.9498 74.49H0.00976562Z"
+                          fill="#0E76BB"
+                        />
+                        <path
+                          d="M132.01 74.49C132.27 78.67 135.74 81.99 139.98 81.99C144.22 81.99 147.7 78.67 147.95 74.49H132H132.01Z"
+                          fill="#F5F7F9"
+                        />
+                        <path
+                          d="M5.46 46.15C2.01 54.6 0.06 63.82 0 73.49H16C16.06 65.99 17.57 58.84 20.24 52.27L5.46 46.15Z"
+                          fill="#0E76BB"
+                        />
+                        <path
+                          d="M102.76 5.83001L96.6396 20.61C103.38 23.48 109.47 27.59 114.62 32.65L125.93 21.34C119.31 14.8 111.46 9.50001 102.77 5.82001L102.76 5.83001Z"
+                          fill="#F5F7F9"
+                        />
+                        <path
+                          d="M74.4902 0V16C81.9902 16.06 89.1502 17.56 95.7202 20.23L101.84 5.45C93.3802 2 84.1502 0.07 74.4902 0Z"
+                          fill="#F5F7F9"
+                        />
+                        <path
+                          d="M52.2596 20.23C58.8296 17.57 65.9896 16.07 73.4896 16V0C63.8196 0.06 54.5896 2 46.1396 5.45L52.2596 20.23Z"
+                          fill="#F5F7F9"
+                        />
+                        <path
+                          d="M33.3703 32.66C38.5203 27.6 44.6003 23.48 51.3403 20.61L45.2203 5.83002C36.5303 9.51002 28.6903 14.82 22.0703 21.35L33.3803 32.66H33.3703Z"
+                          fill="#0E76BB"
+                        />
+                        <path
+                          d="M21.3501 22.06C14.8101 28.68 9.51008 36.52 5.83008 45.21L20.6101 51.33C23.4801 44.59 27.6001 38.51 32.6601 33.36L21.3501 22.05V22.06Z"
+                          fill="#0E76BB"
+                        />
+                      </svg>
+                    </div>
+                    <img
+                      className=" relative w-5  ml-[40%] pt-10 pb-2"
+                      src="/userblue.svg"
+                      alt=""
+                    />
+                  </div>
               </div>
-              <div className="flex-1" />
-              <div className="text-red-500">
-                <IconUserCheck size={32} />
+
+              <div className=" flex flex-1 "></div>
+              <div className="flex flex-col items-end mt-[12%]">
+                <span className="text-[#0E76BB] text-xs ml-2">+3,5%</span>
+                <h3 className="text-2xl">19,860</h3>
+                <p className="text-xs font-extralight opacity-70 italic">{t("Last week analytics")}</p>
               </div>
             </div>
-
-            <div className="m-2 bg-white text-gray-700 rounded-lg p-5  min-w-[250px] flex-1 flex">
+            <div className=" m-2 bg-white text-gray-700 rounded-lg px-5 pt-3   min-w-[250px] flex-1 flex">
               <div>
-                <h2 className="text-lg">{t("Session")}</h2>
-                <div className="flex items-center mt-2">
-                  <h3 className="text-2xl">21,459</h3>
-                  <span className="text-green-500 ml-2">( + 29%)</span>
-                </div>
-                <p className="text-sm mt-2">{t("Total Users")}</p>
+                <h2 className="text-lg font-bold">{t("Basic User")}</h2>
+                <div>
+                    <div className=" absolute">
+                      <svg
+                        width="148"
+                        height="82"
+                        viewBox="0 0 210 82"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M142.52 46.15L127.74 52.27C130.4 58.84 131.91 65.99 131.98 73.49H147.98C147.92 63.82 145.97 54.6 142.52 46.14V46.15Z"
+                          fill="#F57F9"
+                        />
+                        <path
+                          d="M126.63 22.06L115.32 33.37C120.38 38.52 124.5 44.6 127.37 51.34L142.15 45.22C138.47 36.53 133.16 28.69 126.63 22.06Z"
+                          fill="#F5F7F9"
+                        />
+                        <path
+                          d="M0.00976562 74.49C0.269766 78.67 3.73977 81.99 7.97977 81.99C12.2198 81.99 15.6998 78.67 15.9498 74.49H0.00976562Z"
+                          fill="#1DAF1A"
+                        />
+                        <path
+                          d="M132.01 74.49C132.27 78.67 135.74 81.99 139.98 81.99C144.22 81.99 147.7 78.67 147.95 74.49H132H132.01Z"
+                          fill="#F5F7F9"
+                        />
+                        <path
+                          d="M5.46 46.15C2.01 54.6 0.06 63.82 0 73.49H16C16.06 65.99 17.57 58.84 20.24 52.27L5.46 46.15Z"
+                          fill="#1DAF1A"
+                        />
+                        <path
+                          d="M102.76 5.83001L96.6396 20.61C103.38 23.48 109.47 27.59 114.62 32.65L125.93 21.34C119.31 14.8 111.46 9.50001 102.77 5.82001L102.76 5.83001Z"
+                          fill="#F5F7F9"
+                        />
+                        <path
+                          d="M74.4902 0V16C81.9902 16.06 89.1502 17.56 95.7202 20.23L101.84 5.45C93.3802 2 84.1502 0.07 74.4902 0Z"
+                          fill="#F5F7F9"
+                        />
+                        <path
+                          d="M52.2596 20.23C58.8296 17.57 65.9896 16.07 73.4896 16V0C63.8196 0.06 54.5896 2 46.1396 5.45L52.2596 20.23Z"
+                          fill="#F5F7F9"
+                        />
+                        <path
+                          d="M33.3703 32.66C38.5203 27.6 44.6003 23.48 51.3403 20.61L45.2203 5.83002C36.5303 9.51002 28.6903 14.82 22.0703 21.35L33.3803 32.66H33.3703Z"
+                          fill="#1DAF1A"
+                        />
+                        <path
+                          d="M21.3501 22.06C14.8101 28.68 9.51008 36.52 5.83008 45.21L20.6101 51.33C23.4801 44.59 27.6001 38.51 32.6601 33.36L21.3501 22.05V22.06Z"
+                          fill="#1DAF1A"
+                        />
+                      </svg>
+                    </div>
+                    <img
+                      className=" w-5 relative ml-[50%] pt-10"
+                      src="/usergreen.svg"
+                      alt=""
+                    />
+                  </div>
               </div>
-              <div className="flex-1" />
-              <div className="text-blue-500">
-                <IconUserCancel size={32} />
+
+              <div className=" flex flex-1 "></div>
+              <div className="flex flex-col items-end mt-[12%]">
+                <span className="text-[#0E76BB] text-xs ml-2">+3,5%</span>
+                <h3 className="text-2xl">19,860</h3>
+                <p className="text-xs font-extralight opacity-70 italic">{t("Last week analytics")}</p>
+              </div>
+            </div>
+            
+            <div className=" m-2 bg-white text-gray-700 rounded-lg px-5 pt-3   min-w-[250px] flex-1 flex">
+              <div>
+                <h2 className="text-lg font-bold">{t("Others")}</h2>
+                 <div>
+                    <div className=" absolute">
+                      <svg
+                        width="148"
+                        height="82"
+                        viewBox="0 0 210 82"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M142.52 46.15L127.74 52.27C130.4 58.84 131.91 65.99 131.98 73.49H147.98C147.92 63.82 145.97 54.6 142.52 46.14V46.15Z"
+                          fill="#F5F7F9"
+                        />
+                        <path
+                          d="M126.63 22.06L115.32 33.37C120.38 38.52 124.5 44.6 127.37 51.34L142.15 45.22C138.47 36.53 133.16 28.69 126.63 22.06Z"
+                          fill="#F5F7F9"
+                        />
+                        <path
+                          d="M0.00976562 74.49C0.269766 78.67 3.73977 81.99 7.97977 81.99C12.2198 81.99 15.6998 78.67 15.9498 74.49H0.00976562Z"
+                          fill="#878788"
+                        />
+                        <path
+                          d="M132.01 74.49C132.27 78.67 135.74 81.99 139.98 81.99C144.22 81.99 147.7 78.67 147.95 74.49H132H132.01Z"
+                          fill="#F5F7F9"
+                        />
+                        <path
+                          d="M5.46 46.15C2.01 54.6 0.06 63.82 0 73.49H16C16.06 65.99 17.57 58.84 20.24 52.27L5.46 46.15Z"
+                          fill="#878788"
+                        />
+                        <path
+                          d="M102.76 5.83001L96.6396 20.61C103.38 23.48 109.47 27.59 114.62 32.65L125.93 21.34C119.31 14.8 111.46 9.50001 102.77 5.82001L102.76 5.83001Z"
+                          fill="#F5F7F9"
+                        />
+                        <path
+                          d="M74.4902 0V16C81.9902 16.06 89.1502 17.56 95.7202 20.23L101.84 5.45C93.3802 2 84.1502 0.07 74.4902 0Z"
+                          fill="#F5F7F9"
+                        />
+                        <path
+                          d="M52.2596 20.23C58.8296 17.57 65.9896 16.07 73.4896 16V0C63.8196 0.06 54.5896 2 46.1396 5.45L52.2596 20.23Z"
+                          fill="#F5F7F9"
+                        />
+                        <path
+                          d="M33.3703 32.66C38.5203 27.6 44.6003 23.48 51.3403 20.61L45.2203 5.83002C36.5303 9.51002 28.6903 14.82 22.0703 21.35L33.3803 32.66H33.3703Z"
+                          fill="#878788"
+                        />
+                        <path
+                          d="M21.3501 22.06C14.8101 28.68 9.51008 36.52 5.83008 45.21L20.6101 51.33C23.4801 44.59 27.6001 38.51 32.6601 33.36L21.3501 22.05V22.06Z"
+                          fill="#878788"
+                        />
+                      </svg>
+                    </div>
+                    <img
+                      className=" w-5 relative ml-[70%] pt-10"
+                      src="/usergray.svg"
+                      alt=""
+                    />
+                  </div>
+              </div>
+
+              <div className=" flex flex-1 "></div>
+              <div className="flex flex-col items-end mt-[12%]">
+                <span className="text-[#0E76BB] text-xs ml-2">+3,5%</span>
+                <h3 className="text-2xl">19,860</h3>
+                <p className="text-xs font-extralight opacity-70 italic">{t("Last week analytics")}</p>
               </div>
             </div>
           </div>

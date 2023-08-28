@@ -12,3 +12,4 @@ export default {
     chatServerAdminUsername: "niko",
     chatServerAdminPassword: "3EGOc85iFxY3VoCw",
 }
+

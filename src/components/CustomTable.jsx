@@ -311,7 +311,7 @@ export default ({
                   mr={15}
                   rightSection={
                     <ThemeIcon color="white">
-                      <IconSearch color="rgb(96 165 250) " size={15} />
+                      <IconSearch color="#0E76BB " size={15} />
                     </ThemeIcon>
                   }
                   className="mr-xs rounded-sm"
@@ -322,7 +322,7 @@ export default ({
               <div className="flex-1"></div>
               <div className="flex items-center">
                 {newStruct.hasOwnProperty("createMethod") && (
-                  <Button className=" bg-[#2784c2] font-medium text-xs rounded-full" size="sm"  leftIcon={<IconPlus size={15} />} onClick={createNew}>
+                  <Button className=" bg-[#0E76BB] font-medium text-xs rounded-full" size="sm"  leftIcon={<IconPlus size={15} />} onClick={createNew}>
                     {t("Add User")}
                   </Button>
                 )}
@@ -437,7 +437,7 @@ export default ({
                       })}
                       <td className="flex justify-end px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         {edit && (
-                          <button className="flex flex-row text-[#339af0] bg-[#DEE6EF] px-2 rounded-md justify-center items-center space-x-5" onClick={() => handleEdit(item)}>
+                          <button className="flex flex-row text-[#0E76BB] bg-[#DEE6EF] px-2 rounded-md justify-center items-center space-x-5" onClick={() => handleEdit(item)}>
                          <FaEdit /> <p className="pr-3">Edit</p>
                           </button>
                         )}
