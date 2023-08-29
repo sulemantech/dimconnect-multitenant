@@ -209,6 +209,9 @@ export default () => {
     )
 }
 
+const CustomColoredBadge = ({ color, children }) => (
+    <Badge color={color}>{children}</Badge>
+);
 
 const AssignRole = ({ user, roles, refreshData }) => {
 
@@ -275,7 +278,7 @@ const AssignRole = ({ user, roles, refreshData }) => {
                         className="mt-1"
                         data={roles?.map((role, index) => ({
                             value: role.id,
-                            label: <Badge color={MANTINE_COLORS[index]}>{role.name}</Badge>,
+                            label: <Badge  style={{ backgroundColor: "#D8E4EEE5", padding: "4px 8px", borderRadius: "4px" }}>{role.name}</Badge>,
                         }))}
 
                         value={selectedRole}
@@ -320,7 +323,7 @@ const RoleSelectOnCreate = ({ roles }) => {
 
                 data={roles?.map((role, index) => ({
                     value: role.id,
-                    label: <Badge color={MANTINE_COLORS[index]}>{role.name}</Badge>,
+                    label: <Badge  style={{ backgroundColor: "#D8E4EEE5", padding: "4px 8px", borderRadius: "4px" }}>{role.name}</Badge>,
                 }))}
                 value={selectedRole}
                 onChange={(e) => setSelectedRole(e)}
