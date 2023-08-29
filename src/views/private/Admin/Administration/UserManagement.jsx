@@ -37,7 +37,7 @@ import { PERMISSIONS } from "../../../../common";
 import { useTranslation } from "react-i18next";
 import { districts } from "../../../../signals";
 import { t } from "i18next";
-import { openModal } from "@mantine/modals";
+import { closeModal, openModal } from "@mantine/modals";
 
 export default () => {
   const { t } = useTranslation();
@@ -64,7 +64,7 @@ export default () => {
               onClick={() => {
                 openModal({
                   title: (
-                    <div className="flex flex-row p-4 w-[35.96vw] bg-cover bg-center text-white items-center space-x-2 bg-[url('/Rectangle973.png')]  bg-no-repeat">
+                    <div className="flex flex-row p-4 w-[50vw] bg-cover bg-center text-white items-center space-x-2 bg-[url('/Rectangle973.png')]  bg-no-repeat">
                     <img
                       src="/user2.svg"
                       alt="Title Image"
@@ -84,7 +84,7 @@ export default () => {
                       />
                     </div>
                   ),
-                  size:"35.96vw",
+                  size:"50vw",
                   padding: "0",
                   withCloseButton: false,
                 });
@@ -118,8 +118,8 @@ export default () => {
   return (
     <PermissionWrapper permission={PERMISSIONS["User Management"]} view message>
       <PageProvider>
-        <div className="">
-          <div className="flex flex-wrap justify-center">
+        
+          <div className="flex flex-wrap justify-center max-laptop1:grid max-laptop1:grid-cols-2 max-Mobile:flex max-Mobile:flex-col">
             <div className=" m-2 bg-white text-gray-700 rounded-lg px-5 pt-3   min-w-[250px] flex-1 flex">
               <div>
                 <h2 className="text-lg font-bold">{t("Super Admin")}</h2>
@@ -185,7 +185,7 @@ export default () => {
               <div className=" flex flex-1 "></div>
               <div className="flex flex-col items-end mt-[12%]">
                 <span className="text-[#0E76BB] text-xs ml-2">+3,5%</span>
-                <h3 className="text-2xl">19,860</h3>
+                <h3 className="text-2xl">2127</h3>
                 <p className="text-xs font-extralight opacity-70 italic">{t("Last week analytics")}</p>
               </div>
             </div>
@@ -256,7 +256,7 @@ export default () => {
               <div className=" flex flex-1 "></div>
               <div className="flex flex-col items-end mt-[12%]">
                 <span className="text-[#0E76BB] text-xs ml-2">+3,5%</span>
-                <h3 className="text-2xl ">19,860</h3>
+                <h3 className="text-2xl ">1715</h3>
                 <p className="text-xs font-extralight opacity-70 italic">{t("Last week analytics")}</p>
               </div>
             </div>
@@ -325,7 +325,7 @@ export default () => {
               <div className=" flex flex-1 "></div>
               <div className="flex flex-col items-end mt-[12%]">
                 <span className="text-[#0E76BB] text-xs ml-2">+3,5%</span>
-                <h3 className="text-2xl">19,860</h3>
+                <h3 className="text-2xl">5250</h3>
                 <p className="text-xs font-extralight opacity-70 italic">{t("Last week analytics")}</p>
               </div>
             </div>
@@ -343,7 +343,7 @@ export default () => {
                       >
                         <path
                           d="M142.52 46.15L127.74 52.27C130.4 58.84 131.91 65.99 131.98 73.49H147.98C147.92 63.82 145.97 54.6 142.52 46.14V46.15Z"
-                          fill="#F57F9"
+                          fill="#F5F7F9"
                         />
                         <path
                           d="M126.63 22.06L115.32 33.37C120.38 38.52 124.5 44.6 127.37 51.34L142.15 45.22C138.47 36.53 133.16 28.69 126.63 22.06Z"
@@ -394,7 +394,7 @@ export default () => {
               <div className=" flex flex-1 "></div>
               <div className="flex flex-col items-end mt-[12%]">
                 <span className="text-[#0E76BB] text-xs ml-2">+3,5%</span>
-                <h3 className="text-2xl">19,860</h3>
+                <h3 className="text-2xl">1500</h3>
                 <p className="text-xs font-extralight opacity-70 italic">{t("Last week analytics")}</p>
               </div>
             </div>
@@ -464,7 +464,7 @@ export default () => {
               <div className=" flex flex-1 "></div>
               <div className="flex flex-col items-end mt-[12%]">
                 <span className="text-[#0E76BB] text-xs ml-2">+3,5%</span>
-                <h3 className="text-2xl">19,860</h3>
+                <h3 className="text-2xl">237</h3>
                 <p className="text-xs font-extralight opacity-70 italic">{t("Last week analytics")}</p>
               </div>
             </div>
@@ -476,12 +476,11 @@ export default () => {
                 title={t("Users Management")}
                 attributes={[
                   "id",
+                  "roles",
                   "email",
-                  "userRole",
                   "vorname",
                   "nachname",
                   "agreement_signed",
-                  "roles",
                   "Assign Role",
                 ]}
                 remove
@@ -529,7 +528,6 @@ export default () => {
               </div>
             )}
           </div>
-        </div>
       </PageProvider>
     </PermissionWrapper>
   );
@@ -556,7 +554,7 @@ const AssignRole = ({ user, roles, refreshData }) => {
       setSuccess(true);
       setMessage(res.message);
       refreshData();
-      closeDrawer();
+      closeModal();
     } catch (err) {
       setError(true);
       setMessage(err.message);
@@ -574,31 +572,31 @@ const AssignRole = ({ user, roles, refreshData }) => {
 
           <div>
             <div className="flex flex-col space-y-4 m-auto">
-              <div className="flex justify-center  space-x-[3vw] items-center h-12">
-                <Text className="text-sm">{t("User ID")}</Text>
-                <div className=" h-11 w-[25vw] bg-[#F5F7F9] pl-4 rounded-md"><Text color="brand" className="mt-2">
+              <div className="flex justify-center   items-center h-12">
+                <Text className="text-sm w-[8vw] text-left">{t("User ID")}</Text>
+                <div className=" h-11 w-[30vw] bg-[#F5F7F9] pl-4 rounded-md"><Text color="brand" className="mt-2">
                   {user.id}
                 </Text>
                 </div>
               </div>
 
-              <div className="flex justify-center  space-x-[4vw] items-center h-12">
-                <Text className="text-sm">{t("Mail")}</Text>
-                <div className=" h-11 w-[25vw] bg-[#F5F7F9] pl-4 rounded-md"><Text color="brand" className="mt-2">
+              <div className="flex justify-center   items-center h-12">
+                <Text className="text-sm w-[8vw] text-left">{t("Mail")}</Text>
+                <div className=" h-11 w-[30vw] bg-[#F5F7F9] pl-4 rounded-md"><Text color="brand" className="mt-2">
                 {user.email}
                 </Text>
                 </div>
               </div>
-              <div className="flex justify-center space-x-[3.6vw] items-center h-12">
-                <Text className="text-sm">{t("Name")}</Text>
-                <div className=" h-11 w-[25vw] bg-[#F5F7F9] pl-4 rounded-md"><Text color="brand" className="mt-2">
+              <div className="flex justify-center  items-center h-12">
+                <Text className="text-sm w-[8vw] text-left">{t("Name")}</Text>
+                <div className=" h-11 w-[30vw] bg-[#F5F7F9] pl-4 rounded-md"><Text color="brand" className="mt-2">
                 {user.vorname} {user.nachname}
                 </Text>
                 </div>
               </div>
-              <div className="flex justify-center space-x-[1.3vw] items-center h-12">
-                <Text className="text-sm">{t("Existing Role")}</Text>
-                <div className=" h-11 w-[25vw] bg-[#F5F7F9] pl-4 rounded-md"><Text color="brand" className="mt-2">
+              <div className="flex justify-center  items-center h-12">
+                <Text className="text-sm w-[8vw] text-left">{t("Existing Role")}</Text>
+                <div className=" h-11 w-[30vw] bg-[#F5F7F9] pl-4 rounded-md"><Text color="brand" className="mt-2">
                 {user.userRole?.join(", ")}
                 </Text>
                 </div>
@@ -613,13 +611,13 @@ const AssignRole = ({ user, roles, refreshData }) => {
             </div>
           </div>
 
-         <div className="flex flex-row ml-[1.3vw] mt-4 space-x-10">
-           <p className="mt-4"> {t("Select Role")}</p>
+         <div className="flex flex-row ml-[4vw] items-center mt-4 space-x-3">
+         <Text className="text-sm w-[8vw] text-left">{t("Select Role")}</Text>
           
 
           <MultiSelect
           variant="filled"
-            className="mt-1 "
+            className="mt-1 ml-14 "
             data={roles?.map((role, index) => ({
               value: role.id,
               label: <Badge color={MANTINE_COLORS[index]}>{role.name}</Badge>,
@@ -630,7 +628,7 @@ const AssignRole = ({ user, roles, refreshData }) => {
           </div>
         </div>
         <div className="flex flex-col ml-5 mt-2">
-          <button className="mt-4 flex flex-1 bg-[#dde4eb]  w-[7vw] px-2 py-4 justify-center font-bold shadow-xl text-[#0E76BB] rounded-2xl" onClick={assignRole}>Assign Role</button>
+          <button className="mt-4 flex flex-1 bg-[#dde4eb] ml-[4vw]  w-[10vw] px-2 py-2 justify-center font-bold shadow-sm shadow-black text-[#0E76BB] rounded-[16px]" onClick={assignRole}>Assign Role</button>
         </div>
         {error && (
           <div className="mt-2">

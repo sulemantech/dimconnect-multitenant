@@ -124,9 +124,21 @@ export default ({
   };
 
   const createNew = useCallback(() => {
-    openDrawer({
-      title: t("Create New"),
+    openModal({
+      
+      title: (
+        <div className="flex flex-row p-4 w-[50vw] bg-cover bg-center text-white items-center space-x-2 bg-[url('/Rectangle973.png')]  bg-no-repeat">
+        <img
+          src="/user2.svg"
+          alt="Title Image"
+          className="title-image"
+        />
+        <p>Create New</p>
+      </div>
+      
+      ),
       children: (
+        <div className="p-4">
         <form onSubmit={handleSubmit} id="creationform">
           {Object.keys(newStruct.data)?.map((item) =>
             Array.isArray(newStruct.data[item]) ? (
@@ -206,7 +218,11 @@ export default ({
             </Button>
           </div>
         </form>
+        </div>
       ),
+      size:"50vw",
+      padding: "0",
+      withCloseButton: false,
     });
   }, [children]);
 
@@ -218,13 +234,27 @@ export default ({
         ...resp.data,
       };
       const childrenClone = children;
-      openDrawer({
-        title: "Edit",
+      openModal({
+        title: (
+          <div className="flex flex-row p-4 w-[50vw] bg-cover bg-center text-white items-center space-x-2 bg-[url('/Rectangle973.png')]  bg-no-repeat">
+          <img
+            src="/user2.svg"
+            alt="Title Image"
+            className="title-image"
+          />
+          <p>Edit</p>
+        </div>
+        
+        ),
         children: (
+          <div className="p-4">
           <EditForm item={item} newStruct={newStruct} refreshData={refreshData}>
             {childrenClone}
-          </EditForm>
+          </EditForm></div>
         ),
+        size:"50vw",
+        padding: "0",
+        withCloseButton: false,
       });
     } catch (err) {
       console.error(err);
@@ -249,8 +279,7 @@ export default ({
                 src="/User.svg"
                 alt=""
               />
-              <p className="font-bold text-[15px] my-2 text-[#0E76BB]"
-              >
+              <p className="font-bold text-[15px] my-2 text-[#0E76BB]">
                 {title}
               </p>
             </div>
@@ -266,7 +295,7 @@ export default ({
                 </Text>
 
                 <Select
-                 style={{ maxWidth: 90 }}
+                  style={{ maxWidth: 90 }}
                   data={[
                     {
                       label: "10",
@@ -322,7 +351,12 @@ export default ({
               <div className="flex-1"></div>
               <div className="flex items-center">
                 {newStruct.hasOwnProperty("createMethod") && (
-                  <Button className=" bg-[#0E76BB] font-medium text-xs rounded-full" size="sm"  leftIcon={<IconPlus size={15} />} onClick={createNew}>
+                  <Button
+                    className=" bg-[#0E76BB] font-medium text-xs rounded-full"
+                    size="sm"
+                    leftIcon={<IconPlus size={15} />}
+                    onClick={createNew}
+                  >
                     {t("Add User")}
                   </Button>
                 )}
@@ -344,13 +378,27 @@ export default ({
                         key={item}
                         className="px-6 py-3 text-left text-xs font-medium text-gray-900  tracking-wider"
                       >
-                        <p    onClick={() =>
-                              setSort({
-                                field: item,
-                                order: sort.order === "asc" ? "desc" : "asc",
-                              })
-                            } class={`flex items-center`}>
-                          {t(`${item.replace("_", " ")}`)}
+                        <p
+                          onClick={() =>
+                            setSort({
+                              field: item,
+                              order: sort.order === "asc" ? "desc" : "asc",
+                            })
+                          }
+                          class={`flex items-center`}
+                        >
+                          {t(
+                            `${item
+                              .replace("agreement_signed", "Agreement Signed ")
+                              .replace("id", " User ID")
+                              .replace("email", " E-Mail")
+                              .replace("vorname", " Name")
+                              .replace("nachname", "Surname")
+                              .replace("roles", "User Role")
+                              .replace("permissions", "Permission")
+                              .replace("name", "Name")
+                              .replace("description", "Description")}`
+                          )}
                           {/* <ActionIcon
                             className="text-gray-900"
                             size="xs"
@@ -437,21 +485,39 @@ export default ({
                       })}
                       <td className="flex justify-end px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         {edit && (
-                          <button className="flex flex-row text-[#0E76BB] bg-[#DEE6EF] px-2 rounded-md justify-center items-center space-x-5" onClick={() => handleEdit(item)}>
-                         <FaEdit /> <p className="pr-3">Edit</p>
+                          <button
+                            className="flex flex-row text-[#0E76BB] bg-[#DEE6EF] px-2 mr-6 rounded-md justify-center items-center space-x-5"
+                            onClick={() => handleEdit(item)}
+                          >
+                            <FaEdit /> <p className="pr-3">Edit</p>
                           </button>
                         )}
                         {attatchment && (
                           <ActionIcon
                             onClick={() => {
-                              openDrawer({
-                                title: "Attatchment",
+                              openModal({
+                                title: (
+                                  <div className="flex flex-row p-4 w-[50vw] bg-cover bg-center text-white items-center space-x-2 bg-[url('/Rectangle973.png')]  bg-no-repeat">
+                                  <img
+                                    src="/user2.svg"
+                                    alt="Title Image"
+                                    className="title-image"
+                                  />
+                                  <p>Attachment</p>
+                                </div>
+                                
+                                ),
+                                
                                 children: (
+                                  <div className="p-4">
                                   <AttatchmentForm
                                     item={item}
                                     newStruct={newStruct}
-                                  />
+                                  /></div>
                                 ),
+                                size:"50vw",
+                                padding: "0",
+                                withCloseButton: false,
                               });
                             }}
                           >
@@ -460,6 +526,7 @@ export default ({
                         )}
                         {remove && (
                           <ActionIcon
+                            className="mr-10"
                             color="red"
                             onClick={() =>
                               openConfirmModal({
@@ -487,12 +554,15 @@ export default ({
 
             <div className="flex w-full px-6 py-8">
               <p className="text-sm text-neutral-600">
-                <span className=" text-[#2784c2]">{page * limit - limit + 1}-{page * limit}</span> from {" "}
-                <span className=" text-[#2784c2]">{dataInfo.count}</span> items
+                <span className=" text-[#2784c2]">
+                  {page * limit - limit + 1}-{page * limit}
+                </span>{" "}
+                from <span className=" text-[#2784c2]">{dataInfo.count}</span>{" "}
+                items
               </p>
               {/* <div className="flex-1"></div> */}
               <Pagination
-              className="ml-[30%]"
+                className="ml-[30%]"
                 color="brand"
                 total={Math.ceil(dataInfo.count / limit)}
                 limit={limit}
