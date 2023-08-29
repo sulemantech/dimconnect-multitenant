@@ -41,12 +41,27 @@ import { closeModal, openModal } from "@mantine/modals";
 
 export default () => {
   const { t } = useTranslation();
-
   const [data, setData] = useState([]);
-
+  const [regions, setRegions] = useState([]);
   const [roles, setRoles] = useState([]);
   const [ready, setReady] = useState(false);
+  const fetchRegionData = async () => {
+    try {
+        const response = await getRegionList(); 
+        const regionData = response.data;
 
+        const mappedRegions = regionData.map(region => ({
+            label: region.name, 
+            value: region.ags,  
+        }));
+
+        setRegions(mappedRegions);
+        //console.log("Fetched region data:", mappedRegions);
+
+    } catch (error) {
+        console.error('Error fetching region data:', error);
+    }
+};
   const getData = async () => {
     try {
       const rolesx = await getRoles().catch((e) => setRoles([]));
@@ -103,6 +118,7 @@ export default () => {
           ),
         }))
       );
+      fetchRegionData(); 
     } catch (err) {}
 
     setReady(true);
