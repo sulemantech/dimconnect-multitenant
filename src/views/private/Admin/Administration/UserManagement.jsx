@@ -26,6 +26,7 @@ import {
   getRoles,
   getUsers,
   getUserById,
+  getRegionList,
 } from "../../../../api";
 import { useState, useLayoutEffect } from "preact/hooks";
 import { IconUser, IconUserCheck, IconUserPlus } from "@tabler/icons";
@@ -45,6 +46,7 @@ export default () => {
   const [regions, setRegions] = useState([]);
   const [roles, setRoles] = useState([]);
   const [ready, setReady] = useState(false);
+
   const fetchRegionData = async () => {
     try {
         const response = await getRegionList(); 
@@ -56,7 +58,7 @@ export default () => {
         }));
 
         setRegions(mappedRegions);
-        //console.log("Fetched region data:", mappedRegions);
+        // console.log("Fetched region data:", mappedRegions);
 
     } catch (error) {
         console.error('Error fetching region data:', error);
@@ -524,10 +526,11 @@ export default () => {
                       ],
                     },
                     isEditor: false,
-                    ags: districts.value?.features?.map((district) => ({
-                      label: district.properties.n.toString(),
-                      value: district.properties.c[0],
-                    })),
+                    ags:regions
+                    // ags: districts.value?.features?.map((district) => ({
+                    //   label: district.properties.n.toString(),
+                    //   value: district.properties.c[0],
+                    // })),
                   },
                   createMethod: createUser,
                   deleteMethod: deleteUser,
