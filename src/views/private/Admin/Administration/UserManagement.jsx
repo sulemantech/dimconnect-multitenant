@@ -1,7 +1,7 @@
 import PageProvider from "../../../../providers/PageProvider"
 import CustomTable from "../../../../components/CustomTable"
 import { ActionIcon, Alert, Badge, Button, Card, CardSection, Chip, Divider, Loader, MANTINE_COLORS, MultiSelect, Pagination, Select, Text, Title } from "@mantine/core"
-import { assignRolesToUser, createUser, deleteUser, editUser, getRoles, getUsers, getUserById } from "../../../../api";
+import { assignRolesToUser, createUser, deleteUser, editUser, getRoles, getUsers, getUserById, getRegionList } from "../../../../api";
 import { useState, useLayoutEffect } from 'preact/hooks'
 import { IconUser, IconUserCheck, IconUserPlus } from "@tabler/icons";
 import { IconUserCancel } from "@tabler/icons-react";
@@ -19,11 +19,28 @@ export default () => {
     const {t}=useTranslation()
 
     const [data, setData] = useState([]);
-
+    const [regions, setRegions] = useState([]);
     const [roles, setRoles] = useState([]);
     const [ready, setReady] = useState(false)
 
-
+    const fetchRegionData = async () => {
+        try {
+            const response = await getRegionList(); 
+            const regionData = response.data;
+    
+            const mappedRegions = regionData.map(region => ({
+                label: region.name, 
+                value: region.ags,  
+            }));
+    
+            setRegions(mappedRegions);
+            //console.log("Fetched region data:", mappedRegions);
+    
+        } catch (error) {
+            console.error('Error fetching region data:', error);
+        }
+    };
+    
     const getData = async () => {
         try {
             const rolesx = await getRoles().catch(e => setRoles([]));
@@ -51,6 +68,7 @@ export default () => {
                 </Chip>,
             })))
 
+            fetchRegionData(); 
 
         } catch (err) { }
 
@@ -161,10 +179,11 @@ export default () => {
                                         }]
                                     },
                                     isEditor: false,
-                                    ags: districts.value?.features?.map(district => ({
-                                        label: district.properties.n.toString(),
-                                        value: district.properties.c[0],
-                                    }))
+                                    ags:regions
+                                    // ags: districts.value?.features?.map(district => ({
+                                    //     label: district.properties.n.toString(),
+                                    //     value: district.properties.c[0],
+                                    // }))
                                 },
                                 createMethod: createUser,
                                 deleteMethod: deleteUser,
@@ -190,6 +209,9 @@ export default () => {
     )
 }
 
+const CustomColoredBadge = ({ color, children }) => (
+    <Badge color={color}>{children}</Badge>
+);
 
 const AssignRole = ({ user, roles, refreshData }) => {
 
@@ -256,7 +278,7 @@ const AssignRole = ({ user, roles, refreshData }) => {
                         className="mt-1"
                         data={roles?.map((role, index) => ({
                             value: role.id,
-                            label: <Badge color={MANTINE_COLORS[index]}>{role.name}</Badge>,
+                            label: <Badge  style={{ backgroundColor: "#D8E4EEE5", padding: "4px 8px", borderRadius: "4px" }}>{role.name}</Badge>,
                         }))}
 
                         value={selectedRole}
@@ -301,7 +323,7 @@ const RoleSelectOnCreate = ({ roles }) => {
 
                 data={roles?.map((role, index) => ({
                     value: role.id,
-                    label: <Badge color={MANTINE_COLORS[index]}>{role.name}</Badge>,
+                    label: <Badge  style={{ backgroundColor: "#D8E4EEE5", padding: "4px 8px", borderRadius: "4px" }}>{role.name}</Badge>,
                 }))}
                 value={selectedRole}
                 onChange={(e) => setSelectedRole(e)}

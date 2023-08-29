@@ -129,20 +129,35 @@ export default ({
         <form onSubmit={handleSubmit} id="creationform">
           {Object.keys(newStruct.data)?.map((item) =>
             Array.isArray(newStruct.data[item]) ? (
-              <div className="flex flex-col">
-                <label className="text-sm text-gray-600">
-                  {t(item.replace("_", " ").trim().toUpperCase())}
-                </label>
+              item.replace("_", " ").trim().toUpperCase() === 'AGS' ? (<div className="flex flex-col">
+              <label className="text-sm text-gray-600">
+                {t(item.replace("_", " ").trim().toUpperCase())}
+              </label>
 
-                <MultiSelect
-                  searchable
-                  data={newStruct?.data[item]}
-                  data-type="array"
-                  required
-                  className="bg-gray-200 rounded-md p-1"
-                  name={item}
-                />
-              </div>
+              <Select
+                searchable
+                data={newStruct?.data[item]}
+                data-type="array"
+                required
+                className="bg-gray-200 rounded-md p-1"
+                name={item}
+              />
+            </div>):(
+              <div className="flex flex-col">
+              <label className="text-sm text-gray-600">
+                {t(item.replace("_", " ").trim().toUpperCase())}
+              </label>
+
+              <MultiSelect
+                searchable
+                data={newStruct?.data[item]}
+                data-type="array"
+                required
+                className="bg-gray-200 rounded-md p-1"
+                name={item}
+              />
+            </div>
+            )
             ) : typeof newStruct.data[item] === "boolean" ? (
               <>
                 <div className="flex mt-2">
