@@ -17,7 +17,7 @@ import {
   Radio,
   ThemeIcon,
 } from "@mantine/core";
-import { closeAllModals, openConfirmModal, openModal } from "@mantine/modals";
+import { closeAllModals, openConfirmModal,closeModal, openModal } from "@mantine/modals";
 import {
   IconAlertCircle,
   IconArrowDown,
@@ -118,7 +118,7 @@ export default ({
       .then((res) => {
         setsubmitLoading(false);
         refreshData();
-        closeDrawer();
+        closeAllModals();
       })
       .catch((err) => {});
   };
@@ -173,12 +173,12 @@ export default ({
             )
             ) : typeof newStruct.data[item] === "boolean" ? (
               <>
-                <div className="flex mt-2">
-                  <label className="text-sm text-gray-600 flex-1">
+                <div className="flex flex-row ml-[4.3vw] space-x-10 items-center mt-2">
+                  <label className="text-sm text-gray-600 w-[9vw]">
                     {t(item.replace("_", " ").trim().toUpperCase())}
                   </label>
                   <Checkbox
-                    className=" rounded-md p-1 flex-1"
+                    className=" rounded-md p-1 "
                     name={item}
                     defaultValue={false}
                   />
@@ -188,7 +188,7 @@ export default ({
               <>
                 {newStruct.data[item].type == "radio" ? (
                   <Radio.Group
-                    className="flex flex-col"
+                    className="flex flex-row ml-[4.3vw] space-x-[6.7vw] items-center mt-2"
                     name={item}
                     defaultValue={newStruct.data[item].defaultValue}
                     required
@@ -207,12 +207,13 @@ export default ({
                 )}
               </>
             ) : (
-              <div className="flex flex-col">
-                <label className="text-sm text-gray-600">
+              <div className="flex flex-row justify-center items-center space-x-4 space-y-3">
+                <label className="text-sm w-[8vw] text-gray-600">
                   {t(item.replace("_", " ").trim().toUpperCase())}
                 </label>
                 <Input
                   required
+                  variant="filled"
                   type={
                     item.toLowerCase().includes("password")
                       ? "password"
@@ -220,13 +221,13 @@ export default ({
                       ? "email"
                       : "text"
                   }
-                  className="bg-gray-200 rounded-md p-1"
+                  className="w-[30vw] rounded-md p-1"
                   name={item}
                 />
               </div>
             )
           )}
-          <div className="py-3">{children}</div>
+          <div className="py-3 ">{children}</div>
           <div className="flex justify-end">
             <Button loading={submitloading} type={"submit"}>
               {t("Create")}
@@ -617,7 +618,7 @@ const EditForm = ({ item, newStruct, refreshData }) => {
     newStruct
       .editMethod(form.id, filteredForm)
       .then((res) => {
-        closeDrawer();
+        closeAllModals();
         refreshData();
         setLoading(false);
         if (res.status === 200) {
@@ -745,7 +746,7 @@ const EditForm = ({ item, newStruct, refreshData }) => {
             >
               Update
             </Button>
-            <Button onClick={() => closeDrawer()}>Cancel</Button>
+            <Button onClick={() => closeAllModals()}>Cancel</Button>
           </div>
         </div>
       </form>
