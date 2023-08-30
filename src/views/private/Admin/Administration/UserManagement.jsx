@@ -195,7 +195,7 @@ export default () => {
                     <img
                       className="w-5  relative ml-[35%] pt-10 pb-2"
                       src="/userred.svg"
-                      alt=""
+                      alt=" "
                     />
                   </div>
               </div>
