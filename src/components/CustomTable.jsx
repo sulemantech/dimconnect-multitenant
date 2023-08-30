@@ -17,7 +17,12 @@ import {
   Radio,
   ThemeIcon,
 } from "@mantine/core";
-import { closeAllModals, openConfirmModal,closeModal, openModal } from "@mantine/modals";
+import {
+  closeAllModals,
+  openConfirmModal,
+  closeModal,
+  openModal,
+} from "@mantine/modals";
 import {
   IconAlertCircle,
   IconArrowDown,
@@ -125,118 +130,123 @@ export default ({
 
   const createNew = useCallback(() => {
     openModal({
-      
       title: (
-        <div className="flex flex-row p-4 w-[50vw] bg-cover bg-center text-white items-center space-x-2 bg-[url('/Rectangle973.png')]  bg-no-repeat">
-        <img
-          src="/user2.svg"
-          alt="Title Image"
-          className="title-image"
-        />
-        <p>Create New</p>
-      </div>
-      
-      ),
-      children: (
-        <div className="p-4">
-        <form onSubmit={handleSubmit} id="creationform">
-          {Object.keys(newStruct.data)?.map((item) =>
-            Array.isArray(newStruct.data[item]) ? (
-              item.replace("_", " ").trim().toUpperCase() === 'AGS' ? (<div className="flex flex-col">
-              <label className="text-sm text-gray-600">
-                {t(item.replace("_", " ").trim().toUpperCase())}
-              </label>
-
-              <Select
-                searchable
-                data={newStruct?.data[item]}
-                data-type="array"
-                required
-                className="bg-gray-200 rounded-md p-1"
-                name={item}
-              />
-            </div>):(
-              <div className="flex flex-col">
-              <label className="text-sm text-gray-600">
-                {t(item.replace("_", " ").trim().toUpperCase())}
-              </label>
-
-              <MultiSelect
-                searchable
-                data={newStruct?.data[item]}
-                data-type="array"
-                required
-                className="bg-gray-200 rounded-md p-1"
-                name={item}
-              />
-            </div>
-            )
-            ) : typeof newStruct.data[item] === "boolean" ? (
-              <>
-                <div className="flex flex-row ml-[4.3vw] space-x-10 items-center mt-2">
-                  <label className="text-sm text-gray-600 w-[9vw]">
-                    {t(item.replace("_", " ").trim().toUpperCase())}
-                  </label>
-                  <Checkbox
-                    className=" rounded-md p-1 "
-                    name={item}
-                    defaultValue={false}
-                  />
-                </div>
-              </>
-            ) : typeof newStruct.data[item] === "object" ? (
-              <>
-                {newStruct.data[item].type == "radio" ? (
-                  <Radio.Group
-                    className="flex flex-row ml-[4.3vw] space-x-[6.7vw] items-center mt-2"
-                    name={item}
-                    defaultValue={newStruct.data[item].defaultValue}
-                    required
-                    label={t(item.replace("_", " ").trim().toUpperCase())}
-                  >
-                    {newStruct.data[item].options?.map((option) => (
-                      <Radio
-                        className="flex-1"
-                        value={option.value}
-                        label={option.label}
-                      />
-                    ))}
-                  </Radio.Group>
-                ) : (
-                  <p>{t("Not Supported")}</p>
-                )}
-              </>
-            ) : (
-              <div className="flex flex-row justify-center items-center space-x-4 space-y-3">
-                <label className="text-sm w-[8vw] text-gray-600">
-                  {t(item.replace("_", " ").trim().toUpperCase())}
-                </label>
-                <Input
-                  required
-                  variant="filled"
-                  type={
-                    item.toLowerCase().includes("password")
-                      ? "password"
-                      : item.toLowerCase().includes("email")
-                      ? "email"
-                      : "text"
-                  }
-                  className="w-[30vw] rounded-md p-1"
-                  name={item}
-                />
-              </div>
-            )
-          )}
-          <div className="py-3 ">{children}</div>
-          <div className="flex justify-end">
-            <Button loading={submitloading} type={"submit"}>
-              {t("Create")}
-            </Button>
-          </div>
-        </form>
+        <div className="flex flex-row p-4 w-[55vw] bg-cover bg-center text-white items-center space-x-2 bg-[url('/Rectangle973.png')]  bg-no-repeat">
+          <img src="/user2.svg" alt="Title Image" className="title-image" />
+          <p>Create New User</p>
         </div>
       ),
-      size:"50vw",
+      closeOnClickOutside: false,
+      closeOnEscape: true,
+      children: (
+        <div className="p-4">
+          <form onSubmit={handleSubmit} id="creationform">
+            {Object.keys(newStruct.data)?.map((item) =>
+              Array.isArray(newStruct.data[item]) ? (
+                item.replace("_", " ").trim().toUpperCase() === "AGS" ? (
+                  <div className="flex flex-row mt-4 justify-center  items-center">
+                    <label className="text-sm w-[9vw] text-gray-600">
+                      {t(item.replace("_", " ").trim().toUpperCase())}
+                    </label>
+                    <div className="w-[30vw]">
+                      <Select
+                        variant="filled"
+                        searchable
+                        data={newStruct?.data[item]}
+                        data-type="array"
+                        required
+                        className="rounded-md p-1"
+                        name={item}
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex flex-col">
+                    <label className="text-sm text-gray-600">
+                      {t(item.replace("_", " ").trim().toUpperCase())}
+                    </label>
+
+                    <MultiSelect
+                      searchable
+                      data={newStruct?.data[item]}
+                      data-type="array"
+                      required
+                      className="bg-gray-200 rounded-md p-1"
+                      name={item}
+                    />
+                  </div>
+                )
+              ) : typeof newStruct.data[item] === "boolean" ? (
+                <>
+                  <div className="flex flex-row justify-center items-center mt-2">
+                    <label className="text-sm text-gray-600 w-[9vw]">
+                      {t(item.replace("_", " ").trim().toUpperCase())}
+                    </label>
+                    <div className="w-[30vw]">
+                      <Checkbox
+                        className=" rounded-md  pl-4"
+                        name={item}
+                        defaultValue={false}
+                      />
+                    </div>
+                  </div>
+                </>
+              ) : typeof newStruct.data[item] === "object" ? (
+                <>
+                  {newStruct.data[item].type == "radio" ? (
+                   <div className="flex justify-center">
+                   <Radio.Group
+                     className="flex flex-row space-x-[3.8vw] w-[39vw] mt-2"
+                     name={item}
+                     defaultValue={newStruct.data[item].defaultValue}
+                     required
+                     label={t(item.replace("_", " ").trim().toUpperCase())}
+                   >
+                     {newStruct.data[item].options?.map((option) => (
+                       <Radio
+                         className=""
+                         value={option.value}
+                         label={option.label}
+                       />
+                     ))}
+                   </Radio.Group>
+                 </div>
+                 
+                  ) : (
+                    <p>{t("Not Supported")}</p>
+                  )}
+                </>
+              ) : (
+                <div className="flex flex-row justify-center items-center space-x-4 space-y-3">
+                  <label className="text-sm w-[8vw] text-gray-600">
+                    {t(item.replace("_", " ").trim().toUpperCase())}
+                  </label>
+                  <Input
+                    required
+                    variant="filled"
+                    type={
+                      item.toLowerCase().includes("password")
+                        ? "password"
+                        : item.toLowerCase().includes("email")
+                        ? "email"
+                        : "text"
+                    }
+                    className="w-[30vw] rounded-md p-1"
+                    name={item}
+                  />
+                </div>
+              )
+            )}
+            <div className="py-3  ">{children}</div>
+            <div className="flex ml-[4.3vw] mt-2 ">
+              <Button loading={submitloading} type={"submit"}>
+                {t("Create")}
+              </Button>
+            </div>
+          </form>
+        </div>
+      ),
+      size: "55vw",
       padding: "0",
       withCloseButton: false,
     });
@@ -252,23 +262,23 @@ export default ({
       const childrenClone = children;
       openModal({
         title: (
-          <div className="flex flex-row p-4 w-[50vw] bg-cover bg-center text-white items-center space-x-2 bg-[url('/Rectangle973.png')]  bg-no-repeat">
-          <img
-            src="/user2.svg"
-            alt="Title Image"
-            className="title-image"
-          />
-          <p>Edit</p>
-        </div>
-        
+          <div className="flex flex-row p-4 w-[55vw] bg-cover bg-center text-white items-center space-x-2 bg-[url('/Rectangle973.png')]  bg-no-repeat">
+            <img src="/user2.svg" alt="Title Image" className="title-image" />
+            <p>Edit</p>
+          </div>
         ),
         children: (
           <div className="p-4">
-          <EditForm item={item} newStruct={newStruct} refreshData={refreshData}>
-            {childrenClone}
-          </EditForm></div>
+            <EditForm
+              item={item}
+              newStruct={newStruct}
+              refreshData={refreshData}
+            >
+              {childrenClone}
+            </EditForm>
+          </div>
         ),
-        size:"50vw",
+        size: "55vw",
         padding: "0",
         withCloseButton: false,
       });
@@ -513,25 +523,25 @@ export default ({
                             onClick={() => {
                               openModal({
                                 title: (
-                                  <div className="flex flex-row p-4 w-[50vw] bg-cover bg-center text-white items-center space-x-2 bg-[url('/Rectangle973.png')]  bg-no-repeat">
-                                  <img
-                                    src="/user2.svg"
-                                    alt="Title Image"
-                                    className="title-image"
-                                  />
-                                  <p>Attachment</p>
-                                </div>
-                                
+                                  <div className="flex flex-row p-4 w-[55vw] bg-cover bg-center text-white items-center space-x-2 bg-[url('/Rectangle973.png')]  bg-no-repeat">
+                                    <img
+                                      src="/user2.svg"
+                                      alt="Title Image"
+                                      className="title-image"
+                                    />
+                                    <p>Attachment</p>
+                                  </div>
                                 ),
-                                
+
                                 children: (
                                   <div className="p-4">
-                                  <AttatchmentForm
-                                    item={item}
-                                    newStruct={newStruct}
-                                  /></div>
+                                    <AttatchmentForm
+                                      item={item}
+                                      newStruct={newStruct}
+                                    />
+                                  </div>
                                 ),
-                                size:"50vw",
+                                size: "55vw",
                                 padding: "0",
                                 withCloseButton: false,
                               });

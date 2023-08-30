@@ -590,9 +590,9 @@ const AssignRole = ({ user, roles, refreshData }) => {
           {/* user details */}
 
           <div>
-            <div className="flex flex-col space-y-4 m-auto">
+            <div className="flex flex-col space-y-4 ">
               <div className="flex justify-center   items-center h-12">
-                <Text className="text-sm w-[8vw] text-left">{t("User ID")}</Text>
+                <Text className="text-sm w-[9vw] text-left">{t("User ID")}</Text>
                 <div className=" h-11 w-[30vw] bg-[#F5F7F9] pl-4 rounded-md"><Text color="brand" className="mt-2">
                   {user.id}
                 </Text>
@@ -600,21 +600,21 @@ const AssignRole = ({ user, roles, refreshData }) => {
               </div>
 
               <div className="flex justify-center   items-center h-12">
-                <Text className="text-sm w-[8vw] text-left">{t("Mail")}</Text>
+                <Text className="text-sm w-[9vw] text-left">{t("Mail")}</Text>
                 <div className=" h-11 w-[30vw] bg-[#F5F7F9] pl-4 rounded-md"><Text color="brand" className="mt-2">
                 {user.email}
                 </Text>
                 </div>
               </div>
               <div className="flex justify-center  items-center h-12">
-                <Text className="text-sm w-[8vw] text-left">{t("Name")}</Text>
+                <Text className="text-sm w-[9vw] text-left">{t("Name")}</Text>
                 <div className=" h-11 w-[30vw] bg-[#F5F7F9] pl-4 rounded-md"><Text color="brand" className="mt-2">
                 {user.vorname} {user.nachname}
                 </Text>
                 </div>
               </div>
               <div className="flex justify-center  items-center h-12">
-                <Text className="text-sm w-[8vw] text-left">{t("Existing Role")}</Text>
+                <Text className="text-sm w-[9vw] text-left">{t("Existing Role")}</Text>
                 <div className=" h-11 w-[30vw] bg-[#F5F7F9] pl-4 rounded-md"><Text color="brand" className="mt-2">
                 {user.userRole?.join(", ")}
                 </Text>
@@ -672,11 +672,14 @@ const RoleSelectOnCreate = ({ roles }) => {
   });
   return (
     <>
-      <Title size={"sm"} mt={20}>
+    <div className="flex flex-row mt-4  justify-center items-center">
+      <Title size={"lg"} mt={20} className="w-[9vw]">
         {t("Select Role")}
       </Title>
+      <div className="w-[30vw]">
       <input type="hidden" name="roles" value={JSON.stringify(temp)} />
       <MultiSelect
+      variant="filled"
         className="mt-1"
         data={roles?.map((role, index) => ({
           value: role.id,
@@ -684,7 +687,8 @@ const RoleSelectOnCreate = ({ roles }) => {
         }))}
         value={selectedRole}
         onChange={(e) => setSelectedRole(e)}
-      />
+      /></div>
+      </div>
     </>
   );
 };
