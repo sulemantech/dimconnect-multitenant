@@ -30,6 +30,12 @@ export const privateRoutes = [{
     }]
 },
 {
+    label: 'Market Investigation',
+    path: `/market?ags=${dropvalue?.value}`,
+    permission: PERMISSIONS.Map,
+    icon: icons.MapIcon,
+},
+{
     label: 'Support Ticket Back Office',
     permission: PERMISSIONS.Ticket,
     path: `/support_ticket_back_office/inbox`,

@@ -9,17 +9,11 @@ import SearchControl from './SearchControl';
 
 import DataTiles from './DataTiles';
 import { Boundary } from '../Dashboard/Submap';
-import AddressPoints, { CRUDAddressPoint } from './AddressPoints'
 import InfoCard from './InfoCard';
 import Popup from './Popup';
-import Photos from './Photos';
-import DistrictPhase from './DistrictPhase';
 import appConfig from '../../../../config/appConfig';
 
-const Gpx = lazy(() => import('./Gpx'));
-
-import { mapClickBindings, addressPointsCRUDstate, infoCardVal, visibility, mapStyle, additionalInteractiveLayers, mapSignal, regionCostState, aerialViewVisibility, PRpropertiesVisibility } from '../../../../signals';
-import ExtraViewables from './ExtraViewables';
+import { mapClickBindings, infoCardVal, visibility, mapStyle, additionalInteractiveLayers, mapSignal } from '../../../../signals';
 import PRproperties from './PRproperties';
 import AerialViewLayer from './AerialViewLayer';
 
@@ -112,26 +106,14 @@ export default ({ children }) => {
       }}
     >
       <Suspense fallback={<LoadingOverlay visible />}>
-
-        {PRpropertiesVisibility.value && <PRproperties />}
-        { aerialViewVisibility.value && <AerialViewLayer />}
-
-        <AddressPoints />
         <SearchControl />
-        <ExtraViewables />
-        <MapControls />
+        <MapControls /> 
         <ScaleControl position='bottom-right' maxWidth={200} unit='metric' />
-        {/* <CustomLayerPanel /> */}
-        <Photos />
         <InfoCard modal={window.innerWidth < 768} />
-        <Gpx />
         <DataTiles />
         <Boundary noFill />
         <Popup />
-        {/* <Netzplanning /> */}
-        <DistrictPhase grouped />
-        <CRUDAddressPoint />
-      </Suspense>
+        </Suspense>
     </Map>
   );
 
