@@ -12,8 +12,8 @@ import { useTranslation } from "react-i18next"
 
 
 
-export default ({ within = false, nohead = false }) => {
-    const {t}=useTranslation
+export default ({ within = false, nohead = false, marketsearch = false }) => {
+    const { t } = useTranslation
     const [search, setSearch] = useDebouncedState("", 500)
     const [searchResult, setSearchResult] = useState([])
     const [loading, setLoading] = useState(false)
@@ -59,23 +59,34 @@ export default ({ within = false, nohead = false }) => {
                             coordinates: [firstFeatureCoordinates[0], firstFeatureCoordinates[1]],
                         }
                     }
-                    if (booleanWithin(point, district)) {
-                        if (regsionListSignal.value?.map((item) => item.ags).includes(district.properties.c[0])) {
-                            dropvalue.value = district.properties.c[0]
-                            setTimeout(() => {
-                                map.flyTo({
-                                    center: [firstFeatureCoordinates[0], firstFeatureCoordinates[1]],
-                                    zoom: 15,
+                    if (!marketsearch) {
+                        if (booleanWithin(point, district)) {
+                            if (regsionListSignal.value?.map((item) => item.ags).includes(district.properties.c[0])) {
+                                dropvalue.value = district.properties.c[0]
+                                setTimeout(() => {
+                                    map.flyTo({
+                                        center: [firstFeatureCoordinates[0], firstFeatureCoordinates[1]],
+                                        zoom: 15,
+                                    })
+                                }, 1000)
+                                return district
+                            } else {
+                                showNotification({
+                                    title: "District not available",
+                                    message: "This district is not available right now.",
+                                    color: "red",
                                 })
-                            }, 1000)
-                            return district
-                        } else {
-                            showNotification({
-                                title: "District not available",
-                                message: "This district is not available right now.",
-                                color: "red",
-                            })
+                            }
                         }
+                    }else{
+                        dropvalue.value = district.properties.c[0]
+                        setTimeout(() => {
+                            map.flyTo({
+                                center: [firstFeatureCoordinates[0], firstFeatureCoordinates[1]],
+                                zoom: 15,
+                            })
+                        }, 1000)
+                        return district
                     }
                 })
 

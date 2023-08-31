@@ -40,7 +40,6 @@ export default ({ children }) => {
       binding(event)
     })
 
-    if (addressPointsCRUDstate.value !== '' || regionCostState.value !== false) return
     if (features.length > 0) {
       infoCardVal.value = null
       setTimeout(() => {
@@ -93,7 +92,9 @@ export default ({ children }) => {
       }}
       interactiveLayerIds={interactiveLayerIds}
       transformRequest={(url, resourceType) => {
-        if (url.includes('https://dim-tileserver-dev.hiwifipro.com/data/')) {
+        
+        // if (url.includes('https://dim-tileserver-dev.hiwifipro.com/data/')) {
+          if (url.includes('https://dim-tileserver-test.hiwifipro.com/data/')) {
           //  add Authorization header to requests for tiles from the Tileserver
           return {
             url: url,
@@ -106,13 +107,13 @@ export default ({ children }) => {
       }}
     >
       <Suspense fallback={<LoadingOverlay visible />}>
-        <SearchControl />
+        <SearchControl  marketsearch={true} />
         <MapControls /> 
-        <ScaleControl position='bottom-right' maxWidth={200} unit='metric' />
-        <InfoCard modal={window.innerWidth < 768} />
-        <DataTiles />
+        {/* <ScaleControl position='bottom-right' maxWidth={200} unit='metric' />
+        <InfoCard modal={window.innerWidth < 768} /> */}
+        {/* <DataTiles />
         <Boundary noFill />
-        <Popup />
+        <Popup />  */}
         </Suspense>
     </Map>
   );
