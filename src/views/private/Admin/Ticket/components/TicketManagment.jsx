@@ -47,7 +47,7 @@ function TicketManagment({ ticketCounts }) {
   const { t } = useTranslation()
   return (
     <>
-      <div className="flex flex-row flex-wrap w-full justify-between px-5">
+      <div className="flex flex-row flex-wrap w-full justify-evenly ">
 
         {
           ticket
@@ -72,13 +72,13 @@ function TicketManagment({ ticketCounts }) {
           );
         })}
 
-        <div className="rcolor w-auto h-24 rounded-md mt-2  border-[2px]">
+        <div className="rcolor w-auto relative h-auto rounded-md mt-2  border-[2px]">
           {/* <div className="fixed ml-10 w-5 mt-[30px]"> */}
-          <img src={Vector} alt="" className="absolute ml-10 w-5 mt-[30px]" />
+          <img src={Vector} alt="" className=" absolute ml-10 w-5 mt-[30px]" />
           {/* </div> */}
           <RingProgress
-            className="rot ml-2 mb-5"
-            size={86}
+            className="rot flex justify-center items-center"
+            size={100}
             thickness={12}
             // roundCaps
             sections={[
