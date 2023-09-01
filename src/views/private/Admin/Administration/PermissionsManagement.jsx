@@ -33,7 +33,7 @@ import {
   updateRoleWithPermissions,
 } from "../../../../api";
 import { permissible } from "../../../../signals";
-import { closeModal, openModal } from "@mantine/modals";
+import { closeAllModals, openModal } from "@mantine/modals";
 import { closeDrawer, openDrawer } from "../../../../providers/DrawerProvider";
 import PermissionWrapper from "../../../../providers/PermissionsProvider";
 import { PERMISSIONS } from "../../../../common";
@@ -62,16 +62,22 @@ export default () => {
                     radius={"sm"}
                     onClick={() => {
                       openModal({
+                        closeOnClickOutside: false,
+                        closeOnEscape:true,
                         title: (
-                            <div className="flex flex-row p-4 w-[50vw] bg-cover bg-center text-white items-center space-x-2 bg-[url('/Rectangle973.png')]  bg-no-repeat">
+                          <div className="flex justify-between p-4 w-[55vw] bg-cover bg-center text-white items-center bg-[url('/Rectangle973.png')] bg-no-repeat">
+                          <div className="flex flex-row items-center space-x-2">
                             <img
                               src="/user2.svg"
                               alt="Title Image"
                               className="title-image"
                             />
-                            <p>Permissions</p>
+                            <p>View User Permissions</p>
                           </div>
-                          
+                          <button onClick={closeAllModals} className="text-white">
+                            ✕
+                          </button>
+                        </div>
                           ),
                         children: (
                             <div className="p-4">
@@ -81,7 +87,7 @@ export default () => {
                             description={role.description}
                           /></div>
                         ),
-                        size:"50vw",
+                        size:"55vw",
                         padding: "0",
                         withCloseButton: false,
                       });
@@ -96,19 +102,26 @@ export default () => {
                     radius={"sm"}
                     onClick={() => {
                       openModal({
+                        closeOnClickOutside:false,
+                        closeOnEscape:true,
                         title: (
-                            <div className="flex flex-row p-4 w-[50vw] bg-cover bg-center text-white items-center space-x-2 bg-[url('/Rectangle973.png')]  bg-no-repeat">
+                          <div className="flex justify-between p-4 w-[55vw] bg-cover bg-center text-white items-center bg-[url('/Rectangle973.png')] bg-no-repeat">
+                          <div className="flex flex-row items-center space-x-2">
                             <img
                               src="/user2.svg"
                               alt="Title Image"
                               className="title-image"
                             />
-                            <p>Edit Permissions</p>
+                            <p>Edit User Permissions</p>
                           </div>
+                          <button onClick={closeAllModals} className="text-white">
+                            ✕
+                          </button>
+                        </div>
                           
                           ),
                         children: (
-                            <div className="p-4">
+                            <div className="px-14 pt-8">
                           <PermissionList
                             editMode
                             id={role.id}
@@ -117,7 +130,7 @@ export default () => {
                           />
                           </div>
                         ),
-                        size:"50vw",
+                        size:"55vw",
                   padding: "0",
                   withCloseButton: false,
                       });
@@ -175,7 +188,7 @@ export default () => {
                 <Text>Permissions</Text>
                 <Divider />
 
-                <Table striped withBorder className="relative max-w-[100%]">
+                <Table striped  className="relative max-w-[100%]">
                   <thead className="text-[10px]">
                     <tr>
                       {/* <td></td> */}
@@ -347,15 +360,15 @@ const PermissionList = ({ id, name, description, editMode = false }) => {
       <Title size={12} className="text-neutral-500">
         {description}
       </Title>
-      <Divider className="my-4" />
+      {/* <Divider className="my-4" /> */}
       {editMode && error && (
         <Alert color="red" icon={<IconAlertCircle />}>
           <Text color="red">{error}</Text>
         </Alert>
       )}
       <form onSubmit={handleSubmit}>
-        <Table striped withBorder className="relative max-w-[100%]">
-          <thead className="text-[10px]">
+        <Table striped className="relative max-w-[100%] rounded-md">
+          <thead className="text-[10px] bg-[#D8E4EE]">
             <tr>
               <th>Activity</th>
               <th>Add</th>
