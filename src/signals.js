@@ -126,6 +126,9 @@ export const netzplanning = signal({
   10: true,
 });
 
+export const legendState = signal(true);
+
+
 export const addressPointsCRUDstate = signal("");
 export const visibility = signal(null);
 export const photoVisibility = signal(true);
