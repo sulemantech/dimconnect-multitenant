@@ -15,8 +15,14 @@ import {
   Divider,
   Checkbox,
   Radio,
+  ThemeIcon,
 } from "@mantine/core";
-import { closeAllModals, openConfirmModal, openModal } from "@mantine/modals";
+import {
+  closeAllModals,
+  openConfirmModal,
+  closeModal,
+  openModal,
+} from "@mantine/modals";
 import {
   IconAlertCircle,
   IconArrowDown,
@@ -117,110 +123,153 @@ export default ({
       .then((res) => {
         setsubmitLoading(false);
         refreshData();
-        closeDrawer();
+        closeAllModals();
       })
       .catch((err) => {});
   };
 
   const createNew = useCallback(() => {
-    openDrawer({
-      title: t("Create New"),
+    openModal({
+      closeOnClickOutside: false,
+      title: (
+        <div className="flex justify-between p-4 w-[55vw] bg-cover bg-center text-white items-center bg-[url('/Rectangle973.png')] bg-no-repeat">
+          <div className="flex flex-row items-center space-x-2">
+            <img src="/user2.svg" alt="Title Image" className="title-image" />
+            <p>Create New User</p>
+          </div>
+          <button onClick={closeAllModals} className="text-white">
+            ✕
+          </button>
+        </div>
+      ),
+      closeOnEscape: true,
       children: (
-        <form onSubmit={handleSubmit} id="creationform">
-          {Object.keys(newStruct.data)?.map((item) =>
-            Array.isArray(newStruct.data[item]) ? (
-              item.replace("_", " ").trim().toUpperCase() === 'AGS' ? (<div className="flex flex-col">
-              <label className="text-sm text-gray-600">
-                {t(item.replace("_", " ").trim().toUpperCase())}
-              </label>
+        <div className="p-4">
+          <form onSubmit={handleSubmit} id="creationform">
+            {Object.keys(newStruct.data)?.map((item) =>
+              Array.isArray(newStruct.data[item]) ? (
+                item.replace("_", " ").trim().toUpperCase() === "AGS" ? (
+                  <div className="flex flex-row mt-4 text-sm justify-center  items-center">
+                    <label className="text-sm w-[9vw] text-gray-600">
+                      {t(item.replace("_", " ").trim().toUpperCase())}
+                    </label>
+                    <div className="w-[30vw]">
+                      <Select
+                        variant="filled"
+                        searchable
+                        data={newStruct?.data[item]}
+                        data-type="array"
+                        required
+                        className="rounded-md p-1 w-[15vw]"
+                        name={item}
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex flex-col text-sm">
+                    <label className="text-sm text-gray-600">
+                      {t(item.replace("_", " ").trim().toUpperCase())}
+                    </label>
 
-              <Select
-                searchable
-                data={newStruct?.data[item]}
-                data-type="array"
-                required
-                className="bg-gray-200 rounded-md p-1"
-                name={item}
-              />
-            </div>):(
-              <div className="flex flex-col">
-              <label className="text-sm text-gray-600">
-                {t(item.replace("_", " ").trim().toUpperCase())}
-              </label>
-
-              <MultiSelect
-                searchable
-                data={newStruct?.data[item]}
-                data-type="array"
-                required
-                className="bg-gray-200 rounded-md p-1"
-                name={item}
-              />
-            </div>
-            )
-            ) : typeof newStruct.data[item] === "boolean" ? (
-              <>
-                <div className="flex mt-2">
-                  <label className="text-sm text-gray-600 flex-1">
-                    {t(item.replace("_", " ").trim().toUpperCase())}
+                    <MultiSelect
+                      searchable
+                      data={newStruct?.data[item]}
+                      data-type="array"
+                      required
+                      className="bg-gray-200 rounded-md p-1"
+                      name={item}
+                    />
+                  </div>
+                )
+              ) : typeof newStruct.data[item] === "boolean" ? (
+                <>
+                  <div className="flex flex-row text-sm justify-center items-center mt-2">
+                    <label className="text-sm text-gray-600 w-[9vw]">
+                      {t(
+                        item
+                          .replace("agreement_signed", "Agreement Signed")
+                          .replace("is", "Is")
+                          .trim()
+                      )}
+                    </label>
+                    <div className="w-[30vw]">
+                      <Checkbox
+                        className=" rounded-md  pl-4"
+                        name={item}
+                        defaultValue={false}
+                      />
+                    </div>
+                  </div>
+                </>
+              ) : typeof newStruct.data[item] === "object" ? (
+                <>
+                  {newStruct.data[item].type == "radio" ? (
+                    <div className="flex justify-center">
+                      <Radio.Group
+                        className="flex flex-row text-sm space-x-[3.8vw] w-[39vw] mt-2"
+                        name={item}
+                        defaultValue={newStruct.data[item].defaultValue}
+                        required
+                        label={t(
+                          item.replace("ags_right", "AGS Right ").trim()
+                        )}
+                      >
+                        {newStruct.data[item].options?.map((option) => (
+                          <Radio
+                            className=""
+                            value={option.value}
+                            label={option.label}
+                          />
+                        ))}
+                      </Radio.Group>
+                    </div>
+                  ) : (
+                    <p>{t("Not Supported")}</p>
+                  )}
+                </>
+              ) : (
+                <div className="flex flex-row justify-center items-center space-x-4 space-y-3">
+                  <label className="text-sm w-[8vw] text-gray-600">
+                    {t(
+                      item
+                        .replace("_", " ")
+                        .replace("vorn", "N")
+                        .replace("nach", " Sur")
+                        .replace("email", "E-mail")
+                        .replace("password", "Password")
+                        .trim()
+                    )}
                   </label>
-                  <Checkbox
-                    className=" rounded-md p-1 flex-1"
+                  <Input
+                    required
+                    variant="filled"
+                    type={
+                      item.toLowerCase().includes("password")
+                        ? "password"
+                        : item.toLowerCase().includes("email")
+                        ? "email"
+                        : "text"
+                    }
+                    className="w-[30vw] rounded-md p-1"
                     name={item}
-                    defaultValue={false}
                   />
                 </div>
-              </>
-            ) : typeof newStruct.data[item] === "object" ? (
-              <>
-                {newStruct.data[item].type == "radio" ? (
-                  <Radio.Group
-                    className="flex flex-col"
-                    name={item}
-                    defaultValue={newStruct.data[item].defaultValue}
-                    required
-                    label={t(item.replace("_", " ").trim().toUpperCase())}
-                  >
-                    {newStruct.data[item].options?.map((option) => (
-                      <Radio
-                        className="flex-1"
-                        value={option.value}
-                        label={option.label}
-                      />
-                    ))}
-                  </Radio.Group>
-                ) : (
-                  <p>{t("Not Supported")}</p>
-                )}
-              </>
-            ) : (
-              <div className="flex flex-col">
-                <label className="text-sm text-gray-600">
-                  {t(item.replace("_", " ").trim().toUpperCase())}
-                </label>
-                <Input
-                  required
-                  type={
-                    item.toLowerCase().includes("password")
-                      ? "password"
-                      : item.toLowerCase().includes("email")
-                      ? "email"
-                      : "text"
-                  }
-                  className="bg-gray-200 rounded-md p-1"
-                  name={item}
-                />
+              )
+            )}
+            <div className="py-3  ">{children}</div>
+            <div className="flex justify-center  mt-2 ">
+              <div className="w-[39vw]">
+                <Button loading={submitloading} type={"submit"}>
+                  {t("Create")}
+                </Button>
               </div>
-            )
-          )}
-          <div className="py-3">{children}</div>
-          <div className="flex justify-end">
-            <Button loading={submitloading} type={"submit"}>
-              {t("Create")}
-            </Button>
-          </div>
-        </form>
+            </div>
+          </form>
+        </div>
       ),
+      size: "55vw",
+      padding: "0",
+      withCloseButton: false,
     });
   }, [children]);
 
@@ -232,13 +281,33 @@ export default ({
         ...resp.data,
       };
       const childrenClone = children;
-      openDrawer({
-        title: "Edit",
-        children: (
-          <EditForm item={item} newStruct={newStruct} refreshData={refreshData}>
-            {childrenClone}
-          </EditForm>
+      openModal({
+        closeOnClickOutside: false,
+        title: (
+          <div className="flex justify-between p-4 w-[55vw] bg-cover bg-center text-white items-center bg-[url('/Rectangle973.png')] bg-no-repeat">
+            <div className="flex flex-row items-center space-x-2">
+              <img src="/user2.svg" alt="Title Image" className="title-image" />
+              <p>Edit User Details</p>
+            </div>
+            <button onClick={closeAllModals} className="text-white">
+              ✕
+            </button>
+          </div>
         ),
+        children: (
+          <div className="p-4">
+            <EditForm
+              item={item}
+              newStruct={newStruct}
+              refreshData={refreshData}
+            >
+              {childrenClone}
+            </EditForm>
+          </div>
+        ),
+        size: "55vw",
+        padding: "0",
+        withCloseButton: false,
       });
     } catch (err) {
       console.error(err);
@@ -256,65 +325,92 @@ export default ({
     <div className="flex flex-col rounded-md bg-white mb-10 ">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-          <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-            <Title order={2} color="brand" className="text-center mt-2">
-              {title}
-            </Title>
-            <Divider my={10} />
+          <div className=" overflow-hidden border-b border-gray-200 sm:rounded-lg">
+            <div className="flex flex-row  bg-[#f1f5f9] pl-4    space-x-3">
+              <img
+                className=" border-[1.5px] border-[#0E76BB] w-[22px] rounded-[3px] my-2  p-[0.8px]"
+                src="/User.svg"
+                alt=""
+              />
+              <p className="font-bold text-[15px] my-2 text-[#0E76BB]">
+                {title}
+              </p>
+            </div>
+            {/* <Divider my={10} /> */}
             <div className="flex p-2 text-neutral-700 text-xs items-center">
-              <div>
-                <Paper withBorder radius="xl" className="flex items-center">
-                  <Text mx={15} color="brand" fw={"bold"}>
-                    {t("Show")}
-                  </Text>
+              <div className="flex space-x-[2px]">
+                <Text
+                  color="brand"
+                  fw={"bold"}
+                  className="bg-[#f1f3f5] flex font-medium text-xs items-center px-10 rounded-sm"
+                >
+                  {t("Show")}
+                </Text>
 
-                  <Select
-                    data={[
-                      {
-                        label: "10",
-                        value: 10,
-                      },
-                      {
-                        label: "25",
-                        value: 25,
-                      },
-                      {
-                        label: "50",
-                        value: 50,
-                      },
-                      {
-                        label: "100",
-                        value: 100,
-                      },
-                    ]}
-                    onChange={(e) => setLimit(e)}
-                    classNames={{
-                      input: "rounded-r-full",
-                    }}
-                    size="md"
-                    value={limit}
-                    variant="filled"
-                  />
-                </Paper>
+                <Select
+                  style={{ maxWidth: 90 }}
+                  data={[
+                    {
+                      label: "10",
+                      value: 10,
+                    },
+                    {
+                      label: "25",
+                      value: 25,
+                    },
+                    {
+                      label: "50",
+                      value: 50,
+                    },
+                    {
+                      label: "100",
+                      value: 100,
+                    },
+                  ]}
+                  onChange={(e) => setLimit(e)}
+                  classNames={{
+                    input: "rounded-r-[4%]",
+                  }}
+                  size="sm"
+                  value={limit}
+                  variant="filled"
+                />
               </div>
 
-              <div className="flex-1"></div>
-
-              <div className="flex items-center">
+              <div className="flex space-x-[1px] ml-[6%]">
+                <Text
+                  color="brand"
+                  fw={"bold"}
+                  className="bg-[#f1f3f5] flex font-medium text-xs items-center px-10 rounded-sm"
+                >
+                  {t("Search")}
+                </Text>
                 <Input
                   type="text"
                   variant="filled"
-                  size="lg"
-                  radius={"lg"}
+                  size="sm"
+                  radius={"sm"}
                   mr={15}
-                  icon={<IconSearch />}
-                  className="mr-xs"
-                  placeholder={t("Search")}
+                  rightSection={
+                    <ThemeIcon color="white">
+                      <IconSearch color="#0E76BB " size={15} />
+                    </ThemeIcon>
+                  }
+                  className="mr-xs rounded-sm"
+                  // placeholder={t("Search")}
                   onChange={(e) => setFilter(e.currentTarget.value)}
                 />
+              </div>
+              <div className="flex-1"></div>
+              <div className="flex items-center">
                 {newStruct.hasOwnProperty("createMethod") && (
-                  <Button leftIcon={<IconPlus size={15} />} onClick={createNew}>
-                    {t("Add New")}
+                  <Button
+                    className=" bg-[#0E76BB] font-medium text-xs rounded-full"
+                    size="sm"
+                    leftIcon={<IconPlus size={15} />}
+                    onClick={createNew}
+                  >
+                    {t("Add User")}
                   </Button>
                 )}
               </div>
@@ -326,18 +422,37 @@ export default ({
               horizontalSpacing={"md"}
               className="min-w-full divide-y divide-gray-200 px-2 "
             >
-              <thead className="bg-gray-200">
+              <thead className="bg-white">
                 <tr>
                   {attributes?.map((item) => {
                     return (
                       <th
                         scope="col"
                         key={item}
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-900  tracking-wider"
                       >
-                        <p class={`flex items-center`}>
-                          {t(`${item.replace("_", " ").toUpperCase()}`)}
-                          <ActionIcon
+                        <p
+                          onClick={() =>
+                            setSort({
+                              field: item,
+                              order: sort.order === "asc" ? "desc" : "asc",
+                            })
+                          }
+                          class={`flex items-center`}
+                        >
+                          {t(
+                            `${item
+                              .replace("agreement_signed", "Agreement Signed ")
+                              .replace("id", " User ID")
+                              .replace("email", " E-Mail")
+                              .replace("vorname", " Name")
+                              .replace("nachname", "Surname")
+                              .replace("roles", "User Role")
+                              .replace("permissions", "Permission")
+                              .replace("name", "Name")
+                              .replace("description", "Description")}`
+                          )}
+                          {/* <ActionIcon
                             className="text-gray-900"
                             size="xs"
                             variant="white"
@@ -359,7 +474,7 @@ export default ({
                                 size={15}
                               />
                             )}
-                          </ActionIcon>
+                          </ActionIcon> */}
                         </p>
                       </th>
                     );
@@ -423,21 +538,48 @@ export default ({
                       })}
                       <td className="flex justify-end px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         {edit && (
-                          <ActionIcon onClick={() => handleEdit(item)}>
-                            <FaEdit />
-                          </ActionIcon>
+                          <button
+                            className="flex flex-row text-[#0E76BB] bg-[#DEE6EF] px-2 mr-6 rounded-md justify-center items-center space-x-5"
+                            onClick={() => handleEdit(item)}
+                          >
+                            <FaEdit /> <p className="pr-3">Edit</p>
+                          </button>
                         )}
                         {attatchment && (
                           <ActionIcon
                             onClick={() => {
-                              openDrawer({
-                                title: "Attatchment",
-                                children: (
-                                  <AttatchmentForm
-                                    item={item}
-                                    newStruct={newStruct}
-                                  />
+                              openModal({
+                                closeOnClickOutside: false,
+                                title: (
+                                  <div className="flex justify-between p-4 w-[55vw] bg-cover bg-center text-white items-center bg-[url('/Rectangle973.png')] bg-no-repeat">
+                                    <div className="flex flex-row items-center space-x-2">
+                                      <img
+                                        src="/user2.svg"
+                                        alt="Title Image"
+                                        className="title-image"
+                                      />
+                                      <p>Attatchment</p>
+                                    </div>
+                                    <button
+                                      onClick={closeAllModals}
+                                      className="text-white"
+                                    >
+                                      ✕
+                                    </button>
+                                  </div>
                                 ),
+
+                                children: (
+                                  <div className="p-4">
+                                    <AttatchmentForm
+                                      item={item}
+                                      newStruct={newStruct}
+                                    />
+                                  </div>
+                                ),
+                                size: "55vw",
+                                padding: "0",
+                                withCloseButton: false,
                               });
                             }}
                           >
@@ -446,6 +588,7 @@ export default ({
                         )}
                         {remove && (
                           <ActionIcon
+                            className="mr-10"
                             color="red"
                             onClick={() =>
                               openConfirmModal({
@@ -473,11 +616,15 @@ export default ({
 
             <div className="flex w-full px-6 py-8">
               <p className="text-sm text-neutral-600">
-                Showing {page * limit - limit + 1} to {page * limit} of{" "}
-                {dataInfo.count} entries
+                <span className=" text-[#2784c2]">
+                  {page * limit - limit + 1}-{page * limit}
+                </span>{" "}
+                from <span className=" text-[#2784c2]">{dataInfo.count}</span>{" "}
+                items
               </p>
-              <div className="flex-1"></div>
+              {/* <div className="flex-1"></div> */}
               <Pagination
+                className="ml-[30%]"
                 color="brand"
                 total={Math.ceil(dataInfo.count / limit)}
                 limit={limit}
@@ -517,7 +664,7 @@ const EditForm = ({ item, newStruct, refreshData }) => {
     newStruct
       .editMethod(form.id, filteredForm)
       .then((res) => {
-        closeDrawer();
+        closeAllModals();
         refreshData();
         setLoading(false);
         if (res.status === 200) {
@@ -532,6 +679,7 @@ const EditForm = ({ item, newStruct, refreshData }) => {
           });
         } else {
           openModal({
+            closeOnClickOutside: false,
             title: "Error",
             description: "Something went wrong",
             labels: { confirm: "Ok" },
@@ -566,62 +714,78 @@ const EditForm = ({ item, newStruct, refreshData }) => {
               // like create form
               typeof newStruct?.data[attr] === "object" &&
                 newStruct.data[attr]?.type === "radio" ? (
-               
-                <div key={attr} className="flex mb-4">
-                  <label className="text-gray-700">
-                    {attr.replace("_", " ").toUpperCase()}
+                <div
+                  key={attr}
+                  className=" flex flex-row justify-center text-sm space-y-4 pb-3 items-center"
+                >
+                  <label className="text-gray-700 mt-3 w-[9vw]">
+                    {attr.replace("ags_right", "AGS Right ")}
                   </label>
-                  <Checkbox
-                    key={attr}
-                    r
-                    value={form[attr]}
-                    onChange={(value) =>
-                      setForm({ ...form, [attr]: value.currentTarget.value })
-                    }
-                  />
-                </div>
-              ) : 
-              Array.isArray(newStruct.data[attr])? (
-                // <div className="flex flex-col mb-5">
-                <Input.Wrapper className= "my-5">
-                <label className="text-sm text-gray-600">
-                  {attr.replace("_", " ").trim().toUpperCase()}
-                </label>
-                <Select
-                    key={attr}
-                    required
-                    searchable
-                    data={newStruct?.data[attr]}
-                    value={form[attr]}
-                    onChange={(value) => {setForm({ ...form, [attr]: value })}}
+                  <div className="w-[30vw]">
+                    <Checkbox
+                      key={attr}
+                      r
+                      value={form[attr]}
+                      onChange={(value) =>
+                        setForm({ ...form, [attr]: value.currentTarget.value })
+                      }
                     />
+                  </div>
+                </div>
+              ) : Array.isArray(newStruct.data[attr]) ? (
+                // <div className="flex flex-col mb-5">
+                <Input.Wrapper className="my-5 flex flex-row justify-center space-y-4 items-center">
+                  <label className="text-sm w-[9vw] mt-3 text-gray-600">
+                    {attr.replace("_", " ").trim().toUpperCase()}
+                  </label>
+                  <div className="w-[30vw]">
+                    <Select
+                      className="w-[15vw]"
+                      key={attr}
+                      required
+                      searchable
+                      data={newStruct?.data[attr]}
+                      value={form[attr]}
+                      onChange={(value) => {
+                        setForm({ ...form, [attr]: value });
+                      }}
+                    />
+                  </div>
                 </Input.Wrapper>
-              ):
-
-              typeof newStruct?.data[attr] === "boolean" ? (
-                <Input.Wrapper>
-                  <Input.Label>
-                    {attr.replace("_", " ").toUpperCase()}
+              ) : typeof newStruct?.data[attr] === "boolean" ? (
+                <Input.Wrapper className="flex flex-row justify-center space-y-4 items-center ">
+                  <Input.Label className="w-[9vw] mt-3">
+                    {attr
+                      .replace("agreement_signed", "Agreement Signed")
+                      .replace("isEditor", "IsEditor")}
                   </Input.Label>
-                  <Checkbox
-                    key={attr}
-                    r
-                    value={form[attr]}
-                    onChange={(value) =>
-                      setForm({ ...form, [attr]: value.currentTarget.value })
-                    }
-                  />
+                  <div className="w-[30vw]">
+                    <Checkbox
+                      key={attr}
+                      r
+                      value={form[attr]}
+                      onChange={(value) =>
+                        setForm({ ...form, [attr]: value.currentTarget.value })
+                      }
+                    />
+                  </div>
                 </Input.Wrapper>
               ) : (
-                <Input.Wrapper>
-                  <Input.Label>
-                    {attr.replace("_", " ").toUpperCase()}
+                <Input.Wrapper className="flex flex-row justify-center space-y-4 items-center">
+                  <Input.Label className="w-[9vw]">
+                    {attr
+                      .replace("_", " ")
+                      .replace("vorn", "N")
+                      .replace("nach", " Sur")
+                      .replace("email", "E-mail")
+                      .replace("password", "Password")}
                   </Input.Label>
                   <Input
                     key={attr}
                     label={attr.replace("_", " ").toUpperCase()}
                     value={form[attr]}
                     required
+                    className="w-[30vw]"
                     type={
                       attr.toLowerCase().includes("password")
                         ? "password"
@@ -639,21 +803,22 @@ const EditForm = ({ item, newStruct, refreshData }) => {
           })}
 
           {error && <div className="text-red-500">{error}</div>}
-
-          <div className="flex">
-            <Button
-              // onClick={update}
-              type="submit"
-            >
-              Update
-            </Button>
-            <Button onClick={() => closeDrawer()}>Cancel</Button>
+          <div className="flex justify-center">
+            <div className="flex w-[39vw] space-x-5">
+              <Button
+                // onClick={update}
+                type="submit"
+              >
+                Update
+              </Button>
+              <Button onClick={() => closeAllModals()}>Cancel</Button>
+            </div>
           </div>
         </div>
       </form>
     );
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return (
       <div>
         <h1>Something went wrong</h1>
