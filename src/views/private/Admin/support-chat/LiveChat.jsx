@@ -485,9 +485,9 @@ function LiveChatSupport() {
           <div className=" h-[100px]  rounded-t-lg text-[12px]  bg-[#D8E4EEE5] max-md:h-36 flex-end">
             <p className=" pt-3 ml-14">{t("Please type text here")}</p>
             <form onSubmit={sendMessage} className="flex ml-3  max-md:block">
-              <img className="w-[16px] pb-8 ml-3" src="/Vector4.svg" alt="" />
+              <img className="w-[20px] pb-8 ml-3" src="/Vector4.svg" alt="" />
               <label className="">
-                <p className=" mt-2.5 ml-5  text-[#0E76BB]">
+                <p className=" mt-3 ml-5 text-lg text-[#0E76BB]">
                   {t("Attach File")}{" "}
                 </p>
                 <input
@@ -501,7 +501,7 @@ function LiveChatSupport() {
                 />
               </label>
               <input
-                className="border-b-[1px] mb-10 pt-3 ml-2 w-[35rem] max-laptop:w-[20rem] border-[#0E76BB] bg-transparent text-[8px] outline-none max-md:w-[8rem] max-laptop2:w-[20rem]"
+                className="border-b-[1px] mb-10 pt-3 ml-2 w-[35rem] max-laptop:w-[20rem] border-[#0E76BB] bg-transparent text-lg outline-none max-md:w-[8rem] max-laptop2:w-[20rem]"
                 type="text"
                 value={msg}
                 onChange={(e) => {
