@@ -3,6 +3,7 @@ import { Map, ScaleControl } from 'react-map-gl';
 import maplibregl from 'maplibre-gl';
 import { LoadingOverlay } from '@mantine/core';
 import { useRef } from 'preact/hooks';
+import 'maplibre-gl/dist/maplibre-gl.css';
 
 import MapControls from './MapControls';
 import SearchControl from './SearchControl';

@@ -22,7 +22,7 @@ body {
     overflow: hidden;
   }
 
-  
+/*   
   @media (-webkit-device-pixel-ratio > 1) {
     body {
       zoom: 0.8;
@@ -42,7 +42,7 @@ body {
       zoom: 0.6;
       height: 100%;
     }
-  }
+  } */
 
 
 
