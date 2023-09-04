@@ -306,7 +306,7 @@ function LiveChat() {
                         alt="icon"
                       />
                       <div className="bg-white rounded-t-2xl rounded-br-2xl p-5 shadow-md ">
-                        {message.attachments.length > 0 && (
+                        {message?.attachments?.length > 0 && (
                           <button
                             // href={
                             //   // file url here
@@ -335,7 +335,7 @@ function LiveChat() {
                           </button>
                         )}
                         <p className="text-lg ">
-                          {message.md[0].value[0].value}
+                          { message.msg?  message.msg : message?.args[0]?.msg}
                         </p>
                       </div>
                     </div>
