@@ -3,6 +3,7 @@ import { Map, ScaleControl } from 'react-map-gl';
 import maplibregl from 'maplibre-gl';
 import { LoadingOverlay } from '@mantine/core';
 import { useRef } from 'preact/hooks';
+import 'maplibre-gl/dist/maplibre-gl.css';
 
 import MapControls from './MapControls';
 import SearchControl from './SearchControl';
@@ -18,7 +19,7 @@ import appConfig from '../../../../config/appConfig';
 
 const Gpx = lazy(() => import('./Gpx'));
 
-import { mapClickBindings, addressPointsCRUDstate, infoCardVal, visibility, mapStyle, additionalInteractiveLayers, mapSignal, regionCostState, aerialViewVisibility, PRpropertiesVisibility } from '../../../../signals';
+import { mapClickBindings, addressPointsCRUDstate, infoCardVal, visibility, mapStyle, additionalInteractiveLayers, mapSignal, regionCostState, aerialViewVisibility, PRpropertiesVisibility, legendState } from '../../../../signals';
 import ExtraViewables from './ExtraViewables';
 import PRproperties from './PRproperties';
 import AerialViewLayer from './AerialViewLayer';
@@ -39,6 +40,7 @@ export default ({ children }) => {
   const [beforeId, setBeforeId] = useState()
 
   const handleMapClick = (event) => {
+    if(legendState.value === true){legendState.value = false}
     const features = event.features
     // .filter(f => !additionalInteractiveLayers.value.includes(f.layer.id))
 
