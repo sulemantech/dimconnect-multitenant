@@ -45,7 +45,7 @@ export default () => {
 
     return (
         <Card className="m-2 ml-0 mb-0" >
-            <Title order={4}>
+            <Title className="max-2xl:text-xs" order={4}>
                 Address Points
             </Title>
             <div className="relative text-xs flex flex-col p-2 flex-1 ">
@@ -65,12 +65,12 @@ export default () => {
                                                 <p style={{
                                                     color: item.color
                                                 }}>
-                                                    <Icons.Marker />
+                                                    <Icons.Marker  />
                                                 </p>
                                             </Card>
-                                            <p className="text-base">{key}</p>
+                                            <p className="text-base max-2xl:text-[0.8vw]">{key}</p>
                                         </div>
-                                        <div className='text-base' style={{
+                                        <div className='text-base max-2xl:text-[0.8vw]' style={{
                                             color: item.color
                                         }}
                                         >
@@ -92,7 +92,7 @@ export default () => {
             <Divider />
             <br />
 
-            <Title order={3}>Address Point By Type</Title>
+            <Title className="max-2xl:text-xs" order={3}>Address Point By Type</Title>
             <br />
 
             <BarChartComp data={data}/>
@@ -124,11 +124,11 @@ const BarChartComp = ({ data }) => {
                     <div className='flex items-center justify-center'>
                    <Progress value={logScale(data[item.type], 10)} max={logScale(total, 10)}
                    h={20}
-                   className='flex-1'
+                   className='flex-1 md:h-4'
                    color={item.color}
                    style={{marginBottom: '10px'}}/>
                    <Text
-                   className="flex items-center"
+                   className="flex items-center md:text-xs xl:text-xs"
                    w={40}
                     ml={5}
                     pb={5}
