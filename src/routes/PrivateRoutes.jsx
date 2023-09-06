@@ -28,7 +28,7 @@ import SupportTeam from '../views/private/Customer/Support Team/SupportTeam';
 import LiveChatSupport from '../views/private/Admin/support-chat/LiveChat';
 
 
-
+//add more routes here
 export default () => <div className='flex absolute top-0 left-0 bottom-0 bg-slate-100 right-0 overflow-hidden'>
     <Navbar />
     <RegionListValidator />
