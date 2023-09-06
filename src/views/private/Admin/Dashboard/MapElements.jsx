@@ -65,12 +65,12 @@ export default () => {
                                                 <p style={{
                                                     color: item.color
                                                 }}>
-                                                    <Icons.Marker />
+                                                    <Icons.Marker  />
                                                 </p>
                                             </Card>
-                                            <p className="text-base">{key}</p>
+                                            <p className="text-base md:text-xs xl:text-xs">{key}</p>
                                         </div>
-                                        <div className='text-base' style={{
+                                        <div className='text-base md:text-xs xl:text-xs' style={{
                                             color: item.color
                                         }}
                                         >
@@ -124,11 +124,11 @@ const BarChartComp = ({ data }) => {
                     <div className='flex items-center justify-center'>
                    <Progress value={logScale(data[item.type], 10)} max={logScale(total, 10)}
                    h={20}
-                   className='flex-1'
+                   className='flex-1 md:h-4'
                    color={item.color}
                    style={{marginBottom: '10px'}}/>
                    <Text
-                   className="flex items-center"
+                   className="flex items-center md:text-xs xl:text-xs"
                    w={40}
                     ml={5}
                     pb={5}
