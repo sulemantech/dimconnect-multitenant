@@ -351,13 +351,13 @@ export const HomeActivationTable = ({ data, business = false }) => {
           <Badge
             variant="filled"
             color="gray"
-            className="bg-gray-100 max-2xl:w-[5vw]"
+            className="bg-gray-100 max-2xl:w-[7vw]"
             size="20"
           >
-            <p className="font-thin text-neutral-700 ">
+            <p className="font-thin  text-neutral-700 ">
               {" "}
               Cost, €
-              <b className="font-semibold text-base ">
+              <b className="font-semibold text-base max-2xl:text-xs ">
                 {" "}
                 {commarize(
                   CalculateActivationCostByType(
@@ -377,18 +377,18 @@ export const HomeActivationTable = ({ data, business = false }) => {
               <div className="overflow-hidden border-b border-gray-200 sm:rounded-lg">
                 <Table className="min-w-full bg-white divide-y divide-gray-200">
                   <thead className="bg-gray-50">
-                    <tr>
+                    <tr className="">
                       <th
                         scope="col"
-                        className="px-6 py-3   font-medium tracking-wider text-left text-gray-500 uppercase"
+                        className="px-6 py-3   font-medium tracking-wide text-left text-gray-500 uppercase"
                       >
-                        {t("Activation Types")}
+                       <p className="max-2xl:text-xs"> {t("Activation Types")}</p>
                       </th>
                       <th
                         scope="col"
                         className="px-6 py-3  font-medium tracking-wider text-left text-gray-500 uppercase"
                       >
-                        {t("Value")}, €
+                       <p className="max-2xl:text-xs"> {t("Value")}, €  </p>
                       </th>
                     </tr>
                   </thead>
@@ -402,14 +402,14 @@ export const HomeActivationTable = ({ data, business = false }) => {
                           return null;
                         return (
                           <tr key={index}>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <div className="text-xs text-gray-900">
+                            <td className="px-6 py-4  whitespace-nowrap">
+                              <div className="text-xs max-2xl:text-[0.8vw] text-gray-900">
                                 {t(key.split("_").join(" ").toUpperCase())}
                               </div>
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap">
                               {
-                                <div className="text-sm text-gray-900">
+                                <div className="text-sm max-2xl:text-[0.8vw] text-gray-900">
                                   {commarize(data[key])}
                                 </div>
                               }
@@ -425,21 +425,21 @@ export const HomeActivationTable = ({ data, business = false }) => {
         </div>
       </Card>
       <Card className="m-2 flex-grow flex flex-col">
-        <Title order={4}>{t("Activation Cost by Type")}</Title>
+        <Title className="max-2xl:text-xs " order={4}>{t("Activation Cost by Type")}</Title>
         <br />
         <hr />
         <br />
         <div className="flex justify-around">
           <div className="flex items-center justify-center">
-            <span className="mr-4">{t("HOME")}</span>
+            <span className=" max-2xl:text-xs  mr-4">{t("HOME")}</span>
             <span className="p-2 shadow-md rounded-full">
-              <div className="bg-brand w-8 h-2 rounded-full"></div>
+              <div className="bg-brand w-8 max-2xl:w-5 h-2 rounded-full"></div>
             </span>
           </div>
           <div className="flex items-center justify-center">
-            <span className="mr-4">{t("BUSINESS")}</span>
+            <span className=" max-2xl:text-xs mr-4">{t("BUSINESS")}</span>
             <span className="p-2 shadow-md rounded-full">
-              <div className="bg-brand-dark w-8 h-2 rounded-full"></div>
+              <div className="bg-brand-dark w-8 max-2xl:w-5 h-2 rounded-full"></div>
             </span>
           </div>
         </div>
@@ -448,7 +448,7 @@ export const HomeActivationTable = ({ data, business = false }) => {
           <div className="flex items-center">
             <Progress
               color="brand"
-              className="w-3/4"
+              className="w-3/4 max-2xl:h-4"
               value={
                 (CalculateActivationCostByType(data, "home") /
                   data.total_cost) *
@@ -457,7 +457,7 @@ export const HomeActivationTable = ({ data, business = false }) => {
               size="xl"
               h={35}
             />
-            <span className="w-1/4 justify-center text-center text-brand text-lg font-bold">
+            <span className="w-1/4 justify-center max-2xl:text-xs  text-center text-brand text-lg font-bold">
               {commarize(CalculateActivationCostByType(data, "home"))}
             </span>
           </div>
@@ -469,14 +469,14 @@ export const HomeActivationTable = ({ data, business = false }) => {
                 100
               }
               h={35}
-              className="w-3/4"
+              className="w-3/4 max-2xl:h-4"
               size="xl"
               mt={20}
               classNames={{
                 bar: "bg-brand-dark",
               }}
             />
-            <span className="w-1/4 justify-center text-center text-brand-dark text-lg font-bold">
+            <span className="w-1/4 justify-center text-center max-2xl:text-xs  text-brand-dark text-lg font-bold">
               {commarize(CalculateActivationCostByType(data, "building"))}
             </span>
           </div>
@@ -519,7 +519,7 @@ export const DuctTable = ({ data }) => {
                 >
                   <Icons.IconDucts />
                 </p>{" "}
-                <Title ml={10} order={4}>
+                <Title className="max-2xl:text-xs" ml={10} order={4}>
                   {section.split("_").join(" ").toUpperCase()}
                 </Title>{" "}
               </div>
@@ -533,29 +533,35 @@ export const DuctTable = ({ data }) => {
                   >
                     <thead className="justify-between">
                       <tr>
-                        <th>{t("Duct Type")}</th>
-                        <th className="md:visible invisible">
-                          {t("Material Cost")}
+                        <th>
+                          <p className="max-2xl:text-xs">{t("Duct Type")}</p>
                         </th>
                         <th className="md:visible invisible">
-                          {t("Labour Cost")}
+                          <p className="max-2xl:text-xs">{t("Material Cost")}</p>
                         </th>
-                        <th>{t("Volume")}</th>
-                        <th>{t("Total Cost")}</th>
+                        <th className="md:visible invisible">
+                          <p className="max-2xl:text-xs">{t("Labour Cost")}</p>
+                        </th>
+                        <th>
+                          <p className="max-2xl:text-xs">{t("Volume")}</p>
+                        </th>
+                        <th>
+                          <p className="max-2xl:text-xs">{t("Total Cost")}</p>
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
                       {data[section].map((row, index) => (
                         <tr key={index}>
-                          <td>{row.duct_type}</td>
-                          <td className="md:visible invisible">
-                            {row.duct_materialcost}
+                          <td> <p className="max-2xl:text-[0.8vw]">   {row.duct_type}</p></td>
+                          <td className="md:visible  invisible">
+                             <p className="max-2xl:text-[0.8vw]">   {row.duct_materialcost}</p>
                           </td>
-                          <td className="md:visible invisible">
-                            {row.duct_labourcost}
+                          <td className="md:visible  invisible">
+                             <p className="max-2xl:text-[0.8vw]">   {row.duct_labourcost}</p>
                           </td>
-                          <td>{commarize(row.duct_volume)}</td>
-                          <td>{commarize(row.total_cost)}</td>
+                          <td> <p className="max-2xl:text-[0.8vw]">   {commarize(row.duct_volume)}</p></td>
+                          <td> <p className="max-2xl:text-[0.8vw]">   {commarize(row.total_cost)}</p></td>
                         </tr>
                       ))}
                     </tbody>
@@ -644,7 +650,7 @@ export const CableTable = ({ data }) => {
                 >
                   <Icons.IconCables />
                 </p>{" "}
-                <Title ml={10} order={4}>
+                <Title className="max-2xl:text-xs" ml={10} order={4}>
                   {section.split("_").join(" ").toUpperCase()}
                 </Title>{" "}
               </div>
@@ -654,35 +660,69 @@ export const CableTable = ({ data }) => {
                 <div className="align-middle inline-block min-w-full overflow-hidden">
                   <div className="overflow-hidden border-b border-gray-200 sm:rounded-lg">
                     <Table className="min-w-full divide-y bg-white divide-gray-200">
-                      <thead className="justify-between">
+                      <thead className="justify-between ">
                         <tr>
-                          <th>{t("Cable Type")}</th>
-                          <th className="md:visible invisible">
-                            {t("Material Cost")}
+                          <th>
+                            <p className="max-2xl:text-xs">
+                              {" "}
+                              {t("Cable Type")}{" "}
+                            </p>
+                          </th>
+                          <th className="md:visible invisible ">
+                            <p className="max-2xl:text-xs">
+                              {t("Material Cost")}
+                            </p>
                           </th>
                           <th className="md:visible invisible">
-                            {t("Labour Cost")}
+                            <p className="max-2xl:text-xs">
+                              {t("Labour Cost")}
+                            </p>
                           </th>
-                          <th className="md:visible invisible">{t("Total")}</th>
-                          <th>{t("Volume")}</th>
-                          <th>{t("Total Cost")}</th>
+                          <th className="md:visible invisible">
+                            <p className="max-2xl:text-xs">{t("Total")}</p>
+                          </th>
+                          <th>
+                            <p className="max-2xl:text-xs">{t("Volume")}</p>
+                          </th>
+                          <th>
+                            <p className="max-2xl:text-xs">{t("Total Cost")}</p>
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
                         {data[section].map((row, index) => (
                           <tr key={index}>
-                            <td>{row.cable_type}</td>
-                            <td className="md:visible invisible">
-                              {row.materialcost}
+                            <td>
+                              <p className="max-2xl:text-[0.8vw]">
+                                {row.cable_type}
+                              </p>
                             </td>
-                            <td className="md:visible invisible">
-                              {row.labourcost}
+                            <td className=" md:visible   invisible">
+                              <p className="max-2xl:text-[0.8vw]">
+                                {row.materialcost}
+                              </p>
                             </td>
-                            <td className="md:visible invisible">
-                              {row.total}
+                            <td className="md:visible  invisible">
+                              <p className="max-2xl:text-[0.8vw]">
+                                {" "}
+                                {row.labourcost}
+                              </p>
                             </td>
-                            <td>{commarize(row.volume)}</td>
-                            <td>{commarize(row.total_cost)}</td>
+                            <td className="md:visible  invisible">
+                              <p className="max-2xl:text-[0.8vw]">
+                                {row.total}
+                              </p>
+                            </td>
+                            <td>
+                              <p className="max-2xl:text-[0.8vw]">
+                                {commarize(row.volume)}
+                              </p>
+                            </td>
+                            <td>
+                              <p className="max-2xl:text-[0.8vw]">
+                                {commarize(row.total_cost)}
+                              </p>
+                            </td>
                           </tr>
                         ))}
                       </tbody>
@@ -692,7 +732,7 @@ export const CableTable = ({ data }) => {
               </div>
             </Card>
             <Card className="md:flex flex-col flex-1 flex-grow m-2 items-center md:w-14 xl:w-14 justify-center hidden">
-              <Title order={4}>
+              <Title className="max-2xl:text-xs" order={4}>
                 {section.charAt(0).toUpperCase() + section.slice(1)} Cable By
                 Type
               </Title>
