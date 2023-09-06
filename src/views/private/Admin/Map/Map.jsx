@@ -27,17 +27,40 @@ import AerialViewLayer from './AerialViewLayer';
 let mapFirstRender = false
 
 export default ({ children }) => {
+  const mapRef = useRef(null);
   const [basemap, setBasemap] = useState('https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json')
   const [interactiveLayerIds, setInteractiveLayerIds] = useState([])
+
+  const [viewport, setViewport] = useState({
+    width: '100%',
+    height: '100%'
+  });
+
+
   useEffect(() => {
     mapStyle.subscribe(setBasemap)
     visibility.subscribe((v) => {
       setInteractiveLayerIds(JSON.parse(v) ? Object.keys(JSON.parse(v)).concat(additionalInteractiveLayers.value) : [])
     })
 
+    const handleResize = () => {
+      setViewport(prev => ({
+        ...prev,
+        width: window.innerWidth,
+        height: window.innerHeight
+      }));
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+
+
+
   }, [])
-  const mapRef = useRef(null);
-  const [beforeId, setBeforeId] = useState()
 
   const handleMapClick = (event) => {
     if(legendState.value === true){legendState.value = false}
@@ -65,6 +88,8 @@ export default ({ children }) => {
   return (
     <Map
       reuseMaps
+      {...viewport}
+      onViewportChange={newViewport => setViewport(newViewport)}
       ref={mapRef}
       onClick={handleMapClick}
       onMouseMove={handleMaphover}

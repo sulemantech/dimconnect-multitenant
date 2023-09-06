@@ -26,6 +26,10 @@ fetch('/german.json.lz').then(res => res.text()).then(res => {
 
 export function App() {
   // 1a7fc0	338dc7	4d9cce	66aad5 0071b9	0066a7	005a94	004f82	00446f
+const path =  window.location.pathname
+
+  const style = path!=='/map'? {transform: 'scale(0.9)'} : {}
+
   return (
     <MantineProvider
       theme={{
@@ -108,7 +112,9 @@ export function App() {
           <Notifications />
           <DrawerProvider />
 
-          <div className='select-none antialiased scroll-smooth text-gray-700 '>
+          <div className='select-none antialiased scroll-smooth text-gray-700 '
+            // style={style}
+          >
             <AuthProvider />
           </div>
         </ModalsProvider>
