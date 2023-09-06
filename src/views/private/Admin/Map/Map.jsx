@@ -3,6 +3,7 @@ import { Map, ScaleControl } from 'react-map-gl';
 import maplibregl from 'maplibre-gl';
 import { LoadingOverlay } from '@mantine/core';
 import { useRef } from 'preact/hooks';
+import 'maplibre-gl/dist/maplibre-gl.css';
 
 import MapControls from './MapControls';
 import SearchControl from './SearchControl';
@@ -18,7 +19,7 @@ import appConfig from '../../../../config/appConfig';
 
 const Gpx = lazy(() => import('./Gpx'));
 
-import { mapClickBindings, addressPointsCRUDstate, infoCardVal, visibility, mapStyle, additionalInteractiveLayers, mapSignal, regionCostState, aerialViewVisibility, PRpropertiesVisibility } from '../../../../signals';
+import { mapClickBindings, addressPointsCRUDstate, infoCardVal, visibility, mapStyle, additionalInteractiveLayers, mapSignal, regionCostState, aerialViewVisibility, PRpropertiesVisibility, legendState } from '../../../../signals';
 import ExtraViewables from './ExtraViewables';
 import PRproperties from './PRproperties';
 import AerialViewLayer from './AerialViewLayer';
@@ -26,19 +27,43 @@ import AerialViewLayer from './AerialViewLayer';
 let mapFirstRender = false
 
 export default ({ children }) => {
+  const mapRef = useRef(null);
   const [basemap, setBasemap] = useState('https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json')
   const [interactiveLayerIds, setInteractiveLayerIds] = useState([])
+
+  const [viewport, setViewport] = useState({
+    width: '100%',
+    height: '100%'
+  });
+
+
   useEffect(() => {
     mapStyle.subscribe(setBasemap)
     visibility.subscribe((v) => {
       setInteractiveLayerIds(JSON.parse(v) ? Object.keys(JSON.parse(v)).concat(additionalInteractiveLayers.value) : [])
     })
 
+    const handleResize = () => {
+      setViewport(prev => ({
+        ...prev,
+        width: window.innerWidth,
+        height: window.innerHeight
+      }));
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+
+
+
   }, [])
-  const mapRef = useRef(null);
-  const [beforeId, setBeforeId] = useState()
 
   const handleMapClick = (event) => {
+    if(legendState.value === true){legendState.value = false}
     const features = event.features
     // .filter(f => !additionalInteractiveLayers.value.includes(f.layer.id))
 
@@ -63,6 +88,8 @@ export default ({ children }) => {
   return (
     <Map
       reuseMaps
+      {...viewport}
+      onViewportChange={newViewport => setViewport(newViewport)}
       ref={mapRef}
       onClick={handleMapClick}
       onMouseMove={handleMaphover}

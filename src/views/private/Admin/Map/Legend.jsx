@@ -18,7 +18,9 @@ import {
   roadandwaterstate,
   aerialViewVisibility,
   PRpropertiesVisibility,
+  legendState,
 } from "../../../../signals";
+import { effect } from "@preact/signals";
 
 export default ({
   noAddressPoint = false,
@@ -64,6 +66,13 @@ export default ({
       if (value == null) setCollapsed(true);
     }, 1500);
   }, [value]);
+
+  effect(() => {
+    if(legendState.value === false){setCollapsed(true)}
+  }, [legendState.value]);
+
+
+
   useDidUpdate(() => {
     if (collapsed == false) setValue("");
   }, [collapsed]);
@@ -72,7 +81,10 @@ export default ({
     return (
       <div
         className="absolute -left-8 hover:scale-95 transition-all cursor-pointer bottom-24 justify-center rotate-90 font-bold text-lg tracking-wide text-white bg-[#0092c3] shadow-2xl z-40 rounded-md p-2 "
-        onClick={() => setCollapsed(false)}
+        onClick={() => {
+          legendState.value = true;
+          setCollapsed(false)
+        }}
       >
         {t("Legend")}
       </div>

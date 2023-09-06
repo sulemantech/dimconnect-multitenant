@@ -22,7 +22,7 @@ body {
     overflow: hidden;
   }
 
-  
+/*   
   @media (-webkit-device-pixel-ratio > 1) {
     body {
       zoom: 0.8;
@@ -42,7 +42,31 @@ body {
       zoom: 0.6;
       height: 100%;
     }
-  }
+  }  */
+  
+  /* @-moz-document url-prefix() {
+    @media (min-resolution: 2dppx) {
+      body {
+        zoom: 0.8;
+        height: 100%;
+      }
+    }
+  
+    @media (min-resolution: 3dppx) {
+      body {
+        zoom: 0.7;
+        height: 100%;
+      }
+    }
+  
+    @media (min-resolution: 4dppx) {
+      body {
+        zoom: 0.6;
+        height: 100%;
+      }
+    }
+  } */
+  
 
 
 

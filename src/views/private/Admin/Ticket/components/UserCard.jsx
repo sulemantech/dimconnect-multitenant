@@ -38,9 +38,9 @@ function UserCard({ tickets, select }) {
             {t('User Card')}
           </button>
         </div>
-        <div className=" ml-6 mt-3 rcolor rounded-md px-2 w-[22vw] overflow-y-auto custom-scrollbar max-h-[67vh]">
+        <div className=" ml-6 mt-3 rcolor rounded-md px-2 min-w-fit min-h-fit">
           {active === "userTicket" ? (
-            <div className="w-full overflow-auto max-h-[100%]  p-2">
+            <div className="w-full max-h-[100%]  p-2">
               <DataTable
                 className="mt-3"
                 expandOnRowClicked={true}

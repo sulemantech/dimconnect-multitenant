@@ -11,6 +11,14 @@ function PermmissionManagmentheader() {
   const handleCheckboxChange1 = (event) => {
     setIsChecked1(event.target.checked);
   };
+  const colors = ["#0E76BB", "#1DAF1A", "#FF6161"];
+  const images = ["/eye.svg", "/pencil.svg", "/king.svg"];
+  const titles = [
+    "AGS Rights GP Viewer",
+    "AGS Rights GP Editor",
+    "AGS Rights GP Admin",
+  ];
+  let percentage=[18,40,27];
   const { t } = useTranslation();
   return (
     <div>
@@ -19,7 +27,7 @@ function PermmissionManagmentheader() {
           <div>
             <h2 className="text-lg font-bold">{t("Agreement Statuses")}</h2>
             <div>
-              <div className="flex flex-row mt-2 space-x-[5vw]">
+              <div className="flex flex-row mt-2 space-x-[3vw]">
                 <div className="flex flex-row space-x-2">
                   <Checkbox
                     color="green"
@@ -35,7 +43,7 @@ function PermmissionManagmentheader() {
               </div>
             </div>
             <div>
-              <div className="flex flex-row mt-2 space-x-[5vw]">
+              <div className="flex flex-row mt-2 space-x-[3vw]">
                 <div className="flex flex-row space-x-2">
                   <Checkbox
                     color="green"
@@ -52,235 +60,90 @@ function PermmissionManagmentheader() {
             </div>
           </div>
         </div>
-        <div className=" m-2 bg-white text-gray-700 rounded-lg px-5 pt-3   min-w-[250px] flex-1 flex">
-          <div className="">
-            <h2 className="text-lg font-bold absolute">
-              {t("AGS Rights GP Viewer")}
-            </h2>
 
+        {colors.map((color, index) => (
+          <div
+            key={index}
+            className=" m-2 bg-white text-gray-700 rounded-lg px-5 pt-3   min-w-[250px] flex-1 flex"
+          >
+            <h2 className="text-lg font-bold absolute">{titles[index]}</h2>
             <div>
-              <div className=" absolute mt-5">
-                <svg
-                  width="148"
-                  height="82"
-                  viewBox="0 0 210 82"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M142.52 46.15L127.74 52.27C130.4 58.84 131.91 65.99 131.98 73.49H147.98C147.92 63.82 145.97 54.6 142.52 46.14V46.15Z"
-                    fill="#F5F7F9"
-                  />
-                  <path
-                    d="M126.63 22.06L115.32 33.37C120.38 38.52 124.5 44.6 127.37 51.34L142.15 45.22C138.47 36.53 133.16 28.69 126.63 22.06Z"
-                    fill="#F5F7F9"
-                  />
-                  <path
-                    d="M0.00976562 74.49C0.269766 78.67 3.73977 81.99 7.97977 81.99C12.2198 81.99 15.6998 78.67 15.9498 74.49H0.00976562Z"
-                    fill="#0E76BB"
-                  />
-                  <path
-                    d="M132.01 74.49C132.27 78.67 135.74 81.99 139.98 81.99C144.22 81.99 147.7 78.67 147.95 74.49H132H132.01Z"
-                    fill="#F5F7F9"
-                  />
-                  <path
-                    d="M5.46 46.15C2.01 54.6 0.06 63.82 0 73.49H16C16.06 65.99 17.57 58.84 20.24 52.27L5.46 46.15Z"
-                    fill="#0E76BB"
-                  />
-                  <path
-                    d="M102.76 5.83001L96.6396 20.61C103.38 23.48 109.47 27.59 114.62 32.65L125.93 21.34C119.31 14.8 111.46 9.50001 102.77 5.82001L102.76 5.83001Z"
-                    fill="#F5F7F9"
-                  />
-                  <path
-                    d="M74.4902 0V16C81.9902 16.06 89.1502 17.56 95.7202 20.23L101.84 5.45C93.3802 2 84.1502 0.07 74.4902 0Z"
-                    fill="#F5F7F9"
-                  />
-                  <path
-                    d="M52.2596 20.23C58.8296 17.57 65.9896 16.07 73.4896 16V0C63.8196 0.06 54.5896 2 46.1396 5.45L52.2596 20.23Z"
-                    fill="#F5F7F9"
-                  />
-                  <path
-                    d="M33.3703 32.66C38.5203 27.6 44.6003 23.48 51.3403 20.61L45.2203 5.83002C36.5303 9.51002 28.6903 14.82 22.0703 21.35L33.3803 32.66H33.3703Z"
-                    fill="#0E76BB"
-                  />
-                  <path
-                    d="M21.3501 22.06C14.8101 28.68 9.51008 36.52 5.83008 45.21L20.6101 51.33C23.4801 44.59 27.6001 38.51 32.6601 33.36L21.3501 22.05V22.06Z"
-                    fill="#0E76BB"
-                  />
-                </svg>
+              <div>
+                <div className=" absolute mt-5">
+                  <svg
+                    width="12vw"
+                    height="82"
+                    viewBox="0 0 210 82"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M0.00976562 74.49C0.269766 78.67 3.73977 81.99 7.97977 81.99C12.2198 81.99 15.6998 78.67 15.9498 74.49H0.00976562Z"
+                      fill={percentage[index] !== 0 && percentage[index] <= 100   ? color : '#F5F7F9'}
+                    />
+                    <path
+                      d="M5.46 46.15C2.01 54.6 0.06 63.82 0 73.49H16C16.06 65.99 17.57 58.84 20.24 52.27L5.46 46.15Z"
+                      fill={percentage[index] > 10 && percentage[index] <= 100  ? color : '#F5F7F9'}
+                    />
+                    <path
+                      d="M21.3501 22.06C14.8101 28.68 9.51008 36.52 5.83008 45.21L20.6101 51.33C23.4801 44.59 27.6001 38.51 32.6601 33.36L21.3501 22.05V22.06Z"
+                      fill={percentage[index] > 20 && percentage[index] <= 100 ? color : '#F5F7F9'}
+                    />
+                    <path
+                      d="M33.3703 32.66C38.5203 27.6 44.6003 23.48 51.3403 20.61L45.2203 5.83002C36.5303 9.51002 28.6903 14.82 22.0703 21.35L33.3803 32.66H33.3703Z"
+                      fill={percentage[index] > 30 && percentage[index] <= 100 ? color : '#F5F7F9'}
+                    />
+                    <path
+                      d="M52.2596 20.23C58.8296 17.57 65.9896 16.07 73.4896 16V0C63.8196 0.06 54.5896 2 46.1396 5.45L52.2596 20.23Z"
+                      fill={percentage[index] > 40 && percentage[index] <= 100 ? color : '#F5F7F9'}
+                    />
+                    <path
+                      d="M74.4902 0V16C81.9902 16.06 89.1502 17.56 95.7202 20.23L101.84 5.45C93.3802 2 84.1502 0.07 74.4902 0Z"
+                      fill={percentage[index] > 50 && percentage[index] <= 100 ? color : '#F5F7F9'}
+                    />
+                    <path
+                      d="M102.76 5.83001L96.6396 20.61C103.38 23.48 109.47 27.59 114.62 32.65L125.93 21.34C119.31 14.8 111.46 9.50001 102.77 5.82001L102.76 5.83001Z"
+                      fill={percentage[index] > 60 && percentage[index] <= 100 ? color : '#F5F7F9'}
+                    />
+                    <path
+                      d="M126.63 22.06L115.32 33.37C120.38 38.52 124.5 44.6 127.37 51.34L142.15 45.22C138.47 36.53 133.16 28.69 126.63 22.06Z"
+                      fill={percentage[index] > 70 && percentage[index] <= 100 ? color : '#F5F7F9'}
+                    />
+                    <path
+                      d="M142.52 46.15L127.74 52.27C130.4 58.84 131.91 65.99 131.98 73.49H147.98C147.92 63.82 145.97 54.6 142.52 46.14V46.15Z"
+                      fill={percentage[index] > 80 && percentage[index] <= 100 ? color : '#F5F7F9'}
+                    />
+                    <path
+                      d="M132.01 74.49C132.27 78.67 135.74 81.99 139.98 81.99C144.22 81.99 147.7 78.67 147.95 74.49H132H132.01Z"
+                      fill={percentage[index] > 90 && percentage[index] <= 100 ? color : '#F5F7F9'}
+                    />
+                  </svg>
+                </div>
               </div>
               <img
-                className=" w-5 ml-[2.5%] absolute pt-16 pb-2"
-                src="/eye.svg"
-                alt=""
+                className=" w-[2vw] ml-[2.5%]  absolute pt-16 pb-2"
+                src={images[index]}
+                alt=" "
               />
             </div>
-          </div>
-
-          <div className=" flex flex-1 "></div>
-          <div className="flex flex-col items-end mt-[12%]">
-            <span className="text-[#0E76BB] text-xs ml-2">+3,5%</span>
-            <h3 className="text-2xl ">1715</h3>
-            <p className="text-xs font-extralight opacity-70 italic">
-              {t("Last week analytics")}
-            </p>
-          </div>
-        </div>
-        <div className=" m-2 bg-white text-gray-700 rounded-lg px-5 pt-3   min-w-[250px] flex-1 flex">
-          <div className="">
-            <h2 className="text-lg font-bold absolute">
-              {t("AGS Rights GP Editor")}
-            </h2>
-
-            <div>
-              <div className=" absolute mt-5">
-                <svg
-                  width="148"
-                  height="82"
-                  viewBox="0 0 210 82"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M142.52 46.15L127.74 52.27C130.4 58.84 131.91 65.99 131.98 73.49H147.98C147.92 63.82 145.97 54.6 142.52 46.14V46.15Z"
-                    fill="#F5F7F9"
-                  />
-                  <path
-                    d="M126.63 22.06L115.32 33.37C120.38 38.52 124.5 44.6 127.37 51.34L142.15 45.22C138.47 36.53 133.16 28.69 126.63 22.06Z"
-                    fill="#F5F7F9"
-                  />
-                  <path
-                    d="M0.00976562 74.49C0.269766 78.67 3.73977 81.99 7.97977 81.99C12.2198 81.99 15.6998 78.67 15.9498 74.49H0.00976562Z"
-                    fill="#1DAF1A"
-                  />
-                  <path
-                    d="M132.01 74.49C132.27 78.67 135.74 81.99 139.98 81.99C144.22 81.99 147.7 78.67 147.95 74.49H132H132.01Z"
-                    fill="#F5F7F9"
-                  />
-                  <path
-                    d="M5.46 46.15C2.01 54.6 0.06 63.82 0 73.49H16C16.06 65.99 17.57 58.84 20.24 52.27L5.46 46.15Z"
-                    fill="#1DAF1A"
-                  />
-                  <path
-                    d="M102.76 5.83001L96.6396 20.61C103.38 23.48 109.47 27.59 114.62 32.65L125.93 21.34C119.31 14.8 111.46 9.50001 102.77 5.82001L102.76 5.83001Z"
-                    fill="#F5F7F9"
-                  />
-                  <path
-                    d="M74.4902 0V16C81.9902 16.06 89.1502 17.56 95.7202 20.23L101.84 5.45C93.3802 2 84.1502 0.07 74.4902 0Z"
-                    fill="#F5F7F9"
-                  />
-                  <path
-                    d="M52.2596 20.23C58.8296 17.57 65.9896 16.07 73.4896 16V0C63.8196 0.06 54.5896 2 46.1396 5.45L52.2596 20.23Z"
-                    fill="#F5F7F9"
-                  />
-                  <path
-                    d="M33.3703 32.66C38.5203 27.6 44.6003 23.48 51.3403 20.61L45.2203 5.83002C36.5303 9.51002 28.6903 14.82 22.0703 21.35L33.3803 32.66H33.3703Z"
-                    fill="#1DAF1A"
-                  />
-                  <path
-                    d="M21.3501 22.06C14.8101 28.68 9.51008 36.52 5.83008 45.21L20.6101 51.33C23.4801 44.59 27.6001 38.51 32.6601 33.36L21.3501 22.05V22.06Z"
-                    fill="#1DAF1A"
-                  />
-                </svg>
-              </div>
-              <img
-                className=" w-5 ml-[2.5%] absolute pt-16 pb-2"
-                src="/pencil.svg"
-                alt=""
-              />
+            <div className=" flex flex-1 "></div>
+            <div className="flex flex-col items-end mt-[12%]">
+              <span className=" text-xs ml-2" style={{ color: color }}>{"+" + percentage[index]}%</span>
+              <h3 className="text-2xl ">1715</h3>
+              <p className="text-xs font-extralight opacity-70 italic">
+                {t("Last week analytics")}
+              </p>
             </div>
           </div>
+        ))}
 
-          <div className=" flex flex-1 "></div>
-          <div className="flex flex-col items-end mt-[12%]">
-            <span className="text-[#1DAF1A] text-xs ml-2">+3,5%</span>
-            <h3 className="text-2xl ">1715</h3>
-            <p className="text-xs font-extralight opacity-70 italic">
-              {t("Last week analytics")}
-            </p>
-          </div>
-        </div>
-        <div className=" m-2 bg-white text-gray-700 rounded-lg px-5 pt-3   min-w-[250px] flex-1 flex">
-          <div className="">
-            <h2 className="text-lg font-bold absolute">
-              {t("AGS Rights GP Admin")}
-            </h2>
-
-            <div>
-              <div className=" absolute mt-5">
-                <svg
-                  width="148"
-                  height="82"
-                  viewBox="0 0 210 82"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M142.52 46.15L127.74 52.27C130.4 58.84 131.91 65.99 131.98 73.49H147.98C147.92 63.82 145.97 54.6 142.52 46.14V46.15Z"
-                    fill="#F5F7F9"
-                  />
-                  <path
-                    d="M126.63 22.06L115.32 33.37C120.38 38.52 124.5 44.6 127.37 51.34L142.15 45.22C138.47 36.53 133.16 28.69 126.63 22.06Z"
-                    fill="#F5F7F9"
-                  />
-                  <path
-                    d="M0.00976562 74.49C0.269766 78.67 3.73977 81.99 7.97977 81.99C12.2198 81.99 15.6998 78.67 15.9498 74.49H0.00976562Z"
-                    fill="#FF6161"
-                  />
-                  <path
-                    d="M132.01 74.49C132.27 78.67 135.74 81.99 139.98 81.99C144.22 81.99 147.7 78.67 147.95 74.49H132H132.01Z"
-                    fill="#F5F7F9"
-                  />
-                  <path
-                    d="M5.46 46.15C2.01 54.6 0.06 63.82 0 73.49H16C16.06 65.99 17.57 58.84 20.24 52.27L5.46 46.15Z"
-                    fill="#FF6161"
-                  />
-                  <path
-                    d="M102.76 5.83001L96.6396 20.61C103.38 23.48 109.47 27.59 114.62 32.65L125.93 21.34C119.31 14.8 111.46 9.50001 102.77 5.82001L102.76 5.83001Z"
-                    fill="#F5F7F9"
-                  />
-                  <path
-                    d="M74.4902 0V16C81.9902 16.06 89.1502 17.56 95.7202 20.23L101.84 5.45C93.3802 2 84.1502 0.07 74.4902 0Z"
-                    fill="#F5F7F9"
-                  />
-                  <path
-                    d="M52.2596 20.23C58.8296 17.57 65.9896 16.07 73.4896 16V0C63.8196 0.06 54.5896 2 46.1396 5.45L52.2596 20.23Z"
-                    fill="#F5F7F9"
-                  />
-                  <path
-                    d="M33.3703 32.66C38.5203 27.6 44.6003 23.48 51.3403 20.61L45.2203 5.83002C36.5303 9.51002 28.6903 14.82 22.0703 21.35L33.3803 32.66H33.3703Z"
-                    fill="#FF6161"
-                  />
-                  <path
-                    d="M21.3501 22.06C14.8101 28.68 9.51008 36.52 5.83008 45.21L20.6101 51.33C23.4801 44.59 27.6001 38.51 32.6601 33.36L21.3501 22.05V22.06Z"
-                    fill="#FF6161"
-                  />
-                </svg>
-              </div>
-              <img
-                className=" w-5 ml-[2.5%] absolute pt-16 pb-2"
-                src="/king.svg"
-                alt=""
-              />
-            </div>
-          </div>
-
-          <div className=" flex flex-1 "></div>
-          <div className="flex flex-col items-end mt-[12%]">
-            <span className="text-[#FF6161] text-xs ml-2">+3,5%</span>
-            <h3 className="text-2xl ">1715</h3>
-            <p className="text-xs font-extralight opacity-70 italic">
-              {t("Last week analytics")}
-            </p>
-          </div>
-        </div>
         <div className=" m-2 bg-white text-gray-700 rounded-lg px-5 pt-3   min-w-[250px] flex-1 flex">
           <div className="">
             <h2 className="text-lg font-bold absolute">
               {t("AGS Rights by Type")}
             </h2>
             <div>
-              <div className="flex flex-row space-x-[7vw] mt-[5.5vh]">
+              <div className="flex flex-row w-[18vw] space-x-[7vw] mt-[5.5vh]">
                 <div>
                   <img className="w-[3vw] h-[3vh]" src="/eye.svg" alt="" />
                   <svg
@@ -354,13 +217,13 @@ function PermmissionManagmentheader() {
               </div>
               <div className="pb-2">
                 <svg
-                  width="239"
+                  width="18vw"
                   height="17"
                   viewBox="0 0 239 17"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <rect width="239" height="17" rx="8.5" fill="#F5F7F9" />
+                  <rect width="18vw" height="17" rx="8.5" fill="#F5F7F9" />
                   <path
                     d="M0 8.5C0 3.80558 3.80558 0 8.5 0H23V17H8.5C3.80558 17 0 13.1944 0 8.5Z"
                     fill="#0E76BB"

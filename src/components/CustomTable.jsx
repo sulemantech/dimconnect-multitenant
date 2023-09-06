@@ -17,7 +17,12 @@ import {
   Radio,
   ThemeIcon,
 } from "@mantine/core";
-import { closeAllModals, openConfirmModal,closeModal, openModal } from "@mantine/modals";
+import {
+  closeAllModals,
+  openConfirmModal,
+  closeModal,
+  openModal,
+} from "@mantine/modals";
 import {
   IconAlertCircle,
   IconArrowDown,
@@ -125,118 +130,144 @@ export default ({
 
   const createNew = useCallback(() => {
     openModal({
-      
+      closeOnClickOutside: false,
       title: (
-        <div className="flex flex-row p-4 w-[50vw] bg-cover bg-center text-white items-center space-x-2 bg-[url('/Rectangle973.png')]  bg-no-repeat">
-        <img
-          src="/user2.svg"
-          alt="Title Image"
-          className="title-image"
-        />
-        <p>Create New</p>
-      </div>
-      
-      ),
-      children: (
-        <div className="p-4">
-        <form onSubmit={handleSubmit} id="creationform">
-          {Object.keys(newStruct.data)?.map((item) =>
-            Array.isArray(newStruct.data[item]) ? (
-              item.replace("_", " ").trim().toUpperCase() === 'AGS' ? (<div className="flex flex-col">
-              <label className="text-sm text-gray-600">
-                {t(item.replace("_", " ").trim().toUpperCase())}
-              </label>
-
-              <Select
-                searchable
-                data={newStruct?.data[item]}
-                data-type="array"
-                required
-                className="bg-gray-200 rounded-md p-1"
-                name={item}
-              />
-            </div>):(
-              <div className="flex flex-col">
-              <label className="text-sm text-gray-600">
-                {t(item.replace("_", " ").trim().toUpperCase())}
-              </label>
-
-              <MultiSelect
-                searchable
-                data={newStruct?.data[item]}
-                data-type="array"
-                required
-                className="bg-gray-200 rounded-md p-1"
-                name={item}
-              />
-            </div>
-            )
-            ) : typeof newStruct.data[item] === "boolean" ? (
-              <>
-                <div className="flex flex-row ml-[4.3vw] space-x-10 items-center mt-2">
-                  <label className="text-sm text-gray-600 w-[9vw]">
-                    {t(item.replace("_", " ").trim().toUpperCase())}
-                  </label>
-                  <Checkbox
-                    className=" rounded-md p-1 "
-                    name={item}
-                    defaultValue={false}
-                  />
-                </div>
-              </>
-            ) : typeof newStruct.data[item] === "object" ? (
-              <>
-                {newStruct.data[item].type == "radio" ? (
-                  <Radio.Group
-                    className="flex flex-row ml-[4.3vw] space-x-[6.7vw] items-center mt-2"
-                    name={item}
-                    defaultValue={newStruct.data[item].defaultValue}
-                    required
-                    label={t(item.replace("_", " ").trim().toUpperCase())}
-                  >
-                    {newStruct.data[item].options?.map((option) => (
-                      <Radio
-                        className="flex-1"
-                        value={option.value}
-                        label={option.label}
-                      />
-                    ))}
-                  </Radio.Group>
-                ) : (
-                  <p>{t("Not Supported")}</p>
-                )}
-              </>
-            ) : (
-              <div className="flex flex-row justify-center items-center space-x-4 space-y-3">
-                <label className="text-sm w-[8vw] text-gray-600">
-                  {t(item.replace("_", " ").trim().toUpperCase())}
-                </label>
-                <Input
-                  required
-                  variant="filled"
-                  type={
-                    item.toLowerCase().includes("password")
-                      ? "password"
-                      : item.toLowerCase().includes("email")
-                      ? "email"
-                      : "text"
-                  }
-                  className="w-[30vw] rounded-md p-1"
-                  name={item}
-                />
-              </div>
-            )
-          )}
-          <div className="py-3 ">{children}</div>
-          <div className="flex justify-end">
-            <Button loading={submitloading} type={"submit"}>
-              {t("Create")}
-            </Button>
+        <div className="flex justify-between p-4 w-[55vw] bg-cover bg-center text-white items-center bg-[url('/Rectangle973.png')] bg-no-repeat">
+          <div className="flex flex-row items-center space-x-2">
+            <img src="/user2.svg" alt="Title Image" className="title-image" />
+            <p>Create New User</p>
           </div>
-        </form>
+          <button onClick={closeAllModals} className="text-white">
+            ✕
+          </button>
         </div>
       ),
-      size:"50vw",
+      closeOnEscape: true,
+      children: (
+        <div className="p-4">
+          <form onSubmit={handleSubmit} id="creationform">
+            {Object.keys(newStruct.data)?.map((item) =>
+              Array.isArray(newStruct.data[item]) ? (
+                item.replace("_", " ").trim().toUpperCase() === "AGS" ? (
+                  <div className="flex flex-row mt-4 text-sm justify-center  items-center">
+                    <label className="text-sm w-[9vw] text-gray-600">
+                      {t(item.replace("_", " ").trim().toUpperCase())}
+                    </label>
+                    <div className="w-[30vw]">
+                      <Select
+                        variant="filled"
+                        searchable
+                        data={newStruct?.data[item]}
+                        data-type="array"
+                        required
+                        className="rounded-md p-1 w-[15vw]"
+                        name={item}
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex flex-col text-sm">
+                    <label className="text-sm text-gray-600">
+                      {t(item.replace("_", " ").trim().toUpperCase())}
+                    </label>
+
+                    <MultiSelect
+                      searchable
+                      data={newStruct?.data[item]}
+                      data-type="array"
+                      required
+                      className="bg-gray-200 rounded-md p-1"
+                      name={item}
+                    />
+                  </div>
+                )
+              ) : typeof newStruct.data[item] === "boolean" ? (
+                <>
+                  <div className="flex flex-row text-sm justify-center items-center mt-2">
+                    <label className="text-sm text-gray-600 w-[9vw]">
+                      {t(
+                        item
+                          .replace("agreement_signed", "Agreement Signed")
+                          .replace("is", "Is")
+                          .trim()
+                      )}
+                    </label>
+                    <div className="w-[30vw]">
+                      <Checkbox
+                        className=" rounded-md  pl-4"
+                        name={item}
+                        defaultValue={false}
+                      />
+                    </div>
+                  </div>
+                </>
+              ) : typeof newStruct.data[item] === "object" ? (
+                <>
+                  {newStruct.data[item].type == "radio" ? (
+                    <div className="flex justify-center">
+                      <Radio.Group
+                        className="flex flex-row text-sm space-x-[3.8vw] w-[39vw] mt-2"
+                        name={item}
+                        defaultValue={newStruct.data[item].defaultValue}
+                        required
+                        label={t(
+                          item.replace("ags_right", "AGS Right ").trim()
+                        )}
+                      >
+                        {newStruct.data[item].options?.map((option) => (
+                          <Radio
+                            className=""
+                            value={option.value}
+                            label={option.label}
+                          />
+                        ))}
+                      </Radio.Group>
+                    </div>
+                  ) : (
+                    <p>{t("Not Supported")}</p>
+                  )}
+                </>
+              ) : (
+                <div className="flex flex-row justify-center items-center space-x-4 space-y-3">
+                  <label className="text-sm w-[8vw] text-gray-600">
+                    {t(
+                      item
+                        .replace("_", " ")
+                        .replace("vorn", "N")
+                        .replace("nach", " Sur")
+                        .replace("email", "E-mail")
+                        .replace("password", "Password")
+                        .trim()
+                    )}
+                  </label>
+                  <Input
+                    required
+                    variant="filled"
+                    type={
+                      item.toLowerCase().includes("password")
+                        ? "password"
+                        : item.toLowerCase().includes("email")
+                        ? "email"
+                        : "text"
+                    }
+                    className="w-[30vw] rounded-md p-1"
+                    name={item}
+                  />
+                </div>
+              )
+            )}
+            <div className="py-3  ">{children}</div>
+            <div className="flex justify-center  mt-2 ">
+              <div className="w-[39vw]">
+                <Button loading={submitloading} type={"submit"}>
+                  {t("Create")}
+                </Button>
+              </div>
+            </div>
+          </form>
+        </div>
+      ),
+      size: "55vw",
       padding: "0",
       withCloseButton: false,
     });
@@ -251,24 +282,30 @@ export default ({
       };
       const childrenClone = children;
       openModal({
+        closeOnClickOutside: false,
         title: (
-          <div className="flex flex-row p-4 w-[50vw] bg-cover bg-center text-white items-center space-x-2 bg-[url('/Rectangle973.png')]  bg-no-repeat">
-          <img
-            src="/user2.svg"
-            alt="Title Image"
-            className="title-image"
-          />
-          <p>Edit</p>
-        </div>
-        
+          <div className="flex justify-between p-4 w-[55vw] bg-cover bg-center text-white items-center bg-[url('/Rectangle973.png')] bg-no-repeat">
+            <div className="flex flex-row items-center space-x-2">
+              <img src="/user2.svg" alt="Title Image" className="title-image" />
+              <p>Edit User Details</p>
+            </div>
+            <button onClick={closeAllModals} className="text-white">
+              ✕
+            </button>
+          </div>
         ),
         children: (
           <div className="p-4">
-          <EditForm item={item} newStruct={newStruct} refreshData={refreshData}>
-            {childrenClone}
-          </EditForm></div>
+            <EditForm
+              item={item}
+              newStruct={newStruct}
+              refreshData={refreshData}
+            >
+              {childrenClone}
+            </EditForm>
+          </div>
         ),
-        size:"50vw",
+        size: "55vw",
         padding: "0",
         withCloseButton: false,
       });
@@ -512,26 +549,35 @@ export default ({
                           <ActionIcon
                             onClick={() => {
                               openModal({
+                                closeOnClickOutside: false,
                                 title: (
-                                  <div className="flex flex-row p-4 w-[50vw] bg-cover bg-center text-white items-center space-x-2 bg-[url('/Rectangle973.png')]  bg-no-repeat">
-                                  <img
-                                    src="/user2.svg"
-                                    alt="Title Image"
-                                    className="title-image"
-                                  />
-                                  <p>Attachment</p>
-                                </div>
-                                
+                                  <div className="flex justify-between p-4 w-[55vw] bg-cover bg-center text-white items-center bg-[url('/Rectangle973.png')] bg-no-repeat">
+                                    <div className="flex flex-row items-center space-x-2">
+                                      <img
+                                        src="/user2.svg"
+                                        alt="Title Image"
+                                        className="title-image"
+                                      />
+                                      <p>Attatchment</p>
+                                    </div>
+                                    <button
+                                      onClick={closeAllModals}
+                                      className="text-white"
+                                    >
+                                      ✕
+                                    </button>
+                                  </div>
                                 ),
-                                
+
                                 children: (
                                   <div className="p-4">
-                                  <AttatchmentForm
-                                    item={item}
-                                    newStruct={newStruct}
-                                  /></div>
+                                    <AttatchmentForm
+                                      item={item}
+                                      newStruct={newStruct}
+                                    />
+                                  </div>
                                 ),
-                                size:"50vw",
+                                size: "55vw",
                                 padding: "0",
                                 withCloseButton: false,
                               });
@@ -633,6 +679,7 @@ const EditForm = ({ item, newStruct, refreshData }) => {
           });
         } else {
           openModal({
+            closeOnClickOutside: false,
             title: "Error",
             description: "Something went wrong",
             labels: { confirm: "Ok" },
@@ -667,60 +714,78 @@ const EditForm = ({ item, newStruct, refreshData }) => {
               // like create form
               typeof newStruct?.data[attr] === "object" &&
                 newStruct.data[attr]?.type === "radio" ? (
-                <div key={attr} className="flex mb-4">
-                  <label className="text-gray-700">
-                    {attr.replace("_", " ").toUpperCase()}
+                <div
+                  key={attr}
+                  className=" flex flex-row justify-center text-sm space-y-4 pb-3 items-center"
+                >
+                  <label className="text-gray-700 mt-3 w-[9vw]">
+                    {attr.replace("ags_right", "AGS Right ")}
                   </label>
-                  <Checkbox
-                    key={attr}
-                    r
-                    value={form[attr]}
-                    onChange={(value) =>
-                      setForm({ ...form, [attr]: value.currentTarget.value })
-                    }
-                  />
+                  <div className="w-[30vw]">
+                    <Checkbox
+                      key={attr}
+                      r
+                      value={form[attr]}
+                      onChange={(value) =>
+                        setForm({ ...form, [attr]: value.currentTarget.value })
+                      }
+                    />
+                  </div>
                 </div>
               ) : Array.isArray(newStruct.data[attr]) ? (
                 // <div className="flex flex-col mb-5">
-                <Input.Wrapper className="my-5">
-                  <label className="text-sm text-gray-600">
+                <Input.Wrapper className="my-5 flex flex-row justify-center space-y-4 items-center">
+                  <label className="text-sm w-[9vw] mt-3 text-gray-600">
                     {attr.replace("_", " ").trim().toUpperCase()}
                   </label>
-                  <Select
-                    key={attr}
-                    required
-                    searchable
-                    data={newStruct?.data[attr]}
-                    value={form[attr]}
-                    onChange={(value) => {
-                      setForm({ ...form, [attr]: value });
-                    }}
-                  />
+                  <div className="w-[30vw]">
+                    <Select
+                      className="w-[15vw]"
+                      key={attr}
+                      required
+                      searchable
+                      data={newStruct?.data[attr]}
+                      value={form[attr]}
+                      onChange={(value) => {
+                        setForm({ ...form, [attr]: value });
+                      }}
+                    />
+                  </div>
                 </Input.Wrapper>
               ) : typeof newStruct?.data[attr] === "boolean" ? (
-                <Input.Wrapper>
-                  <Input.Label>
-                    {attr.replace("_", " ").toUpperCase()}
+                <Input.Wrapper className="flex flex-row justify-center space-y-4 items-center ">
+                  <Input.Label className="w-[9vw] mt-3">
+                    {attr
+                      .replace("agreement_signed", "Agreement Signed")
+                      .replace("isEditor", "IsEditor")}
                   </Input.Label>
-                  <Checkbox
-                    key={attr}
-                    r
-                    value={form[attr]}
-                    onChange={(value) =>
-                      setForm({ ...form, [attr]: value.currentTarget.value })
-                    }
-                  />
+                  <div className="w-[30vw]">
+                    <Checkbox
+                      key={attr}
+                      r
+                      value={form[attr]}
+                      onChange={(value) =>
+                        setForm({ ...form, [attr]: value.currentTarget.value })
+                      }
+                    />
+                  </div>
                 </Input.Wrapper>
               ) : (
-                <Input.Wrapper>
-                  <Input.Label>
-                    {attr.replace("_", " ").toUpperCase()}
+                <Input.Wrapper className="flex flex-row justify-center space-y-4 items-center">
+                  <Input.Label className="w-[9vw]">
+                    {attr
+                      .replace("_", " ")
+                      .replace("vorn", "N")
+                      .replace("nach", " Sur")
+                      .replace("email", "E-mail")
+                      .replace("password", "Password")}
                   </Input.Label>
                   <Input
                     key={attr}
                     label={attr.replace("_", " ").toUpperCase()}
                     value={form[attr]}
                     required
+                    className="w-[30vw]"
                     type={
                       attr.toLowerCase().includes("password")
                         ? "password"
@@ -738,15 +803,16 @@ const EditForm = ({ item, newStruct, refreshData }) => {
           })}
 
           {error && <div className="text-red-500">{error}</div>}
-
-          <div className="flex">
-            <Button
-              // onClick={update}
-              type="submit"
-            >
-              Update
-            </Button>
-            <Button onClick={() => closeAllModals()}>Cancel</Button>
+          <div className="flex justify-center">
+            <div className="flex w-[39vw] space-x-5">
+              <Button
+                // onClick={update}
+                type="submit"
+              >
+                Update
+              </Button>
+              <Button onClick={() => closeAllModals()}>Cancel</Button>
+            </div>
           </div>
         </div>
       </form>

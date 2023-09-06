@@ -2,10 +2,11 @@ import { useTranslation } from "react-i18next";
 import { useEffect, useState, useMemo, useRef } from "preact/hooks";
 import RocketChatWebSocket from "../../../../utils/services/RocketChatWebSocket";
 import axios from "axios";
-import { getChatRoomMessages, getRooms } from "../../../../api";
+import api, { getChatRoomMessages, getRooms } from "../../../../api";
 import { userDataSignal } from "../../../../signals";
 import appConfig from "../../../../config/appConfig";
 import { showNotification } from "@mantine/notifications";
+import { useTransition } from "react";
 function LiveChatSupport() {
   const { t } = useTranslation();
   const [rooms, setRooms] = useState([]);
@@ -15,10 +16,48 @@ function LiveChatSupport() {
   const [msg, setMsg] = useState("");
   const [offset, setOffset] = useState(0);
   const [limitReached, setLimitReached] = useState(false);
+  const [files, setFiles] = useState([]);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [pending, transition] = useTransition()
 
   // handle send message to selected room
-  const sendMessage = (e) => {
+  const sendMessage = async(e) => {
     e.preventDefault();
+
+    if (files.length > 0 && socket.selectedRoom) {
+      // upload file
+      const formData = new FormData();
+      formData.append("file", files[0]);
+      formData.append("msg", msg);
+      const headers = {
+        "X-Auth-Token": socket.token,
+        "X-User-Id": socket.userId, // This is important as it sets `Content-Type` header appropriately
+      };
+      const response = await axios.post(
+        `https://dim-chat-dev.hiwifipro.com/api/v1/rooms.upload/${socket.selectedRoom}`,
+        formData,
+        {
+          headers: headers,
+          onUploadProgress: function (progressEvent) {
+            const percentCompleted = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total
+            );
+            console.log(percentCompleted);
+            // Here, you can update your UI component state to reflect the upload progress.
+            setUploadProgress(percentCompleted);
+          },
+        }
+      );
+      console.log("response", response);
+      setFiles([]);
+      setUploadProgress(0);
+      setMsg("");
+      return;
+    }
+
+
+
+
     if (msg) {
       const message = {
         msg: "method",
@@ -36,28 +75,27 @@ function LiveChatSupport() {
     }
   };
 
-const firstMessageRef = useRef(null);
+  const firstMessageRef = useRef(null);
 
-// create an Intersection Observer instance
-const observer = new IntersectionObserver((entries) => {
-  // If the first message is intersecting with the viewport, call your function
-  if (limitReached === false) {
-  if (entries[0].isIntersecting) {
-    // yourFunction();
-    // setOffset((prevOffset) => prevOffset + 20);
-      setOffset((prevOffset) => prevOffset + 20);
+  // create an Intersection Observer instance
+  const observer = new IntersectionObserver((entries) => {
+    // If the first message is intersecting with the viewport, call your function
+    if (limitReached === false) {
+      if (entries[0].isIntersecting) {
+        // yourFunction();
+        // setOffset((prevOffset) => prevOffset + 20);
+        setOffset((prevOffset) => prevOffset + 20);
+      }
+    } else {
+      console.warn("limit reached");
     }
-  }
-  else {
-    console.warn("limit reached")
-  }
-});
+  });
 
   // get previous messages of selected room
   useMemo(() => {
-    console.log("selectedRoom", selectedRoom)
-    console.log("limitReached", limitReached)
-    console.log("offset", offset)
+    console.log("selectedRoom", selectedRoom);
+    console.log("limitReached", limitReached);
+    console.log("offset", offset);
     if (selectedRoom && limitReached === false) {
       // setLimitReached(false);
       getChatRoomMessages(selectedRoom, socket.token, socket.userId, offset)
@@ -69,21 +107,20 @@ const observer = new IntersectionObserver((entries) => {
           // );
           // setMessages(sortedMessages);
           // setMessages((prevMessages) => [...sortedMessages, ...prevMessages]);
-          if(res.data.messages.length === 0) {
+          if (res.data.messages.length === 0) {
             setLimitReached(true);
             return;
+          } else {
+            let temp = [...res.data.messages, ...messages];
+            // sort them on the basis of _updatedAt
+            temp = temp.sort(
+              (a, b) => new Date(a._updatedAt) - new Date(b._updatedAt)
+            );
+            setMessages(temp);
+            setTimeout(() => {
+              messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+            }, 200);
           }
-          else {
-          let temp = [...res.data.messages, ...messages];
-          // sort them on the basis of _updatedAt
-          temp = temp.sort(
-            (a, b) => new Date(a._updatedAt) - new Date(b._updatedAt)
-          );
-          setMessages(temp);
-          setTimeout(() => {
-            messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-          }, 200);
-        }
         })
         .catch((err) => {
           console.log("err", err);
@@ -104,12 +141,14 @@ const observer = new IntersectionObserver((entries) => {
     // if chat room is not in selected state then show notification and play sound
     // otherwise just display the message in chat box
     notification === false
-      ? (setMessages((prevMessages) => [...prevMessages, message.fields.args[0]]),
-          // scroll to bottom of chat box
-          setTimeout(() => {
-            messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-          }, 100)          
-          )
+      ? (setMessages((prevMessages) => [
+          ...prevMessages,
+          message.fields.args[0],
+        ]),
+        // scroll to bottom of chat box
+        setTimeout(() => {
+          messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        }, 100))
       : // play notification sound
         (new Audio("/audio/chatalert.mp3").play(),
         // show notification
@@ -131,19 +170,21 @@ const observer = new IntersectionObserver((entries) => {
             }
           })
         ));
-
   };
 
   const handleNewRooms = (token, userId) => {
     getRooms(token, userId).then((res) => {
       // console.log("res", res.data);
-      
-      rooms.length !== res.data.update.length && setRooms(res.data.update.map((item, index)=>{
-        return {
-          ...item,
-          unreadMessageCount: 0,
-        }
-      }));
+
+      rooms.length !== res.data.update.length &&
+        setRooms(
+          res.data.update.map((item, index) => {
+            return {
+              ...item,
+              unreadMessageCount: 0,
+            };
+          })
+        );
     });
   };
 
@@ -187,7 +228,46 @@ const observer = new IntersectionObserver((entries) => {
     }
   });
 
+  const DownloadFile = (url, name) => {
+    console.log("token", socket.token);
+    console.log("userId", socket.userId);
+    const headers = {
+      Cookie: `rc_token=${socket.token}; rc_uid=${socket.userId}}`,
+    };
 
+    api
+      .post(
+        "/chatserver/download",
+        {
+          filelink: url,
+          userId: socket.userId,
+          token: socket.token,
+        },
+        { responseType: "blob" }
+      )
+      .then((response) => {
+        console.log("response", response);
+
+        // response.data is blob type convert it to file
+        const url = window.URL.createObjectURL(
+          new Blob([response.data], {
+            type: response.headers["content-type"],
+          })
+        );
+        // console.log("url", url);
+        // this url is not working it is not opening the file it opens the page
+        // window.open(url);
+        // so we have to create a tag and download it
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", name);
+        document.body.appendChild(link);
+        link.click();
+      })
+      .catch((error) => {
+        console.error("Error downloading the file:", error);
+      });
+  };
 
   return (
     <div className="h-full pb-10 bg-white overflow-y-auto">
@@ -256,7 +336,7 @@ const observer = new IntersectionObserver((entries) => {
                       socket.selectRoom(item._id);
                       // set room unreadMessageCount to 0
                       let temp = [...rooms];
-                      console.log(temp)
+                      console.log(temp);
                       temp[index].unreadMessageCount = 0;
                       setRooms(temp);
                       setSelectedRoom(item._id);
@@ -264,36 +344,39 @@ const observer = new IntersectionObserver((entries) => {
                     }}
                   >
                     <div className="flex items-center space-x-2">
-                    <img
-                      className="w-[2rem] rounded-full"
-                      src={`${appConfig.chatServerURL}/avatar/${
-                        item._id !== "GENERAL"
-                          ? item?.usernames?.filter(
-                              (username) => username !== socket.username
-                            )[0]
-                          : "GENERAL"
-                      }`}
-                      alt="icon"
-                    />
-                    <div className="flex flex-col">
-                      <p className=" text-[12px] font-[600]">
-                        {item._id === "GENERAL"
-                          ? "General"
-                          : item.usernames.filter(
-                              (username) => username !== socket.username
-                            )[0]}
-                      </p>
-                      <p className="text-[12px]">
-                        {item.lastMessage ? item.lastMessage.msg : ""}
-                      </p>
+                      <img
+                        className="w-[2rem] rounded-full"
+                        src={`${appConfig.chatServerURL}/avatar/${
+                          item._id !== "GENERAL"
+                            ? item?.usernames?.filter(
+                                (username) => username !== socket.username
+                              )[0]
+                            : "GENERAL"
+                        }`}
+                        alt="icon"
+                      />
+                      <div className="flex flex-col">
+                        <p className=" text-[12px] font-[600]">
+                          {item._id === "GENERAL"
+                            ? "General"
+                            : item.usernames.filter(
+                                (username) => username !== socket.username
+                              )[0]}
+                        </p>
+                        <p className="text-[12px]">
+                          {item.lastMessage ? item.lastMessage.msg : ""}
+                        </p>
+                      </div>
                     </div>
-                    </div>
-                    {
-                      item.unreadMessageCount === 0? null : 
-                    <p className="
+                    {item.unreadMessageCount === 0 ? null : (
+                      <p
+                        className="
                       bg-blue-500 p-1 text-white font-bold rounded-lg py-0 animate-bounce
-                    ">{item.unreadMessageCount }</p>
-}
+                    "
+                      >
+                        {item.unreadMessageCount}
+                      </p>
+                    )}
                   </div>
                 )
             )}
@@ -314,12 +397,10 @@ const observer = new IntersectionObserver((entries) => {
                 key={message._id}
                 className={`flex flex-col ${
                   message.u.username === socket.username
-                    ? "items-end"
+                    ? "items-end flex-row-reverse"
                     : "items-start"
                 }`}
-               ref={
-                  index === 0 ? firstMessageRef : messagesEndRef
-               }
+                ref={index === 0 ? firstMessageRef : messagesEndRef}
               >
                 <div
                   className={`flex items-center px-4 py-2 space-x-2 bg-[#7ab4e49b] m-2 rounded-md
@@ -339,31 +420,88 @@ const observer = new IntersectionObserver((entries) => {
                     <p className=" text-[12px] font-[600]">
                       {message.u.username}
                     </p>
-                    <p className="text-[12px]">
-                      {message.md[0].value[0].value}
-                    </p>
+                    <p className="text-lg">{message.msg}</p>
+                    {message.attachments?.length > 0 && (
+                      <button
+                        className="bg-transparent rounded-lg"
+                        onClick={() => {
+                          DownloadFile(
+                            message.attachments &&
+                              message.attachments[0]?.title_link,
+                            message.attachments && message.attachments[0]?.title
+                          );
+                        }}
+                      >
+                        <h1 className="bg-[#0E76BB] text-white px-3 underline py-1 rounded-3xl">
+                          {
+                            // file name here
+                            message.attachments &&
+                              message.attachments[0]?.title.slice(0, 20) + "..."
+                          }
+                        </h1>
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
             ))}
+
+            {/* show sending message and uploading file */}
+            { pending && <div className={`flex items-end flex-col-reverse`}>
+              <div
+                className={`flex items-center px-4 py-2 space-x-2 bg-[#7ab4e49b] m-2 rounded-md rounded-br-none`}
+              >
+                {/* <img
+                    className="w-[2rem] rounded-full"
+                    src={`${appConfig.chatServerURL}/avatar/${message.u.username}`}
+                    alt="icon"
+                  /> */}
+                <div className="flex flex-col">
+                  <p className=" text-[12px] font-[600]">You</p>
+                  <p className="text-lg">{msg}</p>
+                  {files?.length > 0 && (
+                    <button
+                      className="bg-transparent rounded-lg"
+                    >
+                      <h1 className="bg-[#0E76BB] text-white px-3 underline py-1 rounded-3xl">
+                        {
+                          // file name here
+                          files[0]?.name?.slice(0, 20) +
+                            "..." +
+                            files[0]?.name?.split(".")[
+                              files[0]?.name?.split(".").length - 1
+                            ]
+                        }
+                      </h1>
+                    </button>
+                  )}
+              <p className="text-sm text-[#0E76BB]">
+                      Uploading file :{uploadProgress}%
+                    </p>
+                </div>
+              </div>
+            </div>}
           </div>
           <div className=" h-[100px]  rounded-t-lg text-[12px]  bg-[#D8E4EEE5] max-md:h-36 flex-end">
             <p className=" pt-3 ml-14">{t("Please type text here")}</p>
-            <form onSubmit={sendMessage} className="flex flex-1 ml-3  max-md:block">
-             
-              <img className="w-[16px] pb-8 ml-3" src="/Vector4.svg" alt="" />
+            <form onSubmit={sendMessage} className="flex ml-3  max-md:block">
+              <img className="w-[20px] pb-8 ml-3" src="/Vector4.svg" alt="" />
               <label className="">
-                <p className=" mt-2.5 ml-5  text-[#0E76BB]">
+                <p className=" mt-3 ml-5 text-lg text-[#0E76BB]">
                   {t("Attach File")}{" "}
                 </p>
                 <input
                   type="file"
                   name="attach file"
                   className="hidden  w-48"
+                  value={files}
+                  onChange={(e) => {
+                    setFiles([e.target.files[0]]);
+                  }}
                 />
               </label>
               <input
-                className="border-b-[1px] mb-10 pt-3 ml-2 w-[35rem] max-laptop:w-[20rem] border-[#0E76BB] bg-transparent text-[8px] outline-none max-md:w-[8rem] max-laptop2:w-[20rem]"
+                className="border-b-[1px] mb-10 pt-3 ml-2 w-[35rem] max-laptop:w-[20rem] border-[#0E76BB] bg-transparent text-lg outline-none max-md:w-[8rem] max-laptop2:w-[20rem]"
                 type="text"
                 value={msg}
                 onChange={(e) => {
@@ -374,13 +512,34 @@ const observer = new IntersectionObserver((entries) => {
                 )}
               />
               <button type="submit" onClick={sendMessage}>
-              <img
-                className=" ml-10 w-9 mb-8 max-md:float-right max-md:w-[w-4] max-md:pb-14 max-md:mr-10"
-                src="/Vector5.svg"
-                alt=""
-              />
+                <img
+                  className=" ml-10 w-9 mb-8 max-md:float-right max-md:w-[w-4] max-md:pb-14 max-md:mr-10"
+                  src="/Vector5.svg"
+                  alt=""
+                />
               </button>
-              </form>
+            </form>
+            <div className="flex">
+              {files.length > 0 && (
+                <div className="flex -mt-5 items-center justify-center ml-5 bg-white px-5 rounded-2xl">
+                  <h1 className=" text-[12px] font-[500] mr-5">
+                    {files[0]?.name?.slice(0, 20) +
+                      "..." +
+                      files[0]?.name?.split(".")[
+                        files[0]?.name?.split(".").length - 1
+                      ]}
+                  </h1>
+                  <img
+                    className="w-[10px] h-full cursor-pointer"
+                    src="/chat-page/close.svg"
+                    alt=""
+                    onClick={() => {
+                      setFiles([]);
+                    }}
+                  />
+                </div>
+              )}
+            </div>
             {/* </div> */}
           </div>
           {/* </div> */}
