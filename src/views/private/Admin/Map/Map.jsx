@@ -3,7 +3,7 @@ import { Map, ScaleControl } from 'react-map-gl';
 import maplibregl from 'maplibre-gl';
 import { LoadingOverlay } from '@mantine/core';
 import { useRef } from 'preact/hooks';
-import 'maplibre-gl/dist/maplibre-gl.css';
+// import 'maplibre-gl/dist/maplibre-gl.css';
 
 import MapControls from './MapControls';
 import SearchControl from './SearchControl';
@@ -64,29 +64,42 @@ export default ({ children }) => {
 
   const handleMapClick = (event) => {
     if(legendState.value === true){legendState.value = false}
-    const features = event.features
-    // .filter(f => !additionalInteractiveLayers.value.includes(f.layer.id))
-
+  
+    const zoomFactor = 0.8;  // Adjust based on your CSS
+  
+    // Adjust the event's coordinates
+    const adjustedX = event.point[0] / zoomFactor;
+    const adjustedY = event.point[1] / zoomFactor;
+    event.point = [adjustedX, adjustedY];
+  
+    const features = event.features; // I assume this still works. If not, you might need to use the adjusted coordinates with map's methods to get features.
+  
     Object.values(mapClickBindings.value).forEach((binding) => {
-      binding(event)
-    })
-
-    if (addressPointsCRUDstate.value !== '' || regionCostState.value !== false) return
+      binding(event); // The event now has the adjusted point.
+    });
+  
+    if (addressPointsCRUDstate.value !== '' || regionCostState.value !== false) return;
     if (features.length > 0) {
-      infoCardVal.value = null
+      infoCardVal.value = null;
       setTimeout(() => {
-        infoCardVal.value = features
+        infoCardVal.value = features;
       }, 100);
     }
-
   };
   const handleMaphover = (event) => {
 
 
   };
 
+  // body element is scale down using css zoom property, and mouse click event is not working on map properly, fix this
+  useEffect(() => {
+    if (mapRef.current) {
+      mapRef.current.getMap().resize();
+    }
+  });
   return (
     <Map
+    className='map-container'
       reuseMaps
       {...viewport}
       onViewportChange={newViewport => setViewport(newViewport)}

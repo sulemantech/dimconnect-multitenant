@@ -16,7 +16,7 @@ const EditControl = lazy(() => import('./EditControl'))
 export default () => {
   useScrollLock(true)
   return (
-    <div className="flex flex-grow touch-none overflow-hidden">
+    <div className="flex flex-grow touch-none overflow-hidden" id='mapwalacontainer'>
       <PermissionWrapper permission={PERMISSIONS.Map} view showError>
 
         <Map />

@@ -22,27 +22,37 @@ body {
     overflow: hidden;
   }
 
-/*   
+  
   @media (-webkit-device-pixel-ratio > 1) {
     body {
       zoom: 0.8;
       height: 100%;
     }
-  }
+    .map-container {
+      zoom: 1.25; /* Inverse of 0.8 */
+    }
+}
 
-  @media (-webkit-device-pixel-ratio > 1.9) {
+@media (-webkit-device-pixel-ratio > 1.9) {
     body {
       zoom: 0.7;
       height: 100%;
     }
-  }
+    .map-container {
+      zoom: 1.4286; /* Inverse of 0.7 (rounded to 4 decimal places) */
+    }
+}
 
-  @media (-webkit-device-pixel-ratio > 2.9) {
+@media (-webkit-device-pixel-ratio > 2.9) {
     body {
       zoom: 0.6;
       height: 100%;
     }
-  }  */
+    .map-container {
+      zoom: 1.6667; /* Inverse of 0.6 (rounded to 4 decimal places) */
+    }
+}
+
   
   /* @-moz-document url-prefix() {
     @media (min-resolution: 2dppx) {
