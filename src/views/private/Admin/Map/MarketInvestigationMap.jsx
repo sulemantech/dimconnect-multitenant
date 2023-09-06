@@ -9,11 +9,17 @@ import SearchControl from './SearchControl';
 
 import DataTiles from './DataTiles';
 import { Boundary } from '../Dashboard/Submap';
+import AddressPoints, { CRUDAddressPoint } from './AddressPoints'
 import InfoCard from './InfoCard';
 import Popup from './Popup';
+import Photos from './Photos';
+import DistrictPhase from './DistrictPhase';
 import appConfig from '../../../../config/appConfig';
 
-import { mapClickBindings, infoCardVal, visibility, mapStyle, additionalInteractiveLayers, mapSignal } from '../../../../signals';
+const Gpx = lazy(() => import('./Gpx'));
+
+import { mapClickBindings, addressPointsCRUDstate, infoCardVal, visibility, mapStyle, additionalInteractiveLayers, mapSignal, regionCostState, aerialViewVisibility, PRpropertiesVisibility } from '../../../../signals';
+import ExtraViewables from './ExtraViewables';
 import PRproperties from './PRproperties';
 import AerialViewLayer from './AerialViewLayer';
 
@@ -40,6 +46,7 @@ export default ({ children }) => {
       binding(event)
     })
 
+    if (addressPointsCRUDstate.value !== '' || regionCostState.value !== false) return
     if (features.length > 0) {
       infoCardVal.value = null
       setTimeout(() => {
@@ -92,9 +99,7 @@ export default ({ children }) => {
       }}
       interactiveLayerIds={interactiveLayerIds}
       transformRequest={(url, resourceType) => {
-        
-        // if (url.includes('https://dim-tileserver-dev.hiwifipro.com/data/')) {
-          if (url.includes('https://dim-tileserver-test.hiwifipro.com/data/')) {
+        if (url.includes('https://dim-tileserver-dev.hiwifipro.com/data/')) {
           //  add Authorization header to requests for tiles from the Tileserver
           return {
             url: url,
@@ -107,19 +112,27 @@ export default ({ children }) => {
       }}
     >
       <Suspense fallback={<LoadingOverlay visible />}>
+
+        {PRpropertiesVisibility.value && <PRproperties />}
+        { aerialViewVisibility.value && <AerialViewLayer />}
+
+        {/* <AddressPoints />  */}
         <SearchControl  marketsearch={true} />
-        <MapControls /> 
-        {/* <ScaleControl position='bottom-right' maxWidth={200} unit='metric' />
-        <InfoCard modal={window.innerWidth < 768} /> */}
-        {/* <DataTiles />
+        {/* <ExtraViewables /> */}
+        <MapControls />
+        <ScaleControl position='bottom-right' maxWidth={200} unit='metric' />
+        {/* <CustomLayerPanel /> */}
+        {/* <Photos /> */}
+        {/* <InfoCard modal={window.innerWidth < 768} /> */}
+        {/* <Gpx /> */}
+        <DataTiles ags={"05758032"} />
         <Boundary noFill />
-        <Popup />  */}
-        </Suspense>
+        <Popup />
+        {/* <Netzplanning /> */}
+        <DistrictPhase grouped />
+        {/* <CRUDAddressPoint /> */}
+      </Suspense>
     </Map>
   );
-
-
-
-
 }
 
