@@ -463,7 +463,11 @@ const RegionCostCalculation = () => {
     if (!polygon) return;
     setLoading(true);
     const URLSearchParam = new URLSearchParams();
-    URLSearchParam.append("costs", JSON.stringify(costInputParams.value));
+    // =================== commenting this line so we get the default values from the backend ===================
+
+    // URLSearchParam.append("costs", JSON.stringify(costInputParams.value));
+
+    // ===========================================================================================================
     URLSearchParam.append(
       "geom",
       JSON.stringify({
