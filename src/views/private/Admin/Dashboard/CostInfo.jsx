@@ -99,7 +99,12 @@ export default () => {
   const getCost = () => {
     setLoading(true);
     const URLSearchParam = new URLSearchParams();
-    URLSearchParam.append('costs', JSON.stringify(costInputParams.value));
+    // ============================== Commenting this line so we get the default calculation ==============================
+
+    // URLSearchParam.append('costs', JSON.stringify(costInputParams.value));
+
+    // ====================================================================================================================
+    
     getCostInfoByDistrictId(ags, URLSearchParam)
 
       .then((res) => {
