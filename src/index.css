@@ -42,8 +42,9 @@ body {
       zoom: 0.6;
       height: 100%;
     }
-  } */
-  @-moz-document url-prefix() {
+  }  */
+  
+  /* @-moz-document url-prefix() {
     @media (min-resolution: 2dppx) {
       body {
         zoom: 0.8;
@@ -64,7 +65,7 @@ body {
         height: 100%;
       }
     }
-  }
+  } */
   
 
 

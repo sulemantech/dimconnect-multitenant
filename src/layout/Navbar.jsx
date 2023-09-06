@@ -40,6 +40,10 @@ export default () => {
                 backgroundImage: 'url("/vertical blue background.svg")',
                 backgroundSize: 'cover',
                 backgroundRepeat: 'no-repeat',
+                // transform: 'scale(0.9)', transformOrigin: '0 0',
+                // height: '111vh',
+                // zIndex: 1000,
+                // width: '100%',
             }}
             className=" transition-all duration-300 shadow-xl  text-white flex flex-col ">
             <div className={` ${collapsed.value ? 'p-6' : 'p-2'} pt-4`}>
