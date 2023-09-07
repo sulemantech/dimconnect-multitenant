@@ -122,7 +122,7 @@ export default function TicketCreationPage() {
   };
 
   return (
-    <div className="w-full h-full overflow-y-auto  flex-grow">
+    <div id="scale-down" className="w-full h-full overflow-y-auto  flex-grow">
       <div
         style={{ backgroundImage: 'url("/BGFAQ2.svg")' }}
         className="flex flex-col pl-20 justify-center h-[77px]"
