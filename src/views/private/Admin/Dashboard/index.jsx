@@ -82,6 +82,7 @@ const Dashboard = () => {
          
 
         </div> */}
+        <section id="scale-down">
         <Grid>
           <Grid.Col md={9}>
             <Suspense fallback={<Skeleton className="h-full flex-1 flex"/>}>
@@ -102,6 +103,7 @@ const Dashboard = () => {
         <Suspense fallback={<Skeleton />}>
             <Tickets />
           </Suspense>
+          </section>
       </PageProvider>
     </PermissionWrapper>
   )

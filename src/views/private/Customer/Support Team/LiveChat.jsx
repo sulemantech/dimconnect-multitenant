@@ -221,7 +221,7 @@ function LiveChat() {
 
   return (
     //  filter: blur(8px),  -webkit-filter: blur(8px),
-    <div className="h-full   overflow-y-auto bg-[url('/bgimg.png')] bg-cover bg-center">
+    <div id="scale-down" className="h-full   overflow-y-auto bg-[url('/bgimg.png')] bg-cover bg-center">
       <div className="w-full pb-10 h-full flex flex-col justify-center items-center backdrop-blur-[3px]">
         {/* chat box */}
         {connecting ? (

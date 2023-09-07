@@ -83,8 +83,8 @@ export default () => {
   };
 
   return (
-    <div className="z-[100] shadow-lg right-0 left-0 top-0">
-      <div className=" items-center  h-12 max-2xl:h-8 bg-white flex p-2 text-[#0E76BB] ">
+    <header className=" z-[100] shadow-lg right-0 left-0 top-0">
+      <div className=" items-center  h-12 bg-white flex p-2 text-[#0E76BB] ">
         <div className="flex-grow  text-[#0E76BB] text-lg font-[500] md:inline-block hidden">
           <h6 className={window.innerWidth < 768 ? "text-xs" : "text-lg"}>
             <b className=" max-2xl:text-xs">
@@ -194,9 +194,9 @@ export default () => {
             })}
         </Breadcrumbs>
       </div>
-    </div>
-  );
-};
+    </header>
+  )
+}
 
 const getHrefByIndex = (path, index) => {
   const pathSegments = path
