@@ -68,10 +68,10 @@ export default ({
   }, [value]);
 
   effect(() => {
-    if(legendState.value === false){setCollapsed(true)}
+    if (legendState.value === false) {
+      setCollapsed(true);
+    }
   }, [legendState.value]);
-
-
 
   useDidUpdate(() => {
     if (collapsed == false) setValue("");
@@ -80,10 +80,10 @@ export default ({
   if (collapsed)
     return (
       <div
-        className="absolute -left-8 hover:scale-95 transition-all cursor-pointer bottom-24 justify-center rotate-90 font-bold text-lg tracking-wide text-white bg-[#0092c3] shadow-2xl z-40 rounded-md p-2 "
+        className="absolute -left-8 hover:scale-95 transition-all cursor-pointer bottom-24 justify-center rotate-90 font-bold text-lg max-2xl:text-sm tracking-wide  text-white bg-[#0092c3] shadow-2xl z-40 rounded-md p-2 "
         onClick={() => {
           legendState.value = true;
-          setCollapsed(false)
+          setCollapsed(false);
         }}
       >
         {t("Legend")}
@@ -91,14 +91,14 @@ export default ({
     );
 
   return (
-    <div className="relative text-xs flex flex-col p-2 shadow-md rounded-md mt-2 bg-white overflow-scroll">
+    <div className="relative text-xs max-2xl:text-[0.8vw] flex flex-col p-2 shadow-md rounded-md mt-2 bg-white overflow-scroll">
       <h6 className="mb-1">
         <b>{t("Legend")}</b>
       </h6>
       <hr className="mb-2" />
       <Accordion
         defaultValue={window.innerWidth > 768 ? "Background" : ""}
-        className="text-xs"
+        className="text-xs max-2xl:text-[0.8vw]"
         onChange={(e) => {
           const params = new URLSearchParams(window.location.search);
           if (!params.get("statusPage")) {
@@ -113,10 +113,14 @@ export default ({
       >
         <NetzplanningLegend />
         {!noBackground && (
-          <Accordion.Item value="Background" className="text-xs">
+          <Accordion.Item
+            value="Background"
+            className="text-xs max-2xl:text-[0.8vw]"
+          >
             <div className="flex flex-1 space-x-4 items-center">
               {/* <span className="mt-3 "></span> */}
               <Checkbox
+                size="xs"
                 checked={
                   aerialViewVisibility.value || PRpropertiesVisibility.value
                 }
@@ -132,7 +136,7 @@ export default ({
                 }}
               />
               <Accordion.Control
-                className="text-xs last:p-0"
+                className="text-xs max-2xl:text-[0.8vw] last:p-0"
                 value={"Background"}
               >
                 Background
@@ -161,28 +165,30 @@ export default ({
                 >
                   <Radio
                     value="Aerial View"
-                    label="Aerial View"
-                    className="text-xs my-1"
+                    size="xs"
                   >
-                    Aerial View
+                  Aerial View
                   </Radio>
                   <Radio
                     value="RP Properties"
-                    label="RP Properties"
-                    className="text-xs"
+                    size="xs"
                   >
-                    RP Properties
                   </Radio>
+                    RP Properties
                 </Radio.Group>
               </div>
             </Accordion.Panel>
           </Accordion.Item>
         )}
         {!noAddressPoint && (
-          <Accordion.Item value="Address Points" className="text-xs">
+          <Accordion.Item
+            value="Address Points"
+            className="text-xs max-2xl:text-[0.8vw]"
+          >
             <div className="flex flex-1 space-x-4 ">
               <span className="mt-3 ">
                 <Checkbox
+                  size="xs"
                   checked={[1, 2, 3, 5, 6].every(
                     (index) => addressPointsStatusVisibility.value[index]
                   )}
@@ -201,7 +207,7 @@ export default ({
                 />
               </span>
               <Accordion.Control
-                className="text-xs last:p-0"
+                className="text-xs max-2xl:text-[0.8vw] last:p-0"
                 value={"Address Points"}
               >
                 Address Points
@@ -222,6 +228,7 @@ export default ({
                       }}
                     >
                       <Checkbox
+                        size="xs"
                         checked={addressPointsStatusVisibility.value[item.code]}
                       />
                       <div
@@ -256,10 +263,14 @@ export default ({
           <Accordion.Item value="Netzplanung" className="text-xs">
             <div className="flex flex-row space-x-1">
               <span className="mt-3">
-                <Checkbox checked={netzplanningCheckbox} onChange={checkAll} />
+                <Checkbox
+                  size="xs"
+                  checked={netzplanningCheckbox}
+                  onChange={checkAll}
+                />
               </span>
               <Accordion.Control
-                className="text-xs last:p-0"
+                className="text-xs max-2xl:text-[0.8vw] last:p-0"
                 value={"Netzplanung"}
               >
                 Netzplanung
@@ -269,6 +280,7 @@ export default ({
               <div className="flex flex-col space-y-1">
                 <div className="flex space-x-2">
                   <Checkbox
+                    size="xs"
                     name="checkbox2"
                     checked={netzplanning.value["10"]}
                     onChange={(e) => {
@@ -286,6 +298,7 @@ export default ({
                 </div>
                 <div className="flex space-x-2">
                   <Checkbox
+                    size="xs"
                     name="checkbox3"
                     checked={
                       data[Object.keys(data)[1]]
@@ -310,6 +323,7 @@ export default ({
                 </div>
                 <div className="flex space-x-2">
                   <Checkbox
+                    size="xs"
                     name="checkbox4"
                     checked={netzplanning.value["5"]}
                     onChange={(e) => {
@@ -323,6 +337,7 @@ export default ({
                 </div>
                 <div className="flex space-x-2">
                   <Checkbox
+                    size="xs"
                     name="checkbox5"
                     checked={
                       data[Object.keys(data)[6]]
@@ -342,6 +357,7 @@ export default ({
                 </div>
                 <div className="flex space-x-2">
                   <Checkbox
+                    size="xs"
                     name="checkbox6"
                     checked={netzplanning.value["6"]}
                     onChange={(e) => {
@@ -355,6 +371,7 @@ export default ({
                 </div>
                 <div className="flex space-x-2">
                   <Checkbox
+                    size="xs"
                     name="checkbox7"
                     checked={
                       data[Object.keys(data)[10]]
@@ -381,59 +398,73 @@ export default ({
             <div className="flex flex-col space-y-1">
               <div className="flex space-x-2">
                 <Checkbox
+                  size="xs"
                   checked={photoVisibility.value}
                   onChange={() => {
                     photoVisibility.value = !photoVisibility.value;
                   }}
                 />
-                <p className=" text-xs">Photos</p>
+                <p className=" text-xs max-2xl:text-[0.8vw]">Photos</p>
               </div>
               <div className="flex space-x-2">
                 <Checkbox
+                  size="xs"
                   checked={videoVisibility.value}
                   onChange={() => {
                     videoVisibility.value = !videoVisibility.value;
                   }}
                 />
-                <p className=" text-xs ">Videos</p>
+                <p className=" text-xs max-2xl:text-[0.8vw]">Videos</p>
               </div>
               <div className="flex space-x-2">
                 <Checkbox
+                  size="xs"
                   checked={BarrierState.value}
                   onChange={() => {
                     BarrierState.value = !BarrierState.value;
                   }}
                 />
-                <p className=" text-xs">Barrieren</p>
+                <p className=" text-xs max-2xl:text-[0.8vw]">Barrieren</p>
               </div>
               <div className="flex space-x-2">
                 <Checkbox
+                  size="xs"
                   checked={roadandwaterstate.value}
                   onChange={() => {
                     roadandwaterstate.value = !roadandwaterstate.value;
                   }}
                 />
-                <p className=" text-xs">Roads and Waterways</p>
+                <p className=" text-xs max-2xl:text-[0.8vw]">
+                  Roads and Waterways
+                </p>
               </div>
               <div className="flex space-x-2">
-                <Checkbox />
-                <p className=" text-xs">StatusÜbersicht</p>
+                <Checkbox size="xs" />
+                <p className=" text-xs max-2xl:text-[0.8vw]">StatusÜbersicht</p>
               </div>
               <div className="flex space-x-2">
-                <Checkbox />
-                <p className=" text-xs">Adressen mit Versorgung</p>
+                <Checkbox size="xs" />
+                <p className=" text-xs max-2xl:text-[0.8vw]">
+                  Adressen mit Versorgung
+                </p>
               </div>
               <div className="flex space-x-2">
-                <Checkbox />
-                <p className=" text-xs">Gewerbegebiete</p>
+                <Checkbox size="xs" />
+                <p className=" text-xs max-2xl:text-[0.8vw]">Gewerbegebiete</p>
               </div>
             </div>
             <br />
           </Accordion.Item>
         )}
         {!noStatus && (
-          <Accordion.Item value="Status" className="text-xs">
-            <Accordion.Control value={"Status"} className="text-xs last:p-0">
+          <Accordion.Item
+            value="Status"
+            className="text-xs max-2xl:text-[0.8vw]"
+          >
+            <Accordion.Control
+              value={"Status"}
+              className="text-xs max-2xl:text-[0.8vw] last:p-0"
+            >
               Status
             </Accordion.Control>
             <Accordion.Panel>
@@ -442,7 +473,9 @@ export default ({
                   ([key, item]) => {
                     return (
                       <>
-                        <p className="text-xs font-bold my-2">{key}</p>
+                        <p className="text-xs max-2xl:text-[0.8vw] font-bold my-2">
+                          {key}
+                        </p>
 
                         {Object.entries(item)?.map(([key, item]) => {
                           return (
@@ -472,7 +505,7 @@ export default ({
                               </div>
                               <div className="flex-1" />
                               <p
-                                className={`text-xs ${
+                                className={`text-xs max-2xl:text-[0.8vw] ${
                                   DistrictPhaseLayersVisibility.value[item.key]
                                     ? "text-gray-900"
                                     : "text-gray-400"
