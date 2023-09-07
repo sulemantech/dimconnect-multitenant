@@ -107,8 +107,6 @@ export default ({ within = false, nohead = false, marketsearch = false }) => {
         }
 
     }
-
-
     return (
         <>
             <div id="scale-down" className={`absolute flex flex-col w-64 z-50 left-2 top-${!nohead ? '2' : '2'}`}>
@@ -118,9 +116,9 @@ export default ({ within = false, nohead = false, marketsearch = false }) => {
                         setSearch(e.currentTarget.value)
                     }}
                     rightSection={
-                        loading && <Loader size={'sm'} />
+                        loading && <Loader size={'xs'} />
                     }
-                    placeholder="Search" color="white" icon={<IconSearch className=" text-[#0E76BB] " />} variant="unstyled" className="shadow-lg text-[#0E76BB] bg-white  border-white border-solid border-2 rounded-lg" />
+                    placeholder="Search" color="white" icon={<IconSearch className=" max-2xl:w-4 text-[#0E76BB] " />} variant="unstyled" className="shadow-lg text-[#0E76BB] bg-white  border-white border-solid border-2 rounded-lg" />
 
                 <div className={` flex flex-col left-2 max-h-96 overflow-y-auto`} ref={ref}>
                     {
