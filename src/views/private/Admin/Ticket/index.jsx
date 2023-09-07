@@ -51,7 +51,7 @@ export default () => {
 
   return (
     <>
-      <div className="fbody h-full overflow-y-auto custom-scrollbar-page">
+      <div id="scale-down" className="fbody h-full overflow-y-auto custom-scrollbar-page">
         <TicketManagment ticketCounts={ticketCounts} />
         <Searchbars
           search={search}

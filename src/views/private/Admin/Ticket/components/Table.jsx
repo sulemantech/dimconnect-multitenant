@@ -782,7 +782,8 @@ export const TicketModal = ({ ticket, setUpdate }) => {
                 new Date(b.created_at).getTime()
               )
             })
-            formData.append("reply_to", sortedComments[sortedComments.length - 1].id);
+            console.log(sortedComments)
+            sortedComments[sortedComments.length - 1]?.id ? formData.append("reply_to", sortedComments[sortedComments.length - 1].id) : null;
             // call the post request function
             try{
              const data = await postComment(ticket.id,formData);

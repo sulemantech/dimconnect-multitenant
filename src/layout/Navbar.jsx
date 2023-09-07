@@ -35,7 +35,7 @@ export default () => {
 
 
     return (
-        <div id='sidenav'
+        <nav id='sidenav'
             style={{
                 backgroundImage: 'url("/vertical blue background.svg")',
                 backgroundSize: 'cover',
@@ -68,7 +68,7 @@ export default () => {
             {/* Collapse Rounded Button */}
 
 
-        </div>
+        </nav>
         // </div>
     )
 }

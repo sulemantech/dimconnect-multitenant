@@ -5,7 +5,7 @@ export default () => {
   const {t}=useTranslation()
   return (
     <>
-      <div className="flex min-h-screen bg-[#FFF]">
+      <div id="scale-down" className="flex min-h-screen bg-[#FFF]">
         <div className="flex flex-col">
           <div className=" font-[Roboto] flex flex-col space-y-10 max-laptop:space-y-2 mt-[6.5rem] pl-[6rem] max-laptop:mt-[3rem] max-laptop:pl-[3rem]">
             <div className=" space-y-3 ">

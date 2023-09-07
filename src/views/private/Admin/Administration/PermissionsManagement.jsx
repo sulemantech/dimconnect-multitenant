@@ -163,10 +163,10 @@ export default () => {
       message
     >
       <PageProvider>
-       <div className="">
+       <div id="scale-down" className="">
         <PermmissionManagmentheader />
 
-          <div>
+          <div id="scale-down">
             {!loading ? (
               <CustomTable
                 attributes={["id", "name", "description", "permissions"]}
