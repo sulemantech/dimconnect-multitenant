@@ -647,17 +647,7 @@ export const TicketModal = ({ ticket, setUpdate }) => {
                     const fileURI = commentAttachments?.find(file=> file.filename === attachment.filename);
 
                     return (
-                      // <a
-                      //   key={attachment.id}
-                      //   target="_blank"
-                      //   download={attachment.filename}
-                      //   href={commentAttachments?.find(file=> file.filename === attachment.filename)?.uri}
-                      //   className={`text-[#3E3F3F] text-justify font-[400] mx-2 text-sm bg-[#F5F7F9] rounded-lg px-5 ${ticket.gpUser.id === comment.user_id
-                      //     ? 'bg-white'
-                      //     : 'bg-[#F5F7F9]'}`}
-                      // >
-                      //   {attachment.filename}
-                      // </a>
+                      
                       fileURI?.filename.split(".")[1] === "png" ||
                       fileURI?.filename.split(".")[1] === "jpg" ||
                       fileURI?.filename.split(".")[1] === "jpeg" ||
