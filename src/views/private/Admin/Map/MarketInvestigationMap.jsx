@@ -3,7 +3,6 @@ import { Map, ScaleControl } from 'react-map-gl';
 import maplibregl from 'maplibre-gl';
 import { LoadingOverlay } from '@mantine/core';
 import { useRef } from 'preact/hooks';
-// import 'maplibre-gl/dist/maplibre-gl.css';
 
 import MapControls from './MapControls';
 import SearchControl from './SearchControl';
@@ -19,7 +18,7 @@ import appConfig from '../../../../config/appConfig';
 
 const Gpx = lazy(() => import('./Gpx'));
 
-import { mapClickBindings, addressPointsCRUDstate, infoCardVal, visibility, mapStyle, additionalInteractiveLayers, mapSignal, regionCostState, aerialViewVisibility, PRpropertiesVisibility, legendState } from '../../../../signals';
+import { mapClickBindings, addressPointsCRUDstate, infoCardVal, visibility, mapStyle, additionalInteractiveLayers, mapSignal, regionCostState, aerialViewVisibility, PRpropertiesVisibility } from '../../../../signals';
 import ExtraViewables from './ExtraViewables';
 import PRproperties from './PRproperties';
 import AerialViewLayer from './AerialViewLayer';
@@ -27,82 +26,43 @@ import AerialViewLayer from './AerialViewLayer';
 let mapFirstRender = false
 
 export default ({ children }) => {
-  const mapRef = useRef(null);
   const [basemap, setBasemap] = useState('https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json')
   const [interactiveLayerIds, setInteractiveLayerIds] = useState([])
-
-  const [viewport, setViewport] = useState({
-    width: '100%',
-    height: '100%'
-  });
-
-
   useEffect(() => {
     mapStyle.subscribe(setBasemap)
     visibility.subscribe((v) => {
       setInteractiveLayerIds(JSON.parse(v) ? Object.keys(JSON.parse(v)).concat(additionalInteractiveLayers.value) : [])
     })
 
-    const handleResize = () => {
-      setViewport(prev => ({
-        ...prev,
-        width: window.innerWidth,
-        height: window.innerHeight
-      }));
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    // Cleanup
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-
-
-
   }, [])
+  const mapRef = useRef(null);
+  const [beforeId, setBeforeId] = useState()
 
   const handleMapClick = (event) => {
-    if(legendState.value === true){legendState.value = false}
-  
-    const zoomFactor = 0.8;  // Adjust based on your CSS
-  
-    // Adjust the event's coordinates
-    const adjustedX = event.point[0] / zoomFactor;
-    const adjustedY = event.point[1] / zoomFactor;
-    event.point = [adjustedX, adjustedY];
-  
-    const features = event.features; // I assume this still works. If not, you might need to use the adjusted coordinates with map's methods to get features.
-  
+    const features = event.features
+    // .filter(f => !additionalInteractiveLayers.value.includes(f.layer.id))
+
     Object.values(mapClickBindings.value).forEach((binding) => {
-      binding(event); // The event now has the adjusted point.
-    });
-  
-    if (addressPointsCRUDstate.value !== '' || regionCostState.value !== false) return;
+      binding(event)
+    })
+
+    if (addressPointsCRUDstate.value !== '' || regionCostState.value !== false) return
     if (features.length > 0) {
-      infoCardVal.value = null;
+      infoCardVal.value = null
       setTimeout(() => {
-        infoCardVal.value = features;
+        infoCardVal.value = features
       }, 100);
     }
+
   };
   const handleMaphover = (event) => {
 
 
   };
 
-  // body element is scale down using css zoom property, and mouse click event is not working on map properly, fix this
-  useEffect(() => {
-    if (mapRef.current) {
-      mapRef.current.getMap().resize();
-    }
-  });
   return (
     <Map
-    className='map-container'
       reuseMaps
-      {...viewport}
-      onViewportChange={newViewport => setViewport(newViewport)}
       ref={mapRef}
       onClick={handleMapClick}
       onMouseMove={handleMaphover}
@@ -156,26 +116,23 @@ export default ({ children }) => {
         {PRpropertiesVisibility.value && <PRproperties />}
         { aerialViewVisibility.value && <AerialViewLayer />}
 
-        <AddressPoints />
-        <SearchControl />
-        <ExtraViewables />
+        {/* <AddressPoints />  */}
+        <SearchControl  marketsearch={true} />
+        {/* <ExtraViewables /> */}
         <MapControls />
         <ScaleControl position='bottom-right' maxWidth={200} unit='metric' />
         {/* <CustomLayerPanel /> */}
-        <Photos />
-        <InfoCard modal={window.innerWidth < 768} />
-        <Gpx />
-        <DataTiles />
+        {/* <Photos /> */}
+        {/* <InfoCard modal={window.innerWidth < 768} /> */}
+        {/* <Gpx /> */}
+        <DataTiles ags={"05758032"} />
         <Boundary noFill />
         <Popup />
         {/* <Netzplanning /> */}
         <DistrictPhase grouped />
-        <CRUDAddressPoint />
+        {/* <CRUDAddressPoint /> */}
       </Suspense>
     </Map>
   );
-
-
-
 }
 

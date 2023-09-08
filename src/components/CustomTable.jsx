@@ -716,7 +716,7 @@ const EditForm = ({ item, newStruct, refreshData }) => {
                 newStruct.data[attr]?.type === "radio" ? (
                 <div
                   key={attr}
-                  className=" flex flex-row justify-center text-sm     space-y-4 pb-3 items-center"
+                  className=" flex flex-row justify-center text-sm space-y-4 pb-3 items-center"
                 >
                   <label className="text-gray-700 mt-3 w-[9vw]">
                     {attr.replace("ags_right", "AGS Right ")}

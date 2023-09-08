@@ -19,9 +19,11 @@ import Gpx from '../../private/Admin/Map/Gpx';
 import { IconCompass } from '@tabler/icons';
 import DistrictPhase from '../../private/Admin/Map/DistrictPhase';
 
-import { mapClickBindings, additionalInteractiveLayers, mapStyle, DistrictPhaseVisibility, infoCardVal, visibility, addressPointsCRUDstate, mapSignal } from '../../../signals';
+import { mapClickBindings, additionalInteractiveLayers, mapStyle, DistrictPhaseVisibility, infoCardVal, visibility, addressPointsCRUDstate, mapSignal, legendState, PRpropertiesVisibility, aerialViewVisibility } from '../../../signals';
 import { FabClass } from '../../../layout';
 import ExtraViewables from '../../private/Admin/Map/ExtraViewables';
+import PRproperties from '../../private/Admin/Map/PRproperties';
+import AerialViewLayer from '../../private/Admin/Map/AerialViewLayer';
 
 let mapFirstRender = false
 const CustomGeoLocateData = signal(null)
@@ -42,6 +44,7 @@ export default () => {
     })
   }, [])
   const handleMapClick = (event) => {
+    if(legendState.value === true){legendState.value = false}
     const features = event.features
 
     // .filter(f => !additionalInteractiveLayers.value.includes(f.layer.id))
@@ -114,6 +117,8 @@ export default () => {
         APVPage ? <AddressPoints />
           :
           <>
+          {PRpropertiesVisibility.value && <PRproperties />}
+        { aerialViewVisibility.value && <AerialViewLayer />}
             <AddressPoints />
             <SearchControl nohead />
             <div className={`absolute top-2 right-2 ${FabClass} text-[#0E76BB] bg-white `}

@@ -16,7 +16,7 @@ const EditControl = lazy(() => import('./EditControl'))
 export default () => {
   useScrollLock(true)
   return (
-    <div className="flex flex-grow touch-none overflow-hidden">
+    <div id="mapPage" className="flex flex-grow touch-none overflow-hidden">
       <PermissionWrapper permission={PERMISSIONS.Map} view showError>
 
         <Map />
@@ -24,7 +24,7 @@ export default () => {
       </PermissionWrapper>
       <BottomRight>
         <Suspense fallback={<div>Loading...</div>}>
-          <div>
+          <div className=''>
             <OverlayControl modal={window.innerWidth < 768} />
             <BaseMapControl modal={window.innerWidth < 768} />
             <ExtraViewableControl modal={window.innerWidth < 768} />

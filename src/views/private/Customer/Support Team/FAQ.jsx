@@ -50,7 +50,7 @@ export default () => {
 
 
     return (
-        <div className={'h-screen bg-white overflow-x-auto'}>
+        <div id="scale-down" className={'h-screen bg-white overflow-x-auto'}>
             <div style={{ backgroundImage: 'url("/horizontal blue background.svg")', }} className="flex bg-no-repeat bg-cover flex-col pl-20 justify-center h-[295px]">
                 <div className="py-6" />
                 <div className="text-4xl font-bold tracking-wide text-white">{t('We Can Help.')}</div>

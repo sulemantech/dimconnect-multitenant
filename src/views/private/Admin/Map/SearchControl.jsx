@@ -12,8 +12,8 @@ import { useTranslation } from "react-i18next"
 
 
 
-export default ({ within = false, nohead = false }) => {
-    const {t}=useTranslation
+export default ({ within = false, nohead = false, marketsearch = false }) => {
+    const { t } = useTranslation
     const [search, setSearch] = useDebouncedState("", 500)
     const [searchResult, setSearchResult] = useState([])
     const [loading, setLoading] = useState(false)
@@ -59,23 +59,34 @@ export default ({ within = false, nohead = false }) => {
                             coordinates: [firstFeatureCoordinates[0], firstFeatureCoordinates[1]],
                         }
                     }
-                    if (booleanWithin(point, district)) {
-                        if (regsionListSignal.value?.map((item) => item.ags).includes(district.properties.c[0])) {
-                            dropvalue.value = district.properties.c[0]
-                            setTimeout(() => {
-                                map.flyTo({
-                                    center: [firstFeatureCoordinates[0], firstFeatureCoordinates[1]],
-                                    zoom: 15,
+                    if (!marketsearch) {
+                        if (booleanWithin(point, district)) {
+                            if (regsionListSignal.value?.map((item) => item.ags).includes(district.properties.c[0])) {
+                                dropvalue.value = district.properties.c[0]
+                                setTimeout(() => {
+                                    map.flyTo({
+                                        center: [firstFeatureCoordinates[0], firstFeatureCoordinates[1]],
+                                        zoom: 15,
+                                    })
+                                }, 1000)
+                                return district
+                            } else {
+                                showNotification({
+                                    title: "District not available",
+                                    message: "This district is not available right now.",
+                                    color: "red",
                                 })
-                            }, 1000)
-                            return district
-                        } else {
-                            showNotification({
-                                title: "District not available",
-                                message: "This district is not available right now.",
-                                color: "red",
-                            })
+                            }
                         }
+                    }else{
+                        dropvalue.value = district.properties.c[0]
+                        setTimeout(() => {
+                            map.flyTo({
+                                center: [firstFeatureCoordinates[0], firstFeatureCoordinates[1]],
+                                zoom: 15,
+                            })
+                        }, 1000)
+                        return district
                     }
                 })
 
@@ -96,20 +107,18 @@ export default ({ within = false, nohead = false }) => {
         }
 
     }
-
-
     return (
         <>
             <div className={`absolute flex flex-col w-64 z-50 left-2 top-${!nohead ? '2' : '2'}`}>
                 <Input
-
+                    id="scale-down"
                     value={search} onChange={(e) => {
                         setSearch(e.currentTarget.value)
                     }}
                     rightSection={
-                        loading && <Loader size={'sm'} />
+                        loading && <Loader size={'xs'} />
                     }
-                    placeholder="Search" color="white" icon={<IconSearch className=" text-[#0E76BB] " />} variant="unstyled" className="shadow-lg text-[#0E76BB] bg-white  border-white border-solid border-2 rounded-lg" />
+                    placeholder="Search" color="white" icon={<IconSearch className=" max-2xl:w-4 text-[#0E76BB] " />} variant="unstyled" className="shadow-lg text-[#0E76BB] bg-white  border-white border-solid border-2 rounded-lg" />
 
                 <div className={` flex flex-col left-2 max-h-96 overflow-y-auto`} ref={ref}>
                     {

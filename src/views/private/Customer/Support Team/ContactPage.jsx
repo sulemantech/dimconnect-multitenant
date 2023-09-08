@@ -5,7 +5,7 @@ export default () => {
   const {t}=useTranslation()
   return (
     <>
-      <div className="flex min-h-screen bg-[#FFF]">
+      <div id="scale-down" className="flex min-h-screen bg-[#FFF]">
         <div className="flex flex-col">
           <div className=" font-[Roboto] flex flex-col space-y-10 max-laptop:space-y-2 mt-[6.5rem] pl-[6rem] max-laptop:mt-[3rem] max-laptop:pl-[3rem]">
             <div className=" space-y-3 ">
@@ -56,10 +56,10 @@ export default () => {
             <div className="flex-1" />
             <div className="flex absolute bottom-0 right-0 mb-[3rem] mr-[20rem] max-laptop:mb-[2rem]">
               <div className=" w-[20vw]  max-laptop:w-[14vw] flex justify-end items-end z-10 -mr-[8vw] max-laptop:-mr-[6vw] mt-[11.5rem] max-laptop:mt-[4rem] flex-col">
-                <img src="/iphone2.png" className="w-[20vw] max-laptop:w-[14vw] " alt="" />
+                <img src="/iphone2.png" className="w-[16vw] max-laptop:w-[14vw] " alt="" />
               </div>
               <div className="w-[20vw] flex flex-col justify-center max-laptop:w-[14vw]   items-center">
-                <img src="/Iphone1.png" className="w-[20vw] max-laptop:w-[14vw]  " alt="" />
+                <img src="/Iphone1.png" className="w-[25vw] max-laptop:w-[14vw]  " alt="" />
                 <div className="flex items-start justify-start -mt-12 max-laptop:-mt-[4.2rem] pt-2 mb-2 pl-[3rem]">
                   <div className="flex flex-col pb-2 space-y-1 max-laptop:pl-[1rem] max-laptop:mt-10">
                     <p className=" text-white text-[0.68rem] max-laptop:text-[8px]">

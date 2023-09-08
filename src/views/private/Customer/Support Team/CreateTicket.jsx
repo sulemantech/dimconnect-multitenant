@@ -59,8 +59,8 @@ export default function TicketCreationPage() {
 
     // check all files are less than 512kb
     for (let i = 0; i < files.length; i++) {
-      if (files[i].size > 512000) {
-        setError("File size must be less than 512kb");
+      if(files[i].size > 5120000){
+        setError("File size must be less than 512MB");
         setLoading(false);
         return;
       }
@@ -79,6 +79,17 @@ export default function TicketCreationPage() {
     const fileUrls = [];
     for (let i = 0; i < files.length; i++) {
       fileUrls.push(URL.createObjectURL(files[i]));
+    }
+
+    // log files type and size
+    const fileTypes = [];
+    for (let i = 0; i < files.length; i++) {
+      fileTypes.push(files[i].type);
+    }
+
+    const fileNames = [];
+    for (let i = 0; i < files.length; i++) {
+      fileNames.push(files[i].name);
     }
 
     try {
@@ -107,6 +118,8 @@ export default function TicketCreationPage() {
             title={ticketPosted.data.title}
             description={ticketPosted.data.description}
             attatchedFiles={fileUrls}
+            filesType={fileTypes}
+            fileNames={fileNames}
           />
         ),
       });
@@ -122,7 +135,7 @@ export default function TicketCreationPage() {
   };
 
   return (
-    <div className="w-full h-full overflow-y-auto  flex-grow">
+    <div id="scale-down" className="w-full h-full overflow-y-auto  flex-grow">
       <div
         style={{ backgroundImage: 'url("/BGFAQ2.svg")' }}
         className="flex flex-col pl-20 justify-center h-[77px]"
@@ -287,6 +300,7 @@ export default function TicketCreationPage() {
                   variant="filled"
                   className="flex-[3] bg-[#F5F7F9]"
                   classNames={{ input: "rounded-r-[10px] relative" }}
+                  // accept="image/png,image/jpeg"
                 />
               </Paper>
               <p className="text-xs mt-4 ml-[2px]">
@@ -352,6 +366,8 @@ export const ThanksModalContent = ({
   title,
   description,
   attatchedFiles,
+  filesType,
+  fileNames
 }) => {
   return (
     <div>
@@ -431,14 +447,25 @@ export const ThanksModalContent = ({
               {attatchedFiles.length} Attatched Files
             </Text>
             <Flex mt={20}>
-              {attatchedFiles.map((file) => (
-                <Image
-                  src={file}
-                  alt={"Uploaded Attatchment"}
-                  width={100}
-                  height={100}
-                  mr={15}
-                />
+              {attatchedFiles.map((file, index) => (
+                <div className="flex flex-col items-center justify-center mr-4">
+                  {
+                  filesType[index].includes("image")
+                  ? (
+                    <Image
+                      src={file}
+                      alt={"Uploaded Attatchment"}
+                      width={100}
+                      height={100}
+                      mr={15}
+                    />
+                  ) : (
+                    <div className="flex flex-col items-center justify-center">
+                      <IconFile size={50} />
+                      <Text size={"xs"}>{fileNames[index]}</Text>
+                    </div>
+                  )}
+                </div>
               ))}
             </Flex>
           </>
