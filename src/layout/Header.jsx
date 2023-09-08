@@ -87,7 +87,7 @@ export default () => {
       <div className=" items-center  h-12 bg-white flex p-2 text-[#0E76BB] ">
         <div className="flex-grow  text-[#0E76BB] text-lg font-[500] md:inline-block hidden">
           <h6 className={window.innerWidth < 768 ? "text-xs" : "text-lg"}>
-            <b className=" max-2xl:text-xs">
+            <b className=" max-lg:text-xs">
               {t(
                 router[0].path
                   ?.split(":")?.[0]
@@ -169,7 +169,7 @@ export default () => {
           </Menu.Dropdown>
         </Menu>
 
-        <span className="max-2xl:text-xs"><LanguageButton /></span>
+        <span className="max-lg:text-xs"><LanguageButton /></span>
       </div>
       <div className="pl-2 bg-neutral-100 items-center text-[10px] ">
         <Breadcrumbs
@@ -186,7 +186,7 @@ export default () => {
               return (
                 <Anchor
                   href={getHrefByIndex(router[0].url, index)}
-                  className="text-neutral-500 text-xs font-thin max-2xl:text-[0.7vw]"
+                  className="text-neutral-500 text-xs font-thin max-lg:text-[0.7vw]"
                 >
                   {getLabelFromURI(item).toUpperCase().toLocaleUpperCase("de")}
                 </Anchor>

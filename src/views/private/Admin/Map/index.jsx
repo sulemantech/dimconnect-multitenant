@@ -24,7 +24,7 @@ export default () => {
       </PermissionWrapper>
       <BottomRight>
         <Suspense fallback={<div>Loading...</div>}>
-          <div className='max-2xl:scale-[0.7]'>
+          <div className=''>
             <OverlayControl modal={window.innerWidth < 768} />
             <BaseMapControl modal={window.innerWidth < 768} />
             <ExtraViewableControl modal={window.innerWidth < 768} />
