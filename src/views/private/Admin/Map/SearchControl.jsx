@@ -100,9 +100,9 @@ export default ({ within = false, nohead = false }) => {
 
     return (
         <>
-            <div id="scale-down" className={`absolute flex flex-col w-64 z-50 left-2 top-${!nohead ? '2' : '2'}`}>
+            <div className={`absolute flex flex-col w-64 z-50 left-2 top-${!nohead ? '2' : '2'}`}>
                 <Input
-
+                    id="scale-down"
                     value={search} onChange={(e) => {
                         setSearch(e.currentTarget.value)
                     }}
