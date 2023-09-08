@@ -165,16 +165,20 @@ export default ({
                 >
                   <Radio
                     value="Aerial View"
-                    size="xs"
+                    label="Aerial View"
+                    className="text-xs my-1"
+
                   >
                   Aerial View
                   </Radio>
                   <Radio
                     value="RP Properties"
-                    size="xs"
+                    label="RP Properties"
+                    className="text-xs"
+
                   >
-                  </Radio>
                     RP Properties
+                  </Radio>
                 </Radio.Group>
               </div>
             </Accordion.Panel>
