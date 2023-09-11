@@ -78,11 +78,6 @@ export const TilesView = ({ tileData, id }) => {
     }
     let url = `https://dim-tileserver-dev.hiwifipro.com/data/${id}.json`;
 
-    // if (id === "05758032") {
-    //     // Special case for the market investigation data
-    //     url = `https://dim-tileserver-dev.hiwifipro.com/data/${ags}.json`;
-    // }
-
     return (
         <SplineWrapper>
             <Source
