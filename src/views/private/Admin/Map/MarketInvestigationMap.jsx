@@ -19,7 +19,32 @@ import AerialViewLayer from './AerialViewLayer';
 
 let mapFirstRender = false
 
-export default ({ children }) => {
+export default (props) => {
+
+  // get lat lng from props.url and set it to map
+  // props.url is like this: '/market?ags=05758032#15/8.470126497169645/52.12516312433257'
+  // const [lat, lng] = props.url.split('#')[1].split('/')
+  const [center, setCenter] = useState([8.470126497169645, 52.12516312433257])
+  
+  const mapRef = useRef(null);
+  useEffect(() => {
+    console.log("props.url", props.url)
+    if (props.url) {
+      const [_zoom, lng, lat] = props.url.split('#')[1].split('/')
+      // setLatlng([lng, lat])
+      // setZoom(_zoom)
+      setCenter([lng, lat])
+      setTimeout(() => {
+      mapRef.current?.getMap().flyTo({
+        center: [lng, lat],
+        zoom: _zoom
+      })
+      }, 2000);
+    }
+  }, [])
+
+
+
   const [basemap, setBasemap] = useState('https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json')
   const [interactiveLayerIds, setInteractiveLayerIds] = useState([])
   useEffect(() => {
@@ -29,7 +54,6 @@ export default ({ children }) => {
     })
 
   }, [])
-  const mapRef = useRef(null);
   const [beforeId, setBeforeId] = useState()
 
   const handleMapClick = (event) => {
@@ -58,6 +82,7 @@ export default ({ children }) => {
     <Map
       reuseMaps
       ref={mapRef}
+      center={center}
       onClick={handleMapClick}
       onMouseMove={handleMaphover}
       attributionControl={false}
@@ -85,12 +110,12 @@ export default ({ children }) => {
       // hash={true}
       refreshExpiredTiles={true}
       style={{ width: '100%', height: '100%' }}
-      initialViewState={{
-        longitude: parseFloat(window.location.hash.split('/')[1]) || 7.785873,
-        latitude: parseFloat(window.location.hash.split('/')[2]) || 50.614182,
-        zoom: parseFloat(window.location.hash.split('/')[0].replace("#")) || 5,
+      // initialViewState={{
+      //   longitude: parseFloat(window.location.hash.split('/')[1]) || 7.785873,
+      //   latitude: parseFloat(window.location.hash.split('/')[2]) || 50.614182,
+      //   zoom: parseFloat(window.location.hash.split('/')[0].replace("#")) || 5,
 
-      }}
+      // }}
       interactiveLayerIds={interactiveLayerIds}
       transformRequest={(url, resourceType) => {
         if (url.includes('https://dim-tileserver-dev.hiwifipro.com/data/')) {
