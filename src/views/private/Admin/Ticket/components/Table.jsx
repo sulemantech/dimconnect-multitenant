@@ -643,20 +643,50 @@ export const TicketModal = ({ ticket, setUpdate }) => {
                   ? ' bg-[#F5F7F9]'
                   : 'bg-white'} `}>
                   {comment.ticketAttachments?.map((attachment, index) => {
-                    console.log();
+
+                    const fileURI = commentAttachments?.find(file=> file.filename === attachment.filename);
 
                     return (
-                      <a
-                        key={attachment.id}
-                        target="_blank"
-                        download={attachment.filename}
-                        href={commentAttachments?.find(file=> file.filename === attachment.filename)?.uri}
-                        className={`text-[#3E3F3F] text-justify font-[400] mx-2 text-sm bg-[#F5F7F9] rounded-lg px-5 ${ticket.gpUser.id === comment.user_id
-                          ? 'bg-white'
-                          : 'bg-[#F5F7F9]'}`}
-                      >
-                        {attachment.filename}
-                      </a>
+                      
+                      fileURI?.filename.split(".")[1] === "png" ||
+                      fileURI?.filename.split(".")[1] === "jpg" ||
+                      fileURI?.filename.split(".")[1] === "jpeg" ||
+                      fileURI?.filename.split(".")[1] === "gif" ||
+                      fileURI?.filename.split(".")[1] === "svg" ? (
+                        <a
+                          key={attachment.id}
+                          target="_blank"
+                          download={attachment.filename}
+                          href={commentAttachments?.find(file=> file.filename === attachment.filename)?.uri}
+                          className={`text-[#3E3F3F] text-justify font-[400] mx-2 text-sm bg-[#F5F7F9] rounded-lg px-5 ${ticket.gpUser.id === comment.user_id
+                            ? 'bg-[#F5F7F9]'
+                            : 'bg-white'}`}
+                        >
+                          <img
+                            className="mr-2"
+                            // src={`http://localhost:3002/static/tickets/${attachment.filename}`}
+                            src={commentAttachments?.find(file=> file.filename === attachment.filename)?.uri}
+                            alt=""
+                            width={150}
+                            height={150}
+                          />
+                        </a>
+                      ) : (
+                        <a
+                          key={attachment.id}
+                          target="_blank"
+                          download={attachment.filename}
+                          href={commentAttachments?.find(file=> file.filename === attachment.filename)?.uri}
+                          className={`text-[#3E3F3F] text-justify font-[400] mx-2 text-sm bg-[#F5F7F9] rounded-lg px-5 ${ticket.gpUser.id === comment.user_id
+                            ? 'bg-white'
+                            : 'bg-[#F5F7F9]'}`}
+                        >
+                          {attachment.filename}
+                        </a>
+
+                      )
+
+                    
                     );
                   })}
                 </div>
