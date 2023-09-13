@@ -27,72 +27,34 @@
   <body>
     <div id="app"></div>
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        var zoomLevel;
-
-        // Check if the browser is Firefox
-        if (navigator.userAgent.toLowerCase().indexOf("firefox") > -1) {
+      document.addEventListener("DOMContentLoaded", function() {
+      var zoomLevel;
+  
+      // Check if the browser is Firefox
+      if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+          
           if (window.devicePixelRatio > 2.9) {
-            zoomLevel = 0.6;
+              zoomLevel = 0.6;
           } else if (window.devicePixelRatio > 1.9) {
-            zoomLevel = 0.7;
+              zoomLevel = 0.7;
           } else if (window.devicePixelRatio > 1) {
-            zoomLevel = 0.8;
+              zoomLevel = 0.8;
           }
-
+  
           if (zoomLevel) {
-            // Select specific elements to adjust
-            var elementsToAdjust = document.querySelectorAll(
-              "header, nav, #scale-down, #mapPage"
-            );
-
-            // elementsToAdjust.forEach(function(element) {
-            //     element.style.transform = "scale(" + zoomLevel + ")";
-            //     element.style.transformOrigin = "top left";
-            // });
-            //           #mapPage{
-            //   width: 96vw;
-            //   margin-left: -13px;
-            //   margin-top: -13px;
-            // }
-            // header {
-            //   max-height: 70px;
-            //   margin-left: -14px;
-            //   width: 120vw;
-            // }
-            // nav{
-            //   height: 126vh;
-            //   width: fit-content;
-            // }
-            //  add these properties also in firefox
-            elementsToAdjust.forEach(function (element) {
-              if (element.id == "mapPage") {
-                element.style.width = "96vw";
-                element.style.marginLeft = "-13px";
-                element.style.marginTop = "-13px";
-              }
-              if (element.tagName == "HEADER") {
-                element.style.transform = "scale(" + zoomLevel + ")";
-                element.style.transformOrigin = "top left";
-                element.style.maxHeight = "70px";
-                element.style.marginLeft = "-14px";
-                element.style.width = "120vw";
-              }
-              if (element.tagName == "NAV") {
-                element.style.transform = "scale(" + zoomLevel + ")";
-                element.style.transformOrigin = "top left";
-                element.style.height = "126vh";
-                element.style.width = "fit-content";
-              }
-              if(element.id == "scale-down"){
-                element.style.transform = "scale(" + zoomLevel + ")";
-                element.style.transformOrigin = "top left";
-              }
-            });
+              document.body.style.transform = 'scale(' + zoomLevel + ')';
+              document.body.style.transformOrigin = 'top left';
+  
+              // Adjust the body's dimensions based on the zoom level
+              document.body.style.width = (100 / zoomLevel) + "%";
+              document.body.style.height = (100 / zoomLevel) + "vh";
           }
-        }
-      });
+      }
+  });
+  
+  
     </script>
+  
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
