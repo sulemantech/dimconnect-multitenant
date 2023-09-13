@@ -55,6 +55,7 @@ const createAuthState = () => {
         localStorage.removeItem(appConfig.localStorageKey)
     })
     getCurrentUserPermissions().then(({ data }) => {
+        console.table(data.accessList)
 
 
         // permissible.value = permissible.value.concat(data.accessList)

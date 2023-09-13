@@ -4,6 +4,7 @@ export const PERMISSIONS = {
     "User Management": "User Management",
     "Roles Management": "Roles Management",
     "Map": "Map",
+    "Market": "Market",
     "AddressPoint": "AddressPoint",
     "Photo": "Photo",
     "Video": "Video",

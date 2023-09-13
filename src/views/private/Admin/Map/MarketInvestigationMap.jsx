@@ -12,6 +12,8 @@ import { Boundary } from '../Dashboard/Submap';
 import appConfig from '../../../../config/appConfig';
 
 import { mapStyle } from '../../../../signals';
+import PermissionWrapper from '../../../../providers/PermissionsProvider';
+import { PERMISSIONS } from '../../../../common';
 
 let mapFirstRender = false
 
@@ -44,7 +46,8 @@ export default (props) => {
   }, [])
 
   return (
-    // Map component from react-map-gl library to render the map
+    <PermissionWrapper permission={PERMISSIONS.Market} view={true} message>
+    {/* // Map component from react-map-gl library to render the map */}
     <Map
       ref={mapRef}  // map reference to access map methods
       attributionControl={false}  // disable the default attribution control of the map
@@ -81,6 +84,7 @@ export default (props) => {
         <Boundary noFill /> {/* boundary of the district */}
       </Suspense> 
     </Map>
+    </PermissionWrapper>
   );
 }
 

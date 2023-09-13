@@ -16,7 +16,7 @@ const Dashboard = () => {
   const {t}=useTranslation()
 
   return (
-    <PermissionWrapper permission={PERMISSIONS.Dashboard} view>
+    <PermissionWrapper permission={PERMISSIONS.Dashboard} view={true}>
       <PageProvider>
 
         {/* <div className="flex flex-col md:flex-row">
