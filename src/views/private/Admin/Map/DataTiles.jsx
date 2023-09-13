@@ -78,11 +78,6 @@ export const TilesView = ({ tileData, id }) => {
     }
     let url = `https://dim-tileserver-dev.hiwifipro.com/data/${id}.json`;
 
-    // if (id === "05758032") {
-    //     // Special case for the market investigation data
-    //     url = `https://dim-tileserver-dev.hiwifipro.com/data/${ags}.json`;
-    // }
-
     return (
         <SplineWrapper>
             <Source
@@ -204,12 +199,12 @@ export const MarketInvestigationTilesView = ({ tileData, id }) => {
 // Point:05758032_tkuC
 // Polygon:05758032_tkuD
         const PolyfillColors = {
-          '05758032_ap_2023': 'yellow',
-          '05758032_gem_spenge': 'purple',
-          '05758032_tkuA': 'red',
-          '05758032_tkuB': 'green',
-          '05758032_tkuC': 'blue',
-          '05758032_tkuD': 'pink',
+          '05758032_ap_2023': 'blue',
+          '05758032_gem_spenge': 'lightgreen',
+          '05758032_tkuA': 'purple',
+          '05758032_tkuB': 'black',
+          '05758032_tkuC': 'red',
+          '05758032_tkuD': 'grey',
         };
       
         // Construct the tile URL based on the provided JSON structure
@@ -222,7 +217,7 @@ export const MarketInvestigationTilesView = ({ tileData, id }) => {
               type="vector"
               format="pbf"
               url={url}
-              minzoom={8}
+              minzoom={4}
               maxzoom={18}
               name={`tilesource${id}`}
             >
@@ -236,7 +231,7 @@ export const MarketInvestigationTilesView = ({ tileData, id }) => {
                     id={layerId}
                     type={layer.geometry.replace('Multi', '') == 'Polygon' ? 'fill' : layer.geometry.replace('Multi', '') == 'LineString' ? 'line' : 'circle'}
                     sourceId={`tilesource${id}`}
-                    minzoom={14}
+                    minzoom={0}
                     maxzoom={22}
                     source-layer={layerId}
                     paint={
@@ -247,49 +242,12 @@ export const MarketInvestigationTilesView = ({ tileData, id }) => {
                                 "fill-opacity": 0.5
                             }
                             :
-                            layer.geometry.replace('Multi', '') == 'LineString'
-                                ?
-                                (() => {
-
-                                    if (layer.layer == dropvalue.value + '_OUT_DistributionCables') {
-                                        return {
-                                            "line-color": "orange",
-                                            "line-opacity": 0.7,
-                                            "line-width": ["interpolate", ["linear"], ["zoom"], 14, 2, 18, 4],
-                                        }
-                                    }
-                                    else if (layer.layer == dropvalue.value + '_OUT_FeederCables') {
-                                        return {
-                                            "line-color": "purple",
-                                            "line-opacity": 0.7,
-                                            "line-width": ["interpolate", ["linear"], ["zoom"], 14, 3, 18, 6],
-                                        }
-                                    }
-                                    else if (layer.layer == dropvalue.value + '_OUT_PrimDistributionCables') {
-                                        return {
-                                            "line-color": "blue",
-                                            "line-opacity": 0.7,
-                                            "line-width": ["interpolate", ["linear"], ["zoom"], 14, 1, 18, 2],
-                                        }
-                                    } else {
-                                        return {
-                                            "line-color": "yellow",
-                                            "line-opacity": 0.7,
-                                            "line-width": ["interpolate", ["linear"], ["zoom"], 14, 0.5, 18, 1],
-                                        }
-                                    }
-
-
-                                })()
-
-                                :
                                 {
-                                    "circle-color": "transparent",
+                                    "circle-color": PolyfillColors[layer.layer] ? PolyfillColors[layer.layer] : 'grey',
                                     "circle-stroke-width": 1,
-                                    "circle-stroke-opacity": 0.1,
+                                    "circle-stroke-opacity": 0.5,
                                     "circle-stroke-color": "white",
-
-                                    "circle-radius": ["interpolate", ["linear"], ["zoom"], 5, 5, 18, 15],
+                                    "circle-radius": ["interpolate", ["linear"], ["zoom"], 5, 1, 18, 5],
                                 }
                     }
 

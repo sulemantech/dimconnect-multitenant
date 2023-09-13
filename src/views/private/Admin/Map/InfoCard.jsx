@@ -21,7 +21,7 @@ export default ({ modal = false, presegment = null }) => {
         <>
             {!modal ?
 
-                <Transition transition="slide-right" duration={400} mounted={val != null} timingFunction="ease">
+                <Transition id="scale-down" transition="slide-right" duration={400} mounted={val != null} timingFunction="ease">
                     {(styles) =>
                         <div style={styles} className="bg-white absolute left-2 bottom-2 z-50 p-2 rounded-md shadow-lg max-w-xl" >
                             <Component modal={modal} presegment={presegment} val={val} />
@@ -31,7 +31,7 @@ export default ({ modal = false, presegment = null }) => {
                 :
                 <>
 
-                    <Modal lockScroll={false} className="overflow-x-hidden" padding={'xs'} opened={val != null} onClose={() => {
+                    <Modal id="scale-down" lockScroll={false} className="overflow-x-hidden" padding={'xs'} opened={val != null} onClose={() => {
                         setVal(null)
                     }} title="Info Card" size={'xl'}>
                         <div className="w-full h-full">
@@ -134,7 +134,7 @@ const Component = ({ modal = false, presegment = null, val }) => {
             </div>}
 
         </div>
-        <div className="text-xs flex flex-col font-semibold text-gray-700">
+        <div id="scale-down" className="text-xs flex flex-col font-semibold text-gray-700">
 
             <CustomSegmentedControl data={infoCardData} value={segment} onChange={setSegment} />
             <hr />

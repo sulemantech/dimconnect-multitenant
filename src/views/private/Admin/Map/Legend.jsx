@@ -80,7 +80,7 @@ export default ({
   if (collapsed)
     return (
       <div
-        className="absolute -left-8 hover:scale-95 transition-all cursor-pointer bottom-24 justify-center rotate-90 font-bold text-lg max-2xl:text-sm tracking-wide  text-white bg-[#0092c3] shadow-2xl z-40 rounded-md p-2 "
+        className="absolute -left-8 hover:scale-95 transition-all cursor-pointer bottom-24 justify-center rotate-90 font-bold text-lg sm:text-sm tracking-wide  text-white bg-[#0092c3] shadow-2xl z-40 rounded-md p-2 "
         onClick={() => {
           legendState.value = true;
           setCollapsed(false);
@@ -91,14 +91,14 @@ export default ({
     );
 
   return (
-    <div className="relative text-xs max-lg:text-[2vw] max-md:text-[2vw] flex flex-col p-2 shadow-md rounded-md mt-2 bg-white overflow-scroll">
+    <div className="relative text-xs sm:text-[0.8vw] flex flex-col p-2 shadow-md rounded-md mt-2 bg-white overflow-scroll">
       <h6 className="mb-1">
         <b>{t("Legend")}</b>
       </h6>
       <hr className="mb-2" />
       <Accordion
         defaultValue={window.innerWidth > 768 ? "Background" : ""}
-        className="text-xs max-lg:text-[2vw] max-md:text-[2vw]"
+        className="text-xs sm:text-[0.8vw]"
         onChange={(e) => {
           const params = new URLSearchParams(window.location.search);
           if (!params.get("statusPage")) {
@@ -115,7 +115,7 @@ export default ({
         {!noBackground && (
           <Accordion.Item
             value="Background"
-            className="text-xs max-lg:text-[2vw] max-md:text-[2vw]"
+            className="text-xs sm:text-[0.8vw]"
           >
             <div className="flex flex-1 space-x-4 items-center">
               {/* <span className="mt-3 "></span> */}
@@ -136,7 +136,7 @@ export default ({
                 }}
               />
               <Accordion.Control
-                className="text-xs max-lg:text-[2vw] max-md:text-[2vw] last:p-0"
+                className="text-xs sm:text-[0.8vw] last:p-0"
                 value={"Background"}
               >
                 Background
@@ -187,7 +187,7 @@ export default ({
         {!noAddressPoint && (
           <Accordion.Item
             value="Address Points"
-            className="text-xs max-lg:text-[2vw] max-md:text-[2vw]"
+            className="text-xs sm:text-[0.8vw]"
           >
             <div className="flex flex-1 space-x-4 ">
               <span className="mt-3 ">
@@ -211,7 +211,7 @@ export default ({
                 />
               </span>
               <Accordion.Control
-                className="text-xs max-lg:text-[2vw] max-md:text-[2vw] last:p-0"
+                className="text-xs sm:text-[0.8vw] last:p-0"
                 value={"Address Points"}
               >
                 Address Points
@@ -274,7 +274,7 @@ export default ({
                 />
               </span>
               <Accordion.Control
-                className="text-xs max-lg:text-[2vw] max-md:text-[2vw] last:p-0"
+                className="text-xs sm:text-[0.8vw] last:p-0"
                 value={"Netzplanung"}
               >
                 Netzplanung
