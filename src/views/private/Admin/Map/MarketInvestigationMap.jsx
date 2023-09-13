@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect, useState } from 'preact/compat';
+import { Suspense, useEffect, useState } from 'preact/compat';
 import { Map, ScaleControl } from 'react-map-gl';
 import maplibregl from 'maplibre-gl';
 import { LoadingOverlay } from '@mantine/core';
@@ -9,115 +9,58 @@ import SearchControl from './SearchControl';
 
 import DataTiles from './DataTiles';
 import { Boundary } from '../Dashboard/Submap';
-import Popup from './Popup';
-import DistrictPhase from './DistrictPhase';
 import appConfig from '../../../../config/appConfig';
 
-import { mapClickBindings, addressPointsCRUDstate, infoCardVal, visibility, mapStyle, additionalInteractiveLayers, mapSignal, regionCostState, aerialViewVisibility, PRpropertiesVisibility } from '../../../../signals';
-import PRproperties from './PRproperties';
-import AerialViewLayer from './AerialViewLayer';
+import { mapStyle } from '../../../../signals';
 
 let mapFirstRender = false
 
 export default (props) => {
-
-  // get lat lng from props.url and set it to map
-  // props.url is like this: '/market?ags=05758032#15/8.470126497169645/52.12516312433257'
-  // const [lat, lng] = props.url.split('#')[1].split('/')
-  const [center, setCenter] = useState([8.470126497169645, 52.12516312433257])
+  // center of the district
+  const [center] = useState([8.481408219380569,52.14515041641306])
   
+  // map reference to access map methods
   const mapRef = useRef(null);
+
   useEffect(() => {
-    console.log("props.url", props.url)
     if (props.url) {
-      const [_zoom, lng, lat] = props.url.split('#')[1].split('/')
-      // setLatlng([lng, lat])
-      // setZoom(_zoom)
-      setCenter([lng, lat])
+      // after rednering the map, fly to the center of the district
       setTimeout(() => {
       mapRef.current?.getMap().flyTo({
-        center: [lng, lat],
-        zoom: _zoom
+        center: center,
+        zoom: 11.42115358517738,
+
       })
-      }, 2000);
+      }, 1000);
     }
   }, [])
 
 
 
   const [basemap, setBasemap] = useState('https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json')
-  const [interactiveLayerIds, setInteractiveLayerIds] = useState([])
   useEffect(() => {
+    // subscribe to the mapStyle signal to change the basemap
     mapStyle.subscribe(setBasemap)
-    visibility.subscribe((v) => {
-      setInteractiveLayerIds(JSON.parse(v) ? Object.keys(JSON.parse(v)).concat(additionalInteractiveLayers.value) : [])
-    })
-
   }, [])
-  const [beforeId, setBeforeId] = useState()
-
-  const handleMapClick = (event) => {
-    const features = event.features
-    // .filter(f => !additionalInteractiveLayers.value.includes(f.layer.id))
-
-    Object.values(mapClickBindings.value).forEach((binding) => {
-      binding(event)
-    })
-
-    if (addressPointsCRUDstate.value !== '' || regionCostState.value !== false) return
-    if (features.length > 0) {
-      infoCardVal.value = null
-      setTimeout(() => {
-        infoCardVal.value = features
-      }, 100);
-    }
-
-  };
-  const handleMaphover = (event) => {
-
-
-  };
 
   return (
+    // Map component from react-map-gl library to render the map
     <Map
-      reuseMaps
-      ref={mapRef}
-      center={center}
-      onClick={handleMapClick}
-      onMouseMove={handleMaphover}
-      attributionControl={false}
-      mapLib={maplibregl}
-      mapStyle={basemap}
-      trackResize={true}
-      onMoveEnd={({ target }) => {
-        window.location.hash = `${target.getZoom()}/${target.getCenter().lng}/${target.getCenter().lat}`
-      }}
+      ref={mapRef}  // map reference to access map methods
+      attributionControl={false}  // disable the default attribution control of the map
+      mapLib={maplibregl}  // map library to use for rendering the map (maplibre-gl)
+      mapStyle={basemap} // basemap style
+
+      // initial map viewport settings (zoom level, center, pitch, bearing)
       onRender={({ target }) => {
         if (!mapFirstRender) {
-          if (window.location.hash.split('/').length === 3) {
-            const [zoom, lng, lat] = window.location.hash.split('/')
-
-            target.setZoom(parseFloat(zoom.replace('#', '')))
-            target.setCenter([parseFloat(lng), parseFloat(lat)])
-          }
-          mapSignal.value = target
+          target.setZoom(11.42115358517738)
+          target.setCenter([8.481408219380569,52.14515041641306])
           mapFirstRender = true
         }
       }}
-      antialias={true}
-      optimizeForTerrain={true}
-
-      // hash={true}
-      refreshExpiredTiles={true}
-      style={{ width: '100%', height: '100%' }}
-      // initialViewState={{
-      //   longitude: parseFloat(window.location.hash.split('/')[1]) || 7.785873,
-      //   latitude: parseFloat(window.location.hash.split('/')[2]) || 50.614182,
-      //   zoom: parseFloat(window.location.hash.split('/')[0].replace("#")) || 5,
-
-      // }}
-      interactiveLayerIds={interactiveLayerIds}
-      transformRequest={(url, resourceType) => {
+      style={{ width: '100%', height: '100%' }} // map container style
+      transformRequest={(url, resourceType) => { // transformRequest function to add Authorization header to requests for tiles from the Tileserver
         if (url.includes('https://dim-tileserver-dev.hiwifipro.com/data/')) {
           //  add Authorization header to requests for tiles from the Tileserver
           return {
@@ -130,18 +73,13 @@ export default (props) => {
         }
       }}
     >
-      <Suspense fallback={<LoadingOverlay visible />}>
-
-        {PRpropertiesVisibility.value && <PRproperties />}
-        { aerialViewVisibility.value && <AerialViewLayer />}
-        <SearchControl  marketsearch={true} />
-        <MapControls />
-        <ScaleControl position='bottom-right' maxWidth={200} unit='metric' />
-        <DataTiles ags={"05758032"} />
-        <Boundary noFill />
-        <Popup />
-        <DistrictPhase grouped />
-      </Suspense>
+      <Suspense fallback={<LoadingOverlay visible />}> {/* fallback loading overlay */}
+        <SearchControl  marketsearch={true} /> {/* search control to search for addresses */}
+        <MapControls /> {/* map controls to change the basemap and the map style */}
+        <ScaleControl position='bottom-right' maxWidth={200} unit='metric' /> {/* scale control to show the scale of the map */}
+        <DataTiles ags={"05758032"} /> {/* data tiles to show the data of the district */}
+        <Boundary noFill /> {/* boundary of the district */}
+      </Suspense> 
     </Map>
   );
 }
