@@ -420,6 +420,7 @@ export default ({
               striped
               highlightOnHover
               horizontalSpacing={"md"}
+              verticalSpacing={"sm"}
               className="min-w-full divide-y divide-gray-200 px-2 "
             >
               <thead className="bg-white">
@@ -595,6 +596,7 @@ export default ({
                         )}
                         {remove && (
                           <ActionIcon
+                          disabled
                             className="mr-10"
                             color="red"
                             onClick={() =>
