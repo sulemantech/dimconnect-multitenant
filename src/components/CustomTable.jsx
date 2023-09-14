@@ -520,15 +520,22 @@ export default ({
                     }
                   })
                   .slice((page - 1) * limit, page * limit)
-                  ?.map((item) => (
+                  ?.map((item, index, arr) => (
                     <tr key={item.id}>
+                     
                       {attributes?.map((attr) => {
+                        let agreement_signed;
+                        if(attr === "agreement_signed"){
+                          agreement_signed = item[attr] === null ? "" : item[attr].toString() === "true" ? "Signed" : "Not Signed"
+                        }
                         return (
                           <td
                             key={attr + "hgrui"}
                             className="px-6 text-left py-4 whitespace-nowrap text-sm text-gray-500"
                           >
-                            {Array.isArray(item[attr])
+                            {
+                              attr === "agreement_signed" ? agreement_signed :
+                              Array.isArray(item[attr])
                               ? item[attr]?.map((i) => i.name).join(", ")
                               : isObject(item[attr])
                               ? Object.values(item[attr]).join(", ")
