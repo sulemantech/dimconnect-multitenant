@@ -79,10 +79,8 @@ export default () => {
     try {
       const rolesx = await getRoles().catch((e) => setRoles([]));
       setRoles(rolesx.data.roles);
-      console.log("roles ==================>>> ", rolesx.data.roles)
 
       const users = await getUsers().catch((e) => setData([]));
-      console.log("users ==================>>> ", users.data)
 
       getUserById.assignData(users.data);
       setData(
