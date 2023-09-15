@@ -79,8 +79,10 @@ export default () => {
     try {
       const rolesx = await getRoles().catch((e) => setRoles([]));
       setRoles(rolesx.data.roles);
+      console.log("roles ==================>>> ", rolesx.data.roles)
 
       const users = await getUsers().catch((e) => setData([]));
+      console.log("users ==================>>> ", users.data)
 
       getUserById.assignData(users.data);
       setData(
@@ -299,8 +301,9 @@ export default () => {
 
 const AssignRole = ({ user, roles, refreshData }) => {
   const { t } = useTranslation();
-
-  const [selectedRole, setSelectedRole] = useState(user.userRole);
+  const [selectedRole, setSelectedRole] = useState(
+    Object.keys(user.roles).map((role) => parseInt(role))
+  );
   const [ready, setReady] = useState(false);
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -316,9 +319,10 @@ const AssignRole = ({ user, roles, refreshData }) => {
     try {
       const res = await assignRolesToUser(user.id, temp);
       setSuccess(true);
-      setMessage(res.message);
+      setMessage("Role assigned successfully");
       refreshData();
-      closeModal();
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      closeAllModals();
     } catch (err) {
       setError(true);
       setMessage(err.message);
@@ -369,7 +373,12 @@ const AssignRole = ({ user, roles, refreshData }) => {
                 </Text>
                 <div className=" h-11 w-[30vw] bg-[#F5F7F9] pl-4 rounded-md">
                   <Text color="F5F7F9" className="mt-3 text-xs">
-                    {user.userRole?.join(", ")}
+                    {
+                    user.roles && Object.keys(user.roles).map((role, index) => (
+                      <Badge color={MANTINE_COLORS[index]}>{user.roles[role]}</Badge>
+                    ))
+                    
+                    }
                   </Text>
                 </div>
               </div>
@@ -404,12 +413,16 @@ const AssignRole = ({ user, roles, refreshData }) => {
         </div>
         {error && (
           <div className="mt-2">
-            <Alert severity="error">{message}</Alert>
+            <Alert severity="error">
+              {message}
+            </Alert>
           </div>
         )}
         {success && (
           <div className="mt-2">
-            <Alert severity="success">{message}</Alert>
+            <Alert severity="success">
+              {message}
+            </Alert>
           </div>
         )}
       </div>

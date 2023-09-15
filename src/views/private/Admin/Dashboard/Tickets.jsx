@@ -56,7 +56,6 @@ export default ({ selected }) => {
   useEffect(() => {
     getNRecentTickets(5)
       .then((res) => {
-        console.log(res.data);
         setData(res.data); // Store the fetched data in the state variable
       })
       .catch((err) => {
