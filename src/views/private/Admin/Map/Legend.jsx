@@ -115,7 +115,7 @@ export default ({
         {!noBackground && (
           <Accordion.Item
             value="Background"
-            className="text-xs sm:text-[0.8vw]"
+            className="text-xs max-sm:text-[0.8vw]"
           >
             <div className="flex flex-1 space-x-4 items-center">
               {/* <span className="mt-3 "></span> */}
@@ -136,7 +136,7 @@ export default ({
                 }}
               />
               <Accordion.Control
-                className="text-xs sm:text-[0.8vw] last:p-0"
+                className="text-xs max-sm:text-[0.8vw] last:p-0"
                 value={"Background"}
               >
                 Background
@@ -164,20 +164,28 @@ export default ({
                   }}
                 >
                   <Radio
+                    styles={{
+                      label: {
+                        fontSize: "11.5px",
+                      },
+                    }}
                     value="Aerial View"
                     label="Aerial View"
-                    className="text-xs my-1"
-
+                    className="my-1"
                   >
-                  Aerial View
+                    {/* Aerial View */}
                   </Radio>
                   <Radio
+                    styles={{
+                      label: {
+                        fontSize: "11.5px",
+                      },
+                    }}
                     value="RP Properties"
                     label="RP Properties"
-                    className="text-xs"
-
+                    className=""
                   >
-                    RP Properties
+                    {/* RP Properties */}
                   </Radio>
                 </Radio.Group>
               </div>
@@ -187,7 +195,7 @@ export default ({
         {!noAddressPoint && (
           <Accordion.Item
             value="Address Points"
-            className="text-xs sm:text-[0.8vw]"
+            className="text-xs max-sm:text-[0.8vw]"
           >
             <div className="flex flex-1 space-x-4 ">
               <span className="mt-3 ">
@@ -211,7 +219,7 @@ export default ({
                 />
               </span>
               <Accordion.Control
-                className="text-xs sm:text-[0.8vw] last:p-0"
+                className="text-xs max-sm:text-[0.8vw] last:p-0"
                 value={"Address Points"}
               >
                 Address Points
@@ -274,7 +282,7 @@ export default ({
                 />
               </span>
               <Accordion.Control
-                className="text-xs sm:text-[0.8vw] last:p-0"
+                className="text-xs max-sm:text-[0.8vw] last:p-0"
                 value={"Netzplanung"}
               >
                 Netzplanung
@@ -408,7 +416,9 @@ export default ({
                     photoVisibility.value = !photoVisibility.value;
                   }}
                 />
-                <p className=" text-xs max-lg:text-[2vw] max-md:text-[2vw]">Photos</p>
+                <p className=" text-xs max-lg:text-[2vw] max-md:text-[2vw]">
+                  Photos
+                </p>
               </div>
               <div className="flex space-x-2">
                 <Checkbox
@@ -418,7 +428,9 @@ export default ({
                     videoVisibility.value = !videoVisibility.value;
                   }}
                 />
-                <p className=" text-xs max-lg:text-[2vw] max-md:text-[2vw]">Videos</p>
+                <p className=" text-xs max-lg:text-[2vw] max-md:text-[2vw]">
+                  Videos
+                </p>
               </div>
               <div className="flex space-x-2">
                 <Checkbox
@@ -428,7 +440,9 @@ export default ({
                     BarrierState.value = !BarrierState.value;
                   }}
                 />
-                <p className=" text-xs max-lg:text-[2vw] max-md:text-[2vw]">Barrieren</p>
+                <p className=" text-xs max-lg:text-[2vw] max-md:text-[2vw]">
+                  Barrieren
+                </p>
               </div>
               <div className="flex space-x-2">
                 <Checkbox
@@ -444,7 +458,9 @@ export default ({
               </div>
               <div className="flex space-x-2">
                 <Checkbox size="xs" />
-                <p className=" text-xs max-lg:text-[2vw] max-md:text-[2vw]">StatusÜbersicht</p>
+                <p className=" text-xs max-lg:text-[2vw] max-md:text-[2vw]">
+                  StatusÜbersicht
+                </p>
               </div>
               <div className="flex space-x-2">
                 <Checkbox size="xs" />
@@ -454,7 +470,9 @@ export default ({
               </div>
               <div className="flex space-x-2">
                 <Checkbox size="xs" />
-                <p className=" text-xs max-lg:text-[2vw] max-md:text-[2vw]">Gewerbegebiete</p>
+                <p className=" text-xs max-lg:text-[2vw] max-md:text-[2vw]">
+                  Gewerbegebiete
+                </p>
               </div>
             </div>
             <br />

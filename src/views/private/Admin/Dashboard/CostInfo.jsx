@@ -203,13 +203,12 @@ export default () => {
       <Card className="flex p-2 max-lg:py-0 m-2 max-lg:my-0 flex-grow relative max-lg:h-[2vh]">
         <LoadingOverlay visible={loading} />
 
-        <p className="flex-grow flex-1 font-thin text-neutral-700 text-lg lg:text-[0.8vw]">
+        <p className="flex-grow flex-1 font-thin text-neutral-700 text-lg max-lg:text-[0.8vw]">
           {t("COST CENTER")} , €
         </p>
 
         <div className="flex">
           <ActionIcon
-            size={15}
             onClick={() => {
               getCost();
             }}
@@ -218,7 +217,6 @@ export default () => {
           </ActionIcon>
 
           <ActionIcon
-            size={15}
             onClick={() => {
               openDrawer({
                 children: <CostInfoSettings />,
@@ -229,7 +227,6 @@ export default () => {
             <IconSettings />
           </ActionIcon>
           <ActionIcon
-            size={15}
             onClick={() => {
               generatePDF(
                 data,
