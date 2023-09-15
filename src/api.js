@@ -149,40 +149,14 @@ export const sendMessage = (username, message, token, userId) =>
     }
   );
 
-export const LoginUser = async (user, email, password) => {
+export const LoginChatServer = async (user, email, password, token) => {
   try {
-    const isUser = await chatServer.post(`/login`, { user, password });
-    console.log("isUser", isUser)
+    const isUser = await api.post(`/chatserver/login`, { user, email, password }, {
+      headers: { "authorization": token },
+    });
     return isUser;
   } catch (e) {
     console.log("error", e);
-    return RegisterUser(user, email, password);
   }
-};
+}
 
-export const RegisterUser = async (username, email, password) => {
-  // const adminLogin = await LoginUser(appConfig.chatServerAdminUsername, appConfig.chatServerAdminPassword);
-  const adminLogin = await chatServer.post(`/login`, {
-    user: appConfig.chatServerAdminUsername,
-    password: appConfig.chatServerAdminPassword,
-  });
-  console.log("adminLogin", adminLogin)
-  const adminToken = adminLogin.data.data.authToken;
-  const adminUserId = adminLogin.data.data.userId;
-  const registerUser = await chatServer.post(
-    `/users.create`,
-    {
-      username,
-      email,
-      password,
-      name: username,
-      active: true,
-      roles: ["user"],
-    },
-    {
-      headers: { "X-Auth-Token": adminToken, "X-User-Id": adminUserId },
-    }
-  );
-  console.log("registerUser", registerUser);
-  return registerUser;
-};

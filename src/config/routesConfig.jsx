@@ -77,7 +77,7 @@ export const privateRoutes = [{
 },
 {
     label: 'Support Chat Back Office',
-    permission: PERMISSIONS.LiveSupport,
+    permission: PERMISSIONS['User Management'],
     path: `/support_chat_back_office`,
     icon: icons.LiveChat,
 },
