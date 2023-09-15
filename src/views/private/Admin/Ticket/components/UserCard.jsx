@@ -38,7 +38,7 @@ function UserCard({ tickets, select }) {
             {t('User Card')}
           </button>
         </div>
-        <div className=" ml-6 mt-3 rcolor rounded-md px-2 min-w-fit min-h-fit">
+        <div className=" ml-6 mt-3 bg-[#ffffff] rounded-md px-2 min-w-fit min-h-fit">
           {active === "userTicket" ? (
             <div className="w-full max-h-[100%]  p-2">
               <DataTable

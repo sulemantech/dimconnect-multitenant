@@ -520,15 +520,22 @@ export default ({
                     }
                   })
                   .slice((page - 1) * limit, page * limit)
-                  ?.map((item) => (
+                  ?.map((item, index, arr) => (
                     <tr key={item.id}>
+                     
                       {attributes?.map((attr) => {
+                        let agreement_signed;
+                        if(attr === "agreement_signed"){
+                          agreement_signed = item[attr] === null ? "" : item[attr].toString() === "true" ? "Signed" : "Not Signed"
+                        }
                         return (
                           <td
                             key={attr + "hgrui"}
                             className="px-6 text-left py-4 whitespace-nowrap text-sm text-gray-500"
                           >
-                            {Array.isArray(item[attr])
+                            {
+                              attr === "agreement_signed" ? agreement_signed :
+                              Array.isArray(item[attr])
                               ? item[attr]?.map((i) => i.name).join(", ")
                               : isObject(item[attr])
                               ? Object.values(item[attr]).join(", ")
@@ -649,7 +656,6 @@ const EditForm = ({ item, newStruct, refreshData }) => {
     setLoading(true);
     const filteredForm = Object.keys(form)
       .filter((key) => {
-        console.log(typeof form[key]);
         if (typeof form[key] == "object") {
           if (form[key]?.hasOwnProperty("$$typeof")) return false;
           return true;
@@ -721,15 +727,39 @@ const EditForm = ({ item, newStruct, refreshData }) => {
                   <label className="text-gray-700 mt-3 w-[9vw]">
                     {attr.replace("ags_right", "AGS Right ")}
                   </label>
-                  <div className="w-[30vw]">
-                    <Checkbox
+                  <div className="w-[30vw] flex">
+                   
+                    {/* <Checkbox
                       key={attr}
                       r
                       value={form[attr]}
                       onChange={(value) =>
                         setForm({ ...form, [attr]: value.currentTarget.value })
                       }
+                    /> */}
+                    {/* this has value as a string with '1' or '2' 1 for viewer and 2 for editor */}
+                    {/* add an mantine switch button for this */}
+                    <h1
+                      className={`${
+                        form[attr] === 2 ? "text-gray-500":"text-blue-500"
+                      }`}
+                    
+                    >Viewer</h1>
+                    <Switch 
+                      className="mx-2"
+                      key={attr}
+                      checked={form[attr] === 2 ? true : false}
+                      onChange={(value) =>
+                        setForm({ ...form, [attr]: value.currentTarget.checked === true ? 2 : 1 })
+                      }
                     />
+                    <h1
+                      className={`${
+                        form[attr] === 1 ? "text-gray-500" : "text-blue-500"
+                      }`}
+
+                    >Editor</h1>
+
                   </div>
                 </div>
               ) : Array.isArray(newStruct.data[attr]) ? (
@@ -754,6 +784,7 @@ const EditForm = ({ item, newStruct, refreshData }) => {
                 </Input.Wrapper>
               ) : typeof newStruct?.data[attr] === "boolean" ? (
                 <Input.Wrapper className="flex flex-row justify-center space-y-4 items-center ">
+                  {attr === 'isEditor' ? null :<>
                   <Input.Label className="w-[9vw] mt-3">
                     {attr
                       .replace("agreement_signed", "Agreement Signed")
@@ -763,14 +794,28 @@ const EditForm = ({ item, newStruct, refreshData }) => {
                     <Checkbox
                       key={attr}
                       r
-                      value={form[attr]}
+                      // checked={form[attr]} some times value should be true or 'true', and sometimes it should be false or 'false', and incase of isEditor it should be true or 'on' and false or 'off'
+                      checked={
+                        attr === "isEditor"
+                          ? form[attr]
+                            ? form[attr] === "on" || form[attr] === true
+                              ? true
+                              : false
+                            : false
+                          : form[attr] === true
+                          ? true
+                          : false
+
+                      }
                       onChange={(value) =>
-                        setForm({ ...form, [attr]: value.currentTarget.value })
+                        setForm({ ...form, [attr]: value.currentTarget.checked })
                       }
                     />
                   </div>
+                  </>
+          }
                 </Input.Wrapper>
-              ) : (
+              ) : (!attr.toLowerCase().includes("password") &&
                 <Input.Wrapper className="flex flex-row justify-center space-y-4 items-center">
                   <Input.Label className="w-[9vw]">
                     {attr

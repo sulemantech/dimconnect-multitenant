@@ -72,12 +72,12 @@ function TicketManagment({ ticketCounts }) {
           );
         })}
 
-        <div className="rcolor w-auto relative h-auto rounded-md mt-2  border-[2px]">
+        <div className="bg-[#ffffff] w-auto relative h-auto rounded-md mt-2  border-[2px]">
           {/* <div className="fixed ml-10 w-5 mt-[30px]"> */}
           <img src={Vector} alt="" className=" absolute ml-10 w-5 mt-[30px]" />
           {/* </div> */}
           <RingProgress
-            className="rot flex justify-center items-center"
+            className="rotate-[240deg] flex justify-center items-center"
             size={100}
             thickness={12}
             // roundCaps
@@ -89,7 +89,7 @@ function TicketManagment({ ticketCounts }) {
             ]}
           />
         </div>
-        <div className="rcolor min-h-[17%] rounded-md mt-2 min-w-[15%]  border-[2px] p-5 ">
+        <div className="bg-[#ffffff] min-h-[17%] rounded-md mt-2 min-w-[15%]  border-[2px] p-5 ">
           {/* <p className="text-[10px] font-medium pl-1 pt-1">
             TICKETS BY PROBLEM TYPE
             TOP 3
@@ -115,7 +115,7 @@ function Ticket({ ticket, Number, color2, color, progressvalue, Number2 }) {
   console.log(progressvalue);
   return (
     <>
-      <div className="rcolor  h-auto rounded-md mt-2  border-[2px] w-max p-5 ">
+      <div className="bg-[#ffffff]  h-auto rounded-md mt-2  border-[2px] w-max p-5 ">
         <p className="text-[0.625rem] font-bold ">{t(ticket.toUpperCase())} {t('TICEKTS')}</p>
         <div className="flex flex-col">
           <p className={`text-[0.625rem]  ${color} flex items-baseline justify-between font-medium`}>

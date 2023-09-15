@@ -132,6 +132,50 @@ export default () => {
     }
   }, [ags]);
 
+
+  // ============================== Commenting this line so we get the default calculation ==============================
+  function updateStateFromApiResponse(currentState, apiResponse) {
+    // Extracting the data from the API response
+    const cablesData = apiResponse.cables;
+    const ductData = apiResponse.duct;
+    const homeActivationData = apiResponse.homeActivation;
+
+    // Updating the cables data
+    for (let cableType in cablesData) {
+        if (currentState.cables[cableType]) {
+            currentState.cables[cableType].materialCost = cablesData[cableType][0].materialcost;
+            currentState.cables[cableType].labourCost = cablesData[cableType][0].labourcost;
+        }
+    }
+
+    // Updating the duct data
+    for (let ductType in ductData) {
+        if (currentState.duct[ductType]) {
+            currentState.duct[ductType].materialCost = ductData[ductType][0].duct_materialcost;
+            currentState.duct[ductType].labourCost = ductData[ductType][0].duct_labourcost;
+        }
+    }
+
+    // Updating the home activation data
+    currentState.homeActivation.building.lowerMaterialCost = homeActivationData.building_per_connection_cost_1_to_3;
+    currentState.homeActivation.building.lowerLabourCost = homeActivationData.building_per_connection_cost_1_to_3;
+    currentState.homeActivation.building.greaterMaterialCost = homeActivationData.building_per_connection_cost_3_plus;
+    currentState.homeActivation.building.greaterLabourCost = homeActivationData.building_per_connection_cost_3_plus;
+
+    currentState.homeActivation.home.lowerMaterialCost = homeActivationData.homecount_per_connection_cost_1_to_3;
+    currentState.homeActivation.home.lowerLabourCost = homeActivationData.homecount_per_connection_cost_1_to_3;
+    currentState.homeActivation.home.greaterMaterialCost = homeActivationData.homecount_per_connection_cost_3_plus;
+    currentState.homeActivation.home.greaterLabourCost = homeActivationData.homecount_per_connection_cost_3_plus;
+
+    return currentState;
+}
+
+  // ====================================================================================================================
+
+
+
+
+
   const getCost = () => {
     setLoading(true);
     const URLSearchParam = new URLSearchParams();
@@ -144,6 +188,8 @@ export default () => {
     getCostInfoByDistrictId(ags, URLSearchParam)
       .then((res) => {
         setLoading(false);
+        const updatedState = updateStateFromApiResponse({ ...costInputParams.value }, res.data);
+        costInputParams.value = updatedState;
         costInfoData.value = res.data;
       })
       .catch((err) => {

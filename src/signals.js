@@ -47,6 +47,13 @@ export const permissible = signal([
     delete: false,
   },
   {
+    activity: "Market",
+    add: false,
+    view: false,
+    edit: false,
+    delete: false,
+  },
+  {
     activity: "AddressPoint",
     add: false,
     view: false,
