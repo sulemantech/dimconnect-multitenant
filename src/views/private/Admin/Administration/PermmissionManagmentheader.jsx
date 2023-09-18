@@ -23,7 +23,7 @@ function PermmissionManagmentheader() {
   return (
     <div>
       <div className="flex flex-wrap justify-center max-laptop1:grid max-laptop1:grid-cols-2 max-Mobile:flex max-Mobile:flex-col">
-        <div className=" m-2 bg-white text-gray-700 rounded-lg px-5 pt-3   min-w-[250px] flex-1 flex">
+        <div className=" m-2 bg-white text-gray-700 rounded-lg px-5 pt-3   min-w-fit flex-1 flex">
           <div>
             <h2 className="text-lg font-bold">{t("Agreement Statuses")}</h2>
             <div>
@@ -34,7 +34,7 @@ function PermmissionManagmentheader() {
                     checked={isChecked ? true : false}
                     onChange={handleCheckboxChange}
                   />
-                  {isChecked ? <p>Signed</p> : <p>Not Signed</p>}
+                  {isChecked1 ? <p>{t("Signed")}</p> : <p>{t("Not Signed")}</p>}
                 </div>
                 <div className="flex flex-row justify-center space-x-2">
                   <p className="text-[#0E76BB] text-sm">+3,5%</p>
@@ -50,7 +50,7 @@ function PermmissionManagmentheader() {
                     checked={isChecked1 ? true : false}
                     onChange={handleCheckboxChange1}
                   />
-                  {isChecked1 ? <p>Signed</p> : <p>Not Signed</p>}
+                  {isChecked1 ? <p>{t("Signed")}</p> : <p>{t("Not Signed")}</p>}
                 </div>
                 <div className="flex flex-row justify-center space-x-2">
                   <p className="text-[#0E76BB] text-sm">+3,5%</p>
@@ -64,15 +64,15 @@ function PermmissionManagmentheader() {
         {colors.map((color, index) => (
           <div
             key={index}
-            className=" m-2 bg-white relative text-gray-700 rounded-lg px-5 pt-3 flex-1 flex"
+            className="m-2 h-[21vh] bg-white text-gray-700 rounded-lg px-5 pt-3   min-w-[250px] flex-1 flex"
           >
-            <h2 className="text-lg font-bold absolute">{titles[index]}</h2>
+            <h2 className="text-lg font-bold absolute">{t(titles[index])}</h2>
             <div>
               <div>
-                <div className=" absolute mt-[8.5%]">
+                <div className=" absolute mt-[2vw]">
                   <svg
                     width="12vw"
-                    height="82"
+                    height="12vh"
                     viewBox="0 0 210 82"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -161,7 +161,7 @@ function PermmissionManagmentheader() {
                 </div>
               </div>
               <img
-                className=" w-[2vw] ml-[10.5%]  absolute pt-[16.3%] pb-2"
+                className="  w-[2vw] ml-[2.5%]  absolute pt-[10vh] pb-2"
                 src={images[index]}
                 alt=" "
               />
