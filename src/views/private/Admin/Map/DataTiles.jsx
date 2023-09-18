@@ -6,8 +6,7 @@ import { dropvalue, visibility } from "../../../../signals"
 import appConfig from "../../../../config/appConfig"
 
 
-
-export default ({ ags = null }) => {
+export default () => {
 
 
     const [tileData, setTileData] = useState(null)
@@ -17,13 +16,9 @@ export default ({ ags = null }) => {
         dropvalue.subscribe((value) => {
             setTileData(null)
 
-            let fetchUrl = `https://dim-tileserver-dev.hiwifipro.com/data/${value}.json`;
 
-            if (ags !== null && ags === "05758032") { 
-                fetchUrl = `https://dim-tileserver-dev.hiwifipro.com/data/${ags}.json`;
-            }
 
-            fetch(fetchUrl, {
+            fetch(`https://dim-tileserver-dev.hiwifipro.com/data/${value}.json`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem(appConfig.localStorageKey) || localStorage.getItem(appConfig.localStorageKeyWebview)}`,
@@ -45,6 +40,8 @@ export default ({ ags = null }) => {
 
                     visibility.value = JSON.stringify(visibilitytemp)
 
+
+
                 })
 
         })
@@ -55,12 +52,11 @@ export default ({ ags = null }) => {
 
     return (
         <>
+
             {tileData != null &&
-            (ags != null && ags !== "" ? (
-                <MarketInvestigationTilesView tileData={tileData} id={ags} />
-            ) : (
+
                 <TilesView tileData={tileData} id={dropvalue.value} />
-            ))}
+            }
         </>
 
     )
@@ -75,15 +71,15 @@ export const TilesView = ({ tileData, id }) => {
         [`${dropvalue.value}_OUT_DistributionClusters`]: 'purple',
         [`${dropvalue.value}_OUT_FeederClusters`]: 'pink',
         [`${dropvalue.value}_OUT_PrimDistributionClusters`]: 'green',
+
     }
-    let url = `https://dim-tileserver-dev.hiwifipro.com/data/${id}.json`;
 
     return (
         <SplineWrapper>
             <Source
                 type="vector"
                 format="pbf"
-                url={url}
+                url={`https://dim-tileserver-dev.hiwifipro.com/data/${id}.json`}
                 minzoom={1}
                 maxzoom={18}
                 name={`tilesource${id}`}
@@ -189,78 +185,3 @@ export const TilesView = ({ tileData, id }) => {
         </SplineWrapper>
     )
 }
-
-export const MarketInvestigationTilesView = ({ tileData, id }) => {
-        // Define a mapping of layer IDs to their respective colors
-//         Point: 05758032_ap_2023 
-// Polygon: 05758032_gem_spenge
-// Point: 05758032_tkuA
-// Point: 05758032_tkuB
-// Point:05758032_tkuC
-// Polygon:05758032_tkuD
-        const PolyfillColors = {
-          '05758032_ap_2023': 'blue',
-          '05758032_gem_spenge': 'lightgreen',
-          '05758032_tkuA': 'purple',
-          '05758032_tkuB': 'black',
-          '05758032_tkuC': 'red',
-          '05758032_tkuD': 'grey',
-        };
-      
-        // Construct the tile URL based on the provided JSON structure
-        //const url = `https://dim-tileserver-dev.hiwifipro.com/data/${id}/{z}/{x}/{y}.pbf`;
-        let url = `https://dim-tileserver-dev.hiwifipro.com/data/${id}.json`;
-
-        return (
-          <SplineWrapper>
-            <Source
-              type="vector"
-              format="pbf"
-              url={url}
-              minzoom={4}
-              maxzoom={18}
-              name={`tilesource${id}`}
-            >
-              {tileData?.tilestats?.layers.map((layer) => {
-                const layerId = layer.layer;
-                const inside = JSON.parse(visibility.value)[layerId];
-      
-                return (
-                  <Layer
-                    interactive
-                    id={layerId}
-                    type={layer.geometry.replace('Multi', '') == 'Polygon' ? 'fill' : layer.geometry.replace('Multi', '') == 'LineString' ? 'line' : 'circle'}
-                    sourceId={`tilesource${id}`}
-                    minzoom={0}
-                    maxzoom={22}
-                    source-layer={layerId}
-                    paint={
-                        inside?.style ? inside?.style : layer.geometry.replace('Multi', '') == 'Polygon' ?
-                            {
-                                // how to do transparent fill
-                                "fill-color": PolyfillColors[layer.layer] ? PolyfillColors[layer.layer] : 'grey',
-                                "fill-opacity": 0.5
-                            }
-                            :
-                                {
-                                    "circle-color": PolyfillColors[layer.layer] ? PolyfillColors[layer.layer] : 'grey',
-                                    "circle-stroke-width": 1,
-                                    "circle-stroke-opacity": 0.5,
-                                    "circle-stroke-color": "white",
-                                    "circle-radius": ["interpolate", ["linear"], ["zoom"], 5, 1, 18, 5],
-                                }
-                    }
-
-                    layout={{
-                      ...layer.layout,
-                      visibility: inside?.visible ? 'visible' : 'none',
-                    }}
-                    
-                  />
-                );
-              })}
-            </Source>
-          </SplineWrapper>
-        );
-      };
-      

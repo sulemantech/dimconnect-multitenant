@@ -9,7 +9,5 @@ export default {
     localStorageRefreshKey: `hf8f8fj3dj193jf913fj91f91jf9_R`,
     chatServerURL: "https://dim-chat-dev.hiwifipro.com",
     chatServerWebSocketURL: "wss://dim-chat-dev.hiwifipro.com/websocket",
-    chatServerAdminUsername: "niko",
-    chatServerAdminPassword: "3EGOc85iFxY3VoCw",
 }
 

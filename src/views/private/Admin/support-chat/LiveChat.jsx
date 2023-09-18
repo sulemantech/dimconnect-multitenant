@@ -7,6 +7,8 @@ import { userDataSignal } from "../../../../signals";
 import appConfig from "../../../../config/appConfig";
 import { showNotification } from "@mantine/notifications";
 import { useTransition } from "react";
+import { PERMISSIONS } from "../../../../common";
+import PermissionWrapper from "../../../../providers/PermissionsProvider";
 function LiveChatSupport() {
   const { t } = useTranslation();
   const [rooms, setRooms] = useState([]);
@@ -270,6 +272,7 @@ function LiveChatSupport() {
   };
 
   return (
+    <PermissionWrapper permission={PERMISSIONS["User Management"]} view message>
     <div id="scale-down" className="h-full pb-10 bg-white overflow-y-auto">
       <div
         className="flex h-[78px]"
@@ -546,6 +549,7 @@ function LiveChatSupport() {
         </div>
       </div>
     </div>
+    </PermissionWrapper>
   );
 }
 
