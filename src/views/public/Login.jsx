@@ -134,7 +134,6 @@ export default () => {
                   "text-white border-none bg-transparent outline-none",
               }}
               icon={<img src="/lock.svg" alt="" />}
-              type="Password"
               placeholder="* * * * * * * *"
               required
               name="password"

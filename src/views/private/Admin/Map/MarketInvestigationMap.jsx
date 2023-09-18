@@ -7,7 +7,7 @@ import { useRef } from 'preact/hooks';
 import MapControls from './MapControls';
 import SearchControl from './SearchControl';
 
-import DataTiles from './DataTiles';
+import MarketTiles from './MarketTiles';
 import { Boundary } from '../Dashboard/Submap';
 import appConfig from '../../../../config/appConfig';
 
@@ -80,7 +80,7 @@ export default (props) => {
         <SearchControl  marketsearch={true} /> {/* search control to search for addresses */}
         <MapControls /> {/* map controls to change the basemap and the map style */}
         <ScaleControl position='bottom-right' maxWidth={200} unit='metric' /> {/* scale control to show the scale of the map */}
-        <DataTiles ags={"05758032"} /> {/* data tiles to show the data of the district */}
+        <MarketTiles ags={"05758032"} /> {/* data tiles to show the data of the district */}
         <Boundary noFill /> {/* boundary of the district */}
       </Suspense> 
     </Map>
