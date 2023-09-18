@@ -132,7 +132,6 @@ export default () => {
     }
   }, [ags]);
 
-
   // ============================== Commenting this line so we get the default calculation ==============================
   function updateStateFromApiResponse(currentState, apiResponse) {
     // Extracting the data from the API response
@@ -142,39 +141,47 @@ export default () => {
 
     // Updating the cables data
     for (let cableType in cablesData) {
-        if (currentState.cables[cableType]) {
-            currentState.cables[cableType].materialCost = cablesData[cableType][0].materialcost;
-            currentState.cables[cableType].labourCost = cablesData[cableType][0].labourcost;
-        }
+      if (currentState.cables[cableType]) {
+        currentState.cables[cableType].materialCost =
+          cablesData[cableType][0].materialcost;
+        currentState.cables[cableType].labourCost =
+          cablesData[cableType][0].labourcost;
+      }
     }
 
     // Updating the duct data
     for (let ductType in ductData) {
-        if (currentState.duct[ductType]) {
-            currentState.duct[ductType].materialCost = ductData[ductType][0].duct_materialcost;
-            currentState.duct[ductType].labourCost = ductData[ductType][0].duct_labourcost;
-        }
+      if (currentState.duct[ductType]) {
+        currentState.duct[ductType].materialCost =
+          ductData[ductType][0].duct_materialcost;
+        currentState.duct[ductType].labourCost =
+          ductData[ductType][0].duct_labourcost;
+      }
     }
 
     // Updating the home activation data
-    currentState.homeActivation.building.lowerMaterialCost = homeActivationData.building_per_connection_cost_1_to_3;
-    currentState.homeActivation.building.lowerLabourCost = homeActivationData.building_per_connection_cost_1_to_3;
-    currentState.homeActivation.building.greaterMaterialCost = homeActivationData.building_per_connection_cost_3_plus;
-    currentState.homeActivation.building.greaterLabourCost = homeActivationData.building_per_connection_cost_3_plus;
+    currentState.homeActivation.building.lowerMaterialCost =
+      homeActivationData.building_per_connection_cost_1_to_3;
+    currentState.homeActivation.building.lowerLabourCost =
+      homeActivationData.building_per_connection_cost_1_to_3;
+    currentState.homeActivation.building.greaterMaterialCost =
+      homeActivationData.building_per_connection_cost_3_plus;
+    currentState.homeActivation.building.greaterLabourCost =
+      homeActivationData.building_per_connection_cost_3_plus;
 
-    currentState.homeActivation.home.lowerMaterialCost = homeActivationData.homecount_per_connection_cost_1_to_3;
-    currentState.homeActivation.home.lowerLabourCost = homeActivationData.homecount_per_connection_cost_1_to_3;
-    currentState.homeActivation.home.greaterMaterialCost = homeActivationData.homecount_per_connection_cost_3_plus;
-    currentState.homeActivation.home.greaterLabourCost = homeActivationData.homecount_per_connection_cost_3_plus;
+    currentState.homeActivation.home.lowerMaterialCost =
+      homeActivationData.homecount_per_connection_cost_1_to_3;
+    currentState.homeActivation.home.lowerLabourCost =
+      homeActivationData.homecount_per_connection_cost_1_to_3;
+    currentState.homeActivation.home.greaterMaterialCost =
+      homeActivationData.homecount_per_connection_cost_3_plus;
+    currentState.homeActivation.home.greaterLabourCost =
+      homeActivationData.homecount_per_connection_cost_3_plus;
 
     return currentState;
-}
+  }
 
   // ====================================================================================================================
-
-
-
-
 
   const getCost = () => {
     setLoading(true);
@@ -184,11 +191,14 @@ export default () => {
     // URLSearchParam.append('costs', JSON.stringify(costInputParams.value));
 
     // ====================================================================================================================
-    
+
     getCostInfoByDistrictId(ags, URLSearchParam)
       .then((res) => {
         setLoading(false);
-        const updatedState = updateStateFromApiResponse({ ...costInputParams.value }, res.data);
+        const updatedState = updateStateFromApiResponse(
+          { ...costInputParams.value },
+          res.data
+        );
         costInputParams.value = updatedState;
         costInfoData.value = res.data;
       })
@@ -294,14 +304,14 @@ export const CostInfoModalContent = ({
                 className="max-lg:text-xs"
                 icon={<Icons.HomeBordered />}
               >
-                Home
+                {t("Home")}
               </Tabs.Tab>
               <Tabs.Tab
                 value="messages"
                 className="max-lg:text-xs"
                 icon={<Icons.BuildingsBordered />}
               >
-                Business
+                {t("Business")}
               </Tabs.Tab>
             </Tabs.List>
 
@@ -343,14 +353,16 @@ export const CostInfoModalContent = ({
                 className="max-lg:text-xs"
                 icon={<Icons.IconCablesBordered />}
               >
-                Cables Costs, €
+                {t("Cables Costs, €")}{" "}
+                {/* Use the t function to translate the text */}
               </Tabs.Tab>
               <Tabs.Tab
                 value="messages"
                 className="max-lg:text-xs"
                 icon={<Icons.IconDuctsBordered />}
               >
-                Ducts Costs, €
+                {t("Ducts Costs, €")}{" "}
+                {/* Use the t function to translate the text */}
               </Tabs.Tab>
             </Tabs.List>
 
@@ -404,7 +416,7 @@ export const HomeActivationTable = ({ data, business = false }) => {
           >
             <p className="font-thin  text-neutral-700 ">
               {" "}
-              Cost, €
+              {t("Cost, €")}
               <b className="font-semibold text-base max-lg:text-xs ">
                 {" "}
                 {commarize(
@@ -430,13 +442,16 @@ export const HomeActivationTable = ({ data, business = false }) => {
                         scope="col"
                         className="px-6 py-3   font-medium tracking-wide text-left text-gray-500 uppercase"
                       >
-                       <p className="max-lg:text-xs"> {t("Activation Types")}</p>
+                        <p className="max-lg:text-xs">
+                          {" "}
+                          {t("Activation Types")}
+                        </p>
                       </th>
                       <th
                         scope="col"
                         className="px-6 py-3  font-medium tracking-wider text-left text-gray-500 uppercase"
                       >
-                       <p className="max-lg:text-xs"> {t("Value")}, €  </p>
+                        <p className="max-lg:text-xs"> {t("Value")}, € </p>
                       </th>
                     </tr>
                   </thead>
@@ -473,7 +488,9 @@ export const HomeActivationTable = ({ data, business = false }) => {
         </div>
       </Card>
       <Card className="m-2 flex-grow flex flex-col">
-        <Title className="max-lg:text-xs " order={4}>{t("Activation Cost by Type")}</Title>
+        <Title className="max-lg:text-xs " order={4}>
+          {t("Activation Cost by Type")}
+        </Title>
         <br />
         <hr />
         <br />
@@ -566,10 +583,11 @@ export const DuctTable = ({ data }) => {
                   } text-2xl`}
                 >
                   <Icons.IconDucts />
-                </p>{" "}
-                <Title className="max-lg:text-xs" ml={10} order={4}>
-                  {section.split("_").join(" ").toUpperCase()}
-                </Title>{" "}
+                  </p>{" "}
+<Title className="max-lg:text-xs" ml={10} order={4}>
+  {t(section.split("_").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" "))}
+</Title>{" "}
+
               </div>
 
               <br />
@@ -601,15 +619,39 @@ export const DuctTable = ({ data }) => {
                     <tbody>
                       {data[section].map((row, index) => (
                         <tr key={index}>
-                          <td> <p className="max-lg:text-[0.8vw]">   {row.duct_type}</p></td>
-                          <td className="md:visible  invisible">
-                             <p className="max-lg:text-[0.8vw]">   {row.duct_materialcost}</p>
+                          <td>
+                            {" "}
+                            <p className="max-lg:text-[0.8vw]">
+                              {" "}
+                              {row.duct_type}
+                            </p>
                           </td>
                           <td className="md:visible  invisible">
-                             <p className="max-lg:text-[0.8vw]">   {row.duct_labourcost}</p>
+                            <p className="max-lg:text-[0.8vw]">
+                              {" "}
+                              {row.duct_materialcost}
+                            </p>
                           </td>
-                          <td> <p className="max-lg:text-[0.8vw]">   {commarize(row.duct_volume)}</p></td>
-                          <td> <p className="max-lg:text-[0.8vw]">   {commarize(row.total_cost)}</p></td>
+                          <td className="md:visible  invisible">
+                            <p className="max-lg:text-[0.8vw]">
+                              {" "}
+                              {row.duct_labourcost}
+                            </p>
+                          </td>
+                          <td>
+                            {" "}
+                            <p className="max-lg:text-[0.8vw]">
+                              {" "}
+                              {commarize(row.duct_volume)}
+                            </p>
+                          </td>
+                          <td>
+                            {" "}
+                            <p className="max-lg:text-[0.8vw]">
+                              {" "}
+                              {commarize(row.total_cost)}
+                            </p>
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -618,10 +660,10 @@ export const DuctTable = ({ data }) => {
               </div>
             </Card>
             <Card className="md:flex flex-col flex-1 flex-grow m-2 items-center md:w-14 xl:w-14 justify-center hidden">
-              <Title order={4}>
-                {section.charAt(0).toUpperCase() + section.slice(1)} Cable By
-                Type
-              </Title>
+            <Title order={4}>
+  {t(`${section.charAt(0).toUpperCase() + section.slice(1)} Cable By Type`)}
+</Title>
+
               <Divider />
               <div className="flex">
                 <div className="flex flex-col flex-grow items-center py-6">
@@ -699,8 +741,9 @@ export const CableTable = ({ data }) => {
                   <Icons.IconCables />
                 </p>{" "}
                 <Title className="max-lg:text-xs" ml={10} order={4}>
-                  {section.split("_").join(" ").toUpperCase()}
-                </Title>{" "}
+  {t(section.split("_").join(" ").toUpperCase())}
+</Title>{" "}
+
               </div>
 
               <br />
@@ -722,9 +765,7 @@ export const CableTable = ({ data }) => {
                             </p>
                           </th>
                           <th className="md:visible invisible">
-                            <p className="max-lg:text-xs">
-                              {t("Labour Cost")}
-                            </p>
+                            <p className="max-lg:text-xs">{t("Labour Cost")}</p>
                           </th>
                           <th className="md:visible invisible">
                             <p className="max-lg:text-xs">{t("Total")}</p>
@@ -757,9 +798,7 @@ export const CableTable = ({ data }) => {
                               </p>
                             </td>
                             <td className="md:visible  invisible">
-                              <p className="max-lg:text-[0.8vw]">
-                                {row.total}
-                              </p>
+                              <p className="max-lg:text-[0.8vw]">{row.total}</p>
                             </td>
                             <td>
                               <p className="max-lg:text-[0.8vw]">
@@ -780,10 +819,10 @@ export const CableTable = ({ data }) => {
               </div>
             </Card>
             <Card className="md:flex flex-col flex-1 flex-grow m-2 items-center md:w-14 xl:w-14 justify-center hidden">
-              <Title className="max-lg:text-xs" order={4}>
-                {section.charAt(0).toUpperCase() + section.slice(1)} Cable By
-                Type
-              </Title>
+            <Title className="max-lg:text-xs" order={4}>
+  {t(`${section.charAt(0).toUpperCase() + section.slice(1)} Cable By Type`)}
+</Title>
+
               <Divider />
               <div className="flex">
                 <div className="flex flex-col flex-grow items-center py-6">

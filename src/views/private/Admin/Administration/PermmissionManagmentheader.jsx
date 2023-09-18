@@ -34,7 +34,7 @@ function PermmissionManagmentheader() {
                     checked={isChecked ? true : false}
                     onChange={handleCheckboxChange}
                   />
-                  {isChecked ? <p>Signed</p> : <p>Not Signed</p>}
+                  {isChecked1 ? <p>{t("Signed")}</p> : <p>{t("Not Signed")}</p>}
                 </div>
                 <div className="flex flex-row justify-center space-x-2">
                   <p className="text-[#0E76BB] text-sm">+3,5%</p>
@@ -50,7 +50,7 @@ function PermmissionManagmentheader() {
                     checked={isChecked1 ? true : false}
                     onChange={handleCheckboxChange1}
                   />
-                  {isChecked1 ? <p>Signed</p> : <p>Not Signed</p>}
+                  {isChecked1 ? <p>{t("Signed")}</p> : <p>{t("Not Signed")}</p>}
                 </div>
                 <div className="flex flex-row justify-center space-x-2">
                   <p className="text-[#0E76BB] text-sm">+3,5%</p>
@@ -66,7 +66,7 @@ function PermmissionManagmentheader() {
             key={index}
             className="m-2 h-[21vh] bg-white text-gray-700 rounded-lg px-5 pt-3   min-w-[250px] flex-1 flex"
           >
-            <h2 className="text-lg font-bold absolute">{titles[index]}</h2>
+            <h2 className="text-lg font-bold absolute">{t(titles[index])}</h2>
             <div>
               <div>
                 <div className=" absolute mt-[2vw]">

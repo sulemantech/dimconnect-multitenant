@@ -135,7 +135,7 @@ export default ({
         <div className="flex justify-between p-4 w-[55vw] bg-cover bg-center text-white items-center bg-[url('/Rectangle973.png')] bg-no-repeat">
           <div className="flex flex-row items-center space-x-2">
             <img src="/user2.svg" alt="Title Image" className="title-image" />
-            <p>Create New User</p>
+            <p>{t("Create New User")}</p>
           </div>
           <button onClick={closeAllModals} className="text-white">
             ✕
@@ -287,7 +287,7 @@ export default ({
           <div className="flex justify-between p-4 w-[55vw] bg-cover bg-center text-white items-center bg-[url('/Rectangle973.png')] bg-no-repeat">
             <div className="flex flex-row items-center space-x-2">
               <img src="/user2.svg" alt="Title Image" className="title-image" />
-              <p>Edit User Details</p>
+              <p>{t("Edit User Details")}</p>
             </div>
             <button onClick={closeAllModals} className="text-white">
               ✕
@@ -451,7 +451,8 @@ export default ({
                               .replace("roles", "User Role")
                               .replace("permissions", "Permission")
                               .replace("name", "Name")
-                              .replace("description", "Description")}`
+                              .replace("description", "Description")
+                            }`
                           )}
                           {/* <ActionIcon
                             className="text-gray-900"
@@ -481,7 +482,7 @@ export default ({
                     );
                   })}
                   <th scope="col" className="relative px-6 py-3">
-                    <span className="sr-only">Edit</span>
+                    <span className="sr-only">{t("Edit")}</span>
                   </th>
                 </tr>
               </thead>
@@ -649,6 +650,7 @@ export default ({
 };
 
 const EditForm = ({ item, newStruct, refreshData }) => {
+  const[t]=useTranslation();
   const [form, setForm] = useState(item);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -727,7 +729,7 @@ const EditForm = ({ item, newStruct, refreshData }) => {
                   className=" flex flex-row justify-center text-sm space-y-4 pb-3 items-center"
                 >
                   <label className="text-gray-700 mt-3 w-[9vw]">
-                    {attr.replace("ags_right", "AGS Right ")}
+                    {t(attr.replace("ags_right", "AGS Right "))}
                   </label>
                   <div className="w-[30vw] flex">
                    
@@ -746,7 +748,7 @@ const EditForm = ({ item, newStruct, refreshData }) => {
                         form[attr] === 2 ? "text-gray-500":"text-blue-500"
                       }`}
                     
-                    >Viewer</h1>
+                    >{t("Viewer")}</h1>
                     <Switch 
                       className="mx-2"
                       key={attr}
@@ -760,7 +762,7 @@ const EditForm = ({ item, newStruct, refreshData }) => {
                         form[attr] === 1 ? "text-gray-500" : "text-blue-500"
                       }`}
 
-                    >Editor</h1>
+                    >{t("Editor")}</h1>
 
                   </div>
                 </div>
@@ -768,7 +770,7 @@ const EditForm = ({ item, newStruct, refreshData }) => {
                 // <div className="flex flex-col mb-5">
                 <Input.Wrapper className="my-5 flex flex-row justify-center space-y-4 items-center">
                   <label className="text-sm w-[9vw] mt-3 text-gray-600">
-                    {attr.replace("_", " ").trim().toUpperCase()}
+                    {t(attr.replace("_", " ").trim().toUpperCase())}
                   </label>
                   <div className="w-[30vw]">
                     <Select
@@ -788,9 +790,9 @@ const EditForm = ({ item, newStruct, refreshData }) => {
                 <Input.Wrapper className="flex flex-row justify-center space-y-4 items-center ">
                   {attr === 'isEditor' ? null :<>
                   <Input.Label className="w-[9vw] mt-3">
-                    {attr
+                    {t(attr
                       .replace("agreement_signed", "Agreement Signed")
-                      .replace("isEditor", "IsEditor")}
+                      .replace("isEditor", "IsEditor"))}
                   </Input.Label>
                   <div className="w-[30vw]">
                     <Checkbox
@@ -798,7 +800,7 @@ const EditForm = ({ item, newStruct, refreshData }) => {
                       r
                       // checked={form[attr]} some times value should be true or 'true', and sometimes it should be false or 'false', and incase of isEditor it should be true or 'on' and false or 'off'
                       checked={
-                        attr === "isEditor"
+                        t(attr === "isEditor"
                           ? form[attr]
                             ? form[attr] === "on" || form[attr] === true
                               ? true
@@ -806,7 +808,7 @@ const EditForm = ({ item, newStruct, refreshData }) => {
                             : false
                           : form[attr] === true
                           ? true
-                          : false
+                          : false)
 
                       }
                       onChange={(value) =>
@@ -820,16 +822,16 @@ const EditForm = ({ item, newStruct, refreshData }) => {
               ) : (!attr.toLowerCase().includes("password") &&
                 <Input.Wrapper className="flex flex-row justify-center space-y-4 items-center">
                   <Input.Label className="w-[9vw]">
-                    {attr
+                    {t(attr
                       .replace("_", " ")
                       .replace("vorn", "N")
                       .replace("nach", " Sur")
                       .replace("email", "E-mail")
-                      .replace("password", "Password")}
+                      .replace("password", "Password"))}
                   </Input.Label>
                   <Input
                     key={attr}
-                    label={attr.replace("_", " ").toUpperCase()}
+                    label={t(attr.replace("_", " ").toUpperCase())}
                     value={form[attr]}
                     required
                     className="w-[30vw]"
@@ -856,9 +858,9 @@ const EditForm = ({ item, newStruct, refreshData }) => {
                 // onClick={update}
                 type="submit"
               >
-                Update
+                {t("Update")}
               </Button>
-              <Button onClick={() => closeAllModals()}>Cancel</Button>
+              <Button onClick={() => closeAllModals()}>{t("Cancel")}</Button>
             </div>
           </div>
         </div>

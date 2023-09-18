@@ -100,7 +100,7 @@ export default () => {
                           alt="Title Image"
                           className="title-image"
                         />
-                        <p>Assign Role</p>
+                        <p>{t("Assign Role")}</p>
                       </div>
                       <button onClick={closeAllModals} className="text-white">
                         ✕
@@ -130,7 +130,7 @@ export default () => {
                 className=" text-sm font-medium"
               >
                 {" "}
-                + Assign Role
+                {t("+ Assign Role")}
               </Text>
             </button>
           ),
@@ -161,7 +161,7 @@ export default () => {
             key={index}
             className=" m-2 h-[21vh] bg-white text-gray-700 rounded-lg px-5 pt-3   min-w-[250px] flex-1 flex"
           >
-            <h2 className="text-lg font-bold absolute">{titles[index]}</h2>
+            <h2 className="text-lg font-bold absolute">{t(titles[index])}</h2>
             <div>
               <div>
                 <div className=" absolute mt-[2vw]">
@@ -399,7 +399,7 @@ const AssignRole = ({ user, roles, refreshData }) => {
             className="mt-4 flex flex-1 bg-[#dde4eb] ml-[4vw]  w-[10vw] px-2 py-2 justify-center font-bold shadow-sm shadow-black text-[#0E76BB] rounded-[16px]"
             onClick={assignRole}
           >
-            Assign Role
+            {t("Assign Role")}
           </button>
         </div>
         {error && (
