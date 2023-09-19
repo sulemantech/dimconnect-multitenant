@@ -162,3 +162,22 @@ input:-webkit-autofill:active {
 ::-webkit-scrollbar-thumb:hover {
   background: #5495eb;
 }
+
+
+
+:root {
+  --radio-font-size: 0.75rem;
+}
+
+
+@media (max-width: 640px) {
+  :root {
+    --radio-font-size: 10px;
+  }
+}
+
+
+.my-radio-label {
+  font-size: var(--radio-font-size);
+}
+
