@@ -22,7 +22,7 @@ export default () => {
                 setData([])
             })
         })
-    })
+    },[])
 
     const markers = useMemo(() => {
         if (!photoVisibility.value) return null
@@ -52,7 +52,7 @@ export default () => {
                 }
             </>
         ))
-    }, [data])
+    }, [data, photoVisibility.value])
 
     return (
         <>
