@@ -96,7 +96,7 @@ const RouteComponent = ({ path, label, icon, subroutes, isSubRoute = false }) =>
 
                             <p className="flex justify-center items-center text-center ">
                                 {/* first word bold */}
-                                <p className="text-sm pl-4 truncate font-[500]"><b>{label.split(" ")[0]}</b> {t(label.split(" ").slice(1).join(" ").toUpperCase())}</p>
+                                <p className="text-sm pl-4 truncate font-[500]"><b>{t(label.split(" ")[0])}</b> {t(label.split(" ").slice(1).join(" ").toUpperCase())}</p>
                             </p>
                         </div>
 

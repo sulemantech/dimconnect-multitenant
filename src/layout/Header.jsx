@@ -188,7 +188,7 @@ export default () => {
                   href={getHrefByIndex(router[0].url, index)}
                   className="text-neutral-500 text-xs font-thin max-lg:text-[0.7vw]"
                 >
-                  {getLabelFromURI(item).toUpperCase().toLocaleUpperCase("de")}
+                  {t(getLabelFromURI(item).toUpperCase().toLocaleUpperCase("de"))}
                 </Anchor>
               );
             })}
