@@ -150,6 +150,7 @@ export const sendMessage = (username, message, token, userId) =>
   );
 
 export const LoginChatServer = async (user, email, password, token) => {
+  console.log("user", user, email, password, token)
   try {
     const isUser = await api.post(`/chatserver/login`, { user, email, password }, {
       headers: { "authorization": token },
