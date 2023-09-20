@@ -263,19 +263,19 @@ function LiveChatSupport() {
 
   return (
     <PermissionWrapper permission={PERMISSIONS["User Management"]} view message>
-    <div id="scale-down" className="h-full pb-10 bg-white overflow-y-auto">
+    <div  className="h-full pb-12 bg-white overflow-auto">
       <div
-        className="flex h-[78px]"
+        className="flex h-[9vh] py-2"
         style={{
           backgroundImage: `url("/BGFAQ2.svg")`,
         }}
       >
-        <div className="flex space-x-[381px] max-laptop:space-x-[158px] max-laptop1:space-x-[130px]  max-Mobile:space-x-[10px] max-laptop2:space-x-[286px] ">
-          <div className="text-white justify-center flex flex-col pl-24">
-            <b className="text-2xl max-Mobile:text-sm">
+        <div className="flex space-x-[381px] ">
+          <div className="text-white justify-center flex flex-col pl-24 max-md:pl-2">
+            <b className="text-2xl max-2xl:text-sm">
               {t("Live Chat Support")}
             </b>
-            <p className="max-Mobile:text-xs">
+            <p className="max-2xl:text-xs">
               {t("we are here to give you any technical support!")}
             </p>
           </div>
@@ -296,14 +296,14 @@ function LiveChatSupport() {
 
         <div
           className="
-        h-auto bg-[#F5F7F942] text-[#3E3F3F] rounded-md border-[2px] mt-4 border-[#DDE7F0] w-[20%] font-[Roboto] ml-24 shadow-lg"
+        h-[76vh] bg-[#F5F7F942]  text-[#3E3F3F] rounded-md border-[2px] pb-3 mt-4 border-[#DDE7F0] w-[20%] font-[Roboto] ml-24 max-md:ml-2 shadow-lg"
         >
           {/* show chat options to click and send message to them, it will be with icon and name */}
-          <div className="flex p-5 font-[550] pr-[40px] h-8 text-[12px] pt-1.5 bg-[#D8E4EEE5] ">
+          <div className="font-[550] h-[4vh] text-xs pl-3 pt-1.5 bg-[#D8E4EEE5] ">
             <p>Chat Conversations</p>
           </div>
 
-          <div className="overflow-y-auto max-laptop:h-[230px] max-laptop2:h-[445px] h-[94vh] overflow-x-hidden">
+          <div className="h-[71vh] bg-white overflow-y-auto">
             {/* <div className="overflow-y-auto max-laptop:h-[70vh] max-laptop2:h-[70vh] h-[10%]"> */}
             {/* chat items */}
             {rooms?.map(
@@ -311,7 +311,7 @@ function LiveChatSupport() {
                 item._id !== "GENERAL" && (
                   <div
                     key={item._id}
-                    className="flex items-center justify-between px-4 py-2 space-x-2 bg-[#7ab4e49b] m-2 rounded-md
+                    className="flex items-center justify-between min-w-fit overflow-hidden px-4 py-2 space-x-2 bg-[#7ab4e49b] m-2 rounded-md
                       hover:bg-[#7ab4e4d4] cursor-pointer
                       hover:font-[600]
                       hover:shadow-lg hover:duration-300
@@ -348,14 +348,14 @@ function LiveChatSupport() {
                         alt="icon"
                       />
                       <div className="flex flex-col">
-                        <p className=" text-[12px] font-[600]">
+                        <p className=" text-xs font-[600]">
                           {item._id === "GENERAL"
                             ? "General"
                             : item.usernames.filter(
                                 (username) => username !== socket.username
                               )[0]}
                         </p>
-                        <p className="text-[12px]">
+                        <p className="text-xs">
                           {item.lastMessage ? item.lastMessage.msg : ""}
                         </p>
                       </div>
@@ -376,13 +376,13 @@ function LiveChatSupport() {
           </div>
         </div>
 
-        <div className=" h-auto bg-[#F5F7F942] text-[#3E3F3F] rounded-md border-[2px] mt-4 border-[#DDE7F0] w-[50%] font-[Roboto] ml-3 shadow-lg flex flex-col justify-between">
-          <p className="flex flex-row-reverse font-[550] pr-[40px] h-8 text-[12px] pt-1.5 bg-[#D8E4EEE5] ">
+        <div className=" h-[76vh] bg-[#F5F7F942] text-[#3E3F3F] rounded-md border-[2px] mt-4 border-[#DDE7F0] w-[50%] font-[Roboto] ml-3 shadow-lg flex flex-col justify-between">
+          <p className="flex flex-row-reverse font-[550] pr-[40px] max-md:pr-[1px] h-[4vh] text-xs pt-1.5 bg-[#D8E4EEE5] ">
             {t("21.06.2023, Thursday")}
           </p>
 
           {/* <div className="flex flex-col h-full"> */}
-          <div className="h-[74vh] overflow-auto">
+          <div className="h-[71vh] overflow-auto">
             {/* display all messages here */}
             {messages.map((message, index) => (
               <div
@@ -409,10 +409,10 @@ function LiveChatSupport() {
                     alt="icon"
                   />
                   <div className="flex flex-col">
-                    <p className=" text-[12px] font-[600]">
+                    <p className=" text-xs font-[600]">
                       {message.u.username}
                     </p>
-                    <p className="text-lg">{message.msg}</p>
+                    <p className="text-lg max-2xl:text-xs">{message.msg}</p>
                     {message.attachments?.length > 0 && (
                       <button
                         className="bg-transparent rounded-lg"
@@ -449,8 +449,8 @@ function LiveChatSupport() {
                     alt="icon"
                   /> */}
                 <div className="flex flex-col">
-                  <p className=" text-[12px] font-[600]">You</p>
-                  <p className="text-lg">{msg}</p>
+                  <p className=" text-xs font-[600]">You</p>
+                  <p className="text-lg max-2xl:text-xs">{msg}</p>
                   {files?.length > 0 && (
                     <button
                       className="bg-transparent rounded-lg"
@@ -467,25 +467,25 @@ function LiveChatSupport() {
                       </h1>
                     </button>
                   )}
-              <p className="text-sm text-[#0E76BB]">
+              <p className="text-sm max-2xl:text-xs text-[#0E76BB]">
                       Uploading file :{uploadProgress}%
                     </p>
                 </div>
               </div>
             </div>}
           </div>
-          <div className=" h-[100px]  rounded-t-lg text-[12px]  bg-[#D8E4EEE5] max-md:h-36 flex-end">
-            <p className=" pt-3 ml-14">{t("Please type text here")}</p>
-            <form onSubmit={sendMessage} className="flex ml-3  max-md:block">
-              <img className="w-[20px] pb-8 ml-3" src="/Vector4.svg" alt="" />
+          <div className=" h-fit  rounded-t-lg text-xs  bg-[#D8E4EEE5] ">
+            <p className=" pt-3 ml-14 max-2xl:text-xs">{t("Please type text here")}</p>
+            <form onSubmit={sendMessage} className="flex flex-row items-center mb-4 ml-3  max-md:block">
+              <img className="w-[20px]  ml-3" src="/Vector4.svg" alt="" />
               <label className="">
-                <p className=" mt-3 ml-5 text-lg text-[#0E76BB]">
+                <p className=" mt-3 ml-5 text-lg max-2xl:text-xs text-[#0E76BB]">
                   {t("Attach File")}{" "}
                 </p>
                 <input
                   type="file"
                   name="attach file"
-                  className="hidden  w-48"
+                  className="hidden  w-48 max-2xl:w-[8rem]"
                   value={files}
                   onChange={(e) => {
                     setFiles([e.target.files[0]]);
@@ -493,19 +493,19 @@ function LiveChatSupport() {
                 />
               </label>
               <input
-                className="border-b-[1px] mb-10 pt-3 ml-2 w-[35rem] max-laptop:w-[20rem] border-[#0E76BB] bg-transparent text-lg outline-none max-md:w-[8rem] max-laptop2:w-[20rem]"
+                className="border-b-[1px]   pt-3 ml-2 w-[40vh] max-lg:w-[20vh] border-[#0E76BB] bg-transparent text-lg max-2xl:text-xs outline-none "
                 type="text"
                 value={msg}
                 onChange={(e) => {
                   setMsg(e.target.value);
                 }}
                 placeholder={t(
-                  "Please prepare test drive in Frankfurt for next monday!"
+                  "Text Here!"
                 )}
               />
               <button type="submit" onClick={sendMessage}>
                 <img
-                  className=" ml-10 w-9 mb-8 max-md:float-right max-md:w-[w-4] max-md:pb-14 max-md:mr-10"
+                  className=" ml-10 w-9 "
                   src="/Vector5.svg"
                   alt=""
                 />
@@ -514,7 +514,7 @@ function LiveChatSupport() {
             <div className="flex">
               {files.length > 0 && (
                 <div className="flex -mt-5 items-center justify-center ml-5 bg-white px-5 rounded-2xl">
-                  <h1 className=" text-[12px] font-[500] mr-5">
+                  <h1 className=" text-xs font-[500] mr-5">
                     {files[0]?.name?.slice(0, 20) +
                       "..." +
                       files[0]?.name?.split(".")[
