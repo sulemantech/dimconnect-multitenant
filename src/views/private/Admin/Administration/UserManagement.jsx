@@ -21,16 +21,12 @@ import {
   getUsersCount,
 } from "../../../../api";
 import { useState, useLayoutEffect } from "preact/hooks";
-import { IconUser, IconUserCheck, IconUserPlus } from "@tabler/icons";
-import { IconUserCancel } from "@tabler/icons-react";
 import { useEffect } from "preact/hooks";
-import { closeDrawer, openDrawer } from "../../../../providers/DrawerProvider";
 import PermissionWrapper from "../../../../providers/PermissionsProvider";
 import { PERMISSIONS } from "../../../../common";
 import { useTranslation } from "react-i18next";
-import { districts } from "../../../../signals";
 import { t } from "i18next";
-import { closeModal, closeAllModals, openModal } from "@mantine/modals";
+import { closeAllModals, openModal } from "@mantine/modals";
 
 
 // const colors = ["#FF6161","#FF862E","#0E76BB", "#1DAF1A", "#878788"];
