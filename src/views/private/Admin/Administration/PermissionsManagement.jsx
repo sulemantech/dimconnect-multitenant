@@ -53,7 +53,6 @@ export default () => {
 
     
     const stats = await getRoleManagementStats();
-    console.log("stats ===============>>>", stats.data)
     setStats(stats.data);
 
     getRoles()
@@ -71,37 +70,41 @@ export default () => {
                     onClick={() => {
                       openModal({
                         closeOnClickOutside: false,
-                        closeOnEscape:true,
+                        closeOnEscape: true,
                         title: (
                           <div className="flex justify-between p-4 w-[55vw] bg-cover bg-center text-white items-center bg-[url('/Rectangle973.png')] bg-no-repeat">
-                          <div className="flex flex-row items-center space-x-2">
-                            <img
-                              src="/user2.svg"
-                              alt="Title Image"
-                              className="title-image"
-                            />
-                            <p>View User Permissions</p>
+                            <div className="flex flex-row items-center space-x-2">
+                              <img
+                                src="/user2.svg"
+                                alt="Title Image"
+                                className="title-image"
+                              />
+                              <p>{t("View User Permissions")}</p>
+                            </div>
+                            <button
+                              onClick={closeAllModals}
+                              className="text-white"
+                            >
+                              ✕
+                            </button>
                           </div>
-                          <button onClick={closeAllModals} className="text-white">
-                            ✕
-                          </button>
-                        </div>
-                          ),
-                        children: (
-                            <div className="p-4">
-                          <PermissionList
-                            id={role.id}
-                            name={role.name}
-                            description={role.description}
-                          /></div>
                         ),
-                        size:"55vw",
+                        children: (
+                          <div className="p-4">
+                            <PermissionList
+                              id={role.id}
+                              name={role.name}
+                              description={role.description}
+                            />
+                          </div>
+                        ),
+                        size: "55vw",
                         padding: "0",
                         withCloseButton: false,
                       });
                     }}
                   >
-                    view
+                    {t("view")}
                   </Button>
                   <Button
                     leftIcon={<IconEdit />}
@@ -110,41 +113,43 @@ export default () => {
                     radius={"sm"}
                     onClick={() => {
                       openModal({
-                        closeOnClickOutside:false,
-                        closeOnEscape:true,
+                        closeOnClickOutside: false,
+                        closeOnEscape: true,
                         title: (
                           <div className="flex justify-between p-4 w-[55vw] bg-cover bg-center text-white items-center bg-[url('/Rectangle973.png')] bg-no-repeat">
-                          <div className="flex flex-row items-center space-x-2">
-                            <img
-                              src="/user2.svg"
-                              alt="Title Image"
-                              className="title-image"
-                            />
-                            <p>Edit User Permissions</p>
-                          </div>
-                          <button onClick={closeAllModals} className="text-white">
-                            ✕
-                          </button>
-                        </div>
-                          
-                          ),
-                        children: (
-                            <div className="px-14 pt-8">
-                          <PermissionList
-                            editMode
-                            id={role.id}
-                            name={role.name}
-                            description={role.description}
-                          />
+                            <div className="flex flex-row items-center space-x-2">
+                              <img
+                                src="/user2.svg"
+                                alt="Title Image"
+                                className="title-image"
+                              />
+                              <p>{t("Edit User Permissions")}</p>
+                            </div>
+                            <button
+                              onClick={closeAllModals}
+                              className="text-white"
+                            >
+                              ✕
+                            </button>
                           </div>
                         ),
-                        size:"55vw",
-                  padding: "0",
-                  withCloseButton: false,
+                        children: (
+                          <div className="px-14 pt-8">
+                            <PermissionList
+                              editMode
+                              id={role.id}
+                              name={role.name}
+                              description={role.description}
+                            />
+                          </div>
+                        ),
+                        size: "55vw",
+                        padding: "0",
+                        withCloseButton: false,
                       });
                     }}
                   >
-                    edit
+                    {t("edit")}
                   </Button>
                 </>
               ),
@@ -193,27 +198,27 @@ export default () => {
                 }}
                 refreshData={refreshData}
               >
-                <Text>Permissions</Text>
+                <Text>{t("Permissions")}</Text>
                 <Divider />
 
-                <Table striped  className="relative max-w-[100%]">
+                <Table striped className="relative max-w-[100%]">
                   <thead className="text-[10px]">
                     <tr>
                       {/* <td></td> */}
-                      <td className="font-semibold text-xs text-gray-700 text-start whitespace-nowrap overflow-hidden ">
-                        Component
+                      <td className="font-semibold text-xs text-gray-700 text-start whitespace-nowrap overflow-hidden">
+                        {t("Component")}
                       </td>
-                      <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">
-                        ADD
+                      <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden">
+                        {t("ADD")}
                       </td>
-                      <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">
-                        VIEW
+                      <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden">
+                        {t("VIEW")}
                       </td>
-                      <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">
-                        EDIT
+                      <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden">
+                        {t("EDIT")}
                       </td>
-                      <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">
-                        Delete
+                      <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden">
+                        {t("Delete")}
                       </td>
                     </tr>
                   </thead>
@@ -221,7 +226,7 @@ export default () => {
                     {permissible.value.map((key, index) => (
                       <tr key={index}>
                         <td className="font-semibold text-xs text-gray-700 text-start whitespace-nowrap overflow-hidden ">
-                          {key.activity}
+                          {t(key.activity)}
                         </td>
                         <td className="text-gray-700 text-xs whitespace-nowrap text-start border-l-[1] border-neutral-200 border-solid overflow-hidden ">
                           <Switch
@@ -351,6 +356,7 @@ const PermissionList = ({ id, name, description, editMode = false }) => {
     ),
     []
   );
+  const [t] = useTranslation();
   const falseIcon = useMemo(
     () => (
       <ThemeIcon color="red" size={24} radius="xl">
@@ -378,11 +384,11 @@ const PermissionList = ({ id, name, description, editMode = false }) => {
         <Table striped className="relative max-w-[100%] rounded-md">
           <thead className="text-[10px] bg-[#D8E4EE]">
             <tr>
-              <th>Activity</th>
-              <th>Add</th>
-              <th>View</th>
-              <th>Edit</th>
-              <th>Delete</th>
+              <th>{t("Activity")}</th>
+              <th>{t("Add")}</th>
+              <th>{t("View")}</th>
+              <th>{t("Edit")}</th>
+              <th>{t("Delete")}</th>
             </tr>
           </thead>
           <tbody className="text-[10px]">
@@ -406,7 +412,7 @@ const PermissionList = ({ id, name, description, editMode = false }) => {
               <tr key={index}>
                 {editMode ? (
                   <>
-                    <td>{item.activity}</td>
+                    <td>{t(item.activity)}</td>
 
                     <td>
                       <Switch
@@ -443,7 +449,7 @@ const PermissionList = ({ id, name, description, editMode = false }) => {
                   </>
                 ) : (
                   <>
-                    <td>{item.activity}</td>
+                    <td>{t(item.activity)}</td>
                     <td>{item.add ? trueIcon : falseIcon}</td>
                     <td>{item.view ? trueIcon : falseIcon}</td>
                     <td>{item.edit ? trueIcon : falseIcon}</td>
@@ -458,7 +464,7 @@ const PermissionList = ({ id, name, description, editMode = false }) => {
           <div className="flex">
             <div className="flex-1"></div>
             <Button type="submit" mt={15}>
-              Save
+              {t("Save")}
             </Button>
           </div>
         )}

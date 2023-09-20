@@ -1,20 +1,11 @@
 import PageProvider from "../../../../providers/PageProvider";
 import CustomTable from "../../../../components/CustomTable";
 import {
-  ActionIcon,
   Alert,
-  BackgroundImage,
   Badge,
-  Button,
-  Card,
-  CardSection,
-  Chip,
-  Divider,
   Loader,
   MANTINE_COLORS,
   MultiSelect,
-  Pagination,
-  Select,
   Text,
   Title,
 } from "@mantine/core";
@@ -164,7 +155,7 @@ export default () => {
                           alt="Title Image"
                           className="title-image"
                         />
-                        <p>Assign Role</p>
+                        <p>{t("Assign Role")}</p>
                       </div>
                       <button onClick={closeAllModals} className="text-white">
                         ✕
@@ -194,7 +185,7 @@ export default () => {
                 className=" text-sm font-medium"
               >
                 {" "}
-                + Assign Role
+                {t("+ Assign Role")}
               </Text>
             </button>
           ),
@@ -472,7 +463,7 @@ const AssignRole = ({ user, roles, refreshData }) => {
             className="mt-4 flex flex-1 bg-[#dde4eb] ml-[4vw]  w-[10vw] px-2 py-2 justify-center font-bold shadow-sm shadow-black text-[#0E76BB] rounded-[16px]"
             onClick={assignRole}
           >
-            Assign Role
+            {t("Assign Role")}
           </button>
         </div>
         {error && (

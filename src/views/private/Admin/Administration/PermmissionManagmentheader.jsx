@@ -73,7 +73,7 @@ function PermmissionManagmentheader({ stats }) {
   return (
     <div>
       <div className="flex flex-wrap justify-center max-laptop1:grid max-laptop1:grid-cols-2 max-Mobile:flex max-Mobile:flex-col">
-        <div className=" m-2 bg-white text-gray-700 rounded-lg px-5 pt-3   min-w-[250px] flex-1 flex">
+        <div className=" m-2 bg-white text-gray-700 rounded-lg px-5 pt-3   min-w-fit flex-1 flex">
           <div>
             <h2 className="text-lg font-bold">{t("Agreement Statuses")}</h2>
             <div>
@@ -140,15 +140,15 @@ function PermmissionManagmentheader({ stats }) {
         {statsData.map((item, index) => (
           <div
             key={index}
-            className=" m-2 bg-white relative text-gray-700 rounded-lg px-5 pt-3 flex-1 flex"
+            className="m-2 h-[21vh] bg-white text-gray-700 rounded-lg px-5 pt-3   min-w-[250px] flex-1 flex"
           >
             <h2 className="text-lg font-bold absolute">{item.title}</h2>
             <div>
               <div>
-                <div className=" absolute mt-[8.5%]">
+                <div className=" absolute mt-[2vw]">
                   <svg
                     width="12vw"
-                    height="82"
+                    height="12vh"
                     viewBox="0 0 210 82"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"

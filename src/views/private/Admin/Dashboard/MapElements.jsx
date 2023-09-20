@@ -2,6 +2,7 @@ import { useEffect, useState } from "preact/hooks"
 import { Card, Text, Divider, Loader, Progress, Title } from "@mantine/core"
 import { dropvalue } from "../../../../signals"
 import { getAddressPointCount } from "../../../../api"
+import { useTranslation } from "react-i18next";
 import Icons from '../../../../layout/icons';
 
 const content = {
@@ -30,6 +31,7 @@ const content = {
 export default () => {
     const [data, setData] = useState(null) // [{"json_object_agg":{"1":443,"2":29946,"3":172,"4":175,"5":94}}]
     const [loading, setLoading] = useState(false)
+    const {t}=useTranslation()
     useEffect(() => {
         dropvalue.subscribe((value) => {
             setLoading(true)
@@ -45,9 +47,10 @@ export default () => {
 
     return (
         <Card className="m-2 ml-0 mb-0" >
-            <Title className="max-lg:text-xs" order={4}>
-                Address Points
-            </Title>
+          <Title className="max-lg:text-xs" order={4}>
+  {t("Address Points")}
+</Title>
+
             <div className="relative text-xs flex flex-col p-2 flex-1 ">
                 <div>
                     {
@@ -92,7 +95,7 @@ export default () => {
             <Divider />
             <br />
 
-            <Title className="max-lg:text-xs" order={3}>Address Point By Type</Title>
+            <Title className="max-lg:text-xs" order={3}>{t("Address Point By Type")}</Title>
             <br />
 
             <BarChartComp data={data}/>

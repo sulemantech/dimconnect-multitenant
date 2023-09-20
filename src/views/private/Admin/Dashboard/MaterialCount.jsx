@@ -3,13 +3,15 @@ import { useEffect, useState } from "preact/hooks";
 import { getMaterialCountByDistrictId } from "../../../../api";
 import { dropvalue } from "../../../../signals";
 import { commarize } from "../../../../utils/convertor";
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
 import { IconChartBubble, IconLocation, IconMap2, IconPin } from "@tabler/icons-react";
 import { Icon123 } from "@tabler/icons-react";
 import { IconTestPipe } from "@tabler/icons";
 import Icons from "../../../../layout/icons";
+import { useTranslation } from "react-i18next";
 
 export default () => {
+  const {t}=useTranslation()
   const [MaterialCount, setMaterialCount] = useState({});
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -46,43 +48,43 @@ export default () => {
 
       <div className="flex flex-[3] md:flex-row flex-grow flex-wrap flex-col">
         <GroupedCount
-            title="Drop | Demand"
+            title={t("Drop | Demand")}
             loading={loading}
             color=""
             unit="m"
             data={[
-              { count: ( MaterialCount?.data?.demand_points), title: 'Points',icon:<Icons.Marker/> },
-              { count: (MaterialCount?.data?.drop_ducts), title: 'Ducts',icon:<Icons.IconDucts/> },
+              { count: ( MaterialCount?.data?.demand_points), title: t('Points'),icon:<Icons.Marker/> },
+              { count: (MaterialCount?.data?.drop_ducts), title: t('Ducts'),icon:<Icons.IconDucts/> },
             ]}
           />
           <GroupedCount
-            title="Primary Breakdown"
+            title={t("Primary Breakdown")}
             loading={loading}
             color="text-red-500"
             unit="m"
             data={[
-              { count: ( MaterialCount?.data?.primary_distribution_ducts), title: 'Primary Ducts',icon:<Icons.IconCables/> },
-              { count: ( MaterialCount?.data?.primary_distribution_cables), title: 'Primary Cables',icon:<Icons.IconDucts/> },
+              { count: ( MaterialCount?.data?.primary_distribution_ducts), title: t('Primary Ducts'),icon:<Icons.IconCables/> },
+              { count: ( MaterialCount?.data?.primary_distribution_cables), title: t('Primary Cables'),icon:<Icons.IconDucts/> },
             ]}
           />
         <GroupedCount
-          title="Feeder Breakdown"
+          title={t("Feeder Breakdown")}
           loading={loading}
           color="text-emerald-500"
           unit="m"
           data={[
-            { count: MaterialCount?.data?.feeder_ducts, title: 'Feeder Ducts',icon:<Icons.IconCables/> },
-            { count:  MaterialCount?.data?.feeder_cables, title: 'Feeder Cables',icon:<Icons.IconDucts/> },
+            { count: MaterialCount?.data?.feeder_ducts, title: t('Feeder Ducts'),icon:<Icons.IconCables/> },
+            { count:  MaterialCount?.data?.feeder_cables, title: t('Feeder Cables'),icon:<Icons.IconDucts/> },
           ]}
         />
         <GroupedCount
-          title="Distribution Breakdown"
+          title={t("Distribution Breakdown")}
           loading={loading}
           color="text-sky-700"
           unit="m"
           data={[
-            { count: ( MaterialCount?.data?.distribution_ducts), title: 'Distribution Ducts',icon:<Icons.IconCables/> },
-            { count: ( MaterialCount?.data?.out_distributioncables), title: 'Distribution Cables',icon:<Icons.IconDucts/> },
+            { count: ( MaterialCount?.data?.distribution_ducts), title: t('Distribution Ducts'),icon:<Icons.IconCables/> },
+            { count: ( MaterialCount?.data?.out_distributioncables), title: t('Distribution Cables'),icon:<Icons.IconDucts/> },
           ]}
         />
 
