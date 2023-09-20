@@ -24,7 +24,6 @@ function LiveChat() {
 
   const handleNewMessage = (message, notification = false) => {
     //  display the message in chat box
-    console.log("message:", message);
     setMessages((prevMessages) => [...prevMessages, message.fields.args[0]]);
     setTimeout(() => {
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -65,8 +64,6 @@ function LiveChat() {
   }, []);
 
   const DownloadFile = (url, name) => {
-    console.log("token", socket.token);
-    console.log("userId", socket.userId);
     const headers = {
       Cookie: `rc_token=${socket.token}; rc_uid=${socket.userId}}`,
     };
@@ -82,7 +79,6 @@ function LiveChat() {
         { responseType: "blob" }
       )
       .then((response) => {
-        console.log("response", response);
 
         // response.data is blob type convert it to file
         const url = window.URL.createObjectURL(
@@ -129,7 +125,6 @@ function LiveChat() {
                   const percentCompleted = Math.round(
                     (progressEvent.loaded * 100) / progressEvent.total
                   );
-                  console.log(percentCompleted);
                   setUploadProgress(percentCompleted);
                   // Here, you can update your UI component state to reflect the upload progress.
                 },
@@ -163,7 +158,6 @@ function LiveChat() {
               const percentCompleted = Math.round(
                 (progressEvent.loaded * 100) / progressEvent.total
               );
-              console.log(percentCompleted);
               // Here, you can update your UI component state to reflect the upload progress.
               setUploadProgress(percentCompleted);
             },
@@ -173,7 +167,7 @@ function LiveChat() {
         setMsg("");
         setFiles([]);
         setUploadProgress(0);
-        return console.log(response);
+        return 
       }
     }
 
@@ -425,7 +419,6 @@ function LiveChat() {
                       className="hidden  w-48"
                       value={files}
                       onChange={(e) => {
-                        console.log(typeof e.target.files[0]);
                         setFiles([e.target.files[0]]);
                       }}
                     />

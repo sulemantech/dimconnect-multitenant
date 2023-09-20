@@ -67,6 +67,10 @@ export const getUserById = {
   },
 };
 
+export const getUsersCount = () => api.get(`/user/users-count`);
+
+export const getRoleManagementStats = () => api.get(`/user/role-management-stats`);
+
 export const getPermissions = () => api.get(`/permissions`);
 export const createPermission = (data, title) =>
   api.post(`/permissions/${title}`, data);
