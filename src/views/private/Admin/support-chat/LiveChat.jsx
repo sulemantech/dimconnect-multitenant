@@ -44,13 +44,11 @@ function LiveChatSupport() {
             const percentCompleted = Math.round(
               (progressEvent.loaded * 100) / progressEvent.total
             );
-            console.log(percentCompleted);
             // Here, you can update your UI component state to reflect the upload progress.
             setUploadProgress(percentCompleted);
           },
         }
       );
-      console.log("response", response);
       setFiles([]);
       setUploadProgress(0);
       setMsg("");
@@ -95,9 +93,6 @@ function LiveChatSupport() {
 
   // get previous messages of selected room
   useMemo(() => {
-    console.log("selectedRoom", selectedRoom);
-    console.log("limitReached", limitReached);
-    console.log("offset", offset);
     if (selectedRoom && limitReached === false) {
       // setLimitReached(false);
       getChatRoomMessages(selectedRoom, socket.token, socket.userId, offset)
@@ -176,7 +171,6 @@ function LiveChatSupport() {
 
   const handleNewRooms = (token, userId) => {
     getRooms(token, userId).then((res) => {
-      // console.log("res", res.data);
 
       rooms.length !== res.data.update.length &&
         setRooms(
@@ -205,7 +199,6 @@ function LiveChatSupport() {
           localStorage.getItem("cLgpssstore")
         );
         const fetchedRooms = await socket1.getRooms();
-        // console.log("fetchedRooms:", fetchedRooms);
         // socket1.subscribeToAllRoomUpdates();
         // setRooms(fetchedRooms);
       } catch (error) {
@@ -231,8 +224,6 @@ function LiveChatSupport() {
   });
 
   const DownloadFile = (url, name) => {
-    console.log("token", socket.token);
-    console.log("userId", socket.userId);
     const headers = {
       Cookie: `rc_token=${socket.token}; rc_uid=${socket.userId}}`,
     };
@@ -248,7 +239,6 @@ function LiveChatSupport() {
         { responseType: "blob" }
       )
       .then((response) => {
-        console.log("response", response);
 
         // response.data is blob type convert it to file
         const url = window.URL.createObjectURL(
@@ -339,7 +329,6 @@ function LiveChatSupport() {
                       socket.selectRoom(item._id);
                       // set room unreadMessageCount to 0
                       let temp = [...rooms];
-                      console.log(temp);
                       temp[index].unreadMessageCount = 0;
                       setRooms(temp);
                       setSelectedRoom(item._id);

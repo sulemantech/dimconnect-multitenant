@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Checkbox } from "@mantine/core";
-function PermmissionManagmentheader() {
+function PermmissionManagmentheader({ stats }) {
   const [isChecked, setIsChecked] = useState(true);
   const [isChecked1, setIsChecked1] = useState(true);
 
@@ -12,12 +12,62 @@ function PermmissionManagmentheader() {
     setIsChecked1(event.target.checked);
   };
   const colors = ["#0E76BB", "#1DAF1A", "#FF6161"];
-  const images = ["/eye.svg", "/pencil.svg", "/king.svg"];
-  const titles = [
-    "AGS Rights GP Viewer",
-    "AGS Rights GP Editor",
-    "AGS Rights GP Admin",
-  ];
+  // const images = ["/eye.svg", "/pencil.svg", "/king.svg"];
+  // const titles = [
+  //   "AGS Rights GP Viewer",
+  //   "AGS Rights GP Editor",
+  //   "AGS Rights GP Admin",
+  // ];
+  const [statsData, setStatsData] = useState([
+    {
+      color: "#0E76BB",
+      image: "/eye.svg",
+      title: "AGS Rights GP Viewer",
+      percentage: 0,
+      value: 0,
+    },
+    {
+      color: "#1DAF1A",
+      image: "/pencil.svg",
+      title: "AGS Rights GP Editor",
+      percentage: 0,
+      value: 0,
+    },
+    {
+      color: "#FF6161",
+      image: "/king.svg",
+      title: "AGS Rights GP Admin",
+      percentage: 0,
+      value: 0,
+    },
+  ]);
+
+  useEffect(() => {
+    if (stats) {
+      let statsDataCopy = [...statsData];
+      let percentage = Math.round(
+        (stats?.viewerCount /
+          (stats?.viewerCount + stats?.editorCount)) *
+          100
+      );
+      statsDataCopy[0].percentage = percentage;
+      statsDataCopy[0].value = stats?.viewerCount;
+      statsDataCopy[1].percentage = Math.round(
+        (stats?.editorCount /
+          (stats?.viewerCount + stats?.editorCount)) *
+          100
+      );
+      statsDataCopy[1].value = stats?.editorCount;
+      statsDataCopy[2].percentage = Math.round(
+        (stats?.adminCount /
+          (stats?.viewerCount + stats?.editorCount)) *
+          100
+      );
+      statsDataCopy[2].value = stats?.adminCount;
+      setStatsData(statsDataCopy);
+    }
+  }, [stats]);
+
   let percentage = [18, 40, 27];
   const { t } = useTranslation();
   return (
@@ -34,11 +84,24 @@ function PermmissionManagmentheader() {
                     checked={isChecked ? true : false}
                     onChange={handleCheckboxChange}
                   />
-                  {isChecked ? <p>Signed</p> : <p>Not Signed</p>}
+                  <p>Not Signed</p>
                 </div>
                 <div className="flex flex-row justify-center space-x-2">
-                  <p className="text-[#0E76BB] text-sm">+3,5%</p>
-                  <span>25700</span>
+                  <p className="text-[#0E76BB] text-sm">
+                    {/* +3,5% */}
+                    {stats?.agreementNotSignedCount +
+                      stats?.agreementSignedCount !==
+                    0
+                      ? Math.round(
+                          (stats?.agreementNotSignedCount /
+                            (stats?.agreementNotSignedCount +
+                              stats?.agreementSignedCount)) *
+                            100
+                        )
+                      : 0}
+                    %
+                  </p>
+                  <span>{stats?.agreementNotSignedCount}</span>
                 </div>
               </div>
             </div>
@@ -50,23 +113,36 @@ function PermmissionManagmentheader() {
                     checked={isChecked1 ? true : false}
                     onChange={handleCheckboxChange1}
                   />
-                  {isChecked1 ? <p>Signed</p> : <p>Not Signed</p>}
+                  <p>Signed</p>
                 </div>
                 <div className="flex flex-row justify-center space-x-2">
-                  <p className="text-[#0E76BB] text-sm">+3,5%</p>
-                  <span>5300</span>
+                  <p className="text-[#0E76BB] text-sm">
+                    {/* +3,5% */}
+                    {stats?.agreementNotSignedCount +
+                      stats?.agreementSignedCount !==
+                    0
+                      ? Math.round(
+                          (stats?.agreementSignedCount /
+                            (stats?.agreementNotSignedCount +
+                              stats?.agreementSignedCount)) *
+                            100
+                        )
+                      : 0}
+                    %
+                  </p>
+                  <span>{stats?.agreementSignedCount}</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        {colors.map((color, index) => (
+        {statsData.map((item, index) => (
           <div
             key={index}
             className=" m-2 bg-white relative text-gray-700 rounded-lg px-5 pt-3 flex-1 flex"
           >
-            <h2 className="text-lg font-bold absolute">{titles[index]}</h2>
+            <h2 className="text-lg font-bold absolute">{item.title}</h2>
             <div>
               <div>
                 <div className=" absolute mt-[8.5%]">
@@ -80,80 +156,80 @@ function PermmissionManagmentheader() {
                     <path
                       d="M0.00976562 74.49C0.269766 78.67 3.73977 81.99 7.97977 81.99C12.2198 81.99 15.6998 78.67 15.9498 74.49H0.00976562Z"
                       fill={
-                        percentage[index] !== 0 && percentage[index] <= 100
-                          ? color
+                        item.percentage !== 0 && item.percentage <= 100
+                          ? item.color
                           : "#F5F7F9"
                       }
                     />
                     <path
                       d="M5.46 46.15C2.01 54.6 0.06 63.82 0 73.49H16C16.06 65.99 17.57 58.84 20.24 52.27L5.46 46.15Z"
                       fill={
-                        percentage[index] > 10 && percentage[index] <= 100
-                          ? color
+                        item.percentage > 10 && item.percentage <= 100
+                          ? item.color
                           : "#F5F7F9"
                       }
                     />
                     <path
                       d="M21.3501 22.06C14.8101 28.68 9.51008 36.52 5.83008 45.21L20.6101 51.33C23.4801 44.59 27.6001 38.51 32.6601 33.36L21.3501 22.05V22.06Z"
                       fill={
-                        percentage[index] > 20 && percentage[index] <= 100
-                          ? color
+                        item.percentage > 20 && item.percentage <= 100
+                          ? item.color
                           : "#F5F7F9"
                       }
                     />
                     <path
                       d="M33.3703 32.66C38.5203 27.6 44.6003 23.48 51.3403 20.61L45.2203 5.83002C36.5303 9.51002 28.6903 14.82 22.0703 21.35L33.3803 32.66H33.3703Z"
                       fill={
-                        percentage[index] > 30 && percentage[index] <= 100
-                          ? color
+                        item.percentage > 30 && item.percentage <= 100
+                          ? item.color
                           : "#F5F7F9"
                       }
                     />
                     <path
                       d="M52.2596 20.23C58.8296 17.57 65.9896 16.07 73.4896 16V0C63.8196 0.06 54.5896 2 46.1396 5.45L52.2596 20.23Z"
                       fill={
-                        percentage[index] > 40 && percentage[index] <= 100
-                          ? color
+                        item.percentage > 40 && item.percentage <= 100
+                          ? item.color
                           : "#F5F7F9"
                       }
                     />
                     <path
                       d="M74.4902 0V16C81.9902 16.06 89.1502 17.56 95.7202 20.23L101.84 5.45C93.3802 2 84.1502 0.07 74.4902 0Z"
                       fill={
-                        percentage[index] > 50 && percentage[index] <= 100
-                          ? color
+                        item.percentage > 50 && item.percentage <= 100
+                          ? item.color
                           : "#F5F7F9"
                       }
                     />
                     <path
                       d="M102.76 5.83001L96.6396 20.61C103.38 23.48 109.47 27.59 114.62 32.65L125.93 21.34C119.31 14.8 111.46 9.50001 102.77 5.82001L102.76 5.83001Z"
                       fill={
-                        percentage[index] > 60 && percentage[index] <= 100
-                          ? color
+                        item.percentage > 60 && item.percentage <= 100
+                          ? item.color
                           : "#F5F7F9"
                       }
                     />
                     <path
                       d="M126.63 22.06L115.32 33.37C120.38 38.52 124.5 44.6 127.37 51.34L142.15 45.22C138.47 36.53 133.16 28.69 126.63 22.06Z"
                       fill={
-                        percentage[index] > 70 && percentage[index] <= 100
-                          ? color
+                        item.percentage > 70 && item.percentage <= 100
+                          ? item.color
                           : "#F5F7F9"
                       }
                     />
                     <path
                       d="M142.52 46.15L127.74 52.27C130.4 58.84 131.91 65.99 131.98 73.49H147.98C147.92 63.82 145.97 54.6 142.52 46.14V46.15Z"
                       fill={
-                        percentage[index] > 80 && percentage[index] <= 100
-                          ? color
+                        item.percentage > 80 && item.percentage <= 100
+                          ? item.color
                           : "#F5F7F9"
                       }
                     />
                     <path
                       d="M132.01 74.49C132.27 78.67 135.74 81.99 139.98 81.99C144.22 81.99 147.7 78.67 147.95 74.49H132H132.01Z"
                       fill={
-                        percentage[index] > 90 && percentage[index] <= 100
-                          ? color
+                        item.percentage > 90 && item.percentage <= 100
+                          ? item.color
                           : "#F5F7F9"
                       }
                     />
@@ -162,16 +238,20 @@ function PermmissionManagmentheader() {
               </div>
               <img
                 className=" w-[2vw] ml-[10.5%]  absolute pt-[16.3%] pb-2"
-                src={images[index]}
+                src={item.image}
                 alt=" "
               />
             </div>
             <div className=" flex flex-1 "></div>
             <div className="flex flex-col items-end mt-[12%]">
-              <span className=" text-xs ml-2" style={{ color: color }}>
-                {"+" + percentage[index]}%
+              <span className=" text-xs ml-2" style={{ color: item.color }}>
+                {/* {"+" + item.percentage}% */}
+                {/* if item.title === "AGS Rights GP Admin" then don't show percentage */}
+                {item.title === "AGS Rights GP Admin"
+                  ? ""
+                  : "+" + item.percentage + "%"}
               </span>
-              <h3 className="text-2xl ">1715</h3>
+              <h3 className="text-2xl ">{item.value}</h3>
               <p className="text-xs font-extralight opacity-70 italic">
                 {t("Last week analytics")}
               </p>
@@ -258,31 +338,11 @@ function PermmissionManagmentheader() {
                 </div>
               </div>
               <div className="pb-2" style={{ maxWidth: "100%" }}>
-                <svg
-                  width="100%"
-                  height="auto"
-                  viewBox="0 0 239 17"
-                  preserveAspectRatio="xMidYMid meet"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <rect width="100%" height="17" rx="8.5" fill="#F5F7F9" />
-                  <path
-                    d="M0 8.5C0 3.80558 3.80558 0 8.5 0H23V17H8.5C3.80558 17 0 13.1944 0 8.5Z"
-                    fill="#0E76BB"
-                  />
-                  <path d="M24 0H47V17H24V0Z" fill="#0E76BB" />
-                  <path d="M48 0H71V17H48V0Z" fill="#0E76BB" />
-                  <path d="M72 0H95V17H72V0Z" fill="#0E76BB" />
-                  <path d="M96 0H119V17H96V0Z" fill="#0E76BB" />
-                  <path d="M120 0H143V17H120V0Z" fill="#0E76BB" />
-                  <path d="M192 0H215V17H192V0Z" fill="#1DAF1A" />
-                  <path d="M168 0H191V17H168V0Z" fill="#1DAF1A" />
-                  <path d="M144 0H167V17H144V0Z" fill="#1DAF1A" />
-                  <path
-                    d="M239 8.5C239 3.80558 235.194 0 230.5 0H216V17H230.5C235.194 17 239 13.1944 239 8.5Z"
-                    fill="#FF6161"
-                  />
-                </svg>
+               <DynamicSVG blue={
+                statsData[0].value
+               } green={
+                statsData[1].value
+               } />
               </div>
             </div>
           </div>
@@ -291,5 +351,24 @@ function PermmissionManagmentheader() {
     </div>
   );
 }
+
+
+const DynamicSVG = ({ blue, green }) => {
+  const total = blue + green;
+  const bluePercentage = (blue / total) * 100;
+  const greenPercentage = (green / total) * 100;
+
+  const blueWidth = (bluePercentage / 100) * 239;
+  const greenWidth = (greenPercentage / 100) * 239;
+
+  return (
+    <svg width="239" height="17" viewBox={`0 0 239 17`} fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="239" height="17" rx="8.5" fill="#F5F7F9"/>
+      <rect width={blueWidth} height="17" fill="#0E76BB"/>
+      <rect x={blueWidth} width={greenWidth} height="17" fill="#1DAF1A"/>
+    </svg>
+  );
+};
+
 
 export default PermmissionManagmentheader;

@@ -29,6 +29,7 @@ import {
   deleteRole,
   editRole,
   getAccessList,
+  getRoleManagementStats,
   getRoles,
   updateRoleWithPermissions,
 } from "../../../../api";
@@ -44,10 +45,17 @@ export default () => {
   const { t } = useTranslation();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [stats, setStats] = useState({});
 
 
-  const getData = () => {
+  const getData = async () => {
     setLoading(true);
+
+    
+    const stats = await getRoleManagementStats();
+    console.log("stats ===============>>>", stats.data)
+    setStats(stats.data);
+
     getRoles()
       .then((res) => {
         setData(
@@ -164,7 +172,7 @@ export default () => {
     >
       <PageProvider>
        <div id="scale-down" className="">
-        <PermmissionManagmentheader />
+        <PermmissionManagmentheader stats = {stats} />
 
           <div id="scale-down">
             {!loading ? (
