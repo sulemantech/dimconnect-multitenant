@@ -1,6 +1,6 @@
 import { Button, Input, PasswordInput } from "@mantine/core";
 import { useContext, useState } from "preact/hooks";
-import api, { postAuth } from "../../api";
+import api, { LoginChatServer, postAuth } from "../../api";
 import Logo from "../../components/Logo";
 import appConfig from "../../config/appConfig";
 import { AuthState } from "../../providers/AuthProvider";
@@ -26,7 +26,8 @@ export default () => {
       .then(async ({ data }) => {
         authState.setAuth(true);
         const username = email.split("@")[0];
-        const chatServerUser = await (username, email, pass, `Bearer ${data.token}`)
+        const chatServerUser = await LoginChatServer(username, email, pass, `Bearer ${data.token}`)
+        console.log(chatServerUser)
           // .then(async (res) => {
           //   console.log(res);
           //   const msgBuffer = new TextEncoder().encode(pass);
