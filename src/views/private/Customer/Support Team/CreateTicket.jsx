@@ -92,6 +92,17 @@ export default function TicketCreationPage() {
       fileNames.push(files[i].name);
     }
 
+    // if there no file and file size is zero then remove file from form data
+    for (let i = 0; i < files.length; i++) {
+      if (files[i].size === 0) {
+        formData.delete("file");
+        fileUrls.splice(i, 1);
+        fileTypes.splice(i, 1);
+        fileNames.splice(i, 1);
+      }
+    }
+
+
     try {
       const ticketPosted = await postTicket(formData);
 
