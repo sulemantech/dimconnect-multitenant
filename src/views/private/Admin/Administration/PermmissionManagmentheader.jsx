@@ -11,13 +11,7 @@ function PermmissionManagmentheader({ stats }) {
   const handleCheckboxChange1 = (event) => {
     setIsChecked1(event.target.checked);
   };
-  const colors = ["#0E76BB", "#1DAF1A", "#FF6161"];
-  // const images = ["/eye.svg", "/pencil.svg", "/king.svg"];
-  // const titles = [
-  //   "AGS Rights GP Viewer",
-  //   "AGS Rights GP Editor",
-  //   "AGS Rights GP Admin",
-  // ];
+
   const [statsData, setStatsData] = useState([
     {
       color: "#0E76BB",
@@ -68,51 +62,17 @@ function PermmissionManagmentheader({ stats }) {
     }
   }, [stats]);
 
-  let percentage = [18, 40, 27];
   const { t } = useTranslation();
   return (
     <div>
-      <div className="flex flex-wrap justify-center max-laptop1:grid max-laptop1:grid-cols-2 max-Mobile:flex max-Mobile:flex-col">
-        <div className=" m-2 bg-white text-gray-700 rounded-lg px-5 pt-3   min-w-fit flex-1 flex">
+      <div className="flex flex-wrap justify-evenly max-laptop1:grid max-laptop1:grid-cols-2 max-Mobile:flex max-Mobile:flex-col">
+        <div className=" m-2 bg-white text-gray-700 rounded-lg px-5 pt-3   min-w-fit flex-1">
           <div>
             <h2 className="text-lg font-bold">{t("Agreement Statuses")}</h2>
             <div>
               <div className="flex flex-row mt-2 space-x-[3vw]">
                 <div className="flex flex-row space-x-2">
-                  <Checkbox
-                    color="green"
-                    checked={isChecked ? true : false}
-                    onChange={handleCheckboxChange}
-                  />
-                  <p>Not Signed</p>
-                </div>
-                <div className="flex flex-row justify-center space-x-2">
-                  <p className="text-[#0E76BB] text-sm">
-                    {/* +3,5% */}
-                    {stats?.agreementNotSignedCount +
-                      stats?.agreementSignedCount !==
-                    0
-                      ? Math.round(
-                          (stats?.agreementNotSignedCount /
-                            (stats?.agreementNotSignedCount +
-                              stats?.agreementSignedCount)) *
-                            100
-                        )
-                      : 0}
-                    %
-                  </p>
-                  <span>{stats?.agreementNotSignedCount}</span>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div className="flex flex-row mt-2 space-x-[3vw]">
-                <div className="flex flex-row space-x-2">
-                  <Checkbox
-                    color="green"
-                    checked={isChecked1 ? true : false}
-                    onChange={handleCheckboxChange1}
-                  />
+                <img className="border-[2px] rounded-md border-[#E6E6E6E5] p-1" src="/Check.svg" alt="" />
                   <p>Signed</p>
                 </div>
                 <div className="flex flex-row justify-center space-x-2">
@@ -134,18 +94,44 @@ function PermmissionManagmentheader({ stats }) {
                 </div>
               </div>
             </div>
+            <div>
+              <div className="flex flex-row mt-2 space-x-[3vw]">
+                <div className="flex flex-row space-x-2">
+                <img className="border-[2px] rounded-md border-[#E6E6E6E5] p-1 mb-3" src="/cross.svg" alt="" />
+                  <p>Not Signed</p>
+                </div>
+                <div className="flex flex-row justify-center space-x-2">
+                  <p className="text-[#0E76BB] text-sm">
+                    {/* +3,5% */}
+                    {stats?.agreementNotSignedCount +
+                      stats?.agreementSignedCount !==
+                    0
+                      ? Math.round(
+                          (stats?.agreementNotSignedCount /
+                            (stats?.agreementNotSignedCount +
+                              stats?.agreementSignedCount)) *
+                            100
+                        )
+                      : 0}
+                    %
+                  </p>
+                  <span>{stats?.agreementNotSignedCount}</span>
+                </div>
+              </div>
+            </div>
+          
           </div>
         </div>
 
         {statsData.map((item, index) => (
           <div
             key={index}
-            className="m-2 h-[21vh] bg-white text-gray-700 rounded-lg px-5 pt-3   min-w-[250px] flex-1 flex"
+            className="m-2 h-fit bg-white text-gray-700 rounded-lg px-3 pt-3 pb-3.5  min-w-fit flex flex-1"
           >
             <h2 className="text-lg font-bold absolute">{item.title}</h2>
-            <div>
-              <div>
-                <div className=" absolute mt-[2vw]">
+            <div className="flex justify-center items-center w-fit relative mt-6">
+              <div className=" flex items-start">
+               
                   <svg
                     width="12vw"
                     height="12vh"
@@ -234,21 +220,21 @@ function PermmissionManagmentheader({ stats }) {
                       }
                     />
                   </svg>
-                </div>
               </div>
+              <div className="w-fit mr-10 mt-5 absolute ">
               <img
-                className=" w-[2vw] ml-[10.5%]  absolute pt-[16.3%] pb-2"
+                className=" w-8"
                 src={item.image}
                 alt=" "
-              />
+              /></div>
             </div>
-            <div className=" flex flex-1 "></div>
+            
             <div className="flex flex-col items-end mt-[12%]">
               <span className=" text-xs ml-2" style={{ color: item.color }}>
                 {/* {"+" + item.percentage}% */}
                 {/* if item.title === "AGS Rights GP Admin" then don't show percentage */}
                 {item.title === "AGS Rights GP Admin"
-                  ? ""
+                  ? <span className=" invisible">{"+" + item.percentage + "%"}</span>
                   : "+" + item.percentage + "%"}
               </span>
               <h3 className="text-2xl ">{item.value}</h3>
@@ -259,13 +245,13 @@ function PermmissionManagmentheader({ stats }) {
           </div>
         ))}
 
-        <div className=" m-2 bg-white text-gray-700 rounded-lg px-5 pt-3 flex">
-          <div className="">
+        <div className=" flex-1 m-2 w-fit bg-white text-gray-700 rounded-lg px-5 pt-3 ">
+          
             <h2 className="text-lg font-bold absolute">
               {t("AGS Rights by Type")}
             </h2>
-            <div>
-              <div className="flex flex-row w-[100%] space-x-[7vw] mt-[5.5vh]">
+            
+              <div className="flex flex-row w-[100%] space-x-[5vw] mt-[5.5vh]">
                 <div>
                   <img className="w-[3vw] h-[3vh]" src="/eye.svg" alt="" />
                   <svg
@@ -344,8 +330,8 @@ function PermmissionManagmentheader({ stats }) {
                 statsData[1].value
                } />
               </div>
-            </div>
-          </div>
+           
+          
         </div>
       </div>
     </div>
