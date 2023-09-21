@@ -4,7 +4,6 @@ import Vector from "./Vector.png";
 import { useTranslation } from "react-i18next"
 
 function TicketManagment({ ticketCounts }) {
-  console.log(ticketCounts)
   const tempCount = [
     {
         "name": "Open",
@@ -112,7 +111,6 @@ function TicketManagment({ ticketCounts }) {
 }
 function Ticket({ ticket, Number, color2, color, progressvalue, Number2 }) {
   const { t } = useTranslation()
-  console.log(progressvalue);
   return (
     <>
       <div className="bg-[#ffffff]  h-auto rounded-md mt-2  border-[2px] w-max p-5 ">
