@@ -61,49 +61,53 @@ const MyTable = ({ data, select, setSelect, setUpdate }) => {
   
     {
       name: t("Ticket ID"),
-      selector: "id",
+      selector: row => row.id,
       cell: (row) => row.id.toString().padStart(6, "0"),
       sortable: true,
     },
     {
       name:t("Status"),
-      selector: "status_id",
+      selector: row => row.status_id,
       cell: (row) => <img src={status[row.status_id].svg} alt="status" />,
       sortable: true,
     },
     {
       name: t("Requester"),
-      selector: "requester",
+      selector: row => row.requester,
       cell: (row) => row.gpUser.vorname + " " + row.gpUser.nachname,
       sortable: true,
     },
     {
       name: t("Problem Type"),
-      selector: "problemType",
+      selector: row => row.problemType,
       cell: (row) => row.ticketCategory.name,
       sortable: true,
     },
     {
       name: t("Title"),
-      selector: "title",
+      // selector: "title",
+      selector: row => row.title,
       sortable: true,
     },
     {
       name: t("Priority"),
-      selector: "priority",
+      // selector: "priority",
+      selector: row => row.priority,
       cell: (row) => row.ticketPriority.name,
       sortable: true,
     },
     {
       name: t("Created"),
-      selector: "created_at",
+      // selector: "created_at",
+      selector: row => row.created_at,
       cell: (row) =>
         new Date(row.created_at).toLocaleDateString().replaceAll("/", "."),
       sortable: true,
     },
     {
       name: t("Updated"),
-      selector: "updated_at",
+      // selector: "updated_at",
+      selector: row => row.updated_at,
       cell: (row) =>
         new Date(row.updated_at).toLocaleDateString().replaceAll("/", "."),
       sortable: true,
@@ -365,14 +369,14 @@ export const TicketModal = ({ ticket, setUpdate }) => {
 
   const handleAttachmentsDownload = async() => {
     
-    const ticketFiles = await Promise.all(
+    const ticketFiles = await Promise.allSettled(
       ticket.ticketAttachments.map(async (item) => {
         const response = await getResource(item.filename);
         return window.URL.createObjectURL(new Blob([response.data]));
       })
     );
-    console.log(ticketFiles)
-    setTicketAttachments(ticketFiles);
+    // only set files whose status is fulfilled
+    setTicketAttachments(ticketFiles.filter(item=>item.status==="fulfilled").map(item=>item.value));
 
     const commentsFiles = ticket.ticketComments.map(comment=>{
       return comment.ticketAttachments.map(async (item) => {
@@ -383,12 +387,11 @@ export const TicketModal = ({ ticket, setUpdate }) => {
 
     })
 
-    
-    // setCommentAttachments(commentsFiles);
     // commentsFiles is an array of arrays, I want to combine all the array of arrays into a single array
-    const commentsFiles2 = await Promise.all(commentsFiles.flat());
-    console.log(commentsFiles2)
-    setCommentAttachments(commentsFiles2);
+    const commentsFiles2 = await Promise.allSettled(commentsFiles.flat());
+
+    // only set files whose status is fulfilled
+    setCommentAttachments(commentsFiles2.filter(item=>item.status==="fulfilled").map(item=>item.value));
   };
   
   useLayoutEffect(() => {
@@ -662,6 +665,7 @@ export const TicketModal = ({ ticket, setUpdate }) => {
                             ? 'bg-[#F5F7F9]'
                             : 'bg-white'}`}
                         >
+                          
                           <img
                             className="mr-2"
                             // src={`http://localhost:3002/static/tickets/${attachment.filename}`}
@@ -719,7 +723,6 @@ export const TicketModal = ({ ticket, setUpdate }) => {
                     className={`cursor-pointer w-7 h-5 mx-2 px-1 ${status[key].name === ticketStatus?.name ? `bg-[#1e6ed068] rounded-lg` : ""}`}
                     onClick={() => {
                       putTicket(ticket.id, {status_id: Number(key)}).then(res=> {if(res.status === 200){setUpdate(prev => prev + 1)}})
-                      console.log(ticket.id, {...ticket, status_id: key})
                       setTicketStatus(status[key]);
                       
                     }}
@@ -812,7 +815,6 @@ export const TicketModal = ({ ticket, setUpdate }) => {
                 new Date(b.created_at).getTime()
               )
             })
-            console.log(sortedComments)
             sortedComments[sortedComments.length - 1]?.id ? formData.append("reply_to", sortedComments[sortedComments.length - 1].id) : null;
             // call the post request function
             try{

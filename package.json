@@ -71,7 +71,7 @@
     "read-excel-file": "^5.6.1",
     "recharts": "^2.3.2",
     "spline-wrapper": "^1.1.1",
-    "styled-components": "^6.0.0-rc.3",
+    "styled-components": "v5.3.3",
     "tailwindcss-ripple": "^0.7.1",
     "topojson-client": "^3.1.0",
     "websocket": "^1.0.34"

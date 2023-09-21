@@ -40,7 +40,6 @@ export default () => {
   useEffect(() => {
     getAllTickets()
       .then((res) => {
-        console.log("Tickets = = = = = = = = = == >>>>", res.data);
 
         setTicketCounts(count(res.data));
 
