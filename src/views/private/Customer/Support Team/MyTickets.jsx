@@ -2,6 +2,7 @@ import { useState, useEffect } from 'preact/hooks'
 import { getAllTickets, getMyTickets } from '../../../../api'
 import { Table } from '@mantine/core'
 import { route } from 'preact-router'
+import SupportTicketHeader from './SupportTicketHeader'
 export default () => {
     const [data, setData] = useState([])
     useEffect(() => {
@@ -12,6 +13,8 @@ export default () => {
 
     return (
         <>
+        <div id="scale-down">
+         <SupportTicketHeader/>
             <div className="flex flex-col p-4 h-screen  overflow-y-auto">
                 <div className="flex flex-row justify-between items-center bg-white rounded-lg shadow-md p-2">
                     <h1 className="text-2xl font-bold">My Tickets</h1>
@@ -57,6 +60,7 @@ export default () => {
                         </tbody>
                     </Table>
                 </div>
+            </div>
             </div>
         </>
     )

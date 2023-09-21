@@ -1,5 +1,6 @@
 import { useState, useEffect } from "preact/hooks";
 import { useTranslation } from "react-i18next";
+
 import {
   TextInput,
   Button,
@@ -27,6 +28,7 @@ import { showNotification } from "@mantine/notifications";
 import { IconFile, IconPaperclip, IconSearch } from "@tabler/icons";
 import { openModal } from "@mantine/modals";
 import { Link } from "preact-router";
+import SupportTicketHeader from "./SupportTicketHeader";
 
 export default function TicketCreationPage() {
   const [loading, setLoading] = useState(false);
@@ -135,21 +137,9 @@ export default function TicketCreationPage() {
   };
 
   return (
-    <div id="scale-down" className="w-full h-full overflow-y-auto  flex-grow">
-      <div
-        style={{ backgroundImage: 'url("/BGFAQ2.svg")' }}
-        className="flex flex-col pl-20 justify-center h-[77px]"
-      >
-        <div className="flex space-x-10  ">
-          <a className=" underline font-bold text-white" href="#">
-            {t('Create New')}
-          </a>
-          <a className=" font-bold text-white" href="/support_team/my_tickets">
-            {t('Manage Status')}
-          </a>
-        </div>
-      </div>
-      <Paper className="space-y-4 px-20 py-4 h-full overflow-y-auto flex-grow ">
+    <div id="scale-down" className=" h-full overflow-y-scroll flex-grow ">
+      <SupportTicketHeader/>
+      <Paper className="space-y-4 px-20 py-4">
         <Title
           order={2}
           color="brand"
