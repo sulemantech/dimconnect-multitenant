@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { Checkbox, LoadingOverlay, Select } from "@mantine/core";
+import { Checkbox, Loader, LoadingOverlay, Select } from "@mantine/core";
 import subtract2 from "./SubtractBlue.png";
 import subtract3 from "./SubtractGreen.png";
 import subtract1 from "./Subtractred.png";
@@ -9,8 +9,9 @@ import DataTable from "react-data-table-component";
 import { useState } from "react";
 import { getResource, postComment, putTicket } from "../../../../../api";
 import { useLayoutEffect } from "react";
-// import './table.css'
 import { useTranslation } from "react-i18next"
+import { showNotification } from "@mantine/notifications";
+import { useTransition } from 'react';
 
 export const status = {
   1: {
@@ -54,6 +55,7 @@ export const status = {
 
 const MyTable = ({ data, select, setSelect, setUpdate }) => {
   const {t}=useTranslation()
+
 
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(25);
@@ -333,6 +335,9 @@ export default MyTable;
 
 export const TicketModal = ({ ticket, setUpdate }) => {
 
+  
+  // useTransition
+  const [isPending, Transition] = useState(false);
   const [files, setFiles] = useState([]);
   const [answer, setAnswer] = useState("");
   const [ticketStatus, setTicketStatus] = useState(status[ticket.status_id]);
@@ -724,6 +729,11 @@ export const TicketModal = ({ ticket, setUpdate }) => {
                     onClick={() => {
                       putTicket(ticket.id, {status_id: Number(key)}).then(res=> {if(res.status === 200){setUpdate(prev => prev + 1)}})
                       setTicketStatus(status[key]);
+                      showNotification({
+                        title: "Status Updated",
+                        message: `Ticket status has been updated to ${status[key].name}`,
+                        type: "success",
+                      })
                       
                     }}
                   />
@@ -803,6 +813,19 @@ export const TicketModal = ({ ticket, setUpdate }) => {
           <button 
           onClick={async() =>{
             // create a new form data object and add answer state as body, and files as file key value pair
+            Transition(true);
+
+            // check if answer is empty then return and show notification that answer is required
+            if(answer === ""){
+              Transition(false);
+              return showNotification({
+                title: "Answer Required",
+                message: `Please enter an answer to submit`,
+                type: "danger",
+              })
+            }
+
+
             const formData = new FormData();
             formData.append("body", answer);
 
@@ -823,16 +846,27 @@ export const TicketModal = ({ ticket, setUpdate }) => {
               setUpdate(prev => prev + 1);
               setAnswer("");
               setFiles([]);
+              Transition(false);
+              showNotification({
+                title: "Comment Added",
+                message: `Your comment has been added successfully`,
+                type: "success",
+              })
               closeAllModals();
             }catch(err){
               console.log(err);
+              Transition(false);
             }
 
           }}
-          className="bg-[#D8E4EE] text-lg font-bold rounded-lg text-[#0E76BB] px-5 py-3 mt-4 ml-1
-            hover:bg-[#0E76BB] hover:text-white transition duration-300 ease-in-out
-          ">
-            Send
+          // if isPending is true, then button will not be clickable
+          disabled={isPending}
+          className={`bg-[#D8E4EE] text-lg font-bold rounded-lg text-[#0E76BB] px-5 py-3 mt-4 ml-1
+            ${!isPending && 'hover:bg-[#0E76BB] hover:text-white'}  transition duration-300 ease-in-out
+          `}>
+            {
+              isPending ? <Loader type="ThreeDots" color="#0E76BB" height={20} width={20} /> : "Send"
+            }
           </button>
         </div>
       </div>

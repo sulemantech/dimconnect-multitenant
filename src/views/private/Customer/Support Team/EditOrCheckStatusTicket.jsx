@@ -29,6 +29,7 @@ export default () => {
       })
       .catch((err) => {
         console.log(err);
+        router[1]('/support_team/support_ticket')
       });
   };
 
