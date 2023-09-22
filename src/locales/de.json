@@ -31,7 +31,7 @@
    "Primary Cable Types": "Hauptkabeltypen",
    "Click on the map to enlarge": "Klicken Sie auf die Karte, um sie zu vergrößern",
    "Support Tickets": "Support-Tickets",
-   "Ticket ID": "Ticket-ID",
+   "Ticket ID": "Fahrkarte ID",
    "Status": "Status",
    "Requester": "Anfordernde Person",
    "Problem Type": "Problemtyp",
@@ -163,7 +163,7 @@
    "SUPPORT": "UNTERSTÜTZUNG",
    "TICKET BACK OFFICE": "FAHRKARTE ZURÜCK BÜRO",
    "TEAM": "TEAM",
-   "Drop | Demand": "fallen | Nachfrage",
+   "Drop | Demand": "Fallen | Nachfrage",
    "Primary Breakdown": "Primärausfall",
    "Feeder Breakdown": "Zuleitungsausfall",
    "Distribution Breakdown": "Verteiler-Ausfall",
@@ -269,5 +269,6 @@
   "Market Investigation":"Markt Untersuchung",
   "INBOX":"Posteingang",
   "LIVE CHAT":"LIVE PLAUDERN",
-  "CONTACT":"KONTAKT"
+  "CONTACT":"KONTAKT",
+  "Support Ticket Inbox":"Unterstützung Fahrkarte Posteingang"
 }

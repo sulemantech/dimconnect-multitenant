@@ -261,6 +261,17 @@ function LiveChatSupport() {
       });
   };
 
+
+  function getCurrentDate() {
+    const options = { day: '2-digit', month: '2-digit', year: 'numeric', weekday: 'long' };
+    const date = new Date();
+    const formattedDate = date.toLocaleDateString('en-US', options);
+    const [weekday, dateStr] = formattedDate.split(', ');
+    const [month, day, year] = dateStr.split('/');
+    return `${day}.${month}.${year}, ${weekday}`;
+  }
+  const currentDate = getCurrentDate();
+
   return (
     <PermissionWrapper permission={PERMISSIONS["User Management"]} view message>
     <div  className="h-full pb-12 bg-white overflow-auto">
@@ -378,7 +389,7 @@ function LiveChatSupport() {
 
         <div className=" h-[76vh] bg-[#F5F7F942] text-[#3E3F3F] rounded-md border-[2px] mt-4 border-[#DDE7F0] w-[50%] font-[Roboto] ml-3 shadow-lg flex flex-col justify-between">
           <p className="flex flex-row-reverse font-[550] pr-[40px] max-md:pr-[1px] h-[4vh] text-xs pt-1.5 bg-[#D8E4EEE5] ">
-            {t("21.06.2023, Thursday")}
+          {currentDate}
           </p>
 
           {/* <div className="flex flex-col h-full"> */}
@@ -500,7 +511,7 @@ function LiveChatSupport() {
                   setMsg(e.target.value);
                 }}
                 placeholder={t(
-                  "Text Here!"
+                  "Please type text here"
                 )}
               />
               <button type="submit" onClick={sendMessage}>

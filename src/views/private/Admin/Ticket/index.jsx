@@ -59,10 +59,10 @@ export default () => {
           tickets={tickets}
         />
 
-        <div className="flex w-full px-5 h-full justify-center items-start">
+        <div className="flex w-full px-5 justify-center items-start ">
           <div
             // className="min-w-[60%] "
-            className="w-[85%] h-full"
+            className="w-[85%] max-xl:w-full"
             style={{
               borderTopLeftRadius: "0.5rem",
             }}
@@ -74,12 +74,17 @@ export default () => {
               setUpdate={setUpdate}
             />
           </div>
-          <div >
+          <div className=" max-xl:hidden" >
             <UserCard 
               className="h-full"
             tickets={tickets} select={select} />
           </div>
         </div>
+        <div className="xl:hidden" >
+            <UserCard 
+              className="h-full"
+            tickets={tickets} select={select} />
+          </div>
       </div>
     </>
   );
