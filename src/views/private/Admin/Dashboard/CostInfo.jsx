@@ -14,6 +14,7 @@ import {
   Text,
   Title,
 } from "@mantine/core";
+import jsPDFAutoTable from 'jspdf-autotable';
 import { useDidUpdate } from "@mantine/hooks";
 import { IconRefresh, IconSettings } from "@tabler/icons";
 import {
@@ -38,7 +39,7 @@ import Icons from "../../../../layout/icons";
 
 export const generatePDF = (data, fileName) => {
   const doc = new jsPDF();
-
+  jsPDF.API.autoTable = jsPDFAutoTable;
   // add title of filename
   doc.text(`Kosteninformationen von ${fileName}`, 10, 10);
 
