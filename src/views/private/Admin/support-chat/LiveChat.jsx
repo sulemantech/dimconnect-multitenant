@@ -500,7 +500,7 @@ function LiveChatSupport() {
                   setMsg(e.target.value);
                 }}
                 placeholder={t(
-                  "Text Here!"
+                  "Please type text here"
                 )}
               />
               <button type="submit" onClick={sendMessage}>

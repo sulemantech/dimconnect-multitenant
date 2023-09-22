@@ -46,7 +46,7 @@ function TicketManagment({ ticketCounts }) {
   const { t } = useTranslation()
   return (
     <>
-      <div className="flex flex-row flex-wrap w-full justify-evenly ">
+      <div className="flex flex-row flex-wrap w-full max-lg:grid max-lg:grid-cols-4 max-md:grid-cols-3 max-sm:grid-cols-1">
 
         {
           ticket
@@ -113,15 +113,15 @@ function Ticket({ ticket, Number, color2, color, progressvalue, Number2 }) {
   const { t } = useTranslation()
   return (
     <>
-      <div className="bg-[#ffffff]  h-auto rounded-md mt-2  border-[2px] w-max p-5 ">
-        <p className="text-[0.625rem] font-bold ">{t(ticket.toUpperCase())} {t('TICEKTS')}</p>
+      <div className="bg-[#ffffff]  h-auto rounded-md mt-2  border-[2px] w-auto flex-1 p-5  flex-wrap  mx-2">
+        <p className="text-[0.625rem]  font-bold ">{t(ticket.toUpperCase())} {t('TICEKTS')}</p>
         <div className="flex flex-col">
           <p className={`text-[0.625rem]  ${color} flex items-baseline justify-between font-medium`}>
             {Number2}
             <span className={`${color} font-bold text-[25px]`}>{Number}</span>
           </p>
           <Progress
-            className="w-36 h-[0.63244rem]"
+            className="w-[95%] h-[0.63244rem]"
             color={`${color2}`}
             value={progressvalue}
           // value={Number.toString()}

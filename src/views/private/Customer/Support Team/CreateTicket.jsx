@@ -8,7 +8,6 @@ import {
   Paper,
   Textarea,
   Title,
-  Input,
   Box,
   Text,
   FileInput,
@@ -16,8 +15,6 @@ import {
   Flex,
   Stack,
   Image,
-  Loader,
-  LoadingOverlay,
 } from "@mantine/core";
 import {
   getTicketPriorities,
