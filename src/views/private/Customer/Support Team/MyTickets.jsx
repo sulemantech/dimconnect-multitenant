@@ -17,7 +17,7 @@ export default () => {
          <SupportTicketHeader/>
             <div className="flex flex-col p-4 h-screen  overflow-y-auto">
                 <div className="flex flex-row justify-between items-center bg-white rounded-lg shadow-md p-2">
-                    <h1 className="text-2xl font-bold">My Tickets</h1>
+                    <h1 className="font-[roboto] text-[#0078BE] font-bold text-[32px]">My Tickets</h1>
                     <div className="flex flex-row">
 
                     </div>

@@ -45,7 +45,7 @@ export default () => {
     <SupportTicketHeader/>
     <div className="w-full h-full  bg-white">
       <div className="p-12">
-        <Title order={3} className="mb-8" color="brand">
+        <Title order={2} className="mb-8" color="brand">
           Edit or Check Status of your Tickets Here
         </Title>
         <p className="text-xs">
