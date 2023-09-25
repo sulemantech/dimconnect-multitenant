@@ -18,6 +18,7 @@ import Ellipse from "./Ellipse.svg";
 import { useRouter } from "preact-router";
 import { useLayoutEffect, useState } from "preact/hooks";
 import { getTickets, postComment } from "../../../../api";
+import SupportTicketHeader from "./SupportTicketHeader";
 export default () => {
   const router = useRouter();
   const [data, setdata] = useState(null);
@@ -39,9 +40,12 @@ export default () => {
     return () => { };
   }, []);
   return (
-    <div className="w-full h-full overflow-y-auto bg-white">
+    <>
+    <div id="scale-down" className="w-full h-full  bg-white overflow-y-auto">
+    <SupportTicketHeader/>
+    <div className="w-full h-full  bg-white">
       <div className="p-12">
-        <Title order={3} className="mb-8" color="brand">
+        <Title order={2} className="mb-8" color="brand">
           Edit or Check Status of your Tickets Here
         </Title>
         <p className="text-xs">
@@ -58,6 +62,8 @@ export default () => {
         {data ? <TicketDetails data={data} getTicketData={getTicketData} /> : <Loader />}
       </div>
     </div>
+    </div>
+    </>
   );
 };
 
@@ -92,7 +98,7 @@ function TicketDetails({ data, getTicketData }) {
         <Accordion.Item className="w-[100%]" value="customization">
           <Accordion.Control className="bg-[#D8E4EE] ">
             <div className="flex space-x-[38px]  ">
-              <p>
+              <p className="relative">
                 <img className=" absolute  ml-2 w-[0.9rem]" src={New} alt="" />
                 <img className=" mt-1 w-[1rem]" src={MessageBox} alt="" />
               </p>
@@ -222,7 +228,7 @@ const CommentItem = ({ comment, value, data }) => {
       value={typeof value === "number" ? value.toString() : value}
     >
       <Accordion.Control className="bg-[#F5F7F9] h-[1.3rem]">
-        <p>
+        <p className="relative">
           <img
             className=" absolute  ml-5 mt-1  w-[0.5rem]"
             src={Vector}

@@ -38,7 +38,7 @@ function UserCard({ tickets, select }) {
             {t('User Card')}
           </button>
         </div>
-        <div className=" ml-6 mt-3 bg-[#ffffff] rounded-md px-2 min-w-fit min-h-fit">
+        <div className=" ml-6 mt-3 bg-[#ffff]  rounded-md px-2 min-w-fit min-h-fit max-xl:w-full">
           {active === "userTicket" ? (
             <div className="w-full max-h-[100%]  p-2">
               <DataTable
@@ -138,10 +138,10 @@ function UserCard({ tickets, select }) {
               />
             </div>
           ) : (
-            <div className="w-[20vw] flex flex-col p-2 text-xs justify-center">
+            <div className="w-[20vw] flex flex-col p-2 text-xs justify-center max-xl:w-full">
               <label
                 htmlFor="name"
-                className="text-black  text-sm font-medium "
+                className="text-black  text-sm max-xl:text-xl font-medium "
               >
                 {t('Name')}
               </label>
@@ -163,7 +163,7 @@ function UserCard({ tickets, select }) {
               />
               <label
                 htmlFor="email"
-                className=" text-gray-700 text-sm font-medium mt-5"
+                className=" text-gray-700 text-sm max-xl:text-xl font-medium mt-5"
               >
                 {t('Email')}
               </label>
@@ -176,7 +176,7 @@ function UserCard({ tickets, select }) {
               />
               <label
                 htmlFor="location"
-                className="text-gray-700  text-sm font-medium mt-5"
+                className="text-gray-700  text-sm max-xl:text-xl font-medium mt-5"
               >
                 {t('Location')}
               </label>
@@ -189,7 +189,7 @@ function UserCard({ tickets, select }) {
               />
               <label
                 htmlFor="comapny"
-                className=" text-gray-700 text-sm font-medium mt-5"
+                className=" text-gray-700 text-sm max-xl:text-xl font-medium mt-5"
               >
                 {t('Company')}
               </label>
@@ -201,7 +201,7 @@ function UserCard({ tickets, select }) {
               />
               <label
                 htmlFor="vip"
-                className="text-gray-700 text-sm font-medium mt-5"
+                className="text-gray-700 text-sm max-xl:text-xl font-medium mt-5"
               >
                 {t('VIP')}
               </label>
@@ -213,7 +213,7 @@ function UserCard({ tickets, select }) {
               />
               <label
                 htmlFor="description"
-                className="text-gray-700 text-sm font-medium mt-5"
+                className="text-gray-700 text-sm max-xl:text-xl font-medium mt-5"
               >
                 {t('Comments from Customer Care')}
               </label>

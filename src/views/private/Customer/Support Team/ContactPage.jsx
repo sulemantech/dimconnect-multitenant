@@ -49,28 +49,25 @@ export default () => {
         </div>
 
         <div className=" z-10  pt-[6.8rem] ">
-          <div className="flex items-center bg-[url('/BG_Contacts1.png')]  px-16 absolute bottom-0 left-0 right-0  mt-[20rem] h-[17.7rem] max-laptop:h-[9rem] w-full">
+          <div className="flex items-center bg-[url('/BG_Contacts1.png')]  px-16 max-sm:px-0 absolute bottom-0 left-0 right-0  mt-[20rem] h-[17.7rem] w-full">
             <div className="">
-              <img className="w-[15rem] max-laptop:w-[6rem] max-laptop:pb-8" src="/logo_TUV.svg" alt="" />
+              <img className="w-[15rem] max-sm:w-[8rem]" src="/logo_TUV.svg" alt="" />
             </div>
             <div className="flex-1" />
-            <div className="flex absolute bottom-0 right-0 mb-[3rem] mr-[20rem] max-laptop:mb-[2rem]">
-              <div className=" w-[20vw]  max-laptop:w-[14vw] flex justify-end items-end z-10 -mr-[8vw] max-laptop:-mr-[6vw] mt-[11.5rem] max-laptop:mt-[4rem] flex-col">
-                <img src="/iphone2.png" className="w-[16vw] max-laptop:w-[14vw] " alt="" />
-              </div>
-              <div className="w-[20vw] flex flex-col justify-center max-laptop:w-[14vw]   items-center">
-                <img src="/Iphone1.png" className="w-[25vw] max-laptop:w-[14vw]  " alt="" />
-                <div className="flex items-start justify-start -mt-12 max-laptop:-mt-[4.2rem] pt-2 mb-2 pl-[3rem]">
-                  <div className="flex flex-col pb-2 space-y-1 max-laptop:pl-[1rem] max-laptop:mt-10">
-                    <p className=" text-white text-[0.68rem] max-laptop:text-[8px]">
+            <div className="flex absolute bottom-0 right-0 ">
+              
+              <div className=" flex flex-col relative mb-8 mr-[20%] justify-center items-center">
+                <img src="/DIMMOBILES.svg" className="w-[80%]" alt="" />
+                <div className="absolute mt-[80%] ml-[40%]">
+                  <div className="flex flex-col space-y-1 ">
+                    <p className=" text-white text-[0.68rem] ">
                      {t('Download DIM Application!')}
                     </p>
-                    <p className=" text-white text-[0.68rem] max-laptop:text-[8px] ">
+                    <p className=" text-white text-[0.68rem] ">
                       {t('All DIM Universe in your hand!')}
                       <br />
-                      <br />
                     </p>
-                    <img className="w-[5rem] max-laptop:w-[3rem]" src="/Group935.svg " alt="" />
+                    <img className="w-[5rem] " src="/Group935.svg " alt="" />
                   </div>
                 </div>
               </div>

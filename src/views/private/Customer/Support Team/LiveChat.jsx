@@ -213,6 +213,17 @@ function LiveChat() {
     }
   }, [room]);
 
+
+  function getCurrentDate() {
+    const options = { day: '2-digit', month: '2-digit', year: 'numeric', weekday: 'long' };
+    const date = new Date();
+    const formattedDate = date.toLocaleDateString('en-US', options);
+    const [weekday, dateStr] = formattedDate.split(', ');
+    const [month, day, year] = dateStr.split('/');
+    return `${day}.${month}.${year}, ${weekday}`;
+  }
+  const currentDate = getCurrentDate();
+
   return (
     //  filter: blur(8px),  -webkit-filter: blur(8px),
     <div id="scale-down" className="h-full   overflow-y-auto bg-[url('/bgimg.png')] bg-cover bg-center">
@@ -250,7 +261,7 @@ function LiveChat() {
                 Live Chat Support
               </h1>
               <p className=" font-[550] pr-[40px] text-sm ">
-                21.06.2023, Thursday
+              {currentDate}
               </p>
             </div>
             <div className="overflow-y-auto max-laptop:h-[50vh] max-laptop2:h-[50vh] h-[70vh]">
