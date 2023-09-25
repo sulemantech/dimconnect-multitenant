@@ -105,7 +105,7 @@ export default ({ modal = false }) => {
                 marginTop: '3.5rem',
         height:'90%'
         }
-        }} position="left" withArrow>
+        }} position="left"  withArrow>
             <Menu.Target>
                 {OverlayControlButton}
             </Menu.Target>
