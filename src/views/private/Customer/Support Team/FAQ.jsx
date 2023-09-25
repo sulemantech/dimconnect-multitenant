@@ -1,4 +1,4 @@
-import { Input, Loader, ScrollArea } from "@mantine/core";
+import { Autocomplete, Input, Loader, ScrollArea } from "@mantine/core";
 import { IconSearch } from "@tabler/icons";
 import { useEffect, useState } from "preact/hooks";
 import { useTranslation } from "react-i18next";
@@ -55,8 +55,20 @@ export default () => {
                 <div className="py-6" />
                 <div className="text-4xl font-bold tracking-wide text-white">{t('We Can Help.')}</div>
                 <div className="text-xs text-white my-2">{t('FAQ : Frequently Asked Questions, Conclusively Answered')}</div>
-                <Input  size="lg"
-                rightSection={<IconSearch size={20} />} radius={'xl'} placeholder={t('Search')} className="w-1/2 mt-4" />
+                {/* <Input  size="lg"
+                rightSection={<IconSearch size={20} />} radius={'xl'} placeholder={t('Search')} className="w-1/2 mt-4" /> */}
+                <Autocomplete   size="lg" data={data.map(item => item.name)}
+                rightSection={<IconSearch size={20} />} radius={'xl'} placeholder={t('Search')} className="w-1/2 mt-4"
+                
+                // when someone click or select any item from the list, it will redirect to the FAQ page with the selected item
+                onChange={(value) => {
+                    console.log(value)
+                    const selectedFAQ = data.filter(item => item.name === value)
+                    if(selectedFAQ.length > 0) {
+                        window.location.href = `./faq/${Object.values(selectedFAQ[0].categoriesNames)[0]}?q=${selectedFAQ[0].id}&#${selectedFAQ[0].id}`
+                    }
+                }}
+                />
             </div>
 
             <div className={`px-20 mt-10`}>
@@ -68,9 +80,10 @@ export default () => {
                             .filter(item => item.name.length > 100)
 
                             .slice(0, 3).map((item, index) => {
+                                
                                 return (
                                     <li key={index} className={`my-2`} >
-                                        <Link href={`./faq/${Object.values(item.categoriesNames)[0]}`} >
+                                        <Link href={`./faq/${Object.values(item.categoriesNames)[0]}?q=${item.id}&#${item.id}`} >
                                             <a className={`text-[#0E76BB] hover:underline`}>{item.name}</a>
                                         </Link>
                                     </li>
