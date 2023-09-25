@@ -50,6 +50,7 @@ export default ({
   edit = false,
   remove = false,
   attatchment = false,
+  createMethodName
 }) => {
   // as {"id":25,"name":"HO1V","min":"25","max":"55"}[]
 
@@ -135,7 +136,7 @@ export default ({
         <div className="flex justify-between p-4 w-[55vw] bg-cover bg-center text-white items-center bg-[url('/Rectangle973.png')] bg-no-repeat">
           <div className="flex flex-row items-center space-x-2">
             <img src="/user2.svg" alt="Title Image" className="title-image" />
-            <p>{t("Create New User")}</p>
+            <p>{title}</p>
           </div>
           <button onClick={closeAllModals} className="text-white">
             ✕
@@ -151,7 +152,7 @@ export default ({
                 item.replace("_", " ").trim().toUpperCase() === "AGS" ? (
                   <div className="flex flex-row mt-4 text-sm justify-center  items-center">
                     <label className="text-sm w-[9vw] text-gray-600">
-                      {t(item.replace("_", " ").trim().toUpperCase())}
+                      {t(item.replace("_", " ").trim().toUpperCase() ==="AGS" ? "Gemeinde" : item.replace("_", " ").trim().toUpperCase())}
                     </label>
                     <div className="w-[30vw]">
                       <Select
@@ -205,11 +206,13 @@ export default ({
                 <>
                   {newStruct.data[item].type == "radio" ? (
                     <div className="flex justify-center">
+                      {/* AGS right option */}
                       <Radio.Group
                         className="flex flex-row text-sm space-x-[3.8vw] w-[39vw] mt-2"
                         name={item}
-                        defaultValue={newStruct.data[item].defaultValue}
-                        required
+                        // by default first option should be selected
+                        defaultValue={newStruct.data[item].options[0].value}
+                        
                         label={t(
                           item.replace("ags_right", "AGS Right ").trim()
                         )}
@@ -287,7 +290,7 @@ export default ({
           <div className="flex justify-between p-4 w-[55vw] bg-cover bg-center text-white items-center bg-[url('/Rectangle973.png')] bg-no-repeat">
             <div className="flex flex-row items-center space-x-2">
               <img src="/user2.svg" alt="Title Image" className="title-image" />
-              <p>{t("Edit User Details")}</p>
+              <p>{title}</p>
             </div>
             <button onClick={closeAllModals} className="text-white">
               ✕
@@ -410,7 +413,7 @@ export default ({
                     leftIcon={<IconPlus size={15} />}
                     onClick={createNew}
                   >
-                    {t("Add User")}
+                    {createMethodName}
                   </Button>
                 )}
               </div>
@@ -541,7 +544,9 @@ export default ({
                               ? item[attr]?.map((i) => i.name).join(", ")
                               : isObject(item[attr])
                               ? Object.values(item[attr]).join(", ")
-                              : item[attr]}
+                              : typeof item[attr] === 'object' ? item[attr] : item[attr] || '-'
+
+                              }
                           </td>
                         );
                       })}
@@ -597,7 +602,10 @@ export default ({
                         )}
                         {remove && (
                           <ActionIcon
-                          disabled
+                          disabled = {
+                            newStruct
+                                    .deleteMethod ? false : true
+                          }
                             className="mr-10"
                             color="red"
                             onClick={() =>
