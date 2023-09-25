@@ -270,5 +270,7 @@
   "INBOX":"Posteingang",
   "LIVE CHAT":"LIVE PLAUDERN",
   "CONTACT":"KONTAKT",
-  "Support Ticket Inbox":"Unterstützung Fahrkarte Posteingang"
+  "Support Ticket Inbox":"Unterstützung Fahrkarte Posteingang",
+  "Please select a category and priority": "Bitte wählen Sie eine Kategorie und Priorität aus",
+  "File size must be less than 512MB": "Die Dateigröße muss kleiner als 512 MB sein"
 }

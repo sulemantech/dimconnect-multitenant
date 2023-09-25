@@ -40,6 +40,8 @@ import PermissionWrapper from "../../../../providers/PermissionsProvider";
 import { PERMISSIONS } from "../../../../common";
 import { useTranslation } from "react-i18next";
 import PermmissionManagmentheader from "./PermmissionManagmentheader";
+import { closeModal } from "@mantine/modals";
+import { showNotification } from "@mantine/notifications";
 
 export default () => {
   const { t } = useTranslation();
@@ -196,6 +198,7 @@ export default () => {
                   editMethod: editRole,
                   getMethod: getAccessList,
                 }}
+                createMethodName= "Add Role"
                 refreshData={refreshData}
               >
                 <Text>{t("Permissions")}</Text>
@@ -327,13 +330,28 @@ const PermissionList = ({ id, name, description, editMode = false }) => {
       }
     });
     updateRoleWithPermissions(id, { permissions })
-      .then(({ data }) => {
-        closeModal();
+      .then((res) => {
+        // show notifcation if success
+        if (res.status === 200) {
+          showNotification({
+            title: "Success",
+            message: "Permissions updated successfully",
+            color: "teal",
+          });
+        }
+        else {
+          showNotification({
+            title: "Error",
+            message: "Something went wrong",
+            color: "red",
+          });
+        }
+        closeAllModals();
         setLoading(false);
       })
       .catch((err) => {
         setError(
-          err.response.data.message || err.message || "Something went wrong"
+          err.response?.data?.message || err.message || "Something went wrong"
         );
         setLoading(false);
       });

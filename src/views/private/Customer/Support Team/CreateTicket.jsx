@@ -15,6 +15,9 @@ import {
   Flex,
   Stack,
   Image,
+  Loader,
+  LoadingOverlay,
+  Alert,
 } from "@mantine/core";
 import {
   getTicketPriorities,
@@ -22,9 +25,10 @@ import {
   postTicket,
 } from "../../../../api";
 import { showNotification } from "@mantine/notifications";
-import { IconFile, IconPaperclip, IconSearch } from "@tabler/icons";
+import { IconAlertCircle, IconFile, IconPaperclip, IconSearch } from "@tabler/icons";
 import { openModal } from "@mantine/modals";
 import { Link } from "preact-router";
+import { closeAllModals } from "@mantine/modals";
 import SupportTicketHeader from "./SupportTicketHeader";
 
 export default function TicketCreationPage() {
@@ -59,7 +63,7 @@ export default function TicketCreationPage() {
     // check all files are less than 512kb
     for (let i = 0; i < files.length; i++) {
       if(files[i].size > 5120000){
-        setError("File size must be less than 512MB");
+        setError(t("File size must be less than 512MB"));
         setLoading(false);
         return;
       }
@@ -69,7 +73,7 @@ export default function TicketCreationPage() {
     // check if priority is selected
 
     if (!formData.get("category_id") || !formData.get("priority_id")) {
-      setError("Please select a category and priority");
+      setError(t('Please select a category and priority'));
       setLoading(false);
       return;
     }
@@ -119,7 +123,6 @@ export default function TicketCreationPage() {
             ticketNumber={ticketPosted.data.id}
             currentStatus={"open"}
             date={new Date().toLocaleDateString()}
-            name={ticketPosted.data.title}
             problemType={
               categories.find(
                 (category) => category.id === ticketPosted.data.category_id
@@ -164,11 +167,19 @@ export default function TicketCreationPage() {
         <form onSubmit={handleTicketSubmit}>
           <div className="flex flex-1 w-full">
             <div className=" w-[75%]">
+                {/* added error boundry to show form validation error */}
+                {
+                  error && 
+                    <Alert color="red" icon={<IconAlertCircle />}>
+                      <Text color="red">{error}</Text>
+                    </Alert>
+                }
               <Paper
                 className="flex-grow flex mt-12"
                 radius={"10px"}
                 withBorder
               >
+                
                 <Box
                   className="rounded-l-full flex-1 items-center justify-center"
                   display="flex"
@@ -294,7 +305,7 @@ export default function TicketCreationPage() {
                   placeholder= {t('Attach File Or Drop Files Here To Upload')}
                   multiple
                   name="file"
-                  error={error}
+                  // error={error}
                   variant="filled"
                   className="flex-[3] bg-[#F5F7F9]"
                   classNames={{ input: "rounded-r-[10px] relative" }}
@@ -359,7 +370,6 @@ export const ThanksModalContent = ({
   ticketNumber,
   currentStatus,
   date,
-  name,
   problemType,
   title,
   description,
@@ -394,14 +404,6 @@ export const ThanksModalContent = ({
               </Text>
               <Text size={"xs"} fw={"bold"}>
                 {ticketNumber}
-              </Text>
-            </Flex>
-            <Flex>
-              <Text size={"xs"} mr={15}>
-                NAME
-              </Text>
-              <Text size={"xs"} fw={"bold"}>
-                {name.toUpperCase()}
               </Text>
             </Flex>
             <Flex>
@@ -475,16 +477,15 @@ export const ThanksModalContent = ({
       >
         <div className="bg-white flex text-center text-xs p-2 justify-center">
           You can{" "}
+         
           <Link
-            href={"support_ticket/" + ticketNumber}
-            className="text-sky-600 px-1"
-          >
-            {" "}
-            Edit{" "}
-          </Link>{" "}
-          or{" "}
-          <Link
-            href="support_ticket/edit_or_check_ticket_status"
+          onClick={
+            // close all modal and open my tickets page
+            ()=>{
+              closeAllModals();
+            }
+          }
+            href={`/support_team/my_tickets/${ticketNumber}`}
             className="text-sky-600 px-1"
           >
             {" "}

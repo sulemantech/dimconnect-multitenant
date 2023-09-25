@@ -289,7 +289,7 @@ export default () => {
         <div id="scale-down">
           {ready ? (
             <CustomTable
-              title={t("Users Management")}
+              title={t("Create New User")}
               attributes={[
                 "id",
                 "roles",
@@ -331,10 +331,11 @@ export default () => {
                   // })),
                 },
                 createMethod: createUser,
-                deleteMethod: deleteUser,
+                deleteMethod: false,
                 editMethod: editUser,
                 getMethod: getUserById.findUserById,
               }}
+              createMethodName="Add User"
               refreshData={refreshData}
             >
               <RoleSelectOnCreate roles={roles} />
