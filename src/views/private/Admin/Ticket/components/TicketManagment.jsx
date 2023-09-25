@@ -71,11 +71,11 @@ function TicketManagment({ ticketCounts }) {
           );
         })}
 
-        <div className="bg-[#ffffff] w-auto relative h-auto rounded-md mt-2  border-[2px]">
+        {/* <div className="bg-[#ffffff] w-auto relative h-auto rounded-md mt-2  border-[2px]"> */}
           {/* <div className="fixed ml-10 w-5 mt-[30px]"> */}
-          <img src={Vector} alt="" className=" absolute ml-10 w-5 mt-[30px]" />
+          {/* <img src={Vector} alt="" className=" absolute ml-10 w-5 mt-[30px]" /> */}
           {/* </div> */}
-          <RingProgress
+          {/* <RingProgress
             className="rotate-[240deg] flex justify-center items-center"
             size={100}
             thickness={12}
@@ -86,8 +86,8 @@ function TicketManagment({ ticketCounts }) {
               { value: 20, color: "#FF862E" },
               { value: 15, color: "#FF6161" },
             ]}
-          />
-        </div>
+          /> */}
+        {/* </div> */}
         <div className="bg-[#ffffff] min-h-[17%] rounded-md mt-2 min-w-[15%]  border-[2px] p-5 ">
           {/* <p className="text-[10px] font-medium pl-1 pt-1">
             TICKETS BY PROBLEM TYPE

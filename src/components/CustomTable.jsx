@@ -531,7 +531,7 @@ export default ({
                       {attributes?.map((attr) => {
                         let agreement_signed;
                         if(attr === "agreement_signed"){
-                          agreement_signed = item[attr] === null ? "" : item[attr].toString() === "true" ? "Signed" : "Not Signed"
+                          agreement_signed = item[attr] === null ? "" : item[attr].toString() === "true" ? t("Signed") : t("Not Signed")
                         }
                         return (
                           <td
@@ -556,7 +556,7 @@ export default ({
                             className="flex flex-row text-[#0E76BB] bg-[#DEE6EF] px-2 mr-6 rounded-md justify-center items-center space-x-5"
                             onClick={() => handleEdit(item)}
                           >
-                            <FaEdit /> <p className="pr-3">Edit</p>
+                            <FaEdit /> <p className="pr-3">{t("Edit")}</p>
                           </button>
                         )}
                         {attatchment && (
@@ -637,8 +637,8 @@ export default ({
                 <span className=" text-[#2784c2]">
                   {page * limit - limit + 1}-{page * limit}
                 </span>{" "}
-                from <span className=" text-[#2784c2]">{dataInfo.count}</span>{" "}
-                items
+                {t("from")} <span className=" text-[#2784c2]">{dataInfo.count}</span>{" "}
+                {t("items")}
               </p>
               {/* <div className="flex-1"></div> */}
               <Pagination

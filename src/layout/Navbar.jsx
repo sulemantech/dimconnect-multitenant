@@ -41,7 +41,7 @@ export default () => {
                 backgroundSize: 'cover',
                 backgroundRepeat: 'no-repeat',
             }}
-            className=" transition-all duration-300 shadow-xl  text-white flex flex-col ">
+            className=" transition-all w-fit duration-300 shadow-xl  text-white flex flex-col ">
             <div className={` ${collapsed.value ? 'p-6' : 'p-2'} pt-4`}>
                 <Logo />
             </div>

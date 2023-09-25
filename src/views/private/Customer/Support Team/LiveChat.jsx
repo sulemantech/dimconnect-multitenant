@@ -258,7 +258,7 @@ function LiveChat() {
                     className="animate-pulse"
                   />
                 </svg>{" "}
-                Live Chat Support
+                {t("Live Chat Support")}
               </h1>
               <p className=" font-[550] pr-[40px] text-sm ">
               {currentDate}

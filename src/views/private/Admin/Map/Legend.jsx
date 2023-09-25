@@ -65,7 +65,7 @@ export default ({
   useDidUpdate(() => {
     setTimeout(() => {
       if (value == null) setCollapsed(true);
-    }, 1500);
+    }, 200000);
   }, [value]);
 
   effect(() => {
@@ -297,6 +297,7 @@ export default ({
               <div className="flex flex-col space-y-1">
                 <div className="flex space-x-2">
                   <Checkbox
+                  label="Yellowtriangle"
                     size="xs"
                     name="checkbox2"
                     checked={netzplanning.value["10"]}
@@ -315,6 +316,7 @@ export default ({
                 </div>
                 <div className="flex space-x-2">
                   <Checkbox
+                    label="Distribution Cables"
                     size="xs"
                     name="checkbox3"
                     checked={
@@ -333,13 +335,13 @@ export default ({
                   />
 
                   <img
-                    title="Distribution Cables"
                     src="/yellowline.svg"
                     alt=""
                   />
                 </div>
                 <div className="flex space-x-2">
                   <Checkbox
+                    label="Red Squre" 
                     size="xs"
                     name="checkbox4"
                     checked={netzplanning.value["5"]}
@@ -350,10 +352,12 @@ export default ({
                       };
                     }}
                   />
-                  <img title="Red Squre" src="/redsqurewline.svg" alt="" />
+                  <img 
+                  src="/redsqurewline.svg" alt="" />
                 </div>
                 <div className="flex space-x-2">
                   <Checkbox
+                    label="Feeder Cables" 
                     size="xs"
                     name="checkbox5"
                     checked={
@@ -369,11 +373,14 @@ export default ({
                       };
                       visibility.value = JSON.stringify(linepurple);
                     }}
-                  />
-                  <img title="Feeder Cables" src="/redline.svg" alt="" />
+                    />
+                  <img
+                    title="Feeder Cables" 
+                   src="/redline.svg" alt="" />
                 </div>
                 <div className="flex space-x-2">
                   <Checkbox
+                    label="Homes" 
                     size="xs"
                     name="checkbox6"
                     checked={netzplanning.value["6"]}
@@ -384,10 +391,13 @@ export default ({
                       };
                     }}
                   />
-                  <img title="Homes" src="/homeblue.svg" alt="" />
+                  <img
+                   title="Homes" 
+                   src="/homeblue.svg" alt="" />
                 </div>
                 <div className="flex space-x-2">
                   <Checkbox
+                    label="PrimDistribution Cables"
                     size="xs"
                     name="checkbox7"
                     checked={

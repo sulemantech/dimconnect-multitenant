@@ -218,9 +218,7 @@ function UserCard({ tickets, select }) {
                 {t('Comments from Customer Care')}
               </label>
               <textarea
-                placeholder=" a regular customer,  
-              the head of the company, always demands
-               a quick response "
+                placeholder={t(" a regular customer, the head of the company, always demands a quick response ")}
                 className=" bg-[#F5F7F9] rounded-lg text-sm p-1 px-5  h-[100px] focus:outline-none"
                 type="text"
                 id="description"
