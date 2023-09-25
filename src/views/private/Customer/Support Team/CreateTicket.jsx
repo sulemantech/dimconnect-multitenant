@@ -302,7 +302,7 @@ export default function TicketCreationPage() {
                 />
               </Paper>
               <p className="text-xs mt-4 ml-[2px]">
-                {t('To protect your privacy, please do not include Any personalinformation in your request. Review our ')} 
+                {t('To protect your privacy, please do not include Any personal information in your request. Review our ')} 
                 <a href="#" className="text-sky-600">
                   {t('privacy statement')}
                 </a>{" "}

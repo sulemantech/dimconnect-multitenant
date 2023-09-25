@@ -39,7 +39,7 @@ export default ({ modal = false }) => {
                                 {
                                     Object.keys(data)?.map((key, index) => {
                                         return (
-                                            <div className="flex gap-2 items-center" key={index} onClick={() => {
+                                            <div className="flex gap-2 items-center overflow-y-scroll" key={index} onClick={() => {
                                                 closeAllModals()
                                                 let temp = data
                                                 temp[key] = {
@@ -98,7 +98,14 @@ export default ({ modal = false }) => {
 
     return (
 
-        <Menu position="left-end" withArrow>
+        <Menu styles={{
+            dropdown: {
+                overflowY: 'auto',
+                overflowX: 'hidden',
+                marginTop: '3.5rem',
+        height:'90%'
+        }
+        }} position="left" withArrow>
             <Menu.Target>
                 {OverlayControlButton}
             </Menu.Target>
