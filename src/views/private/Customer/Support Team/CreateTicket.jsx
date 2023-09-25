@@ -63,7 +63,7 @@ export default function TicketCreationPage() {
     // check all files are less than 512kb
     for (let i = 0; i < files.length; i++) {
       if(files[i].size > 5120000){
-        setError("File size must be less than 512MB");
+        setError(t("File size must be less than 512MB"));
         setLoading(false);
         return;
       }
@@ -73,7 +73,7 @@ export default function TicketCreationPage() {
     // check if priority is selected
 
     if (!formData.get("category_id") || !formData.get("priority_id")) {
-      setError("Please select a category and priority");
+      setError(t('Please select a category and priority'));
       setLoading(false);
       return;
     }
