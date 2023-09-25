@@ -68,9 +68,10 @@ export default () => {
                             .filter(item => item.name.length > 100)
 
                             .slice(0, 3).map((item, index) => {
+                                
                                 return (
                                     <li key={index} className={`my-2`} >
-                                        <Link href={`./faq/${Object.values(item.categoriesNames)[0]}`} >
+                                        <Link href={`./faq/${Object.values(item.categoriesNames)[0]}?q=${item.id}&#${item.id}`} >
                                             <a className={`text-[#0E76BB] hover:underline`}>{item.name}</a>
                                         </Link>
                                     </li>
