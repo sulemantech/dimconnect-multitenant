@@ -295,9 +295,9 @@ export default ({
             </div>
             <Accordion.Panel>
               <div className="flex flex-col space-y-1">
+             <div className="flex  justify-between">
                 <div className="flex space-x-2">
                   <Checkbox
-                  label="Yellowtriangle"
                     size="xs"
                     name="checkbox2"
                     checked={netzplanning.value["10"]}
@@ -309,14 +309,16 @@ export default ({
                     }}
                   />
                   <img
-                    title="Yellowtriangle"
+                    title="Nvt"
                     src="/yellowtriangle.svg"
                     alt=""
                   />
                 </div>
+                <p>Nvt</p>
+                </div>
+                <div className="flex  justify-between">
                 <div className="flex space-x-2">
                   <Checkbox
-                    label="Distribution Cables"
                     size="xs"
                     name="checkbox3"
                     checked={
@@ -339,9 +341,11 @@ export default ({
                     alt=""
                   />
                 </div>
+                <p>Distribution Cables</p>
+                </div>
+                <div className="flex  justify-between">
                 <div className="flex space-x-2">
                   <Checkbox
-                    label="Red Squre" 
                     size="xs"
                     name="checkbox4"
                     checked={netzplanning.value["5"]}
@@ -353,11 +357,14 @@ export default ({
                     }}
                   />
                   <img 
+                  title="kollSch"
                   src="/redsqurewline.svg" alt="" />
                 </div>
+                <p>kollSch</p>
+                </div>
+                <div className="flex  justify-between">
                 <div className="flex space-x-2">
-                  <Checkbox
-                    label="Feeder Cables" 
+                  <Checkbox 
                     size="xs"
                     name="checkbox5"
                     checked={
@@ -378,9 +385,12 @@ export default ({
                     title="Feeder Cables" 
                    src="/redline.svg" alt="" />
                 </div>
-                <div className="flex space-x-2">
+                <p>Feeder Cable</p>
+                </div>
+                <div className="flex  justify-between">
+                  <div className="flex  space-x-2">
                   <Checkbox
-                    label="Homes" 
+                    // label="PoP" 
                     size="xs"
                     name="checkbox6"
                     checked={netzplanning.value["6"]}
@@ -392,12 +402,13 @@ export default ({
                     }}
                   />
                   <img
-                   title="Homes" 
-                   src="/homeblue.svg" alt="" />
+                   title="PoP" 
+                   src="/homeblue.svg" alt="" /></div>
+                   <p>PoP</p>
                 </div>
+                <div className="flex  justify-between">
                 <div className="flex space-x-2">
                   <Checkbox
-                    label="PrimDistribution Cables"
                     size="xs"
                     name="checkbox7"
                     checked={
@@ -419,6 +430,8 @@ export default ({
                     src="/blueline.svg"
                     alt=""
                   />
+                </div>
+                <p className="pl-2">PrimDistribution Cables</p>
                 </div>
               </div>
             </Accordion.Panel>
