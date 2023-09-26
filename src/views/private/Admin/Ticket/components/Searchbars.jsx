@@ -39,7 +39,7 @@ function Searchbars({ search, setSearch, setTickets, tickets }) {
               }
             }}
             type="text"
-            placeholder={t("Enter Here Ticket Number,Name of User Or Other Searching Details")}
+            placeholder={t("Search for Tickets...")}
           />
         </div>
 
@@ -50,7 +50,7 @@ function Searchbars({ search, setSearch, setTickets, tickets }) {
             className="border-none bg-transparent text-xs w-2/6 focus:outline-none"
             type="text"
 
-            placeholder={t("Enter Here Name Of User")}
+            placeholder={t("Enter User Name")}
             onChange={(e) => {
               if (e.target.value !== "") {
                 const filteredTickets = tickets.filter((ticket) => {
