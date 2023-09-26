@@ -27,6 +27,7 @@ import MyTickets from '../views/private/Customer/Support Team/MyTickets';
 import SupportTeam from '../views/private/Customer/Support Team/SupportTeam';
 import LiveChatSupport from '../views/private/Admin/support-chat/LiveChat';
 import MarketInvestigationMap from '../views/private/Admin/Map/MarketInvestigationMap';
+import SiteFormManagement from '../views/private/Admin/Administration/SiteFormManagement';
 
 
 //add more routes here
@@ -54,6 +55,7 @@ export default () => <div className='flex absolute top-0 left-0 bottom-0 bg-slat
                 <EditOrCheckStatusTicket path="/support_team/my_tickets/:edit_or_check_ticket_status" />
                 <LiveChat path="/support_team/live_chat" />
                 <ContactPage path="/support_team/contact" />
+                <SiteFormManagement path="/administration/site_form_management" />
             </Router>
         </Suspense>
     </PageWrapper>

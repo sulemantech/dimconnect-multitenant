@@ -27,7 +27,14 @@ export const privateRoutes = [{
         path: `/administration/role_management`,
         permission: PERMISSIONS['Roles Management'],
         icon: icons.RoleManagementIcon,
-    }]
+    },
+    {
+        label: 'Site Management',
+        path: `/administration/site_form_management`,
+        permission: PERMISSIONS['User Management'],
+        icon: icons.RoleManagementIcon,
+    }
+]
 },
 {
     label: 'Market Investigation',
