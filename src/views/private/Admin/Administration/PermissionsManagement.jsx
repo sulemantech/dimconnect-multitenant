@@ -48,6 +48,7 @@ export default () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [stats, setStats] = useState({});
+  
 
 
   const getData = async () => {
@@ -169,7 +170,7 @@ export default () => {
     getData();
   };
 
-  useEffect(getData, []);
+  useEffect(getData, [t]);
 
   return (
     <PermissionWrapper
@@ -296,6 +297,8 @@ const PermissionList = ({ id, name, description, editMode = false }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [t] = useTranslation();
+
   useEffect(() => {
     setLoading(true);
     getAccessList(id)
@@ -374,7 +377,6 @@ const PermissionList = ({ id, name, description, editMode = false }) => {
     ),
     []
   );
-  const [t] = useTranslation();
   const falseIcon = useMemo(
     () => (
       <ThemeIcon color="red" size={24} radius="xl">

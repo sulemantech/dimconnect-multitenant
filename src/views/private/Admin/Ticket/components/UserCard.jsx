@@ -146,6 +146,7 @@ function UserCard({ tickets, select }) {
                 {t('Name')}
               </label>
               <input
+              disabled={true}
                 placeholder={
                   item !== null
                     ? item?.gpUser?.vorname + " " + item?.gpUser?.nachname
@@ -168,6 +169,7 @@ function UserCard({ tickets, select }) {
                 {t('Email')}
               </label>
               <input
+                disabled={true}
                 placeholder={item !== null ? item?.gpUser?.email : ""}
                 className=" bg-[#F5F7F9] text-sm rounded-lg p-1 mt-1 px-5 focus:outline-none"
                 type="email"
@@ -181,6 +183,7 @@ function UserCard({ tickets, select }) {
                 {t('Location')}
               </label>
               <input
+                disabled={true}
                 placeholder={t("Frankfurt, Germany")}
                 className="bg-[#F5F7F9] text-sm rounded-lg p-1 mt-1 px-5 focus:outline-none"
                 type="password"
@@ -194,6 +197,7 @@ function UserCard({ tickets, select }) {
                 {t('Company')}
               </label>
               <input
+                disabled={true}
                 id="company"
                 placeholder={t('Tesla Germany')}
                 className="bg-[#F5F7F9] text-sm rounded-lg p-1 mt-1 px-5 focus:outline-none"
@@ -206,6 +210,7 @@ function UserCard({ tickets, select }) {
                 {t('VIP')}
               </label>
               <input
+                disabled={true}
                 placeholder={t('VIP')}
                 className="bg-[#F5F7F9] text-sm rounded-lg p-1 mt-1 px-5 focus:outline-none"
                 type="text"
