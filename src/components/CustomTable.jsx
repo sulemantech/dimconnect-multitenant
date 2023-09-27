@@ -610,11 +610,11 @@ export default ({
                             color="red"
                             onClick={() =>
                               openConfirmModal({
-                                title: "Are You Sure?",
+                                title: t("Are You Sure?"),
                                 children: (
-                                  <div>This action cannot be undone</div>
+                                  <div>{t("This action cannot be undone")}</div>
                                 ),
-                                labels: { confirm: "Delete", cancel: "Cancel" },
+                                labels: { confirm: t("Delete"), cancel: t("Cancel") },
                                 cancelProps: { variant: "default" },
                                 onConfirm: () =>
                                   newStruct
