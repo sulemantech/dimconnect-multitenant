@@ -35,7 +35,7 @@ export default ({ modal = false }) => {
                                     {
                                         addressPointsVisibility.value ? <span className="text-green-500">✔</span> : <span className="text-red-500">✖</span>
                                     }
-                                    Address Points
+                                    {t("Address Points")}
                                 </div>
                                 {
                                     Object.keys(data)?.map((key, index) => {
