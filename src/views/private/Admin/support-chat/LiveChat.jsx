@@ -311,7 +311,7 @@ function LiveChatSupport() {
         >
           {/* show chat options to click and send message to them, it will be with icon and name */}
           <div className="font-[550] h-[4vh] text-xs pl-3 pt-1.5 bg-[#D8E4EEE5] ">
-            <p>Chat Conversations</p>
+            <p>{t("Chat Conversations")}</p>
           </div>
 
           <div className="h-[71vh] bg-white overflow-y-auto">

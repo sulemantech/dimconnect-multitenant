@@ -198,7 +198,7 @@ export default () => {
 
   useLayoutEffect(() => {
     getData();
-  }, []);
+  }, [t]);
 
   return (
     <PermissionWrapper permission={PERMISSIONS["User Management"]} view message>
@@ -212,7 +212,7 @@ export default () => {
             key={index}
             className=" m-2 h-[21vh] bg-white text-gray-700 rounded-lg px-5 pt-3   min-w-[250px] flex-1 flex"
           >
-            <h2 className="text-lg font-bold absolute">{usersCountsData[index].title}</h2>
+            <h2 className="text-lg font-bold absolute">{t(usersCountsData[index].title)}</h2>
             <div>
               <div>
                 <div className=" absolute mt-[2vw]">
@@ -316,11 +316,11 @@ export default () => {
                     defaultValue: 0,
                     options: [
                       {
-                        label: "View",
+                        label: t("View"),
                         value: 1,
                       },
                       {
-                        label: "Write",
+                        label: t("Write"),
                         value: 2,
                       },
                     ],
@@ -335,7 +335,7 @@ export default () => {
                 editMethod: editUser,
                 getMethod: getUserById.findUserById,
               }}
-              createMethodName="Add User"
+              createMethodName={t("Add User")}
               refreshData={refreshData}
             >
               <RoleSelectOnCreate roles={roles} />

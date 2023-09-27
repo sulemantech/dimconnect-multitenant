@@ -7,6 +7,7 @@ import { useEffect, useState } from "preact/hooks"
 
 import { FabClass } from "../../../../layout"
 import { addressPointsVisibility, dropvalue, photoVisibility, videoVisibility, visibility } from "../../../../signals"
+import { t } from "i18next"
 
 export default ({ modal = false }) => {
     const [data, setData] = useState({})
@@ -116,7 +117,7 @@ export default ({ modal = false }) => {
                     {
                         addressPointsVisibility.value ? <span className="text-green-500">✔</span> : <span className="text-red-500">✖</span>
                     }
-                    Address Points
+                   {t(" Address Points")}
                 </Menu.Item>
                 {
                     Object.keys(data)?.map((key, index) => {
@@ -131,13 +132,13 @@ export default ({ modal = false }) => {
                                 visibility.value = JSON.stringify(temp)
                             }}>{
                                     data[key].visible ? <span className="text-green-500">✔</span> : <span className="text-red-500">✖</span>
-                                } {key
+                                } {t(key
                                     .replace(dropvalue.value, '')
                                     .replace('_OUT_', '')
                                     .split('_')?.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
                                     .join(' ')
 
-                                }</Menu.Item>
+                    )}</Menu.Item>
                         )
                     })
                 }
@@ -147,16 +148,17 @@ export default ({ modal = false }) => {
                     {
                         photoVisibility.value ? <span className="text-green-500">✔</span> : <span className="text-red-500">✖</span>
                     }
-                    Photos
+                    {t("Photos")}
                 </Menu.Item>
                 <Menu.Item onClick={() => {
                     videoVisibility.value = !videoVisibility.value
                 }
-                }>
+            }>
                     {
                         videoVisibility.value ? <span className="text-green-500">✔</span> : <span className="text-red-500">✖</span>
                     }
-                    Videos
+                    
+                    {t("Videos")}
                 </Menu.Item>
 
             </Menu.Dropdown>

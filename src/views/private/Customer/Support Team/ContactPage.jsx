@@ -5,6 +5,12 @@ import { IconCopy, IconCheck } from "@tabler/icons-react";
 
 export default () => {
   const { t } = useTranslation();
+
+  const phoneNumber = '0221 - 806 5700';
+
+  const handleCallClick = () => {
+    window.location.href = `tel:${phoneNumber}`;
+  };
   return (
     <>
       <div id="scale-down" className="flex min-h-screen bg-[#FFF]">
@@ -90,7 +96,7 @@ export default () => {
                   alt=""
                 />
                 <p>{t("Recall service here")}</p>
-                <a className="text-[#6F7379B8] underline" href="#">
+                <a onClick={handleCallClick} className="text-[#6F7379B8] underline" href="#">
                   {t("Here")}
                 </a>
               </div>

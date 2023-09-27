@@ -73,7 +73,7 @@ function PermmissionManagmentheader({ stats }) {
               <div className="flex flex-row mt-2 space-x-[3vw]">
                 <div className="flex flex-row space-x-2">
                 <img className="border-[2px] rounded-md border-[#E6E6E6E5] p-1" src="/Check.svg" alt="" />
-                  <p>Signed</p>
+                  <p>{t("Signed")}</p>
                 </div>
                 <div className="flex flex-row justify-center space-x-2">
                   <p className="text-[#0E76BB] text-sm">
@@ -98,7 +98,7 @@ function PermmissionManagmentheader({ stats }) {
               <div className="flex flex-row mt-2 space-x-[3vw]">
                 <div className="flex flex-row space-x-2">
                 <img className="border-[2px] rounded-md border-[#E6E6E6E5] p-1 mb-3" src="/cross.svg" alt="" />
-                  <p>Not Signed</p>
+                  <p>{t("Not Signed")}</p>
                 </div>
                 <div className="flex flex-row justify-center space-x-2">
                   <p className="text-[#0E76BB] text-sm">
@@ -128,7 +128,7 @@ function PermmissionManagmentheader({ stats }) {
             key={index}
             className="m-2 h-fit bg-white text-gray-700 rounded-lg px-3 pt-3 pb-3.5  min-w-fit flex flex-1"
           >
-            <h2 className="text-lg font-bold absolute">{item.title}</h2>
+            <h2 className="text-lg font-bold absolute">{t(item.title)}</h2>
             <div className="flex justify-center items-center w-fit relative mt-6">
               <div className=" flex items-start">
                

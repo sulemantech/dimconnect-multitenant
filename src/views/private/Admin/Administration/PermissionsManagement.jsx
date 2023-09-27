@@ -96,8 +96,8 @@ export default () => {
                           <div className="p-4">
                             <PermissionList
                               id={role.id}
-                              name={role.name}
-                              description={role.description}
+                              name={t(role.name)}
+                              description={t(role.description)}
                             />
                           </div>
                         ),
@@ -141,8 +141,8 @@ export default () => {
                             <PermissionList
                               editMode
                               id={role.id}
-                              name={role.name}
-                              description={role.description}
+                              name={t(role.name)}
+                              description={t(role.description)}
                             />
                           </div>
                         ),
@@ -199,7 +199,7 @@ export default () => {
                   editMethod: editRole,
                   getMethod: getAccessList,
                 }}
-                createMethodName= "Add Role"
+                createMethodName= {t("Add Role")}
                 refreshData={refreshData}
               >
                 <Text>{t("Permissions")}</Text>

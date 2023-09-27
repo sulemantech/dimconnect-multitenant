@@ -412,7 +412,7 @@ export const HomeActivationTable = ({ data, business = false }) => {
           <Badge
             variant="filled"
             color="gray"
-            className="bg-gray-100 max-lg:w-[7vw]"
+            className="bg-gray-100 max-lg:w-[7vw] p-4"
             size="20"
           >
             <p className="font-thin  text-neutral-700 ">
