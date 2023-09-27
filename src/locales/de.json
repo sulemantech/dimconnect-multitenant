@@ -305,5 +305,7 @@
   "PrimDistributionPoints": "Primärverteilungspunkte",
   " District Boundaries": "Stadtteilgrenzen",
   "Enter User Name":"Geben Sie den Benutzernamen ein",
-  "Search for Tickets...":"Nach Tickets suchen..."
+  "Search for Tickets...":"Nach Tickets suchen...",
+  "Are You Sure?":"Aist Du Sicher?",
+  "This action cannot be undone":"Diese Aktion kann nicht rückgängig gemacht werden"
 }
