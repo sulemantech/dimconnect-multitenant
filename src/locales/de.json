@@ -307,5 +307,17 @@
   "Enter User Name":"Geben Sie den Benutzernamen ein",
   "Search for Tickets...":"Nach Tickets suchen...",
   "Are You Sure?":"Aist Du Sicher?",
-  "This action cannot be undone":"Diese Aktion kann nicht rückgängig gemacht werden"
+  "This action cannot be undone":"Diese Aktion kann nicht rückgängig gemacht werden",
+  "Date": "Datum",
+  "Inbox": "Posteingang",
+  "My Tickets":"Meine Tickets",
+  "Edit or Check Status of your Tickets Here": "Bearbeiten oder den Status Ihrer Tickets hier überprüfen",
+    "You can": "Sie können",
+    "SOLVED": "GELÖST",
+    "Please help us learn your problem by better adding new details or objectives.": "Bitte helfen Sie uns, Ihr Problem besser zu verstehen, indem Sie neue Details oder Ziele hinzufügen.",
+    "History of your Support Tickets": "Verlauf Ihrer Support-Tickets",
+    "Open": "Offen",
+    "Write a comment": "Schreiben Sie einen Kommentar",
+    "Send": "Senden",
+    "Your Reply": "Ihre Antwort"
 }
