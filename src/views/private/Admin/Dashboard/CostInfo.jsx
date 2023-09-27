@@ -57,9 +57,9 @@ export const generatePDF = (data, fileName) => {
         "Total Cost",
       ],
     ];
-    const cableData = data.cables[category]
-      .map((item) => Object.values(item))
-      .map((item) => {
+    const cableData = data?.cables[category]
+      ?.map((item) => Object.values(item))
+      ?.map((item) => {
         return item.map((item) => commarize(item));
       });
 
@@ -74,8 +74,8 @@ export const generatePDF = (data, fileName) => {
       ["Duct Type", "Material Cost", "Labour Cost", "Volume", "Total Cost"],
     ];
     const ductData = data.duct[category]
-      .map((item) => Object.values(item))
-      .map((item) => {
+      ?.map((item) => Object.values(item))
+      ?.map((item) => {
         return item.map((item) => commarize(item));
       });
     startY = doc.lastAutoTable.finalY + 10;
