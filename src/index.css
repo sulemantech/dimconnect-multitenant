@@ -21,7 +21,7 @@ body {
   overflow: hidden;
 }
 
-@media (-webkit-device-pixel-ratio > 1) {
+/* @media (-webkit-device-pixel-ratio > 1) {
   nav,
   header,
   #scale-down {
@@ -34,9 +34,9 @@ body {
   header {
     max-height: 70px;
   }
-}
+} */
 
-@media (-webkit-device-pixel-ratio > 1.9) {
+/* @media (-webkit-device-pixel-ratio > 1.9) {
   nav,
   header,
   #scale-down {
@@ -46,26 +46,9 @@ body {
   .map-container {
     zoom: 1.4286; 
   }
-  header {
+  /* header {
     max-height: 70px;
-  }
-}
-
-@media (-webkit-device-pixel-ratio > 2.9) {
-  nav,
-  header,
-  #scale-down {
-    zoom: 0.6;
-    height: 100%;
-  }
-  .map-container {
-    zoom: 1.6667; /* Inverse of 0.6 (rounded to 4 decimal places) */
-  }
-  header {
-    max-height: 70px;
-  }
-}
-
+  } */
 
 
 html {

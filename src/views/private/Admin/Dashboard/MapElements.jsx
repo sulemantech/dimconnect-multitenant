@@ -47,7 +47,7 @@ export default () => {
 
     return (
         <Card className="m-2 ml-0 mb-0" >
-          <Title className="max-lg:text-xs" order={4}>
+          <Title className="max-2xl:text-xs" order={4}>
   {t("Address Points")}
 </Title>
 
@@ -71,9 +71,9 @@ export default () => {
                                                     <Icons.Marker  />
                                                 </p>
                                             </Card>
-                                            <p className="text-base max-lg:text-[0.8vw]">{key}</p>
+                                            <p className="text-base max-2xl:text-xs">{key}</p>
                                         </div>
-                                        <div className='text-base max-lg:text-[0.8vw]' style={{
+                                        <div className='text-base max-2xl:text-xs' style={{
                                             color: item.color
                                         }}
                                         >
@@ -95,7 +95,7 @@ export default () => {
             <Divider />
             <br />
 
-            <Title className="max-lg:text-xs" order={3}>{t("Address Point By Type")}</Title>
+            <Title className="max-2xl:text-xs" order={3}>{t("Address Point By Type")}</Title>
             <br />
 
             <BarChartComp data={data}/>
