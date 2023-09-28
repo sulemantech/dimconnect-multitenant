@@ -402,7 +402,7 @@ function LiveChat() {
                     className="  pt-3 w-[90%] max-laptop:w-[20rem] border-[#0E76BB] bg-transparent text-[15px] outline-none max-md:w-[8rem] max-laptop2:w-[20rem] placeholder:text-[#0078BE]"
                     value={msg}
                     onChange={(e) => setMsg(e.target.value)}
-                    placeholder="Please prepare test drive in Frankfurt for next monday!"
+                    placeholder={t("Please Type Here!")}
                   />
 
                   <button type="submit" onClick={handleSendMessage}>

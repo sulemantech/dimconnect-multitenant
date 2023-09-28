@@ -4,6 +4,7 @@ import { Table } from "@mantine/core";
 import { route } from "preact-router";
 import SupportTicketHeader from "./SupportTicketHeader";
 import { useTranslation } from "react-i18next";
+import PageProvider from "../../../../providers/PageProvider";
 export default () => {
     const { t } = useTranslation();
   const [data, setData] = useState([]);
@@ -15,9 +16,9 @@ export default () => {
 
   return (
     <>
-      <div id="scale-down">
+        <PageProvider>
         <SupportTicketHeader />
-        <div className="flex flex-col p-4 h-screen  overflow-y-auto">
+        <div className="flex flex-col p-4 h-screen  overflow-y-auto ">
           <div className="flex flex-row justify-between items-center bg-white rounded-lg shadow-md p-2">
             <h1 className="font-[roboto] text-[#0078BE] font-bold text-[32px]">
               {t("My Tickets")}
@@ -76,7 +77,7 @@ export default () => {
             </Table>
           </div>
         </div>
-      </div>
+        </PageProvider>
     </>
   );
 };

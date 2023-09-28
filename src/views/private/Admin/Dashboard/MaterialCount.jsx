@@ -46,7 +46,7 @@ export default () => {
 
 
 
-      <div className="flex flex-[3] md:flex-row flex-grow flex-wrap flex-col">
+      <div className="flex flex-[3] md:flex-row flex-grow flex-wrap flex-col max-xl:grid max-xl:grid-cols-2 max-md:grid-cols-1">
         <GroupedCount
             title={t("Drop | Demand")}
             loading={loading}
@@ -132,17 +132,17 @@ const CountCard = ({ title, count, unit = "", loading = false }) => {
 const GroupedCount = ({ title, data, unit = "", loading = false, color='red' }) => {
   return (
     <Card
-      className="flex-1 m-2"
+      className="flex-1 m-2 max-2xl:m-1"
     >
     
 
-        <Title className='truncate mb-2 max-lg:text-xs' order={4}>{title}</Title>
+        <Title className='truncate mb-2 max-2xl:text-xs' order={4}>{title}</Title>
   
         { 
           data.map((item, index) => (
             <div className="flex flex-row justify-between items-center p-1">
-              <span className="text-base max-lg:text-[0.8vw] truncate flex items-center justify-center"><Card withBorder className={`${color} flex items-center justify-center`} w={25} h={25} p={2} mr={10}>{item?.icon}</Card>{item.title}</span>
-              <span className="text-base max-lg:text-[0.8vw] truncate">{
+              <span className="text-base max-2xl:text-xs  truncate flex items-center justify-center"><Card withBorder className={`${color} flex items-center justify-center`} w={22} h={22} p={1} mr={6}>{item?.icon}</Card>{item.title}</span>
+              <span className="text-base max-2xl:text-xs truncate">{
                 loading ? (
                   <Loader variant="dots" size="md" className="text-brand" />
                 ) :

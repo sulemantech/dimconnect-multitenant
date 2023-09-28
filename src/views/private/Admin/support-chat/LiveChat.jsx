@@ -283,7 +283,7 @@ function LiveChatSupport() {
       >
         <div className="flex space-x-[381px] ">
           <div className="text-white justify-center flex flex-col pl-24 max-md:pl-2">
-            <b className="text-2xl max-2xl:text-sm">
+            <b className="text-2xl max-2xl:text-xs">
               {t("Live Chat Support")}
             </b>
             <p className="max-2xl:text-xs">

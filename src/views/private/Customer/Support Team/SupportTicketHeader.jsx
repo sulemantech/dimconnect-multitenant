@@ -8,7 +8,7 @@ const SupportTicketHeader = () => {
     <div>
        <div
         style={{ backgroundImage: 'url("/BGFAQ2.svg")' }}
-        className="flex flex-col pl-20 justify-center h-[77px]"
+        className="flex flex-col pl-20 justify-center h-[77px]  "
       >
         <div className="flex space-x-10  ">
           <a className=" font-bold text-white hover:underline focus:underline" href="/support_team/support_ticket">
