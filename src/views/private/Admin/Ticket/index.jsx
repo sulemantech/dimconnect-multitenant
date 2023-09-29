@@ -40,7 +40,6 @@ export default () => {
   useEffect(() => {
     getAllTickets()
       .then((res) => {
-
         setTicketCounts(count(res.data));
 
         setTickets(res.data);
@@ -50,7 +49,10 @@ export default () => {
 
   return (
     <>
-      <div id="scale-down" className="bg-[#f5f7f9] h-full overflow-y-auto custom-scrollbar-page">
+      <div
+        id="scale-down"
+        className="bg-[#f5f7f9] h-full overflow-y-auto custom-scrollbar-page"
+      >
         <TicketManagment ticketCounts={ticketCounts} />
         <Searchbars
           search={search}
@@ -59,10 +61,10 @@ export default () => {
           tickets={tickets}
         />
 
-        <div className="flex w-full px-5 justify-center items-start ">
+        <div className="flex items-start ">
           <div
             // className="min-w-[60%] "
-            className="w-[85%] max-xl:w-full"
+            className="w-[85vw] max-xl:w-full"
             style={{
               borderTopLeftRadius: "0.5rem",
             }}
@@ -74,17 +76,13 @@ export default () => {
               setUpdate={setUpdate}
             />
           </div>
-          <div className=" max-xl:hidden" >
-            <UserCard 
-              className="h-full"
-            tickets={tickets} select={select} />
+          <div className="w-[15vw] max-xl:hidden">
+            <UserCard className="h-full" tickets={tickets} select={select} />
           </div>
         </div>
-        <div className="xl:hidden" >
-            <UserCard 
-              className="h-full"
-            tickets={tickets} select={select} />
-          </div>
+        <div className="xl:hidden">
+          <UserCard className="h-full" tickets={tickets} select={select} />
+        </div>
       </div>
     </>
   );

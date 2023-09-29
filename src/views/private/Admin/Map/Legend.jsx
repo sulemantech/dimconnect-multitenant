@@ -81,7 +81,7 @@ export default ({
   if (collapsed)
     return (
       <div
-        className="absolute -left-8 hover:scale-95 transition-all cursor-pointer bottom-24 justify-center rotate-90 font-bold text-lg max-sm:text-sm tracking-wide  text-white bg-[#0092c3] shadow-2xl z-40 rounded-md p-2 "
+        className="absolute -left-8 hover:scale-95 transition-all cursor-pointer bottom-24 justify-center rotate-90 font-bold text-lg max-sm:text-sm tracking-wide  text-white bg-[#0092c3] shadow-2xl z-40 rounded-md p-2 max-2xl:scale-90 "
         onClick={() => {
           legendState.value = true;
           setCollapsed(false);
@@ -92,7 +92,7 @@ export default ({
     );
 
   return (
-    <div className="relative text-sm flex flex-col p-2 shadow-md rounded-md mt-2 bg-white overflow-scroll">
+    <div className="relative text-sm flex flex-col p-2 shadow-md rounded-md mt-2 bg-white overflow-y-scroll">
       <h6 className="mb-1">
         <b>{t("Legend")}</b>
       </h6>

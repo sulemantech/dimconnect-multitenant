@@ -297,7 +297,7 @@ export const CostInfoModalContent = ({
               },
             }}
             classNames={{
-              tabsList: "mx-2 -mb-2 z-50 w-2/3",
+              tabsList: "mx-2 -mb-2 z-50",
               panel: "flex-grow flex-col ",
               root: "flex flex-col flex-grow",
             }}
@@ -415,7 +415,7 @@ export const HomeActivationTable = ({ data, business = false }) => {
           <Badge
             variant="filled"
             color="gray"
-            className="bg-gray-100 max-2xl:w-[7vw] p-4"
+            className="bg-gray-100 max-2xl:w-[9vw] p-4"
             size="20"
           >
             <p className="font-thin  text-neutral-700 ">
