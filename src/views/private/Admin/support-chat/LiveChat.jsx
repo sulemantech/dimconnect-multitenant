@@ -322,7 +322,7 @@ function LiveChatSupport() {
                 item._id !== "GENERAL" && (
                   <div
                     key={item._id}
-                    className="flex items-center justify-between w-[96%] overflow-hidden px-4 py-2 space-x-2 bg-[#7ab4e49b] m-2 rounded-md
+                    className="flex items-center  justify-between w-[96%] overflow-hidden px-4 py-2 space-x-2 bg-[#7ab4e49b] m-2 rounded-md
                       hover:bg-[#7ab4e4d4] cursor-pointer
                       hover:font-[600]
                       hover:shadow-lg hover:duration-300
