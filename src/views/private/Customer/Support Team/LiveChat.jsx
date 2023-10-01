@@ -234,7 +234,7 @@ function LiveChat() {
             Connecting . . .
           </h1>
         ) : (
-          <div className=" h-auto bg-[#FAFAFA] text-[#3E3F3F] rounded-md mt-4  border-t-0 w-[50%] font-[Roboto] m-auto shadow-lg ">
+          <div className=" h-auto bg-[#FAFAFA] text-[#3E3F3F] rounded-md mt-4  border-t-0 w-[50%] max-md:w-[100%]  font-[Roboto] m-auto shadow-lg ">
             <div className=" bg-[#0E76BB] flex px-5 py-2 text-white rounded-t-md m-0 items-center justify-between w-full">
               <h1
                 className="
@@ -264,7 +264,7 @@ function LiveChat() {
               {currentDate}
               </p>
             </div>
-            <div className="overflow-y-auto max-laptop:h-[50vh] max-laptop2:h-[50vh] h-[70vh]">
+            <div className="overflow-y-auto max-laptop:h-[50vh] max-2xl:h-[50vh] h-[70vh]">
               {/* left message */}
 
               {messages.map((message, index) => (
@@ -396,7 +396,7 @@ function LiveChat() {
                 onSubmit={handleSendMessage}
                 className="flex flex-col flex-1 mt-5 max-md:block"
               >
-                <div className="flex w-full  px-10 items-center justify-center">
+                <div className="flex w-full  px-10 items-center justify-between">
                   <input
                     type="text"
                     className="  pt-3 w-[90%] max-laptop:w-[20rem] border-[#0E76BB] bg-transparent text-[15px] outline-none max-md:w-[8rem] max-laptop2:w-[20rem] placeholder:text-[#0078BE]"

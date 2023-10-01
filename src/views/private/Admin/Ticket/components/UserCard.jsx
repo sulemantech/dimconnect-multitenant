@@ -138,7 +138,7 @@ function UserCard({ tickets, select }) {
               />
             </div>
           ) : (
-            <div className="w-[20vw] flex flex-col p-2 text-xs justify-center max-xl:w-full">
+            <div className="flex flex-col p-2 text-xs justify-center max-xl:w-full">
               <label
                 htmlFor="name"
                 className="text-black  text-sm max-xl:text-xl font-medium "

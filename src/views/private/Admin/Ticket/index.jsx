@@ -51,7 +51,7 @@ export default () => {
     <>
       <div
         id="scale-down"
-        className="bg-[#f5f7f9] h-full overflow-y-auto custom-scrollbar-page"
+        className="bg-[#f5f7f9] max-2xl:scale-90 origin-top-left w-[105%] overflow-y-auto custom-scrollbar-page"
       >
         <TicketManagment ticketCounts={ticketCounts} />
         <Searchbars
@@ -61,7 +61,7 @@ export default () => {
           tickets={tickets}
         />
 
-        <div className="flex items-start ">
+        <div className="flex space-x-3 ">
           <div
             // className="min-w-[60%] "
             className="w-[85vw] max-xl:w-full"
