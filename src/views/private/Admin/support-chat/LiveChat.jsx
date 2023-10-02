@@ -20,10 +20,10 @@ function LiveChatSupport() {
   const [limitReached, setLimitReached] = useState(false);
   const [files, setFiles] = useState([]);
   const [uploadProgress, setUploadProgress] = useState(0);
-  const [pending, transition] = useTransition()
+  const [pending, transition] = useTransition();
 
   // handle send message to selected room
-  const sendMessage = async(e) => {
+  const sendMessage = async (e) => {
     e.preventDefault();
 
     if (files.length > 0 && socket.selectedRoom) {
@@ -54,9 +54,6 @@ function LiveChatSupport() {
       setMsg("");
       return;
     }
-
-
-
 
     if (msg) {
       const message = {
@@ -171,7 +168,6 @@ function LiveChatSupport() {
 
   const handleNewRooms = (token, userId) => {
     getRooms(token, userId).then((res) => {
-
       rooms.length !== res.data.update.length &&
         setRooms(
           res.data.update.map((item, index) => {
@@ -239,7 +235,6 @@ function LiveChatSupport() {
         { responseType: "blob" }
       )
       .then((response) => {
-
         // response.data is blob type convert it to file
         const url = window.URL.createObjectURL(
           new Blob([response.data], {
@@ -261,294 +256,299 @@ function LiveChatSupport() {
       });
   };
 
-
   function getCurrentDate() {
-    const options = { day: '2-digit', month: '2-digit', year: 'numeric', weekday: 'long' };
+    const options = {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      weekday: "long",
+    };
     const date = new Date();
-    const formattedDate = date.toLocaleDateString('en-US', options);
-    const [weekday, dateStr] = formattedDate.split(', ');
-    const [month, day, year] = dateStr.split('/');
+    const formattedDate = date.toLocaleDateString("en-US", options);
+    const [weekday, dateStr] = formattedDate.split(", ");
+    const [month, day, year] = dateStr.split("/");
     return `${day}.${month}.${year}, ${weekday}`;
   }
   const currentDate = getCurrentDate();
 
   return (
     <PermissionWrapper permission={PERMISSIONS["User Management"]} view message>
-    <div  className="h-full pb-12 bg-white overflow-auto">
-      <div
-        className="flex h-[9vh] py-2"
-        style={{
-          backgroundImage: `url("/BGFAQ2.svg")`,
-        }}
-      >
-        <div className="flex space-x-[381px] ">
-          <div className="text-white justify-center flex flex-col pl-24 max-md:pl-2">
-            <b className="text-2xl max-2xl:text-xs">
-              {t("Live Chat Support")}
-            </b>
-            <p className="max-2xl:text-xs">
-              {t("we are here to give you any technical support!")}
-            </p>
-          </div>
+      <div className="h-full pb-12 bg-white overflow-auto">
+        <div
+          className="flex h-[9vh] py-2"
+          style={{
+            backgroundImage: `url("/BGFAQ2.svg")`,
+          }}
+        >
+          <div className="flex space-x-[381px] ">
+            <div className="text-white justify-center flex flex-col pl-24 max-md:pl-2">
+              <b className="text-2xl max-2xl:text-xs">
+                {t("Live Chat Support")}
+              </b>
+              <p className="max-2xl:text-xs">
+                {t("we are here to give you any technical support!")}
+              </p>
+            </div>
 
-          {/* Online status */}
-          {/* <div className="text-green-600 ml-4 flex items-end">
+            {/* Online status */}
+            {/* <div className="text-green-600 ml-4 flex items-end">
             <div className="bg-white flex py-2 px-4 rounded-t-md items-center ">
               <p className="h-4 w-4 bg-green-600 rounded-full mr-2"></p>{" "}
               {t("Online")}
             </div>
           </div> */}
-        </div>
-      </div>
-
-      {/* chat box */}
-      <div className="flex">
-        {/* make div to show rooms or chats */}
-
-        <div
-          className="
-        h-[76vh] bg-[#F5F7F942]  text-[#3E3F3F] rounded-md border-[2px] pb-3 mt-4 border-[#DDE7F0] w-[20%] font-[Roboto] ml-24 max-md:ml-2 shadow-lg"
-        >
-          {/* show chat options to click and send message to them, it will be with icon and name */}
-          <div className="font-[550] h-[4vh] text-xs pl-3 pt-1.5 bg-[#D8E4EEE5] ">
-            <p>{t("Chat Conversations")}</p>
           </div>
+        </div>
 
-          <div className="h-[71vh] bg-white overflow-y-auto">
-            {/* <div className="overflow-y-auto max-laptop:h-[70vh] max-laptop2:h-[70vh] h-[10%]"> */}
-            {/* chat items */}
-            {rooms?.map(
-              (item, index) =>
-                item._id !== "GENERAL" && (
-                  <div
-                    key={item._id}
-                    className="flex items-center  justify-between w-[96%] overflow-hidden px-4 py-2 space-x-2 bg-[#7ab4e49b] m-2 rounded-md
+        {/* chat box */}
+        <div className="flex">
+          {/* make div to show rooms or chats */}
+
+          <div
+            className="
+        h-[76vh] bg-[#F5F7F942]  text-[#3E3F3F] rounded-md border-[2px] pb-3 mt-4 border-[#DDE7F0] w-[20%] font-[Roboto] ml-24 max-md:ml-2 shadow-lg"
+          >
+            {/* show chat options to click and send message to them, it will be with icon and name */}
+            <div className="font-[550] h-[4vh] text-xs pl-3 pt-1.5 bg-[#D8E4EEE5] ">
+              <p>{t("Chat Conversations")}</p>
+            </div>
+
+            <div className="h-[71vh] bg-white overflow-y-auto">
+              {/* <div className="overflow-y-auto max-laptop:h-[70vh] max-laptop2:h-[70vh] h-[10%]"> */}
+              {/* chat items */}
+              {rooms?.map(
+                (item, index) =>
+                  item._id !== "GENERAL" && (
+                    <div
+                      key={item._id}
+                      className="flex items-center  justify-between w-[96%] overflow-hidden px-4 py-2 space-x-2 bg-[#7ab4e49b] m-2 rounded-md
                       hover:bg-[#7ab4e4d4] cursor-pointer
                       hover:font-[600]
                       hover:shadow-lg hover:duration-300
                       hover:ease-in-out hover:transform hover:scale-105 hover:transition-all
                       "
-                    onClick={() => {
-                      // console.log("item", selectedRoom);
-                      // selectedRoom !== item._id &&
-                      // setSelectedRoom(
-                      //   // item.lastMessage ? item.lastMessage.rid : item._id
-                      //   item._id
-                      // );
-                      setMessages([]);
-                      setLimitReached(false);
-                      socket.selectRoom(item._id);
-                      // set room unreadMessageCount to 0
-                      let temp = [...rooms];
-                      temp[index].unreadMessageCount = 0;
-                      setRooms(temp);
-                      setSelectedRoom(item._id);
-                      setOffset(0);
-                    }}
-                  >
-                    <div className="flex items-center space-x-2">
-                      <img
-                        className="w-[2rem] max-md:w-[1rem] rounded-full"
-                        src={`${appConfig.chatServerURL}/avatar/${
-                          item._id !== "GENERAL"
-                            ? item?.usernames?.filter(
-                                (username) => username !== socket.username
-                              )[0]
-                            : "GENERAL"
-                        }`}
-                        alt="icon"
-                      />
-                      <div className="flex flex-col">
-                        <p className=" text-xs font-[600]">
-                          {item._id === "GENERAL"
-                            ? "General"
-                            : item.usernames.filter(
-                                (username) => username !== socket.username
-                              )[0]}
-                        </p>
-                        <p className="text-xs">
-                          {item.lastMessage ? item.lastMessage.msg : ""}
-                        </p>
+                      onClick={() => {
+                        // console.log("item", selectedRoom);
+                        // selectedRoom !== item._id &&
+                        // setSelectedRoom(
+                        //   // item.lastMessage ? item.lastMessage.rid : item._id
+                        //   item._id
+                        // );
+                        setMessages([]);
+                        setLimitReached(false);
+                        socket.selectRoom(item._id);
+                        // set room unreadMessageCount to 0
+                        let temp = [...rooms];
+                        temp[index].unreadMessageCount = 0;
+                        setRooms(temp);
+                        setSelectedRoom(item._id);
+                        setOffset(0);
+                      }}
+                    >
+                      <div className="flex items-center space-x-2">
+                        <img
+                          className="w-[2rem] max-md:w-[1rem] rounded-full"
+                          src={`${appConfig.chatServerURL}/avatar/${
+                            item._id !== "GENERAL"
+                              ? item?.usernames?.filter(
+                                  (username) => username !== socket.username
+                                )[0]
+                              : "GENERAL"
+                          }`}
+                          alt="icon"
+                        />
+                        <div className="flex flex-col">
+                          <p className=" text-xs font-[600]">
+                            {item._id === "GENERAL"
+                              ? "General"
+                              : item.usernames.filter(
+                                  (username) => username !== socket.username
+                                )[0]}
+                          </p>
+                          <p className="text-xs">
+                            {item.lastMessage ? item.lastMessage.msg : ""}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                    {item.unreadMessageCount === 0 ? null : (
-                      <p
-                        className="
+                      {item.unreadMessageCount === 0 ? null : (
+                        <p
+                          className="
                       bg-blue-500 p-1 text-white font-bold rounded-lg py-0 animate-bounce
                     "
-                      >
-                        {item.unreadMessageCount}
-                      </p>
-                    )}
-                  </div>
-                )
-            )}
-            {/* </div> */}
+                        >
+                          {item.unreadMessageCount}
+                        </p>
+                      )}
+                    </div>
+                  )
+              )}
+              {/* </div> */}
+            </div>
           </div>
-        </div>
 
-        <div className=" h-[76vh] bg-[#F5F7F942] text-[#3E3F3F] rounded-md border-[2px] mt-4 border-[#DDE7F0] w-[50%] font-[Roboto] ml-3 shadow-lg flex flex-col justify-between">
-          <p className="flex flex-row-reverse font-[550] pr-[40px] max-md:pr-[1px] h-[4vh] text-xs pt-1.5 bg-[#D8E4EEE5] ">
-          {currentDate}
-          </p>
+          <div className=" h-[76vh] bg-[#F5F7F942] text-[#3E3F3F] rounded-md border-[2px] mt-4 border-[#DDE7F0] w-[50%] font-[Roboto] ml-3 shadow-lg flex flex-col justify-between">
+            <p className="flex flex-row-reverse font-[550] pr-[40px] max-md:pr-[1px] h-[4vh] text-xs pt-1.5 bg-[#D8E4EEE5] ">
+              {currentDate}
+            </p>
 
-          {/* <div className="flex flex-col h-full"> */}
-          <div className="h-[71vh] overflow-auto">
-            {/* display all messages here */}
-            {messages.map((message, index) => (
-              <div
-                key={message._id}
-                className={`flex flex-col ${
-                  message.u.username === socket.username
-                    ? "items-end flex-row-reverse"
-                    : "items-start"
-                }`}
-                ref={index === 0 ? firstMessageRef : messagesEndRef}
-              >
+            {/* <div className="flex flex-col h-full"> */}
+            <div className="h-[71vh] overflow-auto">
+              {/* display all messages here */}
+              {messages.map((message, index) => (
                 <div
-                  className={`flex items-center px-4 py-2 space-x-2 bg-[#7ab4e49b] m-2 rounded-md
+                  key={message._id}
+                  className={`flex flex-col ${
+                    message.u.username === socket.username
+                      ? "items-end flex-row-reverse"
+                      : "items-start"
+                  }`}
+                  ref={index === 0 ? firstMessageRef : messagesEndRef}
+                >
+                  <div
+                    className={`flex items-center px-4 py-2 space-x-2 bg-[#7ab4e49b] m-2 rounded-md
                         ${
                           message.u.username === socket.username
                             ? "bg-[#7ab4e49b] rounded-br-none"
                             : "bg-[#7ab4e4d4] rounded-bl-none"
                         }
                         `}
-                >
-                  <img
-                    className="w-[2rem] rounded-full"
-                    src={`${appConfig.chatServerURL}/avatar/${message.u.username}`}
-                    alt="icon"
-                  />
-                  <div className="flex flex-col">
-                    <p className=" text-xs font-[600]">
-                      {message.u.username}
-                    </p>
-                    <p className="text-lg max-2xl:text-xs">{message.msg}</p>
-                    {message.attachments?.length > 0 && (
-                      <button
-                        className="bg-transparent rounded-lg"
-                        onClick={() => {
-                          DownloadFile(
-                            message.attachments &&
-                              message.attachments[0]?.title_link,
-                            message.attachments && message.attachments[0]?.title
-                          );
-                        }}
-                      >
-                        <h1 className="bg-[#0E76BB] text-white px-3 underline py-1 rounded-3xl">
-                          {
-                            // file name here
-                            message.attachments &&
-                              message.attachments[0]?.title.slice(0, 20) + "..."
-                          }
-                        </h1>
-                      </button>
-                    )}
+                  >
+                    <img
+                      className="w-[2rem] rounded-full"
+                      src={`${appConfig.chatServerURL}/avatar/${message.u.username}`}
+                      alt="icon"
+                    />
+                    <div className="flex flex-col">
+                      <p className=" text-xs font-[600]">
+                        {message.u.username}
+                      </p>
+                      <p className="text-lg max-2xl:text-xs">{message.msg}</p>
+                      {message.attachments?.length > 0 && (
+                        <button
+                          className="bg-transparent rounded-lg "
+                          onClick={() => {
+                            DownloadFile(
+                              message.attachments &&
+                                message.attachments[0]?.title_link,
+                              message.attachments &&
+                                message.attachments[0]?.title
+                            );
+                          }}
+                        >
+                          <h1 className="bg-[#0E76BB] text-white px-3 underline py-1 rounded-3xl">
+                            {
+                              // file name here
+                              message.attachments &&
+                                message.attachments[0]?.title.slice(0, 20) +
+                                  "..."
+                            }
+                          </h1>
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
 
-            {/* show sending message and uploading file */}
-            { pending && <div className={`flex items-end flex-col-reverse`}>
-              <div
-                className={`flex items-center px-4 py-2 space-x-2 bg-[#7ab4e49b] m-2 rounded-md rounded-br-none`}
-              >
-                {/* <img
+              {/* show sending message and uploading file */}
+              {pending && (
+                <div className={`flex items-end flex-col-reverse`}>
+                  <div
+                    className={`flex items-center px-4 py-2 space-x-2 bg-[#7ab4e49b] m-2 rounded-md rounded-br-none`}
+                  >
+                    {/* <img
                     className="w-[2rem] rounded-full"
                     src={`${appConfig.chatServerURL}/avatar/${message.u.username}`}
                     alt="icon"
                   /> */}
-                <div className="flex flex-col">
-                  <p className=" text-xs font-[600]">You</p>
-                  <p className="text-lg max-2xl:text-xs">{msg}</p>
-                  {files?.length > 0 && (
-                    <button
-                      className="bg-transparent rounded-lg"
-                    >
-                      <h1 className="bg-[#0E76BB] text-white px-3 underline py-1 rounded-3xl">
-                        {
-                          // file name here
-                          files[0]?.name?.slice(0, 20) +
-                            "..." +
-                            files[0]?.name?.split(".")[
-                              files[0]?.name?.split(".").length - 1
-                            ]
-                        }
-                      </h1>
-                    </button>
-                  )}
-              <p className="text-sm max-2xl:text-xs text-[#0E76BB]">
-                      Uploading file :{uploadProgress}%
-                    </p>
-                </div>
-              </div>
-            </div>}
-          </div>
-          <div className=" h-fit  rounded-t-lg text-xs  bg-[#D8E4EEE5] ">
-            <p className=" pt-3 ml-14 max-2xl:text-xs">{t("Please type text here")}</p>
-            <form onSubmit={sendMessage} className="flex flex-row items-center mb-4 ml-3  max-md:block">
-              <img className="w-[20px]  ml-3" src="/Vector4.svg" alt="" />
-              <label className="">
-                <p className=" mt-3 ml-5 text-lg max-2xl:text-xs text-[#0E76BB]">
-                  {t("Attach File")}{" "}
-                </p>
-                <input
-                  type="file"
-                  name="attach file"
-                  className="hidden  w-48 max-2xl:w-[8rem]"
-                  value={files}
-                  onChange={(e) => {
-                    setFiles([e.target.files[0]]);
-                  }}
-                />
-              </label>
-              <input
-                className="border-b-[1px]   pt-3 ml-2 w-[40vh] max-lg:w-[20vh] border-[#0E76BB] bg-transparent text-lg max-2xl:text-xs outline-none "
-                type="text"
-                value={msg}
-                onChange={(e) => {
-                  setMsg(e.target.value);
-                }}
-                placeholder={t(
-                  "Please type text here"
-                )}
-              />
-              <button type="submit" onClick={sendMessage}>
-                <img
-                  className=" ml-10 w-9 "
-                  src="/Vector5.svg"
-                  alt=""
-                />
-              </button>
-            </form>
-            <div className="flex">
-              {files.length > 0 && (
-                <div className="flex -mt-5 items-center justify-center ml-5 bg-white px-5 rounded-2xl">
-                  <h1 className=" text-xs font-[500] mr-5">
-                    {files[0]?.name?.slice(0, 20) +
-                      "..." +
-                      files[0]?.name?.split(".")[
-                        files[0]?.name?.split(".").length - 1
-                      ]}
-                  </h1>
-                  <img
-                    className="w-[10px] h-full cursor-pointer"
-                    src="/chat-page/close.svg"
-                    alt=""
-                    onClick={() => {
-                      setFiles([]);
-                    }}
-                  />
+                    <div className="flex flex-col">
+                      <p className=" text-xs font-[600]">You</p>
+                      <p className="text-lg max-2xl:text-xs">{msg}</p>
+                      {files?.length > 0 && (
+                        <button className="bg-transparent rounded-lg">
+                          <h1 className="bg-[#0E76BB] text-white px-3 underline py-1 rounded-3xl">
+                            {
+                              // file name here
+                              files[0]?.name?.slice(0, 20) +
+                                "..." +
+                                files[0]?.name?.split(".")[
+                                  files[0]?.name?.split(".").length - 1
+                                ]
+                            }
+                          </h1>
+                        </button>
+                      )}
+                      <p className="text-sm max-2xl:text-xs text-[#0E76BB]">
+                        Uploading file :{uploadProgress}%
+                      </p>
+                    </div>
+                  </div>
                 </div>
               )}
             </div>
+            <div className=" h-fit  rounded-t-lg text-xs  bg-[#D8E4EEE5] ">
+              <p className=" pt-3 ml-14 max-2xl:text-xs">
+                {t("Please type text here")}
+              </p>
+              <form
+                onSubmit={sendMessage}
+                className="flex flex-row items-center mb-4 ml-3  max-md:block"
+              >
+                <img className="w-[20px] cursor-pointer  ml-3" src="/Vector4.svg" alt="" />
+                <label className="">
+                  <p className=" mt-3 ml-5 text-lg max-2xl:text-xs cursor-pointer text-[#0E76BB]">
+                    {t("Attach File")}{" "}
+                  </p>
+                  <input
+                    type="file"
+                    name="attach file"
+                    className="hidden  w-48 max-2xl:w-[8rem]"
+                    value={files}
+                    onChange={(e) => {
+                      setFiles([e.target.files[0]]);
+                    }}
+                  />
+                </label>
+                <input
+                  className="border-b-[1px]   pt-3 ml-2 w-[40vh] max-lg:w-[20vh] border-[#0E76BB] bg-transparent text-lg max-2xl:text-xs outline-none "
+                  type="text"
+                  value={msg}
+                  onChange={(e) => {
+                    setMsg(e.target.value);
+                  }}
+                  placeholder={t("Please type text here")}
+                />
+                <button type="submit" onClick={sendMessage}>
+                  <img className=" ml-10 w-9 " src="/Vector5.svg" alt="" />
+                </button>
+              </form>
+              <div className="flex">
+                {files.length > 0 && (
+                  <div className="flex -mt-5 items-center justify-center ml-5 bg-white px-5 rounded-2xl">
+                    <h1 className=" text-xs font-[500] mr-5">
+                      {files[0]?.name?.slice(0, 20) +
+                        "..." +
+                        files[0]?.name?.split(".")[
+                          files[0]?.name?.split(".").length - 1
+                        ]}
+                    </h1>
+                    <img
+                      className="w-[10px] h-full cursor-pointer"
+                      src="/chat-page/close.svg"
+                      alt=""
+                      onClick={() => {
+                        setFiles([]);
+                      }}
+                    />
+                  </div>
+                )}
+              </div>
+              {/* </div> */}
+            </div>
             {/* </div> */}
           </div>
-          {/* </div> */}
         </div>
       </div>
-    </div>
     </PermissionWrapper>
   );
 }
