@@ -232,9 +232,9 @@ export default () => {
               className="m-2 h-auto justify-between bg-white text-gray-700 rounded-lg px-3 pt-3 pb-3.5 min-w-fit flex flex-1 "
             >
               <div className="flex flex-col">
-              <h2 className="text-lg font-bold ">
+              <div className="text-lg  max-2xl:text-base font-bold ">
                 {t(usersCountsData[index].title)}
-              </h2>
+              </div>
               
                 <div className="flex justify-center items-center w-fit ">
                   <div className=" relative">
@@ -350,7 +350,7 @@ export default () => {
                   {"+" + usersCountsData[index].percentage}%
                 </span>
                 <h3 className="text-2xl ">{usersCountsData[index].count}</h3>
-                <p className="text-xs max-2xl:text-[9px] font-extralight opacity-70 italic">
+                <p className="text-xs w-[85px] max-2xl:text-[9px] font-extralight opacity-70 italic">
                   {t("Last week analytics")}
                 </p>
               </div>

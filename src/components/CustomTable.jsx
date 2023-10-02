@@ -422,7 +422,7 @@ export default ({
             <Table
               striped
               highlightOnHover
-              horizontalSpacing={"md"}
+              horizontalSpacing={"sm"}
               verticalSpacing={"sm"}
               className="min-w-full divide-y divide-gray-200 px-2 "
             >
