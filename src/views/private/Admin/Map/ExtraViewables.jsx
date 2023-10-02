@@ -19,6 +19,7 @@ import { closeAllModals, openModal } from "@mantine/modals";
 import { useState, useEffect, useMemo } from "preact/hooks";
 import { useDidUpdate } from "@mantine/hooks";
 import { Layer, Marker, Source } from "react-map-gl";
+import { useTranslation } from "react-i18next";
 import proj4 from "proj4";
 import * as turf from "@turf/turf";
 import {
@@ -613,6 +614,8 @@ export default () => {
 };
 
 export const ExtraViewableControl = ({ modal = false, webview = false}) => {
+
+  const { t } = useTranslation();
   const [activeOption, setActiveOption] = useState(null);
 
   const Options = {
@@ -749,7 +752,9 @@ export const ExtraViewableControl = ({ modal = false, webview = false}) => {
             >
               <div className="flex items-center gap-2">
                 {Options[key].icon}
-                <b className=" text-[#0E76BB] tracking-wide font-bold">{key}</b>
+                <b className=" text-[#0E76BB] tracking-wide font-bold">
+                  {t(key)}
+                </b>
               </div>
             </Menu.Item>
           );

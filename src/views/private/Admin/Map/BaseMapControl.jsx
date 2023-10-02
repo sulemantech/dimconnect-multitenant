@@ -3,8 +3,11 @@ import { closeAllModals, openModal } from "@mantine/modals"
 import { IconMap } from "@tabler/icons"
 import { FabClass } from "../../../../layout"
 import { mapStyle } from "../../../../signals"
+import { useTranslation } from "react-i18next";
+
 
 export default ({ modal = false }) => {
+    const { t } = useTranslation();
 
     const Styles = {
         Streets: 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json',
@@ -33,7 +36,9 @@ export default ({ modal = false }) => {
                                                         mapStyle.value = Styles[key]
                                                         closeAllModals()
                                                     }}>
-                                                    <div className="text-lg">{key}</div>
+                                                    <div className="text-lg">
+                                                        (key)
+                                                        </div>
                                                 </div>
                                                 <hr className={'my-2'} />
                                             </>
@@ -70,7 +75,7 @@ export default ({ modal = false }) => {
                                 onClick={() => {
                                     mapStyle.value = Styles[key]
                                 }}>
-                                {key}
+                                {t(key)}
                             </Menu.Item>
                         )
                     })
