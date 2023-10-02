@@ -51,14 +51,14 @@ export default () => {
 
     return (
         <div id="scale-down" className={'h-screen bg-white overflow-x-auto'}>
-            <div style={{ backgroundImage: 'url("/horizontal blue background.svg")', }} className="flex bg-no-repeat bg-cover flex-col pl-20 justify-center h-[295px]">
+            <div style={{ backgroundImage: 'url("/horizontal blue background.svg")', }} className="flex bg-no-repeat bg-cover flex-col pl-20 justify-center h-[295px] max-2xl:h-[200px]">
                 <div className="py-6" />
-                <div className="text-4xl font-bold tracking-wide text-white">{t('We Can Help.')}</div>
+                <div className="text-4xl max-2xl:text-2xl font-bold tracking-wide text-white">{t('We Can Help.')}</div>
                 <div className="text-xs text-white my-2">{t('FAQ : Frequently Asked Questions, Conclusively Answered')}</div>
                 {/* <Input  size="lg"
                 rightSection={<IconSearch size={20} />} radius={'xl'} placeholder={t('Search')} className="w-1/2 mt-4" /> */}
-                <Autocomplete   size="lg" data={data.map(item => item.name)}
-                rightSection={<IconSearch size={20} />} radius={'xl'} placeholder={t('Search')} className="w-1/2 mt-4"
+                <Autocomplete   size="sm" data={data.map(item => item.name)}
+                rightSection={<IconSearch size={16} />} radius={'xl'} placeholder={t('Search')} className="w-1/2 mt-4"
                 
                 // when someone click or select any item from the list, it will redirect to the FAQ page with the selected item
                 onChange={(value) => {
@@ -72,9 +72,9 @@ export default () => {
             </div>
 
             <div className={`px-20 mt-10`}>
-                <h6 className={`text-[#0E76BB] font-bold text-xl`}>{t('Popular FAQ Topics are here:')}</h6>
-                <p className={'text-sm mt-1'}>{t('General Questions: Short And Briefly Answered')}</p>
-                <ul className={`mt-4 list-disc list-inside  text-sm font-light tracking-wider`}>
+                <h6 className={`text-[#0E76BB] font-bold text-xl max-2xl:text-lg`}>{t('Popular FAQ Topics are here:')}</h6>
+                <p className={'text-sm mt-1 max-2xl:text-xs'}>{t('General Questions: Short And Briefly Answered')}</p>
+                <ul className={`mt-4 max-2xl:mt-2 list-disc list-inside  text-sm max-2xl:text-xs font-light tracking-wider`}>
                     {
                         data
                             .filter(item => item.name.length > 100)
@@ -118,8 +118,8 @@ export default () => {
 const PageControlButton = ({ icon, label, href }) => {
     
     return (
-        <div className={`flex flex-1 flex-col flex-grow h-24 rounded-3xl justify-center px-10 text-[#0E76BB] font-semibold capitalize hover:scale-95 active:bg-sky-400 hover:bg-sky-200 bg-[#D8E4EEE5]  justify-self-end items-center hover:shadow-lg shadow-md transition-all duration-200 ease-in-out ripple-bg-sky-50`}>
-            <div className={`flex justify-center items-center -mt-6 w-12 h-12 rounded-full  text-[#0E76BB]`}>
+        <div className={`flex flex-1 flex-col flex-grow h-24 max-2xl:h-20 rounded-3xl justify-center px-10 text-[#0E76BB] font-semibold capitalize hover:scale-95 active:bg-sky-400 hover:bg-sky-200 bg-[#D8E4EEE5]  justify-self-end items-center hover:shadow-lg shadow-md transition-all duration-200 ease-in-out ripple-bg-sky-50`}>
+            <div className={`flex justify-center items-center -mt-6 w-12 max-2xl:w-9 h-12 max-2xl:h-9 max-2xl:-mt-4 rounded-full  text-[#0E76BB]`}>
                 {icon}
             </div>
             <div className={`text-[#0E76BB] tracking-wide text-xs`}>

@@ -87,7 +87,7 @@ export default () => {
       <div className=" items-center  h-12 bg-white flex p-2 text-[#0E76BB] ">
         <div className="flex-grow  text-[#0E76BB] text-lg font-[500] md:inline-block hidden">
           <h6 className={window.innerWidth < 768 ? "text-xs" : "text-lg"}>
-            <b className=" max-2xl:text-xs">
+            <b className="">
               {t(
                 router[0].path
                   ?.split(":")?.[0]
