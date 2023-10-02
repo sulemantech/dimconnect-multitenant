@@ -140,7 +140,7 @@ export default ({
                 className="text-xs max-sm:text-[10px] last:p-0"
                 value={"Background"}
               >
-                Background
+                {t("Background")}
               </Accordion.Control>
             </div>
             <Accordion.Panel>
@@ -171,7 +171,7 @@ export default ({
                       },
                     }}
                     value="Aerial View"
-                    label="Aerial View"
+                    label={t("Aerial View")}
                     className="my-1"
                   >
                     {/* Aerial View */}
@@ -184,7 +184,7 @@ export default ({
                       },
                     }}
                     value="RP Properties"
-                    label="RP Properties"
+                    label={t("RP Properties")}
                     className=""
                   >
                     {/* RP Properties */}
@@ -224,7 +224,7 @@ export default ({
                 className="text-xs max-sm:text-[10px] last:p-0"
                 value={"Address Points"}
               >
-                Address Points
+                {t("Address Points")}
               </Accordion.Control>
             </div>
             <Accordion.Panel>
@@ -263,7 +263,7 @@ export default ({
                             : "text-gray-400"
                         }`}
                       >
-                        {key}
+                        {t(key)}
                       </p>
                     </div>
                   );
@@ -290,7 +290,7 @@ export default ({
                 className="text-xs max-sm:text-[10px] last:p-0"
                 value={"Netzplanung"}
               >
-                Netzplanung
+              {t("Netzplanung")}
               </Accordion.Control>
             </div>
             <Accordion.Panel>
@@ -314,7 +314,7 @@ export default ({
                     alt=""
                   />
                 </div>
-                <p>Nvt</p>
+                <p>{t("Nvt")}</p>
                 </div>
                 <div className="flex  justify-between">
                 <div className="flex space-x-2">
@@ -341,7 +341,7 @@ export default ({
                     alt=""
                   />
                 </div>
-                <p>Distribution Cables</p>
+                <p>{t("Distribution Cables")}</p>
                 </div>
                 <div className="flex  justify-between">
                 <div className="flex space-x-2">
@@ -360,7 +360,7 @@ export default ({
                   title="kollSch"
                   src="/redsqurewline.svg" alt="" />
                 </div>
-                <p>kollSch</p>
+                <p>{t("kollSch")}</p>
                 </div>
                 <div className="flex  justify-between">
                 <div className="flex space-x-2">
@@ -385,7 +385,7 @@ export default ({
                     title="Feeder Cables" 
                    src="/redline.svg" alt="" />
                 </div>
-                <p>Feeder Cable</p>
+                <p>{t("Feeder Cable")}</p>
                 </div>
                 <div className="flex  justify-between">
                   <div className="flex  space-x-2">
@@ -404,7 +404,7 @@ export default ({
                   <img
                    title="PoP" 
                    src="/homeblue.svg" alt="" /></div>
-                   <p>PoP</p>
+                   <p>{t("PoP")}</p>
                 </div>
                 <div className="flex  justify-between">
                 <div className="flex space-x-2">
@@ -431,7 +431,7 @@ export default ({
                     alt=""
                   />
                 </div>
-                <p className="pl-2">PrimDistribution Cables</p>
+                <p className="pl-2">{t("PrimDistribution Cables")}</p>
                 </div>
               </div>
             </Accordion.Panel>
@@ -444,7 +444,7 @@ export default ({
                     photoVisibility.value = !photoVisibility.value;
                   }}
                 />
-                <p className=" text-xs max-sm:text-[10px] ">Photos</p>
+                <p className=" text-xs max-sm:text-[10px] ">{t("Photos")}</p>
               </div>
               <div className="flex space-x-2">
                 <Checkbox
@@ -454,7 +454,7 @@ export default ({
                     videoVisibility.value = !videoVisibility.value;
                   }}
                 />
-                <p className=" text-xs max-sm:text-[10px] ">Videos</p>
+                <p className=" text-xs max-sm:text-[10px] ">{t("Videos")}</p>
               </div>
               <div className="flex space-x-2">
                 <Checkbox
@@ -464,7 +464,7 @@ export default ({
                     BarrierState.value = !BarrierState.value;
                   }}
                 />
-                <p className=" text-xs max-sm:text-[10px] ">Barrieren</p>
+                <p className=" text-xs max-sm:text-[10px] ">{t("Barrieren")}</p>
               </div>
               <div className="flex space-x-2">
                 <Checkbox
@@ -475,22 +475,22 @@ export default ({
                   }}
                 />
                 <p className=" text-xs max-sm:text-[10px] ">
-                  Roads and Waterways
+                  {t("Roads and Waterways")}
                 </p>
               </div>
               <div className="flex space-x-2">
                 <Checkbox size="xs" />
-                <p className=" text-xs max-sm:text-[10px] ">StatusÜbersicht</p>
+                <p className=" text-xs max-sm:text-[10px] ">{t("StatusÜbersicht")}</p>
               </div>
               <div className="flex space-x-2">
                 <Checkbox size="xs" />
                 <p className=" text-xs max-sm:text-[10px] ">
-                  Adressen mit Versorgung
+                  {t("Adressen mit Versorgung")}
                 </p>
               </div>
               <div className="flex space-x-2">
                 <Checkbox size="xs" />
-                <p className=" text-xs max-sm:text-[10px] ">Gewerbegebiete</p>
+                <p className=" text-xs max-sm:text-[10px] ">{t("Gewerbegebiete")}</p>
               </div>
             </div>
             <br />
@@ -505,7 +505,7 @@ export default ({
               value={"Status"}
               className="text-xs max-sm:text-[10px] last:p-0"
             >
-              Status
+              {t("Status")}
             </Accordion.Control>
             <Accordion.Panel>
               <div>
@@ -514,7 +514,7 @@ export default ({
                     return (
                       <>
                         <p className="text-xs max-sm:text-[10px] font-bold my-2">
-                          {key}
+                          {t(key)}
                         </p>
 
                         {Object.entries(item)?.map(([key, item]) => {

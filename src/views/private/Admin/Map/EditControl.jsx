@@ -2,11 +2,13 @@ import { Loader, Menu } from "@mantine/core"
 import { IconAddressBook, IconPencil } from "@tabler/icons"
 import { useEffect } from "preact/hooks"
 import { useState } from "react"
+import { useTranslation } from "react-i18next";
 
 import { FabClass } from "../../../../layout"
 import { addressPointsCRUDstate, editControlLoading } from "../../../../signals"
 
 export default ({ modal = false }) => {
+    const { t } = useTranslation();
 
     const [activeOption, setActiveOption] = useState(null)
 
@@ -74,7 +76,7 @@ export default ({ modal = false }) => {
                                 <div className="flex items-center gap-2 cursor-pointer">
                                     {Options[key].icon}
                                     <b className=" text-[#0E76BB] tracking-wide font-bold">
-                                        {key}
+                                        {t(key)}
                                     </b>
                                 </div>
 

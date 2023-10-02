@@ -5,12 +5,14 @@ import { useEffect, useState } from "preact/hooks"
 
 import { FabClass } from "../../../../layout"
 import { addressPointsCRUDstate } from "../../../../signals"
+import { useTranslation } from "react-i18next";
 
 
 export default ({ modal = false, webview = false }) => {
-
+    const { t } = useTranslation();
+    
     const [activeOption, setActiveOption] = useState(null)
-
+    
     const Options = {
         'Address Point': {
             icon: <IconAddressBook className="scale-110 text-[#0E76BB] " />,
@@ -23,12 +25,12 @@ export default ({ modal = false, webview = false }) => {
             }
         },
         // 'Photo': {
-        //     icon: <IconPhotoPlus className="scale-110 text-[#0E76BB]" />,
-        //     selectable: !webview,
-        //     "method": () => {
-        //         if (webview) {
-        //             parent.postMessage({ type: 'addPhoto' }, '*')
-        //             window.webkit.messageHandlers.jsHandler.postMessage({ type: 'addPhoto' })
+            //     icon: <IconPhotoPlus className="scale-110 text-[#0E76BB]" />,
+            //     selectable: !webview,
+            //     "method": () => {
+                //         if (webview) {
+                    //             parent.postMessage({ type: 'addPhoto' }, '*')
+                    //             window.webkit.messageHandlers.jsHandler.postMessage({ type: 'addPhoto' })
         //         }
         //     },
         //     "antiMethod": () => {
@@ -36,16 +38,16 @@ export default ({ modal = false, webview = false }) => {
         //     }
         // },
         // 'Video': {
-        //     icon: <IconVideoPlus className="scale-110 text-[#0E76BB]" />,
+            //     icon: <IconVideoPlus className="scale-110 text-[#0E76BB]" />,
         //     selectable: !webview,
         //     "method": () => {
-        //         if (webview) {
-        //             parent.postMessage({ type: 'addVideo' }, '*')
-        //             window.webkit.messageHandlers.jsHandler.postMessage({ type: 'addVideo' })
-        //         }
+            //         if (webview) {
+                //             parent.postMessage({ type: 'addVideo' }, '*')
+                //             window.webkit.messageHandlers.jsHandler.postMessage({ type: 'addVideo' })
+                //         }
         //     },
         //     "antiMethod": () => {
-
+            
         //     }
         // }
     }
@@ -59,7 +61,7 @@ export default ({ modal = false, webview = false }) => {
             }
         })
     }, [])
-
+    
     const AddControlButton = <div className={`mt-2 ${FabClass}  ${activeOption ? 'bg-red-500 text-white' : 'bg-white text-[#0E76BB]'}`}>
 
         <IconPlus className="scale-150" />
@@ -100,7 +102,7 @@ export default ({ modal = false, webview = false }) => {
                                                 <div className="flex items-center gap-2 cursor-pointer">
                                                     {Options[key].icon}
                                                     <b className=" text-[#0E76BB] tracking-wide font-bold">
-                                                        {key}
+                                                        {t(key)}
                                                     </b>
                                                 </div>
                                                 <Divider className="my-2" />
@@ -139,7 +141,7 @@ export default ({ modal = false, webview = false }) => {
                                 <div className="flex items-center gap-2">
                                     {Options[key].icon}
                                     <b className=" text-[#0E76BB] tracking-wide font-bold">
-                                        {key}
+                                        {t(key)}
                                     </b>
                                 </div>
                             </Menu.Item>
