@@ -66,30 +66,35 @@ const MyTable = ({ data, select, setSelect, setUpdate }) => {
       selector: row => row.id,
       cell: (row) => row.id.toString().padStart(6, "0"),
       sortable: true,
+      width:"110px"
     },
     {
       name:t("Status"),
       selector: row => row.status_id,
       cell: (row) => <img src={status[row.status_id].svg} alt="status" />,
       sortable: true,
+      width:"110px"
     },
     {
       name: t("Requester"),
       selector: row => row.requester,
       cell: (row) => row.gpUser.vorname + " " + row.gpUser.nachname,
       sortable: true,
+      width:"110px"
     },
     {
       name: t("Problem Type"),
       selector: row => row.problemType,
       cell: (row) => row.ticketCategory.name,
       sortable: true,
+      width:"110px"
     },
     {
       name: t("Title"),
       // selector: "title",
       selector: row => row.title,
       sortable: true,
+      width:"110px"
     },
     {
       name: t("Priority"),
@@ -97,6 +102,7 @@ const MyTable = ({ data, select, setSelect, setUpdate }) => {
       selector: row => row.priority,
       cell: (row) => row.ticketPriority.name,
       sortable: true,
+      width:"110px"
     },
     {
       name: t("Created"),
@@ -105,6 +111,7 @@ const MyTable = ({ data, select, setSelect, setUpdate }) => {
       cell: (row) =>
         new Date(row.created_at).toLocaleDateString().replaceAll("/", "."),
       sortable: true,
+      width:"110px"
     },
     {
       name: t("Updated"),
@@ -113,6 +120,7 @@ const MyTable = ({ data, select, setSelect, setUpdate }) => {
       cell: (row) =>
         new Date(row.updated_at).toLocaleDateString().replaceAll("/", "."),
       sortable: true,
+      width:"110px"
     },
     {
       name: "",
@@ -279,19 +287,14 @@ const MyTable = ({ data, select, setSelect, setUpdate }) => {
         },
         headCells: {
           style: {
-            fontSize: "0.69rem", // equivalent to text-xs in tailwind
-            // color: "#333333", // default font color
-            // paddingLeft: "5px", // equivalent to pl-1 in tailwind
-            // paddingRight: "5px", // equivalent to pr-1 in tailwind
+            fontSize: "0.69rem",
+            paddingLeft:"4px"
           },
         },
         cells: {
           style: {
-            fontSize: "0.7rem", // equivalent to text-xs in tailwind
-            paddingLeft: "5px", // equivalent to pl-1 in tailwind
-            // paddingRight: "5px", // equivalent to pr-1 in tailwind
-            // paddingTop: "12px", // equivalent to pt-3 in tailwind
-            // paddingBottom: "12px", // equivalent to pb-3 in tailwind
+            fontSize: "0.7rem",
+            paddingLeft: "5px", 
             borderBottomWidth: "0px",
 
             borderBottomColor: "#2454b400",
