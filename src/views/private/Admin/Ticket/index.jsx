@@ -61,7 +61,7 @@ export default () => {
           tickets={tickets}
         />
 
-        <div className="flex ml-1 space-x-3 ">
+        <div className="flex ml-3 space-x-3 ">
           <div
             // className="min-w-[60%] "
             className=" max-xl:w-full"
@@ -76,7 +76,7 @@ export default () => {
               setUpdate={setUpdate}
             />
           </div>
-          <div className=" w-full max-xl:hidden">
+          <div className=" w-full ml-4 max-xl:hidden">
             <UserCard className="h-full" tickets={tickets} select={select} />
           </div>
         </div>

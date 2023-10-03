@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef , useEffect } from "react";
 import { Checkbox, Loader, LoadingOverlay, Select } from "@mantine/core";
 import subtract2 from "./SubtractBlue.png";
 import subtract3 from "./SubtractGreen.png";
@@ -12,6 +12,7 @@ import { useLayoutEffect } from "react";
 import { useTranslation } from "react-i18next"
 import { showNotification } from "@mantine/notifications";
 import { useTransition } from 'react';
+
 
 export const status = {
   1: {
@@ -54,6 +55,20 @@ export const status = {
 
 
 const MyTable = ({ data, select, setSelect, setUpdate }) => {
+  const [isWideScreen, setIsWideScreen] = useState(window.innerWidth >= 1280);
+
+useEffect(() => {
+  const handleResize = () => {
+    setIsWideScreen(window.innerWidth >= 1280 && window.innerWidth <= 1550);
+  };
+
+  window.addEventListener('resize', handleResize);
+
+  return () => {
+    window.removeEventListener('resize', handleResize);
+  };
+});
+
   const {t}=useTranslation()
 
 
@@ -66,35 +81,35 @@ const MyTable = ({ data, select, setSelect, setUpdate }) => {
       selector: row => row.id,
       cell: (row) => row.id.toString().padStart(6, "0"),
       sortable: true,
-      width:"110px"
+      width: isWideScreen ? "7vw" : undefined,
     },
     {
       name:t("Status"),
       selector: row => row.status_id,
       cell: (row) => <img src={status[row.status_id].svg} alt="status" />,
       sortable: true,
-      width:"110px"
+      width: isWideScreen ? "7vw" : undefined,
     },
     {
       name: t("Requester"),
       selector: row => row.requester,
       cell: (row) => row.gpUser.vorname + " " + row.gpUser.nachname,
       sortable: true,
-      width:"110px"
+      width: isWideScreen ? "7vw" : undefined,
     },
     {
       name: t("Problem Type"),
       selector: row => row.problemType,
       cell: (row) => row.ticketCategory.name,
       sortable: true,
-      width:"110px"
+      width: isWideScreen ? "7vw" : undefined,
     },
     {
       name: t("Title"),
       // selector: "title",
       selector: row => row.title,
       sortable: true,
-      width:"110px"
+      width: isWideScreen ? "7vw" : undefined,
     },
     {
       name: t("Priority"),
@@ -102,7 +117,7 @@ const MyTable = ({ data, select, setSelect, setUpdate }) => {
       selector: row => row.priority,
       cell: (row) => row.ticketPriority.name,
       sortable: true,
-      width:"110px"
+      width: isWideScreen ? "7vw" : undefined,
     },
     {
       name: t("Created"),
@@ -111,7 +126,7 @@ const MyTable = ({ data, select, setSelect, setUpdate }) => {
       cell: (row) =>
         new Date(row.created_at).toLocaleDateString().replaceAll("/", "."),
       sortable: true,
-      width:"110px"
+      width: isWideScreen ? "7vw" : undefined,
     },
     {
       name: t("Updated"),
@@ -120,7 +135,7 @@ const MyTable = ({ data, select, setSelect, setUpdate }) => {
       cell: (row) =>
         new Date(row.updated_at).toLocaleDateString().replaceAll("/", "."),
       sortable: true,
-      width:"110px"
+      width: isWideScreen ? "7vw" : undefined,
     },
     {
       name: "",
