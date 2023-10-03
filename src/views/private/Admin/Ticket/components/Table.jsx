@@ -67,7 +67,7 @@ useEffect(() => {
   return () => {
     window.removeEventListener('resize', handleResize);
   };
-});
+},[]);
 
   const {t}=useTranslation()
 
