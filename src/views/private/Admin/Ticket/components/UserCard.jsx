@@ -22,7 +22,7 @@ function UserCard({ tickets, select }) {
 
   return (
     <>
-      <div className="mt-3 w-full  rounded-r-md mb-5 flex flex-col justify-center items-center">
+      <div className="mt-3 w-full  rounded-r-md mb-5 flex flex-col justify-between items-center">
         <div className=" text-center   text-xs h-[18px] bg-[#D8E4EE] rounded-r-lg w-full flex justify-evenly">
           <button
             className={active === "userTicket" ? "text-sky-600 font-bold" : ""}
@@ -38,7 +38,7 @@ function UserCard({ tickets, select }) {
             {t('User Card')}
           </button>
         </div>
-        <div className=" ml-6 mt-3 bg-[#ffff]  rounded-md px-2 min-w-fit min-h-fit max-xl:w-full">
+        <div className=" ml-6 mt-3 bg-[#ffff] w-full mr-2  rounded-md px-2 min-w-fit min-h-fit max-xl:w-full">
           {active === "userTicket" ? (
             <div className="w-full max-h-[100%]  p-2">
               <DataTable

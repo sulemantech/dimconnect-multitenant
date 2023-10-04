@@ -8,3 +8,11 @@
   width: 15px !important;
   height: 15px !important;
 }
+
+
+/* MyDataTable.css (or any CSS file of your choice) */
+@media (min-width: 1280px) and (max-width: 1550px) {
+  .custom-column-width {
+    width: 100px;
+  }
+}

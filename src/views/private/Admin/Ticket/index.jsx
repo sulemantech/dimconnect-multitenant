@@ -51,7 +51,7 @@ export default () => {
     <>
       <div
         id="scale-down"
-        className="bg-[#f5f7f9] max-2xl:scale-90 origin-top-left w-[105%] overflow-y-auto custom-scrollbar-page"
+        className="bg-[#f5f7f9] mr-2  overflow-y-auto custom-scrollbar-page"
       >
         <TicketManagment ticketCounts={ticketCounts} />
         <Searchbars
@@ -61,10 +61,10 @@ export default () => {
           tickets={tickets}
         />
 
-        <div className="flex space-x-3 ">
+        <div className="flex ml-3 space-x-3 ">
           <div
             // className="min-w-[60%] "
-            className="w-[85vw] max-xl:w-full"
+            className=" max-xl:w-full"
             style={{
               borderTopLeftRadius: "0.5rem",
             }}
@@ -76,7 +76,7 @@ export default () => {
               setUpdate={setUpdate}
             />
           </div>
-          <div className="w-[15vw] max-xl:hidden">
+          <div className=" w-full ml-4 max-xl:hidden">
             <UserCard className="h-full" tickets={tickets} select={select} />
           </div>
         </div>
