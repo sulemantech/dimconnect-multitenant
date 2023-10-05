@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import DataTable from "react-data-table-component";
+import { useState } from "react";
 import { status } from "./Table";
 import { useTranslation } from "react-i18next";
 // import VectorStroke from './VectorStroke.png'
@@ -20,6 +21,8 @@ function UserCard({ tickets, select }) {
     );
   }, [select]);
 
+  const isWideScreen=window.innerWidth >= 1280 && window.innerWidth <= 1550;
+
   return (
     <>
       <div className="mt-3 w-full  rounded-r-md mb-5 flex flex-col justify-between items-center">
@@ -38,11 +41,11 @@ function UserCard({ tickets, select }) {
             {t('User Card')}
           </button>
         </div>
-        <div className=" ml-6 mt-3 bg-[#ffff] w-full mr-2  rounded-md px-2 min-w-fit min-h-fit max-xl:w-full">
+        <div className=" ml-6 mt-3 bg-[#ffff] w-full  mr-1  rounded-md px-2 min-w-fit min-h-[40vh] max-xl:w-full ">
           {active === "userTicket" ? (
-            <div className="w-full max-h-[100%]  p-2">
+            <div className="w-full max-h-[100%]">
               <DataTable
-                className="mt-3"
+                className="mt-3 "
                 expandOnRowClicked={true}
                 expandableRows
                 expandableRowsComponent={(row) => {
@@ -65,7 +68,11 @@ function UserCard({ tickets, select }) {
                     name: "",
                     selector: "status",
                     // cell size max content
-                    width: "max-content",
+                    width: isWideScreen ? "28px" : undefined,
+                    style:{
+                      padding:0,
+                    },
+                    
                     sortable: true,
                     cell: (row) => (
                       <img src={status[row.status_id].svg} alt="status" />
@@ -75,7 +82,12 @@ function UserCard({ tickets, select }) {
                     name: "",
                     selector: "ticketId",
                     sortable: true,
-                    width: "max-content",
+                    width: isWideScreen ? "51px" : undefined,
+                    style:{
+
+                      padding:0,
+                    },
+                 
                     cell: (row) =>
                       row.id ? row.id.toString().padStart(6, "0") : "---",
                   },
@@ -83,7 +95,12 @@ function UserCard({ tickets, select }) {
                     name: "",
                     selector: "ticketType",
                     sortable: true,
-                    width: "max-content",
+                    width: isWideScreen ? "90px" : undefined,
+                    style:{
+
+                      padding:0,
+                    },
+               
                     cell: (row) =>
                       row.ticketCategory ? row.ticketCategory.name : "---",
                   },
@@ -91,7 +108,12 @@ function UserCard({ tickets, select }) {
                     name: "",
                     selector: "dueDate",
                     sortable: true,
-                    width: "max-content",
+                    width: isWideScreen ? "65px" : undefined,
+                    style:{
+
+                      padding:0,
+                    },
+              
                     cell: (row) =>
                       row.created_at
                         ? new Date(row.created_at)
@@ -103,7 +125,7 @@ function UserCard({ tickets, select }) {
                 data={filteredTickets}
                 // if there is no data show this message
                 noDataComponent={
-                  <div className="text-xs text-gray-400 w-[15vw]">
+                  <div className="text-xs text-gray-400">
                     {t('No Tickets Found')}
                   </div>
                 }
