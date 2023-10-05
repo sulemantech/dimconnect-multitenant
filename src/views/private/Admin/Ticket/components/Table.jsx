@@ -65,21 +65,21 @@ const MyTable = ({ data, select, setSelect, setUpdate }) => {
       selector: (row) => row.id,
       cell: (row) => row.id.toString().padStart(6, "0"),
       sortable: true,
-      width: isWideScreen ? "7vw" : (window.innerWidth < 1280 ? "100px" : "8vw")
+      width: isWideScreen ? "7vw" : (window.innerWidth < 1280 ? "118px" : "8vw")
     },
     {
       name: t("Status"),
       selector: (row) => row.status_id,
       cell: (row) => <img src={status[row.status_id].svg} alt="status" />,
       sortable: true,
-      width: isWideScreen ? "7vw" : (window.innerWidth < 1280 ? "100px" : "8vw")
+      width: isWideScreen ? "7vw" : (window.innerWidth < 1280 ? "118px" : "8vw")
     },
     {
       name: t("Requester"),
       selector: (row) => row.requester,
       cell: (row) => row.gpUser.vorname + " " + row.gpUser.nachname,
       sortable: true,
-      width: isWideScreen ? "7vw" : (window.innerWidth < 1280 ? "100px" : "8vw")
+      width: isWideScreen ? "7vw" : (window.innerWidth < 1280 ? "118px" : "8vw")
     },
     {
       name: t("Problem Type"),
@@ -98,7 +98,7 @@ const MyTable = ({ data, select, setSelect, setUpdate }) => {
         </div>
       ),
       sortable: true,
-      width: isWideScreen ? "7vw" : (window.innerWidth < 1280 ? "100px" : "8vw")
+      width: isWideScreen ? "7vw" : (window.innerWidth < 1280 ? "118px" : "8vw")
     },
 
     {
@@ -106,7 +106,7 @@ const MyTable = ({ data, select, setSelect, setUpdate }) => {
       // selector: "title",
       selector: (row) => (<div title={row.title}>{row.title}</div>),
       sortable: true,
-      width: isWideScreen ? "7vw" : (window.innerWidth < 1280 ? "100px" : "8vw")
+      width: isWideScreen ? "7vw" : (window.innerWidth < 1280 ? "118px" : "8vw")
     },
     {
       name: t("Priority"),
@@ -114,7 +114,7 @@ const MyTable = ({ data, select, setSelect, setUpdate }) => {
       selector: (row) => row.priority,
       cell: (row) => row.ticketPriority.name,
       sortable: true,
-      width: isWideScreen ? "7vw" : (window.innerWidth < 1280 ? "100px" : "8vw")
+      width: isWideScreen ? "7vw" : (window.innerWidth < 1280 ? "118px" : "8vw")
     },
     {
       name: t("Created"),
@@ -123,7 +123,7 @@ const MyTable = ({ data, select, setSelect, setUpdate }) => {
       cell: (row) =>
         new Date(row.created_at).toLocaleDateString().replaceAll("/", "."),
       sortable: true,
-      width: isWideScreen ? "7vw" : (window.innerWidth < 1280 ? "100px" : "8vw")
+      width: isWideScreen ? "7vw" : (window.innerWidth < 1280 ? "118px" : "8vw")
     },
     {
       name: t("Updated"),
@@ -132,7 +132,7 @@ const MyTable = ({ data, select, setSelect, setUpdate }) => {
       cell: (row) =>
         new Date(row.updated_at).toLocaleDateString().replaceAll("/", "."),
       sortable: true,
-      width: isWideScreen ? "7vw" : (window.innerWidth < 1280 ? "100px" : "8vw")
+      width: isWideScreen ? "7vw" : (window.innerWidth < 1280 ? "118px" : "8vw")
     },
     {
       name: "",

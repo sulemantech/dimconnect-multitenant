@@ -43,7 +43,7 @@ function UserCard({ tickets, select }) {
         </div>
         <div className=" ml-6 mt-3 bg-[#ffff] w-full  mr-1  rounded-md px-2 min-w-fit min-h-[40vh] max-xl:w-full ">
           {active === "userTicket" ? (
-            <div className="w-full max-h-[100%]">
+            <div className="w-full h-[70vh] overflow-y-scroll ">
               <DataTable
                 className="mt-3 "
                 expandOnRowClicked={true}
