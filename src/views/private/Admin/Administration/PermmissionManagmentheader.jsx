@@ -59,10 +59,10 @@ function PermmissionManagmentheader({ stats }) {
   const { t } = useTranslation();
   return (
     <div>
-      <div className="flex w-100vw max-laptop1:grid max-laptop1:grid-cols-2 max-Mobile:flex max-Mobile:flex-col">
-        <div className=" m-2 bg-white text-gray-700 rounded-lg px-5 pt-3   min-w-fit ">
+      <div className="flex w-full max-laptop1:grid max-laptop1:grid-cols-2 max-Mobile:flex max-Mobile:flex-col">
+        <div className=" m-1.5 bg-white text-gray-700 rounded-lg px-3 pt-3   min-w-fit ">
           <div>
-            <h2 className="text-lg max-2xl:text-sm font-bold">{t("Agreement Statuses")}</h2>
+            <h2 className="text-lg max-2xl:text-[12px] font-bold  break-words">{t("Agreement Statuses")}</h2>
             <div>
               <div className="flex flex-row mt-2 justify-between">
                 <div className="flex flex-row space-x-2">
@@ -71,10 +71,10 @@ function PermmissionManagmentheader({ stats }) {
                     src="/Check.svg"
                     alt=""
                   />
-                  <p>{t("Signed")}</p>
+                  <p className="break-words w-[3.4rem] text-sm " title={t("Signed")}>{t("Signed")}</p>
                 </div>
                 <div className="flex flex-row justify-center space-x-2">
-                  <p className="text-[#0E76BB] text-sm">
+                  <p className="text-[#0E76BB] text-sm truncate w-20 ">
                     {/* +3,5% */}
                     {stats?.agreementNotSignedCount +
                       stats?.agreementSignedCount !==
@@ -93,17 +93,17 @@ function PermmissionManagmentheader({ stats }) {
               </div>
             </div>
             <div>
-              <div className="flex flex-row mt-2 justify-between space-x-2">
+              <div className="flex flex-row mt-2 justify-between space-x-1.5">
                 <div className="flex flex-row space-x-2">
                   <img
                     className="border-[2px] rounded-md border-[#E6E6E6E5] p-1 mb-3"
                     src="/cross.svg"
                     alt=""
                   />
-                  <p>{t("Not Signed")}</p>
+                  <p className="break-words w-[5.2rem] text-sm  " title={t("Not Signed")}>{t("Not Signed")}</p>
                 </div>
                 <div className="flex flex-row justify-center space-x-2">
-                  <p className="text-[#0E76BB] text-sm">
+                  <p className="text-[#0E76BB] text-sm truncate">
                     {/* +3,5% */}
                     {stats?.agreementNotSignedCount +
                       stats?.agreementSignedCount !==
@@ -129,7 +129,7 @@ function PermmissionManagmentheader({ stats }) {
             key={index}
             className="m-2 h-auto justify-between bg-white text-gray-700 rounded-lg px-3 pt-3 pb-3.5 min-w-fit flex flex-1 max-2xl:px-2"
           >
-            <h2 className="text-lg max-2xl:text-sm font-bold absolute">
+            <h2 className="text-lg max-2xl:text-[12px] font-bold absolute max-2xl:w-32  break-words">
               {t(item.title)}
             </h2>
             <div className="flex justify-center items-center w-fit relative mt-6">
@@ -241,15 +241,15 @@ function PermmissionManagmentheader({ stats }) {
                 )}
               </span>
               <h3 className="text-2xl ">{item.value}</h3>
-              <p className="text-xs font-extralight opacity-70 italic">
+              <p className="text-xs max-md:text-sm font-extralight opacity-70 italic w-[7rem] ">
                 {t("Last week analytics")}
               </p>
             </div>
           </div>
         ))}
 
-        <div className="  flex flex-col m-2 min-w-fit bg-white text-gray-700 rounded-lg px-5 pt-3 ">
-          <h2 className="text-lg max-2xl:text-sm font-bold absolute">
+        <div className="  flex flex-col m-2 min-w-fit bg-white text-gray-700 rounded-lg px-4 pt-3 ">
+          <h2 className="text-lg max-2xl:text-[12px] max-2xl:w-32  break-words font-bold absolute">
             {t("AGS Rights by Type")}
           </h2>
 

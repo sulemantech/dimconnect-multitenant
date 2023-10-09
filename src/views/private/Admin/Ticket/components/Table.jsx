@@ -1,4 +1,4 @@
-import React, { useRef , useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import { Checkbox, Loader, LoadingOverlay, Select } from "@mantine/core";
 import subtract2 from "./SubtractBlue.png";
 import subtract3 from "./SubtractGreen.png";
@@ -9,10 +9,9 @@ import DataTable from "react-data-table-component";
 import { useState } from "react";
 import { getResource, postComment, putTicket } from "../../../../../api";
 import { useLayoutEffect } from "react";
-import { useTranslation } from "react-i18next"
+import { useTranslation } from "react-i18next";
 import { showNotification } from "@mantine/notifications";
-import { useTransition } from 'react';
-
+import { useTransition } from "react";
 
 export const status = {
   1: {
@@ -53,89 +52,87 @@ export const status = {
   },
 };
 
-
 const MyTable = ({ data, select, setSelect, setUpdate }) => {
-  const [isWideScreen, setIsWideScreen] = useState(window.innerWidth >= 1280);
+  const isWideScreen=window.innerWidth >= 1280 && window.innerWidth <= 1550;
 
-useEffect(() => {
-  const handleResize = () => {
-    setIsWideScreen(window.innerWidth >= 1280 && window.innerWidth <= 1550);
-  };
-
-  window.addEventListener('resize', handleResize);
-
-  return () => {
-    window.removeEventListener('resize', handleResize);
-  };
-},[]);
-
-  const {t}=useTranslation()
-
+  const { t } = useTranslation();
 
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(25);
   const columns = [
-  
     {
       name: t("Ticket ID"),
-      selector: row => row.id,
+      selector: (row) => row.id,
       cell: (row) => row.id.toString().padStart(6, "0"),
       sortable: true,
-      width: isWideScreen ? "7vw" : undefined,
+      width: isWideScreen ? "7vw" : (window.innerWidth < 1280 ? "118px" : "8vw")
     },
     {
-      name:t("Status"),
-      selector: row => row.status_id,
+      name: t("Status"),
+      selector: (row) => row.status_id,
       cell: (row) => <img src={status[row.status_id].svg} alt="status" />,
       sortable: true,
-      width: isWideScreen ? "7vw" : undefined,
+      width: isWideScreen ? "7vw" : (window.innerWidth < 1280 ? "118px" : "8vw")
     },
     {
       name: t("Requester"),
-      selector: row => row.requester,
+      selector: (row) => row.requester,
       cell: (row) => row.gpUser.vorname + " " + row.gpUser.nachname,
       sortable: true,
-      width: isWideScreen ? "7vw" : undefined,
+      width: isWideScreen ? "7vw" : (window.innerWidth < 1280 ? "118px" : "8vw")
     },
     {
       name: t("Problem Type"),
-      selector: row => row.problemType,
-      cell: (row) => row.ticketCategory.name,
+      selector: (row) => row.problemType,
+      cell: (row) => (
+        <div
+          style={{
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            maxWidth: "100%",
+          }}
+          title={row.ticketCategory.name}
+        >
+          {row.ticketCategory.name}
+        </div>
+      ),
       sortable: true,
-      width: isWideScreen ? "7vw" : undefined,
+      width: isWideScreen ? "7vw" : (window.innerWidth < 1280 ? "118px" : "8vw")
     },
+
     {
       name: t("Title"),
       // selector: "title",
-      selector: row => row.title,
+      selector: (row) => (<div title={row.title}>{row.title}</div>),
       sortable: true,
-      width: isWideScreen ? "7vw" : undefined,
+      width: isWideScreen ? "7vw" : (window.innerWidth < 1280 ? "118px" : "8vw")
     },
     {
       name: t("Priority"),
       // selector: "priority",
-      selector: row => row.priority,
+      selector: (row) => row.priority,
       cell: (row) => row.ticketPriority.name,
       sortable: true,
-      width: isWideScreen ? "7vw" : undefined,
+      width: isWideScreen ? "7vw" : (window.innerWidth < 1280 ? "118px" : "8vw")
     },
     {
       name: t("Created"),
       // selector: "created_at",
-      selector: row => row.created_at,
+      selector: (row) => row.created_at,
       cell: (row) =>
         new Date(row.created_at).toLocaleDateString().replaceAll("/", "."),
       sortable: true,
-      width: isWideScreen ? "7vw" : undefined,
+      width: isWideScreen ? "7vw" : (window.innerWidth < 1280 ? "118px" : "8vw")
     },
     {
       name: t("Updated"),
       // selector: "updated_at",
-      selector: row => row.updated_at,
+      selector: (row) => row.updated_at,
       cell: (row) =>
         new Date(row.updated_at).toLocaleDateString().replaceAll("/", "."),
       sortable: true,
-      width: isWideScreen ? "7vw" : undefined,
+      width: isWideScreen ? "7vw" : (window.innerWidth < 1280 ? "118px" : "8vw")
     },
     {
       name: "",
@@ -168,7 +165,7 @@ useEffect(() => {
             })
           }
         >
-          {t('See Ticket')} →
+          {t("See Ticket")} →
         </button>
       ),
     },
@@ -192,82 +189,76 @@ useEffect(() => {
       pagination
       // pages per page
       paginationPerPage={rowsPerPage}
-
-      paginationComponent={()=>{
-        return(
+      paginationComponent={() => {
+        return (
           <div className="flex justify-start mt-1">
             <div className="flex items-center ml-5 w-[50%]">
               <p className="text-sm text-gray-700 mr-2 text-[10px]">
-                
-                  <span className="text-[#0E76BB] text-[10px]">
-                    {data.length > 0
-                  ? `${
-                      (page - 1) * rowsPerPage + 1
-                    }-${(page - 1) * rowsPerPage + rowsPerPage}`
-                  : ""}
-                  </span>
-                  &nbsp; <span className="text-[10px]">From</span> &nbsp;
-                  <span className="text-[#0E76BB] text-[10px]">
-                    {data.length}
-                  </span>
-                  &nbsp; <span className="text-[10px]">Items</span>
-
+                <span className="text-[#0E76BB] text-[10px]">
+                  {data.length > 0
+                    ? `${(page - 1) * rowsPerPage + 1}-${
+                        (page - 1) * rowsPerPage + rowsPerPage
+                      }`
+                    : ""}
+                </span>
+                &nbsp; <span className="text-[10px]">From</span> &nbsp;
+                <span className="text-[#0E76BB] text-[10px]">
+                  {data.length}
+                </span>
+                &nbsp; <span className="text-[10px]">Items</span>
               </p>
             </div>
             <div className="flex items-center">
-              
               <p className="text-sm text-gray-700 mr-2">
-                 {/* Previous  1 2 3 4  Next */}
-                 <span className="cursor-pointer text-[10px]"
-                 onClick={() => {
-                  if (page !== 1) {
-                    setPage(page - 1);
-                  }
-                 }}
-                 >
+                {/* Previous  1 2 3 4  Next */}
+                <span
+                  className="cursor-pointer text-[10px]"
+                  onClick={() => {
+                    if (page !== 1) {
+                      setPage(page - 1);
+                    }
+                  }}
+                >
                   Previous
-                 </span>
-                    {data.length > 0
-                    ? Array.from(
-                        { length: Math.ceil(data.length / rowsPerPage) },
-                        (_, i) => {
-                          return { value: i + 1, label: i + 1 };
-                        }
-                      ).map((item, index) => {
-                        return (
-                          <span
-                            key={index}
-                            className={`${
-                              page === item.value
-                                ? "bg-[#D8E4EE] rounded"
-                                : ""
-                            } mx-1 p-3 pb-1 pt-1 text-[#0E76BB] cursor-pointer text-[10px]`}
-                            onClick={() => {
-                              setPage(item.value);
-                            }}
-                          >
-                            {item.value}
-                          </span>
-                        );
-                      })
-                    : ""}
-                    {/* </span> */}
-                  <span className="cursor-pointer text-[10px]"
+                </span>
+                {data.length > 0
+                  ? Array.from(
+                      { length: Math.ceil(data.length / rowsPerPage) },
+                      (_, i) => {
+                        return { value: i + 1, label: i + 1 };
+                      }
+                    ).map((item, index) => {
+                      return (
+                        <span
+                          key={index}
+                          className={`${
+                            page === item.value ? "bg-[#D8E4EE] rounded" : ""
+                          } mx-1 p-3 pb-1 pt-1 text-[#0E76BB] cursor-pointer text-[10px]`}
+                          onClick={() => {
+                            setPage(item.value);
+                          }}
+                        >
+                          {item.value}
+                        </span>
+                      );
+                    })
+                  : ""}
+                {/* </span> */}
+                <span
+                  className="cursor-pointer text-[10px]"
                   onClick={() => {
                     // first check if page is not last
                     if (page !== Math.ceil(data.length / rowsPerPage)) {
                       setPage(page + 1);
                     }
                   }}
-
-                  >
+                >
                   Next
-                  </span>
-
+                </span>
               </p>
             </div>
           </div>
-        )
+        );
       }}
       // className=".dataTable-ticket-page"
       selectableRows
@@ -303,13 +294,13 @@ useEffect(() => {
         headCells: {
           style: {
             fontSize: "0.69rem",
-            paddingLeft:"4px"
+            paddingLeft: "4px",
           },
         },
         cells: {
           style: {
             fontSize: "0.7rem",
-            paddingLeft: "5px", 
+            paddingLeft: "5px",
             borderBottomWidth: "0px",
 
             borderBottomColor: "#2454b400",
@@ -350,16 +341,12 @@ useEffect(() => {
 
 export default MyTable;
 
-
 export const TicketModal = ({ ticket, setUpdate }) => {
-
-  
   // useTransition
   const [isPending, Transition] = useState(false);
   const [files, setFiles] = useState([]);
   const [answer, setAnswer] = useState("");
   const [ticketStatus, setTicketStatus] = useState(status[ticket.status_id]);
-
 
   const fileInputRef = useRef();
 
@@ -380,18 +367,16 @@ export const TicketModal = ({ ticket, setUpdate }) => {
   const handleFormSubmit = (event) => {
     event.preventDefault();
   };
- 
+
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
     setFiles(files);
   };
 
-
   const [ticketAttachments, setTicketAttachments] = useState([]);
   const [commentAttachments, setCommentAttachments] = useState([]);
 
-  const handleAttachmentsDownload = async() => {
-    
+  const handleAttachmentsDownload = async () => {
     const ticketFiles = await Promise.allSettled(
       ticket.ticketAttachments.map(async (item) => {
         const response = await getResource(item.filename);
@@ -399,24 +384,33 @@ export const TicketModal = ({ ticket, setUpdate }) => {
       })
     );
     // only set files whose status is fulfilled
-    setTicketAttachments(ticketFiles.filter(item=>item.status==="fulfilled").map(item=>item.value));
+    setTicketAttachments(
+      ticketFiles
+        .filter((item) => item.status === "fulfilled")
+        .map((item) => item.value)
+    );
 
-    const commentsFiles = ticket.ticketComments.map(comment=>{
+    const commentsFiles = ticket.ticketComments.map((comment) => {
       return comment.ticketAttachments.map(async (item) => {
         const response = await getResource(item.filename);
-        return {uri: window.URL.createObjectURL(new Blob([response.data])), filename: item.filename};
-      }
-      )
-
-    })
+        return {
+          uri: window.URL.createObjectURL(new Blob([response.data])),
+          filename: item.filename,
+        };
+      });
+    });
 
     // commentsFiles is an array of arrays, I want to combine all the array of arrays into a single array
     const commentsFiles2 = await Promise.allSettled(commentsFiles.flat());
 
     // only set files whose status is fulfilled
-    setCommentAttachments(commentsFiles2.filter(item=>item.status==="fulfilled").map(item=>item.value));
+    setCommentAttachments(
+      commentsFiles2
+        .filter((item) => item.status === "fulfilled")
+        .map((item) => item.value)
+    );
   };
-  
+
   useLayoutEffect(() => {
     handleAttachmentsDownload();
 
@@ -425,7 +419,6 @@ export const TicketModal = ({ ticket, setUpdate }) => {
       setTicketAttachments([]);
     };
   }, []);
-  
 
   return (
     <>
@@ -604,24 +597,27 @@ export const TicketModal = ({ ticket, setUpdate }) => {
           {ticket.ticketAttachments?.length > 0 && (
             <div className="flex justify-start items-start w-full h-[90px] px-2 py-2 mr-2 mb-5">
               {ticket.ticketAttachments?.map((attachment, index) => {
-               
                 // return (
                 //   <a href={ticketAttachments[0]} download={attachment.filename}  target="_blank" > Download </a>
                 // )
                 return (
-                  <a key={attachment.id} href={ticketAttachments[index]} download={attachment.filename} target="_blank" >
-                  <img
-                    className="mr-2"
-                    // src={`http://localhost:3002/static/tickets/${attachment.filename}`}
-                    src={ticketAttachments[index]}
-                    alt=""
-                    width={150}
-                    height={150}
-                  />
+                  <a
+                    key={attachment.id}
+                    href={ticketAttachments[index]}
+                    download={attachment.filename}
+                    target="_blank"
+                  >
+                    <img
+                      className="mr-2"
+                      // src={`http://localhost:3002/static/tickets/${attachment.filename}`}
+                      src={ticketAttachments[index]}
+                      alt=""
+                      width={150}
+                      height={150}
+                    />
                   </a>
                   // <a href={ticketAttachments[0]} download="test.jpeg" target="_blank" > Download </a>
                   // make this blob a file and download it
-                  
                 );
               })}
             </div>
@@ -630,69 +626,87 @@ export const TicketModal = ({ ticket, setUpdate }) => {
 
         <>
           {/* {ticket.ticketComments?. sort comments by timestamp */}
-          {ticket.ticketComments?.sort((a, b) => {
-            return (
-              new Date(a.created_at).getTime() -
-              new Date(b.created_at).getTime()
-            );
-          })
-          .map((comment, index) => {
-            return (
-              <>
-              <div
-                className={`flex flex-col px-10 py-5 ${ticket.gpUser.id === comment.user_id
-                  ? ' bg-[#F5F7F9]'
-                  : 'bg-white'}`}
-                key={comment.id}
-              >
-                <div className="flex flex-row justify-between items-center  w-full py-3">
-                  <h3 className="text-[12px] font-bold text-[#3E3F3F]">
-                    {ticket.gpUser.id === comment.user_id
-                      ? ticket.gpUser.vorname + " " + ticket.gpUser.nachname
-                      : "support Specialist"}
-                  </h3>
-                  <h3 className="text-[12px] font-bold text-[#3E3F3F]">
-                    {new Date(ticket.updated_at).toLocaleDateString("us-Us", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
-                  </h3>
-                </div>
-                <p className="text-[12px] font-[400] text-[#3E3F3F] text-justify w-full my-1">
-                  {comment.body}
-                </p>
-              </div>
+          {ticket.ticketComments
+            ?.sort((a, b) => {
+              return (
+                new Date(a.created_at).getTime() -
+                new Date(b.created_at).getTime()
+              );
+            })
+            .map((comment, index) => {
+              return (
+                <>
+                  <div
+                    className={`flex flex-col px-10 py-5 ${
+                      ticket.gpUser.id === comment.user_id
+                        ? " bg-[#F5F7F9]"
+                        : "bg-white"
+                    }`}
+                    key={comment.id}
+                  >
+                    <div className="flex flex-row justify-between items-center  w-full py-3">
+                      <h3 className="text-[12px] font-bold text-[#3E3F3F]">
+                        {ticket.gpUser.id === comment.user_id
+                          ? ticket.gpUser.vorname + " " + ticket.gpUser.nachname
+                          : "support Specialist"}
+                      </h3>
+                      <h3 className="text-[12px] font-bold text-[#3E3F3F]">
+                        {new Date(ticket.updated_at).toLocaleDateString(
+                          "us-Us",
+                          {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          }
+                        )}
+                      </h3>
+                    </div>
+                    <p className="text-[12px] font-[400] text-[#3E3F3F] text-justify w-full my-1">
+                      {comment.body}
+                    </p>
+                  </div>
 
-              {/* <div className="bg-[#F5F7F9] flex flex-row"> */}
-                <div className={`flex flex-row px-10 flex-wrap ${ticket.gpUser.id === comment.user_id
-                  ? ' bg-[#F5F7F9]'
-                  : 'bg-white'} `}>
-                  {comment.ticketAttachments?.map((attachment, index) => {
+                  {/* <div className="bg-[#F5F7F9] flex flex-row"> */}
+                  <div
+                    className={`flex flex-row px-10 flex-wrap ${
+                      ticket.gpUser.id === comment.user_id
+                        ? " bg-[#F5F7F9]"
+                        : "bg-white"
+                    } `}
+                  >
+                    {comment.ticketAttachments?.map((attachment, index) => {
+                      const fileURI = commentAttachments?.find(
+                        (file) => file.filename === attachment.filename
+                      );
 
-                    const fileURI = commentAttachments?.find(file=> file.filename === attachment.filename);
-
-                    return (
-                      
-                      fileURI?.filename.split(".")[1] === "png" ||
-                      fileURI?.filename.split(".")[1] === "jpg" ||
-                      fileURI?.filename.split(".")[1] === "jpeg" ||
-                      fileURI?.filename.split(".")[1] === "gif" ||
-                      fileURI?.filename.split(".")[1] === "svg" ? (
+                      return fileURI?.filename.split(".")[1] === "png" ||
+                        fileURI?.filename.split(".")[1] === "jpg" ||
+                        fileURI?.filename.split(".")[1] === "jpeg" ||
+                        fileURI?.filename.split(".")[1] === "gif" ||
+                        fileURI?.filename.split(".")[1] === "svg" ? (
                         <a
                           key={attachment.id}
                           target="_blank"
                           download={attachment.filename}
-                          href={commentAttachments?.find(file=> file.filename === attachment.filename)?.uri}
-                          className={`text-[#3E3F3F] text-justify font-[400] mx-2 text-sm bg-[#F5F7F9] rounded-lg px-5 ${ticket.gpUser.id === comment.user_id
-                            ? 'bg-[#F5F7F9]'
-                            : 'bg-white'}`}
+                          href={
+                            commentAttachments?.find(
+                              (file) => file.filename === attachment.filename
+                            )?.uri
+                          }
+                          className={`text-[#3E3F3F] text-justify font-[400] mx-2 text-sm bg-[#F5F7F9] rounded-lg px-5 ${
+                            ticket.gpUser.id === comment.user_id
+                              ? "bg-[#F5F7F9]"
+                              : "bg-white"
+                          }`}
                         >
-                          
                           <img
                             className="mr-2"
                             // src={`http://localhost:3002/static/tickets/${attachment.filename}`}
-                            src={commentAttachments?.find(file=> file.filename === attachment.filename)?.uri}
+                            src={
+                              commentAttachments?.find(
+                                (file) => file.filename === attachment.filename
+                              )?.uri
+                            }
                             alt=""
                             width={150}
                             height={150}
@@ -703,118 +717,133 @@ export const TicketModal = ({ ticket, setUpdate }) => {
                           key={attachment.id}
                           target="_blank"
                           download={attachment.filename}
-                          href={commentAttachments?.find(file=> file.filename === attachment.filename)?.uri}
-                          className={`text-[#3E3F3F] text-justify font-[400] mx-2 text-sm bg-[#F5F7F9] rounded-lg px-5 ${ticket.gpUser.id === comment.user_id
-                            ? 'bg-white'
-                            : 'bg-[#F5F7F9]'}`}
+                          href={
+                            commentAttachments?.find(
+                              (file) => file.filename === attachment.filename
+                            )?.uri
+                          }
+                          className={`text-[#3E3F3F] text-justify font-[400] mx-2 text-sm bg-[#F5F7F9] rounded-lg px-5 ${
+                            ticket.gpUser.id === comment.user_id
+                              ? "bg-white"
+                              : "bg-[#F5F7F9]"
+                          }`}
                         >
                           {attachment.filename}
                         </a>
-
-                      )
-
-                    
-                    );
-                  })}
-                </div>
-                {/* </div> */}
+                      );
+                    })}
+                  </div>
+                  {/* </div> */}
                 </>
-              
-            );
-          })}
+              );
+            })}
         </>
         <div className="flex flex-col justify-start items-start  px-10 pt-4 pb-8 bg-white">
           <textarea
-          value={answer}
-          onChange={(e) => setAnswer(e.target.value)}
+            value={answer}
+            onChange={(e) => setAnswer(e.target.value)}
             className="w-full h-20 bg-[#F5F7F9] rounded-lg px-5 py-3 mb-5 focus:border-[#d01e1e]"
             placeholder="Write your answer here..."
           ></textarea>
           {/* <div className="text-[#3E3F3F] text-justify font-[400] text-sm bg-[#F5F7F9] rounded-lg px-5"> */}
           <div className="flex flex-row justify-start items-center w-full">
-          <div className="text-[#3E3F3F]  font-[400] bg-[#F5F7F9] text-sm  rounded-2xl px-3 py-1 mb-6s flex mr-5">
-            Choose Status &nbsp; &nbsp; &nbsp;
-            {Object.keys(status)
-              .slice(0, 4)
-              .map((key) => {
-                
-                return (
-                  <img
-                    title={` ${status[key].name}`}
-                    src={status[key].svg}
-                    alt=""
-                    className={`cursor-pointer w-7 h-5 mx-2 px-1 ${status[key].name === ticketStatus?.name ? `bg-[#1e6ed068] rounded-lg` : ""}`}
-                    onClick={() => {
-                      putTicket(ticket.id, {status_id: Number(key)}).then(res=> {if(res.status === 200){setUpdate(prev => prev + 1)}})
-                      setTicketStatus(status[key]);
-                      showNotification({
-                        title: "Status Updated",
-                        message: `Ticket status has been updated to ${status[key].name}`,
-                        type: "success",
-                      })
-                      
-                    }}
-                  />
-                );
-              })}
-          </div>
-          <div htmlFor="file"
-          onClick={() => {
-            fileInputRef.current.click();
-          }}
-           className="text-[#3E3F3F] cursor-pointer font-[400] bg-[#F5F7F9] text-sm  rounded-2xl px-3 py-1 mb-6s flex w-[40%]">
-            {/* choose file or Drop Files here to Upload */}
-            <label htmlFor="file" className="w-full flex flex-row justify-start items-center cursor-pointer">
-              <svg
+            <div className="text-[#3E3F3F]  font-[400] bg-[#F5F7F9] text-sm  rounded-2xl px-3 py-1 mb-6s flex mr-5">
+              Choose Status &nbsp; &nbsp; &nbsp;
+              {Object.keys(status)
+                .slice(0, 4)
+                .map((key) => {
+                  return (
+                    <img
+                      title={` ${status[key].name}`}
+                      src={status[key].svg}
+                      alt=""
+                      className={`cursor-pointer w-7 h-5 mx-2 px-1 ${
+                        status[key].name === ticketStatus?.name
+                          ? `bg-[#1e6ed068] rounded-lg`
+                          : ""
+                      }`}
+                      onClick={() => {
+                        putTicket(ticket.id, { status_id: Number(key) }).then(
+                          (res) => {
+                            if (res.status === 200) {
+                              setUpdate((prev) => prev + 1);
+                            }
+                          }
+                        );
+                        setTicketStatus(status[key]);
+                        showNotification({
+                          title: "Status Updated",
+                          message: `Ticket status has been updated to ${status[key].name}`,
+                          type: "success",
+                        });
+                      }}
+                    />
+                  );
+                })}
+            </div>
+            <div
               htmlFor="file"
-                width="14"
-                height="18"
-                viewBox="0 0 14 18"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
+              onClick={() => {
+                fileInputRef.current.click();
+              }}
+              className="text-[#3E3F3F] cursor-pointer font-[400] bg-[#F5F7F9] text-sm  rounded-2xl px-3 py-1 mb-6s flex w-[40%]"
+            >
+              {/* choose file or Drop Files here to Upload */}
+              <label
+                htmlFor="file"
+                className="w-full flex flex-row justify-start items-center cursor-pointer"
               >
-                <g id="Vector">
-                  <path
-                    d="M5.40644 1C5.64128 1.0771 5.89178 1.12407 6.10822 1.23678C6.86441 1.63208 7.27226 2.26455 7.3114 3.12284C7.32079 3.32441 7.31257 3.52714 7.31257 3.75023C7.38224 3.75023 7.43704 3.75023 7.49223 3.75023C8.1173 3.75023 8.74198 3.75297 9.36705 3.74827C9.50874 3.7471 9.61716 3.79484 9.71422 3.8923C10.7628 4.94237 11.8149 5.9897 12.858 7.04525C12.9363 7.12431 12.9934 7.26325 12.9938 7.3744C13.0012 10.1552 13.0008 12.9359 12.9985 15.7167C12.9977 16.4572 12.4544 16.9984 11.7163 16.9988C8.57093 17.0004 5.42522 17.0004 2.2799 16.9988C1.54993 16.9988 1.00236 16.4579 1.00158 15.7284C0.999229 12.1614 0.999621 8.59434 1.00197 5.0273C1.00236 4.28916 1.54915 3.75375 2.28969 3.75062C2.49752 3.74983 2.70575 3.75062 2.93824 3.75062C2.93824 3.60698 2.94255 3.46882 2.93746 3.33067C2.91593 2.70994 3.09794 2.16201 3.52261 1.70292C3.86235 1.3358 4.2788 1.10763 4.77471 1.02935C4.79859 1.02544 4.8209 1.01018 4.8436 1C5.03108 1 5.21895 1 5.40644 1ZM4.15786 4.37448C3.54962 4.37448 2.96212 4.37448 2.37462 4.37448C1.87049 4.37448 1.62782 4.61713 1.62782 5.12201C1.62782 8.62604 1.62782 12.1301 1.62782 15.6345C1.62782 16.1292 1.87284 16.3746 2.36601 16.375C5.4538 16.375 8.54158 16.375 11.6294 16.375C12.1257 16.375 12.3726 16.1311 12.3726 15.6396C12.373 13.0259 12.3726 10.4119 12.3726 7.79827V7.6245C11.746 7.6245 11.1425 7.6245 10.5393 7.6245C9.68174 7.6241 9.12594 7.06991 9.1232 6.20966C9.12125 5.65781 9.1232 5.10597 9.1232 4.55373C9.1232 4.49815 9.1232 4.44297 9.1232 4.38309H7.31609C7.31609 4.44727 7.31609 4.50324 7.31609 4.55921C7.31492 5.09031 7.32196 5.62141 7.31101 6.15252C7.29261 7.04408 6.35285 7.78379 5.47845 7.60375C4.66942 7.43702 4.16021 6.81434 4.15864 5.98696C4.15747 5.45664 4.15864 4.92632 4.15864 4.37448H4.15786ZM4.15864 3.74357C4.15864 3.53379 4.15277 3.34123 4.15981 3.14907C4.18408 2.48294 4.82559 2.04264 5.44714 2.26181C5.84402 2.40192 6.08591 2.77334 6.08669 3.25357C6.08826 4.1283 6.08748 5.00342 6.08709 5.87816C6.08709 6.16935 5.97515 6.32159 5.76457 6.32081C5.55517 6.32003 5.44597 6.16778 5.44597 5.87424C5.44597 5.02025 5.44597 4.16587 5.44597 3.31188C5.44597 3.24965 5.44675 3.18664 5.4397 3.1248C5.4217 2.96434 5.29723 2.84888 5.13911 2.84105C4.9755 2.83283 4.84516 2.92833 4.81033 3.08997C4.79506 3.16042 4.78919 3.234 4.7888 3.30601C4.78723 4.15491 4.78684 5.00382 4.7888 5.85272C4.7888 5.97209 4.79624 6.09224 4.81111 6.21044C4.87021 6.6801 5.37238 7.05739 5.83698 6.98537C6.36185 6.90397 6.68633 6.53137 6.6875 5.9987C6.68985 5.08718 6.68633 4.17605 6.68907 3.26452C6.69024 2.83557 6.55481 2.46259 6.27379 2.13657C5.77475 1.55732 4.79545 1.47122 4.19387 1.94323C3.5958 2.41249 3.51791 3.04731 3.57741 3.74318L4.15864 3.74357ZM11.8689 6.99946C11.162 6.29224 10.4559 5.5858 9.74945 4.87857C9.74945 5.33218 9.74671 5.79871 9.75023 6.26484C9.75376 6.68597 10.0379 6.98616 10.4614 6.99672C10.9342 7.00846 11.4074 6.99946 11.8689 6.99946Z"
-                    fill="#0E76BB"
-                  />
-                  <path
-                    d="M6.98317 9.2495C6.18667 9.2495 5.39016 9.24872 4.59365 9.25029C4.44883 9.25029 4.34159 9.19393 4.27936 9.06321C4.22456 8.94814 4.23356 8.82173 4.32672 8.74658C4.40774 8.68122 4.52751 8.63191 4.63044 8.63073C5.45826 8.62173 6.28608 8.62565 7.11351 8.62565C7.87362 8.62565 8.63372 8.62486 9.39383 8.62643C9.57348 8.62682 9.69247 8.72388 9.7183 8.87887C9.74492 9.03777 9.67211 9.17867 9.52534 9.22759C9.46311 9.24833 9.39265 9.24911 9.32572 9.24911C8.54487 9.25068 7.76402 9.2495 6.98317 9.2495Z"
-                    fill="#0E76BB"
-                  />
-                  <path
-                    d="M6.99883 10.8753C7.79025 10.8753 8.58166 10.8749 9.37269 10.8757C9.55195 10.8757 9.67407 10.9559 9.71321 11.0925C9.77153 11.2968 9.63885 11.4878 9.42436 11.4976C9.27367 11.5046 9.12258 11.4995 8.9715 11.4995C7.55032 11.4995 6.12913 11.4995 4.70755 11.4995C4.66606 11.4995 4.62418 11.5007 4.58269 11.4995C4.38464 11.4933 4.24687 11.3614 4.25 11.1825C4.25313 11.0095 4.38817 10.8804 4.578 10.8769C4.78622 10.8729 4.99445 10.8757 5.20268 10.8757C5.80152 10.8757 6.39998 10.8753 6.99883 10.8753Z"
-                    fill="#0E76BB"
-                  />
-                  <path
-                    d="M6.98904 13.7496C6.19762 13.7496 5.40621 13.7484 4.61518 13.7508C4.48015 13.7508 4.36899 13.7155 4.29658 13.5958C4.18268 13.4075 4.29658 13.1641 4.51498 13.1296C4.5506 13.1242 4.58778 13.1253 4.62418 13.1253C6.20154 13.1253 7.77889 13.1253 9.35664 13.1253C9.54961 13.1253 9.6729 13.2017 9.7136 13.3414C9.77623 13.5574 9.6318 13.7465 9.39461 13.7484C8.97816 13.7519 8.5617 13.7496 8.14525 13.7496C7.76011 13.7496 7.37418 13.7496 6.98904 13.7496Z"
-                    fill="#0E76BB"
-                  />
-                  <path
-                    d="M5.40644 1C5.64128 1.0771 5.89178 1.12407 6.10822 1.23678C6.86441 1.63208 7.27226 2.26455 7.3114 3.12284C7.32079 3.32441 7.31257 3.52714 7.31257 3.75023C7.38224 3.75023 7.43704 3.75023 7.49223 3.75023C8.1173 3.75023 8.74198 3.75297 9.36705 3.74827C9.50874 3.7471 9.61716 3.79484 9.71422 3.8923C10.7628 4.94237 11.8149 5.9897 12.858 7.04525C12.9363 7.12431 12.9934 7.26325 12.9938 7.3744C13.0012 10.1552 13.0008 12.9359 12.9985 15.7167C12.9977 16.4572 12.4544 16.9984 11.7163 16.9988C8.57093 17.0004 5.42522 17.0004 2.2799 16.9988C1.54993 16.9988 1.00236 16.4579 1.00158 15.7284C0.999229 12.1614 0.999621 8.59434 1.00197 5.0273C1.00236 4.28916 1.54915 3.75375 2.28969 3.75062C2.49752 3.74983 2.70575 3.75062 2.93824 3.75062C2.93824 3.60698 2.94255 3.46882 2.93746 3.33067C2.91593 2.70994 3.09794 2.16201 3.52261 1.70292C3.86235 1.3358 4.2788 1.10763 4.77471 1.02935C4.79859 1.02544 4.8209 1.01018 4.8436 1C5.03108 1 5.21895 1 5.40644 1ZM4.15786 4.37448C3.54962 4.37448 2.96212 4.37448 2.37462 4.37448C1.87049 4.37448 1.62782 4.61713 1.62782 5.12201C1.62782 8.62604 1.62782 12.1301 1.62782 15.6345C1.62782 16.1292 1.87284 16.3746 2.36601 16.375C5.4538 16.375 8.54158 16.375 11.6294 16.375C12.1257 16.375 12.3726 16.1311 12.3726 15.6396C12.373 13.0259 12.3726 10.4119 12.3726 7.79827V7.6245C11.746 7.6245 11.1425 7.6245 10.5393 7.6245C9.68174 7.6241 9.12594 7.06991 9.1232 6.20966C9.12125 5.65781 9.1232 5.10597 9.1232 4.55373C9.1232 4.49815 9.1232 4.44297 9.1232 4.38309H7.31609C7.31609 4.44727 7.31609 4.50324 7.31609 4.55921C7.31492 5.09031 7.32196 5.62141 7.31101 6.15252C7.29261 7.04408 6.35285 7.78379 5.47845 7.60375C4.66942 7.43702 4.16021 6.81434 4.15864 5.98696C4.15747 5.45664 4.15864 4.92632 4.15864 4.37448H4.15786ZM4.15864 3.74357C4.15864 3.53379 4.15277 3.34123 4.15981 3.14907C4.18408 2.48294 4.82559 2.04264 5.44714 2.26181C5.84402 2.40192 6.08591 2.77334 6.08669 3.25357C6.08826 4.1283 6.08748 5.00342 6.08709 5.87816C6.08709 6.16935 5.97515 6.32159 5.76457 6.32081C5.55517 6.32003 5.44597 6.16778 5.44597 5.87424C5.44597 5.02025 5.44597 4.16587 5.44597 3.31188C5.44597 3.24965 5.44675 3.18664 5.4397 3.1248C5.4217 2.96434 5.29723 2.84888 5.13911 2.84105C4.9755 2.83283 4.84516 2.92833 4.81033 3.08997C4.79506 3.16042 4.78919 3.234 4.7888 3.30601C4.78723 4.15491 4.78684 5.00382 4.7888 5.85272C4.7888 5.97209 4.79624 6.09224 4.81111 6.21044C4.87021 6.6801 5.37238 7.05739 5.83698 6.98537C6.36185 6.90397 6.68633 6.53137 6.6875 5.9987C6.68985 5.08718 6.68633 4.17605 6.68907 3.26452C6.69024 2.83557 6.55481 2.46259 6.27379 2.13657C5.77475 1.55732 4.79545 1.47122 4.19387 1.94323C3.5958 2.41249 3.51791 3.04731 3.57741 3.74318L4.15864 3.74357ZM11.8689 6.99946C11.162 6.29224 10.4559 5.5858 9.74945 4.87857C9.74945 5.33218 9.74671 5.79871 9.75023 6.26484C9.75376 6.68597 10.0379 6.98616 10.4614 6.99672C10.9342 7.00846 11.4074 6.99946 11.8689 6.99946Z"
-                    stroke="#0E76BB"
-                    stroke-width="0.4"
-                  />
-                  <path
-                    d="M6.98317 9.2495C6.18667 9.2495 5.39016 9.24872 4.59365 9.25029C4.44883 9.25029 4.34159 9.19393 4.27936 9.06321C4.22456 8.94814 4.23356 8.82173 4.32672 8.74658C4.40774 8.68122 4.52751 8.63191 4.63044 8.63073C5.45826 8.62173 6.28608 8.62565 7.11351 8.62565C7.87362 8.62565 8.63372 8.62486 9.39383 8.62643C9.57348 8.62682 9.69247 8.72388 9.7183 8.87887C9.74492 9.03777 9.67211 9.17867 9.52534 9.22759C9.46311 9.24833 9.39265 9.24911 9.32572 9.24911C8.54487 9.25068 7.76402 9.2495 6.98317 9.2495Z"
-                    stroke="#0E76BB"
-                    stroke-width="0.4"
-                  />
-                  <path
-                    d="M6.99883 10.8753C7.79025 10.8753 8.58166 10.8749 9.37269 10.8757C9.55195 10.8757 9.67407 10.9559 9.71321 11.0925C9.77153 11.2968 9.63885 11.4878 9.42436 11.4976C9.27367 11.5046 9.12258 11.4995 8.9715 11.4995C7.55032 11.4995 6.12913 11.4995 4.70755 11.4995C4.66606 11.4995 4.62418 11.5007 4.58269 11.4995C4.38464 11.4933 4.24687 11.3614 4.25 11.1825C4.25313 11.0095 4.38817 10.8804 4.578 10.8769C4.78622 10.8729 4.99445 10.8757 5.20268 10.8757C5.80152 10.8757 6.39998 10.8753 6.99883 10.8753Z"
-                    stroke="#0E76BB"
-                    stroke-width="0.4"
-                  />
-                  <path
-                    d="M6.98904 13.7496C6.19762 13.7496 5.40621 13.7484 4.61518 13.7508C4.48015 13.7508 4.36899 13.7155 4.29658 13.5958C4.18268 13.4075 4.29658 13.1641 4.51498 13.1296C4.5506 13.1242 4.58778 13.1253 4.62418 13.1253C6.20154 13.1253 7.77889 13.1253 9.35664 13.1253C9.54961 13.1253 9.6729 13.2017 9.7136 13.3414C9.77623 13.5574 9.6318 13.7465 9.39461 13.7484C8.97816 13.7519 8.5617 13.7496 8.14525 13.7496C7.76011 13.7496 7.37418 13.7496 6.98904 13.7496Z"
-                    stroke="#0E76BB"
-                    stroke-width="0.4"
-                  />
-                </g>
-              </svg>
-              <p className="text-xs text-[#8F8F8F] mx-4">
-              <span className="text-[#0E76BB]">Attach file</span> or Drop files here to upload
-              </p>
+                <svg
+                  htmlFor="file"
+                  width="14"
+                  height="18"
+                  viewBox="0 0 14 18"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g id="Vector">
+                    <path
+                      d="M5.40644 1C5.64128 1.0771 5.89178 1.12407 6.10822 1.23678C6.86441 1.63208 7.27226 2.26455 7.3114 3.12284C7.32079 3.32441 7.31257 3.52714 7.31257 3.75023C7.38224 3.75023 7.43704 3.75023 7.49223 3.75023C8.1173 3.75023 8.74198 3.75297 9.36705 3.74827C9.50874 3.7471 9.61716 3.79484 9.71422 3.8923C10.7628 4.94237 11.8149 5.9897 12.858 7.04525C12.9363 7.12431 12.9934 7.26325 12.9938 7.3744C13.0012 10.1552 13.0008 12.9359 12.9985 15.7167C12.9977 16.4572 12.4544 16.9984 11.7163 16.9988C8.57093 17.0004 5.42522 17.0004 2.2799 16.9988C1.54993 16.9988 1.00236 16.4579 1.00158 15.7284C0.999229 12.1614 0.999621 8.59434 1.00197 5.0273C1.00236 4.28916 1.54915 3.75375 2.28969 3.75062C2.49752 3.74983 2.70575 3.75062 2.93824 3.75062C2.93824 3.60698 2.94255 3.46882 2.93746 3.33067C2.91593 2.70994 3.09794 2.16201 3.52261 1.70292C3.86235 1.3358 4.2788 1.10763 4.77471 1.02935C4.79859 1.02544 4.8209 1.01018 4.8436 1C5.03108 1 5.21895 1 5.40644 1ZM4.15786 4.37448C3.54962 4.37448 2.96212 4.37448 2.37462 4.37448C1.87049 4.37448 1.62782 4.61713 1.62782 5.12201C1.62782 8.62604 1.62782 12.1301 1.62782 15.6345C1.62782 16.1292 1.87284 16.3746 2.36601 16.375C5.4538 16.375 8.54158 16.375 11.6294 16.375C12.1257 16.375 12.3726 16.1311 12.3726 15.6396C12.373 13.0259 12.3726 10.4119 12.3726 7.79827V7.6245C11.746 7.6245 11.1425 7.6245 10.5393 7.6245C9.68174 7.6241 9.12594 7.06991 9.1232 6.20966C9.12125 5.65781 9.1232 5.10597 9.1232 4.55373C9.1232 4.49815 9.1232 4.44297 9.1232 4.38309H7.31609C7.31609 4.44727 7.31609 4.50324 7.31609 4.55921C7.31492 5.09031 7.32196 5.62141 7.31101 6.15252C7.29261 7.04408 6.35285 7.78379 5.47845 7.60375C4.66942 7.43702 4.16021 6.81434 4.15864 5.98696C4.15747 5.45664 4.15864 4.92632 4.15864 4.37448H4.15786ZM4.15864 3.74357C4.15864 3.53379 4.15277 3.34123 4.15981 3.14907C4.18408 2.48294 4.82559 2.04264 5.44714 2.26181C5.84402 2.40192 6.08591 2.77334 6.08669 3.25357C6.08826 4.1283 6.08748 5.00342 6.08709 5.87816C6.08709 6.16935 5.97515 6.32159 5.76457 6.32081C5.55517 6.32003 5.44597 6.16778 5.44597 5.87424C5.44597 5.02025 5.44597 4.16587 5.44597 3.31188C5.44597 3.24965 5.44675 3.18664 5.4397 3.1248C5.4217 2.96434 5.29723 2.84888 5.13911 2.84105C4.9755 2.83283 4.84516 2.92833 4.81033 3.08997C4.79506 3.16042 4.78919 3.234 4.7888 3.30601C4.78723 4.15491 4.78684 5.00382 4.7888 5.85272C4.7888 5.97209 4.79624 6.09224 4.81111 6.21044C4.87021 6.6801 5.37238 7.05739 5.83698 6.98537C6.36185 6.90397 6.68633 6.53137 6.6875 5.9987C6.68985 5.08718 6.68633 4.17605 6.68907 3.26452C6.69024 2.83557 6.55481 2.46259 6.27379 2.13657C5.77475 1.55732 4.79545 1.47122 4.19387 1.94323C3.5958 2.41249 3.51791 3.04731 3.57741 3.74318L4.15864 3.74357ZM11.8689 6.99946C11.162 6.29224 10.4559 5.5858 9.74945 4.87857C9.74945 5.33218 9.74671 5.79871 9.75023 6.26484C9.75376 6.68597 10.0379 6.98616 10.4614 6.99672C10.9342 7.00846 11.4074 6.99946 11.8689 6.99946Z"
+                      fill="#0E76BB"
+                    />
+                    <path
+                      d="M6.98317 9.2495C6.18667 9.2495 5.39016 9.24872 4.59365 9.25029C4.44883 9.25029 4.34159 9.19393 4.27936 9.06321C4.22456 8.94814 4.23356 8.82173 4.32672 8.74658C4.40774 8.68122 4.52751 8.63191 4.63044 8.63073C5.45826 8.62173 6.28608 8.62565 7.11351 8.62565C7.87362 8.62565 8.63372 8.62486 9.39383 8.62643C9.57348 8.62682 9.69247 8.72388 9.7183 8.87887C9.74492 9.03777 9.67211 9.17867 9.52534 9.22759C9.46311 9.24833 9.39265 9.24911 9.32572 9.24911C8.54487 9.25068 7.76402 9.2495 6.98317 9.2495Z"
+                      fill="#0E76BB"
+                    />
+                    <path
+                      d="M6.99883 10.8753C7.79025 10.8753 8.58166 10.8749 9.37269 10.8757C9.55195 10.8757 9.67407 10.9559 9.71321 11.0925C9.77153 11.2968 9.63885 11.4878 9.42436 11.4976C9.27367 11.5046 9.12258 11.4995 8.9715 11.4995C7.55032 11.4995 6.12913 11.4995 4.70755 11.4995C4.66606 11.4995 4.62418 11.5007 4.58269 11.4995C4.38464 11.4933 4.24687 11.3614 4.25 11.1825C4.25313 11.0095 4.38817 10.8804 4.578 10.8769C4.78622 10.8729 4.99445 10.8757 5.20268 10.8757C5.80152 10.8757 6.39998 10.8753 6.99883 10.8753Z"
+                      fill="#0E76BB"
+                    />
+                    <path
+                      d="M6.98904 13.7496C6.19762 13.7496 5.40621 13.7484 4.61518 13.7508C4.48015 13.7508 4.36899 13.7155 4.29658 13.5958C4.18268 13.4075 4.29658 13.1641 4.51498 13.1296C4.5506 13.1242 4.58778 13.1253 4.62418 13.1253C6.20154 13.1253 7.77889 13.1253 9.35664 13.1253C9.54961 13.1253 9.6729 13.2017 9.7136 13.3414C9.77623 13.5574 9.6318 13.7465 9.39461 13.7484C8.97816 13.7519 8.5617 13.7496 8.14525 13.7496C7.76011 13.7496 7.37418 13.7496 6.98904 13.7496Z"
+                      fill="#0E76BB"
+                    />
+                    <path
+                      d="M5.40644 1C5.64128 1.0771 5.89178 1.12407 6.10822 1.23678C6.86441 1.63208 7.27226 2.26455 7.3114 3.12284C7.32079 3.32441 7.31257 3.52714 7.31257 3.75023C7.38224 3.75023 7.43704 3.75023 7.49223 3.75023C8.1173 3.75023 8.74198 3.75297 9.36705 3.74827C9.50874 3.7471 9.61716 3.79484 9.71422 3.8923C10.7628 4.94237 11.8149 5.9897 12.858 7.04525C12.9363 7.12431 12.9934 7.26325 12.9938 7.3744C13.0012 10.1552 13.0008 12.9359 12.9985 15.7167C12.9977 16.4572 12.4544 16.9984 11.7163 16.9988C8.57093 17.0004 5.42522 17.0004 2.2799 16.9988C1.54993 16.9988 1.00236 16.4579 1.00158 15.7284C0.999229 12.1614 0.999621 8.59434 1.00197 5.0273C1.00236 4.28916 1.54915 3.75375 2.28969 3.75062C2.49752 3.74983 2.70575 3.75062 2.93824 3.75062C2.93824 3.60698 2.94255 3.46882 2.93746 3.33067C2.91593 2.70994 3.09794 2.16201 3.52261 1.70292C3.86235 1.3358 4.2788 1.10763 4.77471 1.02935C4.79859 1.02544 4.8209 1.01018 4.8436 1C5.03108 1 5.21895 1 5.40644 1ZM4.15786 4.37448C3.54962 4.37448 2.96212 4.37448 2.37462 4.37448C1.87049 4.37448 1.62782 4.61713 1.62782 5.12201C1.62782 8.62604 1.62782 12.1301 1.62782 15.6345C1.62782 16.1292 1.87284 16.3746 2.36601 16.375C5.4538 16.375 8.54158 16.375 11.6294 16.375C12.1257 16.375 12.3726 16.1311 12.3726 15.6396C12.373 13.0259 12.3726 10.4119 12.3726 7.79827V7.6245C11.746 7.6245 11.1425 7.6245 10.5393 7.6245C9.68174 7.6241 9.12594 7.06991 9.1232 6.20966C9.12125 5.65781 9.1232 5.10597 9.1232 4.55373C9.1232 4.49815 9.1232 4.44297 9.1232 4.38309H7.31609C7.31609 4.44727 7.31609 4.50324 7.31609 4.55921C7.31492 5.09031 7.32196 5.62141 7.31101 6.15252C7.29261 7.04408 6.35285 7.78379 5.47845 7.60375C4.66942 7.43702 4.16021 6.81434 4.15864 5.98696C4.15747 5.45664 4.15864 4.92632 4.15864 4.37448H4.15786ZM4.15864 3.74357C4.15864 3.53379 4.15277 3.34123 4.15981 3.14907C4.18408 2.48294 4.82559 2.04264 5.44714 2.26181C5.84402 2.40192 6.08591 2.77334 6.08669 3.25357C6.08826 4.1283 6.08748 5.00342 6.08709 5.87816C6.08709 6.16935 5.97515 6.32159 5.76457 6.32081C5.55517 6.32003 5.44597 6.16778 5.44597 5.87424C5.44597 5.02025 5.44597 4.16587 5.44597 3.31188C5.44597 3.24965 5.44675 3.18664 5.4397 3.1248C5.4217 2.96434 5.29723 2.84888 5.13911 2.84105C4.9755 2.83283 4.84516 2.92833 4.81033 3.08997C4.79506 3.16042 4.78919 3.234 4.7888 3.30601C4.78723 4.15491 4.78684 5.00382 4.7888 5.85272C4.7888 5.97209 4.79624 6.09224 4.81111 6.21044C4.87021 6.6801 5.37238 7.05739 5.83698 6.98537C6.36185 6.90397 6.68633 6.53137 6.6875 5.9987C6.68985 5.08718 6.68633 4.17605 6.68907 3.26452C6.69024 2.83557 6.55481 2.46259 6.27379 2.13657C5.77475 1.55732 4.79545 1.47122 4.19387 1.94323C3.5958 2.41249 3.51791 3.04731 3.57741 3.74318L4.15864 3.74357ZM11.8689 6.99946C11.162 6.29224 10.4559 5.5858 9.74945 4.87857C9.74945 5.33218 9.74671 5.79871 9.75023 6.26484C9.75376 6.68597 10.0379 6.98616 10.4614 6.99672C10.9342 7.00846 11.4074 6.99946 11.8689 6.99946Z"
+                      stroke="#0E76BB"
+                      stroke-width="0.4"
+                    />
+                    <path
+                      d="M6.98317 9.2495C6.18667 9.2495 5.39016 9.24872 4.59365 9.25029C4.44883 9.25029 4.34159 9.19393 4.27936 9.06321C4.22456 8.94814 4.23356 8.82173 4.32672 8.74658C4.40774 8.68122 4.52751 8.63191 4.63044 8.63073C5.45826 8.62173 6.28608 8.62565 7.11351 8.62565C7.87362 8.62565 8.63372 8.62486 9.39383 8.62643C9.57348 8.62682 9.69247 8.72388 9.7183 8.87887C9.74492 9.03777 9.67211 9.17867 9.52534 9.22759C9.46311 9.24833 9.39265 9.24911 9.32572 9.24911C8.54487 9.25068 7.76402 9.2495 6.98317 9.2495Z"
+                      stroke="#0E76BB"
+                      stroke-width="0.4"
+                    />
+                    <path
+                      d="M6.99883 10.8753C7.79025 10.8753 8.58166 10.8749 9.37269 10.8757C9.55195 10.8757 9.67407 10.9559 9.71321 11.0925C9.77153 11.2968 9.63885 11.4878 9.42436 11.4976C9.27367 11.5046 9.12258 11.4995 8.9715 11.4995C7.55032 11.4995 6.12913 11.4995 4.70755 11.4995C4.66606 11.4995 4.62418 11.5007 4.58269 11.4995C4.38464 11.4933 4.24687 11.3614 4.25 11.1825C4.25313 11.0095 4.38817 10.8804 4.578 10.8769C4.78622 10.8729 4.99445 10.8757 5.20268 10.8757C5.80152 10.8757 6.39998 10.8753 6.99883 10.8753Z"
+                      stroke="#0E76BB"
+                      stroke-width="0.4"
+                    />
+                    <path
+                      d="M6.98904 13.7496C6.19762 13.7496 5.40621 13.7484 4.61518 13.7508C4.48015 13.7508 4.36899 13.7155 4.29658 13.5958C4.18268 13.4075 4.29658 13.1641 4.51498 13.1296C4.5506 13.1242 4.58778 13.1253 4.62418 13.1253C6.20154 13.1253 7.77889 13.1253 9.35664 13.1253C9.54961 13.1253 9.6729 13.2017 9.7136 13.3414C9.77623 13.5574 9.6318 13.7465 9.39461 13.7484C8.97816 13.7519 8.5617 13.7496 8.14525 13.7496C7.76011 13.7496 7.37418 13.7496 6.98904 13.7496Z"
+                      stroke="#0E76BB"
+                      stroke-width="0.4"
+                    />
+                  </g>
+                </svg>
+                <p className="text-xs text-[#8F8F8F] mx-4">
+                  <span className="text-[#0E76BB]">Attach file</span> or Drop
+                  files here to upload
+                </p>
               </label>
               <input
                 ref={fileInputRef}
@@ -824,67 +853,73 @@ export const TicketModal = ({ ticket, setUpdate }) => {
                 className="hidden w-0"
                 multiple
               />
-             
+            </div>
           </div>
-          
-          </div>
-          <button 
-          onClick={async() =>{
-            // create a new form data object and add answer state as body, and files as file key value pair
-            Transition(true);
+          <button
+            onClick={async () => {
+              // create a new form data object and add answer state as body, and files as file key value pair
+              Transition(true);
 
-            // check if answer is empty then return and show notification that answer is required
-            if(answer === ""){
-              Transition(false);
-              return showNotification({
-                title: "Answer Required",
-                message: `Please enter an answer to submit`,
-                type: "danger",
-              })
-            }
+              // check if answer is empty then return and show notification that answer is required
+              if (answer === "") {
+                Transition(false);
+                return showNotification({
+                  title: "Answer Required",
+                  message: `Please enter an answer to submit`,
+                  type: "danger",
+                });
+              }
 
+              const formData = new FormData();
+              formData.append("body", answer);
 
-            const formData = new FormData();
-            formData.append("body", answer);
-
-            files.forEach((file) => {
-              formData.append("files", file);
-            });
-            const sortedComments = ticket.ticketComments?.sort((a, b) => {
-              return (
-                new Date(a.created_at).getTime() -
-                new Date(b.created_at).getTime()
-              )
-            })
-            sortedComments[sortedComments.length - 1]?.id ? formData.append("reply_to", sortedComments[sortedComments.length - 1].id) : null;
-            // call the post request function
-            try{
-             const data = await postComment(ticket.id,formData);
-              // if the request is successful, update the ticket state with the new comment
-              setUpdate(prev => prev + 1);
-              setAnswer("");
-              setFiles([]);
-              Transition(false);
-              showNotification({
-                title: "Comment Added",
-                message: `Your comment has been added successfully`,
-                type: "success",
-              })
-              closeAllModals();
-            }catch(err){
-              console.log(err);
-              Transition(false);
-            }
-
-          }}
-          // if isPending is true, then button will not be clickable
-          disabled={isPending}
-          className={`bg-[#D8E4EE] text-lg font-bold rounded-lg text-[#0E76BB] px-5 py-3 mt-4 ml-1
-            ${!isPending && 'hover:bg-[#0E76BB] hover:text-white'}  transition duration-300 ease-in-out
-          `}>
-            {
-              isPending ? <Loader type="ThreeDots" color="#0E76BB" height={20} width={20} /> : "Send"
-            }
+              files.forEach((file) => {
+                formData.append("files", file);
+              });
+              const sortedComments = ticket.ticketComments?.sort((a, b) => {
+                return (
+                  new Date(a.created_at).getTime() -
+                  new Date(b.created_at).getTime()
+                );
+              });
+              sortedComments[sortedComments.length - 1]?.id
+                ? formData.append(
+                    "reply_to",
+                    sortedComments[sortedComments.length - 1].id
+                  )
+                : null;
+              // call the post request function
+              try {
+                const data = await postComment(ticket.id, formData);
+                // if the request is successful, update the ticket state with the new comment
+                setUpdate((prev) => prev + 1);
+                setAnswer("");
+                setFiles([]);
+                Transition(false);
+                showNotification({
+                  title: "Comment Added",
+                  message: `Your comment has been added successfully`,
+                  type: "success",
+                });
+                closeAllModals();
+              } catch (err) {
+                console.log(err);
+                Transition(false);
+              }
+            }}
+            // if isPending is true, then button will not be clickable
+            disabled={isPending}
+            className={`bg-[#D8E4EE] text-lg font-bold rounded-lg text-[#0E76BB] px-5 py-3 mt-4 ml-1
+            ${
+              !isPending && "hover:bg-[#0E76BB] hover:text-white"
+            }  transition duration-300 ease-in-out
+          `}
+          >
+            {isPending ? (
+              <Loader type="ThreeDots" color="#0E76BB" height={20} width={20} />
+            ) : (
+              "Send"
+            )}
           </button>
         </div>
       </div>
