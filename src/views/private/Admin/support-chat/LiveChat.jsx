@@ -494,8 +494,8 @@ function LiveChatSupport() {
                 onSubmit={sendMessage}
                 className="flex flex-row items-center mb-4 ml-3  max-md:block"
               >
+                <label className="flex space-x-4">
                 <img className="w-[20px] cursor-pointer  ml-3" src="/Vector4.svg" alt="" />
-                <label className="">
                   <p className=" mt-3 ml-5 text-lg max-2xl:text-xs cursor-pointer text-[#0E76BB]">
                     {t("Attach File")}{" "}
                   </p>
