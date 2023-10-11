@@ -224,7 +224,7 @@ export default () => {
       <PageProvider>
         <div
           id="scale-down"
-          className="flex max-xl:justify-center 2xl:justify-center max-laptop1:grid max-laptop1:grid-cols-2 max-Mobile:flex max-Mobile:flex-col"
+          className="flex justify-center max-laptop1:grid max-laptop1:grid-cols-2 max-Mobile:flex max-Mobile:flex-col"
         >
           {usersCountsData.map((color, index) => (
             <div
@@ -232,7 +232,7 @@ export default () => {
               className="m-2 h-auto justify-between bg-white text-gray-700 rounded-lg px-3 pt-3 pb-3.5 min-w-fit flex flex-1 "
             >
               <div className="flex flex-col">
-              <div className="text-lg  max-2xl:text-base max-2xl:w-[6.4rem] max-md:w-fit break-words font-bold ">
+              <div className="text-lg  max-2xl:text-base max-2xl:w-[6.7rem] max-md:w-fit break-words font-bold ">
                 {t(usersCountsData[index].title)}
               </div>
               
@@ -350,7 +350,7 @@ export default () => {
                   {"+" + usersCountsData[index].percentage}%
                 </span>
                 <h3 className="text-2xl ">{usersCountsData[index].count}</h3>
-                <p className="text-xs w-[85px] xl:pl-[26px] 2xl:pl-0  max-2xl:text-[9px] font-extralight opacity-70 italic">
+                <p className="text-xs w-[85px] max-2xl:text-[9px] font-extralight opacity-70 italic">
                   {t("Last week analytics")}
                 </p>
               </div>

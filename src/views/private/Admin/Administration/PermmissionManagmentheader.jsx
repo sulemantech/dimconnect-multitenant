@@ -129,7 +129,7 @@ function PermmissionManagmentheader({ stats }) {
             key={index}
             className="m-2 h-auto justify-between bg-white text-gray-700 rounded-lg px-3 pt-3 pb-3.5 min-w-fit flex flex-1 max-2xl:px-2"
           >
-            <h2 className="text-lg max-2xl:text-[12px] font-bold absolute max-2xl:w-32  break-words">
+            <h2 className="text-lg max-2xl:text-[12px] font-bold absolute max-2xl:w-32 leading-tight  break-words">
               {t(item.title)}
             </h2>
             <div className="flex justify-center items-center w-fit relative mt-6">
