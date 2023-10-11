@@ -224,7 +224,7 @@ export default () => {
       <PageProvider>
         <div
           id="scale-down"
-          className="flex justify-center max-laptop1:grid max-laptop1:grid-cols-2 max-Mobile:flex max-Mobile:flex-col"
+          className="flex max-xl:justify-center 2xl:justify-center max-laptop1:grid max-laptop1:grid-cols-2 max-Mobile:flex max-Mobile:flex-col"
         >
           {usersCountsData.map((color, index) => (
             <div
@@ -350,7 +350,7 @@ export default () => {
                   {"+" + usersCountsData[index].percentage}%
                 </span>
                 <h3 className="text-2xl ">{usersCountsData[index].count}</h3>
-                <p className="text-xs w-[85px] max-2xl:text-[9px] font-extralight opacity-70 italic">
+                <p className="text-xs w-[85px] xl:pl-[26px] 2xl:pl-0  max-2xl:text-[9px] font-extralight opacity-70 italic">
                   {t("Last week analytics")}
                 </p>
               </div>
@@ -358,7 +358,7 @@ export default () => {
           ))}
         </div>
 
-        <div id="scale-down" className="max-xl:overflow-x-scroll max-xl:w-full">
+        <div id="scale-down" className="max-xl:overflow-x-scroll max-xl:w-screen">
           {ready ? (
             <CustomTable
               title={t("Create New User")}
