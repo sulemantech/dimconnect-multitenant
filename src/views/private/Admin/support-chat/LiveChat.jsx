@@ -306,10 +306,10 @@ function LiveChatSupport() {
 
           <div
             className="
-        h-[76vh] bg-[#F5F7F942]  text-[#3E3F3F] rounded-md border-[2px] pb-3 mt-4 border-[#DDE7F0] w-[20%] font-[Roboto] ml-24 max-md:ml-2 shadow-lg"
+        h-[76vh] bg-[#F5F7F942] max-md:w-[30vw]  text-[#3E3F3F] rounded-md border-[2px] pb-3 mt-4 border-[#DDE7F0] w-[20%] font-[Roboto] ml-24 max-md:ml-2 shadow-lg"
           >
             {/* show chat options to click and send message to them, it will be with icon and name */}
-            <div className="font-[550] h-[4vh] text-xs pl-3 pt-1.5 bg-[#D8E4EEE5] ">
+            <div className="font-[550] min-h-fit text-xs pl-3 pt-1.5 bg-[#D8E4EEE5] ">
               <p>{t("Chat Conversations")}</p>
             </div>
 
@@ -386,8 +386,8 @@ function LiveChatSupport() {
             </div>
           </div>
 
-          <div className=" h-[76vh] bg-[#F5F7F942] text-[#3E3F3F] rounded-md border-[2px] mt-4 border-[#DDE7F0] w-[50%] font-[Roboto] ml-3 shadow-lg flex flex-col justify-between">
-            <p className="flex flex-row-reverse font-[550] pr-[40px] max-md:pr-[1px] h-[4vh] text-xs pt-1.5 bg-[#D8E4EEE5] ">
+          <div className=" h-[76vh] bg-[#F5F7F942] text-[#3E3F3F] rounded-md border-[2px] mt-4 border-[#DDE7F0] w-[50%] font-[Roboto] ml-3 shadow-lg flex flex-col justify-between max-md:w-[70vw]">
+            <p className="flex flex-row-reverse font-[550] pr-[40px] max-md:pr-[1px] min-h-fit text-xs pt-1.5 bg-[#D8E4EEE5] ">
               {currentDate}
             </p>
 
@@ -494,8 +494,8 @@ function LiveChatSupport() {
                 onSubmit={sendMessage}
                 className="flex flex-row items-center mb-4 ml-3  max-md:block"
               >
+                <label className="flex space-x-4">
                 <img className="w-[20px] cursor-pointer  ml-3" src="/Vector4.svg" alt="" />
-                <label className="">
                   <p className=" mt-3 ml-5 text-lg max-2xl:text-xs cursor-pointer text-[#0E76BB]">
                     {t("Attach File")}{" "}
                   </p>

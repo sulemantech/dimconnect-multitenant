@@ -232,7 +232,7 @@ export default () => {
               className="m-2 h-auto justify-between bg-white text-gray-700 rounded-lg px-3 pt-3 pb-3.5 min-w-fit flex flex-1 "
             >
               <div className="flex flex-col">
-              <div className="text-lg  max-2xl:text-base max-2xl:w-[6.4rem] max-md:w-fit break-words font-bold ">
+              <div className="text-lg  max-2xl:text-base max-2xl:w-[6.7rem] max-md:w-fit break-words font-bold ">
                 {t(usersCountsData[index].title)}
               </div>
               
@@ -358,7 +358,7 @@ export default () => {
           ))}
         </div>
 
-        <div id="scale-down" className="max-xl:overflow-x-scroll max-xl:w-full">
+        <div id="scale-down" className="max-xl:overflow-x-scroll max-xl:w-screen">
           {ready ? (
             <CustomTable
               title={t("Create New User")}

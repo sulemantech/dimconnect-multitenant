@@ -27,7 +27,7 @@ export default ({ height, width }) => {
                     </svg>
                 </div>
 
-                {!collapsed && <iframe src={'https://dimbot.hiwifipro.com/index-de.html'}
+                {!collapsed && <iframe src={'https://bot.hiwifipro.com/'}
                     style={{ height, width, border: 'none' }}
                 />}
 

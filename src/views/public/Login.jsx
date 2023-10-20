@@ -110,7 +110,7 @@ export default () => {
           {t("Please sign in.")}
         </p>
         <form
-          className="mt-8 space-y-8 max-laptop:mt-6 max-laptop:space-y-3"
+          className="mt-8 space-y-6 max-laptop:mt-6 max-laptop:space-y-3"
           onSubmit={handleSubmit}
         >
           <div className=" flex flex-1 flex-col space-y-6 px-8 mt-6 max-laptop:mt-4">

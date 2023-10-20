@@ -413,15 +413,16 @@ export const HomeActivationTable = ({ data, business = false }) => {
             {business ? t("BUSINESS ACTIVATION") : t("HOME ACTIVATION")}
           </Title>
           <Badge
+          title={`Cost, € ${commarize(CalculateActivationCostByType(data, business ? "building" : "home"))}`}
             variant="filled"
             color="gray"
-            className="bg-gray-100 max-2xl:w-[9vw] p-4"
+            className="bg-gray-100  p-4"
             size="20"
           >
             <p className="font-thin  text-neutral-700 ">
               {" "}
               {t("Cost, €")}
-              <b className="font-semibold text-base max-2xl:text-xs ">
+              <b className="font-semibold text-base ">
                 {" "}
                 {commarize(
                   CalculateActivationCostByType(
