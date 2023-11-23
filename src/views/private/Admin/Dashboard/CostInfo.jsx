@@ -136,14 +136,11 @@ export default () => {
   // ============================== Commenting this line so we get the default calculation ==============================
   function updateStateFromApiResponse(currentState, apiResponse) {
     // Inside updateStateFromApiResponse function
-console.log('API Response:', apiResponse);
 
     // Extracting the data from the API response
     const cablesData = apiResponse.cables;
     const ductData = apiResponse.duct;
     const homeActivationData = apiResponse.homeActivation;
-
-    console.log("homeactivation------------------>",homeActivationData)
 
     // Updating the cables data
     for (let cableType in cablesData) {
@@ -190,7 +187,6 @@ console.log('API Response:', apiResponse);
     setLoading(true);
     const URLSearchParam = new URLSearchParams();
     // URLSearchParam.append('costs', JSON.stringify(costInputParams.value));
-    console.log(JSON.stringify(costInputParams.value))
     getCostInfoByDistrictId(ags, URLSearchParam)
       .then((res) => {
         setLoading(false);
@@ -200,7 +196,6 @@ console.log('API Response:', apiResponse);
         );
         costInputParams.value = updatedState;
         costInfoData.value = res.data;
-        console.log(res.data)
       })
       .catch((err) => {
         setLoading(false);
@@ -221,7 +216,6 @@ console.log('API Response:', apiResponse);
         // );
         // costInputParams.value = updatedState;
         costInfoData.value = res.data;
-        console.log(res.data)
       })
       .catch((err) => {
         setLoading(false);
@@ -957,7 +951,7 @@ export const CostInfoSettings = () => {
                     type="number"
                     value={data.cables[key].labourCost}
                     onChange={(e) => {
-                      data.cables[key].labourCost = parseFloat(e.target.value);
+                      data.cables[key].labourCost = parseFloat(e.target.value);;
                       setData(data);
                     }}
                   />
@@ -989,7 +983,7 @@ export const CostInfoSettings = () => {
                     type="number"
                     value={data.duct[key].materialCost}
                     onChange={(e) => {
-                      data.duct[key].materialCost = parseFloat(e.target.value)
+                      data.duct[key].materialCost = parseFloat(e.target.value);
                       setData(data);
                     }}
                   />
@@ -999,7 +993,7 @@ export const CostInfoSettings = () => {
                     type="number"
                     value={data.duct[key].labourCost}
                     onChange={(e) => {
-                      data.duct[key].labourCost = parseFloat(e.target.value)
+                      data.duct[key].labourCost = parseFloat(e.target.value);
                       setData(data);
                     }}
                   />
@@ -1031,7 +1025,7 @@ export const CostInfoSettings = () => {
                     type="number"
                     value={data.homeActivation[key].greaterMaterialCost}
                     onChange={(e) => {
-                      data.homeActivation[key].greaterMaterialCost = parseFloat(e.target.value)
+                      data.homeActivation[key].greaterMaterialCost = parseFloat(e.target.value);
                       setData(data);
                     }}
                   />
@@ -1041,7 +1035,7 @@ export const CostInfoSettings = () => {
                     type="number"
                     value={data.homeActivation[key].greaterLabourCost}
                     onChange={(e) => {
-                      data.homeActivation[key].greaterLabourCost = parseFloat(e.target.value)
+                      data.homeActivation[key].greaterLabourCost = parseFloat(e.target.value);
                       setData(data);
                     }}
                   />
@@ -1073,7 +1067,7 @@ export const CostInfoSettings = () => {
                     type="number"
                     value={data.homeActivation[key].lowerMaterialCost}
                     onChange={(e) => {
-                      data.homeActivation[key].lowerMaterialCost = parseFloat(e.target.value)
+                      data.homeActivation[key].lowerMaterialCost = parseFloat(e.target.value);
                       setData(data);
                     }}
                   />
@@ -1083,7 +1077,7 @@ export const CostInfoSettings = () => {
                     type="number"
                     value={data.homeActivation[key].lowerLabourCost}
                     onChange={(e) => {
-                      data.homeActivation[key].lowerLabourCost = parseFloat(e.target.value)
+                      data.homeActivation[key].lowerLabourCost = parseFloat(e.target.value);
                       setData(data);
                     }}
                   />
