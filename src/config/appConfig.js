@@ -11,3 +11,4 @@ export default {
     chatServerWebSocketURL: "wss://dim-chat-dev.hiwifipro.com/websocket",
 }
 
+
