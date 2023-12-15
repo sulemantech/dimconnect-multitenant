@@ -6,6 +6,7 @@ import appConfig from "../../config/appConfig";
 import { AuthState } from "../../providers/AuthProvider";
 import PublicWrapper from "../../providers/PublicWrapper";
 import { t, changeLanguage } from "i18next";
+import { tenantConfig } from "../../../config";
 
 // import {logo} from '../../../public/logo.svg'
 export default () => {
@@ -26,42 +27,46 @@ export default () => {
       .then(async ({ data }) => {
         authState.setAuth(true);
         const username = email.split("@")[0];
-        const chatServerUser = await LoginChatServer(username, email, pass, `Bearer ${data.token}`)
-        console.log(chatServerUser)
-          // .then(async (res) => {
-          //   console.log(res);
-          //   const msgBuffer = new TextEncoder().encode(pass);
+        const chatServerUser = await LoginChatServer(
+          username,
+          email,
+          pass,
+          `Bearer ${data.token}`
+        );
+        console.log(chatServerUser);
+        // .then(async (res) => {
+        //   console.log(res);
+        //   const msgBuffer = new TextEncoder().encode(pass);
 
-          //   // Hash the buffer
-          //   const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
+        //   // Hash the buffer
+        //   const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
 
-          //   // Convert the buffer to an array
-          //   const hashArray = Array.from(new Uint8Array(hashBuffer));
+        //   // Convert the buffer to an array
+        //   const hashArray = Array.from(new Uint8Array(hashBuffer));
 
-          //   // Convert the array to a hexadecimal string
-          //   const hashHex = hashArray
-          //     .map((byte) => byte.toString(16).padStart(2, "0"))
-          //     .join("");
-          //   localStorage.setItem("cLgpssstore", hashHex)
-          // })
-          // .catch((err) => {
-          //   console.log("erererererer", err);
-          // });
+        //   // Convert the array to a hexadecimal string
+        //   const hashHex = hashArray
+        //     .map((byte) => byte.toString(16).padStart(2, "0"))
+        //     .join("");
+        //   localStorage.setItem("cLgpssstore", hashHex)
+        // })
+        // .catch((err) => {
+        //   console.log("erererererer", err);
+        // });
         await new Promise((resolve) => setTimeout(resolve, 500));
         const msgBuffer = new TextEncoder().encode(pass);
 
-            // Hash the buffer
-            const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
+        // Hash the buffer
+        const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
 
-            // Convert the buffer to an array
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
+        // Convert the buffer to an array
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
 
-            // Convert the array to a hexadecimal string
-            const hashHex = hashArray
-              .map((byte) => byte.toString(16).padStart(2, "0"))
-              .join("");
-            localStorage.setItem("cLgpssstore", hashHex)
-
+        // Convert the array to a hexadecimal string
+        const hashHex = hashArray
+          .map((byte) => byte.toString(16).padStart(2, "0"))
+          .join("");
+        localStorage.setItem("cLgpssstore", hashHex);
 
         await new Promise((resolve) => setTimeout(resolve, 500));
         localStorage.setItem(
@@ -83,10 +88,14 @@ export default () => {
 
   return (
     <PublicWrapper>
-      <div id="scale-down" className="relative min-w-[350px] rounded-lg shadow-2xl pb-14  bg-[#FFFFFF26] max-h-[80vh] max-laptop:max-h-[82vh] backdrop-blur-md max-laptop:min-w-[300px] max-[850px]:w-[200px]">
+      <div
+        id="scale-down"
+        className="relative min-w-[350px] rounded-lg shadow-2xl pb-14  bg-[#FFFFFF26] max-h-[80vh] max-laptop:max-h-[82vh] backdrop-blur-md max-laptop:min-w-[300px] max-[850px]:w-[200px]"
+      >
         <div className="flex justify-center">
           <div className=" mt-[40px] w-[200px] max-laptop:mt-[35px] max-laptop:w-[180px]">
-            <Logo />
+            {/* <Logo /> */}
+            {tenantConfig.login.logo}
           </div>
         </div>
         <div
@@ -104,7 +113,7 @@ export default () => {
           {lng}
         </div>
         <p className="flex justify-center text-white text-[0.7rem] text-sm mt-6">
-          {t("Welcome")}
+          {t(` ${tenantConfig.login.wellcometext}`)}
         </p>
         <p className="flex justify-center text-white text-[0.7rem]  text-sm mb-6">
           {t("Please sign in.")}

@@ -28,6 +28,7 @@ import SupportTeam from '../views/private/Customer/Support Team/SupportTeam';
 import LiveChatSupport from '../views/private/Admin/support-chat/LiveChat';
 import MarketInvestigationMap from '../views/private/Admin/Map/MarketInvestigationMap';
 import SiteFormManagement from '../views/private/Admin/Administration/SiteFormManagement';
+import TenantForm from '../views/private/Admin/Administration/tenantForm';
 
 
 //add more routes here
@@ -56,6 +57,7 @@ export default () => <div className='flex absolute top-0 left-0 bottom-0 bg-slat
                 <LiveChat path="/support_team/live_chat" />
                 <ContactPage path="/support_team/contact" />
                 <SiteFormManagement path="/administration/site_form_management" />
+                <TenantForm path="/administration/tenant_form" />
             </Router>
         </Suspense>
     </PageWrapper>

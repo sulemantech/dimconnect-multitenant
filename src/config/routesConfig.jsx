@@ -33,6 +33,12 @@ export const privateRoutes = [{
         path: `/administration/site_form_management`,
         permission: PERMISSIONS['User Management'],
         icon: icons.RoleManagementIcon,
+    },
+    {
+        label: 'Tenant Form',
+        path: `/administration/tenant_form`,
+        permission: PERMISSIONS['User Management'],
+        icon: icons.RoleManagementIcon,
     }
 ]
 },
