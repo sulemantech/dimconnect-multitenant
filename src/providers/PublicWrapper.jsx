@@ -1,3 +1,4 @@
+import { tenantConfig } from "../../config"
 export default ({ children }) => {
     return <div style={{
         position: 'absolute',
@@ -11,7 +12,7 @@ export default ({ children }) => {
         justifyContent: 'center',
         padding: '12px 4px',
 
-        backgroundImage: 'url(/bgimg.png)',
+        backgroundImage: `${tenantConfig.publicwrapper.bgimg}`,
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
         backgroundPosition: 'center',

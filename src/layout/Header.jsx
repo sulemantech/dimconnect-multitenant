@@ -27,6 +27,7 @@ import {
 } from "../signals";
 import LanguageButton from "../components/LanguageButton";
 import { useTranslation } from "react-i18next";
+import { tenantConfig } from "../../config";
 
 // {
 //   "ags": "073310000",
@@ -84,8 +85,8 @@ export default () => {
 
   return (
     <header className=" z-[100] shadow-lg right-0 left-0 top-0">
-      <div className=" items-center  h-12 bg-white flex p-2 text-[#0E76BB] ">
-        <div className="flex-grow  text-[#0E76BB] text-lg font-[500] md:inline-block hidden">
+      <div className={` items-center  h-12 bg-white flex p-2 text-[${tenantConfig.header.headtext}] `}>
+        <div className={`flex-grow  text-[${tenantConfig.header.headtext}] text-lg font-[500] md:inline-block hidden`}>
           <h6 className={window.innerWidth < 768 ? "text-xs" : "text-lg"}>
             <b className="">
               {t(
@@ -130,7 +131,7 @@ export default () => {
           color="brand"
           sx={{ width: 350 }}
           classNames={{
-            input: "border-brand ",
+            input:`border-${tenantConfig.header.headselect}`,
           }}
           unselectable
           onChange={(value) => {
@@ -141,7 +142,7 @@ export default () => {
         <div className="ml-4"></div>
         <Menu width={260} position="bottom-end" transition="pop-top-right">
           <Menu.Target>
-            <div className="items-center pr-2 flex cursor-pointer hover:scale-105 transition-all text-brand font-thin">
+            <div className={`items-center pr-2 flex cursor-pointer hover:scale-105 transition-all text-${tenantConfig.header.usericoncolor} font-thin`}>
               <IconUserCircle  stroke={1} />
             </div>
           </Menu.Target>

@@ -1,4 +1,5 @@
 import { IconUserCog, IconUserStar } from "@tabler/icons-react";
+import { tenantConfig } from "../../config";
 
 export default {
     "DasboardIcon": () => <svg width="21" height="21" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">

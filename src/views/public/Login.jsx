@@ -90,7 +90,7 @@ export default () => {
     <PublicWrapper>
       <div
         id="scale-down"
-        className="relative min-w-[350px] rounded-lg shadow-2xl pb-14  bg-[#FFFFFF26] max-h-[80vh] max-laptop:max-h-[82vh] backdrop-blur-md max-laptop:min-w-[300px] max-[850px]:w-[200px]"
+        className={`relative min-w-[350px] rounded-lg shadow-2xl pb-14  bg-[${tenantConfig.login.formbg}] max-h-[80vh] max-laptop:max-h-[82vh] backdrop-blur-md max-laptop:min-w-[300px] max-[850px]:w-[200px]`}
       >
         <div className="flex justify-center">
           <div className=" mt-[40px] w-[200px] max-laptop:mt-[35px] max-laptop:w-[180px]">
@@ -113,10 +113,10 @@ export default () => {
           {lng}
         </div>
         <p className="flex justify-center text-white text-[0.7rem] text-sm mt-6">
-          {t(` ${tenantConfig.login.wellcometext}`)}
+          {t(`${tenantConfig.login.wellcometext}`)}
         </p>
         <p className="flex justify-center text-white text-[0.7rem]  text-sm mb-6">
-          {t("Please sign in.")}
+        {t(`${tenantConfig.login.signintext}`)}
         </p>
         <form
           className="mt-8 space-y-6 max-laptop:mt-6 max-laptop:space-y-3"
@@ -164,7 +164,7 @@ export default () => {
       </div>
 
       <div className="flex justify-center mt-8 max-laptop:mt-5 ">
-        <img src="/logo_TUV.svg" className="" alt="" />
+        <img src={tenantConfig.login.bottomlogo} className="" alt="" />
       </div>
     </PublicWrapper>
   );

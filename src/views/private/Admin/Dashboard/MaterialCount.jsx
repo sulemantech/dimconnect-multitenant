@@ -9,6 +9,7 @@ import { Icon123 } from "@tabler/icons-react";
 import { IconTestPipe } from "@tabler/icons";
 import Icons from "../../../../layout/icons";
 import { useTranslation } from "react-i18next";
+import { tenantConfig } from "../../../../../config";
 
 export default () => {
   const {t}=useTranslation()
@@ -50,7 +51,7 @@ export default () => {
         <GroupedCount
             title={t("Drop | Demand")}
             loading={loading}
-            color=""
+            color={tenantConfig.MaterialCount.marker_duct}
             unit="m"
             data={[
               { count: ( MaterialCount?.data?.demand_points), title: t('Points'),icon:<Icons.Marker/> },
@@ -60,7 +61,7 @@ export default () => {
           <GroupedCount
             title={t("Primary Breakdown")}
             loading={loading}
-            color="text-red-500"
+            color={tenantConfig.MaterialCount.iconcable_iconduct}
             unit="m"
             data={[
               { count: ( MaterialCount?.data?.primary_distribution_ducts), title: t('Primary Ducts'),icon:<Icons.IconCables/> },
@@ -70,7 +71,7 @@ export default () => {
         <GroupedCount
           title={t("Feeder Breakdown")}
           loading={loading}
-          color="text-emerald-500"
+          color={tenantConfig.MaterialCount.iconcable1_iconduct1}
           unit="m"
           data={[
             { count: MaterialCount?.data?.feeder_ducts, title: t('Feeder Ducts'),icon:<Icons.IconCables/> },
@@ -80,7 +81,7 @@ export default () => {
         <GroupedCount
           title={t("Distribution Breakdown")}
           loading={loading}
-          color="text-sky-700"
+          color={tenantConfig.MaterialCount.iconcable_iconduct2}
           unit="m"
           data={[
             { count: ( MaterialCount?.data?.distribution_ducts), title: t('Distribution Ducts'),icon:<Icons.IconCables/> },

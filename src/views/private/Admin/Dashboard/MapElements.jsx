@@ -4,26 +4,27 @@ import { dropvalue } from "../../../../signals"
 import { getAddressPointCount } from "../../../../api"
 import { useTranslation } from "react-i18next";
 import Icons from '../../../../layout/icons';
+import { tenantConfig } from "../../../../../config";
 
 const content = {
     'ja (Anschluss prüfen)': {
-        color: 'rgb(255, 140, 42)',
+        color: `${tenantConfig.mapelements.jaAnschlussprufen}`,
         type: 1
     },
     'ja': {
-        color: 'rgb(29, 155, 216)',
+        color: `${tenantConfig.mapelements.ja}`,
         type: 2
     },
     'nein (Anschluss geprüft)': {
-        color: 'rgb(237, 82, 73)',
+        color: `${tenantConfig.mapelements.neinAnschlussprufen}`,
         type: 3
     },
     'nein': {
-        color: 'rgb(0, 0, 0)',
+        color: `${tenantConfig.mapelements.nein}`,
         type: 4
     },
     'inexistente Adresse': {
-        color: 'rgb(167, 38, 231)',
+        color: `${tenantConfig.mapelements.inexistenteAdresse}`,
         type: 5
     },
 }

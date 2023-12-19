@@ -36,6 +36,7 @@ import {
 import { commarize } from "../../../../utils/convertor";
 import { useTranslation } from "react-i18next";
 import Icons from "../../../../layout/icons";
+import { tenantConfig } from "../../../../../config";
 
 export const generatePDF = (data, fileName) => {
   const doc = new jsPDF();
@@ -302,8 +303,8 @@ export const CostInfoModalContent = ({
               tab: {
                 fontSize: "18px",
                 "&[data-active]": {
-                  borderBottom: "5px solid #0E76BB",
-                  color: "#0E76BB",
+                  borderBottom: `${tenantConfig.costinfo.activeborder}`,
+                  color: `${tenantConfig.costinfo.active}`,
                 },
               },
               panel: {
@@ -352,8 +353,8 @@ export const CostInfoModalContent = ({
               tab: {
                 fontSize: "18px",
                 "&[data-active]": {
-                  borderBottom: "5px solid #0E76BB",
-                  color: "#0E76BB",
+                  borderBottom: `${tenantConfig.costinfo.activeborder}`,
+                  color: `${tenantConfig.costinfo.active}`,
                 },
               },
             }}
@@ -398,16 +399,7 @@ export const CostInfoModalContent = ({
   );
 };
 
-const ICONS_COLORS = [
-  "text-blue-500",
-  "text-red-500",
-  "text-green-500",
-  "text-yellow-500",
-  "text-purple-500",
-  "text-pink-500",
-  "text-indigo-500",
-  "text-gray-500",
-];
+const ICONS_COLORS = tenantConfig.costinfo.ICONS_COLORS;
 
 export const HomeActivationTable = ({ data, business = false }) => {
   const { t } = useTranslation();
