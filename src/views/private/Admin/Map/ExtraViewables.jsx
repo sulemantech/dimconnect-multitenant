@@ -15,6 +15,7 @@ import {
   IconDownload,
   IconInfoCircle,
 } from "@tabler/icons";
+import { tenantConfig } from "../../../../../config";
 import { closeAllModals, openModal } from "@mantine/modals";
 import { useState, useEffect, useMemo } from "preact/hooks";
 import { useDidUpdate } from "@mantine/hooks";
@@ -214,7 +215,7 @@ export const NetzPlanningMarker = () => {
       setMap(value);
 
       if(netzplanning.value["5"]===true){
-      value.loadImage("/icons/square.png", (error, image) => {
+      value.loadImage(tenantConfig.extraviewable.NetzPlanningMarker.iconssqure, (error, image) => {
         if (error) throw error;
         !value.hasImage("KollSch") && value.addImage("KollSch", image);
       });
@@ -224,7 +225,7 @@ export const NetzPlanningMarker = () => {
       }
 
       if(netzplanning.value["6"]===true){
-      value.loadImage("/icons/house.png", (error, image) => {
+      value.loadImage(tenantConfig.extraviewable.NetzPlanningMarker.iconshouse, (error, image) => {
         if (error) throw error;
         !value.hasImage("PoP") && value.addImage("PoP", image);
       });
@@ -235,7 +236,7 @@ export const NetzPlanningMarker = () => {
 
 
       if (netzplanning.value["10"] === true) {
-        value.loadImage("/icons/triangle.png", (error, image) => {
+        value.loadImage(tenantConfig.extraviewable.NetzPlanningMarker.iconstriangle, (error, image) => {
           if (error) throw error;
           !value.hasImage("Nvt") && value.addImage("Nvt", image);
         });

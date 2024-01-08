@@ -8,6 +8,7 @@ import { useEffect, useState } from "preact/hooks"
 import { FabClass } from "../../../../layout"
 import { addressPointsVisibility, dropvalue, photoVisibility, videoVisibility, visibility } from "../../../../signals"
 import { useTranslation } from "react-i18next"
+import { tenantConfig } from "../../../../../config"
 
 export default ({ modal = false }) => {
     const { t } = useTranslation();
@@ -16,7 +17,7 @@ export default ({ modal = false }) => {
         setData(JSON.parse(visibility.value) || {})
     }, [visibility.value , t])
 
-    const OverlayControlButton = <div id='overlaycontrol' className={`${FabClass} mb-2 text-[#0E76BB] bg-white`}>
+    const OverlayControlButton = <div id='overlaycontrol' className={`${FabClass} mb-2 text-${tenantConfig.overlayControl.color} bg-white`}>
         <IconStack2 className="scale-150" />
     </div>
 

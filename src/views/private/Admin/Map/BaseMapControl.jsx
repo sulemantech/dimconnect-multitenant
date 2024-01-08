@@ -4,6 +4,7 @@ import { IconMap } from "@tabler/icons"
 import { FabClass } from "../../../../layout"
 import { mapStyle } from "../../../../signals"
 import { useTranslation } from "react-i18next";
+import { tenantConfig } from "../../../../../config"
 
 
 export default ({ modal = false }) => {
@@ -16,7 +17,7 @@ export default ({ modal = false }) => {
     }
 
     const Basemapbutton = <div
-        className={` ${FabClass} text-[#0E76BB] bg-white `}
+        className={` ${FabClass} text-${tenantConfig.overlayControl.color} bg-white `}
     ><IconMap className="scale-150" /> </div>
 
     if (modal) {

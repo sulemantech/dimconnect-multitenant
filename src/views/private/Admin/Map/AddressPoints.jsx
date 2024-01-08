@@ -11,6 +11,7 @@ import appConfig from "../../../../config/appConfig"
 
 import { getAddressPointDetails, getAddressPointStatus, postAddressPoint, updateAddressPoint } from "../../../../api"
 import { addressPointsCRUDstate, addressPointsReceived, addressPointsStatusVisibility, addressPointsVisibility, dropvalue, editControlLoading, mapClickBindings } from "../../../../signals"
+import { tenantConfig } from "../../../../../config"
 
 
 export default () => {
@@ -111,23 +112,7 @@ export default () => {
                             ],
                             "circle-blur-transition": { duration: 0 },
                             "circle-opacity-transition": { duration: 0 },
-                            "circle-color": [
-                                "match",
-                                ["get", "status"],
-                                "1",
-                                "rgb(255, 140, 42)",
-                                "2",
-                                "rgb(29, 155, 216)",
-                                "3",
-                                "rgb(237, 82, 73)",
-                                "4",
-                                "rgb(0, 0, 0)",
-                                "5",
-                                "rgb(167, 38, 231)",
-                                "6",
-                                "rgb(112, 173, 70)",
-                                "#000000"
-                            ],
+                            "circle-color": tenantConfig.addressPoints.circlecolor
 
                         }}
                         layout={{
@@ -145,7 +130,7 @@ export default () => {
                         filter={['has', 'point_count']}
                         paint={{
 
-                            'circle-color': '#0E76BB',
+                            'circle-color': tenantConfig.addressPoints.layercircle,
                             'circle-radius': ['step', ['get', 'point_count'], 10, 100, 20, 750, 30]
 
                         }}
