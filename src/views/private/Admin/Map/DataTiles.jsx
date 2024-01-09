@@ -4,6 +4,7 @@ import SplineWrapper from "spline-wrapper"
 
 import { dropvalue, visibility } from "../../../../signals"
 import appConfig from "../../../../config/appConfig"
+import { tenantConfig } from "../../../../../config"
 
 
 export default () => {
@@ -127,27 +128,27 @@ export const TilesView = ({ tileData, id }) => {
 
                                             if (layer.layer == dropvalue.value + '_OUT_DistributionCables') {
                                                 return {
-                                                    "line-color": "orange",
+                                                    "line-color": tenantConfig.datatiles.DistributionCables,
                                                     "line-opacity": 0.7,
                                                     "line-width": ["interpolate", ["linear"], ["zoom"], 14, 2, 18, 4],
                                                 }
                                             }
                                             else if (layer.layer == dropvalue.value + '_OUT_FeederCables') {
                                                 return {
-                                                    "line-color": "purple",
+                                                    "line-color": tenantConfig.datatiles.FeederCables,
                                                     "line-opacity": 0.7,
                                                     "line-width": ["interpolate", ["linear"], ["zoom"], 14, 3, 18, 6],
                                                 }
                                             }
                                             else if (layer.layer == dropvalue.value + '_OUT_PrimDistributionCables') {
                                                 return {
-                                                    "line-color": "blue",
+                                                    "line-color": tenantConfig.datatiles.PrimDistributionCables,
                                                     "line-opacity": 0.7,
                                                     "line-width": ["interpolate", ["linear"], ["zoom"], 14, 1, 18, 2],
                                                 }
                                             } else {
                                                 return {
-                                                    "line-color": "yellow",
+                                                    "line-color": tenantConfig.datatiles.allothercables,
                                                     "line-opacity": 0.7,
                                                     "line-width": ["interpolate", ["linear"], ["zoom"], 14, 0.5, 18, 1],
                                                 }

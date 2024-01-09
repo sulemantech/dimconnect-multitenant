@@ -6,6 +6,7 @@ import { useEffect, useState } from "preact/hooks"
 import { FabClass } from "../../../../layout"
 import { addressPointsCRUDstate } from "../../../../signals"
 import { useTranslation } from "react-i18next";
+import { tenantConfig } from "../../../../../config"
 
 
 export default ({ modal = false, webview = false }) => {
@@ -15,7 +16,7 @@ export default ({ modal = false, webview = false }) => {
     
     const Options = {
         'Address Point': {
-            icon: <IconAddressBook className="scale-110 text-[#0E76BB] " />,
+            icon: <IconAddressBook className={`scale-110 ${tenantConfig.overlayControl.color}`}  />,
             selectable: true,
             "method": () => {
                 addressPointsCRUDstate.value = 'add'
@@ -62,7 +63,7 @@ export default ({ modal = false, webview = false }) => {
         })
     }, [])
     
-    const AddControlButton = <div className={`mt-2 ${FabClass}  ${activeOption ? 'bg-red-500 text-white' : 'bg-white text-[#0E76BB]'}`}>
+    const AddControlButton = <div className={`mt-2 ${FabClass}  ${activeOption ? 'bg-red-500 text-white' : `bg-white ${tenantConfig.overlayControl.color}`}`}>
 
         <IconPlus className="scale-150" />
     </div>

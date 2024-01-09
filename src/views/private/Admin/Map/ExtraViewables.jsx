@@ -676,7 +676,7 @@ export const ExtraViewableControl = ({ modal = false, webview = false}) => {
   const AddControlButton = (
     <div
       className={`mt-2 ${FabClass}  ${
-        activeOption ? "bg-red-500 text-white" : "bg-white text-[#0E76BB]"
+        activeOption ? "bg-red-500 text-white" : `bg-white ${tenantConfig.overlayControl.color}`
       }`}
     >
       <IconEye className="scale-150" />

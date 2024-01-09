@@ -94,8 +94,8 @@ export default () => {
       >
         <div className="flex justify-center">
           <div className=" mt-[40px] w-[200px] max-laptop:mt-[35px] max-laptop:w-[180px]">
-            {/* <Logo /> */}
-            {tenantConfig.login.logo}
+            <Logo />
+            {/* {tenantConfig.login.logo} */}
           </div>
         </div>
         <div

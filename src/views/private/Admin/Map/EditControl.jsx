@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 
 import { FabClass } from "../../../../layout"
 import { addressPointsCRUDstate, editControlLoading } from "../../../../signals"
+import { tenantConfig } from "../../../../../config";
 
 export default ({ modal = false }) => {
     const { t } = useTranslation();
@@ -14,7 +15,7 @@ export default ({ modal = false }) => {
 
     const Options = {
         'Address Point': {
-            icon: <IconAddressBook className="scale-110 text-[#0E76BB] " />,
+            icon: <IconAddressBook className={`scale-110 ${tenantConfig.overlayControl.color}`}  />,
             "method": () => {
                 addressPointsCRUDstate.value = 'edit'
             },
@@ -35,7 +36,7 @@ export default ({ modal = false }) => {
         })
     }, [])
 
-    const EditControlButton = <div className={`mt-2 ${FabClass}  ${activeOption ? 'bg-red-500 text-white' : 'bg-white text-[#0E76BB]'}`}>
+    const EditControlButton = <div className={`mt-2 ${FabClass}  ${activeOption ? 'bg-red-500 text-white' : `bg-white ${tenantConfig.overlayControl.color}`}`}>
 
         {editControlLoading.value ? <Loader color="white" className="scale-150" /> : <IconPencil className="scale-150" />}
     </div>

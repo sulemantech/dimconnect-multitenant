@@ -44,7 +44,7 @@ export default () => {
             }}
             className=" transition-all w-fit duration-300 shadow-xl  text-white flex flex-col">
             <div className={` ${collapsed.value ? 'p-6' : 'p-2'} pt-4 max-2xl:container`}>
-            {tenantConfig.navbar.sidelogo}
+            <Logo/>
             </div>
 
             <div className={`flex items-center justify-center py-4 max-2xl:py-2  text-white font-light border-sky-600 transition-all border-b-[1px] hover:border-sky-600 hover:hover:${tenantConfig.navbar.hoverburger}`}>

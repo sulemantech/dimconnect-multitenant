@@ -17,7 +17,7 @@ export default ({ modal = false }) => {
     }
 
     const Basemapbutton = <div
-        className={` ${FabClass} text-${tenantConfig.overlayControl.color} bg-white `}
+        className={` ${FabClass} ${tenantConfig.overlayControl.color} bg-white `}
     ><IconMap className="scale-150" /> </div>
 
     if (modal) {
