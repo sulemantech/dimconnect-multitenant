@@ -27,6 +27,7 @@ import { PERMISSIONS } from "../../../../common";
 import { useTranslation } from "react-i18next";
 import { t } from "i18next";
 import { closeAllModals, openModal } from "@mantine/modals";
+import { tenantConfig } from "../../../../../config";
 
 // const colors = ["#FF6161","#FF862E","#0E76BB", "#1DAF1A", "#878788"];
 const images = [
@@ -158,7 +159,8 @@ export default () => {
           ...user,
           "Assign Role": (
             <button
-              className=" border-2 border-[#0E76BB] rounded-md px-1"
+            className={`border-2 ${tenantConfig.usermanagement.bordercolor} rounded-md px-1`}
+
               onClick={() => {
                 openModal({
                   closeOnClickOutside: false,
@@ -196,7 +198,7 @@ export default () => {
               <Text
                 mt={2}
                 // variant="outline"
-                color="#0E76BB"
+                color={tenantConfig.usermanagement.textcolor}
                 className=" text-sm font-medium"
               >
                 {" "}

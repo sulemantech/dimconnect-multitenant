@@ -40,6 +40,7 @@ import { useCallback } from "preact/hooks";
 import { showNotification } from "@mantine/notifications";
 import { isValidElement } from "preact";
 import { useTranslation } from "react-i18next";
+import { tenantConfig } from "../../config";
 export default ({
   children,
   title,
@@ -408,7 +409,7 @@ export default ({
               <div className="flex items-center">
                 {newStruct.hasOwnProperty("createMethod") && (
                   <Button
-                    className=" bg-[#0E76BB] font-medium text-xs rounded-full"
+                    className={`${tenantConfig.usermanagement.bgcolor} font-medium text-xs rounded-full`}
                     size="sm"
                     leftIcon={<IconPlus size={15} />}
                     onClick={createNew}
@@ -553,7 +554,7 @@ export default ({
                       <td className="flex justify-end px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         {edit && (
                           <button
-                            className="flex flex-row text-[#0E76BB] bg-[#DEE6EF] px-2 mr-6 rounded-md justify-center items-center space-x-5"
+                            className={`flex flex-row text-[#0E76BB]  px-2 mr-6 rounded-md justify-center items-center space-x-5`}
                             onClick={() => handleEdit(item)}
                           >
                             <FaEdit /> <p className="pr-3">{t("Edit")}</p>
