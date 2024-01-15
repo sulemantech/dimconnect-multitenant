@@ -1,39 +1,41 @@
-import { LoadingOverlay } from "@mantine/core"
-import { useEffect, useState } from "preact/hooks"
-import api, { getCurrentUserPermissions } from "../../../api"
-import appConfig from "../../../config/appConfig"
-import { permissible } from "../../../signals"
+import { LoadingOverlay } from "@mantine/core";
+import { useEffect, useState } from "preact/hooks";
+import api, { getCurrentUserPermissions } from "../../../api";
+import appConfig from "../../../config/appConfig";
+import { permissible } from "../../../signals";
 
-export default ({ children }) => {
+import Cookies from 'js-cookie';
 
+const AuthWrapper = ({ children }) => {
+  const queryParam = new URLSearchParams(window.location.search);
+  const token = queryParam.get("token");
 
-    const queryParam = new URLSearchParams(window.location.search)
-    const token = queryParam.get('token')
-    if (token) {
+  useEffect(() => {
+    const authenticateUser = async () => {
+      if (token) {
+        try {
+          api.defaults.headers.common["authorization"] = `Bearer ${token}`;
+          //localStorage.setItem(appConfig.localStorageKeyWebview, token);
+          Cookies.set(appConfig.localStorageKeyWebview, token);
 
-        api.defaults.headers.common['authorization'] = `Bearer ${token}`
-        localStorage.setItem(appConfig.localStorageKeyWebview, token)
+          const { data } = await getCurrentUserPermissions();
 
-        getCurrentUserPermissions().then(({ data }) => {
-            permissible.value = permissible.value.map(p => {
-                const index = data.accessList.findIndex(a => a.activity === p.activity)
-                if (index !== -1) {
-                    return data.accessList[index]
-                }
-                return p
-            })
-        }).catch(err => {
+          permissible.value = permissible.value.map((p) => {
+            const index = data.accessList.findIndex((a) => a.activity === p.activity);
+            return index !== -1 ? data.accessList[index] : p;
+          });
+        } catch (err) {
+          // Handle error if needed
+        }
+      }
+    };
 
-        })
+    authenticateUser();
+  }, [token]);
 
-    }
+  const [isAuthenticated, setIsAuthenticated] = useState(!!token);
 
-    const [isAuthenticated, setIsAuthenticated] = useState(token ? true : false)
+  return <>{isAuthenticated ? children : <LoadingOverlay visible />}</>;
+};
 
-
-    return (
-        <>
-            {isAuthenticated ? children : <div><LoadingOverlay visible /></div>}
-        </>
-    )
-}
+export default AuthWrapper;

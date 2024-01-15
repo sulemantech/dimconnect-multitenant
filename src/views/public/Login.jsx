@@ -6,13 +6,12 @@ import appConfig from "../../config/appConfig";
 import { AuthState } from "../../providers/AuthProvider";
 import PublicWrapper from "../../providers/PublicWrapper";
 import { t, changeLanguage } from "i18next";
+import Cookies from 'js-cookie';
 
-// import {logo} from '../../../public/logo.svg'
 export default () => {
   const authState = useContext(AuthState);
   const [loading, setLoading] = useState(false);
-  const [lng, setlng] = useState("EN");
-
+  const [lng, setLng] = useState("EN");
   const [error, setError] = useState("");
 
   const handleSubmit = async (event) => {
@@ -26,50 +25,24 @@ export default () => {
       .then(async ({ data }) => {
         authState.setAuth(true);
         const username = email.split("@")[0];
-        const chatServerUser = await LoginChatServer(username, email, pass, `Bearer ${data.token}`)
-        console.log(chatServerUser)
-          // .then(async (res) => {
-          //   console.log(res);
-          //   const msgBuffer = new TextEncoder().encode(pass);
+        const chatServerUser = await LoginChatServer(username, email, pass, `Bearer ${data.token}`);
+        console.log(chatServerUser);
 
-          //   // Hash the buffer
-          //   const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
-
-          //   // Convert the buffer to an array
-          //   const hashArray = Array.from(new Uint8Array(hashBuffer));
-
-          //   // Convert the array to a hexadecimal string
-          //   const hashHex = hashArray
-          //     .map((byte) => byte.toString(16).padStart(2, "0"))
-          //     .join("");
-          //   localStorage.setItem("cLgpssstore", hashHex)
-          // })
-          // .catch((err) => {
-          //   console.log("erererererer", err);
-          // });
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        // Hash and store password securely
         const msgBuffer = new TextEncoder().encode(pass);
-
-            // Hash the buffer
-            const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
-
-            // Convert the buffer to an array
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-
-            // Convert the array to a hexadecimal string
-            const hashHex = hashArray
-              .map((byte) => byte.toString(16).padStart(2, "0"))
-              .join("");
-            localStorage.setItem("cLgpssstore", hashHex)
-
+        const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const hashHex = hashArray.map((byte) => byte.toString(16).padStart(2, "0")).join("");
+        localStorage.setItem("cLgpssstore", hashHex);
 
         await new Promise((resolve) => setTimeout(resolve, 500));
-        localStorage.setItem(
-          appConfig.localStorageRefreshKey,
-          data.refreshToken
-        );
+
+        // Store tokens in cookies
+        Cookies.set(appConfig.cookieKey, data.token, { secure: true, httpOnly: true });
+        Cookies.set(appConfig.localStorageRefreshKey, data.refreshToken);
+
         await new Promise((resolve) => setTimeout(resolve, 500));
-        localStorage.setItem(appConfig.localStorageKey, data.token);
+
         api.defaults.headers.common["authorization"] = `Bearer ${data.token}`;
         setLoading(false);
 
@@ -92,13 +65,8 @@ export default () => {
         <div
           className="absolute right-2 top-2 text-white text-xs"
           onClick={() => {
-            if (lng == "DE") {
-              setlng("EN");
-              changeLanguage("de");
-            } else {
-              setlng("DE");
-              changeLanguage("en");
-            }
+            setLng((prev) => (prev === "DE" ? "EN" : "DE"));
+            changeLanguage(lng === "DE" ? "en" : "de");
           }}
         >
           {lng}
@@ -143,7 +111,6 @@ export default () => {
             <p className="text-red-700 text-xs font-light flex flex-row-reverse mt-2  ">
               {error}
             </p>
-            {/* <img className=" w-[2rem] " src="closed_eye.svg" alt="" /> */}
           </div>
 
           <div className="flex justify-center  mt-10 max-laptop:mt-4   max-[850px]:mt-3">

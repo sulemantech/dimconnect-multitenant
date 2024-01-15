@@ -17,6 +17,8 @@ import Photos from './Photos';
 import DistrictPhase from './DistrictPhase';
 import appConfig from '../../../../config/appConfig';
 
+import Cookies from 'js-cookie';
+
 const Gpx = lazy(() => import('./Gpx'));
 
 import { mapClickBindings, addressPointsCRUDstate, infoCardVal, visibility, mapStyle, additionalInteractiveLayers, mapSignal, regionCostState, aerialViewVisibility, PRpropertiesVisibility, legendState } from '../../../../signals';
@@ -144,7 +146,7 @@ export default ({ children }) => {
           return {
             url: url,
             headers: {
-              "Authorization": `Bearer ${localStorage.getItem(appConfig.localStorageKey)}`
+              "Authorization": `Bearer ${Cookies.get(appConfig.localStorageKey)}`
             }
           }
 

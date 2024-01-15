@@ -5,6 +5,7 @@ import SplineWrapper from "spline-wrapper"
 import { dropvalue, visibility } from "../../../../signals"
 import appConfig from "../../../../config/appConfig"
 
+import Cookies from 'js-cookie';
 
 export default () => {
 
@@ -21,7 +22,7 @@ export default () => {
             fetch(`https://dim-tileserver-dev.hiwifipro.com/data/${value}.json`, {
                 method: 'GET',
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem(appConfig.localStorageKey) || localStorage.getItem(appConfig.localStorageKeyWebview)}`,
+                    'Authorization': `Bearer ${Cookies.get(appConfig.localStorageKey) || Cookies.get(appConfig.localStorageKeyWebview)}`,
                 }
             })
                 .then(res => res.json())

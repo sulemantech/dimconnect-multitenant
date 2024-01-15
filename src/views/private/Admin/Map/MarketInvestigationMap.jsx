@@ -15,6 +15,8 @@ import { mapStyle } from '../../../../signals';
 import PermissionWrapper from '../../../../providers/PermissionsProvider';
 import { PERMISSIONS } from '../../../../common';
 
+import Cookies from 'js-cookie';
+
 let mapFirstRender = false
 
 export default (props) => {
@@ -69,7 +71,7 @@ export default (props) => {
           return {
             url: url,
             headers: {
-              "Authorization": `Bearer ${localStorage.getItem(appConfig.localStorageKey)}`
+              "Authorization": `Bearer ${Cookies.get(appConfig.localStorageKey)}`
             }
           }
 

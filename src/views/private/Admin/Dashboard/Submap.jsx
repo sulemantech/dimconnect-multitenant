@@ -4,7 +4,7 @@ import { route } from 'preact-router';
 import { useEffect, useState } from 'preact/hooks';
 import { Layer, Map, Source, useMap } from 'react-map-gl';
 import { districts, dropvalue } from '../../../../signals';
-
+import Cookies from 'js-cookie';
 
 export default () => {
     const [mounted, setMounted] = useState(false)
@@ -50,7 +50,7 @@ mapLib={maplibregl}
                     return {
                         url: url,
                         headers: {
-                            'Authorization': `Bearer ${localStorage.getItem(a.localStorageKey)}`
+                            'Authorization': `Bearer ${Cookies.get(a.localStorageKey)}`
                         }
                     }
                 }

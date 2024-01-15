@@ -4,7 +4,7 @@ import SplineWrapper from "spline-wrapper"
 
 import { dropvalue, visibility } from "../../../../signals"
 import appConfig from "../../../../config/appConfig"
-
+import Cookies from 'js-cookie';
 
 
 export default ({ ags = null }) => {
@@ -26,7 +26,7 @@ export default ({ ags = null }) => {
             fetch(fetchUrl, {
                 method: 'GET',
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem(appConfig.localStorageKey) || localStorage.getItem(appConfig.localStorageKeyWebview)}`,
+                    'Authorization': `Bearer ${Cookies.get(appConfig.localStorageKey) || Cookies.get(appConfig.localStorageKeyWebview)}`,
                 }
             })
                 .then(res => res.json())
