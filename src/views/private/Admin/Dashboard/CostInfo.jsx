@@ -135,6 +135,8 @@ export default () => {
 
   // ============================== Commenting this line so we get the default calculation ==============================
   function updateStateFromApiResponse(currentState, apiResponse) {
+    // Inside updateStateFromApiResponse function
+
     // Extracting the data from the API response
     const cablesData = apiResponse.cables;
     const ductData = apiResponse.duct;
@@ -181,18 +183,10 @@ export default () => {
 
     return currentState;
   }
-
-  // ====================================================================================================================
-
   const getCost = () => {
     setLoading(true);
     const URLSearchParam = new URLSearchParams();
-    // ============================== Commenting this line so we get the default calculation ==============================
-
     // URLSearchParam.append('costs', JSON.stringify(costInputParams.value));
-
-    // ====================================================================================================================
-
     getCostInfoByDistrictId(ags, URLSearchParam)
       .then((res) => {
         setLoading(false);
@@ -201,6 +195,26 @@ export default () => {
           res.data
         );
         costInputParams.value = updatedState;
+        costInfoData.value = res.data;
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
+      });
+  };
+
+  const getCostWithNewData = () => {
+    setLoading(true);
+    const URLSearchParam = new URLSearchParams();
+    URLSearchParam.append('costs', JSON.stringify(costInputParams.value));
+    getCostInfoByDistrictId(ags, URLSearchParam)
+      .then((res) => {
+        setLoading(false);
+        // const updatedState = updateStateFromApiResponse(
+        //   { ...costInputParams.value },
+        //   res.data
+        // );
+        // costInputParams.value = updatedState;
         costInfoData.value = res.data;
       })
       .catch((err) => {
@@ -222,7 +236,7 @@ export default () => {
           <ActionIcon
             size={"xs"}
             onClick={() => {
-              getCost();
+              getCostWithNewData();
             }}
           >
             <IconRefresh />
@@ -937,7 +951,7 @@ export const CostInfoSettings = () => {
                     type="number"
                     value={data.cables[key].labourCost}
                     onChange={(e) => {
-                      data.cables[key].labourCost = parseFloat(e.target.value);
+                      data.cables[key].labourCost = parseFloat(e.target.value);;
                       setData(data);
                     }}
                   />
@@ -969,7 +983,7 @@ export const CostInfoSettings = () => {
                     type="number"
                     value={data.duct[key].materialCost}
                     onChange={(e) => {
-                      data.duct[key].materialCost = e.target.value;
+                      data.duct[key].materialCost = parseFloat(e.target.value);
                       setData(data);
                     }}
                   />
@@ -979,7 +993,7 @@ export const CostInfoSettings = () => {
                     type="number"
                     value={data.duct[key].labourCost}
                     onChange={(e) => {
-                      data.duct[key].labourCost = e.target.value;
+                      data.duct[key].labourCost = parseFloat(e.target.value);
                       setData(data);
                     }}
                   />
@@ -1011,7 +1025,7 @@ export const CostInfoSettings = () => {
                     type="number"
                     value={data.homeActivation[key].greaterMaterialCost}
                     onChange={(e) => {
-                      data.homeActivation[key].materialCost = e.target.value;
+                      data.homeActivation[key].greaterMaterialCost = parseFloat(e.target.value);
                       setData(data);
                     }}
                   />
@@ -1021,7 +1035,7 @@ export const CostInfoSettings = () => {
                     type="number"
                     value={data.homeActivation[key].greaterLabourCost}
                     onChange={(e) => {
-                      data.homeActivation[key].labourCost = e.target.value;
+                      data.homeActivation[key].greaterLabourCost = parseFloat(e.target.value);
                       setData(data);
                     }}
                   />
@@ -1053,7 +1067,7 @@ export const CostInfoSettings = () => {
                     type="number"
                     value={data.homeActivation[key].lowerMaterialCost}
                     onChange={(e) => {
-                      data.homeActivation[key].materialCost = e.target.value;
+                      data.homeActivation[key].lowerMaterialCost = parseFloat(e.target.value);
                       setData(data);
                     }}
                   />
@@ -1063,7 +1077,7 @@ export const CostInfoSettings = () => {
                     type="number"
                     value={data.homeActivation[key].lowerLabourCost}
                     onChange={(e) => {
-                      data.homeActivation[key].labourCost = e.target.value;
+                      data.homeActivation[key].lowerLabourCost = parseFloat(e.target.value);
                       setData(data);
                     }}
                   />
