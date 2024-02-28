@@ -24,6 +24,7 @@ import { FabClass } from '../../../layout';
 import ExtraViewables from '../../private/Admin/Map/ExtraViewables';
 import PRproperties from '../../private/Admin/Map/PRproperties';
 import AerialViewLayer from '../../private/Admin/Map/AerialViewLayer';
+import Cookies from 'js-cookie';
 
 let mapFirstRender = false
 const CustomGeoLocateData = signal(null)
@@ -101,7 +102,7 @@ export default () => {
           return {
             url: url,
             headers: {
-              "Authorization": `Bearer ${localStorage.getItem(appConfig.localStorageKeyWebview)}`
+              "Authorization": `Bearer ${Cookies.get(appConfig.localStorageKeyWebview)}`
             }
           }
 
