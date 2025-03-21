@@ -6,7 +6,7 @@ import { useEffect, useState } from "preact/hooks"
 import { FabClass } from "../../../../layout"
 import { addressPointsCRUDstate } from "../../../../signals"
 import { useTranslation } from "react-i18next";
-import { tenantConfig } from "../../../../../config"
+import tenantConfig  from "../../../../../config"
 
 
 export default ({ modal = false, webview = false }) => {

@@ -11,7 +11,7 @@ import appConfig from "../../../../config/appConfig"
 
 import { getAddressPointDetails, getAddressPointStatus, postAddressPoint, updateAddressPoint } from "../../../../api"
 import { addressPointsCRUDstate, addressPointsReceived, addressPointsStatusVisibility, addressPointsVisibility, dropvalue, editControlLoading, mapClickBindings } from "../../../../signals"
-import { tenantConfig } from "../../../../../config"
+import tenantConfig  from "../../../../../config"
 
 
 export default () => {

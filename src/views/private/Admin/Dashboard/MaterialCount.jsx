@@ -9,7 +9,7 @@ import { Icon123 } from "@tabler/icons-react";
 import { IconTestPipe } from "@tabler/icons";
 import Icons from "../../../../layout/icons";
 import { useTranslation } from "react-i18next";
-import { tenantConfig } from "../../../../../config";
+import tenantConfig  from "../../../../../config";
 
 export default () => {
   const {t}=useTranslation()

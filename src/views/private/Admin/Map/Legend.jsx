@@ -22,7 +22,7 @@ import {
   legendState,
 } from "../../../../signals";
 import { effect } from "@preact/signals";
-import { tenantConfig } from "../../../../../config";
+import tenantConfig  from "../../../../../config";
 
 export default ({
   noAddressPoint = false,

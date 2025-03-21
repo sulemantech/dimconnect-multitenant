@@ -40,7 +40,7 @@ import { useCallback } from "preact/hooks";
 import { showNotification } from "@mantine/notifications";
 import { isValidElement } from "preact";
 import { useTranslation } from "react-i18next";
-import { tenantConfig } from "../../config";
+import tenantConfig  from "../../config";
 export default ({
   children,
   title,

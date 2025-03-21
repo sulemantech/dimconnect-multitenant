@@ -27,7 +27,7 @@ import { PERMISSIONS } from "../../../../common";
 import { useTranslation } from "react-i18next";
 import { t } from "i18next";
 import { closeAllModals, openModal } from "@mantine/modals";
-import { tenantConfig } from "../../../../../config";
+import tenantConfig  from "../../../../../config";
 
 // const colors = ["#FF6161","#FF862E","#0E76BB", "#1DAF1A", "#878788"];
 const images = [

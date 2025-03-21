@@ -6,7 +6,7 @@ import appConfig from "../../config/appConfig";
 import { AuthState } from "../../providers/AuthProvider";
 import PublicWrapper from "../../providers/PublicWrapper";
 import { t, changeLanguage } from "i18next";
-import { tenantConfig } from "../../../config";
+import tenantConfig  from "../../../config";
 
 // import {logo} from '../../../public/logo.svg'
 export default () => {

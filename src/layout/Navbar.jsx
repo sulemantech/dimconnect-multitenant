@@ -3,7 +3,7 @@ import { Link } from 'preact-router'
 import { useLayoutEffect } from "preact/hooks"
 import Logo from "../components/Logo"
 import { privateRoutes } from "../config/routesConfig"
-import { tenantConfig } from "../../config"
+import tenantConfig  from "../../config"
 
 import PermissionWrapper from "../providers/PermissionsProvider"
 import { collapsed } from "../signals"

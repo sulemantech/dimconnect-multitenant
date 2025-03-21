@@ -15,7 +15,7 @@ import {
   IconDownload,
   IconInfoCircle,
 } from "@tabler/icons";
-import { tenantConfig } from "../../../../../config";
+import tenantConfig  from "../../../../../config";
 import { closeAllModals, openModal } from "@mantine/modals";
 import { useState, useEffect, useMemo } from "preact/hooks";
 import { useDidUpdate } from "@mantine/hooks";

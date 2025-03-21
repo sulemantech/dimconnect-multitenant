@@ -4,7 +4,7 @@ import { dropvalue } from "../../../../signals"
 import { getAddressPointCount } from "../../../../api"
 import { useTranslation } from "react-i18next";
 import Icons from '../../../../layout/icons';
-import { tenantConfig } from "../../../../../config";
+import tenantConfig  from "../../../../../config";
 
 const content = {
     'ja (Anschluss prüfen)': {

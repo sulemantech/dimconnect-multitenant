@@ -27,7 +27,7 @@ import {
 } from "../signals";
 import LanguageButton from "../components/LanguageButton";
 import { useTranslation } from "react-i18next";
-import { tenantConfig } from "../../config";
+import tenantConfig  from "../../config";
 
 // {
 //   "ags": "073310000",

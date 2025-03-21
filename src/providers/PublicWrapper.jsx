@@ -1,4 +1,4 @@
-import { tenantConfig } from "../../config"
+import tenantConfig  from "../../config"
 export default ({ children }) => {
     return <div style={{
         position: 'absolute',

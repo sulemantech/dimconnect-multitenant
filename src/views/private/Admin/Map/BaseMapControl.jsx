@@ -4,7 +4,7 @@ import { IconMap } from "@tabler/icons"
 import { FabClass } from "../../../../layout"
 import { mapStyle } from "../../../../signals"
 import { useTranslation } from "react-i18next";
-import { tenantConfig } from "../../../../../config"
+import tenantConfig  from "../../../../../config"
 
 
 export default ({ modal = false }) => {

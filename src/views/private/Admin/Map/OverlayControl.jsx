@@ -8,7 +8,7 @@ import { useEffect, useState } from "preact/hooks"
 import { FabClass } from "../../../../layout"
 import { addressPointsVisibility, dropvalue, photoVisibility, videoVisibility, visibility } from "../../../../signals"
 import { useTranslation } from "react-i18next"
-import { tenantConfig } from "../../../../../config"
+import tenantConfig  from "../../../../../config"
 
 export default ({ modal = false }) => {
     const { t } = useTranslation();

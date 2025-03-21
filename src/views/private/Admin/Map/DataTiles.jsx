@@ -4,7 +4,7 @@ import SplineWrapper from "spline-wrapper"
 
 import { dropvalue, visibility } from "../../../../signals"
 import appConfig from "../../../../config/appConfig"
-import { tenantConfig } from "../../../../../config"
+import tenantConfig  from "../../../../../config"
 
 
 export default () => {

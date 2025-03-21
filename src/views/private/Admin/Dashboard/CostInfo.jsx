@@ -36,7 +36,7 @@ import {
 import { commarize } from "../../../../utils/convertor";
 import { useTranslation } from "react-i18next";
 import Icons from "../../../../layout/icons";
-import { tenantConfig } from "../../../../../config";
+import tenantConfig  from "../../../../../config";
 
 export const generatePDF = (data, fileName) => {
   const doc = new jsPDF();

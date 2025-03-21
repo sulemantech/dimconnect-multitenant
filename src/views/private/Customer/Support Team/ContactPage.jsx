@@ -2,8 +2,7 @@ import Footer from "../../../../layout/Footer";
 import { useTranslation } from "react-i18next";
 import { CopyButton, ActionIcon, Tooltip, rem } from "@mantine/core";
 import { IconCopy, IconCheck } from "@tabler/icons-react";
-import {tenantConfig} from "../../../../../config";
-
+import tenantConfig from "../../../../../config";
 
 export default () => {
   const { t } = useTranslation();

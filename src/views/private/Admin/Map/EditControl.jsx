@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 
 import { FabClass } from "../../../../layout"
 import { addressPointsCRUDstate, editControlLoading } from "../../../../signals"
-import { tenantConfig } from "../../../../../config";
+import tenantConfig  from "../../../../../config";
 
 export default ({ modal = false }) => {
     const { t } = useTranslation();
