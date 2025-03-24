@@ -132,7 +132,7 @@ const CountCard = ({ title, count, unit = "", loading = false }) => {
 
 const GroupedCount = ({ title, data, unit = "", loading = false, color='red' }) => {
   return (
-    <Card
+    <Card style={{color:tenantConfig.GlobalConfiguration.textcolor}}
       className="flex-1 m-2 max-2xl:m-1"
     >
     

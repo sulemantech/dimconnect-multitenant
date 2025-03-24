@@ -82,7 +82,8 @@ export default ({
   if (collapsed)
     return (
       <div
-        className={`absolute -left-8 hover:scale-95 transition-all cursor-pointer bottom-24 justify-center rotate-90 font-bold text-lg max-sm:text-sm tracking-wide text-white ${tenantConfig.legend.legendButton || "bg-[#cd4f14]"} shadow-2xl z-40 rounded-md p-2 max-2xl:scale-90 `}
+      style={{backgroundColor: tenantConfig.legend.legendButton || "#cd4f14"} }
+        className={`absolute -left-8 hover:scale-95 transition-all cursor-pointer bottom-24 justify-center rotate-90 font-bold text-lg max-sm:text-sm tracking-wide text-white  shadow-2xl z-40 rounded-md p-2 max-2xl:scale-90 `}
         onClick={() => {
           legendState.value = true;
           setCollapsed(false);

@@ -85,8 +85,8 @@ export default () => {
 
   return (
     <header className=" z-[100] shadow-lg right-0 left-0 top-0">
-      <div className={` items-center  h-12 bg-white flex p-2 text-[${tenantConfig.header.headtext}] `}>
-        <div className={`flex-grow  text-[${tenantConfig.header.headtext}] text-lg font-[500] md:inline-block hidden`}>
+      <div className={` items-center  h-12 bg-white flex p-2 `}>
+        <div style={{color:tenantConfig.GlobalConfiguration.textcolor}}  className={`flex-grow  text-lg font-[500] md:inline-block hidden`}>
           <h6 className={window.innerWidth < 768 ? "text-xs" : "text-lg"}>
             <b className="">
               {t(

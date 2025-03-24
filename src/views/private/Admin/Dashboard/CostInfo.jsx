@@ -229,7 +229,7 @@ export default () => {
       <Card className="flex p-2  flex-grow relative">
         <LoadingOverlay visible={loading} />
 
-        <p className="flex-grow flex-1 font-thin text-neutral-700 text-lg max-2xl:text-xs">
+        <p style={{color:tenantConfig.GlobalConfiguration.textcolor}} className="flex-grow flex-1 font-thin text-lg max-2xl:text-xs">
           {t("COST CENTER")} , €
         </p>
 
