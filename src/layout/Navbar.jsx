@@ -38,7 +38,7 @@ export default () => {
     return (
         <nav id='sidenav'
             style={{
-                backgroundImage: `${tenantConfig.navbar.sideimg}`,
+                backgroundImage: `url(${tenantConfig.navbar.sideimg})`,
                 backgroundSize: 'cover',
                 backgroundRepeat: 'no-repeat',
             }}

@@ -12,7 +12,7 @@ export default ({ children }) => {
         justifyContent: 'center',
         padding: '12px 4px',
 
-        backgroundImage: `${tenantConfig.publicwrapper.bgimg}`,
+        backgroundImage: `url(${tenantConfig.publicwrapper.bgimg})`,
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
