@@ -47,7 +47,7 @@ export default () => {
             <Logo/>
             </div>
 
-            <div className={`flex items-center justify-center py-4 max-2xl:py-2  text-white font-light border-sky-600 transition-all border-b-[1px] hover:border-sky-600 hover:hover:${tenantConfig.navbar.hoverburger}`}>
+            <div className={`flex items-center justify-center py-4 max-2xl:py-2  text-white font-light border-sky-600 transition-all border-b-[1px] hover:border-sky-600 hover:${tenantConfig.navbar.hoverburger}`}>
 
 
                 <Burger
