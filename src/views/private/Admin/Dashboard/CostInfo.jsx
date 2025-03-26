@@ -415,17 +415,17 @@ export const HomeActivationTable = ({ data, business = false }) => {
     <div className="flex flex-col flex-1 flex-grow ">
       <Card className="m-2">
         <div className="flex justify-between items-center">
-          <Title className="max-2xl:text-xs" order={4}>
+          <Title style={{color:tenantConfig.GlobalConfiguration.textcolor}} className="max-2xl:text-xs" order={4}>
             {business ? t("BUSINESS ACTIVATION") : t("HOME ACTIVATION")}
           </Title>
-          <Badge
+          <Badge 
           title={`Cost, € ${commarize(CalculateActivationCostByType(data, business ? "building" : "home"))}`}
             variant="filled"
             color="gray"
             className="bg-gray-100  p-4"
             size="20"
           >
-            <p className="font-thin  text-neutral-700 ">
+            <p style={{color:tenantConfig.GlobalConfiguration.textcolor}}  className="font-thin  text-neutral-700 ">
               {" "}
               {t("Cost, €")}
               <b className="font-semibold text-base ">
@@ -446,14 +446,14 @@ export const HomeActivationTable = ({ data, business = false }) => {
           <div className="-my-2 overflow-x-auto">
             <div className="py-2 align-middle inline-block min-w-full overflow-hidden">
               <div className="overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                <Table className="min-w-full bg-white divide-y divide-gray-200">
+                <Table  className="min-w-full bg-white divide-y divide-gray-200">
                   <thead className="bg-gray-50">
                     <tr className="">
                       <th
                         scope="col"
                         className="px-6 py-3   font-medium tracking-wide text-left text-gray-500 uppercase"
                       >
-                        <p className="max-2xl:text-xs">
+                        <p style={{color:tenantConfig.GlobalConfiguration.textcolor}}  className="max-2xl:text-xs">
                           {" "}
                           {t("Activation Types")}
                         </p>
@@ -466,7 +466,7 @@ export const HomeActivationTable = ({ data, business = false }) => {
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
+                  <tbody  className="bg-white divide-y divide-gray-200">
                     {Object.keys(data)
                       .filter((key) => key.toLowerCase() !== "total_cost")
                       .map((key, index) => {
@@ -477,7 +477,7 @@ export const HomeActivationTable = ({ data, business = false }) => {
                         return (
                           <tr key={index}>
                             <td className="px-6 py-4  whitespace-nowrap">
-                              <div className="text-xs max-2xl:text-[10px] text-gray-900">
+                              <div style={{color:tenantConfig.GlobalConfiguration.textcolor}}  className="text-xs max-2xl:text-[10px] text-gray-900">
                                 {t(key.split("_").join(" ").toUpperCase())}
                               </div>
                             </td>
@@ -763,7 +763,7 @@ export const CableTable = ({ data }) => {
                 >
                   <Icons.IconCables />
                 </p>{" "}
-                <Title className="max-2xl:text-xs" ml={10} order={4}>
+                <Title style={{color:tenantConfig.GlobalConfiguration.textcolor}}  className="max-2xl:text-xs" ml={10} order={4}>
                   {t(section.split("_").join(" ").toUpperCase())}
                 </Title>{" "}
               </div>
@@ -772,33 +772,33 @@ export const CableTable = ({ data }) => {
               <div className=" overflow-x-auto">
                 <div className="align-middle inline-block min-w-full overflow-hidden">
                   <div className="overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                    <Table className="min-w-full divide-y bg-white divide-gray-200">
-                      <thead className="justify-between ">
-                        <tr>
-                          <th>
-                            <p className="max-2xl:text-xs">
+                    <Table style={{color:tenantConfig.GlobalConfiguration.textcolor}}  className="min-w-full divide-y bg-white divide-gray-200">
+                      <thead  className="justify-between ">
+                        <tr >
+                          <th >
+                            <p style={{color:tenantConfig.GlobalConfiguration.textcolor}}  className="max-2xl:text-xs">
                               {" "}
                               {t("Cable Type")}{" "}
                             </p>
                           </th>
                           <th className="md:visible invisible ">
-                            <p className="max-2xl:text-xs">
+                            <p style={{color:tenantConfig.GlobalConfiguration.textcolor}}  className="max-2xl:text-xs">
                               {t("Material Cost")}
                             </p>
                           </th>
                           <th className="md:visible invisible">
-                            <p className="max-2xl:text-xs">
+                            <p style={{color:tenantConfig.GlobalConfiguration.textcolor}}  className="max-2xl:text-xs">
                               {t("Labour Cost")}
                             </p>
                           </th>
                           <th className="md:visible invisible">
-                            <p className="max-2xl:text-xs">{t("Total")}</p>
+                            <p style={{color:tenantConfig.GlobalConfiguration.textcolor}}  className="max-2xl:text-xs">{t("Total")}</p>
                           </th>
                           <th>
-                            <p className="max-2xl:text-xs">{t("Volume")}</p>
+                            <p style={{color:tenantConfig.GlobalConfiguration.textcolor}}  className="max-2xl:text-xs">{t("Volume")}</p>
                           </th>
                           <th>
-                            <p className="max-2xl:text-xs">{t("Total Cost")}</p>
+                            <p style={{color:tenantConfig.GlobalConfiguration.textcolor}}  className="max-2xl:text-xs">{t("Total Cost")}</p>
                           </th>
                         </tr>
                       </thead>
@@ -995,7 +995,7 @@ export const CostInfoSettings = () => {
         </tbody>
       </Table>
 
-      <div className="my-2 flex tracking-wider font-bold items-center text-center text-sky-600">
+      <div style={{color:tenantConfig.GlobalConfiguration.textcolorHeading}} className="my-2 flex tracking-wider font-bold items-center text-center ">
         Home Activation
       </div>
       <hr />
@@ -1037,7 +1037,7 @@ export const CostInfoSettings = () => {
         </tbody>
       </Table>
 
-      <div className="my-2 flex tracking-wider font-bold items-center text-center text-sky-600">
+      <div style={{color:tenantConfig.GlobalConfiguration.textcolorHeading}} className="my-2 flex tracking-wider font-bold items-center text-center">
         Home Activation
       </div>
       <hr />

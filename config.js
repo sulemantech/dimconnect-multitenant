@@ -1,7 +1,8 @@
 const tenantConfigs = {
   default: {
     GlobalConfiguration:{
-      textcolor: '#404040'
+      textcolor: '#404040',
+      textcolorHeading: 'text-sky-600'
     },
     usermanagement: {
       bgcolor: "#0E76BB",
@@ -110,8 +111,8 @@ const tenantConfigs = {
     },
 
     login: {
-      formbg: "#FFFFFF26", // Background color with opacity
-      logo: "/assets/logo.svg", // Logo path
+      formbg: "#FFFFFF26", 
+      logo: "/assets/logo.svg",
       wellcometext: "Welcome", // Welcome text
       signintext: "Please sign in.", // Sign-in text
       bottomlogo: "/logo_TUV.svg", // Bottom logo path
@@ -123,7 +124,8 @@ const tenantConfigs = {
 
   gigafiberconnect: {
     GlobalConfiguration:{
-      textcolor: '#903fff'
+      textcolor: '#903fff',
+       textcolorHeading: '#903fff'
     },
     usermanagement: {
       bgcolor: "#FF5733",
