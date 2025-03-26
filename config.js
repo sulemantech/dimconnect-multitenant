@@ -229,7 +229,7 @@ const tenantConfigs = {
       },
     },
     legend: {
-      legendButton: "#E91E63",
+      legendButton: "#903fff",
     },
     login: {
       formbg: "#FFFFFF26",
