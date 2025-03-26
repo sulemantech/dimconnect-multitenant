@@ -18,7 +18,7 @@ export default () => {
         <div className="flex flex-col">
           <div className=" font-[Roboto] flex flex-col space-y-10 max-laptop:space-y-2 mt-[6.5rem] pl-[6rem] max-laptop:mt-[3rem] max-laptop:pl-[3rem] max-2xl:mt-[4rem] max-2xl:pl-[4rem]">
             <div className=" space-y-3 ">
-              <p className={` flex flex-row w-[60vw] text-[2rem] font-extrabold ${tenantConfig.contactpage.textcolor}  `}>
+              <p style={{color:tenantConfig.GlobalConfiguration.textcolor}} className={` flex flex-row w-[60vw] text-[2rem] font-extrabold  `}>
               {t(`
                   ${tenantConfig.contactpage.motto}
                 `)}
@@ -30,7 +30,7 @@ export default () => {
               </p>
             </div>
             <div className="flex flex-1 flex-grow justify-center space-y-[3rem] max-laptop:space-y-2  w-[60.3475rem] flex-col max-laptop:w-[30rem] max-2xl:w-[40rem] ">
-              <div className={`flex flex-row space-x-10 text-[1.125rem]  ${tenantConfig.contactpage.textcolor} max-laptop:text-[0.5rem] max-laptop:font-sm `}>
+              <div style={{color:tenantConfig.GlobalConfiguration.textcolor}} className={`flex flex-row space-x-10 text-[1.125rem]  max-laptop:text-[0.5rem] max-laptop:font-sm `}>
                 <img
                 src={tenantConfig.contactpage.image3}
                   className="w-[2.6875rem] h-[2.6875rem] max-laptop:w-[1.3rem] max-laptop:h-[1.3rem]"
@@ -61,7 +61,7 @@ export default () => {
                 </CopyButton>
                 </div>
               </div>
-              <div className={`flex flex-row space-x-10 text-[1.125rem]  ${tenantConfig.contactpage.textcolor} max-laptop:text-[0.6rem] max-laptop:font-sm`}>
+              <div style={{color:tenantConfig.GlobalConfiguration.textcolor}} className={`flex flex-row space-x-10 text-[1.125rem]  max-laptop:text-[0.6rem] max-laptop:font-sm`}>
                 <img
                   src={tenantConfig.contactpage.image2}
                   className="w-[2.6875rem] h-[2.6875rem]  max-laptop:w-[1.3rem] max-laptop:h-[1.3rem]"
@@ -92,7 +92,7 @@ export default () => {
                 </CopyButton>
                 </div>
               </div>
-              <div className={`flex flex-row space-x-10  text-[1.125rem]  ${tenantConfig.contactpage.textcolor} max-laptop:text-[0.6rem] max-laptop:font-sm`}>
+              <div style={{color:tenantConfig.GlobalConfiguration.textcolor}} className={`flex flex-row space-x-10  text-[1.125rem]  max-laptop:text-[0.6rem] max-laptop:font-sm`}>
                 <img
                   src={tenantConfig.contactpage.image3}
                   className="w-[2.6875rem] h-[2.6875rem] shadow-2xl shadow-blue-500  max-laptop:w-[1.3rem] max-laptop:h-[1.3rem]"
