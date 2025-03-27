@@ -33,7 +33,7 @@ const tenantConfigs = {
       image2: "/Group933.svg",
       image3: "/Group932.svg",
       logo: "/logo_TUV.svg",
-      mobiles: "/DIMMOBILES.svg",
+      mobiles: "/DIMMOBILES2.svg",
     },
     costinfo: {
       ICONS_COLORS: [
@@ -131,9 +131,12 @@ const tenantConfigs = {
       bgcolor: "#FF5733",
       bordercolor: "#FF5733",
       textcolor: "#903FFF",
-      sideimg: "./verticalbluebackground.svg",
+      sideimg: "./BG_Contacts1.png",
       hoverburger: "bg-opacity-80",
       hoverbg: "bg-opacity-80",
+    },
+    publicwrapper: {
+      bgimg: "./bg-purple.svg",
     },
     header: {
       headtext: "#FF5733",
@@ -143,7 +146,7 @@ const tenantConfigs = {
     navbar: {
       hoverburger: "border-red-600",
       hoverbg: "brand",
-      sideimg: "./verticalbluebackground.svg",
+      sideimg: "./BG_Contacts1.png",
     },
     contactpage: {
       phonenumber: "0221 - 806 5700",
@@ -156,7 +159,7 @@ const tenantConfigs = {
       image2: "/Group933.svg",
       image3: "/Group932.svg",
       logo: "/logo_TUV.svg",
-      mobiles: "/DIMMOBILES.svg",
+      mobiles: "/DIMMOBILES2.svg",
     },
     costinfo: {
       ICONS_COLORS: [
@@ -171,9 +174,6 @@ const tenantConfigs = {
       ],
       activeborder: "5px solid #FF5733",
       active: "#FF5733",
-    },
-    publicwrapper: {
-      bgimg: "./bgimg.png",
     },
     mapelements: {
       inexistenteAdresse: "rgb(233, 30, 99)",
