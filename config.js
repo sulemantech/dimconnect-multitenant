@@ -124,8 +124,8 @@ const tenantConfigs = {
 
   gigafiberconnect: {
     GlobalConfiguration:{
-      textcolor: '#903fff',
-       textcolorHeading: '#903fff'
+      textcolor: '#4C4C4C',
+       textcolorHeading: '#4C4C4C'
     },
     usermanagement: {
       bgcolor: "#FF5733",
@@ -159,7 +159,7 @@ const tenantConfigs = {
       image2: "/Group933.svg",
       image3: "/Group932.svg",
       logo: "/logo_TUV.svg",
-      mobiles: "/DIMMOBILES2.svg",
+      mobiles: "/DIMMOBILES2.png",
     },
     costinfo: {
       ICONS_COLORS: [
