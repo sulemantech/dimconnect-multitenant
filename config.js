@@ -1,8 +1,8 @@
 const tenantConfigs = {
   default: {
-    GlobalConfiguration:{
-      textcolor: '#404040',
-      textcolorHeading: 'text-sky-600'
+    GlobalConfiguration: {
+      textcolor: "#404040",
+      textcolorHeading: "text-sky-600",
     },
     usermanagement: {
       bgcolor: "#0E76BB",
@@ -20,7 +20,7 @@ const tenantConfigs = {
     navbar: {
       hoverburger: "border-sky-600",
       hoverbg: "brand",
-      sideimg: "./verticalbluebackground.svg",
+      sideimg: "/verticalbluebackground.svg",
     },
     contactpage: {
       phonenumber: "0221 - 806 5700",
@@ -33,7 +33,8 @@ const tenantConfigs = {
       image2: "/Group933.svg",
       image3: "/Group932.svg",
       logo: "/logo_TUV.svg",
-      mobiles: "/DIMMOBILES2.svg",
+      mobiles: "/DIMMOBILES.svg",
+      bottomBg: "/horizontalbluebackground.svg",
     },
     costinfo: {
       ICONS_COLORS: [
@@ -111,21 +112,23 @@ const tenantConfigs = {
     },
 
     login: {
-      formbg: "#FFFFFF26", 
+      formbg: "#FFFFFF26",
       logo: "/assets/logo.svg",
       wellcometext: "Welcome", // Welcome text
       signintext: "Please sign in.", // Sign-in text
       bottomlogo: "/logo_TUV.svg", // Bottom logo path
     },
+    FAQ: {
+      CardBg: "#D8E4EEE5",
+    },
   },
 
   // -------------------   [  GIGA-FIBER CONNECT   ] -------------------- //
 
-
   gigafiberconnect: {
-    GlobalConfiguration:{
-      textcolor: '#4C4C4C',
-       textcolorHeading: '#4C4C4C'
+    GlobalConfiguration: {
+      textcolor: "#4C4C4C",
+      textcolorHeading: "#4C4C4C",
     },
     usermanagement: {
       bgcolor: "#FF5733",
@@ -159,7 +162,8 @@ const tenantConfigs = {
       image2: "/Group933.svg",
       image3: "/Group932.svg",
       logo: "/logo_TUV.svg",
-      mobiles: "/DIMMOBILES2.png",
+      mobiles: "/mobile.svg",
+      bottomBg: "/BG_Contacts1.png",
     },
     costinfo: {
       ICONS_COLORS: [
@@ -237,6 +241,9 @@ const tenantConfigs = {
       wellcometext: "Welcome",
       signintext: "Please sign in.",
       bottomlogo: "/logo_TUV.svg",
+    },
+    FAQ: {
+      CardBg: "#903fff",
     },
   },
 };

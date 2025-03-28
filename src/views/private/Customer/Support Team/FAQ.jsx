@@ -2,7 +2,7 @@ import { Autocomplete, Input, Loader, ScrollArea } from "@mantine/core";
 import { IconSearch } from "@tabler/icons";
 import { useEffect, useState } from "preact/hooks";
 import { useTranslation } from "react-i18next";
-
+import tenantConfig  from "../../../../../config";
 import Icons from "../../../../layout/icons"
 import { getFAQs } from "../../../../api"
 import { Link } from "preact-router"
@@ -118,7 +118,7 @@ export default () => {
 const PageControlButton = ({ icon, label, href }) => {
     
     return (
-        <div className={`flex flex-1 flex-col flex-grow h-24 max-2xl:h-20 rounded-3xl justify-center px-10 text-[#0E76BB] font-semibold capitalize hover:scale-95 active:bg-sky-400 hover:bg-sky-200 bg-[#D8E4EEE5]  justify-self-end items-center hover:shadow-lg shadow-md transition-all duration-200 ease-in-out ripple-bg-sky-50`}>
+        <div style={{backgroundColor: tenantConfig.FAQ.CardBg }} className={`flex flex-1 flex-col flex-grow h-24 max-2xl:h-20 rounded-3xl justify-center px-10 text-[#0E76BB] font-semibold capitalize hover:scale-95 active:bg-sky-400 hover:bg-sky-200   justify-self-end items-center hover:shadow-lg shadow-md transition-all duration-200 ease-in-out ripple-bg-sky-50`}>
             <div className={`flex justify-center items-center -mt-6 w-12 max-2xl:w-9 h-12 max-2xl:h-9 max-2xl:-mt-4 rounded-full  text-[#0E76BB]`}>
                 {icon}
             </div>
