@@ -1,5 +1,6 @@
 import React from 'react'
 import { useTranslation } from "react-i18next";
+import tenantconfig from '../../../../../config'
 
 const SupportTicketHeader = () => {
   const { t } = useTranslation();
@@ -7,7 +8,7 @@ const SupportTicketHeader = () => {
   return (
     <div>
        <div
-        style={{ backgroundImage: 'url("/BGFAQ2.svg")' }}
+        style={{ backgroundImage: `url(${tenantconfig.createTicket.bgimg})` }}
         className="flex flex-col pl-20 justify-center h-[77px]  "
       >
         <div className="flex space-x-10  ">

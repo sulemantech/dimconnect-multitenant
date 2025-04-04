@@ -24,6 +24,7 @@ import {
   getTicketsCategories,
   postTicket,
 } from "../../../../api";
+import tenantconfig from '../../../../../config'
 import { showNotification } from "@mantine/notifications";
 import { IconAlertCircle, IconFile, IconPaperclip, IconSearch } from "@tabler/icons";
 import { openModal } from "@mantine/modals";
@@ -153,14 +154,16 @@ export default function TicketCreationPage() {
       <Paper className="space-y-4 px-20 py-4">
         <Title
           order={2}
+          style={{ color:tenantconfig.GlobalConfiguration.Dimbrancdcolor}} 
           color="brand"
-          className=" font-[roboto] text-[0078BE] font-bold text-[32px]"
+          className=" font-[roboto]  font-bold text-[32px]"
         >
           {t('Support Ticket To DIM Team')}
         </Title>
         <Title
+         style={{ color:tenantconfig.GlobalConfiguration.textcolor}} 
           order={5}
-          className="w-2/3 font-[roboto] text-[3E3F3F] font-normal text-[16px]"
+          className="w-2/3 font-[roboto] font-normal text-[16px]"
         >
           {t('Please describe your issue in detail, with relevant information including device platform, a version affected, steps taken to reproduce the issue, and any other relevant information.')}
         </Title>
@@ -184,7 +187,7 @@ export default function TicketCreationPage() {
                   className="rounded-l-full flex-1 items-center justify-center"
                   display="flex"
                 >
-                  <Text color="brand" className="font-bold text-sm">
+                  <Text color={tenantconfig.GlobalConfiguration.Dimbrancdcolor} className="font-bold text-sm">
                     {t('Problem Type')}
                   </Text>
                 </Box>
@@ -212,7 +215,7 @@ export default function TicketCreationPage() {
                   className="rounded-l-full flex-1 items-center justify-center"
                   display="flex"
                 >
-                  <Text color="brand" className="font-bold text-sm">
+                  <Text color={tenantconfig.GlobalConfiguration.Dimbrancdcolor} className="font-bold text-sm">
                     {t('Title')}
                   </Text>
                 </Box>
@@ -237,7 +240,7 @@ export default function TicketCreationPage() {
                   className="rounded-l-lg flex-1 items-center justify-center"
                   display="flex"
                 >
-                  <Text color="brand" className="font-bold text-sm">
+                  <Text color={tenantconfig.GlobalConfiguration.Dimbrancdcolor} className="font-bold text-sm">
                     {t('Description')}
                   </Text>
                 </Box>
@@ -263,7 +266,7 @@ export default function TicketCreationPage() {
                   className="rounded-l-full flex-1 items-center justify-center"
                   display="flex"
                 >
-                  <Text color="brand" className="font-bold text-sm">
+                  <Text color={tenantconfig.GlobalConfiguration.Dimbrancdcolor} className="font-bold text-sm">
                     {t('Priority')}
                   </Text>
                 </Box>
@@ -293,7 +296,7 @@ export default function TicketCreationPage() {
                   className="rounded-l-full flex-1 items-center justify-center"
                   display="flex"
                 >
-                  <Text color="brand" className="font-bold text-sm">
+                  <Text color={tenantconfig.GlobalConfiguration.Dimbrancdcolor} className="font-bold text-sm">
                     {t('Attachments')}
                   </Text>
                 </Box>
@@ -326,7 +329,7 @@ export default function TicketCreationPage() {
               </div>
             </div>
             <div className="w-[25%] ml-12 mt-10">
-              <h2 className=" font-bold text-[16px] text-[#0E76BB]">{t('Popular Topics From FAQS Library')}</h2>
+              <h2  style={{ color:tenantconfig.GlobalConfiguration.textbluecolor}}  className=" font-bold text-[16px] ">{t('Popular Topics From FAQS Library')}</h2>
               <ul className="list-without-bullets max-h-[355px] font-thin  space-y-5 text-[15px] ml-8 mt-5 scroll text-left pl-2 pt-[1px]">
                 <li><a className=" hover:text-blue-400 hover:font-bold" href="">{t('How to reload your Map views')} </a></li>
                 <li><a className=" hover:text-blue-400 hover:font-bold" href="">{t('Main reason of map bags')} </a></li>

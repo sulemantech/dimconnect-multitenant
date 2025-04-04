@@ -1,8 +1,11 @@
 const tenantConfigs = {
   default: {
     GlobalConfiguration: {
+      name: 'default',
       textcolor: "#404040",
       textcolorHeading: "text-sky-600",
+       textbluecolor: "#0e76bb",
+       Dimbrancdcolor: "0078BE"
     },
     usermanagement: {
       bgcolor: "#0E76BB",
@@ -124,15 +127,20 @@ const tenantConfigs = {
     },
     footer:{
       text : " Dim Connect"
-    }
+    },
+    createTicket : {
+    bgimg: '/BGFAQ2.svg'}
   },
 
   // -------------------   [  GIGA-FIBER CONNECT   ] -------------------- //
 
   gigafiberconnect: {
     GlobalConfiguration: {
+      name: 'gigafiberconnect',
       textcolor: "#4C4C4C",
       textcolorHeading: "#4C4C4C",
+      textbluecolor: "#fff",
+      Dimbrancdcolor: "#903fff"
     },
     usermanagement: {
       bgcolor: "#FF5733",
@@ -154,7 +162,7 @@ const tenantConfigs = {
       hoverburger: "border-red-600",
       hoverbg: "#903fff",
       sideimg: "./BG_Contacts1.png",
-      hoverbgtail: "bg-[#903fff]",
+      hoverbgtail: "[#903fff]",
     },
     contactpage: {
       phonenumber: "0221 - 806 5700",
@@ -245,14 +253,16 @@ const tenantConfigs = {
       logo: "/assets/logo.svg",
       wellcometext: "Welcome",
       signintext: "Please sign in.",
-      bottomlogo: "/logo_TUV.svg",
+      bottomlogo: "/assets/logo.svg",
     },
     FAQ: {
       CardBg: "#903fff",
     },
     footer:{
       text : "GigaFiber"
-    }
+    },
+    createTicket : {
+      bgimg: '/BG_FAQ_Thick.png'}
   },
 };
 
