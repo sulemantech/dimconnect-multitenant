@@ -21,6 +21,7 @@ const tenantConfigs = {
       hoverburger: "border-sky-600",
       hoverbg: "brand",
       sideimg: "/verticalbluebackground.svg",
+      hoverbgtail: "bg-[#903fff]",
     },
     contactpage: {
       phonenumber: "0221 - 806 5700",
@@ -121,6 +122,9 @@ const tenantConfigs = {
     FAQ: {
       CardBg: "#D8E4EEE5",
     },
+    footer:{
+      text : " Dim Connect"
+    }
   },
 
   // -------------------   [  GIGA-FIBER CONNECT   ] -------------------- //
@@ -148,8 +152,9 @@ const tenantConfigs = {
     },
     navbar: {
       hoverburger: "border-red-600",
-      hoverbg: "brand",
+      hoverbg: "#903fff",
       sideimg: "./BG_Contacts1.png",
+      hoverbgtail: "bg-[#903fff]",
     },
     contactpage: {
       phonenumber: "0221 - 806 5700",
@@ -157,7 +162,7 @@ const tenantConfigs = {
       motto: "Contacts, Training & Support",
       description:
         "Please describe your issue in detail, with any relevant information including device platform and version affected, steps taken leading to the issue, which period of time this problem is go on etc.",
-      email: "support@dimconnect.com",
+      email: "support@gigafiber.com",
       image1: "/assets/icons/phone.png",
       image2: "/Group933.svg",
       image3: "/Group932.svg",
@@ -245,6 +250,9 @@ const tenantConfigs = {
     FAQ: {
       CardBg: "#903fff",
     },
+    footer:{
+      text : "GigaFiber"
+    }
   },
 };
 
