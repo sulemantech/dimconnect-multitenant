@@ -236,7 +236,7 @@ function LiveChat() {
           </h1>
         ) : (
           <div className=" h-auto bg-[#FAFAFA] text-[#3E3F3F] rounded-md mt-4 w-[50%] max-md:w-[100%]  font-[Roboto] m-auto shadow-lg ">
-            <div className=" bg-[#0E76BB] flex px-5 py-2 text-white rounded-t-md m-0 items-center justify-between w-full">
+            <div style={{backgroundColor:tenantConfig.GlobalConfiguration.bgcolor}} className={`flex px-5 py-2 text-white rounded-t-md m-0 items-center justify-between w-full`}>
               <h1
                 className="
             font-[600] text-[18px] pt-2.5 pb-2.5 pl-2.5 flex items-center

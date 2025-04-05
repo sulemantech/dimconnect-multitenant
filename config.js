@@ -6,6 +6,7 @@ const tenantConfigs = {
       textcolorHeading: "text-sky-600",
       textbluecolor: "#0e76bb",
       Dimbrancdcolor: "0078BE",
+      bgcolor: "#0E76BB"
     },
     usermanagement: {
       bgcolor: "#0E76BB",
@@ -56,7 +57,7 @@ const tenantConfigs = {
     },
 
     publicwrapper: {
-      bgimg: "./bgimg.png",
+      bgimg: "/bgimg.png",
     },
     mapelements: {
       inexistenteAdresse: "rgb(167, 38, 231)",
@@ -145,6 +146,7 @@ const tenantConfigs = {
       textcolorHeading: "#4C4C4C",
       textbluecolor: "#fff",
       Dimbrancdcolor: "#903fff",
+      bgcolor: "#903fff"
     },
     usermanagement: {
       bgcolor: "#FF5733",
@@ -155,7 +157,7 @@ const tenantConfigs = {
       hoverbg: "bg-opacity-80",
     },
     publicwrapper: {
-      bgimg: "./bg-purple.svg",
+      bgimg: "/bg-purple.svg",
     },
     header: {
       headtext: "#FF5733",
