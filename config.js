@@ -1,11 +1,11 @@
 const tenantConfigs = {
   default: {
     GlobalConfiguration: {
-      name: 'default',
+      name: "default",
       textcolor: "#404040",
       textcolorHeading: "text-sky-600",
-       textbluecolor: "#0e76bb",
-       Dimbrancdcolor: "0078BE"
+      textbluecolor: "#0e76bb",
+      Dimbrancdcolor: "0078BE",
     },
     usermanagement: {
       bgcolor: "#0E76BB",
@@ -125,22 +125,26 @@ const tenantConfigs = {
     FAQ: {
       CardBg: "#D8E4EEE5",
     },
-    footer:{
-      text : " Dim Connect"
+    footer: {
+      text: " Dim Connect",
     },
-    createTicket : {
-    bgimg: '/BGFAQ2.svg'}
+    createTicket: {
+      bgimg: "/BGFAQ2.svg",
+    },
+    liveChat: {
+      sendimg: "/Vector5.svg",
+    },
   },
 
   // -------------------   [  GIGA-FIBER CONNECT   ] -------------------- //
 
   gigafiberconnect: {
     GlobalConfiguration: {
-      name: 'gigafiberconnect',
+      name: "gigafiberconnect",
       textcolor: "#4C4C4C",
       textcolorHeading: "#4C4C4C",
       textbluecolor: "#fff",
-      Dimbrancdcolor: "#903fff"
+      Dimbrancdcolor: "#903fff",
     },
     usermanagement: {
       bgcolor: "#FF5733",
@@ -258,11 +262,15 @@ const tenantConfigs = {
     FAQ: {
       CardBg: "#903fff",
     },
-    footer:{
-      text : "GigaFiber"
+    footer: {
+      text: "GigaFiber",
     },
-    createTicket : {
-      bgimg: '/BG_FAQ_Thick.png'}
+    createTicket: {
+      bgimg: "/BG_FAQ_Thick.png",
+    },
+  },
+  liveChat: {
+    sendimg: "/Vector5.svg",
   },
 };
 

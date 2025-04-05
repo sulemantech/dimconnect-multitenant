@@ -9,6 +9,7 @@ import { showNotification } from "@mantine/notifications";
 import { useTransition } from "react";
 import { PERMISSIONS } from "../../../../common";
 import PermissionWrapper from "../../../../providers/PermissionsProvider";
+import tenantConfig  from "../../../../../config";
 function LiveChatSupport() {
   const { t } = useTranslation();
   const [rooms, setRooms] = useState([]);
@@ -277,7 +278,7 @@ function LiveChatSupport() {
         <div
           className="flex h-[9vh] py-2"
           style={{
-            backgroundImage: `url("/BGFAQ2.svg")`,
+            backgroundImage: `url(${tenantConfig.createTicket.bgimg})`,
           }}
         >
           <div className="flex space-x-[381px] ">
@@ -519,7 +520,7 @@ function LiveChatSupport() {
                   placeholder={t("Please type text here")}
                 />
                 <button type="submit" onClick={sendMessage}>
-                  <img className=" ml-10 w-9 " src="/Vector5.svg" alt="" />
+                  <img className=" ml-10 w-9 " src={tenantConfig.GlobalConfiguration.name == "gigafiberconnect" ? "/Vectorsend.svg" : "/Vector5.svg"} alt="" />
                 </button>
               </form>
               <div className="flex">

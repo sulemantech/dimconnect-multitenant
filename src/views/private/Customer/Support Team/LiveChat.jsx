@@ -5,6 +5,7 @@ import React, { useTransition } from "react";
 import RocketChatWebSocket from "../../../../utils/services/RocketChatWebSocket";
 import { userDataSignal } from "../../../../signals";
 import api, { sendMessage } from "../../../../api";
+import tenantConfig  from "../../../../../config";
 import axios from "axios";
 function LiveChat() {
   const { t } = useTranslation();
@@ -226,7 +227,7 @@ function LiveChat() {
 
   return (
     //  filter: blur(8px),  -webkit-filter: blur(8px),
-    <div id="scale-down" className="h-full   overflow-y-auto bg-[url('/bgimg.png')] bg-cover bg-center">
+    <div style={{ backgroundImage: `url(${tenantConfig.publicwrapper.bgimg})`}} id="scale-down" className="h-full   overflow-y-auto  bg-cover bg-center">
       <div className="w-full pb-10 h-full flex flex-col justify-center items-center backdrop-blur-[3px]">
         {/* chat box */}
         {connecting ? (
