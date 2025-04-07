@@ -167,7 +167,7 @@ const tenantConfigs = {
     navbar: {
       hoverburger: "border-red-600",
       hoverbg: "#903fff",
-      sideimg: "./BG_Contacts1.png",
+      sideimg: "/BG_Contacts1.png",
       hoverbgtail: "[#903fff]",
     },
     contactpage: {
