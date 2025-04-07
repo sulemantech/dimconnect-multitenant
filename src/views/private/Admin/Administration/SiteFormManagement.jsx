@@ -117,7 +117,7 @@ export default () => {
           >
             <div className="container">
               <div className="flex justify-center items-center">
-                <img src="/logo_TUV.svg" className="w-24" alt="" />
+                <img src={tenantConfig.login.logo} className="w-24" alt="" />
               </div>
             </div>
           </footer>
