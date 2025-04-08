@@ -165,7 +165,11 @@ export default () => {
                 openModal({
                   closeOnClickOutside: false,
                   title: (
-                    <div className="flex justify-between p-4 w-[55vw] bg-cover bg-center text-white items-center bg-[url('/Rectangle973.png')] bg-no-repeat">
+                    <div  style={{
+                              backgroundImage: tenantConfig?.GlobalConfiguration?.name == "GIGAFIBER"
+                              ? `url(/createnewbg.png)`
+                                : `url(/rectangle973.png)`
+                            }}  className="flex justify-between p-4 w-[55vw] bg-cover bg-center text-white items-center  bg-no-repeat">
                       <div className="flex flex-row items-center space-x-2">
                         <img
                           src="/user2.svg"
@@ -348,7 +352,7 @@ export default () => {
               </div>
               <div className=" flex  "></div>
               <div className="flex flex-col items-end  mt-[2.7rem]">
-                <span className=" text-xs ml-2 text-[#0E76BB]">
+                <span style={{color:tenantConfig.GlobalConfiguration.bgcolor}} className=" text-xs ml-2 ">
                   {"+" + usersCountsData[index].percentage}%
                 </span>
                 <h3 className="text-2xl ">{usersCountsData[index].count}</h3>
@@ -531,6 +535,7 @@ const AssignRole = ({ user, roles, refreshData }) => {
         </div>
         <div className="flex flex-col ml-5 mt-2">
           <button
+          style={{color:tenantConfig.GlobalConfiguration.bgcolor}}
             className="mt-4 flex flex-1 bg-[#dde4eb] ml-[4vw]  w-[10vw] px-2 py-2 justify-center font-bold shadow-sm shadow-black text-[#0E76BB] rounded-[16px]"
             onClick={assignRole}
           >

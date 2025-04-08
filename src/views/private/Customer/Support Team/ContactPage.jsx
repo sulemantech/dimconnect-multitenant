@@ -123,14 +123,14 @@ export default () => {
             <div className="flex-1" />
             <div className="flex absolute bottom-0 right-0 ">
               <div className=" flex flex-col relative mb-8 mr-[20%] max-sm:mr-[0%] justify-center items-center max-sm:items-end">
-                <img src={tenantConfig.contactpage.mobiles} className={`w-[80%]  max-2xl:w-[60%] ${tenantConfig.GlobalConfiguration.name == "gigafiberconnect" && " scale-[0.83] -ml-3"}`} alt="" />
-                <div className="absolute mt-[80%] ml-[40%] max-2xl:mt-[60%] max-2xl:ml-[30%] max-sm:ml-[20%] max-sm:mt-[60%]">
-                  <div className="flex flex-col space-y-1 ">
+                <img src={tenantConfig.contactpage.mobiles} className={`w-[80%]  max-2xl:w-[60%] ${tenantConfig.GlobalConfiguration.name == "gigafiber" && " scale-[0.83] -ml-3"}`} alt="" />
+                <div className="absolute mt-[80%] ml-[40%] max-2xl:mt-[60%] max-2xl:ml-[39%] max-sm:ml-[20%] max-sm:mt-[60%]">
+                  <div className="flex flex-col space-y-0.5 ">
                     <p className=" text-white text-[0.68rem]  max-2xl:text-[0.5rem] max-sm:text-[2vw]">
-                      {t("Download DIM Application!")}
+                      {t(`Download ${tenantConfig.GlobalConfiguration.name} Application!`)}
                     </p>
                     <p className=" text-white text-[0.68rem] max-2xl:text-[0.5rem] max-sm:text-[2vw]">
-                      {t("All DIM Universe in your hand!")}
+                      {t(`All ${tenantConfig.GlobalConfiguration.name} Universe in your hand!`)}
                       <br />
                     </p>
                     <img className="w-[5rem] max-md:width-[3rem]" src="/Group935.svg " alt="" />

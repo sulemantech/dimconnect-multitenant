@@ -226,7 +226,7 @@ export default () => {
               </p>
               <div className="flex-1"></div>
               <Pagination
-                color="brand"
+                color={tenantConfig.GlobalConfiguration.bgcolor}
                 total={Math.ceil(dataInfo.count / limit)}
                 limit={limit}
                 page={page}

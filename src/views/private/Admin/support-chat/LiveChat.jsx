@@ -520,7 +520,7 @@ function LiveChatSupport() {
                   placeholder={t("Please type text here")}
                 />
                 <button type="submit" onClick={sendMessage}>
-                  <img className=" ml-10 w-9 " src={tenantConfig.GlobalConfiguration.name == "gigafiberconnect" ? "/Vectorsend.svg" : "/Vector5.svg"} alt="" />
+                  <img className=" ml-10 w-9 " src={tenantConfig.GlobalConfiguration.name == "GIGAFIBER" ? "/Vectorsend.svg" : "/Vector5.svg"} alt="" />
                 </button>
               </form>
               <div className="flex">

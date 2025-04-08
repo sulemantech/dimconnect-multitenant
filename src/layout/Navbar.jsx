@@ -98,7 +98,7 @@ const RouteComponent = ({ path, label, icon, subroutes, isSubRoute = false }) =>
 
                         <p className="flex justify-center items-center text-center ">
                             {/* first word bold */}
-                            <p className={`text-sm pl-4 truncate font-[500] ${tenantConfig.GlobalConfiguration.name == "gigafiberconnect" ? "text-[#7f2eed]": "text-brand"} `}><b>{t(label.split(" ")[0])}</b> {t(label.split(" ").slice(1).join(" ").toUpperCase())}</p>
+                            <p className={`text-sm pl-4 truncate font-[500] ${tenantConfig.GlobalConfiguration.name == "GIGAFIBER" ? "text-[#7f2eed]": "text-brand"} `}><b>{t(label.split(" ")[0])}</b> {t(label.split(" ").slice(1).join(" ").toUpperCase())}</p>
                         </p>
                     </div>
 
@@ -122,7 +122,7 @@ const RouteComponent = ({ path, label, icon, subroutes, isSubRoute = false }) =>
                 <p className={`text-sm text-center justify-center flex  flex-1 truncate font-[400]`}> {t(label)}</p></div>} openDelay={0} position="right-end" classNames={{
                     tooltip: `flex items-center justify-start bg-opacity-80 backdrop-blur-sm border-b-2 border-[#0000005e] text-white rounded-r-3xl rounded-l-none h-[73.5px] max-2xl:h-[60px] min-w-fit`,
                 }} color={tenantConfig.navbar.hoverbg} py={18} display={collapsed.value ? 'none' : ''}>
-                <div className={`flex  ${tenantConfig.GlobalConfiguration.name == "gigafiberconnect" ? "hover:bg-[#7f2eed] text-[#7f2eed]" : "hover:bg-brand text-brand"}  backdrop-blur-sm items-center hover:border-b-2   px-6 h-[73.5px] max-2xl:h-[60px] ${!isSubRoute ? `text-white  border-[#ffffff3d] border-b-[1px] hover:bg-opacity-10` : ` hover:border-white hover:text-white  border-neutral-200 border-b-[1px] h-[73.5px] bg-transparent hover:bg-opacity-80`} font-light  transition-all    `}>
+                <div className={`flex  ${tenantConfig.GlobalConfiguration.name == "GIGAFIBER" ? "hover:bg-[#7f2eed] text-[#7f2eed]" : "hover:bg-brand text-brand"}  backdrop-blur-sm items-center hover:border-b-2   px-6 h-[73.5px] max-2xl:h-[60px] ${!isSubRoute ? `text-white  border-[#ffffff3d] border-b-[1px] hover:bg-opacity-10` : ` hover:border-white hover:text-white  border-neutral-200 border-b-[1px] h-[73.5px] bg-transparent hover:bg-opacity-80`} font-light  transition-all    `}>
                     <p className="flex justify-center items-center text-center">
                         {icon}  {(collapsed.value || isSubRoute) && <p className="text-sm pl-4 truncate font-[400]"> {t(label)}</p>}
                     </p> 

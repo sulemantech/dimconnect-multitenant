@@ -17,6 +17,7 @@ import {
 import jsPDFAutoTable from "jspdf-autotable";
 import { useDidUpdate } from "@mantine/hooks";
 import { IconRefresh, IconSettings } from "@tabler/icons";
+import "../../../../scrollbar.css"
 import {
   IconDownload,
   IconMessage,
@@ -577,7 +578,7 @@ export const DuctTable = ({ data }) => {
   const sections = Object.keys(data);
 
   return (
-    <div className="overflow-x-auto flex flex-col flex-1 flex-grow">
+    <div className="overflow-x-auto flex flex-col flex-1 flex-grow ">
       {sections.map((section, index) => {
         let sectionColor = ICONS_COLORS[index % ICONS_COLORS.length];
         let GrandTotal = data[section].reduce(
@@ -586,7 +587,7 @@ export const DuctTable = ({ data }) => {
         );
         return (
           <div className="flex flex-1" key={index}>
-            <Card className="m-2 md:w-6/12 xl:w-6/12 w-full min-h-[250px]">
+            <Card className="m-2 md:w-6/12 xl:w-6/12 w-full min-h-[250px] ">
               <div className="flex items-center">
                 <p
                   className={`${
@@ -609,7 +610,7 @@ export const DuctTable = ({ data }) => {
 
               <br />
               <div className=" overflow-x-auto">
-                <div className="overflow-x-scroll border-b border-gray-200 sm:rounded-lg">
+                <div className={`overflow-x-scroll ${tenantConfig.GlobalConfiguration.name == "default" ? "" : "scrollbar-custom"}  border-b border-gray-200 sm:rounded-lg`}>
                   <Table
                     cellPadding={1}
                     className="min-w-full divide-y bg-white divide-gray-200"
@@ -745,7 +746,7 @@ export const CableTable = ({ data }) => {
   const { t } = useTranslation();
 
   return (
-    <div className="overflow-hidden flex flex-col flex-1 flex-grow">
+    <div className="overflow-hidden flex flex-col flex-1 flex-grow ">
       {sections.map((section, index) => {
         let sectionColor = ICONS_COLORS[index % ICONS_COLORS.length];
         let GrandTotal = data[section].reduce(
@@ -754,7 +755,7 @@ export const CableTable = ({ data }) => {
         );
         return (
           <div className="flex flex-1" key={section}>
-            <Card className="m-2 md:w-6/12 xl:w-6/12 w-full min-h-[250px]">
+            <Card className="m-2 md:w-6/12 xl:w-6/12 w-full min-h-[250px] ">
               <div className="flex items-center">
                 <p
                   className={`${
@@ -769,7 +770,7 @@ export const CableTable = ({ data }) => {
               </div>
 
               <br />
-              <div className=" overflow-x-auto">
+              <div className={  ` overflow-x-auto ${tenantConfig.GlobalConfiguration.name == "default" ? "scrollbar-def" : "scrollbar-custom"}`}>
                 <div className="align-middle inline-block min-w-full overflow-hidden">
                   <div className="overflow-hidden border-b border-gray-200 sm:rounded-lg">
                     <Table style={{color:tenantConfig.GlobalConfiguration.textcolor}}  className="min-w-full divide-y bg-white divide-gray-200">

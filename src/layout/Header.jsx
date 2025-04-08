@@ -87,7 +87,7 @@ export default () => {
     <header className=" z-[100] shadow-lg right-0 left-0 top-0">
       <div className={` items-center  h-12 bg-white flex p-2 `}>
         <div   className={`flex-grow  text-lg font-[500] md:inline-block hidden`}>
-          <h6 className={window.innerWidth < 768 ? "text-xs" : "text-lg"}>
+          <h6 style={{color:tenantConfig.GlobalConfiguration.bgcolor}} className={window.innerWidth < 768 ? "text-xs" : "text-lg"}>
             <b className="">
               {t(
                 router[0].path

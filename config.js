@@ -1,7 +1,7 @@
 const tenantConfigs = {
   default: {
     GlobalConfiguration: {
-      name: "default",
+      name: "DIM",
       textcolor: "#404040",
       textcolorHeading: "text-sky-600",
       textbluecolor: "#0e76bb",
@@ -135,13 +135,16 @@ const tenantConfigs = {
     liveChat: {
       sendimg: "/Vector5.svg",
     },
+    customtable: {
+      user : "/User.svg",
+    }
   },
 
   // -------------------   [  GIGA-FIBER CONNECT   ] -------------------- //
 
-  gigafiberconnect: {
+  gigafiber: {
     GlobalConfiguration: {
-      name: "gigafiberconnect",
+      name: "GIGAFIBER",
       textcolor: "#4C4C4C",
       textcolorHeading: "#4C4C4C",
       textbluecolor: "#fff",
@@ -195,8 +198,8 @@ const tenantConfigs = {
         "text-fuchsia-500",
         "text-zinc-500",
       ],
-      activeborder: "5px solid #FF5733",
-      active: "#FF5733",
+      activeborder: "5px solid #903fff",
+      active: "#903fff",
     },
     mapelements: {
       inexistenteAdresse: "rgb(233, 30, 99)",
@@ -274,7 +277,10 @@ const tenantConfigs = {
   liveChat: {
     sendimg: "/Vector5.svg",
   },
-};
+  customtable:{
+    user : "/usergigafiber.svg",
+  }
+}
 
 const urlParams = new URLSearchParams(window.location.search);
 const tenantParam = urlParams.get("tenant")?.replace(/['"]/g, ""); // Remove extra quotes

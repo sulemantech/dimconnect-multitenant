@@ -30,4 +30,4 @@ const SVG2 = ({ width = undefined, height = undefined }) => {
 const urlParams = new URLSearchParams(window.location.search);
 const tenantParam = urlParams.get("tenant");
 
-export default tenantParam === "gigafiberconnect" ? SVG2 : SVG1;
+export default tenantParam === "gigafiber" ? SVG2 : SVG1;

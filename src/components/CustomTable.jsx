@@ -40,7 +40,7 @@ import { useCallback } from "preact/hooks";
 import { showNotification } from "@mantine/notifications";
 import { isValidElement } from "preact";
 import { useTranslation } from "react-i18next";
-import tenantConfig  from "../../config";
+import tenantConfig from "../../config";
 export default ({
   children,
   title,
@@ -76,7 +76,7 @@ export default ({
 
       if (creationform[i].getAttribute("data-type") == "array") {
         values[creationform[i].getAttribute("data-key")] = formdata.forEach(
-          (value, key) => {}
+          (value, key) => { }
         );
         // values[creationform[i].getAttribute('data-key')] = formdata.get(creationform[i].getAttribute('data-key')).split(',').map(item => item.trim())
       } else if (creationform[i].getAttribute("data-main-key")) {
@@ -127,14 +127,20 @@ export default ({
         refreshData();
         closeAllModals();
       })
-      .catch((err) => {});
+      .catch((err) => { });
   };
 
   const createNew = useCallback(() => {
     openModal({
       closeOnClickOutside: false,
       title: (
-        <div className="flex justify-between p-4 w-[55vw] bg-cover bg-center text-white items-center bg-[url('/Rectangle973.png')] bg-no-repeat">
+        <div
+          style={{
+            backgroundImage: tenantConfig?.GlobalConfiguration?.name == "GIGAFIBER"
+              ? `url(/createnewbg.png)`
+              : `url(/rectangle973.png)`
+          }}
+          className="flex justify-between p-4 w-[55vw] bg-cover bg-center text-white items-center  bg-no-repeat">
           <div className="flex flex-row items-center space-x-2">
             <img src="/user2.svg" alt="Title Image" className="title-image" />
             <p>{title}</p>
@@ -153,7 +159,7 @@ export default ({
                 item.replace("_", " ").trim().toUpperCase() === "AGS" ? (
                   <div className="flex flex-row mt-4 text-sm justify-center  items-center">
                     <label className="text-sm w-[9vw] text-gray-600">
-                      {t(item.replace("_", " ").trim().toUpperCase() ==="AGS" ? "Gemeinde" : item.replace("_", " ").trim().toUpperCase())}
+                      {t(item.replace("_", " ").trim().toUpperCase() === "AGS" ? "Gemeinde" : item.replace("_", " ").trim().toUpperCase())}
                     </label>
                     <div className="w-[30vw]">
                       <Select
@@ -213,7 +219,7 @@ export default ({
                         name={item}
                         // by default first option should be selected
                         defaultValue={newStruct.data[item].options[0].value}
-                        
+
                         label={t(
                           item.replace("ags_right", "AGS Right ").trim()
                         )}
@@ -251,8 +257,8 @@ export default ({
                       item.toLowerCase().includes("password")
                         ? "password"
                         : item.toLowerCase().includes("email")
-                        ? "email"
-                        : "text"
+                          ? "email"
+                          : "text"
                     }
                     className="w-[30vw] rounded-md p-1"
                     name={item}
@@ -263,7 +269,7 @@ export default ({
             <div className="py-3  ">{children}</div>
             <div className="flex justify-center  mt-2 ">
               <div className="w-[39vw]">
-                <Button loading={submitloading} type={"submit"}>
+                <Button style={{ color: tenantConfig.GlobalConfiguration.bgcolor }} loading={submitloading} type={"submit"}>
                   {t("Create")}
                 </Button>
               </div>
@@ -332,11 +338,14 @@ export default ({
           <div className=" overflow-hidden border-b border-gray-200 sm:rounded-lg">
             <div className="flex flex-row  bg-[#f1f5f9] pl-4    space-x-3">
               <img
-                className=" border-[1.5px] border-[#0E76BB] w-[22px] rounded-[3px] my-2  p-[0.8px]"
-                src="/User.svg"
+                style={{ border: tenantConfig.GlobalConfiguration.bgcolor }}
+                className=" border-[1.5px]  w-[22px] rounded-[3px] my-2  p-[0.8px]"
+                src={tenantConfig?.GlobalConfiguration?.name == "GIGAFIBER"
+                  ? `/usergigafiber.svg`
+                  : `/User.svg`}
                 alt=""
               />
-              <p className="font-bold text-[15px] my-2 text-[#0E76BB]">
+              <p style={{ color: tenantConfig.GlobalConfiguration.bgcolor }} className="font-bold text-[15px] my-2 ">
                 {title}
               </p>
             </div>
@@ -344,7 +353,7 @@ export default ({
             <div className="flex p-2 text-neutral-700 text-xs items-center">
               <div className="flex space-x-[2px]">
                 <Text
-                  color="brand"
+                  color={tenantConfig.GlobalConfiguration.bgcolor}
                   fw={"bold"}
                   className="bg-[#f1f3f5] flex font-medium text-xs items-center px-10 rounded-sm"
                 >
@@ -383,7 +392,7 @@ export default ({
 
               <div className="flex space-x-[1px] ml-[6%]">
                 <Text
-                  color="brand"
+                  color={tenantConfig.GlobalConfiguration.bgcolor}
                   fw={"bold"}
                   className="bg-[#f1f3f5] flex font-medium text-xs items-center px-10 rounded-sm"
                 >
@@ -409,7 +418,8 @@ export default ({
               <div className="flex items-center">
                 {newStruct.hasOwnProperty("createMethod") && (
                   <Button
-                    className={`${tenantConfig.usermanagement.bgcolor} font-medium text-xs rounded-full`}
+                    style={{ backgroundColor: tenantConfig.GlobalConfiguration.bgcolor }}
+                    className={` font-medium text-xs rounded-full`}
                     size="sm"
                     leftIcon={<IconPlus size={15} />}
                     onClick={createNew}
@@ -528,10 +538,10 @@ export default ({
                   .slice((page - 1) * limit, page * limit)
                   ?.map((item, index, arr) => (
                     <tr key={item.id}>
-                     
+
                       {attributes?.map((attr) => {
                         let agreement_signed;
-                        if(attr === "agreement_signed"){
+                        if (attr === "agreement_signed") {
                           agreement_signed = item[attr] === null ? "" : item[attr].toString() === "true" ? t("Signed") : t("Not Signed")
                         }
                         return (
@@ -541,20 +551,21 @@ export default ({
                           >
                             {
                               attr === "agreement_signed" ? agreement_signed :
-                              Array.isArray(item[attr])
-                              ? item[attr]?.map((i) => i.name).join(", ")
-                              : isObject(item[attr])
-                              ? Object.values(item[attr]).join(", ")
-                              : typeof item[attr] === 'object' ? item[attr] : item[attr] || '-'
+                                Array.isArray(item[attr])
+                                  ? item[attr]?.map((i) => i.name).join(", ")
+                                  : isObject(item[attr])
+                                    ? Object.values(item[attr]).join(", ")
+                                    : typeof item[attr] === 'object' ? item[attr] : item[attr] || '-'
 
-                              }
+                            }
                           </td>
                         );
                       })}
                       <td className="flex justify-end px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         {edit && (
                           <button
-                            className={`flex flex-row text-[#0E76BB]  px-2 mr-6 rounded-md justify-center items-center space-x-5`}
+                          style={{color:tenantConfig.GlobalConfiguration.bgcolor}}
+                            className={`flex flex-row   px-2 mr-6 rounded-md justify-center items-center space-x-5`}
                             onClick={() => handleEdit(item)}
                           >
                             <FaEdit /> <p className="pr-3">{t("Edit")}</p>
@@ -603,10 +614,10 @@ export default ({
                         )}
                         {remove && (
                           <ActionIcon
-                          disabled = {
-                            newStruct
-                                    .deleteMethod ? false : true
-                          }
+                            disabled={
+                              newStruct
+                                .deleteMethod ? false : true
+                            }
                             className="mr-10"
                             color="red"
                             onClick={() =>
@@ -635,16 +646,16 @@ export default ({
 
             <div className="flex w-full px-6 py-8">
               <p className="text-sm text-neutral-600">
-                <span className=" text-[#2784c2]">
+                <span style={{color:tenantConfig.GlobalConfiguration.bgcolor}} className=" ">
                   {page * limit - limit + 1}-{page * limit}
                 </span>{" "}
-                {t("from")} <span className=" text-[#2784c2]">{dataInfo.count}</span>{" "}
+                {t("from")} <span style={{color:tenantConfig.GlobalConfiguration.bgcolor}} className="">{dataInfo.count}</span>{" "}
                 {t("items")}
               </p>
               {/* <div className="flex-1"></div> */}
               <Pagination
                 className="ml-[30%]"
-                color="brand"
+                color={`${tenantConfig.GlobalConfiguration.name == "default" ? "blue" : "violet"}`}
                 total={Math.ceil(dataInfo.count / limit)}
                 limit={limit}
                 page={page}
@@ -659,7 +670,7 @@ export default ({
 };
 
 const EditForm = ({ item, newStruct, refreshData }) => {
-  const[t]=useTranslation();
+  const [t] = useTranslation();
   const [form, setForm] = useState(item);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -741,7 +752,7 @@ const EditForm = ({ item, newStruct, refreshData }) => {
                     {t(attr.replace("ags_right", "AGS Right "))}
                   </label>
                   <div className="w-[30vw] flex">
-                   
+
                     {/* <Checkbox
                       key={attr}
                       r
@@ -753,12 +764,11 @@ const EditForm = ({ item, newStruct, refreshData }) => {
                     {/* this has value as a string with '1' or '2' 1 for viewer and 2 for editor */}
                     {/* add an mantine switch button for this */}
                     <h1
-                      className={`${
-                        form[attr] === 2 ? "text-gray-500":"text-blue-500"
-                      }`}
-                    
+                      className={`${form[attr] === 2 ? "text-gray-500" : "text-blue-500"
+                        }`}
+
                     >{t("Viewer")}</h1>
-                    <Switch 
+                    <Switch
                       className="mx-2"
                       key={attr}
                       checked={form[attr] === 2 ? true : false}
@@ -767,9 +777,8 @@ const EditForm = ({ item, newStruct, refreshData }) => {
                       }
                     />
                     <h1
-                      className={`${
-                        form[attr] === 1 ? "text-gray-500" : "text-blue-500"
-                      }`}
+                      className={`${form[attr] === 1 ? "text-gray-500" : "text-blue-500"
+                        }`}
 
                     >{t("Editor")}</h1>
 
@@ -797,36 +806,36 @@ const EditForm = ({ item, newStruct, refreshData }) => {
                 </Input.Wrapper>
               ) : typeof newStruct?.data[attr] === "boolean" ? (
                 <Input.Wrapper className="flex flex-row justify-center space-y-4 items-center ">
-                  {attr === 'isEditor' ? null :<>
-                  <Input.Label className="w-[9vw] mt-3">
-                    {t(attr
-                      .replace("agreement_signed", "Agreement Signed")
-                      .replace("isEditor", "IsEditor"))}
-                  </Input.Label>
-                  <div className="w-[30vw]">
-                    <Checkbox
-                      key={attr}
-                      r
-                      // checked={form[attr]} some times value should be true or 'true', and sometimes it should be false or 'false', and incase of isEditor it should be true or 'on' and false or 'off'
-                      checked={
-                        t(attr === "isEditor"
-                          ? form[attr]
-                            ? form[attr] === "on" || form[attr] === true
-                              ? true
+                  {attr === 'isEditor' ? null : <>
+                    <Input.Label className="w-[9vw] mt-3">
+                      {t(attr
+                        .replace("agreement_signed", "Agreement Signed")
+                        .replace("isEditor", "IsEditor"))}
+                    </Input.Label>
+                    <div className="w-[30vw]">
+                      <Checkbox
+                        key={attr}
+                        r
+                        // checked={form[attr]} some times value should be true or 'true', and sometimes it should be false or 'false', and incase of isEditor it should be true or 'on' and false or 'off'
+                        checked={
+                          t(attr === "isEditor"
+                            ? form[attr]
+                              ? form[attr] === "on" || form[attr] === true
+                                ? true
+                                : false
                               : false
-                            : false
-                          : form[attr] === true
-                          ? true
-                          : false)
+                            : form[attr] === true
+                              ? true
+                              : false)
 
-                      }
-                      onChange={(value) =>
-                        setForm({ ...form, [attr]: value.currentTarget.checked })
-                      }
-                    />
-                  </div>
+                        }
+                        onChange={(value) =>
+                          setForm({ ...form, [attr]: value.currentTarget.checked })
+                        }
+                      />
+                    </div>
                   </>
-          }
+                  }
                 </Input.Wrapper>
               ) : (!attr.toLowerCase().includes("password") &&
                 <Input.Wrapper className="flex flex-row justify-center space-y-4 items-center">
@@ -848,8 +857,8 @@ const EditForm = ({ item, newStruct, refreshData }) => {
                       attr.toLowerCase().includes("password")
                         ? "password"
                         : attr.toLowerCase().includes("email")
-                        ? "email"
-                        : "text"
+                          ? "email"
+                          : "text"
                     }
                     onChange={(value) =>
                       setForm({ ...form, [attr]: value.currentTarget.value })
@@ -865,11 +874,12 @@ const EditForm = ({ item, newStruct, refreshData }) => {
             <div className="flex w-[39vw] space-x-5">
               <Button
                 // onClick={update}
+                style={{ color: tenantConfig.GlobalConfiguration.bgcolor }}
                 type="submit"
               >
                 {t("Update")}
               </Button>
-              <Button onClick={() => closeAllModals()}>{t("Cancel")}</Button>
+              <Button style={{ color: tenantConfig.GlobalConfiguration.bgcolor }} onClick={() => closeAllModals()}>{t("Cancel")}</Button>
             </div>
           </div>
         </div>
@@ -978,7 +988,7 @@ const AttatchmentForm = ({ item, newStruct }) => {
       } else if (
         file.type == "application/vnd.ms-excel" ||
         file.type ==
-          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
       ) {
         readXlsxFile(file).then((rows) => {
           const data = rows.slice(1)?.map((row) => {

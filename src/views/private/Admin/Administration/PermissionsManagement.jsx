@@ -67,6 +67,7 @@ export default () => {
               permissions: (
                 <>
                   <Button
+                  style={{color:tenantConfig.GlobalConfiguration.bgcolor}}
                     leftIcon={<IconEye />}
                     size="xs"
                     radius={"sm"}
